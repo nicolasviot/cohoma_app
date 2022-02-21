@@ -26,6 +26,9 @@ import Waypoints
 import Dispatcher
 import ros_subscriber
 import ros_publisher
+import Strip
+
+
 _native_code_
 %{
 #include "cpp/tiles_manager.h"
@@ -64,7 +67,7 @@ Component root {
 
   RosSubscriber sub ("/RobotState")
   RosPublisher  ros_pub ("/RobotState")
-  
+
   double init_lat = get_arg_double (argc, argv, 1)
   if (init_lat == -1) {
     init_lat = 43.315313261816485
@@ -78,13 +81,16 @@ Component root {
   f.background_color.r = 50
   f.background_color.g = 50
   f.background_color.b = 50
-
+  
+  FillColor color1 (0, 250, 0)
+  FillColor color2 (0, 0, 250)
+  NoFill _
   Layer l {
     Map map (f, 0, 0, init_width, init_height, init_lat, init_lon, init_zoom)
     MapLayer layer1 (f, map, load_geoportail_tile, "geoportail")
     MapLayer layer2 (f, map, load_osm_tile, "osm")
-    Waypoints wp (map, $init_lat, $init_lon)
-    Waypoints wp2 (map, $init_lat, $init_lon)
+    Waypoints wp (map, $init_lat, $init_lon, color1)
+    Waypoints wp2 (map, $init_lat, $init_lon, color2)
 /*
     Waypoints wp3 (map, $init_lat, $init_lon)
     Waypoints wp4 (map, $init_lat, $init_lon)
@@ -92,6 +98,7 @@ Component root {
     Waypoints wp6 (map, $init_lat, $init_lon)
 */
     List satelites
+   // g << svg.Strip
     addChildrenTo satelites{
       wp,
       wp2/*,
@@ -107,8 +114,14 @@ Component root {
       satelites
     }
   }
-
+  Strip strip1("uav 1", f)
+  Strip strip2("uav 2", f)
   svg = loadFromXML ("res/svg/icon_menu.svg")
+  l.map.layers.satelites.[1].battery_voltage =:> strip1.battery_voltage
+  l.map.layers.satelites.[2].battery_voltage =:> strip2.battery_voltage
+  l.map.layers.satelites.[1].altitude_msl =:> strip1.altitude_msl
+  l.map.layers.satelites.[2].altitude_msl =:> strip2.altitude_msl
+  
   main_bg << svg.layer1.main_bg
   Dispatcher dispatch (sub, l.map.layers.satelites)
   /*sub.longitude =:> l.map.layers.satelites.[1].lon

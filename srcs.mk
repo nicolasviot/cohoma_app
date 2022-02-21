@@ -5,7 +5,7 @@ exe_dir := .
 
 exe := button
 
-srcs_sma := src/Dispatcher.sma src/Slider.sma src/Animator.sma src/TextLineEdit.sma src/PanAndZoom.sma src/Waypoints.sma src/PixmapTile.sma src/MapLayer.sma src/Map.sma src/WidgetMap.sma src/main.sma
+srcs_sma := src/Dispatcher.sma src/Strip.sma src/Slider.sma src/Animator.sma src/TextLineEdit.sma src/PanAndZoom.sma src/Waypoints.sma src/PixmapTile.sma src/MapLayer.sma src/Map.sma src/WidgetMap.sma src/main.sma
 # or
 #srcs_sma := $(shell find $(src_dir) -name "*.sma")
 

@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="841.89px" height="595.28px" viewBox="0 0 841.89 595.28" enable-background="new 0 0 841.89 595.28" xml:space="preserve">
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="169.2358" y1="204.5" x2="169.2358" y2="105.5">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="0.06" style="stop-color:#D4D4D4"/>
+	<stop  offset="0.08" style="stop-color:#DBDBDB"/>
+	<stop  offset="1" style="stop-color:#CCCCCC"/>
+</linearGradient>
+<path display="none" fill="url(#SVGID_1_)" d="M253.236,194.5c0,5.523-4.477,10-10,10h-148c-5.523,0-10-4.477-10-10v-79
+	c0-5.523,4.477-10,10-10h148c5.523,0,10,4.477,10,10V194.5z"/>
+<g id="Strip">
+	
+		<image overflow="visible" opacity="0.4" width="1555" height="576" xlink:href="92B332CF395421CE.png"  transform="matrix(0.24 0 0 0.24 32.5 166.1807)">
+	</image>
+	<g id="l1">
+		<g id="l2">
+			<g id="Container_13_">
+				<linearGradient id="Form_3_" gradientUnits="userSpaceOnUse" x1="216.999" y1="295.6816" x2="216.999" y2="170.6807">
+					<stop  offset="0" style="stop-color:#FFFFFF"/>
+					<stop  offset="0.038" style="stop-color:#D4D4D4"/>
+					<stop  offset="0.08" style="stop-color:#DBDBDB"/>
+					<stop  offset="1" style="stop-color:#CCCCCC"/>
+				</linearGradient>
+				<path id="Form_28_" fill="url(#Form_3_)" stroke="#000000" stroke-miterlimit="10" d="M396.998,287.177
+					c0,4.695-3.807,8.504-8.504,8.504H45.504c-4.697,0-8.504-3.809-8.504-8.504V179.185c0-4.696,3.807-8.504,8.504-8.504h342.99
+					c4.697,0,8.504,3.808,8.504,8.504V287.177z"/>
+				<g id="TitleBar_13_">
+					<linearGradient id="Onglet_1_" gradientUnits="userSpaceOnUse" x1="89.3506" y1="194.6973" x2="89.3506" y2="170.7729">
+						<stop  offset="0" style="stop-color:#FF0D83;stop-opacity:0.7"/>
+						<stop  offset="0.7646" style="stop-color:#FF0D86"/>
+						<stop  offset="1" style="stop-color:#FFA8D4"/>
+					</linearGradient>
+					<path id="Onglet_16_" fill="url(#Onglet_1_)" d="M141.701,170.681H45.504c-4.697,0-8.504,3.808-8.504,8.504V194.5h104.701
+						V170.681z"/>
+					<g id="hachures_14_" opacity="0.4">
+						<polygon fill="#BDBDBD" points="37.112,181.27 37.112,188.34 54.591,170.861 47.521,170.861 						"/>
+						<polygon fill="#BDBDBD" points="37.112,193.436 37.112,200.506 66.757,170.861 59.687,170.861 						"/>
+						<polygon fill="#BDBDBD" points="37.112,205.603 37.112,212.673 78.924,170.861 71.854,170.861 						"/>
+						<polygon fill="#BDBDBD" points="37.112,217.77 37.112,224.84 91.091,170.861 84.021,170.861 						"/>
+						<polygon fill="#BDBDBD" points="37.112,229.936 37.112,237.006 103.257,170.861 96.187,170.861 						"/>
+						<polygon fill="#BDBDBD" points="37.112,242.103 37.112,249.173 114.536,170.861 108.354,170.861 						"/>
+						<polygon fill="#BDBDBD" points="37.112,261.34 120.701,177.751 127.035,170.681 120.701,170.681 37.112,254.27 						"/>
+						<polygon fill="#BDBDBD" points="37.112,273.506 128.925,181.693 128.925,174.623 37.112,266.436 						"/>
+						<polygon fill="#BDBDBD" points="37.112,285.673 129.092,193.693 129.092,186.623 37.112,278.603 						"/>
+						<polygon fill="#BDBDBD" points="40.629,294.323 129.051,205.901 129.051,198.831 37.543,290.339 						"/>
+						<polygon fill="#BDBDBD" points="51.256,295.862 129.018,218.101 129.018,211.031 44.186,295.861 						"/>
+						<polygon fill="#BDBDBD" points="63.423,295.862 129.038,230.247 129.038,223.177 56.353,295.862 						"/>
+						<polygon fill="#BDBDBD" points="75.59,295.862 129.101,242.352 129.101,235.281 68.52,295.862 						"/>
+						<polygon fill="#BDBDBD" points="87.756,295.862 129.104,254.515 129.104,247.445 80.686,295.862 						"/>
+						<polygon fill="#BDBDBD" points="99.923,295.862 129.101,266.685 129.101,259.614 92.853,295.862 						"/>
+						<polygon fill="#BDBDBD" points="111.959,295.862 129.101,278.852 129.101,271.781 105.02,295.862 						"/>
+						<polygon fill="#BDBDBD" points="123.868,295.673 129.101,290.57 129.101,283.5 116.928,295.673 						"/>
+					</g>
+					<linearGradient id="bar_1_" gradientUnits="userSpaceOnUse" x1="263.1489" y1="194.5" x2="263.1489" y2="170.5">
+						<stop  offset="0" style="stop-color:#BDBDBD"/>
+						<stop  offset="0.791" style="stop-color:#ADADAD"/>
+						<stop  offset="1" style="stop-color:#E8E8E8"/>
+					</linearGradient>
+					<path id="bar_12_" fill="url(#bar_1_)" d="M129,194.5v-15.076c0-5.757,5.634-8.924,9.5-8.924h251.798c3.865,0,7,3.058,7,6.924
+						V194.5H129z"/>
+				</g>
+			</g>
+			
+				<line id="separator_12_" fill="none" stroke="#CCCCCC" stroke-width="0.75" stroke-miterlimit="10" x1="260.298" y1="276" x2="260.298" y2="198.5"/>
+			<g id="Central_x5F_part_9_">
+				<g id="fly_data_9_">
+					<g id="target_27_">
+						<g id="textfield_39_">
+							<path fill="#FFFFE6" stroke="#808080" stroke-width="0.75" stroke-miterlimit="10" d="M192.298,288c0,1.104-0.896,2-2,2h-46
+								c-1.104,0-2-0.896-2-2v-12c0-1.104,0.896-2,2-2h46c1.104,0,2,0.896,2,2V288z"/>
+							
+								<text id="data_47_" transform="matrix(1 0 0 1 145.479 286.1074)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">-120m</text>
+						</g>
+						
+							<text id="label_71_" transform="matrix(1 0 0 1 141.2988 270.4834)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">Target</text>
+					</g>
+					<g>
+						<g id="textfield_38_">
+							<path fill="#FFFFE6" stroke="#808080" stroke-width="0.4978" stroke-miterlimit="10" d="M250.724,272.5c0,1.104-0.896,2-2,2
+								h-30c-1.104,0-2-0.896-2-2v-12c0-1.104,0.896-2,2-2h30c1.104,0,2,0.896,2,2V272.5z"/>
+							
+								<text id="tendancy_18_" transform="matrix(1 0 0 1 219.1201 270.9751)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">+1.5</text>
+						</g>
+						
+							<text id="Vspeed_12_" transform="matrix(1 0 0 1 200.7383 270.9751)" fill="#3C3C3B" font-family="'Calibri-Bold'" font-size="9">↗</text>
+					</g>
+					<g id="Altitude_9_">
+						<g id="textfield_37_">
+							<path fill="#FFFFE6" stroke="#808080" stroke-width="0.75" stroke-miterlimit="10" d="M250.724,254c0,1.104-0.896,2-2,2h-46
+								c-1.104,0-2-0.896-2-2v-12c0-1.104,0.896-2,2-2h46c1.104,0,2,0.896,2,2V254z"/>
+							
+								<text id="data_46_" transform="matrix(1 0 0 1 203.606 251.9941)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">205.0m</text>
+						</g>
+						
+							<text id="label_70_" transform="matrix(1 0 0 1 196.5723 237.0176)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">Alt.</text>
+					</g>
+					<g id="VS_30_">
+						<g id="textfield_36_">
+							<path fill="#FFFFE6" stroke="#808080" stroke-width="0.75" stroke-miterlimit="10" d="M192.298,254c0,1.104-0.896,2-2,2h-46
+								c-1.104,0-2-0.896-2-2v-12c0-1.104,0.896-2,2-2h46c1.104,0,2,0.896,2,2V254z"/>
+							
+								<text id="data_45_" transform="matrix(1 0 0 1 145.479 251.9941)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">10m/s</text>
+						</g>
+						
+							<text id="label_69_" transform="matrix(1 0 0 1 141.2988 236.5)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">Speed</text>
+					</g>
+				</g>
+				<g id="Motor_10_">
+					<g id="Percent_9_">
+						<path fill="#FFFFFF" stroke="#4D4D4D" stroke-width="0.5132" stroke-miterlimit="10" d="M192.298,223.5c0,1.104-0.896,2-2,2
+							h-46c-1.104,0-2-0.896-2-2v-14c0-1.104,0.896-2,2-2h46c1.104,0,2,0.896,2,2V223.5z"/>
+						<rect x="144.298" y="209.5" fill="#00EB00" width="46" height="14"/>
+						<g>
+							<text transform="matrix(1 0 0 1 155.1001 221.0684)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">80%</text>
+						</g>
+					</g>
+					<g id="label_68_">
+						<text transform="matrix(1 0 0 1 141 204.8496)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">battery_%</text>
+					</g>
+				</g>
+			</g>
+			<g id="Left_x5F_part_9_">
+				<g id="Status_12_">
+					<g id="GPS_12_">
+						<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="100" y1="290.5" x2="100" y2="274.5">
+							<stop  offset="0" style="stop-color:#00E600"/>
+							<stop  offset="0.85" style="stop-color:#00E600"/>
+							<stop  offset="1" style="stop-color:#008000"/>
+						</linearGradient>
+						
+							<rect x="80" y="274.5" fill="url(#SVGID_2_)" stroke="#FFFFFF" stroke-width="0.8528" stroke-miterlimit="10" width="40" height="16"/>
+						<g id="Btn_x5F_label_59_">
+							<text transform="matrix(1 0 0 1 93.7456 286.7446)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">3D</text>
+						</g>
+					</g>
+					<g id="radio_command_12_">
+						<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="100" y1="272.5" x2="100" y2="256.5">
+							<stop  offset="0" style="stop-color:#FFAA00"/>
+							<stop  offset="0.85" style="stop-color:#FFAA00"/>
+							<stop  offset="1" style="stop-color:#B35300"/>
+						</linearGradient>
+						
+							<rect x="80" y="256.5" fill="url(#SVGID_3_)" stroke="#FFFFFF" stroke-width="0.788" stroke-miterlimit="10" width="40" height="16"/>
+						<g id="Btn_x5F_label_58_">
+							<text transform="matrix(1 0 0 1 87.7002 268.7446)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">None</text>
+						</g>
+					</g>
+					<g id="AP_12_">
+						<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="100" y1="254.5" x2="100" y2="238.5">
+							<stop  offset="0" style="stop-color:#00E600"/>
+							<stop  offset="0.85" style="stop-color:#00E600"/>
+							<stop  offset="1" style="stop-color:#008000"/>
+						</linearGradient>
+						
+							<rect x="80" y="238.5" fill="url(#SVGID_4_)" stroke="#FFFFFF" stroke-width="0.8528" stroke-miterlimit="10" width="40" height="16"/>
+						<g id="Btn_x5F_label_57_">
+							<text transform="matrix(1 0 0 1 86.0649 250.7446)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">Auto2</text>
+						</g>
+					</g>
+					<g id="label_67_">
+						<text transform="matrix(1 0 0 1 80 235.8306)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">Status</text>
+					</g>
+				</g>
+				<g id="Link_9_">
+					<g id="visu_9_">
+						<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="54.2012" y1="264.5" x2="54.2012" y2="238.5">
+							<stop  offset="0" style="stop-color:#00E600"/>
+							<stop  offset="0.91" style="stop-color:#00E600"/>
+							<stop  offset="1" style="stop-color:#008000"/>
+						</linearGradient>
+						
+							<rect x="37.201" y="238.5" fill="url(#SVGID_5_)" stroke="#FFFFFF" stroke-width="0.8094" stroke-miterlimit="10" width="34" height="26"/>
+						<g id="Symbol_9_">
+							
+								<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" x1="50.487" y1="252" x2="57.374" y2="252"/>
+							<path fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M51.836,255.5h-1.862
+								c-1.901,0-3.443-1.569-3.443-3.5l0,0c0-1.931,1.542-3.5,3.443-3.5h1.862"/>
+							<path fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M56.142,248.5h1.746
+								c1.901,0,3.443,1.569,3.443,3.5l0,0c0,1.93-1.542,3.5-3.443,3.5h-1.746"/>
+						</g>
+					</g>
+					<g id="label_66_">
+						<text transform="matrix(1 0 0 1 45.7036 235.8306)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">Link</text>
+					</g>
+				</g>
+				<g id="Energy_9_">
+					<g id="widget_9_">
+						<g id="Form_27_">
+							<path fill="#FFFFFF" stroke="#706F6F" stroke-width="1.0625" stroke-miterlimit="10" d="M111,221.5c0,1.657-1.343,3-3,3H50
+								c-1.657,0-3-1.343-3-3v-11c0-1.657,1.343-3,3-3h58c1.657,0,3,1.343,3,3V221.5z"/>
+							<path id="extend_15_" fill="#FFFFFF" stroke="#706F6F" stroke-width="1.0364" stroke-miterlimit="10" d="M115.146,218.755
+								c0,1.145-0.928,2.072-2.072,2.072H111V211.5h2.073c1.145,0,2.072,0.929,2.072,2.073V218.755z"/>
+						</g>
+						<g id="gauge_12_">
+							<rect id="back_15_" x="49" y="209.5" fill="#B3B3B3" width="60" height="13"/>
+							<rect id="level_15_" x="49" y="209.5" fill="#00EB00" width="44" height="13"/>
+						</g>
+						<text id="value_15_" transform="matrix(1 0 0 1 67 220.1416)" fill="#1D1D1B" font-family="'Calibri-Bold'" font-size="9">12.5</text>
+					</g>
+					<g>
+						<text transform="matrix(1 0 0 1 45.7041 204.8496)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">Battery_V</text>
+					</g>
+				</g>
+			</g>
+			
+			
+				<line fill="none" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" x1="321.593" y1="175.703" x2="321.593" y2="195.169"/>
+			<text id="aircraft_x5F_type_12_" transform="matrix(1 0 0 1 141 189.1592)" font-family="'Segoe'" font-size="13">Agilex</text>
+			
+				<text id="Aircraft_x5F_name_16_" transform="matrix(1 0 0 1 46.0771 190.6899)" fill="#FFFFFF" font-family="'SegoeUI-Bold'" font-size="13">UAV_2</text>
+			<path id="Contour_12_" fill="none" stroke="#000000" stroke-miterlimit="10" d="M396.998,287.177
+				c0,4.695-3.807,8.504-8.504,8.504H45.504c-4.697,0-8.504-3.809-8.504-8.504V179.185c0-4.696,3.807-8.504,8.504-8.504h342.99
+				c4.697,0,8.504,3.808,8.504,8.504V287.177z"/>
+		</g>
+	</g>
+</g>
+<g id="Stripsformatreduit">
+	<g id="Strip_x5F_reduce_x5F_magenta">
+		
+			<image overflow="visible" opacity="0.4" width="438" height="576" xlink:href="92B332CF395421CD.png"  transform="matrix(0.24 0 0 0.24 32.5 22.584)">
+		</image>
+		<g>
+			<g>
+				<g id="Container_15_">
+					<linearGradient id="Form_4_" gradientUnits="userSpaceOnUse" x1="83" y1="152.085" x2="83" y2="27.084">
+						<stop  offset="0" style="stop-color:#FFFFFF"/>
+						<stop  offset="0.038" style="stop-color:#D4D4D4"/>
+						<stop  offset="0.08" style="stop-color:#DBDBDB"/>
+						<stop  offset="1" style="stop-color:#CCCCCC"/>
+					</linearGradient>
+					<path id="Form_32_" fill="url(#Form_4_)" stroke="#000000" stroke-miterlimit="10" d="M129,152.085H45.504
+						c-4.697,0-8.504-3.809-8.504-8.504V35.588c0-4.696,3.807-8.504,8.504-8.504H129V152.085z"/>
+					<g id="TitleBar_15_">
+						<linearGradient id="Onglet_3_" gradientUnits="userSpaceOnUse" x1="83" y1="51.7021" x2="83" y2="27.1785">
+							<stop  offset="0" style="stop-color:#FF0D83;stop-opacity:0.7"/>
+							<stop  offset="0.7646" style="stop-color:#FF0D86"/>
+							<stop  offset="1" style="stop-color:#FFA8D4"/>
+						</linearGradient>
+						<path id="Onglet_18_" fill="url(#Onglet_3_)" d="M129,27.084H45.504c-4.697,0-8.504,3.808-8.504,8.504V51.5h92V27.084z"/>
+					</g>
+					<g id="hachures_16_" opacity="0.25">
+						<polygon fill="#BDBDBD" points="37.112,37.492 37.112,44.562 54.591,27.084 47.521,27.084 						"/>
+						<polygon fill="#BDBDBD" points="37.112,49.659 37.112,56.729 66.757,27.084 59.687,27.084 						"/>
+						<polygon fill="#BDBDBD" points="37.112,61.826 37.112,68.896 78.924,27.084 71.854,27.084 						"/>
+						<polygon fill="#BDBDBD" points="37.112,73.992 37.112,81.062 91.091,27.084 84.021,27.084 						"/>
+						<polygon fill="#BDBDBD" points="37.112,86.159 37.112,93.229 103.257,27.084 96.187,27.084 						"/>
+						<polygon fill="#BDBDBD" points="37.112,98.325 37.112,105.396 114.536,27.084 108.354,27.084 						"/>
+						<polygon fill="#BDBDBD" points="37.112,117.562 127.441,27.2 120.52,27.2 37.112,110.492 						"/>
+						<polygon fill="#BDBDBD" points="37.112,129.729 129.01,37.831 129.01,30.761 37.112,122.659 						"/>
+						<polygon fill="#BDBDBD" points="37.112,141.896 129,50.007 129,42.937 37.112,134.825 						"/>
+						<polygon fill="#BDBDBD" points="40.629,150.546 129.016,62.16 129.015,55.089 37.543,146.562 						"/>
+						<polygon fill="#BDBDBD" points="51.256,152.085 129,74.342 129,67.251 44.186,152.084 						"/>
+						<polygon fill="#BDBDBD" points="63.423,152.085 129.01,86.498 129.01,79.428 56.353,152.085 						"/>
+						<polygon fill="#BDBDBD" points="75.59,152.085 128.995,98.681 129.014,91.59 68.52,152.085 						"/>
+						<polygon fill="#BDBDBD" points="87.756,152.085 129.008,110.833 129.008,103.763 80.686,152.085 						"/>
+						<polygon fill="#BDBDBD" points="99.923,152.085 129.033,122.975 129.053,115.884 92.853,152.085 						"/>
+						<polygon fill="#BDBDBD" points="123.927,152.082 129.033,146.975 129.053,139.884 116.856,152.082 						"/>
+						<polygon fill="#BDBDBD" points="111.959,152.085 129.052,135.113 129.051,128.053 105.02,152.085 						"/>
+					</g>
+					<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M129,27.084H45.504c-4.697,0-8.504,3.808-8.504,8.504v107.993
+						c0,4.695,3.807,8.504,8.504,8.504H129V27.084z"/>
+				</g>
+				<g id="datas_13_">
+					<g id="Status_15_">
+						<g id="GPS_15_">
+							<linearGradient id="SVGID_9_" gradientUnits="userSpaceOnUse" x1="111.5" y1="145.4995" x2="111.5" y2="130.4995">
+								<stop  offset="0" style="stop-color:#00E600"/>
+								<stop  offset="0.85" style="stop-color:#00E600"/>
+								<stop  offset="1" style="stop-color:#008000"/>
+							</linearGradient>
+							
+								<rect x="98" y="130.5" fill="url(#SVGID_9_)" stroke="#FFFFFF" stroke-width="0.7524" stroke-miterlimit="10" width="27" height="15"/>
+							<g id="Btn_x5F_label_56_">
+								<text transform="matrix(0.9391 0 0 1 105.7983 140.7437)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">3D</text>
+							</g>
+						</g>
+						<g id="radio_command_15_">
+							<linearGradient id="SVGID_10_" gradientUnits="userSpaceOnUse" x1="111.5" y1="127.4995" x2="111.5" y2="112.4995">
+								<stop  offset="0" style="stop-color:#FFAA00"/>
+								<stop  offset="0.85" style="stop-color:#FFAA00"/>
+								<stop  offset="1" style="stop-color:#B35300"/>
+							</linearGradient>
+							
+								<rect x="98" y="112.5" fill="url(#SVGID_10_)" stroke="#FFFFFF" stroke-width="0.7524" stroke-miterlimit="10" width="27" height="15"/>
+							<g id="Btn_x5F_label_55_">
+								<text transform="matrix(0.9391 0 0 1 100.6372 122.7437)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">None</text>
+							</g>
+						</g>
+						<g id="AP_15_">
+							<linearGradient id="SVGID_11_" gradientUnits="userSpaceOnUse" x1="111.5" y1="109.4995" x2="111.5" y2="94.5">
+								<stop  offset="0" style="stop-color:#00E600"/>
+								<stop  offset="0.85" style="stop-color:#00E600"/>
+								<stop  offset="1" style="stop-color:#008000"/>
+							</linearGradient>
+							
+								<rect x="98" y="94.5" fill="url(#SVGID_11_)" stroke="#FFFFFF" stroke-width="0.7524" stroke-miterlimit="10" width="27" height="15"/>
+							<g id="Btn_x5F_label_54_">
+								<text transform="matrix(0.9391 0 0 1 99.2407 104.7437)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">Auto2</text>
+							</g>
+						</g>
+					</g>
+					<g id="fly-datas_14_">
+						
+							<text id="target_18_" transform="matrix(0.95 0 0 1 61.5195 145.8828)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">-120m</text>
+						
+							<text id="target-label_17_" transform="matrix(1 0 0 1 46 145.4863)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">tg</text>
+						<g id="vTend_14_">
+							<text transform="matrix(0.95 0 0 1 61.5195 130.6675)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">+1.5</text>
+						</g>
+						
+							<text id="tendancy_17_" transform="matrix(1 0 0 1 46.0005 132.2915)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">↗</text>
+						<g id="Alt_15_">
+							<text transform="matrix(0.95 0 0 1 61.5195 116.8828)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">205m</text>
+						</g>
+						
+							<text id="Alt-label_17_" transform="matrix(1 0 0 1 46 116.8193)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">alt</text>
+						<g id="VS_16_">
+							<text transform="matrix(0.95 0 0 1 61.5195 102.0005)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">10m/s</text>
+						</g>
+						
+							<text id="VS-label_17_" transform="matrix(1 0 0 1 46 102.0005)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">vs</text>
+					</g>
+					<linearGradient id="link_1_" gradientUnits="userSpaceOnUse" x1="39.5" y1="117.5" x2="39.5" y2="94.5">
+						<stop  offset="0" style="stop-color:#00E600"/>
+						<stop  offset="0.91" style="stop-color:#00E600"/>
+						<stop  offset="1" style="stop-color:#008000"/>
+					</linearGradient>
+					<polyline id="link_16_" fill="url(#link_1_)" stroke="#F6F6F6" stroke-width="0.6124" stroke-miterlimit="10" points="
+						37.5,94.5 41.5,94.5 41.5,117.5 37.5,117.5 					"/>
+					<text id="f_x5F_duration_16_" transform="matrix(1 0 0 1 46 87.291)"><tspan x="0" y="0" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">:05</tspan></text>
+					<g id="Battery_13_">
+						<g id="Form_31_">
+							<path fill="#FFFFFF" stroke="#706F6F" stroke-width="1.0625" stroke-miterlimit="10" d="M110,71.5c0,1.657-1.343,3-3,3H49
+								c-1.657,0-3-1.343-3-3v-11c0-1.657,1.343-3,3-3h58c1.657,0,3,1.343,3,3V71.5z"/>
+							<path id="extend_16_" fill="#FFFFFF" stroke="#706F6F" stroke-width="1.0364" stroke-miterlimit="10" d="M114.146,68.755
+								c0,1.145-0.928,2.072-2.072,2.072H110V61.5h2.073c1.145,0,2.072,0.929,2.072,2.073V68.755z"/>
+						</g>
+						<g id="gauge_13_">
+							<rect id="back_16_" x="48" y="59.5" fill="#B3B3B3" width="60" height="13"/>
+							<rect id="level_16_" x="48" y="59.5" fill="#00EB00" width="44" height="13"/>
+						</g>
+						<text id="value_16_" transform="matrix(1 0 0 1 66 70.1416)" fill="#333333" font-family="'Calibri-Bold'" font-size="9">12.5</text>
+					</g>
+				</g>
+				
+					<text id="Aircraft_x5F_name_18_" transform="matrix(1 0 0 1 46.0771 47.0938)" fill="#FFFFFF" font-family="'SegoeUI-Bold'" font-size="9">UAV_2</text>
+			</g>
+		</g>
+	</g>
+	<g id="Strip_x5F_reduce_x5F_blue">
+		
+			<image overflow="visible" opacity="0.4" width="438" height="576" xlink:href="92B332CF395421CA.png"  transform="matrix(0.24 0 0 0.24 140.5 22.584)">
+		</image>
+		<g>
+			<g>
+				<g id="Container_12_">
+					<linearGradient id="Form_8_" gradientUnits="userSpaceOnUse" x1="191" y1="152.085" x2="191" y2="27.084">
+						<stop  offset="0" style="stop-color:#FFFFFF"/>
+						<stop  offset="0.038" style="stop-color:#D4D4D4"/>
+						<stop  offset="0.08" style="stop-color:#DBDBDB"/>
+						<stop  offset="1" style="stop-color:#CCCCCC"/>
+					</linearGradient>
+					<path id="Form_30_" fill="url(#Form_8_)" stroke="#000000" stroke-miterlimit="10" d="M237,152.085h-83.496
+						c-4.697,0-8.504-3.809-8.504-8.504V35.588c0-4.696,3.807-8.504,8.504-8.504H237V152.085z"/>
+					<g id="TitleBar_12_">
+						<linearGradient id="Onglet_5_" gradientUnits="userSpaceOnUse" x1="191" y1="51.5" x2="191" y2="27.084">
+							<stop  offset="0" style="stop-color:#143BFF;stop-opacity:0.7"/>
+							<stop  offset="0.7646" style="stop-color:#143BFF"/>
+							<stop  offset="1" style="stop-color:#9EAFFF"/>
+						</linearGradient>
+						<path id="Onglet_15_" fill="url(#Onglet_5_)" d="M237,27.084h-83.496c-4.697,0-8.504,3.808-8.504,8.504V51.5h92V27.084z"/>
+					</g>
+					<g id="hachures_13_" opacity="0.25">
+						<polygon fill="#BDBDBD" points="145.112,37.492 145.112,44.562 162.591,27.084 155.521,27.084 						"/>
+						<polygon fill="#BDBDBD" points="145.112,49.659 145.112,56.729 174.757,27.084 167.687,27.084 						"/>
+						<polygon fill="#BDBDBD" points="145.112,61.826 145.112,68.896 186.924,27.084 179.854,27.084 						"/>
+						<polygon fill="#BDBDBD" points="145.112,73.992 145.112,81.062 199.091,27.084 192.021,27.084 						"/>
+						<polygon fill="#BDBDBD" points="145.112,86.159 145.112,93.229 211.257,27.084 204.187,27.084 						"/>
+						<polygon fill="#BDBDBD" points="145.112,98.325 145.112,105.396 222.536,27.084 216.354,27.084 						"/>
+						<polygon fill="#BDBDBD" points="145.112,117.562 235.441,27.2 228.52,27.2 145.112,110.492 						"/>
+						<polygon fill="#BDBDBD" points="145.112,129.729 237.01,37.831 237.01,30.761 145.112,122.659 						"/>
+						<polygon fill="#BDBDBD" points="145.112,141.896 237,50.007 237,42.937 145.112,134.825 						"/>
+						<polygon fill="#BDBDBD" points="148.629,150.546 237.016,62.16 237.015,55.089 145.543,146.562 						"/>
+						<polygon fill="#BDBDBD" points="159.256,152.085 237,74.342 237,67.251 152.186,152.084 						"/>
+						<polygon fill="#BDBDBD" points="171.423,152.085 237.01,86.498 237.01,79.428 164.353,152.085 						"/>
+						<polygon fill="#BDBDBD" points="183.59,152.085 236.995,98.681 237.014,91.59 176.52,152.085 						"/>
+						<polygon fill="#BDBDBD" points="195.756,152.085 237.008,110.833 237.008,103.763 188.686,152.085 						"/>
+						<polygon fill="#BDBDBD" points="207.923,152.085 237.033,122.975 237.053,115.884 200.853,152.085 						"/>
+						<polygon fill="#BDBDBD" points="231.927,152.082 237.033,146.975 237.053,139.884 224.856,152.082 						"/>
+						<polygon fill="#BDBDBD" points="219.959,152.085 237.052,135.113 237.051,128.053 213.02,152.085 						"/>
+					</g>
+					<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M237,27.084h-83.496c-4.697,0-8.504,3.808-8.504,8.504v107.993
+						c0,4.695,3.807,8.504,8.504,8.504H237V27.084z"/>
+				</g>
+				<g id="datas_11_">
+					<g id="Status_13_">
+						<g id="GPS_13_">
+							<linearGradient id="SVGID_12_" gradientUnits="userSpaceOnUse" x1="219.5" y1="145.4995" x2="219.5" y2="130.4995">
+								<stop  offset="0" style="stop-color:#00E600"/>
+								<stop  offset="0.85" style="stop-color:#00E600"/>
+								<stop  offset="1" style="stop-color:#008000"/>
+							</linearGradient>
+							
+								<rect x="206" y="130.5" fill="url(#SVGID_12_)" stroke="#FFFFFF" stroke-width="0.7524" stroke-miterlimit="10" width="27" height="15"/>
+							<g id="Btn_x5F_label_50_">
+								<text transform="matrix(0.9391 0 0 1 213.7983 140.7437)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">3D</text>
+							</g>
+						</g>
+						<g id="radio_command_13_">
+							<linearGradient id="SVGID_13_" gradientUnits="userSpaceOnUse" x1="219.5" y1="127.4995" x2="219.5" y2="112.4995">
+								<stop  offset="0" style="stop-color:#FFAA00"/>
+								<stop  offset="0.85" style="stop-color:#FFAA00"/>
+								<stop  offset="1" style="stop-color:#B35300"/>
+							</linearGradient>
+							
+								<rect x="206" y="112.5" fill="url(#SVGID_13_)" stroke="#FFFFFF" stroke-width="0.7524" stroke-miterlimit="10" width="27" height="15"/>
+							<g id="Btn_x5F_label_49_">
+								<text transform="matrix(0.9391 0 0 1 208.6372 122.7437)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">None</text>
+							</g>
+						</g>
+						<g id="AP_13_">
+							<linearGradient id="SVGID_14_" gradientUnits="userSpaceOnUse" x1="219.5" y1="109.4995" x2="219.5" y2="94.5">
+								<stop  offset="0" style="stop-color:#00E600"/>
+								<stop  offset="0.85" style="stop-color:#00E600"/>
+								<stop  offset="1" style="stop-color:#008000"/>
+							</linearGradient>
+							
+								<rect x="206" y="94.5" fill="url(#SVGID_14_)" stroke="#FFFFFF" stroke-width="0.7524" stroke-miterlimit="10" width="27" height="15"/>
+							<g id="Btn_x5F_label_48_">
+								<text transform="matrix(0.9391 0 0 1 207.2407 104.7437)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">Auto2</text>
+							</g>
+						</g>
+					</g>
+					<g id="fly-datas_12_">
+						
+							<text id="target_16_" transform="matrix(0.95 0 0 1 169.5195 145.8828)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">-80m</text>
+						
+							<text id="target-label_15_" transform="matrix(1 0 0 1 154 145.4863)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">tg</text>
+						<g id="vTend_15_">
+							<text transform="matrix(0.95 0 0 1 169.5195 130.6675)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">-0.2</text>
+						</g>
+						
+							<text id="tendancy_15_" transform="matrix(1 0 0 1 154.0005 132.2915)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">↘</text>
+						<g id="Alt_16_">
+							<text transform="matrix(0.95 0 0 1 169.5195 116.8828)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">144m</text>
+						</g>
+						
+							<text id="Alt-label_15_" transform="matrix(1 0 0 1 154 116.8193)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">alt</text>
+						<g id="VS_17_">
+							<text transform="matrix(0.95 0 0 1 169.5195 102.0005)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">12m/s</text>
+						</g>
+						
+							<text id="VS-label_15_" transform="matrix(1 0 0 1 154 102.0005)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">vs</text>
+					</g>
+					<linearGradient id="link_2_" gradientUnits="userSpaceOnUse" x1="147.5" y1="117.5" x2="147.5" y2="94.5">
+						<stop  offset="0" style="stop-color:#00E600"/>
+						<stop  offset="0.91" style="stop-color:#00E600"/>
+						<stop  offset="1" style="stop-color:#008000"/>
+					</linearGradient>
+					<polyline id="link_14_" fill="url(#link_2_)" stroke="#F6F6F6" stroke-width="0.6124" stroke-miterlimit="10" points="
+						145.5,94.5 149.5,94.5 149.5,117.5 145.5,117.5 					"/>
+					<text id="f_x5F_duration_14_" transform="matrix(1 0 0 1 154 87.291)"><tspan x="0" y="0" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">:15</tspan></text>
+					<g id="Battery_11_">
+						<g id="Form_29_">
+							<path fill="#FFFFFF" stroke="#706F6F" stroke-width="1.0625" stroke-miterlimit="10" d="M218,71.5c0,1.657-1.343,3-3,3h-58
+								c-1.657,0-3-1.343-3-3v-11c0-1.657,1.343-3,3-3h58c1.657,0,3,1.343,3,3V71.5z"/>
+							<path id="extend_17_" fill="#FFFFFF" stroke="#706F6F" stroke-width="1.0364" stroke-miterlimit="10" d="M222.146,68.755
+								c0,1.145-0.928,2.072-2.072,2.072H218V61.5h2.073c1.145,0,2.072,0.929,2.072,2.073V68.755z"/>
+						</g>
+						<g id="gauge_14_">
+							<rect id="back_17_" x="156" y="59.5" fill="#8C8C8C" width="60" height="13"/>
+							<rect id="level_17_" x="156" y="59.5" fill="#FFAA00" width="28" height="13"/>
+						</g>
+						
+							<text id="value_17_" transform="matrix(1 0 0 1 186.2959 70.1416)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">7.4</text>
+					</g>
+				</g>
+				
+					<text id="Aircraft_x5F_name_15_" transform="matrix(1 0 0 1 154.0771 47.0938)" fill="#FFFFFF" font-family="'SegoeUI-Bold'" font-size="9">UAV_2</text>
+			</g>
+		</g>
+	</g>
+	<g id="Strip_x5F_reduce_x5F_green">
+		
+			<image overflow="visible" opacity="0.4" width="438" height="576" xlink:href="92B332CF395421C5.png"  transform="matrix(0.24 0 0 0.24 248.5 22.584)">
+		</image>
+		<g>
+			<g>
+				<g id="Container_14_">
+					<linearGradient id="Form_9_" gradientUnits="userSpaceOnUse" x1="299" y1="152.085" x2="299" y2="27.084">
+						<stop  offset="0" style="stop-color:#FFFFFF"/>
+						<stop  offset="0.038" style="stop-color:#D4D4D4"/>
+						<stop  offset="0.08" style="stop-color:#DBDBDB"/>
+						<stop  offset="1" style="stop-color:#CCCCCC"/>
+					</linearGradient>
+					<path id="Form_34_" fill="url(#Form_9_)" stroke="#000000" stroke-miterlimit="10" d="M345,152.085h-83.496
+						c-4.697,0-8.504-3.809-8.504-8.504V35.588c0-4.696,3.807-8.504,8.504-8.504H345V152.085z"/>
+					<g id="TitleBar_14_">
+						<linearGradient id="Onglet_7_" gradientUnits="userSpaceOnUse" x1="299" y1="51.5" x2="299" y2="27.084">
+							<stop  offset="0" style="stop-color:#00B81E;stop-opacity:0.7"/>
+							<stop  offset="0.7646" style="stop-color:#00B31E"/>
+							<stop  offset="1" style="stop-color:#A8FFB7"/>
+						</linearGradient>
+						<path id="Onglet_17_" fill="url(#Onglet_7_)" d="M345,27.084h-83.496c-4.697,0-8.504,3.808-8.504,8.504V51.5h92V27.084z"/>
+					</g>
+					<g id="hachures_15_" opacity="0.25">
+						<polygon fill="#BDBDBD" points="253.112,37.492 253.112,44.562 270.591,27.084 263.521,27.084 						"/>
+						<polygon fill="#BDBDBD" points="253.112,49.659 253.112,56.729 282.757,27.084 275.687,27.084 						"/>
+						<polygon fill="#BDBDBD" points="253.112,61.826 253.112,68.896 294.924,27.084 287.854,27.084 						"/>
+						<polygon fill="#BDBDBD" points="253.112,73.992 253.112,81.062 307.091,27.084 300.021,27.084 						"/>
+						<polygon fill="#BDBDBD" points="253.112,86.159 253.112,93.229 319.257,27.084 312.187,27.084 						"/>
+						<polygon fill="#BDBDBD" points="253.112,98.325 253.112,105.396 330.536,27.084 324.354,27.084 						"/>
+						<polygon fill="#BDBDBD" points="253.112,117.562 343.441,27.2 336.52,27.2 253.112,110.492 						"/>
+						<polygon fill="#BDBDBD" points="253.112,129.729 345.01,37.831 345.01,30.761 253.112,122.659 						"/>
+						<polygon fill="#BDBDBD" points="253.112,141.896 345,50.007 345,42.937 253.112,134.825 						"/>
+						<polygon fill="#BDBDBD" points="256.629,150.546 345.016,62.16 345.015,55.089 253.543,146.562 						"/>
+						<polygon fill="#BDBDBD" points="267.256,152.085 345,74.342 345,67.251 260.186,152.084 						"/>
+						<polygon fill="#BDBDBD" points="279.423,152.085 345.01,86.498 345.01,79.428 272.353,152.085 						"/>
+						<polygon fill="#BDBDBD" points="291.59,152.085 344.995,98.681 345.014,91.59 284.52,152.085 						"/>
+						<polygon fill="#BDBDBD" points="303.756,152.085 345.008,110.833 345.008,103.763 296.686,152.085 						"/>
+						<polygon fill="#BDBDBD" points="315.923,152.085 345.033,122.975 345.053,115.884 308.853,152.085 						"/>
+						<polygon fill="#BDBDBD" points="339.927,152.082 345.033,146.975 345.053,139.884 332.856,152.082 						"/>
+						<polygon fill="#BDBDBD" points="327.959,152.085 345.052,135.113 345.051,128.053 321.02,152.085 						"/>
+					</g>
+					<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M345,27.084h-83.496c-4.697,0-8.504,3.808-8.504,8.504v107.993
+						c0,4.695,3.807,8.504,8.504,8.504H345V27.084z"/>
+				</g>
+				<g id="datas_12_">
+					<g id="Status_14_">
+						<g id="GPS_14_">
+							<linearGradient id="SVGID_15_" gradientUnits="userSpaceOnUse" x1="327.5" y1="145.4995" x2="327.5" y2="130.4995">
+								<stop  offset="0" style="stop-color:#00E600"/>
+								<stop  offset="0.85" style="stop-color:#00E600"/>
+								<stop  offset="1" style="stop-color:#008000"/>
+							</linearGradient>
+							
+								<rect x="314" y="130.5" fill="url(#SVGID_15_)" stroke="#FFFFFF" stroke-width="0.7524" stroke-miterlimit="10" width="27" height="15"/>
+							<g id="Btn_x5F_label_53_">
+								<text transform="matrix(0.9391 0 0 1 321.7983 140.7437)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">3D</text>
+							</g>
+						</g>
+						<g id="radio_command_14_">
+							<linearGradient id="SVGID_16_" gradientUnits="userSpaceOnUse" x1="327.5" y1="127.4995" x2="327.5" y2="112.4995">
+								<stop  offset="0" style="stop-color:#FFAA00"/>
+								<stop  offset="0.85" style="stop-color:#FFAA00"/>
+								<stop  offset="1" style="stop-color:#B35300"/>
+							</linearGradient>
+							
+								<rect x="314" y="112.5" fill="url(#SVGID_16_)" stroke="#FFFFFF" stroke-width="0.7524" stroke-miterlimit="10" width="27" height="15"/>
+							<g id="Btn_x5F_label_52_">
+								<text transform="matrix(0.9391 0 0 1 316.6372 122.7437)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">None</text>
+							</g>
+						</g>
+						<g id="AP_14_">
+							<linearGradient id="SVGID_17_" gradientUnits="userSpaceOnUse" x1="327.5" y1="109.4995" x2="327.5" y2="94.5">
+								<stop  offset="0" style="stop-color:#FFAA00"/>
+								<stop  offset="0.85" style="stop-color:#FFAA00"/>
+								<stop  offset="1" style="stop-color:#B35300"/>
+							</linearGradient>
+							
+								<rect x="314" y="94.5" fill="url(#SVGID_17_)" stroke="#FFFFFF" stroke-width="0.7524" stroke-miterlimit="10" width="27" height="15"/>
+							<g id="Btn_x5F_label_51_">
+								<text transform="matrix(0.9391 0 0 1 316.9419 104.7437)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">Man.</text>
+							</g>
+						</g>
+					</g>
+					<g id="fly-datas_13_">
+						
+							<text id="target_17_" transform="matrix(0.95 0 0 1 277.5195 145.8828)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">-25m</text>
+						
+							<text id="target-label_16_" transform="matrix(1 0 0 1 262 145.4863)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">tg</text>
+						<rect x="261.101" y="121.732" fill="#FFAA00" width="45.989" height="11.691"/>
+						<g id="vTend_16_">
+							<text transform="matrix(0.95 0 0 1 277.5195 130.6675)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">-0.8</text>
+						</g>
+						
+							<text id="tendancy_16_" transform="matrix(1 0 0 1 262.001 132.2915)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">↘</text>
+						<g id="Alt_17_">
+							<text transform="matrix(0.95 0 0 1 277.5195 116.8828)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">52m</text>
+						</g>
+						
+							<text id="Alt-label_16_" transform="matrix(1 0 0 1 262 116.8193)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">alt</text>
+						<g id="VS_18_">
+							<text transform="matrix(0.95 0 0 1 277.5195 102.0005)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">14m/s</text>
+						</g>
+						
+							<text id="VS-label_16_" transform="matrix(1 0 0 1 262 102.0005)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">vs</text>
+					</g>
+					<linearGradient id="link_4_" gradientUnits="userSpaceOnUse" x1="255.5" y1="117.5" x2="255.5" y2="94.5">
+						<stop  offset="0" style="stop-color:#00E600"/>
+						<stop  offset="0.91" style="stop-color:#00E600"/>
+						<stop  offset="1" style="stop-color:#008000"/>
+					</linearGradient>
+					<polyline id="link_15_" fill="url(#link_4_)" stroke="#F6F6F6" stroke-width="0.6124" stroke-miterlimit="10" points="
+						253.5,94.5 257.5,94.5 257.5,117.5 253.5,117.5 					"/>
+					<text id="f_x5F_duration_15_" transform="matrix(1 0 0 1 262 87.291)"><tspan x="0" y="0" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">:31</tspan></text>
+					<g id="Battery_12_">
+						<g id="Form_33_">
+							<path fill="#FFFFFF" stroke="#706F6F" stroke-width="1.0625" stroke-miterlimit="10" d="M326,71.5c0,1.657-1.343,3-3,3h-58
+								c-1.657,0-3-1.343-3-3v-11c0-1.657,1.343-3,3-3h58c1.657,0,3,1.343,3,3V71.5z"/>
+							<path id="extend_18_" fill="#FFFFFF" stroke="#706F6F" stroke-width="1.0364" stroke-miterlimit="10" d="M330.146,68.755
+								c0,1.145-0.928,2.072-2.072,2.072H326V61.5h2.073c1.145,0,2.072,0.929,2.072,2.073V68.755z"/>
+						</g>
+						<g id="gauge_15_">
+							<rect id="back_18_" x="264" y="59.5" fill="#4D4D4D" width="60" height="13"/>
+							<rect id="level_18_" x="264" y="59.5" fill="#FF1E00" width="18" height="13"/>
+						</g>
+						
+							<text id="value_18_" transform="matrix(1 0 0 1 285.2949 70.1416)" fill="#FFFFFF" font-family="'Calibri-Bold'" font-size="9">5.1</text>
+					</g>
+				</g>
+				
+					<text id="Aircraft_x5F_name_17_" transform="matrix(1 0 0 1 262.0771 47.0938)" fill="#FFFFFF" font-family="'SegoeUI-Bold'" font-size="9">UAV_2</text>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>

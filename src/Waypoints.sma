@@ -11,10 +11,12 @@ _native_code_
 %}
 
 _define_
-Waypoints (Process map, double _lat, double _lon)
+Waypoints (Process map, double _lat, double _lon, Process fc)
 {
     Double lat($_lat)
     Double lon($_lon)
+    Double altitude_msl(0)
+    Double battery_voltage(0)
     
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
@@ -23,10 +25,11 @@ Waypoints (Process map, double _lat, double _lon)
     map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
     FillOpacity fo (1)
     opacity aka fo.a
-    FillColor _ (Red)
+    FillColor my_fc (Red)
+    fc.value  =: my_fc.value
     NoOutline _
     Circle c (0, 0, 10)
-
+    
     FSM fsm {
         State idle {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy

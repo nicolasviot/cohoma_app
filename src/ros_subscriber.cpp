@@ -88,6 +88,7 @@ RosSubscriber::receive_msg (const icare_interfaces::msg::RobotState::SharedPtr m
   _emergency_stop.set_value (msg -> emergency_stop, true);
   _failsafe.set_value (msg -> failsafe, true);
   _operation_mode.set_value (msg -> operating_mode, true);
+  _altitude_msl.set_value (msg -> altitude_msl, true);
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }
