@@ -20,7 +20,7 @@ RosSubscriber::RosSubscriber (ParentProcess* parent, const string& n, const stri
   _longitude(this, "longitude", 0),
   _altitude_msl(this, "altitude_msl", 0),
   _compass_heading(this, "compass_heading", 0),
-  _emergency_stop(this, "emmergency_stop", 0),
+  _emergency_stop(this, "emergency_stop", 0),
   _failsafe(this, "failsafe", 0),
   _operation_mode(this, "operation_mode", 0)
 

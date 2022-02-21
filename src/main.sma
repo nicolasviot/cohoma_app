@@ -23,7 +23,7 @@ import Map
 import MapLayer
 import Animator
 import Waypoints
-
+import Dispatcher
 import ros_subscriber
 import ros_publisher
 _native_code_
@@ -84,18 +84,36 @@ Component root {
     MapLayer layer1 (f, map, load_geoportail_tile, "geoportail")
     MapLayer layer2 (f, map, load_osm_tile, "osm")
     Waypoints wp (map, $init_lat, $init_lon)
+    Waypoints wp2 (map, $init_lat, $init_lon)
+/*
+    Waypoints wp3 (map, $init_lat, $init_lon)
+    Waypoints wp4 (map, $init_lat, $init_lon)
+    Waypoints wp5 (map, $init_lat, $init_lon)
+    Waypoints wp6 (map, $init_lat, $init_lon)
+*/
+    List satelites
+    addChildrenTo satelites{
+      wp,
+      wp2/*,
+      wp3,
+      wp4,
+      wp5,
+      wp6
+      */
+    } 
     addChildrenTo map.layers {
       layer1,
       layer2,
-      wp
+      satelites
     }
   }
 
   svg = loadFromXML ("res/svg/icon_menu.svg")
   main_bg << svg.layer1.main_bg
-  sub.longitude =:> l.map.layers.wp.lon
-  sub.latitude =:> l.map.layers.wp.lat
-
+  Dispatcher dispatch (sub, l.map.layers.satelites)
+  /*sub.longitude =:> l.map.layers.satelites.[1].lon
+  sub.latitude =:> l.map.layers.satelites.[1].lat
+*/
   Component sliders {
     Scaling sc (0, 0, 0, 0)
     FontFamily _ ("B612")
@@ -109,7 +127,7 @@ Component root {
     s1.width/2 + 5 =:> t.x
     s1.output/100 =:> l.map.layers.layer2.opacity
     Slider s2 (f, 5, 0, 0, 100)
-    s2.output/100 =:> l.map.layers.wp.opacity
+    //s2.output/100 =:> l.map.layers.wp.opacity
     s1.height + 10 =: s2.y
   }
   Animator anim (200, 0, 1, DJN_IN_SINE, 0, 0)
