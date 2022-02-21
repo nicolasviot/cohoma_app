@@ -33,7 +33,7 @@ PixmapTile (int _x, int _y, int _zoomLevel, int row_m, int col_m, NativeCode loa
   Int x (_x)
   Int y (_y)
 
-  Image img ("img/default.png", _x, _y, 256, 256)
+  Image img ("src/img/default.png", _x, _y, 256, 256)
   NativeAsyncAction update_image (loader, this, 0)
   Z->update_image
   X->update_image

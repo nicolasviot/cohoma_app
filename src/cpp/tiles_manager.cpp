@@ -188,7 +188,7 @@ load_osm_tile (djnn::Process* src) {
   int z = getInt (data->find_child("Z"));
   std::string name = ((djnn::AbstractProperty*) (data->find_child("layer_name")))->get_string_value ();
   //release_exclusive_access(DBG_REL);
-  std::string new_path = "img/default.png";
+  std::string new_path = "src/img/default.png";
   
   int max = pow (2, z);
   if (x < max && y < max) {
@@ -232,7 +232,7 @@ load_geoportail_tile (djnn::Process* src) {
   int z = getInt (data->find_child("Z"));
   std::string name = ((djnn::AbstractProperty*)(data->find_child("layer_name")))->get_string_value ();
   //release_exclusive_access(DBG_REL);
-  std::string new_path = "img/default.png";
+  std::string new_path = "src/img/default.png";
   
   int max = pow (2, z);
   if (x < max && y < max) {
