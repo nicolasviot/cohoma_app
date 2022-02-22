@@ -11,12 +11,16 @@ _native_code_
 %}
 
 _define_
-Waypoints (Process map, double _lat, double _lon, Process fc)
+Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
 {
+
+
+//APP-6A
     Double lat($_lat)
     Double lon($_lon)
     Double altitude_msl(0)
     Double battery_voltage(0)
+    Double heading_rot(0)
     
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
@@ -25,11 +29,20 @@ Waypoints (Process map, double _lat, double _lon, Process fc)
     map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
     FillOpacity fo (1)
     opacity aka fo.a
-    FillColor my_fc (Red)
-    fc.value  =: my_fc.value
+    FillColor my_fc (r, g, b)
     NoOutline _
-    Circle c (0, 0, 10)
-    
+    Circle c (0, 0, 8)
+    OutlineColor _ (r, g, b)
+    OutlineWidth _ (5)
+    Rotation rot (0, 0, 0)
+    c.cx =:> rot.cx
+    c.cy =:> rot.cy
+    heading_rot =:> rot.a
+    Line compass_heading (0, 0, 0, -20)
+    c.cx =:> compass_heading.x1
+    c.cy =:> compass_heading.y1
+    c.cx =:> compass_heading.x2
+    c.cy - 20 =:> compass_heading.y2    
     FSM fsm {
         State idle {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy

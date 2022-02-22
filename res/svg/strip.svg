@@ -75,7 +75,7 @@
 								<text id="data_47_" transform="matrix(1 0 0 1 145.479 286.1074)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">-120m</text>
 						</g>
 						
-							<text id="label_71_" transform="matrix(1 0 0 1 141.2988 270.4834)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">Target</text>
+							<text id="label_71_" transform="matrix(1 0 0 1 141.2988 270.4834)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">Heading</text>
 					</g>
 					<g>
 						<g id="textfield_38_">
@@ -304,7 +304,7 @@
 					</g>
 					<g id="fly-datas_14_">
 						
-							<text id="target_18_" transform="matrix(0.95 0 0 1 61.5195 145.8828)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">-120m</text>
+							<text id="target_18_" transform="matrix(0.95 0 0 1 61.5195 145.8828)" fill="#4D4D4D" font-family="'Calibri-Bold'" font-size="9">0</text>
 						
 							<text id="target-label_17_" transform="matrix(1 0 0 1 46 145.4863)" fill="#808080" font-family="'Calibri-Italic'" font-size="9">tg</text>
 						<g id="vTend_14_">

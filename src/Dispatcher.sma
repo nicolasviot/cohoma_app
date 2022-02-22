@@ -36,6 +36,10 @@ input.compass_heading =:> _compass_heading
 input.emergency_stop =:> _emergency_stop
 input.failsafe =:> _failsafe
 input.operation_mode =:> _operation_mode
+LogPrinter lp("test compass")
+msg aka input
+
+input.compass_heading =:> lp.input
 
 
 	my_list aka _list
@@ -43,19 +47,20 @@ input.operation_mode =:> _operation_mode
 	Int _robot_id(0)
 	Double _latitude(0)
 	Double _longitude(0)
-
-	input.robot_id + 1 =:> _robot_id
+	Double _compass_heading(0)
+	input.robot_id  =:> _robot_id
 	input.latitude =:> _latitude
 	input.longitude =:> _longitude
 	input.altitude_msl =:> _altitude_msl
 	input.battery_voltage =:> _battery_voltage
 
-
+//TODO garantir synchronicité
 	_robot_id -> (this){
 		this.my_list.[$this._robot_id].lat = this._latitude
 		this.my_list.[$this._robot_id].lon	= this._longitude
 		this.my_list.[$this._robot_id].altitude_msl = this._altitude_msl
 		this.my_list.[$this._robot_id].battery_voltage = this._battery_voltage
+		this.my_list.[$this._robot_id].heading_rot = this.msg.compass_heading
 	}
 
 }

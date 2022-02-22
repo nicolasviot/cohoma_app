@@ -12,7 +12,9 @@ Strip (string name, Process frame){
    Double altitude_msl(0)
    DoubleFormatter alt_msl (0, 1)
    altitude_msl =:> alt_msl.input
-
+   Double compass_heading(0)
+   DoubleFormatter heading(0, 1)
+   compass_heading =:> heading.input
    svg = loadFromXML ("res/svg/strip.svg")
    g << svg.Strip
    g.l1.l2.Aircraft_x5F_name_16_.text = name
@@ -23,6 +25,9 @@ Strip (string name, Process frame){
    }
 */
    alt_msl.output =:> this.g.l1.l2.Central_x5F_part_9_.fly_data_9_.Altitude_9_.textfield_37_.data_46_.text
+  
+   heading.output =:> this.g.l1.l2.Central_x5F_part_9_.fly_data_9_.target_27_.textfield_39_.data_47_.text
+
    FSM drag {
       State idle{
 

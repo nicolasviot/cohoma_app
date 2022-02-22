@@ -43,5 +43,6 @@ class RosSubscriber : public FatProcess, public ExternalSource
     BoolProperty _failsafe;
     IntProperty _operation_mode;
     rclcpp::Node::SharedPtr _node;
+    rclcpp::QoS qosbesteffort;
     rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr subscription_;
   };

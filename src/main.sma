@@ -65,8 +65,8 @@ Component root {
   Exit quit (0, 1)
   f.close->quit
 
-  RosSubscriber sub ("/RobotState")
-  RosPublisher  ros_pub ("/RobotState")
+  RosSubscriber sub ("/robot_state")
+//  RosPublisher  ros_pub ("/robot_state")
 
   double init_lat = get_arg_double (argc, argv, 1)
   if (init_lat == -1) {
@@ -82,15 +82,22 @@ Component root {
   f.background_color.g = 50
   f.background_color.b = 50
   
+  Int r_1(255)
+  Int g_1(0)
+  Int b_1(0)
+  Int r_2(0)
+  Int g_2(255)
+  Int b_2(0)
+  /*
   FillColor color1 (0, 250, 0)
   FillColor color2 (0, 0, 250)
-  NoFill _
+  */
   Layer l {
     Map map (f, 0, 0, init_width, init_height, init_lat, init_lon, init_zoom)
     MapLayer layer1 (f, map, load_geoportail_tile, "geoportail")
     MapLayer layer2 (f, map, load_osm_tile, "osm")
-    Waypoints wp (map, $init_lat, $init_lon, color1)
-    Waypoints wp2 (map, $init_lat, $init_lon, color2)
+    Waypoints wp (map, $init_lat, $init_lon, $r_1, $g_1, $b_1)
+    Waypoints wp2 (map, $init_lat, $init_lon, $r_2, $g_2, $b_2)
 /*
     Waypoints wp3 (map, $init_lat, $init_lon)
     Waypoints wp4 (map, $init_lat, $init_lon)
@@ -121,7 +128,8 @@ Component root {
   l.map.layers.satelites.[2].battery_voltage =:> strip2.battery_voltage
   l.map.layers.satelites.[1].altitude_msl =:> strip1.altitude_msl
   l.map.layers.satelites.[2].altitude_msl =:> strip2.altitude_msl
-  
+  l.map.layers.satelites.[1].rot.a =:> strip1.compass_heading
+  l.map.layers.satelites.[2].rot.a =:> strip2.compass_heading
   main_bg << svg.layer1.main_bg
   Dispatcher dispatch (sub, l.map.layers.satelites)
   /*sub.longitude =:> l.map.layers.satelites.[1].lon

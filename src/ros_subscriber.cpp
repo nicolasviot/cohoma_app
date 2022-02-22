@@ -22,11 +22,13 @@ RosSubscriber::RosSubscriber (ParentProcess* parent, const string& n, const stri
   _compass_heading(this, "compass_heading", 0),
   _emergency_stop(this, "emergency_stop", 0),
   _failsafe(this, "failsafe", 0),
-  _operation_mode(this, "operation_mode", 0)
+  _operation_mode(this, "operation_mode", 0),
+  qosbesteffort(10)
 
 
 {
   _node = std::make_shared<rclcpp::Node>(n);
+  qosbesteffort.best_effort();
 
   finalize_construction (parent, n);
 }
@@ -35,7 +37,7 @@ void
 RosSubscriber::impl_activate ()
 { 
   subscription_ =_node->create_subscription<icare_interfaces::msg::RobotState>(
-      _topic_name, 10, std::bind(&RosSubscriber::receive_msg, this, _1));
+      _topic_name, qosbesteffort, std::bind(&RosSubscriber::receive_msg, this, _1));
   _msg.activate();
   _robot_id.activate();
   _battery_percentage.activate();
