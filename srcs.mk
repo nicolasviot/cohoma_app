@@ -19,13 +19,18 @@ CXXFLAGS += -std=c++17
 
 # external libraries
 # CXXFLAGS += $(shell pkg-config --cflags foo)
-CXXFLAGS += -I/opt/ros/galactic/include -I./src -I./src/cpp -I/home/ubuntu/djnn_smala_install_debug/dev_ws/install/icare_interfaces/include
+
+PATH_TO_WORKSPACE = /home/ubuntu/djnn_smala_install_debug/dev_ws
+
+CXXFLAGS += -I/opt/ros/galactic/include -I./src -I./src/cpp -I$(PATH_TO_WORKSPACE)/install/icare_interfaces/include
+
+
 
 ros_libs_install_path ?= /opt/ros/galactic/lib
 ros_libs := $(shell ls $(ros_libs_install_path)/lib*.so | xargs echo)
 ros_libs := $(filter-out $(ros_libs_install_path)/librmw_cyclonedds_cpp.so, $(ros_libs))
 ros_libs := $(patsubst $(ros_libs_install_path)/lib%.so,-l%,$(ros_libs))
-icare_interfaces_libs_install_path := /home/ubuntu/djnn_smala_install_debug/dev_ws/install/icare_interfaces/lib
+icare_interfaces_libs_install_path := $(PATH_TO_WORKSPACE)/install/icare_interfaces/lib
 icare_libs := $(shell ls $(icare_interfaces_libs_install_path)/lib*.so | xargs echo)
 icare_libs := $(patsubst $(icare_interfaces_libs_install_path)/lib%.so, -l%, $(icare_libs))
 
