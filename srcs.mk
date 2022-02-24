@@ -20,7 +20,7 @@ CXXFLAGS += -std=c++17
 # external libraries
 # CXXFLAGS += $(shell pkg-config --cflags foo)
 
-PATH_TO_WORKSPACE = /home/ubuntu/djnn_smala_install_debug/dev_ws
+#PATH_TO_WORKSPACE = /home/ubuntu/djnn_smala_install_debug/dev_ws
 
 CXXFLAGS += -I/opt/ros/galactic/include -I./src -I./src/cpp -I$(PATH_TO_WORKSPACE)/install/icare_interfaces/include
 

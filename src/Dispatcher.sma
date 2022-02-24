@@ -44,11 +44,12 @@ input.compass_heading =:> lp.input
 
 	my_list aka _list
 
-	Int _robot_id(0)
+	Int _robot_id(1)
 	Double _latitude(0)
 	Double _longitude(0)
 	Double _compass_heading(0)
-	input.robot_id  =:> _robot_id
+	//input.robot_id  =:> _robot_id
+	
 	input.latitude =:> _latitude
 	input.longitude =:> _longitude
 	input.altitude_msl =:> _altitude_msl
