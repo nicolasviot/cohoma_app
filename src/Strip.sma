@@ -14,6 +14,8 @@ Strip (string name, Process frame){
    altitude_msl =:> alt_msl.input
    Double compass_heading(0)
    DoubleFormatter heading(0, 1)
+   Double parent_tx(0)
+   Double parent_ty(0)
    compass_heading =:> heading.input
    svg = loadFromXML ("res/svg/strip.svg")
    g << svg.Strip
@@ -33,8 +35,8 @@ Strip (string name, Process frame){
 
       }
       State dragging{
-         frame.move.x - 75 =:> t.tx
-         frame.move.y - 182=:> t.ty
+         frame.move.x - 75 - parent_tx =:> t.tx
+         frame.move.y - 182 - parent_ty =:> t.ty
       }
       idle-> dragging (g.l1.l2.Aircraft_x5F_name_16_.press)
       dragging -> idle (g.l1.l2.Aircraft_x5F_name_16_.release)

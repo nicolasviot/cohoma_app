@@ -49,7 +49,7 @@ RosSubscriber::impl_activate ()
   _emergency_stop.activate();
   _failsafe.activate();
   _operation_mode.activate();
-  ExternalSource::start ();  
+ ExternalSource::start ();  
   
 
 }
@@ -77,7 +77,7 @@ RosSubscriber::impl_deactivate ()
 }
 
 void 
-RosSubscriber::receive_msg (const icare_interfaces::msg::RobotState::SharedPtr msg) {
+RosSubscriber::receive_msg(const icare_interfaces::msg::RobotState::SharedPtr msg) {
   RCLCPP_INFO(_node->get_logger(), "I heard: '%f'", msg->position.latitude);
   get_exclusive_access(DBG_GET);
   _msg.set_value (msg->position.latitude, true);

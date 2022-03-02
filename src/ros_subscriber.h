@@ -5,6 +5,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 #include "icare_interfaces/msg/robot_state.hpp"
+//#include "icare_interfaces/msg/string_stamped.hpp"
 #include "core/ontology/process.h"
 #include "core/ontology/coupling.h"
 #include "core/control/action.h"

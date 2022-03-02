@@ -27,6 +27,7 @@ import Dispatcher
 import ros_subscriber
 import ros_publisher
 import Strip
+import NavGraph
 
 
 _native_code_
@@ -58,13 +59,18 @@ get_arg_double (int argc, char** argv, int n)
 
 _main_
 Component root {
+
+ 
   init_ros ()
   int init_width = 1024
   int init_height = 768
   Frame f ("Map", 0, 0, init_width, init_height)
   Exit quit (0, 1)
   f.close->quit
-
+ Component TestPannel{
+    Translation t(1024, 0)
+    Rectangle bg (0, 0, 700, 768)
+  }
   RosSubscriber sub ("/robot_state")
 //  RosPublisher  ros_pub ("/robot_state")
 
@@ -98,6 +104,7 @@ Component root {
     MapLayer layer2 (f, map, load_osm_tile, "osm")
     Waypoints wp (map, $init_lat, $init_lon, $r_1, $g_1, $b_1)
     Waypoints wp2 (map, $init_lat, $init_lon, $r_2, $g_2, $b_2)
+    NavGraph navgraph (map)
 /*
     Waypoints wp3 (map, $init_lat, $init_lon)
     Waypoints wp4 (map, $init_lat, $init_lon)
@@ -118,18 +125,30 @@ Component root {
     addChildrenTo map.layers {
       layer1,
       layer2,
-      satelites
+      satelites,
+      navgraph
     }
   }
-  Strip strip1("uav 1", f)
-  Strip strip2("uav 2", f)
+  Component StripsComponent{
+    Translation t (0, 768)
+    Strip strip1("uav 1", f)
+    t.tx =:> strip1.parent_tx
+    t.ty =:> strip1.parent_ty
+    Translation t2(400, 0) 
+    Strip strip2("uav 2", f)
+    t.tx + t2.tx =:> strip2.parent_tx
+    t.ty + t2.ty =:> strip2.parent_ty
+
+    
+
+  }
   svg = loadFromXML ("res/svg/icon_menu.svg")
-  l.map.layers.satelites.[1].battery_voltage =:> strip1.battery_voltage
-  l.map.layers.satelites.[2].battery_voltage =:> strip2.battery_voltage
-  l.map.layers.satelites.[1].altitude_msl =:> strip1.altitude_msl
-  l.map.layers.satelites.[2].altitude_msl =:> strip2.altitude_msl
-  l.map.layers.satelites.[1].rot.a =:> strip1.compass_heading
-  l.map.layers.satelites.[2].rot.a =:> strip2.compass_heading
+  l.map.layers.satelites.[1].battery_voltage =:> StripsComponent.strip1.battery_voltage
+  l.map.layers.satelites.[2].battery_voltage =:> StripsComponent.strip2.battery_voltage
+  l.map.layers.satelites.[1].altitude_msl =:> StripsComponent.strip1.altitude_msl
+  l.map.layers.satelites.[2].altitude_msl =:> StripsComponent.strip2.altitude_msl
+  l.map.layers.satelites.[1].rot.a =:> StripsComponent.strip1.compass_heading
+  l.map.layers.satelites.[2].rot.a =:> StripsComponent.strip2.compass_heading
   main_bg << svg.layer1.main_bg
   Dispatcher dispatch (sub, l.map.layers.satelites)
   /*sub.longitude =:> l.map.layers.satelites.[1].lon

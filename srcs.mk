@@ -5,12 +5,12 @@ exe_dir := .
 
 exe := button
 
-srcs_sma := src/Dispatcher.sma src/Strip.sma src/Slider.sma src/Animator.sma src/TextLineEdit.sma src/PanAndZoom.sma src/Waypoints.sma src/PixmapTile.sma src/MapLayer.sma src/Map.sma src/WidgetMap.sma src/main.sma
+srcs_sma := src/Dispatcher.sma src/Strip.sma src/Slider.sma src/Animator.sma src/TextLineEdit.sma src/PanAndZoom.sma src/Waypoints.sma src/Node.sma src/Edge.sma src/NavGraph.sma src/PixmapTile.sma src/MapLayer.sma src/Map.sma src/WidgetMap.sma src/main.sma
 # or
 #srcs_sma := $(shell find $(src_dir) -name "*.sma")
 
 # native sources
-srcs_other := src/cpp/coords-utils.cpp src/cpp/map_move.cpp src/cpp/tiles_manager.cpp src/ros_publisher.cpp src/ros_subscriber.cpp
+srcs_other := src/cpp/coords-utils.cpp src/cpp/map_move.cpp src/cpp/tiles_manager.cpp src/ros_publisher.cpp src/ros_subscriber.cpp src/cpp/iojson.cpp #src/graph_subscriber.cpp
 # or
 #srcs_other := $(shell find $(src_dir) -name "*.cpp")
 
@@ -22,7 +22,9 @@ CXXFLAGS += -std=c++17
 
 #PATH_TO_WORKSPACE = /home/ubuntu/djnn_smala_install_debug/dev_ws
 
-CXXFLAGS += -I/opt/ros/galactic/include -I./src -I./src/cpp -I$(PATH_TO_WORKSPACE)/install/icare_interfaces/include
+CXXFLAGS += -I/opt/ros/galactic/include -I./src -I./src/cpp -I./src/include \
+ -I$(PATH_TO_WORKSPACE)/install/icare_interfaces/include \
+ -I$(PATH_TO_WORKSPACE)/install/lemon/include  
 
 
 
