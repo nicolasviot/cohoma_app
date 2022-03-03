@@ -30,7 +30,7 @@ LogPrinter lp ("debug enter/leave")
 FSM tooltip {
 	State idle
 	State entering{
-		Timer t(300)
+		Timer t(1000)
 		"entered" =: lp.input
 	}
 	State display_tooltip{
@@ -51,7 +51,8 @@ FSM tooltip {
 	}
 	idle -> entering (wpt.c.enter)
 	entering -> display_tooltip (entering.t.end)
-//	display_tooltip -> idle (wpt.c.leave)
+	entering -> idle (wpt.c.leave)
+	display_tooltip -> idle (wpt.c.leave)
 	display_tooltip -> idle (display_tooltip.t2.end)
 }
 

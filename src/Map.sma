@@ -137,7 +137,7 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
     Rectangle pick_area (0, 0, 0, 0, 0, 0)
     RectangleClip clip_area (0, 0, _width, _height)
 
-    PanAndZoom pz (f.move, pick_area.press, pick_area.release, f.wheel.dy)
+    PanAndZoom pz (f.move, pick_area.press, pick_area.release, pick_area.wheel.dy)
     this.{width,height} =:> clip_area.{width,height}, pick_area.{width, height}
 
     Component layers
@@ -216,14 +216,14 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
       zoomLevel == 1 =:> min
       FSM check_zoom {
         State both {
-          f.wheel.dy > 0 -> zoom_in_req
-          f.wheel.dy < 0 -> zoom_out_req
+          g_map.pick_area.wheel.dy > 0 -> zoom_in_req
+          g_map.pick_area.wheel.dy < 0 -> zoom_out_req
         }
         State only_in {
-          f.wheel.dy > 0 -> zoom_in_req
+          g_map.pick_area.wheel.dy > 0 -> zoom_in_req
         }
         State only_out {
-          f.wheel.dy < 0 -> zoom_out_req
+          g_map.pick_area.wheel.dy < 0 -> zoom_out_req
         }
         both->only_in (min.true)
         only_in->both (min.false)

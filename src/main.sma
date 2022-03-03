@@ -17,6 +17,7 @@ use core
 use base
 use gui
 use animation
+use display
 
 import Slider
 import Map
@@ -75,6 +76,7 @@ Component root {
     GraphPannel graphpannel(root)
 
   }
+
   RosSubscriber sub ("/robot_state")
 //  RosPublisher  ros_pub ("/robot_state")
 

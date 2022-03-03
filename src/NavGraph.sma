@@ -8,11 +8,15 @@ import ManagerId
 //TODO test lemon native HERE
 
 
+
+
+
 _define_
 NavGraph (Process _map){
 	map aka _map
 	Spike create_bindings
 	Spike clear
+	Int id (0)
 	ManagerId manager(0)
 
 	LogPrinter lp("id_selected")
