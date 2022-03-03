@@ -28,7 +28,9 @@ import ros_subscriber
 import ros_publisher
 import Strip
 import NavGraph
-
+import GraphPannel
+import Node
+import Edge
 
 _native_code_
 %{
@@ -67,9 +69,11 @@ Component root {
   Frame f ("Map", 0, 0, init_width, init_height)
   Exit quit (0, 1)
   f.close->quit
- Component TestPannel{
+ Component RightPannel{
     Translation t(1024, 0)
     Rectangle bg (0, 0, 700, 768)
+    GraphPannel graphpannel(root)
+
   }
   RosSubscriber sub ("/robot_state")
 //  RosPublisher  ros_pub ("/robot_state")
@@ -139,9 +143,57 @@ Component root {
     t.tx + t2.tx =:> strip2.parent_tx
     t.ty + t2.ty =:> strip2.parent_ty
 
-    
-
   }
+  
+
+
+  Spike ctrl
+  Spike ctrl_r
+  f.key\-pressed == 16777249 -> ctrl
+  f.key\-released == 16777249-> ctrl_r
+  Spike shift
+  Spike shift_r
+  f.key\-pressed == 16777248-> shift
+  f.key\-released == 16777248-> shift_r
+  Spike space
+  Spike space_r
+  f.key\-pressed == 32 -> space
+  f.key\-released == 32 -> space_r
+  
+  Spike addWptToLayer
+  FSM addNode {
+    State idle 
+    State preview{
+      Waypoints temporary (l.map, 0, 0, 50, 50, 50)
+      //Waypoints temporary (l.map, 0, 0, 50, 50, 50)
+      l.map.pointer_lat =:> temporary.lat
+      l.map.pointer_lon =:> temporary.lon
+    }
+    idle -> preview (ctrl)
+    preview -> idle (ctrl_r)
+    preview -> preview (f.release, addWptToLayer) 
+  }
+  LogPrinter lp ("debug add index")
+ addWptToLayer -> (root){
+      addChildrenTo root.l.map.layers.navgraph.nodes{
+        Node new (root.l.map, 0, 0, 0, 0, "added_manually", 0, root.l.map.layers.navgraph.manager)
+       
+    }
+      root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lat = root.addNode.preview.temporary.lat
+      root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lon = root.addNode.preview.temporary.lon
+      
+      root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].id = root.l.map.layers.navgraph.nodes.size - 1
+      
+  }
+
+ /* FSM addEdge{
+    State idle
+    State shift_on{
+    }
+    State
+  }*/
+
+
   svg = loadFromXML ("res/svg/icon_menu.svg")
   l.map.layers.satelites.[1].battery_voltage =:> StripsComponent.strip1.battery_voltage
   l.map.layers.satelites.[2].battery_voltage =:> StripsComponent.strip2.battery_voltage
@@ -213,7 +265,7 @@ Component root {
   f.height =:> l1.y2*/
 
 
-  FillColor _ (White)
+ /* FillColor _ (White)
   NoOutline _
   Component rr {
     FillOpacity _ (0.5)
@@ -241,5 +293,5 @@ Component root {
 
   //t1.width + 20 =:> rr.bg1.width
   t2.width + 20 =:> rr.bg2.width
-
+*/
 }
