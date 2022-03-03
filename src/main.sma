@@ -186,12 +186,45 @@ Component root {
       
   }
 
- /* FSM addEdge{
+  Spike clear_temp_list
+  Spike add_segment
+  FSM addEdge{
     State idle
     State shift_on{
+      List temp_id_list 
+      root.l.map.layers.navgraph.manager.selected_id -> (root){
+        addChildrenTo root.addEdge.shift_on.temp_id_list{
+          Int _($root.l.map.layers.navgraph.manager.selected_id)
+        }
+
+      }
+
+
     }
-    State
-  }*/
+    
+
+    idle -> shift_on (shift, clear_temp_list)
+    shift_on -> idle (shift_r, add_segment)
+
+  }
+  clear_temp_list -> (root){
+    for (int i = 1; i <= $root.addEdge.shift_on.temp_id_list.size; i++) {
+      delete root.addEdge.shift_on.temp_id_list.[i]
+    }
+  }
+
+
+
+add_segment -> (root){
+  for (int i = 1; i < $root.addEdge.shift_on.temp_id_list.size; i++){
+    int src = $root.addEdge.shift_on.temp_id_list.[i]
+    int dest = $root.addEdge.shift_on.temp_id_list.[i+1]
+  
+    addChildrenTo root.l.map.layers.navgraph.edges{
+      Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
+    }
+  }
+}
 
 
   svg = loadFromXML ("res/svg/icon_menu.svg")
