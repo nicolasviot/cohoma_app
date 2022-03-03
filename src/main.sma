@@ -195,7 +195,7 @@ Component root {
       root.l.map.layers.navgraph.manager.selected_id -> (root){
         addChildrenTo root.addEdge.shift_on.temp_id_list{
           Int _($root.l.map.layers.navgraph.manager.selected_id)
-        }
+          }
 
       }
 
@@ -208,7 +208,7 @@ Component root {
 
   }
   clear_temp_list -> (root){
-    for (int i = 1; i <= $root.addEdge.shift_on.temp_id_list.size; i++) {
+    for (int i = $root.addEdge.shift_on.temp_id_list.size; i >= 1; i--) {
       delete root.addEdge.shift_on.temp_id_list.[i]
     }
   }
