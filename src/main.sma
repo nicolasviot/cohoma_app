@@ -190,37 +190,105 @@ Component root {
 
   Spike clear_temp_list
   Spike add_segment
+  Spike add_first_wpt
   FSM addEdge{
     State idle
-    State shift_on{
+    State shift_on
+    State preview_on{
       List temp_id_list 
       root.l.map.layers.navgraph.manager.selected_id -> (root){
-        addChildrenTo root.addEdge.shift_on.temp_id_list{
+        addChildrenTo root.addEdge.preview_on.temp_id_list{
           Int _($root.l.map.layers.navgraph.manager.selected_id)
           }
 
+        int size = $root.addEdge.preview_on.temp_id_list.size 
+        int src = $root.addEdge.preview_on.temp_id_list.[size]
+        int dest = $root.addEdge.preview_on.temp_id_list.[size - 1]
+        addChildrenTo root.l.map.layers.navgraph.shadow_edges{
+          Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
+         
+          }
+
+
+      }
+      Waypoints temporary (l.map, 0, 0, 50, 50, 50)
+      //Waypoints temporary (l.map, 0, 0, 50, 50, 50)
+      l.map.pointer_lat =:> temporary.lat
+      l.map.pointer_lon =:> temporary.lon
+      0 =: temporary.opacity
+      0 =: temporary.outline_opacity
+      OutlineOpacity _ (0.5)
+      OutlineWidth _ (5)
+      OutlineColor _ (180, 90, 140)
+      Translation pos (0, 0)
+      //l.map.layers.navgraph.nodes.[$l.map.layers.navgraph.nodes.size].wpt.pos.tx =:> pos.tx
+      //l.map.layers.navgraph.nodes.[$l.map.layers.navgraph.nodes.size].wpt.pos.ty =:> pos.ty
+  
+      LogPrinter lp ("debug :" )
+      Line temp_shadow_edge (0, 0, 0, 0)
+
+      Int index (1)
+      l.map.layers.navgraph.manager.selected_id + 1 =:> index
+
+      l.map.layers.navgraph.nodes.[index].wpt.c.cx =: temp_shadow_edge.x1
+
+      l.map.layers.navgraph.nodes.[index].wpt.c.cy =: temp_shadow_edge.y1
+      RefProperty current (l.map.layers.navgraph.nodes.[index])
+      index->(root) {
+        setRef (root.addEdge.preview_on.current, root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index])
       }
 
+      DerefDouble ddx (current, "wpt/c/cx", DJNN_GET_ON_CHANGE)
+      DerefDouble ddy (current, "wpt/c/cy", DJNN_GET_ON_CHANGE)
+      DerefDouble ddtx (current, "wpt/pos/tx", DJNN_GET_ON_CHANGE)
+      DerefDouble ddty (current, "wpt/pos/ty", DJNN_GET_ON_CHANGE)
 
-    }
+      LogPrinter lp ("debug : ")
+      ddx.value  =:> temp_shadow_edge.x1
+      ddy.value =:> temp_shadow_edge.y1
+      ddtx.value =:> pos.tx
+      ddty.value =:> pos.ty
+
+      /*l.map.layers.navgraph.nodes.[l.map.layers.navgraph.manager.selected_id].wpt.c.cx =:> temp_shadow_edge.x1
+      l.map.layers.navgraph.nodes.[l.map.layers.navgraph.manager.selected_id].wpt.c.cy =:> temp_shadow_edge.y1
+      */
+      temporary.c.cx=:> temp_shadow_edge.x2
+      temporary.c.cy=:> temp_shadow_edge.y2
+
+
+      
+
+
+
+      }
     
 
     idle -> shift_on (shift, clear_temp_list)
-    shift_on -> idle (shift_r, add_segment)
+    shift_on -> preview_on (root.l.map.layers.navgraph.manager.selected_id, add_first_wpt)
+    preview_on -> idle (shift_r, add_segment)
 
   }
   clear_temp_list -> (root){
-    for (int i = $root.addEdge.shift_on.temp_id_list.size; i >= 1; i--) {
-      delete root.addEdge.shift_on.temp_id_list.[i]
+    for (int i = $root.addEdge.preview_on.temp_id_list.size; i >= 1; i--) {
+      delete root.addEdge.preview_on.temp_id_list.[i]
+    }
+    for (int i = $root.l.map.layers.navgraph.shadow_edges.size; i >= 2; i--){
+      // keep the OutlineOpacity for now.
+      delete root.l.map.layers.navgraph.shadow_edges.[i]
     }
   }
 
 
+add_first_wpt -> (root){
+  addChildrenTo root.addEdge.preview_on.temp_id_list{
+    Int _($root.l.map.layers.navgraph.manager.selected_id)
+    }
 
+}
 add_segment -> (root){
-  for (int i = 1; i < $root.addEdge.shift_on.temp_id_list.size; i++){
-    int src = $root.addEdge.shift_on.temp_id_list.[i]
-    int dest = $root.addEdge.shift_on.temp_id_list.[i+1]
+  for (int i = 1; i < $root.addEdge.preview_on.temp_id_list.size; i++){
+    int src = $root.addEdge.preview_on.temp_id_list.[i]
+    int dest = $root.addEdge.preview_on.temp_id_list.[i+1]
   
     addChildrenTo root.l.map.layers.navgraph.edges{
       Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)

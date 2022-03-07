@@ -29,11 +29,14 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
     map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
     FillOpacity fo (1)
     opacity aka fo.a
+    
     FillColor my_fc (r, g, b)
     NoOutline _
+
     Circle c (0, 0, 8)
     OutlineColor _ (r, g, b)
     OutlineWidth _ (5)
+    OutlineOpacity outline_opacity(1)
     Rotation rot (0, 0, 0)
     c.cx =:> rot.cx
     c.cy =:> rot.cy

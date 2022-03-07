@@ -14,13 +14,13 @@ using namespace djnn;
 using navgraph::to_json;
 using navgraph::from_json;
 
-GraphSubscriber::GraphSubscriber (ParentProcess* parent, const string& n, const string& topic_name, FatProcess* map, FatProcess* manager) :
+GraphSubscriber::GraphSubscriber (ParentProcess* parent, const string& n, const string& topic_name, FatProcess* my_map, FatProcess* manager) :
   FatProcess (n),
   ExternalSource (n),
   _topic_name (topic_name),
   _string_data (""),
   _data(this, "data", ""),
-  _map (map),
+  _map (my_map),
   _manager (manager)
  // qosbesteffort(10)
 
@@ -57,17 +57,18 @@ GraphSubscriber::impl_deactivate ()
 void 
 GraphSubscriber::receive_msg (const icare_interfaces::msg::StringStamped::SharedPtr msg) {
   get_exclusive_access(DBG_GET);
-  _data.set_value(msg -> data, true);
-  /*navgraph::NavGraph g;
+  navgraph::NavGraph g;
   from_json(msg -> data, g);
-  if (not_found_id) {
-    FarProcess* ng = NavGraph (root, "id", map);
-    FatProcess* nodes = ng->find_child ("nodes");
-    for (auto node : g.nodes) {
-      FatProcess* new_node = Node (nodes, "", _map, lat, lon, _manager);
-    }
-    navgraph_list.add (ng);
-  }*/
+  //if (not_found_id) {
+  if (true){
+
+    ParentProcess* ng = NavGraph (_parent, "nav_graph_test",_map);
+    //FatChildProcess* nodes = ng->find_child ("nodes");
+    //for (auto node : g.nodes) {
+      //FatProcess* new_node = Node (nodes, "", _map, lat, lon, _manager);
+    //}
+    navgraph_list.push_back (ng);
+  }
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }

@@ -40,5 +40,5 @@ class GraphSubscriber : public FatProcess, public ExternalSource
     rclcpp::Node::SharedPtr _node;
    // rclcpp::QoS qosbesteffort;
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr subscription_;
-    std::vector<FatProcess*> navgraph_list;
+    std::vector<ParentProcess*> navgraph_list;
   };

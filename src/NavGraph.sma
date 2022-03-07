@@ -17,7 +17,7 @@ NavGraph (Process _map){
 	Spike create_bindings
 	Spike clear
 	Int id (0)
-	ManagerId manager(0)
+	ManagerId manager(1)
 
 	LogPrinter lp("id_selected")
 	manager.selected_id =:> lp.input
@@ -56,6 +56,10 @@ NavGraph (Process _map){
 		Edge edge16(3, 2, 22.11618714809018, nodes)
 		Edge edge17(2, 1, 22.11618714809018, nodes)
 		Edge edge18(1, 0, 22.11618714809018, nodes)
+	}
+
+	List shadow_edges{
+		OutlineOpacity _(0.5)
 	}
 
 	

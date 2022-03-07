@@ -27,33 +27,43 @@ AssignmentSequence export_id (1){
 wpt.c.press -> export_id
 
 LogPrinter lp ("debug enter/leave")
-FSM tooltip {
-	State idle
-	State entering{
-		Timer t(1000)
-		"entered" =: lp.input
-	}
-	State display_tooltip{
-		Timer t2(3000)
-		Translation t ($wpt.pos.tx, $wpt.pos.ty)
-		wpt.pos.tx =:> t.tx
-		wpt.pos.ty =:> t.ty
 
-		FillColor black(0, 0, 0)
-		Rectangle rec($wpt.c.cx, $wpt.c.cy, 50, 50)
-		wpt.c.cx =:> rec.x
-		wpt.c.cy =:> rec.y
-		NoFill _
-		FillColor text_color(130, 130, 0)
-		Text txt($wpt.c.cx, $wpt.c.cy, "test")
-		wpt.c.cx =:> txt.x
-		wpt.c.cy =:> txt.y
+Switch tooltip_switch(off){
+	Component off{
+
 	}
-	idle -> entering (wpt.c.enter)
-	entering -> display_tooltip (entering.t.end)
-	entering -> idle (wpt.c.leave)
-	display_tooltip -> idle (wpt.c.leave)
-	display_tooltip -> idle (display_tooltip.t2.end)
+	Component on{
+		FSM tooltip {
+			State idle
+			State entering{
+				Timer t(1000)
+				"entered" =: lp.input
+			}
+			State display_tooltip{
+				Timer t2(3000)
+				Translation t ($wpt.pos.tx, $wpt.pos.ty)
+				wpt.pos.tx =:> t.tx
+				wpt.pos.ty =:> t.ty
+
+				FillColor black(0, 0, 0)
+				Rectangle rec($wpt.c.cx, $wpt.c.cy, 50, 50)
+				wpt.c.cx =:> rec.x
+				wpt.c.cy =:> rec.y
+				NoFill _
+				FillColor text_color(130, 130, 0)
+				Text txt($wpt.c.cx, $wpt.c.cy, "test")
+				wpt.c.cx =:> txt.x
+				wpt.c.cy =:> txt.y
+			}
+			idle -> entering (wpt.c.enter)
+			entering -> display_tooltip (entering.t.end)
+			entering -> idle (wpt.c.leave)
+			display_tooltip -> idle (wpt.c.leave)
+			display_tooltip -> idle (display_tooltip.t2.end)
+		}
+	}
 }
+
+
 
 }
