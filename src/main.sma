@@ -70,6 +70,8 @@ Component root {
   Frame f ("Map", 0, 0, init_width, init_height)
   Exit quit (0, 1)
   f.close->quit
+  Spike show_reticule
+  Spike hide_reticule
  Component RightPannel{
     Translation t(1024, 0)
     Rectangle bg (0, 0, 700, 768)
@@ -171,8 +173,8 @@ Component root {
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
     }
-    idle -> preview (ctrl)
-    preview -> idle (ctrl_r)
+    idle -> preview (ctrl, show_reticule)
+    preview -> idle (ctrl_r, hide_reticule)
     preview -> preview (f.release, addWptToLayer) 
   }
   LogPrinter lp ("debug add index")
@@ -228,28 +230,29 @@ Component root {
       Line temp_shadow_edge (0, 0, 0, 0)
 
       Int index (1)
+      RefProperty current (l.map.layers.navgraph.nodes.[index])
+      index->(root) {
+        setRef (root.addEdge.preview_on.current, root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index])
+      }
       l.map.layers.navgraph.manager.selected_id + 1 =:> index
 
       l.map.layers.navgraph.nodes.[index].wpt.c.cx =: temp_shadow_edge.x1
 
       l.map.layers.navgraph.nodes.[index].wpt.c.cy =: temp_shadow_edge.y1
-      RefProperty current (l.map.layers.navgraph.nodes.[index])
-      index->(root) {
-        setRef (root.addEdge.preview_on.current, root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index])
-      }
-
+ 
+ 
       DerefDouble ddx (current, "wpt/c/cx", DJNN_GET_ON_CHANGE)
       DerefDouble ddy (current, "wpt/c/cy", DJNN_GET_ON_CHANGE)
       DerefDouble ddtx (current, "wpt/pos/tx", DJNN_GET_ON_CHANGE)
       DerefDouble ddty (current, "wpt/pos/ty", DJNN_GET_ON_CHANGE)
 
-      LogPrinter lp ("debug : ")
       ddx.value  =:> temp_shadow_edge.x1
       ddy.value =:> temp_shadow_edge.y1
       ddtx.value =:> pos.tx
       ddty.value =:> pos.ty
 
-      /*l.map.layers.navgraph.nodes.[l.map.layers.navgraph.manager.selected_id].wpt.c.cx =:> temp_shadow_edge.x1
+      /*
+      l.map.layers.navgraph.nodes.[l.map.layers.navgraph.manager.selected_id].wpt.c.cx =:> temp_shadow_edge.x1
       l.map.layers.navgraph.nodes.[l.map.layers.navgraph.manager.selected_id].wpt.c.cy =:> temp_shadow_edge.y1
       */
       temporary.c.cx=:> temp_shadow_edge.x2
@@ -266,6 +269,7 @@ Component root {
     idle -> shift_on (shift, clear_temp_list)
     shift_on -> preview_on (root.l.map.layers.navgraph.manager.selected_id, add_first_wpt)
     preview_on -> idle (shift_r, add_segment)
+    shift_on -> idle (shift_r, hide_reticule)
 
   }
   clear_temp_list -> (root){
@@ -277,6 +281,8 @@ Component root {
       delete root.l.map.layers.navgraph.shadow_edges.[i]
     }
   }
+  clear_temp_list -> show_reticule
+  add_segment -> hide_reticule
 
 
 add_first_wpt -> (root){
@@ -358,17 +364,20 @@ add_segment -> (root){
     unfolded->fold (l.map.enter, anim.start)
     fold->folded (anim.end)
   }
-  /*
-  OutlineColor _(Black)
+  
+ 
+
+  FSM reticule{
+    State off 
+    State on {
+      OutlineColor _(Black)
   Line l1 (0, 0, 0, 0)
   Line l2 (0, 0, 0, 0)
-  f.width/2 =:> l1.x1, l1.x2
-  f.height/2 =:> l2.y1, l2.y2
+  f.move.x =:> l1.x1, l1.x2
+  f.move.y =:> l2.y1, l2.y2
   f.width =:> l2.x2
-  f.height =:> l1.y2*/
-
-
- /* FillColor _ (White)
+  f.height =:> l1.y2 
+  FillColor _ (White)
   NoOutline _
   Component rr {
     FillOpacity _ (0.5)
@@ -396,5 +405,12 @@ add_segment -> (root){
 
   //t1.width + 20 =:> rr.bg1.width
   t2.width + 20 =:> rr.bg2.width
-*/
+    }
+    off -> on (show_reticule)
+    on -> off (hide_reticule)
+  }
+
+
+  
+
 }
