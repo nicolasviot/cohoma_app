@@ -75,7 +75,7 @@ GraphSubscriber::receive_msg (const icare_interfaces::msg::StringStamped::Shared
   for (lemon::ListGraph::EdgeIt n(g.edges()); n!= lemon::INVALID; ++n){
       ParentProcess* edge = Edge(_parent, "", std::stoi(g.get_id(g.source(n))), 
         std::stoi(g.get_id(g.target(n))), g.get_length(n), _parent->find_child("nodes"));
-      _parent->find_child("nodes")->add_child(edge, "");
+      _parent->find_child("edges")->add_child(edge, "");
   }
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
