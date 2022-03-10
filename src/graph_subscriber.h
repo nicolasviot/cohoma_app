@@ -22,7 +22,7 @@ using namespace djnn;
 class GraphSubscriber : public FatProcess, public ExternalSource
   {
   public:
-    GraphSubscriber (ParentProcess* parent, const string& n, const string& topic_name, FatProcess* map, FatProcess* manager);
+    GraphSubscriber (ParentProcess* parent, const string& n, const string& topic_name, CoreProcess* map, CoreProcess* manager);
     ~GraphSubscriber() {}
 
     void impl_activate () override;
@@ -36,9 +36,11 @@ class GraphSubscriber : public FatProcess, public ExternalSource
     const std::string _topic_name;
     std::string _string_data;
     TextProperty _data;
-    FatProcess* _map, *_manager;
+    CoreProcess* _map, *_manager;
     rclcpp::Node::SharedPtr _node;
    // rclcpp::QoS qosbesteffort;
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr subscription_;
     std::vector<ParentProcess*> navgraph_list;
+    rclcpp::QoS qos;
+
   };

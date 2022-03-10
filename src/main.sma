@@ -177,7 +177,8 @@ Component root {
     preview -> idle (ctrl_r, hide_reticule)
     preview -> preview (f.release, addWptToLayer) 
   }
-  LogPrinter lp ("debug add index")
+
+
  addWptToLayer -> (root){
       addChildrenTo root.l.map.layers.navgraph.nodes{
         Node new (root.l.map, 0, 0, 0, 0, "added_manually", 0, root.l.map.layers.navgraph.manager)
@@ -226,7 +227,6 @@ Component root {
       //l.map.layers.navgraph.nodes.[$l.map.layers.navgraph.nodes.size].wpt.pos.tx =:> pos.tx
       //l.map.layers.navgraph.nodes.[$l.map.layers.navgraph.nodes.size].wpt.pos.ty =:> pos.ty
   
-      LogPrinter lp ("debug :" )
       Line temp_shadow_edge (0, 0, 0, 0)
 
       Int index (1)
@@ -236,10 +236,15 @@ Component root {
       }
       l.map.layers.navgraph.manager.selected_id + 1 =:> index
 
-      l.map.layers.navgraph.nodes.[index].wpt.c.cx =: temp_shadow_edge.x1
+      index -> (root){
+        root.addEdge.preview_on.temp_shadow_edge.x1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.c.cx
+
+        root.addEdge.preview_on.temp_shadow_edge.y1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.c.cy
+      }
+      /*l.map.layers.navgraph.nodes.[index].wpt.c.cx =: temp_shadow_edge.x1
 
       l.map.layers.navgraph.nodes.[index].wpt.c.cy =: temp_shadow_edge.y1
- 
+      */
  
       DerefDouble ddx (current, "wpt/c/cx", DJNN_GET_ON_CHANGE)
       DerefDouble ddy (current, "wpt/c/cy", DJNN_GET_ON_CHANGE)
@@ -371,44 +376,44 @@ add_segment -> (root){
     State off 
     State on {
       OutlineColor _(Black)
-  Line l1 (0, 0, 0, 0)
-  Line l2 (0, 0, 0, 0)
-  f.move.x =:> l1.x1, l1.x2
-  f.move.y =:> l2.y1, l2.y2
-  f.width =:> l2.x2
-  f.height =:> l1.y2 
-  FillColor _ (White)
-  NoOutline _
-  Component rr {
-    FillOpacity _ (0.5)
- //   Rectangle bg1 (0, 0, 100, 30)
- //   l.map.width/2 =:> bg1.x
- //   l.map.height/2 =:> bg1.y
-    Rectangle bg2 (0, 0, 100, 30)
-    f.move.x =:> bg2.x
-    f.move.y =:> bg2.y
-  }
-  FillColor _(Black)
-  //Text t1 (0, 0, "")
-  Text t2 (0, 0, "")
-  //rr.bg1.x + 10 =:> t1.x
-  //rr.bg1.y + 20 =:> t1.y
-  //"" + l.map.lat_center + " " + l.map.lon_center + " " + l.map.g_map.pz.zoom =:> t1.text
-  String ty ("")
-  String tx ("")
-  lat2tiley ($l.map.pointer_lat, $l.map.zoomLevel + 1) => ty
-  lon2tilex ($l.map.pointer_lon, $l.map.zoomLevel + 1) => tx
-  "" + l.map.pointer_lat + " " + l.map.pointer_lon =:> t2.text
-  //"col: " + l.map.pointer_col + " row: " + l.map.pointer_row =:> t2.text
-  rr.bg2.x + 10 =:> t2.x
-  rr.bg2.y + 20 =:> t2.y
+      Line l1 (0, 0, 0, 0)
+      Line l2 (0, 0, 0, 0)
+      f.move.x =:> l1.x1, l1.x2
+      f.move.y =:> l2.y1, l2.y2
+      f.width =:> l2.x2
+      f.height =:> l1.y2 
+      FillColor _ (White)
+      NoOutline _
+      Component rr {
+        FillOpacity _ (0.5)
+     //   Rectangle bg1 (0, 0, 100, 30)
+     //   l.map.width/2 =:> bg1.x
+     //   l.map.height/2 =:> bg1.y
+        Rectangle bg2 (0, 0, 100, 30)
+        f.move.x =:> bg2.x
+        f.move.y =:> bg2.y
+      }
+      FillColor _(Black)
+      //Text t1 (0, 0, "")
+      Text t2 (0, 0, "")
+      //rr.bg1.x + 10 =:> t1.x
+      //rr.bg1.y + 20 =:> t1.y
+      //"" + l.map.lat_center + " " + l.map.lon_center + " " + l.map.g_map.pz.zoom =:> t1.text
+      String ty ("")
+      String tx ("")
+      lat2tiley ($l.map.pointer_lat, $l.map.zoomLevel + 1) => ty
+      lon2tilex ($l.map.pointer_lon, $l.map.zoomLevel + 1) => tx
+      "" + l.map.pointer_lat + " " + l.map.pointer_lon =:> t2.text
+      //"col: " + l.map.pointer_col + " row: " + l.map.pointer_row =:> t2.text
+      rr.bg2.x + 10 =:> t2.x
+      rr.bg2.y + 20 =:> t2.y
 
-  //t1.width + 20 =:> rr.bg1.width
-  t2.width + 20 =:> rr.bg2.width
+      //t1.width + 20 =:> rr.bg1.width
+      t2.width + 20 =:> rr.bg2.width
+        }
+        off -> on (show_reticule)
+        on -> off (hide_reticule)
     }
-    off -> on (show_reticule)
-    on -> off (hide_reticule)
-  }
 
 
   

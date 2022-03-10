@@ -29,7 +29,7 @@ public:
   friend void from_json(const nlohmann::json& j, NavGraph& g);
   friend void to_json(nlohmann::json& j, const NavGraph& g);
 
-private:
+//private:
   lemon::ListGraph graph_;
   std::map<std::string, lemon::ListGraph::Node> nodes_by_index_;
   lemon::ListGraph::NodeMap<std::string> node_label_;

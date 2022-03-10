@@ -44,7 +44,9 @@ void from_json(const nlohmann::json& j, NavGraph& g)
         std::cerr << "graph is said to be directed! NavGraph are only undirected: the results graph may not be what expected!" << std::endl;
     }
     // nodes
+    std::cerr << "about to try parsing node" << std::endl;
     for (auto& node: j_graph["nodes"]) {
+        std::cerr << "parse node" << std::endl;
         auto n = g.graph_.addNode();
         g.nodes_by_index_[node["id"]] = n;
         if (node.contains("label"))
@@ -69,6 +71,7 @@ void from_json(const nlohmann::json& j, NavGraph& g)
                 g.edge_length_[e] = m["length"].get<double>();
         }
     }
+
 }
 
 void to_json(nlohmann::json& j, const NavGraph& g) {

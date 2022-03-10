@@ -5,9 +5,8 @@ use base
 import Node
 import Edge
 import ManagerId
+import graph_subscriber
 //TODO test lemon native HERE
-
-
 
 
 
@@ -17,11 +16,14 @@ NavGraph (Process _map){
 	Spike create_bindings
 	Spike clear
 	Int id (0)
-	ManagerId manager(1)
+	ManagerId manager(0)
+ 	//GraphSubscriber sub("/navgraph", map, manager)
+
 
 	LogPrinter lp("id_selected")
 	manager.selected_id =:> lp.input
-
+	//LogPrinter lp2 ("graph subscriber says")
+	//sub.data =:> lp2.input
 	List nodes {
 		Node node0(map, 43.316021818382886, 1.4041900634765625, 0.0, 0, "n_011", 0, manager)
 		Node node1(map, 43.316006206187375, 1.4047694206237793, 0.0, 0, "n_010", 1, manager)
