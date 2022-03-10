@@ -7,6 +7,7 @@
 #include "include/navgraph/navgraph.hpp"
 #include "Node.h"
 #include "NavGraph.h"
+#include "Edge.h"
 
 using std::placeholders::_1;
 
@@ -40,7 +41,8 @@ GraphSubscriber::GraphSubscriber (ParentProcess* parent, const string& n, const 
 void
 GraphSubscriber::impl_activate ()
 { 
-  subscription_ =_node->create_subscription<icare_interfaces::msg::StringStamped>( _topic_name, qos, std::bind(&GraphSubscriber::receive_msg, this, _1)); //Replace 10 with qosbesteffort
+  subscription_ =_node->create_subscription<icare_interfaces::msg::StringStamped>( 
+  _topic_name, qos, std::bind(&GraphSubscriber::receive_msg, this, _1)); //Replace 10 with qosbesteffort
   _data.activate();
   ExternalSource::start ();  
   
@@ -61,24 +63,20 @@ GraphSubscriber::impl_deactivate ()
 
 void 
 GraphSubscriber::receive_msg (const icare_interfaces::msg::StringStamped::SharedPtr msg) {
- // std::cerr << "received msg from /navgraph topic" << std::endl;
   get_exclusive_access(DBG_GET);
-  /*navgraph::NavGraph g;
-  //_data.set_value (msg-> data, true);
-
-  from_json(msg -> data, g);
-    std::cerr << "after from_json" << std::endl;
-  ParentProcess* ng = NavGraph (_parent, "nav_graph_test",_map);
-    for (lemon::ListGraph::NodeIt n(g.graph_); n != lemon::INVALID; ++n) {
-      std::cerr << "debut boucle "  << std::endl;
-/*      auto& p = g.node_geopoint_[n];
-      ParentProcess* node = Node(_parent, "", _map ,p->latitude, p->longitude, p->altitude, 0, g.node_label_[n], g.graph_.id(n), _manager);
-      ng->find_child ("nodes")->add_child(node, "");
-     std::cerr << "fin boucle"  << std::endl;
-
-    }
-    navgraph_list.push_back (ng);
-*/  
+  navgraph::NavGraph g(msg->data);
+  for (lemon::ListGraph::NodeIt n(g.nodes()); n != lemon::INVALID; ++n) {
+      navgraph::GeoPoint p = g.get_geopoint(n);
+      ParentProcess* node = Node(_parent, "", _map , p.latitude, p.longitude, p.altitude,
+       0, g.get_label(n), std::stoi(g.get_id(n)), _manager);
+      _parent->find_child ("nodes")->add_child(node, "");     
+      std::cerr << "fin boucle"  << std::endl;
+  }
+  for (lemon::ListGraph::EdgeIt n(g.edges()); n!= lemon::INVALID; ++n){
+      ParentProcess* edge = Edge(_parent, "", std::stoi(g.get_id(g.source(n))), 
+        std::stoi(g.get_id(g.target(n))), g.get_length(n), _parent->find_child("nodes"));
+      _parent->find_child("nodes")->add_child(edge, "");
+  }
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }

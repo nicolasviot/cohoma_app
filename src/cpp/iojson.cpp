@@ -7,11 +7,9 @@ namespace navgraph
 {
 
 void to_json(nlohmann::json& j, const GeoPoint& p) {
-    j = nlohmann::json{
-        {"latitude", p.latitude},
-        {"longitude", p.longitude},
-        {"altitude", p.altitude}
-    };
+    j.emplace("latitude", p.latitude);
+    j.emplace("longitude", p.longitude);
+    j.emplace("altitude", p.altitude);   
 }
 
 void from_json(const nlohmann::json& j, GeoPoint& p) {
@@ -25,6 +23,7 @@ void from_json(const nlohmann::json& j, GeoPoint& p) {
 
 void from_json(const nlohmann::json& j, NavGraph& g) 
 {
+    std::cerr << "in from_json" << std::endl;
     g.graph_.clear();
     nlohmann::json j_graph;
     if (j.contains("graph"))
@@ -39,16 +38,18 @@ void from_json(const nlohmann::json& j, NavGraph& g)
             return;
         }
     }
+    std::cerr << "about to get graph attributes" << std::endl;
     // graph attributes
     if (j_graph.contains("directed") && j_graph["directed"].get<bool>()) {
         std::cerr << "graph is said to be directed! NavGraph are only undirected: the results graph may not be what expected!" << std::endl;
     }
+    std::cerr << "about to parse nodes" << std::endl;
     // nodes
-    std::cerr << "about to try parsing node" << std::endl;
     for (auto& node: j_graph["nodes"]) {
-        std::cerr << "parse node" << std::endl;
-        auto n = g.graph_.addNode();
+        std::cerr << "in from json parsing nodes" << std::endl;
+        auto n = g.graph_.addNode();        
         g.nodes_by_index_[node["id"]] = n;
+        g.node_id_[n] = node["id"];
         if (node.contains("label"))
             g.node_label_[n] = node["label"];
         if (node.contains("metadata")) {
@@ -56,10 +57,12 @@ void from_json(const nlohmann::json& j, NavGraph& g)
             if (m.contains("latitude") && m.contains("longitude")) {
                 g.node_geopoint_[n] = m.get<GeoPoint>();
             }
-            if (m.contains("compulsory"))
+            if (m.contains("compulsory")){
                 g.node_compulsory_[n] = m["compulsory"].get<bool>();
+            }
         }
     }
+    std::cerr << "about to parse edges" << std::endl;
     // edges
     for (auto& edge: j_graph["edges"]) {
         std::string source = edge["source"].get<std::string>();
@@ -71,27 +74,26 @@ void from_json(const nlohmann::json& j, NavGraph& g)
                 g.edge_length_[e] = m["length"].get<double>();
         }
     }
-
 }
 
 void to_json(nlohmann::json& j, const NavGraph& g) {
     j["graph"]["directed"] = false;
     for (lemon::ListGraph::NodeIt n(g.graph_); n != lemon::INVALID; ++n) {
-        std::stringstream ss; ss << g.graph_.id(n);
         auto& p = g.node_geopoint_[n];
         nlohmann::json jn = {
-            {"id", ss.str()},
+            {"id", g.node_id_[n]},
             {"label", g.node_label_[n]},
             {"metadata", {
                 {"compulsory", g.node_compulsory_[n]}
             }}
-        };        
+        };                
         if (p.has_value()) to_json(jn["metadata"], p.value());
         j["graph"]["nodes"].push_back(jn);
     }
     for (lemon::ListGraph::EdgeIt e(g.graph_); e != lemon::INVALID; ++e) {
-        std::stringstream source; source << g.graph_.id(g.graph_.u(e));
-        std::stringstream target; target << g.graph_.id(g.graph_.v(e));
+        std::stringstream source; source << g.node_id_[g.graph_.u(e)];
+        std::stringstream target; target << g.node_id_[g.graph_.v(e)];
+        
         j["graph"]["edges"].push_back({
             {"source", source.str()},
             {"target", target.str()},
