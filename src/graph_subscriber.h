@@ -14,6 +14,7 @@
 #include "core/tree/int_property.h"
 #include "core/tree/bool_property.h"
 #include "exec_env/external_source.h"
+#include "include/navgraph/navgraph.hpp"
 
 
 
@@ -42,5 +43,6 @@ class GraphSubscriber : public FatProcess, public ExternalSource
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr subscription_;
     std::vector<ParentProcess*> navgraph_list;
     rclcpp::QoS qos;
+ //   navgraph::NavGraph _navgraph;
 
   };

@@ -15,7 +15,8 @@ srcs_sma := src/Dispatcher.sma src/Strip.sma src/Slider.sma src/Animator.sma src
 # native sources
 srcs_other := src/cpp/coords-utils.cpp src/cpp/map_move.cpp src/cpp/tiles_manager.cpp \
             src/ros_publisher.cpp src/ros_subscriber.cpp src/cpp/iojson.cpp\
-            src/cpp/navgraph.cpp src/graph_subscriber.cpp
+            src/cpp/navgraph.cpp src/graph_subscriber.cpp\
+            src/graph_publisher.cpp
 # or
 #srcs_other := $(shell find $(src_dir) -name "*.cpp")
 

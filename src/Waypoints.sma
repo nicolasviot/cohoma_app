@@ -41,11 +41,12 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
     c.cx =:> rot.cx
     c.cy =:> rot.cy
     heading_rot =:> rot.a
-    Line compass_heading (0, 0, 0, -20)
+  /*  Line compass_heading (0, 0, 0, -20)
     c.cx =:> compass_heading.x1
     c.cy =:> compass_heading.y1
     c.cx =:> compass_heading.x2
     c.cy - 20 =:> compass_heading.y2    
+  */
     FSM fsm {
         State idle {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy

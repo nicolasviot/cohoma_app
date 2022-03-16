@@ -22,14 +22,16 @@ RosSubscriber::RosSubscriber (ParentProcess* parent, const string& n, const stri
   _compass_heading(this, "compass_heading", 0),
   _emergency_stop(this, "emergency_stop", 0),
   _failsafe(this, "failsafe", 0),
-  _operation_mode(this, "operation_mode", 0)
+  _operation_mode(this, "operation_mode", 0),
  // qosbesteffort(10)
+  qos(1)
 
 
 {
   _node = std::make_shared<rclcpp::Node>(n);
 //  qosbesteffort.best_effort();
-
+  qos.reliable();
+  qos.durability_volatile();
   finalize_construction (parent, n);
 }
 
@@ -37,7 +39,7 @@ void
 RosSubscriber::impl_activate ()
 { 
   subscription_ =_node->create_subscription<icare_interfaces::msg::RobotState>(
-      _topic_name, 10, std::bind(&RosSubscriber::receive_msg, this, _1)); //Replace 10 with qosbesteffort
+      _topic_name, qos, std::bind(&RosSubscriber::receive_msg, this, _1)); //Replace 10 with qosbesteffort
   _msg.activate();
   _robot_id.activate();
   _battery_percentage.activate();
@@ -78,7 +80,7 @@ RosSubscriber::impl_deactivate ()
 
 void 
 RosSubscriber::receive_msg(const icare_interfaces::msg::RobotState::SharedPtr msg) {
-  RCLCPP_INFO(_node->get_logger(), "I heard: '%f'", msg->position.latitude);
+  RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
   get_exclusive_access(DBG_GET);
   _msg.set_value (msg->position.latitude, true);
   _latitude.set_value (msg -> position.latitude, true);

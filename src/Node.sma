@@ -16,7 +16,7 @@ Int id(_id)
 Spike pressed
 
 manager aka _manager_id
-Waypoints wpt(map, $lat, $lon, 140, 140, 140)
+Waypoints wpt(map, $lat, $lon, 80, 80, 80)
 
 lat =:> wpt.lat
 lon =:> wpt.lon

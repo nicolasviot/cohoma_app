@@ -77,6 +77,7 @@ Component root {
     Rectangle bg (0, 0, 700, 768)
     GraphPannel graphpannel(root)
 
+
   }
 
   RosSubscriber sub ("/robot_state")
@@ -163,7 +164,11 @@ Component root {
   Spike space_r
   f.key\-pressed == 32 -> space
   f.key\-released == 32 -> space_r
-  
+  Spike del
+  Spike del_r
+  f.key\-pressed == 16777223 -> del
+
+
   Spike addWptToLayer
   FSM addNode {
     State idle 
@@ -194,6 +199,8 @@ Component root {
   Spike clear_temp_list
   Spike add_segment
   Spike add_first_wpt
+  Spike clear_all
+  del -> clear_all
   FSM addEdge{
     State idle
     State shift_on
@@ -286,6 +293,21 @@ Component root {
       delete root.l.map.layers.navgraph.shadow_edges.[i]
     }
   }
+
+  clear_all -> (root){
+    for (int i =$root.l.map.layers.navgraph.edges.size; i>= 1; i--){
+      delete root.l.map.layers.navgraph.edges.[i]
+    }
+    for (int i =$root.l.map.layers.navgraph.nodes.size; i>= 1; i--){
+      delete root.l.map.layers.navgraph.nodes.[i]
+    }
+    for (int i =$root.l.map.layers.navgraph.shadow_edges.size; i>=2; i--){
+      delete root.l.map.layers.navgraph.shadow_edges.[i]
+    }
+    
+  }
+
+
   clear_temp_list -> show_reticule
   add_segment -> hide_reticule
 
@@ -317,9 +339,9 @@ add_segment -> (root){
   l.map.layers.satelites.[2].rot.a =:> StripsComponent.strip2.compass_heading
   main_bg << svg.layer1.main_bg
   Dispatcher dispatch (sub, l.map.layers.satelites)
-  /*sub.longitude =:> l.map.layers.satelites.[1].lon
+  sub.longitude =:> l.map.layers.satelites.[1].lon
   sub.latitude =:> l.map.layers.satelites.[1].lat
-*/
+
   Component sliders {
     Scaling sc (0, 0, 0, 0)
     FontFamily _ ("B612")

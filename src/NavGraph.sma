@@ -6,7 +6,7 @@ import Node
 import Edge
 import ManagerId
 import graph_subscriber
-//TODO test lemon native HERE
+import graph_publisher
 
 
 _define_
@@ -17,6 +17,7 @@ NavGraph (Process _map){
 	Int id (0)
 	ManagerId manager(0)
  	GraphSubscriber sub("/navgraph", map, manager)
+ 	GraphPublisher pub("/navgraph", map, manager)
 
 
 	LogPrinter lp("id_selected")

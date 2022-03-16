@@ -25,6 +25,7 @@ GraphSubscriber::GraphSubscriber (ParentProcess* parent, const string& n, const 
   _manager (manager),
  // qosbesteffort(10)
   qos(1)
+//  _navgraph()
 {
   _node = std::make_shared<rclcpp::Node>(n);
 //  qosbesteffort.best_effort();
@@ -64,19 +65,21 @@ GraphSubscriber::impl_deactivate ()
 void 
 GraphSubscriber::receive_msg (const icare_interfaces::msg::StringStamped::SharedPtr msg) {
   get_exclusive_access(DBG_GET);
-  navgraph::NavGraph g(msg->data);
-  for (lemon::ListGraph::NodeIt n(g.nodes()); n != lemon::INVALID; ++n) {
-      navgraph::GeoPoint p = g.get_geopoint(n);
+  //_navgraph(msg->data);
+  navgraph::NavGraph _navgraph(msg->data);
+  for (lemon::ListGraph::NodeIt n(_navgraph.nodes()); n != lemon::INVALID; ++n) {
+      navgraph::GeoPoint p = _navgraph.get_geopoint(n);
       ParentProcess* node = Node(_parent, "", _map , p.latitude, p.longitude, p.altitude,
-       0, g.get_label(n), std::stoi(g.get_id(n)), _manager);
+       0, _navgraph.get_label(n), std::stoi(_navgraph.get_id(n)), _manager);
       _parent->find_child ("nodes")->add_child(node, "");     
       std::cerr << "fin boucle"  << std::endl;
   }
-  for (lemon::ListGraph::EdgeIt n(g.edges()); n!= lemon::INVALID; ++n){
-      ParentProcess* edge = Edge(_parent, "", std::stoi(g.get_id(g.source(n))), 
-        std::stoi(g.get_id(g.target(n))), g.get_length(n), _parent->find_child("nodes"));
+  for (lemon::ListGraph::EdgeIt n(_navgraph.edges()); n!= lemon::INVALID; ++n){
+      ParentProcess* edge = Edge(_parent, "", std::stoi(_navgraph.get_id(_navgraph.source(n))), 
+        std::stoi(_navgraph.get_id(_navgraph.target(n))), _navgraph.get_length(n), _parent->find_child("nodes"));
       _parent->find_child("edges")->add_child(edge, "");
   }
+  //_parent->find_child("graph_pub")->navgraph = _navgraph;
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }
