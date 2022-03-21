@@ -1,5 +1,6 @@
-#include <iostream>
+#ifndef NO_LEMON
 
+#include <iostream>
 #include "navgraph/navgraph.hpp"
 #include "nlohmann/json.hpp"
 
@@ -105,3 +106,6 @@ void to_json(nlohmann::json& j, const NavGraph& g) {
 }
 
 }  // namespace navgraph
+
+#endif
+

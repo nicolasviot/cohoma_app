@@ -2,10 +2,13 @@
 #include <memory>
 #include <string>
 
+#ifndef NO_ROS
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 #include "icare_interfaces/msg/robot_state.hpp"
 //#include "icare_interfaces/msg/string_stamped.hpp"
+#endif
+
 #include "core/ontology/process.h"
 #include "core/ontology/coupling.h"
 #include "core/control/action.h"
@@ -43,8 +46,10 @@ class RosSubscriber : public FatProcess, public ExternalSource
     BoolProperty _emergency_stop;
     BoolProperty _failsafe;
     IntProperty _operation_mode;
+#ifndef NO_ROS
     rclcpp::Node::SharedPtr _node;
    // rclcpp::QoS qosbesteffort;
     rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr subscription_;
     rclcpp::QoS qos;
+#endif
   };
