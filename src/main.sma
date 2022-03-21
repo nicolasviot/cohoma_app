@@ -40,12 +40,17 @@ _native_code_
 #include "cpp/coords-utils.h"
 #include <iostream>
 #include <string>
+
+#ifndef NO_ROS
 #include "rclcpp/rclcpp.hpp"
+#endif
 
 static void
 init_ros ()
 {
+#ifndef NO_ROS
   rclcpp::init(0,0); //argc, argv);
+#endif
 }
 
 int

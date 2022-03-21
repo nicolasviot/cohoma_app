@@ -1,3 +1,5 @@
+#ifndef NO_LEMON
+
 #ifndef NAVGRAPH__NAVGRAPH_HPP_
 #define NAVGRAPH__NAVGRAPH_HPP_
 
@@ -81,3 +83,4 @@ inline bool sort_using_greater_than(std::pair<std::string,double> ppo_a, std::pa
 }  // namespace navgraph
 
 #endif  // NAVGRAPH__NAVGRAPH_HPP_
+#endif

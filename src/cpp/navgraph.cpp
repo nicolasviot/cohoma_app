@@ -1,3 +1,5 @@
+#ifndef NO_LEMON
+
 #include <iostream>
 #include <limits>
 
@@ -170,3 +172,5 @@ NavGraph::~NavGraph()
 }
 
 }  // namespace navgraph
+
+#endif

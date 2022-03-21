@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 
+#ifndef NO_ROS
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 #include "icare_interfaces/msg/robot_state.hpp"
@@ -9,6 +10,7 @@
 #include "icare_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h"
 #include "icare_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 */
+#endif
 
 #include "core/ontology/process.h"
 #include "core/ontology/coupling.h"
@@ -47,6 +49,8 @@ class RosPublisher : public FatProcess, public ExternalSource
     TextProperty _msg;
     SendMsgAction _action;
     Coupling _c_msg;
+#ifndef NO_ROS
     rclcpp::Node::SharedPtr _node;
     rclcpp::Publisher<icare_interfaces::msg::RobotState>::SharedPtr publisher_;
+#endif
   };

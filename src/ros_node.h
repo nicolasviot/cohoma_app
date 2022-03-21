@@ -1,6 +1,8 @@
 #include <functional>
 #include <memory>
 #include <string>
+
+#ifndef NO_ROS
 //Ros Stuff
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
@@ -15,6 +17,7 @@
 #include "icare_interfaces/msg/graph_itinerary.hpp"
 //Traps : subscriber 
 #include "icare_interfaces/msg/trap.hpp"
+#endif
 
 //Djnn-smala stuff
 #include "core/ontology/process.h"
@@ -28,7 +31,9 @@
 
 
 //C++ stuff
+#ifndef NO_LEMON
 #include "include/navgraph/navgraph.hpp"
+#endif
 
 
 using namespace djnn;
@@ -44,12 +49,14 @@ class RosNode : public FatProcess, public ExternalSource
 
     void run () override;
   	
+  #ifndef NO_ROS
     void receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg);
     void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
     
     //TODOS
     void receive_msg_graph_itinerary (const icare_interfaces::msg::GraphItinerary msg);
     void receive_msg_trap (const icare_interfaces::msg::Trap msg);
+  #endif
   
     void send_msg_planning_request();
     void send_msg_navgraph_update();
@@ -59,7 +66,7 @@ class RosNode : public FatProcess, public ExternalSource
     const std::string _topic_name;
 
     //Arguments
-	CoreProcess* _map, *_manager;
+	  CoreProcess* _map, *_manager;
 	
 
     //navgraph fields
@@ -78,14 +85,15 @@ class RosNode : public FatProcess, public ExternalSource
     IntProperty _operation_mode;
     
 
-	std::vector<ParentProcess*> navgraph_list;
-    
+	  std::vector<ParentProcess*> navgraph_list;
+  
+#ifndef NO_ROS
     //Ros
     rclcpp::Node::SharedPtr _node;
     rclcpp::QoS qos_best_effort;
     rclcpp::QoS qos;
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
-	rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
-    
+	  rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
+#endif
     
   };
