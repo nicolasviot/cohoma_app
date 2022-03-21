@@ -23,6 +23,7 @@ lon =:> wpt.lon
 
 AssignmentSequence export_id (1){
 	id =: manager.selected_id
+	this =: manager.current_wpt
 } 
 wpt.c.press -> export_id
 

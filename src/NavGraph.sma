@@ -20,6 +20,7 @@ NavGraph (Process _map){
 	
 
 	List nodes {
+		Node nodefictif(map, 0, 0, 0, 0, "n_fictif", 0, manager)
 
 		/*Node node0(map, 43.316021818382886, 1.4041900634765625, 0.0, 0, "n_011", 0, manager)
 		Node node1(map, 43.316006206187375, 1.4047694206237793, 0.0, 0, "n_010", 1, manager)
