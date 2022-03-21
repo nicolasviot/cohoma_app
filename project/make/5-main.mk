@@ -239,7 +239,6 @@ $(build_dir)/%.o: $(build_dir)/%.cpp
 deps := $(objs:.o=.d)
 -include $(deps)
 
-include $(project_dir)/9-pkgdeps.mk
 
 # --
 

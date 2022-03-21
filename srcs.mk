@@ -3,7 +3,7 @@ src_dir := src
 res_dir := res
 exe_dir := .
 
-exe := button
+#exe ?= stand_alone
 
 srcs_sma := src/Dispatcher.sma src/Strip.sma src/Slider.sma src/Animator.sma src/TextLineEdit.sma \
             src/PanAndZoom.sma src/Waypoints.sma src/Node.sma src/Edge.sma src/ManagerId.sma \

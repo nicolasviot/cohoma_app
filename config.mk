@@ -1,3 +1,4 @@
+exe ?= cohoma
 build_dir ?= build
 
 # release and installed (brew, apt, pacman)
