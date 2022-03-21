@@ -1,4 +1,4 @@
-exe ?= stand_alone
+CXXFLAGS += -std=c++17
 
 build_dir ?= build
 
@@ -14,4 +14,4 @@ smala-pkgconf ?= smala
 #smala_path ?= ../smala
 
 config.mk:
-	cp $(project_dir)/1-config.default.mk config.mk
+	cp $(project_dir)/2-config.default.mk config.mk

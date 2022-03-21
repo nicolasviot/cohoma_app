@@ -172,8 +172,8 @@ $(pch_dst): $(pch_src)
 ifeq ($V,max)
 	$(CXX) -x c++-header $(CXXFLAGS) $< -o $@
 else
-	@$(call rule_message,compiling,$(stylized_target))
-	$(CXX) -x c++-header $(CXXFLAGS) $< -o $@
+	@$(call rule_message,compiling to,$(stylized_target))
+	@$(CXX) -x c++-header $(CXXFLAGS) $< -o $@
 endif
 
 ifeq ($(compiler),llvm)
@@ -194,50 +194,6 @@ clean_pch:
 	rm -f $(pch_dst)
 
 $(objs): $(pch_dst)
-
-#----------------------------
-
-#$(objs): CXXFLAGS += $(djnn_cflags) $(smala_cflags) -I$(src_dir) -I$(build_dir)/$(src_dir) -I$(build_dir)/lib
-
-$(objs): CXXFLAGS = $(CXXFLAGS_CFG) $(CXXFLAGS_PCH_DEF) $(CXXFLAGS_PCH_INC) $(djnn_cflags) $(smala_cflags) -I$(src_dir) -I$(build_dir)/$(src_dir) -I$(build_dir)/lib\
-	$(CXXFLAGS_COMMON) $(CXXFLAGS_CK)
-
-$(exe): LDFLAGS += $(djnn_ldflags) $(smala_ldflags)
-$(exe): LIBS += $(app_libs)
-
-$(exe): $(objs)
-	@mkdir -p $(dir $@)
-	$(LD) $^ -o $@ $(LDFLAGS) $(LIBS)
-
-# .sma to .cpp, .c etc
-$(build_dir)/%.cpp $(build_dir)/%.h: %.sma
-	@mkdir -p $(dir $@)
-	@echo smalac -cpp $^ -builddir $(dir $@)
-	@$(smalac) -cpp $^ -builddir $(dir $@)
-
-# from .c user sources
-$(build_dir)/%.o: %.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# from .cpp user sources
-$(build_dir)/%.o: %.cpp
-	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# for .c generated sources
-$(build_dir)/%.o: $(build_dir)/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# for .cpp generated sources
-$(build_dir)/%.o: $(build_dir)/%.cpp
-	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-
-deps := $(objs:.o=.d)
--include $(deps)
 
 
 # --
