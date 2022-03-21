@@ -5,9 +5,10 @@ use base
 import Node
 import Edge
 import ManagerId
+import StatusSelector
 
 _define_
-NavGraph (Process _map){
+NavGraph (Process _map, Process f){
 	map aka _map
 	Spike create_bindings
 	Spike clear
@@ -20,10 +21,10 @@ NavGraph (Process _map){
 	
 
 	List nodes {
-		Node nodefictif(map, 0, 0, 0, 0, "n_fictif", 0, manager)
+		//Node nodefictif(map, 0, 0, 0, 0, "n_fictif", 0, manager)
 
-		/*Node node0(map, 43.316021818382886, 1.4041900634765625, 0.0, 0, "n_011", 0, manager)
-		Node node1(map, 43.316006206187375, 1.4047694206237793, 0.0, 0, "n_010", 1, manager)
+		Node node0(map, 43.316021818382886, 1.4041900634765625, 0.0, 0, "n_011", 0, manager)
+		/*Node node1(map, 43.316006206187375, 1.4047694206237793, 0.0, 0, "n_010", 1, manager)
 		Node node2(map, 43.3159281451497, 1.4054131507873535, 0.0, 0, "n_009", 2, manager)
 		Node node3(map, 43.31569396143501, 1.4050912857055664, 0.0, 0, "n_008", 3, manager)
 		Node node4(map, 43.31580324728085, 1.4047479629516602, 0.0, 0, "n_007", 4, manager)
@@ -56,14 +57,11 @@ NavGraph (Process _map){
 		Edge edge17(2, 1, 22.11618714809018, nodes)
 		Edge edge18(1, 0, 22.11618714809018, nodes)
 	*/}
-OutlineOpacity _(0.5)
+	OutlineOpacity _(0.5)
 	List shadow_edges{
 		
 	}
 
-	
-
-
-
+	StatusSelector selector (f, manager)
 
 }
