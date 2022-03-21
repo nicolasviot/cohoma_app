@@ -4,6 +4,9 @@
 #include "core/execution/graph.h"
 #include "core/core-dev.h"
 
+
+
+
 using std::placeholders::_1;
 
 using namespace djnn;
@@ -30,7 +33,7 @@ RosSubscriber::RosSubscriber (ParentProcess* parent, const string& n, const stri
 {
   _node = std::make_shared<rclcpp::Node>(n);
 //  qosbesteffort.best_effort();
-  qos.reliable();
+  qos.best_effort();
   qos.durability_volatile();
   finalize_construction (parent, n);
 }

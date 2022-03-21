@@ -6,8 +6,7 @@ import Node
 import Edge
 import ManagerId
 import graph_subscriber
-import graph_publisher
-
+//import graph_publisher
 
 _define_
 NavGraph (Process _map){
@@ -16,14 +15,14 @@ NavGraph (Process _map){
 	Spike clear
 	Int id (0)
 	ManagerId manager(0)
- 	GraphSubscriber sub("/navgraph", map, manager)
- 	GraphPublisher pub("/navgraph", map, manager)
+ 	//RosNode sub_graph("/navgraph", map, manager)
+// 	GraphPublisher pub("/navgraph", map, manager)
 
 
 	LogPrinter lp("id_selected")
 	manager.selected_id =:> lp.input
-	LogPrinter lp2 ("graph subscriber says")
-	sub.data =:> lp2.input
+	
+
 	List nodes {
 		/*Node node0(map, 43.316021818382886, 1.4041900634765625, 0.0, 0, "n_011", 0, manager)
 		Node node1(map, 43.316006206187375, 1.4047694206237793, 0.0, 0, "n_010", 1, manager)
@@ -59,9 +58,9 @@ NavGraph (Process _map){
 		Edge edge17(2, 1, 22.11618714809018, nodes)
 		Edge edge18(1, 0, 22.11618714809018, nodes)
 	*/}
-
+OutlineOpacity _(0.5)
 	List shadow_edges{
-		OutlineOpacity _(0.5)
+		
 	}
 
 	

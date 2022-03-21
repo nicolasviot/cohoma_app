@@ -25,13 +25,14 @@ import MapLayer
 import Animator
 import Waypoints
 import Dispatcher
-import ros_subscriber
+/*import ros_subscriber
 import ros_publisher
-import Strip
+*/import Strip
 import NavGraph
 import GraphPannel
 import Node
 import Edge
+import RosManager
 
 _native_code_
 %{
@@ -70,19 +71,19 @@ Component root {
   Frame f ("Map", 0, 0, init_width, init_height)
   Exit quit (0, 1)
   f.close->quit
+
+
+
   Spike show_reticule
   Spike hide_reticule
- Component RightPannel{
+
+  Component RightPannel{
     Translation t(1024, 0)
     Rectangle bg (0, 0, 700, 768)
     GraphPannel graphpannel(root)
-
-
   }
 
-  RosSubscriber sub ("/robot_state")
-//  RosPublisher  ros_pub ("/robot_state")
-
+  
   double init_lat = get_arg_double (argc, argv, 1)
   if (init_lat == -1) {
     init_lat = 43.315313261816485
@@ -103,10 +104,18 @@ Component root {
   Int r_2(0)
   Int g_2(255)
   Int b_2(0)
-  /*
-  FillColor color1 (0, 250, 0)
-  FillColor color2 (0, 0, 250)
-  */
+
+
+  //Create one layer per data.
+  // from bottom to top :
+  //  - geoportail tiles
+  //  - OSM tiles
+  //  - Waypoints + Navigation graphs 
+  //  - Vehicules TODO
+  //  - Traps  TODO
+  //  - Zones  TODO
+
+
   Layer l {
     Map map (f, 0, 0, init_width, init_height, init_lat, init_lon, init_zoom)
     MapLayer layer1 (f, map, load_geoportail_tile, "geoportail")
@@ -114,14 +123,9 @@ Component root {
     Waypoints wp (map, $init_lat, $init_lon, $r_1, $g_1, $b_1)
     Waypoints wp2 (map, $init_lat, $init_lon, $r_2, $g_2, $b_2)
     NavGraph navgraph (map)
-/*
-    Waypoints wp3 (map, $init_lat, $init_lon)
-    Waypoints wp4 (map, $init_lat, $init_lon)
-    Waypoints wp5 (map, $init_lat, $init_lon)
-    Waypoints wp6 (map, $init_lat, $init_lon)
-*/
+
+
     List satelites
-   // g << svg.Strip
     addChildrenTo satelites{
       wp,
       wp2/*,
@@ -138,6 +142,12 @@ Component root {
       navgraph
     }
   }
+
+  // Ros node w/ all sub and pub fonctions
+  RosManager ros_manager(root, l.map, l.map.layers.navgraph.manager)
+
+
+  // Strips container
   Component StripsComponent{
     Translation t (0, 768)
     Strip strip1("uav 1", f)
@@ -152,6 +162,8 @@ Component root {
   
 
 
+  // Keyboard inputs 
+  // Does not work on some keyboards
   Spike ctrl
   Spike ctrl_r
   f.key\-pressed == 16777249 -> ctrl
@@ -169,13 +181,15 @@ Component root {
   f.key\-pressed == 16777223 -> del
 
 
+
+
+  // Add waypoints FSM
   Spike addWptToLayer
   FSM addNode {
     State idle 
     State preview{
       Waypoints temporary (l.map, 0, 0, 50, 50, 50)
-      //Waypoints temporary (l.map, 0, 0, 50, 50, 50)
-      l.map.pointer_lat =:> temporary.lat
+       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
     }
     idle -> preview (ctrl, show_reticule)
@@ -196,6 +210,8 @@ Component root {
       
   }
 
+
+  //Add Edge between waypoints 
   Spike clear_temp_list
   Spike add_segment
   Spike add_first_wpt
@@ -222,7 +238,6 @@ Component root {
 
       }
       Waypoints temporary (l.map, 0, 0, 50, 50, 50)
-      //Waypoints temporary (l.map, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
       0 =: temporary.opacity
@@ -231,9 +246,7 @@ Component root {
       OutlineWidth _ (5)
       OutlineColor _ (180, 90, 140)
       Translation pos (0, 0)
-      //l.map.layers.navgraph.nodes.[$l.map.layers.navgraph.nodes.size].wpt.pos.tx =:> pos.tx
-      //l.map.layers.navgraph.nodes.[$l.map.layers.navgraph.nodes.size].wpt.pos.ty =:> pos.ty
-  
+    
       Line temp_shadow_edge (0, 0, 0, 0)
 
       Int index (1)
@@ -248,10 +261,7 @@ Component root {
 
         root.addEdge.preview_on.temp_shadow_edge.y1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.c.cy
       }
-      /*l.map.layers.navgraph.nodes.[index].wpt.c.cx =: temp_shadow_edge.x1
 
-      l.map.layers.navgraph.nodes.[index].wpt.c.cy =: temp_shadow_edge.y1
-      */
  
       DerefDouble ddx (current, "wpt/c/cx", DJNN_GET_ON_CHANGE)
       DerefDouble ddy (current, "wpt/c/cy", DJNN_GET_ON_CHANGE)
@@ -263,10 +273,6 @@ Component root {
       ddtx.value =:> pos.tx
       ddty.value =:> pos.ty
 
-      /*
-      l.map.layers.navgraph.nodes.[l.map.layers.navgraph.manager.selected_id].wpt.c.cx =:> temp_shadow_edge.x1
-      l.map.layers.navgraph.nodes.[l.map.layers.navgraph.manager.selected_id].wpt.c.cy =:> temp_shadow_edge.y1
-      */
       temporary.c.cx=:> temp_shadow_edge.x2
       temporary.c.cy=:> temp_shadow_edge.y2
 
@@ -284,6 +290,8 @@ Component root {
     shift_on -> idle (shift_r, hide_reticule)
 
   }
+
+  // clear shadow edge list
   clear_temp_list -> (root){
     for (int i = $root.addEdge.preview_on.temp_id_list.size; i >= 1; i--) {
       delete root.addEdge.preview_on.temp_id_list.[i]
@@ -294,14 +302,16 @@ Component root {
     }
   }
 
+  // clear everything (waypoints + edges) => does not work 
   clear_all -> (root){
     for (int i =$root.l.map.layers.navgraph.edges.size; i>= 1; i--){
       delete root.l.map.layers.navgraph.edges.[i]
     }
+
     for (int i =$root.l.map.layers.navgraph.nodes.size; i>= 1; i--){
       delete root.l.map.layers.navgraph.nodes.[i]
     }
-    for (int i =$root.l.map.layers.navgraph.shadow_edges.size; i>=2; i--){
+    for (int i =$root.l.map.layers.navgraph.shadow_edges.size; i>=1; i--){
       delete root.l.map.layers.navgraph.shadow_edges.[i]
     }
     
@@ -310,6 +320,8 @@ Component root {
 
   clear_temp_list -> show_reticule
   add_segment -> hide_reticule
+
+
 
 
 add_first_wpt -> (root){
@@ -330,6 +342,8 @@ add_segment -> (root){
 }
 
 
+
+
   svg = loadFromXML ("res/svg/icon_menu.svg")
   l.map.layers.satelites.[1].battery_voltage =:> StripsComponent.strip1.battery_voltage
   l.map.layers.satelites.[2].battery_voltage =:> StripsComponent.strip2.battery_voltage
@@ -338,10 +352,10 @@ add_segment -> (root){
   l.map.layers.satelites.[1].rot.a =:> StripsComponent.strip1.compass_heading
   l.map.layers.satelites.[2].rot.a =:> StripsComponent.strip2.compass_heading
   main_bg << svg.layer1.main_bg
-  Dispatcher dispatch (sub, l.map.layers.satelites)
-  sub.longitude =:> l.map.layers.satelites.[1].lon
-  sub.latitude =:> l.map.layers.satelites.[1].lat
-
+/*  Dispatcher dispatch (sub, l.map.layers.satelites)
+  sub.longitude =:> l.map.layers.satelites.[2].lon
+  sub.latitude =:> l.map.layers.satelites.[2].lat
+*/
   Component sliders {
     Scaling sc (0, 0, 0, 0)
     FontFamily _ ("B612")

@@ -53,8 +53,7 @@ input.compass_heading =:> lp.input
 	input.latitude =:> _latitude
 	input.longitude =:> _longitude
 	input.altitude_msl =:> _altitude_msl
-	input.battery_voltage =:> _battery_voltage
-
+	input.battery_voltage =:> _battery_voltage 
 //TODO garantir synchronicité
 	_robot_id -> (this){
 		this.my_list.[$this._robot_id].lat = this._latitude

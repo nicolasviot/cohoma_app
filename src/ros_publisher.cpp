@@ -35,6 +35,7 @@ RosPublisher::send_msg () {
   publisher_->publish(message);
 }
 
+
 void
 RosPublisher::run () {
   rclcpp::spin(_node);

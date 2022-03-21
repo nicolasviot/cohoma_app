@@ -8,15 +8,17 @@ exe := button
 srcs_sma := src/Dispatcher.sma src/Strip.sma src/Slider.sma src/Animator.sma src/TextLineEdit.sma \
             src/PanAndZoom.sma src/Waypoints.sma src/Node.sma src/Edge.sma src/ManagerId.sma \
             src/NavGraph.sma src/PixmapTile.sma src/MapLayer.sma src/Map.sma src/WidgetMap.sma \
-            src/GraphPannel.sma src/main.sma
+            src/GraphPannel.sma src/RosManager.sma src/main.sma
 # or
 #srcs_sma := $(shell find $(src_dir) -name "*.sma")
 
 # native sources
 srcs_other := src/cpp/coords-utils.cpp src/cpp/map_move.cpp src/cpp/tiles_manager.cpp \
-            src/ros_publisher.cpp src/ros_subscriber.cpp src/cpp/iojson.cpp\
-            src/cpp/navgraph.cpp src/graph_subscriber.cpp\
-            src/graph_publisher.cpp
+            src/ros_publisher.cpp  src/cpp/iojson.cpp\
+            src/ros_node.cpp src/cpp/navgraph.cpp 
+            #src/ros_subscriber.cpp src/graph_subscriber.cpp
+
+            
 # or
 #srcs_other := $(shell find $(src_dir) -name "*.cpp")
 
