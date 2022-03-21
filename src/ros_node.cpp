@@ -2,8 +2,8 @@
 
 #include "exec_env/global_mutex.h"
 #include "core/execution/graph.h"
-//#include "core/core-dev.h"
-//#include "core/core.h"
+#include "core/core-dev.h"
+#include "core/core.h"
 
 #ifndef NO_LEMON
 #include "include/navgraph/navgraph.hpp"
