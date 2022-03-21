@@ -60,4 +60,4 @@ LIBS += -L$(icare_interfaces_libs_install_path) $(icare_libs)
 
 
 
-ld_library_path+=$(ros_libs_install_path):$(icare_interfaces_libs_install_path)
+ld_library_path+=$(ros_lib_path):$(icare_interfaces_libs_install_path)
