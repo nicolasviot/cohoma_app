@@ -20,6 +20,7 @@ include $(project_dir)/1-os.mk
 -include config.mk
 # default config
 include $(project_dir)/2-config.default.mk
+
 # sources information
 include srcs.mk
 

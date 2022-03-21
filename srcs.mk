@@ -37,11 +37,19 @@ CXXFLAGS += -I/opt/ros/galactic/include -I./src -I./src/cpp -I./src/include \
 
 
 ros_libs_install_path ?= /opt/ros/galactic/lib
-ros_libs := $(shell ls $(ros_libs_install_path)/lib*.so | xargs echo)
+
+ros_libs := $(shell ls $(ros_libs_install_path)/lib*.so 2>/dev/null | xargs echo)
 ros_libs := $(filter-out $(ros_libs_install_path)/librmw_cyclonedds_cpp.so, $(ros_libs))
 ros_libs := $(patsubst $(ros_libs_install_path)/lib%.so,-l%,$(ros_libs))
+
+# Nico pourrais-tu essayer ceci vv à la place de cela ^^ stp?
+
+# rlcpp_lib_deps := $(shell ldd $(ros_libs_install_path)/librlcpp.so | awk '{print $1}' | xargs echo | sed -e 's/.so.*//' | sed -e 's:/lib.*::'| sed -e 's/lib/-l/' | xargs echo)
+# ros_libs := $(rlcpp_lib_deps)
+# ros_libs := $(filter -l%,$(ros_libs))
+
 icare_interfaces_libs_install_path := $(PATH_TO_WORKSPACE)/install/icare_interfaces/lib
-icare_libs := $(shell ls $(icare_interfaces_libs_install_path)/lib*.so | xargs echo)
+icare_libs := $(shell ls $(icare_interfaces_libs_install_path)/lib*.so 2>/dev/null | xargs echo)
 icare_libs := $(patsubst $(icare_interfaces_libs_install_path)/lib%.so, -l%, $(icare_libs))
 
 #LDFLAGS += 
