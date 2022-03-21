@@ -8,6 +8,10 @@ import gui.animation.Animator
 _native_code_
 %{
 #include "cpp/coords-utils.h"
+unsigned long createRGB(int r, int g, int b)
+{   
+    return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+}
 %}
 
 _define_
@@ -17,9 +21,10 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
 
 //APP-6A
     String usage_status ("usable")
+    Int default_col (createRGB (r, g, b))
     Int usable_col (Blue)
     Int forbidden_col (Red)
-    Int mandatory_col (Green)
+    Int mandatory_col (#0CF266)
     Double lat($_lat)
     Double lon($_lon)
     Double altitude_msl(0)
@@ -35,25 +40,27 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
     opacity aka fo.a
     
     FillColor my_fc (r, g, b)
-    Switch ctrl_color (usable) {
-        Component usable {
-            usable_col =: my_fc.value 
-        }
-        Component forbidden {
-            forbidden_col =: my_fc.value
-        }
-        Component mandatory {
-            mandatory_col =: my_fc.value
-        }
-    }
-    usage_status => ctrl_color.state
-
     NoOutline _
 
     Circle c (0, 0, 8)
-    OutlineColor _ (r, g, b)
+    OutlineColor oc (r, g, b)
     OutlineWidth _ (5)
     OutlineOpacity outline_opacity(1)
+    Switch ctrl_color (default) {
+        Component default {
+            default_col =: my_fc.value, oc.value
+        }
+        Component usable {
+            usable_col =: my_fc.value, oc.value
+        }
+        Component forbidden {
+            forbidden_col =: my_fc.value, oc.value
+        }
+        Component mandatory {
+            mandatory_col =: my_fc.value, oc.value
+        }
+    }
+    usage_status => ctrl_color.state
     Rotation rot (0, 0, 0)
     c.cx =:> rot.cx
     c.cy =:> rot.cy
