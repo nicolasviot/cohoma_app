@@ -12,12 +12,13 @@ Double lon(_lon)
 Double alt(_alt)
 Bool isPPO(_isPPO)
 String label(_label)
+String status ("")
 Int id(_id)
 Spike pressed
 
 manager aka _manager_id
 Waypoints wpt(map, $lat, $lon, 80, 80, 80)
-
+status => wpt.usage_status
 lat =:> wpt.lat
 lon =:> wpt.lon
 

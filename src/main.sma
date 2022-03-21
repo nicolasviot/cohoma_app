@@ -127,7 +127,7 @@ Component root {
     MapLayer layer2 (f, map, load_osm_tile, "osm")
     Waypoints wp (map, $init_lat, $init_lon, $r_1, $g_1, $b_1)
     Waypoints wp2 (map, $init_lat, $init_lon, $r_2, $g_2, $b_2)
-    NavGraph navgraph (map)
+    NavGraph navgraph (map, f)
 
 
     List satelites
