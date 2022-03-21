@@ -1,10 +1,10 @@
 
 #----------------------------
 
-#$(objs): CXXFLAGS += $(djnn_cflags) $(smala_cflags) -I$(src_dir) -I$(build_dir)/$(src_dir) -I$(build_dir)/lib
-
 $(objs): CXXFLAGS = $(CXXFLAGS_CFG) $(CXXFLAGS_PCH_DEF) $(CXXFLAGS_PCH_INC) $(djnn_cflags) $(smala_cflags) -I$(src_dir) -I$(build_dir)/$(src_dir) -I$(build_dir)/lib\
 	$(CXXFLAGS_COMMON) $(CXXFLAGS_CK)
+
+$(objs): $(pch_dst)
 
 $(exe): LDFLAGS += $(djnn_ldflags) $(smala_ldflags)
 $(exe): LIBS += $(app_libs)
@@ -14,7 +14,7 @@ ifeq ($V,max)
 	@mkdir -p $(dir $@)
 	$(LD) $^ -o $@ $(LDFLAGS) $(LIBS)
 else
-	@$(call rule_message,linking,$(stylized_target))
+	@$(call rule_message,linking to,$(stylized_target))
 	@mkdir -p $(dir $@)
 	@$(LD) $^ -o $@ $(LDFLAGS) $(LIBS)
 endif

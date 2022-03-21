@@ -29,6 +29,9 @@ include srcs.mk
 include $(project_dir)/5-main.mk
 
 # generic rules
+include $(project_dir)/7-pch.mk
+
+# generic rules
 include $(project_dir)/8-rules.mk
 
 # pkg dependency
