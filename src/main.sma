@@ -33,6 +33,7 @@ import GraphPannel
 import Node
 import Edge
 import RosManager
+import CheckBox
 
 _native_code_
 %{
@@ -44,6 +45,11 @@ _native_code_
 #ifndef NO_ROS
 #include "rclcpp/rclcpp.hpp"
 #endif
+
+static Process* find_without_warning (Process* p, string path)
+{
+  return p->find_child_impl(path);
+}
 
 static void
 init_ros ()
@@ -123,15 +129,69 @@ Component root {
 
   Layer l {
     Map map (f, 0, 0, init_width, init_height, init_lat, init_lon, init_zoom)
-    MapLayer layer1 (f, map, load_geoportail_tile, "geoportail")
-    MapLayer layer2 (f, map, load_osm_tile, "osm")
-    Waypoints wp (map, $init_lat, $init_lon, $r_1, $g_1, $b_1)
-    Waypoints wp2 (map, $init_lat, $init_lon, $r_2, $g_2, $b_2)
-    NavGraph navgraph (map, f)
+    Component layer1 {
+      Switch ctrl_visibility (visible) {
+        Component hidden
+        Component visible {
+          MapLayer layer (f, map, load_geoportail_tile, "geoportail")
+        }
+      }
+      opacity aka ctrl_visibility.visible.layer.opacity
+      opacity->l.damaged
+      String name ("Geoportail")
+    }
+    Component layer2 {
+      Switch ctrl_visibility (visible) {
+        Component hidden
+        Component visible {
+          MapLayer layer (f, map, load_osm_tile, "osm")
+        }
+      }
+      opacity aka ctrl_visibility.visible.layer.opacity
+      opacity->l.damaged
+      String name ("OSM")
+    }
+    Component wp {
+      Switch ctrl_visibility (visible) {
+        Component hidden
+        Component visible {
+          Waypoints layer (map, $init_lat, $init_lon, $r_1, $g_1, $b_1)
+        }
+      }
+      battery_voltage aka ctrl_visibility.visible.layer.battery_voltage
+      altitude_msl aka ctrl_visibility.visible.layer.altitude_msl
+      rot aka ctrl_visibility.visible.layer.rot
+      String name ("Wp")
+    }
+    Component wp2 {
+      Switch ctrl_visibility (visible) {
+        Component hidden
+        Component visible {
+          Waypoints layer (map, $init_lat, $init_lon, $r_2, $g_2, $b_2)
+        }
+      }
+      battery_voltage aka ctrl_visibility.visible.layer.battery_voltage
+      altitude_msl aka ctrl_visibility.visible.layer.altitude_msl
+      rot aka ctrl_visibility.visible.layer.rot
+      String name ("Wp2")
+    }
+    Component navgraph {
+      Switch ctrl_visibility (visible) {
+        Component hidden
+        Component visible {
+          NavGraph layer (map, f)
+        }
+      }
+      nodes aka ctrl_visibility.visible.layer.nodes
+      shadow_edges aka ctrl_visibility.visible.layer.shadow_edges
+      edges aka ctrl_visibility.visible.layer.edges
+      manager aka ctrl_visibility.visible.layer.manager
+      String name ("Navgraph")
+    }
 
 
     List satelites
-    addChildrenTo satelites{
+    addChildrenTo satelites {
       wp,
       wp2
     } 
@@ -374,6 +434,37 @@ add_segment -> (root){
     Slider s2 (f, 5, 0, 0, 100)
     //s2.output/100 =:> l.map.layers.wp.opacity
     s1.height + 10 =: s2.y
+    Int height (0)
+    Int width (0)
+
+    Translation pos2 (0, 0)
+    FontWeight _ (50)
+    TextAnchor _ (0)
+    s2.y + s2.height + 10 =:> pos2.ty
+    int off_y = 0
+    int nb_items = 0
+    List cb_left {
+      for item : l.map.layers {
+        if (find_without_warning (item, "name") != 0 ) {
+          Component _ {
+            CheckBox cb (getString (item.name), 5, off_y)
+            cb.state =:> item.ctrl_visibility.state
+            width aka cb.min_width
+          }
+          off_y += 20
+          nb_items ++
+        }
+      }
+    }
+    MaxList max_width (cb_left, "width")
+    CheckBox cb_wp ("wp", 30, 0)
+    cb_wp.state =:> l.map.layers.satelites.[1].ctrl_visibility.state
+    CheckBox cb_wp2 ("wp2", 30, 20)
+    cb_wp2.state =:> l.map.layers.satelites.[2].ctrl_visibility.state
+    max_width.output + 10 =:> cb_wp.x, cb_wp2.x
+
+    s1.height + s2.height + nb_items * 20 + 10 =:> height
+    s1.width =:> width
   }
   Animator anim (200, 0, 1, DJN_IN_SINE, 0, 0)
   FSM menu {
@@ -393,13 +484,13 @@ add_segment -> (root){
     }
     State fold {
       1 - anim.output => sliders.sc.sx, sliders.sc.sy
-      (sliders.s1.width - 18)- anim.output * (sliders.s1.width - 18) + 28 =:> main_bg.width
-      (sliders.s1.height * 2 - 13 + sliders.pos.ty) - anim.output * (sliders.s1.height * 2 - 13 + sliders.pos.ty) + 28 =:> main_bg.height
+      (sliders.width - 18)- anim.output * (sliders.width - 18) + 28 =:> main_bg.width
+      (sliders.height - 13 + sliders.pos.ty) - anim.output * (sliders.height - 13 + sliders.pos.ty) + 28 =:> main_bg.height
     }
     State unfolded {
       1 =: sliders.sc.sx, sliders.sc.sy
       (sliders.s1.width + 10) =: main_bg.width
-      (sliders.s1.height * 2 + 15 + sliders.pos.ty) =: main_bg.height
+      (sliders.height + 15 + sliders.pos.ty) =: main_bg.height
       5 =: main_bg.ry
     }
     start->folded (f.move) // we need this to avoid a false move event at startup
