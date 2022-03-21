@@ -8,7 +8,7 @@ import gui.animation.Animator
 _native_code_
 %{
 #include "cpp/coords-utils.h"
-unsigned long createRGB(int r, int g, int b)
+unsigned long RGBToHex(int r, int g, int b)
 {   
     return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 }
@@ -21,7 +21,7 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
 
 //APP-6A
     String usage_status ("usable")
-    Int default_col (createRGB (r, g, b))
+    Int default_col (RGBToHex (r, g, b))
     Int usable_col (Blue)
     Int forbidden_col (Red)
     Int mandatory_col (#0CF266)
