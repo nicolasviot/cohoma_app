@@ -5,8 +5,6 @@ use base
 import Node
 import Edge
 import ManagerId
-import graph_subscriber
-//import graph_publisher
 
 _define_
 NavGraph (Process _map){
@@ -15,8 +13,6 @@ NavGraph (Process _map){
 	Spike clear
 	Int id (0)
 	ManagerId manager(0)
- 	//RosNode sub_graph("/navgraph", map, manager)
-// 	GraphPublisher pub("/navgraph", map, manager)
 
 
 	LogPrinter lp("id_selected")
@@ -24,6 +20,7 @@ NavGraph (Process _map){
 	
 
 	List nodes {
+
 		/*Node node0(map, 43.316021818382886, 1.4041900634765625, 0.0, 0, "n_011", 0, manager)
 		Node node1(map, 43.316006206187375, 1.4047694206237793, 0.0, 0, "n_010", 1, manager)
 		Node node2(map, 43.3159281451497, 1.4054131507873535, 0.0, 0, "n_009", 2, manager)

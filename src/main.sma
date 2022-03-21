@@ -128,12 +128,7 @@ Component root {
     List satelites
     addChildrenTo satelites{
       wp,
-      wp2/*,
-      wp3,
-      wp4,
-      wp5,
-      wp6
-      */
+      wp2
     } 
     addChildrenTo map.layers {
       layer1,
@@ -356,6 +351,9 @@ add_segment -> (root){
   sub.longitude =:> l.map.layers.satelites.[2].lon
   sub.latitude =:> l.map.layers.satelites.[2].lat
 */
+
+
+
   Component sliders {
     Scaling sc (0, 0, 0, 0)
     FontFamily _ ("B612")

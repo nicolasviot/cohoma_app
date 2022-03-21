@@ -187,6 +187,8 @@ for (auto item: ((djnn::List*)edges)->children()){
   release_exclusive_access(DBG_REL);
 }
 
+
+
 //callback for robot_state msg (contains data on one robot)
 void 
 RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
@@ -205,6 +207,8 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }
+
+
 
 
 void
