@@ -24,7 +24,7 @@ NavGraph (Process _map, Process f){
 		//Node nodefictif(map, 0, 0, 0, 0, "n_fictif", 0, manager)
 
 		Node node0(map, 43.316021818382886, 1.4041900634765625, 0.0, 0, "n_011", 0, manager)
-		/*Node node1(map, 43.316006206187375, 1.4047694206237793, 0.0, 0, "n_010", 1, manager)
+		Node node1(map, 43.316006206187375, 1.4047694206237793, 0.0, 0, "n_010", 1, manager)
 		Node node2(map, 43.3159281451497, 1.4054131507873535, 0.0, 0, "n_009", 2, manager)
 		Node node3(map, 43.31569396143501, 1.4050912857055664, 0.0, 0, "n_008", 3, manager)
 		Node node4(map, 43.31580324728085, 1.4047479629516602, 0.0, 0, "n_007", 4, manager)
@@ -35,10 +35,10 @@ NavGraph (Process _map, Process f){
 		Node node9(map, 43.31560028769644, 1.4044904708862305, 0.0, 0, "n_002", 9, manager)
 		Node node10(map, 43.3155144199759, 1.4047908782958984, 0.0, 0, "n_001", 10, manager)
 		Node node11(map, 43.315327071800844, 1.4045333862304688, 0.0, 0, "n_000", 11, manager)	
-	*/}
+	}
 	
 	List edges {
-		/*Edge edge1(11, 10, 22.11618714809018, nodes)
+		Edge edge1(11, 10, 22.11618714809018, nodes)
 		Edge edge2(11, 9, 22.11618714809018, nodes)
 		Edge edge3(11, 8, 22.11618714809018, nodes)
 		Edge edge4(10, 9, 22.11618714809018, nodes)
@@ -56,7 +56,7 @@ NavGraph (Process _map, Process f){
 		Edge edge16(3, 2, 22.11618714809018, nodes)
 		Edge edge17(2, 1, 22.11618714809018, nodes)
 		Edge edge18(1, 0, 22.11618714809018, nodes)
-	*/}
+	}
 	OutlineOpacity _(0.5)
 	List shadow_edges{
 		

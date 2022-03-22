@@ -88,10 +88,10 @@ Component root {
   Spike show_reticule
   Spike hide_reticule
 
-  Component RightPannel{
+  Component right_pannel{
     Translation t(1024, 0)
-    Rectangle bg (0, 0, 700, 768)
-    GraphPannel graphpannel(root)
+    Rectangle bg (0, 0, 700, 900)
+    GraphPannel graph_pannel(root, f)
   }
 
   
@@ -205,6 +205,10 @@ Component root {
 
   // Ros node w/ all sub and pub fonctions
   RosManager ros_manager(root, l.map, l.map.layers.navgraph.manager)
+
+  right_pannel.graph_pannel.plan_request -> ros_manager.plan_request
+  right_pannel.graph_pannel.validate_plan -> ros_manager.validate_plan
+  right_pannel.graph_pannel.update_graph -> ros_manager.update_graph
 
 
   // Strips container

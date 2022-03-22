@@ -59,7 +59,9 @@ class RosNode : public FatProcess, public ExternalSource
   #endif
   
     void send_msg_planning_request();
+    //send navgraph update
     void send_msg_navgraph_update();
+    void send_validation_plan();
 
  
    private:
@@ -83,6 +85,11 @@ class RosNode : public FatProcess, public ExternalSource
     BoolProperty _emergency_stop;
     BoolProperty _failsafe;
     IntProperty _operation_mode;
+
+    //Planif VAB
+    IntProperty _current_plan_id_vab;
+    IntProperty _start_plan_vab_id;
+    IntProperty _end_plan_vab_id;
     
 
 	  std::vector<ParentProcess*> navgraph_list;
@@ -94,6 +101,7 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::QoS qos;
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
 	  rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
+    rclcpp::Publisher<icare_interfaces::msg::PlanningRequest>::SharedPtr publisher_planning_request;
 #endif
     
   };

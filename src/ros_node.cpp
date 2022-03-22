@@ -41,7 +41,12 @@ RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, C
   _compass_heading(this, "compass_heading", 0),
   _emergency_stop(this, "emergency_stop", 0),
   _failsafe(this, "failsafe", 0),
-  _operation_mode(this, "operation_mode", 0)
+  _operation_mode(this, "operation_mode", 0),
+
+  //Planif VAB
+  _current_plan_id_vab(this, "current_plan_id", 0),
+  _start_plan_vab_id(this, "start_plan_id", 0),
+  _end_plan_vab_id(this, "end_plan_id", 0)
 
 #ifndef NO_ROS
   //ROS
@@ -72,6 +77,9 @@ RosNode::impl_activate ()
   
   sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>(
     "/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
+
+   publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>("/planning_request", qos);
+
 #endif
 #ifndef NO_LEMON
   //activate navgraph fields
@@ -89,6 +97,10 @@ RosNode::impl_activate ()
   _emergency_stop.activate();
   _failsafe.activate();
   _operation_mode.activate();
+
+  _current_plan_id_vab.activate();
+  _start_plan_vab_id.activate();
+  _end_plan_vab_id.activate();
 
   //start the thread
   ExternalSource::start ();  
@@ -120,6 +132,10 @@ RosNode::impl_deactivate ()
   _emergency_stop.deactivate();
   _failsafe.deactivate();
   _operation_mode.deactivate();
+
+  _current_plan_id_vab.deactivate();
+  _start_plan_vab_id.deactivate();
+  _end_plan_vab_id.deactivate();
 
   ExternalSource::please_stop ();
 }
@@ -216,6 +232,43 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
   release_exclusive_access(DBG_REL);
 }
 #endif
+
+void
+RosNode::send_msg_planning_request(){
+  std::cerr << "in send planning request" << std::endl;
+  #ifndef NO_ROS
+  /*auto message = icare_interfaces::msg::PlanningRequest();
+  message.id = std::to_string(_current_plan_id_vab.get_value());/*_msg.get_value ()*/;
+  /*message.start_node = std::to_string(_start_plan_vab_id.get_value());
+  message.end_node = std::to_string(_end_plan_vab_id.get_value());
+  publisher_planning_request->publish(message);  
+  */#endif
+
+}
+
+void 
+RosNode::send_msg_navgraph_update(){
+std::cerr << "in navgraph_update" << std::endl;
+#ifndef NO_ROS
+//  auto message = icare_interfaces::msg::PlanningRequest();
+
+  /*auto nodes = _parent->find_child("parent/l/map/layers/navgraph/nodes")
+
+  auto edges = _parent->find_child("parent/l/map/layers/navgraph/edges")
+*/
+
+  //publisher_planning_request->publish(message); 
+#endif
+}
+
+void 
+RosNode::send_validation_plan(){
+ 
+  std::cerr << "in validation plan" << std::endl;
+ #ifndef NO_ROS
+  #endif
+}
+
 
 
 
