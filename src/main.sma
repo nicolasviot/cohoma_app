@@ -176,8 +176,8 @@ Component root {
   }
 
   Reticule reticule (l.map, f)
-  show_reticule->reticule.show_reticule
-  hide_reticule->reticule.hide_reticule
+  show_reticule->reticule.show_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.create
+  hide_reticule->reticule.hide_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
 
   Component right_pannel {
     Translation t (1024, 0)

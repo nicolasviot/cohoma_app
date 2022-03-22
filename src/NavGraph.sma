@@ -62,6 +62,14 @@ NavGraph (Process _map, Process f){
 		
 	}
 
-	StatusSelector selector (f, manager)
-
+	Spike edit
+	Spike create
+	FSM mode {
+		State mode_wp_edit {
+			StatusSelector selector (f, manager)
+		}
+		State mode_wp_create
+		mode_wp_create->mode_wp_edit (edit)
+		mode_wp_edit->mode_wp_create (create)
+	}
 }
