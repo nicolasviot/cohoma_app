@@ -66,6 +66,4 @@ Switch tooltip_switch(off){
 	}
 }
 
-
-
 }
