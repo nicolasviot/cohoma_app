@@ -33,7 +33,7 @@ import GraphPannel
 import Node
 import Edge
 import RosManager
-import CheckBox
+import UpperLeftMenu
 
 _native_code_
 %{
@@ -388,17 +388,13 @@ add_segment -> (root){
   }
 }
 
-
-
-
-  svg = loadFromXML ("res/svg/icon_menu.svg")
   l.map.layers.satelites.wp.battery_voltage =:> StripsComponent.strip1.battery_voltage
   l.map.layers.satelites.wp2.battery_voltage =:> StripsComponent.strip2.battery_voltage
   l.map.layers.satelites.wp.altitude_msl =:> StripsComponent.strip1.altitude_msl
   l.map.layers.satelites.wp2.altitude_msl =:> StripsComponent.strip2.altitude_msl
   l.map.layers.satelites.wp.rot.a =:> StripsComponent.strip1.compass_heading
   l.map.layers.satelites.wp2.rot.a =:> StripsComponent.strip2.compass_heading
-  main_bg << svg.layer1.main_bg
+
 /*  Dispatcher dispatch (sub, l.map.layers.satelites)
   sub.longitude =:> l.map.layers.satelites.[2].lon
   sub.latitude =:> l.map.layers.satelites.[2].lat
@@ -406,86 +402,7 @@ add_segment -> (root){
 
 
 
-  Component sliders {
-    Scaling sc (0, 0, 0, 0)
-    FontFamily _ ("B612")
-    FontWeight _ (75)
-    FontSize _ (0, 12)
-    //TextAnchor _ (1)
-    FillColor _ (White)
-    Text t (6, 17, "OSM opacity")
-    Translation pos (0, 20)
-    Slider s1 (f, 5, 5, 0, 100, 0)
-    //s1.width/2 + 5 =:> t.x
-    s1.output/100 =:> l.map.layers.osm.opacity
-    Int height (0)
-    Int width (0)
-
-    Text t2 (6, 0, "Layers")
-    s1.y + s1.height + 17 =:> t2.y
-    //s1.width/2 + 5 =:> t2.x
-  
-    Translation pos2 (0, 0)
-    FontWeight _ (50)
-    TextAnchor _ (0)
-    s1.y + s1.height + t2.height + 10 =:> pos2.ty
-    int off_y = 0
-    int nb_items = 0
-    List cb_left {
-      for item : l.map.layers {
-        Component _ {
-          CheckBox cb (getString (item.name), 5, off_y)
-          cb.state =:> item.ctrl_visibility.state
-          width aka cb.min_width
-        }
-        off_y += 20
-        nb_items ++
-      }
-    }
-    /*MaxList max_width (cb_left, "width")
-    CheckBox cb_wp ("wp", 30, 0)
-    cb_wp.state =:> l.map.layers.satelites.[1].ctrl_visibility.state
-    CheckBox cb_wp2 ("wp2", 30, 20)
-    cb_wp2.state =:> l.map.layers.satelites.[2].ctrl_visibility.state
-    max_width.output + 10 =:> cb_wp.x, cb_wp2.x*/
-
-    s1.height + nb_items * 20 + t2.height + 20 =:> height
-    s1.width =:> width
-  }
-  Animator anim (200, 0, 1, DJN_IN_SINE, 0, 0)
-  FSM menu {
-    State start {
-      fg << clone (svg.layer1.fg)
-    }
-    State folded {
-      fg << svg.layer1.fg
-      28 =: main_bg.width, main_bg.height
-      0 =: sliders.sc.sx, sliders.sc.sy
-      2 =: main_bg.ry
-    }
-    State unfold {
-      anim.output => sliders.sc.sx, sliders.sc.sy
-      anim.output * (sliders.s1.width - 18) + 28 =:> main_bg.width
-      anim.output * (sliders.s1.height * 2 - 13 + sliders.pos.ty) + 28 =:> main_bg.height
-    }
-    State fold {
-      1 - anim.output => sliders.sc.sx, sliders.sc.sy
-      (sliders.width - 18)- anim.output * (sliders.width - 18) + 28 =:> main_bg.width
-      (sliders.height - 13 + sliders.pos.ty) - anim.output * (sliders.height - 13 + sliders.pos.ty) + 28 =:> main_bg.height
-    }
-    State unfolded {
-      1 =: sliders.sc.sx, sliders.sc.sy
-      (sliders.s1.width + 10) =: main_bg.width
-      (sliders.height + 15 + sliders.pos.ty) =: main_bg.height
-      5 =: main_bg.ry
-    }
-    start->folded (f.move) // we need this to avoid a false move event at startup
-    folded->unfold (main_bg.enter, anim.start)
-    unfold->unfolded (anim.end)
-    unfolded->fold (l.map.enter, anim.start)
-    fold->folded (anim.end)
-  }
-  
+  UpperLeftMenu menu (l.map, f)
  
 
   FSM reticule{

@@ -8,7 +8,7 @@ exe ?= cohoma
 srcs_sma ?= src/Dispatcher.sma src/Strip.sma src/Slider.sma src/CheckBox.sma src/Animator.sma src/TextLineEdit.sma \
             src/Button.sma src/PanAndZoom.sma src/StatusSelector.sma src/Waypoints.sma src/Node.sma src/Edge.sma src/ManagerId.sma \
             src/NavGraph.sma src/PixmapTile.sma src/MapLayer.sma src/Map.sma src/WidgetMap.sma \
-            src/GraphPannel.sma src/RosManager.sma src/main.sma
+            src/GraphPannel.sma src/RosManager.sma src/UpperLeftMenu.sma src/main.sma
 # or
 #srcs_sma := $(shell find $(src_dir) -name "*.sma")
 
