@@ -76,8 +76,6 @@ get_arg_double (int argc, char** argv, int n)
 
 _main_
 Component root {
-
- 
   init_ros ()
   int init_width = 1024
   int init_height = 768
@@ -202,6 +200,8 @@ Component root {
   l.map.layers.satelites.wp.rot.a =:> strips.strip1.compass_heading
   l.map.layers.satelites.wp2.rot.a =:> strips.strip2.compass_heading
   
+  UpperLeftMenu menu (l.map, f)
+
   // Keyboard inputs 
   // Does not work on some keyboards
   Spike ctrl
@@ -268,8 +268,6 @@ Component root {
           Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
          
           }
-
-
       }
       Waypoints temporary (l.map, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
@@ -296,7 +294,6 @@ Component root {
         root.addEdge.preview_on.temp_shadow_edge.y1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.c.cy
       }
 
- 
       DerefDouble ddx (current, "wpt/c/cx", DJNN_GET_ON_CHANGE)
       DerefDouble ddy (current, "wpt/c/cy", DJNN_GET_ON_CHANGE)
       DerefDouble ddtx (current, "wpt/pos/tx", DJNN_GET_ON_CHANGE)
@@ -310,12 +307,7 @@ Component root {
       temporary.c.cx=:> temp_shadow_edge.x2
       temporary.c.cy=:> temp_shadow_edge.y2
 
-
-      
-
-
-
-      }
+     }
     
 
     idle -> shift_on (shift, clear_temp_list)
@@ -351,29 +343,25 @@ Component root {
     
   }
 
-
   clear_temp_list -> show_reticule
   add_segment -> hide_reticule
 
-
-
-
-add_first_wpt -> (root){
-  addChildrenTo root.addEdge.preview_on.temp_id_list{
-    Int _($root.l.map.layers.navgraph.manager.selected_id)
-    }
-
-}
-add_segment -> (root){
-  for (int i = 1; i < $root.addEdge.preview_on.temp_id_list.size; i++){
-    int src = $root.addEdge.preview_on.temp_id_list.[i]
-    int dest = $root.addEdge.preview_on.temp_id_list.[i+1]
-  
-    addChildrenTo root.l.map.layers.navgraph.edges{
-      Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
+  add_first_wpt -> (root){
+    addChildrenTo root.addEdge.preview_on.temp_id_list{
+      Int _($root.l.map.layers.navgraph.manager.selected_id)
     }
   }
-}
+
+  add_segment -> (root){
+    for (int i = 1; i < $root.addEdge.preview_on.temp_id_list.size; i++){
+      int src = $root.addEdge.preview_on.temp_id_list.[i]
+      int dest = $root.addEdge.preview_on.temp_id_list.[i+1]
+
+      addChildrenTo root.l.map.layers.navgraph.edges {
+        Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
+     }
+    }
+  }
 
 
 
@@ -381,11 +369,5 @@ add_segment -> (root){
   sub.longitude =:> l.map.layers.satelites.[2].lon
   sub.latitude =:> l.map.layers.satelites.[2].lat
 */
-
-
-
-  UpperLeftMenu menu (l.map, f)
- 
-
-  
+   
 }
