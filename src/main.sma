@@ -34,6 +34,7 @@ import Node
 import Edge
 import RosManager
 import UpperLeftMenu
+import StripContainer
 
 _native_code_
 %{
@@ -195,20 +196,8 @@ Component root {
 
 
   // Strips container
-  Component StripsComponent{
-    Translation t (0, 768)
-    Strip strip1("uav 1", f)
-    t.tx =:> strip1.parent_tx
-    t.ty =:> strip1.parent_ty
-    Translation t2(400, 0) 
-    Strip strip2("uav 2", f)
-    t.tx + t2.tx =:> strip2.parent_tx
-    t.ty + t2.ty =:> strip2.parent_ty
-
-  }
+  StripContainer strips (f, 0, 768)
   
-
-
   // Keyboard inputs 
   // Does not work on some keyboards
   Spike ctrl
@@ -226,9 +215,6 @@ Component root {
   Spike del
   Spike del_r
   f.key\-pressed == DJN_Key_Backspace -> del
-
-
-
 
   // Add waypoints FSM
   Spike addWptToLayer
@@ -388,12 +374,12 @@ add_segment -> (root){
   }
 }
 
-  l.map.layers.satelites.wp.battery_voltage =:> StripsComponent.strip1.battery_voltage
-  l.map.layers.satelites.wp2.battery_voltage =:> StripsComponent.strip2.battery_voltage
-  l.map.layers.satelites.wp.altitude_msl =:> StripsComponent.strip1.altitude_msl
-  l.map.layers.satelites.wp2.altitude_msl =:> StripsComponent.strip2.altitude_msl
-  l.map.layers.satelites.wp.rot.a =:> StripsComponent.strip1.compass_heading
-  l.map.layers.satelites.wp2.rot.a =:> StripsComponent.strip2.compass_heading
+  l.map.layers.satelites.wp.battery_voltage =:> strips.strip1.battery_voltage
+  l.map.layers.satelites.wp2.battery_voltage =:> strips.strip2.battery_voltage
+  l.map.layers.satelites.wp.altitude_msl =:> strips.strip1.altitude_msl
+  l.map.layers.satelites.wp2.altitude_msl =:> strips.strip2.altitude_msl
+  l.map.layers.satelites.wp.rot.a =:> strips.strip1.compass_heading
+  l.map.layers.satelites.wp2.rot.a =:> strips.strip2.compass_heading
 
 /*  Dispatcher dispatch (sub, l.map.layers.satelites)
   sub.longitude =:> l.map.layers.satelites.[2].lon
@@ -443,12 +429,8 @@ add_segment -> (root){
 
       //t1.width + 20 =:> rr.bg1.width
       t2.width + 20 =:> rr.bg2.width
-        }
-        off -> on (show_reticule)
-        on -> off (hide_reticule)
+      }
+      off -> on (show_reticule)
+      on -> off (hide_reticule)
     }
-
-
-  
-
 }
