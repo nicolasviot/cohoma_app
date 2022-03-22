@@ -213,19 +213,19 @@ Component root {
   // Does not work on some keyboards
   Spike ctrl
   Spike ctrl_r
-  f.key\-pressed == 16777249 -> ctrl
-  f.key\-released == 16777249-> ctrl_r
+  f.key\-pressed == DJN_Key_Control -> ctrl
+  f.key\-released == DJN_Key_Control-> ctrl_r
   Spike shift
   Spike shift_r
-  f.key\-pressed == 16777248-> shift
-  f.key\-released == 16777248-> shift_r
+  f.key\-pressed == DJN_Key_Shift-> shift
+  f.key\-released == DJN_Key_Shift-> shift_r
   Spike space
   Spike space_r
-  f.key\-pressed == 32 -> space
-  f.key\-released == 32 -> space_r
+  f.key\-pressed == DJN_Key_Space -> space
+  f.key\-released == DJN_Key_Space -> space_r
   Spike del
   Spike del_r
-  f.key\-pressed == 16777223 -> del
+  f.key\-pressed == DJN_Key_Backspace -> del
 
 
 
