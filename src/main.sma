@@ -127,53 +127,41 @@ Component root {
   //  - Zones  TODO
 
 
-  Layer l {
+  Component l {
     Map map (f, 0, 0, init_width, init_height, init_lat, init_lon, init_zoom)
-    Component layer1 {
+    Component geoportail {
       Switch ctrl_visibility (visible) {
         Component hidden
-        Component visible {
+        Layer visible {
           MapLayer layer (f, map, load_geoportail_tile, "geoportail")
         }
       }
       opacity aka ctrl_visibility.visible.layer.opacity
-      opacity->l.damaged
       String name ("Geoportail")
     }
-    Component layer2 {
+    Component osm {
       Switch ctrl_visibility (visible) {
         Component hidden
-        Component visible {
+        Layer visible {
           MapLayer layer (f, map, load_osm_tile, "osm")
         }
       }
       opacity aka ctrl_visibility.visible.layer.opacity
-      opacity->l.damaged
       String name ("OSM")
     }
-    Component wp {
+    Component satelites {
       Switch ctrl_visibility (visible) {
         Component hidden
-        Component visible {
-          Waypoints layer (map, $init_lat, $init_lon, $r_1, $g_1, $b_1)
+        Layer visible {
+          List layers {
+            Waypoints wp (map, $init_lat, $init_lon, $r_1, $g_1, $b_1)
+            Waypoints wp2 (map, $init_lat, $init_lon, $r_2, $g_2, $b_2)
+          }
         }
       }
-      battery_voltage aka ctrl_visibility.visible.layer.battery_voltage
-      altitude_msl aka ctrl_visibility.visible.layer.altitude_msl
-      rot aka ctrl_visibility.visible.layer.rot
-      String name ("Wp")
-    }
-    Component wp2 {
-      Switch ctrl_visibility (visible) {
-        Component hidden
-        Component visible {
-          Waypoints layer (map, $init_lat, $init_lon, $r_2, $g_2, $b_2)
-        }
-      }
-      battery_voltage aka ctrl_visibility.visible.layer.battery_voltage
-      altitude_msl aka ctrl_visibility.visible.layer.altitude_msl
-      rot aka ctrl_visibility.visible.layer.rot
-      String name ("Wp2")
+      wp aka ctrl_visibility.visible.layers.[1]
+      wp2 aka ctrl_visibility.visible.layers.[2]
+       String name ("Satelites")
     }
     Component navgraph {
       Switch ctrl_visibility (visible) {
@@ -190,14 +178,9 @@ Component root {
     }
 
 
-    List satelites
-    addChildrenTo satelites {
-      wp,
-      wp2
-    } 
     addChildrenTo map.layers {
-      layer1,
-      layer2,
+      geoportail,
+      osm,
       satelites,
       navgraph
     }
@@ -409,12 +392,12 @@ add_segment -> (root){
 
 
   svg = loadFromXML ("res/svg/icon_menu.svg")
-  l.map.layers.satelites.[1].battery_voltage =:> StripsComponent.strip1.battery_voltage
-  l.map.layers.satelites.[2].battery_voltage =:> StripsComponent.strip2.battery_voltage
-  l.map.layers.satelites.[1].altitude_msl =:> StripsComponent.strip1.altitude_msl
-  l.map.layers.satelites.[2].altitude_msl =:> StripsComponent.strip2.altitude_msl
-  l.map.layers.satelites.[1].rot.a =:> StripsComponent.strip1.compass_heading
-  l.map.layers.satelites.[2].rot.a =:> StripsComponent.strip2.compass_heading
+  l.map.layers.satelites.wp.battery_voltage =:> StripsComponent.strip1.battery_voltage
+  l.map.layers.satelites.wp2.battery_voltage =:> StripsComponent.strip2.battery_voltage
+  l.map.layers.satelites.wp.altitude_msl =:> StripsComponent.strip1.altitude_msl
+  l.map.layers.satelites.wp2.altitude_msl =:> StripsComponent.strip2.altitude_msl
+  l.map.layers.satelites.wp.rot.a =:> StripsComponent.strip1.compass_heading
+  l.map.layers.satelites.wp2.rot.a =:> StripsComponent.strip2.compass_heading
   main_bg << svg.layer1.main_bg
 /*  Dispatcher dispatch (sub, l.map.layers.satelites)
   sub.longitude =:> l.map.layers.satelites.[2].lon
@@ -428,46 +411,45 @@ add_segment -> (root){
     FontFamily _ ("B612")
     FontWeight _ (75)
     FontSize _ (0, 12)
-    TextAnchor _ (1)
+    //TextAnchor _ (1)
     FillColor _ (White)
-    Text t (0, 15, "Layers opacity")
+    Text t (6, 17, "OSM opacity")
     Translation pos (0, 20)
     Slider s1 (f, 5, 5, 0, 100)
-    s1.width/2 + 5 =:> t.x
-    s1.output/100 =:> l.map.layers.layer2.opacity
-    Slider s2 (f, 5, 0, 0, 100)
-    //s2.output/100 =:> l.map.layers.wp.opacity
-    s1.height + 10 =: s2.y
+    //s1.width/2 + 5 =:> t.x
+    s1.output/100 =:> l.map.layers.osm.opacity
     Int height (0)
     Int width (0)
 
+    Text t2 (6, 0, "Layers")
+    s1.y + s1.height + 17 =:> t2.y
+    //s1.width/2 + 5 =:> t2.x
+  
     Translation pos2 (0, 0)
     FontWeight _ (50)
     TextAnchor _ (0)
-    s2.y + s2.height + 10 =:> pos2.ty
+    s1.y + s1.height + t2.height + 10 =:> pos2.ty
     int off_y = 0
     int nb_items = 0
     List cb_left {
       for item : l.map.layers {
-        if (find_without_warning (item, "name") != 0 ) {
-          Component _ {
-            CheckBox cb (getString (item.name), 5, off_y)
-            cb.state =:> item.ctrl_visibility.state
-            width aka cb.min_width
-          }
-          off_y += 20
-          nb_items ++
+        Component _ {
+          CheckBox cb (getString (item.name), 5, off_y)
+          cb.state =:> item.ctrl_visibility.state
+          width aka cb.min_width
         }
+        off_y += 20
+        nb_items ++
       }
     }
-    MaxList max_width (cb_left, "width")
+    /*MaxList max_width (cb_left, "width")
     CheckBox cb_wp ("wp", 30, 0)
     cb_wp.state =:> l.map.layers.satelites.[1].ctrl_visibility.state
     CheckBox cb_wp2 ("wp2", 30, 20)
     cb_wp2.state =:> l.map.layers.satelites.[2].ctrl_visibility.state
-    max_width.output + 10 =:> cb_wp.x, cb_wp2.x
+    max_width.output + 10 =:> cb_wp.x, cb_wp2.x*/
 
-    s1.height + s2.height + nb_items * 20 + 10 =:> height
+    s1.height + nb_items * 20 + t2.height + 20 =:> height
     s1.width =:> width
   }
   Animator anim (200, 0, 1, DJN_IN_SINE, 0, 0)

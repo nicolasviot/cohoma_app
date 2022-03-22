@@ -30,23 +30,39 @@ CheckBox (string _label, double x_, double y_) {
   Int min_height (0)
   Int min_width (0)
 
-  //Translation offset (0, 0)
-  
+  NoFill _
+  NoOutline _
+  PickFill _
+  Rectangle mask (0, 0, 50, 22, 0, 0)
+  FillColor _ (#303030)
+  Rectangle _ (0, 0, 22, 22, 2, 2)
+
   FillColor text_color (#ffffff)
-  Text thisLabel (23, 14, _label)
+  FontWeight fw  (50)
+  Text thisLabel (26, 17, _label)
+  thisLabel.width + 22 =:> mask.width
+
   OutlineWidth ow (2)
   OutlineColor oc (#535353)
   FillColor fc (#ffffff)
   
-  Rectangle r (0, 0, 16, 16, 2, 2)
-  //this.height/2 - r.height/2 =:> offset.ty
+  Rectangle r (3, 3, 16, 16, 2, 2)
 
+  FSM ctrl_hover {
+    State idle {
+      50 =: fw.weight
+    }
+    State hover {
+      75 =: fw.weight
+    }
+    idle->hover (mask.enter)
+    hover->idle (mask.leave)
+  }
   Spike press
-  r.press -> press
+  mask.press -> press
 
   FSM fsm {
     State visible {
-      //idle_color =: oc.value
       check_color =: fc.value
       1 =: ow.width
       OutlineColor oc (#ffffff)
@@ -54,9 +70,9 @@ CheckBox (string _label, double x_, double y_) {
       OutlineCapStyle _ (1)
       OutlineWidth _ (2)
       Polyline p {
-        Point _ (4, 8)
-        Point _ (8, 13)
-        Point _ (13, 4)
+        Point _ (7, 11)
+        Point _ (11, 16)
+        Point _ (14, 7)
       }
     }
     State hidden {
@@ -67,9 +83,8 @@ CheckBox (string _label, double x_, double y_) {
     hidden->visible (press)
   }
 
-  thisLabel.press->press
   label aka thisLabel.text
-  thisLabel.width + 23 =:> min_width
-  min_height = 16
+  thisLabel.width + 25 =:> min_width
+  min_height = 22
   state aka fsm.state
 }

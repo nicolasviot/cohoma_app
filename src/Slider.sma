@@ -37,7 +37,7 @@ Slider (Process f, int _x, int _y, int _lower, int _upper)
   prop << svg.property
   FSM button_fsm {
   	State idle {
-  		#dcdcdc =: button.fill.value
+  		#ffffff =: button.fill.value
       "" =: prop.text
   	}
   	State hover {
