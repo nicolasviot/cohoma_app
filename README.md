@@ -49,6 +49,19 @@ https://docs.ros.org/en/galactic/Installation/Ubuntu-Install-Debians.html
 sudo apt install ros-galactic-desktop
 ```
 
+To build ROS2 packages, you will need the tool colcon. Follow the instructions here :
+https://colcon.readthedocs.io/en/released/user/installation.html
+
+
+If have never used ROS before, follow the instructions here to create your first ROS workspace: 
+https://docs.ros.org/en/galactic/Tutorials/Workspace/Creating-A-Workspace.html
+
+For convenience sake, consider adding the following line to your ~/.bashrc : 
+```
+source /opt/ros/galactic/setup.bash
+```
+It will grant you access to every ROS2 command-line tools, which are required to build packages, whenever you start a terminal.
+
 #### Icare interfaces 
 clone this repo  : https://gitlab.com/cohoma-icare/icare_interfaces in the /src folder of a ros workspace.
 
