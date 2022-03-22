@@ -415,7 +415,7 @@ add_segment -> (root){
     FillColor _ (White)
     Text t (6, 17, "OSM opacity")
     Translation pos (0, 20)
-    Slider s1 (f, 5, 5, 0, 100)
+    Slider s1 (f, 5, 5, 0, 100, 0)
     //s1.width/2 + 5 =:> t.x
     s1.output/100 =:> l.map.layers.osm.opacity
     Int height (0)

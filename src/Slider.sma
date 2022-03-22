@@ -3,15 +3,16 @@ use base
 use gui
 
 _define_
-Slider (Process f, int _x, int _y, int _lower, int _upper)
+Slider (Process f, int _x, int _y, int _lower, int _upper, double _init_val)
 {
   Translation pos (_x, _y)
   x aka pos.tx
   y aka pos.ty
   Double width (0)
   Double height (0)
-  BoundedValue bv (_lower, _upper, _upper)
+  BoundedValue bv (_lower, _upper, _init_val)
   output aka bv.result
+  Double value (_init_val)
 
   svg = loadFromXML ("res/svg/slider.svg")
 
@@ -35,10 +36,16 @@ Slider (Process f, int _x, int _y, int _lower, int _upper)
   output =:> i_output
   button << svg.button
   prop << svg.property
+  Double coeff (1)
+  bg.width/ (bg.width-20) =:> coeff
+  ((value / (_upper - _lower)) * bg.width + 10*coeff)/coeff =: pos_bv.input, button_pos.tx, fg.width
+  value =: bv.input
   FSM button_fsm {
   	State idle {
   		#ffffff =: button.fill.value
       "" =: prop.text
+      value->{((value / (_upper - _lower)) * bg.width + 10*coeff)/coeff =: pos_bv.input
+              pos_bv.result =: button_pos.tx, fg.width }
   	}
   	State hover {
   		#ffa700 =: button.fill.value
