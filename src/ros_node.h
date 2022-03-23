@@ -54,7 +54,8 @@ class RosNode : public FatProcess, public ExternalSource
     void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
     
     //TODOS
-    void receive_msg_graph_itinerary (const icare_interfaces::msg::GraphItinerary msg);
+    void receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItinerary::SharedPtr msg);
+    void receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg);
     void receive_msg_trap (const icare_interfaces::msg::Trap msg);
   #endif
   
