@@ -73,6 +73,7 @@ class RosNode : public FatProcess, public ExternalSource
 
     //navgraph fields
     TextProperty navgraph_data;
+    CoreProcess* _nodes, *_edges, *_shadow_edges;
     
     //robot_state fields
     IntProperty _robot_id;
@@ -101,7 +102,13 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::QoS qos;
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
 	  rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
+    rclcpp::Subscription<icare_interfaces::msg::GraphItinerary>::SharedPtr sub_graph_itinerary_loop;
+    rclcpp::Subscription<icare_interfaces::msg::GraphItinerary>::SharedPtr sub_graph_itinerary_final;
+
     rclcpp::Publisher<icare_interfaces::msg::PlanningRequest>::SharedPtr publisher_planning_request;
+    rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_navgraph_update;
+    rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation;
+
 #endif
     
   };
