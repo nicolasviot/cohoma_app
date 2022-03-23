@@ -80,7 +80,7 @@ Component root {
   init_ros ()
   int init_width = 1024
   int init_height = 768
-  Frame f ("CoHoMa", 0, 0, init_width, init_height)
+  Frame f ("CoHoMa", 0, 0, init_width+300, init_height+300)
   Exit quit (0, 1)
   f.close->quit
 
