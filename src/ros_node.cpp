@@ -328,8 +328,9 @@ RosNode::send_msg_navgraph_update(){
 
   //TODO: remove - only for debug
   //std::cerr << j << std::endl;
-
-  //publisher_planning_request->publish(message);
+  icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
+  message.data = j.dump();
+  publisher_navgraph_update->publish(message);
 #endif
 }
 
