@@ -327,7 +327,7 @@ RosNode::send_msg_navgraph_update(){
   }
 
   //TODO: remove - only for debug
-  std::cerr << j << std::endl;
+  //std::cerr << j << std::endl;
 
   //publisher_planning_request->publish(message);
 #endif
