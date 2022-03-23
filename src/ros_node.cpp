@@ -5,6 +5,8 @@
 #include "core/core-dev.h"
 #include "core/tree/list.h"
 
+#include <nlohmann/json.hpp>
+
 #ifndef NO_LEMON
 #include "include/navgraph/navgraph.hpp"
 #include "Node.h"
@@ -248,16 +250,57 @@ RosNode::send_msg_planning_request(){
 
 void 
 RosNode::send_msg_navgraph_update(){
-std::cerr << "in navgraph_update" << std::endl;
+
 #ifndef NO_ROS
-//  auto message = icare_interfaces::msg::PlanningRequest();
 
-  /*auto nodes = _parent->find_child("parent/l/map/layers/navgraph/nodes")
+  CoreProcess* nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
+  CoreProcess* edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
 
-  auto edges = _parent->find_child("parent/l/map/layers/navgraph/edges")
-*/
+  nlohmann::json j;
+  j["graph"]["directed"] = false;
 
-  //publisher_planning_request->publish(message); 
+
+  //Edges
+  for (auto item: ((djnn::List*)edges)->children()){
+
+    int ssource_id = dynamic_cast<IntProperty*> (item->find_child ("id_src"))->get_value ();
+    int starget_id = dynamic_cast<IntProperty*> (item->find_child ("id_dest"))->get_value ();
+    double dlength = dynamic_cast<DoubleProperty*> (item->find_child ("length"))->get_value ();
+
+    nlohmann::json jn = {
+      {"source", ssource_id},
+      {"target", starget_id},
+      {"metadata", { 
+        {"length", dlength}
+      }}
+    };                
+    j["graph"]["edges"].push_back(jn); 
+  }
+
+  //Nodes
+  for (auto item: ((djnn::List*)nodes)->children()){
+    int iid = dynamic_cast<IntProperty*> (item->find_child ("id"))->get_value ();
+    string slabel = dynamic_cast<TextProperty*> (item->find_child ("label"))->get_value ();
+    double dlat = dynamic_cast<DoubleProperty*> (item->find_child ("lat"))->get_value ();
+    double dlon = dynamic_cast<DoubleProperty*> (item->find_child ("lon"))->get_value ();
+    double dalt = dynamic_cast<DoubleProperty*> (item->find_child ("alt"))->get_value ();
+       
+    nlohmann::json jn = {
+      {"id", iid},
+      {"label", slabel},
+      {"metadata", { 
+        {"altitude", dalt},
+        {"latitude", dlat},
+        {"longitude", dlon}
+      }}
+    };                
+    j["graph"]["nodes"].push_back(jn);   
+  }
+
+  //TODO: remove - only for debug
+  std::cerr << j << std::endl;
+
+  //publisher_planning_request->publish(message);
 #endif
 }
 
