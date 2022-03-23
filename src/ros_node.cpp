@@ -61,10 +61,13 @@ RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, C
   _node = std::make_shared<rclcpp::Node>(n);
   // reliable ~= TCP connections => for the navgraph msgs
   // best_effort allows to drop some pacquets => for robot_state msgs
+
+  
   qos.reliable();
   qos.durability_volatile();
   qos_best_effort.best_effort();
   qos_best_effort.durability_volatile();
+
 #endif
   finalize_construction (parent, n);
 }
@@ -80,7 +83,18 @@ RosNode::impl_activate ()
   sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>(
     "/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
 
-   publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>("/planning_request", qos);
+  sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItinerary>(
+    "/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary, this, _1));
+
+  sub_graph_itinerary_final = node->create_subscription<icare_interfaces::msg::GraphItinerary>(
+    "/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary, this, _1));
+
+
+  publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>("/planning_request", qos);
+  publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>("/validation", qos);
+  publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped("/navgraph_update", qos);
+
+
 
 #endif
 #ifndef NO_LEMON
@@ -103,6 +117,10 @@ RosNode::impl_activate ()
   _current_plan_id_vab.activate();
   _start_plan_vab_id.activate();
   _end_plan_vab_id.activate();
+
+  _nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
+  _edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
+  _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
 
   //start the thread
   ExternalSource::start ();  
@@ -151,12 +169,12 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
 
   navgraph::NavGraph _navgraph(msg->data);
 
-  CoreProcess* nodes = _parent->find_child ("parent")->find_child("l")->find_child("map")->find_child("layers")->find_child("navgraph")->find_child("nodes");
+/*  CoreProcess* nodes = _parent->find_child ("parent")->find_child("l")->find_child("map")->find_child("layers")->find_child("navgraph")->find_child("nodes");
   CoreProcess* edges = _parent->find_child ("parent")->find_child("l")->find_child("map")->find_child("layers")->find_child("navgraph")->find_child("edges");
-  CoreProcess* shadow_edges = _parent->find_child ("parent")->find_child("l")->find_child("map")->find_child("layers")->find_child("navgraph")->find_child("shadow_edges");
+  CoreProcess* shadow_edges = _parent->find_child ("parent")->find_child("l")->find_child("map")->find_child("layers")->find_child("navgraph")->find_child("shadow_edges");*/
  
 
-for (auto item: ((djnn::List*)edges)->children()){
+for (auto item: ((djnn::List*)_edges)->children()){
        item->deactivate ();
 
       if (item->get_parent ())
@@ -169,7 +187,7 @@ for (auto item: ((djnn::List*)edges)->children()){
   }
 
 
-  for (auto item: ((djnn::List*)shadow_edges)->children()){
+  for (auto item: ((djnn::List*)_shadow_edges)->children()){
        item->deactivate ();
 
       if (item->get_parent ())
@@ -182,7 +200,7 @@ for (auto item: ((djnn::List*)edges)->children()){
     }
 
  
-  for (auto item: ((djnn::List*)nodes)->children()){
+  for (auto item: ((djnn::List*)_nodes)->children()){
        item->deactivate ();
 
       if (item->get_parent ())
@@ -198,14 +216,14 @@ for (auto item: ((djnn::List*)edges)->children()){
 
   for (lemon::ListGraph::NodeIt n(_navgraph.nodes()); n != lemon::INVALID; ++n) {
       navgraph::GeoPoint p = _navgraph.get_geopoint(n);
-      ParentProcess* node = Node(_parent->find_child ("parent")->find_child("l")->find_child("map")->find_child("layers")->find_child("navgraph")->find_child("nodes"), "", _map , p.latitude, p.longitude, p.altitude,
+      ParentProcess* node = Node(_nodes, "", _map , p.latitude, p.longitude, p.altitude,
        0, _navgraph.get_label(n), std::stoi(_navgraph.get_id(n)), _manager);
       //_parent->find_child ("nodes")->add_child(node, "");     
       std::cerr << "fin boucle"  << std::endl;
   }
   for (lemon::ListGraph::EdgeIt n(_navgraph.edges()); n!= lemon::INVALID; ++n){
-      ParentProcess* edge = Edge(_parent->find_child ("parent")->find_child("l")->find_child("map")->find_child("layers")->find_child("navgraph")->find_child("edges"), "", std::stoi(_navgraph.get_id(_navgraph.source(n))), 
-        std::stoi(_navgraph.get_id(_navgraph.target(n))), _navgraph.get_length(n), _parent->find_child ("parent")->find_child("l")->find_child("map")->find_child("layers")->find_child("navgraph")->find_child("nodes"));
+      ParentProcess* edge = Edge(_edges, "", std::stoi(_navgraph.get_id(_navgraph.source(n))), 
+        std::stoi(_navgraph.get_id(_navgraph.target(n))), _navgraph.get_length(n), _nodes);
      // _parent->find_child("edges")->add_child(edge, "");
   }
   //_parent->find_child("graph_pub")->navgraph = _navgraph;
@@ -239,12 +257,14 @@ void
 RosNode::send_msg_planning_request(){
   std::cerr << "in send planning request" << std::endl;
   #ifndef NO_ROS
-  /*auto message = icare_interfaces::msg::PlanningRequest();
-  message.id = std::to_string(_current_plan_id_vab.get_value());/*_msg.get_value ()*/;
-  /*message.start_node = std::to_string(_start_plan_vab_id.get_value());
+  icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
+  std::cerr << _parent << std::endl;
+  message.id = _current_plan_id_vab.get_string_value();
+  message.start_node = std::to_string(_start_plan_vab_id.get_value());
   message.end_node = std::to_string(_end_plan_vab_id.get_value());
+  
   publisher_planning_request->publish(message);  
-  */#endif
+  #endif
 
 }
 
@@ -252,7 +272,6 @@ void
 RosNode::send_msg_navgraph_update(){
 
 #ifndef NO_ROS
-
   CoreProcess* nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
   CoreProcess* edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
 
@@ -308,6 +327,7 @@ void
 RosNode::send_validation_plan(){
  
   std::cerr << "in validation plan" << std::endl;
+  std::cerr << _parent << std::endl;
  #ifndef NO_ROS
   #endif
 }

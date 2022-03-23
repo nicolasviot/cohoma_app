@@ -35,6 +35,7 @@ import Edge
 import RosManager
 import UpperLeftMenu
 import StripContainer
+import Reticule
 
 _native_code_
 %{
@@ -75,27 +76,10 @@ get_arg_double (int argc, char** argv, int n)
 
 _main_
 Component root {
-
- 
   init_ros ()
   int init_width = 1024
   int init_height = 768
-  Frame f ("CoHoMa", 0, 0, init_width+300, init_height+300)
-  Exit quit (0, 1)
-  f.close->quit
 
-
-
-  Spike show_reticule
-  Spike hide_reticule
-
-  Component right_pannel{
-    Translation t(1024, 0)
-    Rectangle bg (0, 0, 700, 900)
-    GraphPannel graph_pannel(root, f)
-  }
-
-  
   double init_lat = get_arg_double (argc, argv, 1)
   if (init_lat == -1) {
     init_lat = 43.315313261816485
@@ -105,18 +89,24 @@ Component root {
     init_lon = 1.404974527891014
   }
   int init_zoom = 17
+  
+  int r_1 = 255
+  int g_1 = 0
+  int b_1 = 0
+  int r_2 = 0
+  int g_2 = 255
+  int b_2 = 0
+
+  Frame f ("CoHoMa", 0, 0, init_width+300, init_height+300)
+  Exit quit (0, 1)
+  f.close->quit
   mouseTracking = 1
   f.background_color.r = 50
   f.background_color.g = 50
   f.background_color.b = 50
-  
-  Int r_1(255)
-  Int g_1(0)
-  Int b_1(0)
-  Int r_2(0)
-  Int g_2(255)
-  Int b_2(0)
 
+  Spike show_reticule
+  Spike hide_reticule
 
   //Create one layer per data.
   // from bottom to top :
@@ -126,7 +116,6 @@ Component root {
   //  - Vehicules TODO
   //  - Traps  TODO
   //  - Zones  TODO
-
 
   Component l {
     Map map (f, 0, 0, init_width, init_height, init_lat, init_lon, init_zoom)
@@ -155,8 +144,8 @@ Component root {
         Component hidden
         Layer visible {
           List layers {
-            Waypoints wp (map, $init_lat, $init_lon, $r_1, $g_1, $b_1)
-            Waypoints wp2 (map, $init_lat, $init_lon, $r_2, $g_2, $b_2)
+            Waypoints wp (map, $init_lat, $init_lon, r_1, g_1, b_1)
+            Waypoints wp2 (map, $init_lat, $init_lon, r_2, g_2, b_2)
           }
         }
       }
@@ -187,17 +176,33 @@ Component root {
     }
   }
 
+  Reticule reticule (l.map, f)
+  show_reticule->reticule.show_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.create
+  hide_reticule->reticule.hide_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
+
+  Component right_pannel {
+    Translation t (1024, 0)
+    Rectangle bg (0, 0, 700, 900)
+    GraphPannel graph_pannel (root, f)
+  }
+
   // Ros node w/ all sub and pub fonctions
   RosManager ros_manager(root, l.map, l.map.layers.navgraph.manager)
-
   right_pannel.graph_pannel.plan_request -> ros_manager.plan_request
   right_pannel.graph_pannel.validate_plan -> ros_manager.validate_plan
   right_pannel.graph_pannel.update_graph -> ros_manager.update_graph
 
-
   // Strips container
   StripContainer strips (f, 0, 768)
+  l.map.layers.satelites.wp.battery_voltage =:> strips.strip1.battery_voltage
+  l.map.layers.satelites.wp2.battery_voltage =:> strips.strip2.battery_voltage
+  l.map.layers.satelites.wp.altitude_msl =:> strips.strip1.altitude_msl
+  l.map.layers.satelites.wp2.altitude_msl =:> strips.strip2.altitude_msl
+  l.map.layers.satelites.wp.rot.a =:> strips.strip1.compass_heading
+  l.map.layers.satelites.wp2.rot.a =:> strips.strip2.compass_heading
   
+  UpperLeftMenu menu (l.map, f)
+
   // Keyboard inputs 
   // Does not work on some keyboards
   Spike ctrl
@@ -230,17 +235,14 @@ Component root {
     preview -> preview (f.release, addWptToLayer) 
   }
 
-
- addWptToLayer -> (root){
-      addChildrenTo root.l.map.layers.navgraph.nodes{
-        Node new (root.l.map, 0, 0, 0, 0, "added_manually", 0, root.l.map.layers.navgraph.manager)
-       
+  addWptToLayer -> (root){
+    addChildrenTo root.l.map.layers.navgraph.nodes {
+      Node new (root.l.map, 0, 0, 0, 0, "added_manually", 0, root.l.map.layers.navgraph.manager)
     }
-      root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lat = root.addNode.preview.temporary.lat
-      root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lon = root.addNode.preview.temporary.lon
-      
-      root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].id = root.l.map.layers.navgraph.nodes.size - 1
-      
+    root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lat = root.addNode.preview.temporary.lat
+    root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lon = root.addNode.preview.temporary.lon
+
+    root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].id = root.l.map.layers.navgraph.nodes.size - 1    
   }
 
 
@@ -267,8 +269,6 @@ Component root {
           Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
          
           }
-
-
       }
       Waypoints temporary (l.map, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
@@ -295,12 +295,11 @@ Component root {
         root.addEdge.preview_on.temp_shadow_edge.y1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.c.cy
       }
 
- 
       DerefDouble ddx (current, "wpt/c/cx", DJNN_GET_ON_CHANGE)
       DerefDouble ddy (current, "wpt/c/cy", DJNN_GET_ON_CHANGE)
       DerefDouble ddtx (current, "wpt/pos/tx", DJNN_GET_ON_CHANGE)
       DerefDouble ddty (current, "wpt/pos/ty", DJNN_GET_ON_CHANGE)
-
+      Component toto {
       ddx.value  =:> temp_shadow_edge.x1
       ddy.value =:> temp_shadow_edge.y1
       ddtx.value =:> pos.tx
@@ -309,13 +308,12 @@ Component root {
       temporary.c.cx=:> temp_shadow_edge.x2
       temporary.c.cy=:> temp_shadow_edge.y2
 
-
+      }
       
 
 
 
       }
-    
 
     idle -> shift_on (shift, clear_temp_list)
     shift_on -> preview_on (root.l.map.layers.navgraph.manager.selected_id, add_first_wpt)
@@ -326,13 +324,14 @@ Component root {
 
   // clear shadow edge list
   clear_temp_list -> (root){
-    for (int i = $root.addEdge.preview_on.temp_id_list.size; i >= 1; i--) {
-      delete root.addEdge.preview_on.temp_id_list.[i]
-    }
-    for (int i = $root.l.map.layers.navgraph.shadow_edges.size; i >= 2; i--){
+    for (int i = $root.l.map.layers.navgraph.shadow_edges.size; i >= 1; i--){
       // keep the OutlineOpacity for now.
       delete root.l.map.layers.navgraph.shadow_edges.[i]
     }
+    for (int i = $root.addEdge.preview_on.temp_id_list.size; i >= 1; i--) {
+      delete root.addEdge.preview_on.temp_id_list.[i]
+    }
+
   }
 
   // clear everything (waypoints + edges) => does not work 
@@ -340,97 +339,43 @@ Component root {
     for (int i =$root.l.map.layers.navgraph.edges.size; i>= 1; i--){
       delete root.l.map.layers.navgraph.edges.[i]
     }
+    for (int i =$root.l.map.layers.navgraph.shadow_edges.size; i>=1; i--){
+      delete root.l.map.layers.navgraph.shadow_edges.[i]
+    }
 
     for (int i =$root.l.map.layers.navgraph.nodes.size; i>= 1; i--){
       delete root.l.map.layers.navgraph.nodes.[i]
     }
-    for (int i =$root.l.map.layers.navgraph.shadow_edges.size; i>=1; i--){
-      delete root.l.map.layers.navgraph.shadow_edges.[i]
-    }
-    
-  }
 
+  }
 
   clear_temp_list -> show_reticule
   add_segment -> hide_reticule
 
-
-
-
-add_first_wpt -> (root){
-  addChildrenTo root.addEdge.preview_on.temp_id_list{
-    Int _($root.l.map.layers.navgraph.manager.selected_id)
-    }
-
-}
-add_segment -> (root){
-  for (int i = 1; i < $root.addEdge.preview_on.temp_id_list.size; i++){
-    int src = $root.addEdge.preview_on.temp_id_list.[i]
-    int dest = $root.addEdge.preview_on.temp_id_list.[i+1]
-  
-    addChildrenTo root.l.map.layers.navgraph.edges{
-      Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
+  add_first_wpt -> (root){
+    addChildrenTo root.addEdge.preview_on.temp_id_list{
+      Int _($root.l.map.layers.navgraph.manager.selected_id)
     }
   }
+
+  add_segment -> (root){
+    for (int i = 1; i < $root.addEdge.preview_on.temp_id_list.size; i++){
+      int src = $root.addEdge.preview_on.temp_id_list.[i]
+      int dest = $root.addEdge.preview_on.temp_id_list.[i+1]
+
+      addChildrenTo root.l.map.layers.navgraph.edges {
+        Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
+     }
+    }
+
+  delete_content root.addEdge.preview_on.toto  
 }
 
-  l.map.layers.satelites.wp.battery_voltage =:> strips.strip1.battery_voltage
-  l.map.layers.satelites.wp2.battery_voltage =:> strips.strip2.battery_voltage
-  l.map.layers.satelites.wp.altitude_msl =:> strips.strip1.altitude_msl
-  l.map.layers.satelites.wp2.altitude_msl =:> strips.strip2.altitude_msl
-  l.map.layers.satelites.wp.rot.a =:> strips.strip1.compass_heading
-  l.map.layers.satelites.wp2.rot.a =:> strips.strip2.compass_heading
+
 
 /*  Dispatcher dispatch (sub, l.map.layers.satelites)
   sub.longitude =:> l.map.layers.satelites.[2].lon
   sub.latitude =:> l.map.layers.satelites.[2].lat
 */
-
-
-
-  UpperLeftMenu menu (l.map, f)
- 
-
-  FSM reticule{
-    State off 
-    State on {
-      OutlineColor _(Black)
-      Line l1 (0, 0, 0, 0)
-      Line l2 (0, 0, 0, 0)
-      f.move.x =:> l1.x1, l1.x2
-      f.move.y =:> l2.y1, l2.y2
-      f.width =:> l2.x2
-      f.height =:> l1.y2 
-      FillColor _ (White)
-      NoOutline _
-      Component rr {
-        FillOpacity _ (0.5)
-     //   Rectangle bg1 (0, 0, 100, 30)
-     //   l.map.width/2 =:> bg1.x
-     //   l.map.height/2 =:> bg1.y
-        Rectangle bg2 (0, 0, 100, 30)
-        f.move.x =:> bg2.x
-        f.move.y =:> bg2.y
-      }
-      FillColor _(Black)
-      //Text t1 (0, 0, "")
-      Text t2 (0, 0, "")
-      //rr.bg1.x + 10 =:> t1.x
-      //rr.bg1.y + 20 =:> t1.y
-      //"" + l.map.lat_center + " " + l.map.lon_center + " " + l.map.g_map.pz.zoom =:> t1.text
-      String ty ("")
-      String tx ("")
-      lat2tiley ($l.map.pointer_lat, $l.map.zoomLevel + 1) => ty
-      lon2tilex ($l.map.pointer_lon, $l.map.zoomLevel + 1) => tx
-      "" + l.map.pointer_lat + " " + l.map.pointer_lon =:> t2.text
-      //"col: " + l.map.pointer_col + " row: " + l.map.pointer_row =:> t2.text
-      rr.bg2.x + 10 =:> t2.x
-      rr.bg2.y + 20 =:> t2.y
-
-      //t1.width + 20 =:> rr.bg1.width
-      t2.width + 20 =:> rr.bg2.width
-      }
-      off -> on (show_reticule)
-      on -> off (hide_reticule)
-    }
+   
 }
