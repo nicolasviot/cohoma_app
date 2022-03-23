@@ -298,7 +298,7 @@ Component root {
       DerefDouble ddy (current, "wpt/c/cy", DJNN_GET_ON_CHANGE)
       DerefDouble ddtx (current, "wpt/pos/tx", DJNN_GET_ON_CHANGE)
       DerefDouble ddty (current, "wpt/pos/ty", DJNN_GET_ON_CHANGE)
-
+      Component toto {
       ddx.value  =:> temp_shadow_edge.x1
       ddy.value =:> temp_shadow_edge.y1
       ddtx.value =:> pos.tx
@@ -307,8 +307,12 @@ Component root {
       temporary.c.cx=:> temp_shadow_edge.x2
       temporary.c.cy=:> temp_shadow_edge.y2
 
-     }
-    
+      }
+      
+
+
+
+      }
 
     idle -> shift_on (shift, clear_temp_list)
     shift_on -> preview_on (root.l.map.layers.navgraph.manager.selected_id, add_first_wpt)
@@ -319,13 +323,14 @@ Component root {
 
   // clear shadow edge list
   clear_temp_list -> (root){
-    for (int i = $root.addEdge.preview_on.temp_id_list.size; i >= 1; i--) {
-      delete root.addEdge.preview_on.temp_id_list.[i]
-    }
-    for (int i = $root.l.map.layers.navgraph.shadow_edges.size; i >= 2; i--){
+    for (int i = $root.l.map.layers.navgraph.shadow_edges.size; i >= 1; i--){
       // keep the OutlineOpacity for now.
       delete root.l.map.layers.navgraph.shadow_edges.[i]
     }
+    for (int i = $root.addEdge.preview_on.temp_id_list.size; i >= 1; i--) {
+      delete root.addEdge.preview_on.temp_id_list.[i]
+    }
+
   }
 
   // clear everything (waypoints + edges) => does not work 
@@ -333,14 +338,14 @@ Component root {
     for (int i =$root.l.map.layers.navgraph.edges.size; i>= 1; i--){
       delete root.l.map.layers.navgraph.edges.[i]
     }
+    for (int i =$root.l.map.layers.navgraph.shadow_edges.size; i>=1; i--){
+      delete root.l.map.layers.navgraph.shadow_edges.[i]
+    }
 
     for (int i =$root.l.map.layers.navgraph.nodes.size; i>= 1; i--){
       delete root.l.map.layers.navgraph.nodes.[i]
     }
-    for (int i =$root.l.map.layers.navgraph.shadow_edges.size; i>=1; i--){
-      delete root.l.map.layers.navgraph.shadow_edges.[i]
-    }
-    
+
   }
 
   clear_temp_list -> show_reticule
@@ -361,7 +366,9 @@ Component root {
         Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
      }
     }
-  }
+
+  delete_content root.addEdge.preview_on.toto  
+}
 
 
 
