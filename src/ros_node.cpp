@@ -82,15 +82,15 @@ RosNode::impl_activate ()
     "/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
 
   sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItinerary>(
-    "/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary, this, _1));
+    "/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary_loop, this, _1));
 
-  sub_graph_itinerary_final = node->create_subscription<icare_interfaces::msg::GraphItinerary>(
-    "/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary, this, _1));
+  sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItinerary>(
+    "/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, this, _1));
 
 
   publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>("/planning_request", qos);
   publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>("/validation", qos);
-  publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped("/navgraph_update", qos);
+  publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped>("/navgraph_update", qos);
 
 
 
@@ -229,6 +229,16 @@ for (auto item: ((djnn::List*)_edges)->children()){
   release_exclusive_access(DBG_REL);
 }
 
+
+void 
+RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
+
+}
+
+void 
+RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
+
+}
 
 
 //callback for robot_state msg (contains data on one robot)
