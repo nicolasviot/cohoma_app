@@ -18,6 +18,7 @@
 
  import gui.widgets.IWidget
  import PanAndZoom
+ import Reticule
 
  _native_code_
  %{
@@ -151,6 +152,7 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   enter aka g_map.pick_area.enter
   leave aka g_map.pick_area.leave
   
+  Reticule reticule (this, f)
   
   xpan->{ (xpan - cur_ref_x)/256 =: pix_offset_x }
   ypan->{ (ypan - cur_ref_y)/256 =: pix_offset_y }

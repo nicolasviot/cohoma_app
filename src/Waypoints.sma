@@ -100,11 +100,9 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
             px2lon ($c.cx + map.t0_x, $map.zoomLevel) => lon
             py2lat (map.t0_y - $c.cy, $map.zoomLevel) => lat 
         }
-        no_drag->drag (c.press)
-        drag->no_drag (c.release)
+        no_drag->drag (c.left.press, map.reticule.show_reticule)
+        drag->no_drag (c.left.release, map.reticule.hide_reticule)
     }
-    drag aka drag_fsm.drag
-    end_drag aka drag_fsm.no_drag
     FSM fsm {
         State idle {
             //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
