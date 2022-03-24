@@ -292,8 +292,15 @@ RosNode::send_msg_planning_request(){
   icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
   std::cerr << _parent << std::endl;
   message.id = _current_plan_id_vab.get_string_value();
-  message.start_node = std::to_string(_start_plan_vab_id.get_value());
-  message.end_node = std::to_string(_end_plan_vab_id.get_value());
+  
+
+  for (auto item: ((djnn::List*)_nodes)->children()){
+    if (item->find_child("status").get_string_value().compare("start") == 0)
+      message.start_node = std::stoi(item->find_child("id"));
+    if (item->find_child("status").get_string_value().compare("end") == 0)
+      message.end_node = std::stoi(item->find_child("id"))
+  }
+
   
   publisher_planning_request->publish(message);  
   #endif
