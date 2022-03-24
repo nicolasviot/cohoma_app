@@ -361,10 +361,9 @@ RosNode::send_validation_plan(){
  
   std::cerr << "in validation plan" << std::endl;
   std::cerr << _parent << std::endl;
-
-  icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
+   #ifndef NO_ROS
   message.data = std::to_string(_current_plan_id_vab.get_value());
- #ifndef NO_ROS
+  icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
   #endif
 }
 
