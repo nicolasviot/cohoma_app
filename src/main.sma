@@ -315,13 +315,14 @@ Component root {
 
   }
 
-  Node toto (root.l.map, 0, 0, 0, 0, "added_manually", 0, root.l.map.layers.navgraph.manager)
-
+  //Node null_ref (root.l.map, 0, 0, 0, 0, "added_manually", 0, root.l.map.layers.navgraph.manager)
+  Ref null_ref (0)
   // clear shadow edge list
   clear_temp_list -> (root){
     
-    //root.l.map.layers.navgraph.manager.current_wpt = &(root.toto)
-    root.addEdge.preview_on.current = &(root.toto)
+    root.l.map.layers.navgraph.manager.current_wpt = &(root.null_ref)
+    root.l.map.layers.navgraph.manager.entered_wpt  =  &(root.null_ref)
+    root.addEdge.preview_on.current = &(root.null_ref)
 
     for (int i = $root.l.map.layers.navgraph.shadow_edges.size; i >= 1; i--){
       // keep the OutlineOpacity for now.
@@ -344,8 +345,9 @@ Component root {
   // clear everything (waypoints + edges) => does not work 
   clear_all -> (root){
     
-    root.l.map.layers.navgraph.manager.current_wpt  =  &(root.toto)
-    root.addEdge.preview_on.current = &(root.toto)
+    root.l.map.layers.navgraph.manager.current_wpt  =  &(root.null_ref)
+    root.l.map.layers.navgraph.manager.entered_wpt  =  &(root.null_ref)
+    root.addEdge.preview_on.current = &(root.null_ref)
     for (int i =$root.l.map.layers.navgraph.edges.size; i>= 1; i--){
       delete root.l.map.layers.navgraph.edges.[i]
     }
@@ -371,7 +373,7 @@ Component root {
   add_segment -> hide_reticule
 
   add_first_wpt -> (root){
-    root.addEdge.preview_on.current = &(root.toto)
+    root.addEdge.preview_on.current = &(root.null_ref)
     addChildrenTo root.addEdge.preview_on.temp_id_list{
       Int _($root.l.map.layers.navgraph.manager.selected_id)
     }
@@ -386,7 +388,7 @@ Component root {
         Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
      }
     }
-    //delete_content root.addEdge.preview_on.toto  
+    //delete_content root.addEdge.preview_on.null_ref  
   }
 
    
