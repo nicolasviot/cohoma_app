@@ -20,10 +20,12 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
 
 
 //APP-6A
-    String usage_status ("usable")
+    String usage_status ("default")
     Int default_col (RGBToHex (r, g, b))
     Int usable_col (Blue)
     Int forbidden_col (Red)
+    Int start_col (#FC60C8)
+    Int end_col (#6D60FC)
     Int mandatory_col (#0CF266)
     Double lat($_lat)
     Double lon($_lon)
@@ -54,6 +56,12 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
         }
         Component usable {
             usable_col =: my_fc.value, oc.value
+        }
+        Component start {
+            start_col =: my_fc.value, oc.value
+        }
+        Component end {
+            end_col =: my_fc.value, oc.value
         }
         Component forbidden {
             forbidden_col =: my_fc.value, oc.value
