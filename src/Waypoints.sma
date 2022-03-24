@@ -30,7 +30,7 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
     Double altitude_msl(0)
     Double battery_voltage(0)
     Double heading_rot(0)
-    
+
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
     Translation pos (0, 0)
@@ -43,6 +43,8 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
     NoOutline _
 
     Circle c (0, 0, 8)
+    leave aka c.leave
+    right_press aka c.right.press
     OutlineColor oc (r, g, b)
     OutlineWidth _ (5)
     OutlineOpacity outline_opacity(1)

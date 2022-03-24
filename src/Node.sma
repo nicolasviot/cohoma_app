@@ -27,6 +27,7 @@ AssignmentSequence export_id (1){
 	this =: manager.current_wpt
 } 
 wpt.c.press -> export_id
+wpt.c.enter -> {wpt =: manager.entered_wpt}
 
 LogPrinter lp ("debug enter/leave")
 
