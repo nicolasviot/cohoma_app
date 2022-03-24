@@ -9,10 +9,12 @@ StatusSelector (Process f, Process _manager) {
     x aka pos.tx
     y aka pos.ty
 
-    cur_wpt aka _manager.current_wpt
+    cur_wpt aka _manager.entered_wpt
 
 
-    DerefString wp_status (cur_wpt, "status", DJNN_IGNORE)
+    DerefString wp_status (cur_wpt, "usage_status", DJNN_IGNORE)
+    Deref wp_leave (cur_wpt, "leave")
+    Deref wp_press (cur_wpt, "right_press")
     Spike show
     Spike hide
     String status ("usable")
@@ -24,6 +26,7 @@ StatusSelector (Process f, Process _manager) {
 
     svg = loadFromXML ("res/svg/status_selector.svg")
     FSM ctrl_visibility {
+        State idle
         State hidden {
             f.move.x + 5 =:> x
             f.move.y =:> y
@@ -33,18 +36,22 @@ StatusSelector (Process f, Process _manager) {
             m_mandatory << svg.mask_mandatory
             m_forbidden << svg.mask_forbidden
             m_usable << svg.mask_usable
+            Spike press
             FSM fsm_status {
                 State usable {
                     r_usable << svg.rect_usable
                     "usable" =: status
+                    r_usable.press->press
                 }
                 State mandatory {
                     r_mandatory << svg.rect_mandatory
                     "mandatory" =: status
+                    r_mandatory.press->press
                 }
                 State forbidden {
                     r_forbidden << svg.rect_forbidden
                     "forbidden" =: status
+                    r_forbidden.press->press
                 }
                 {usable, forbidden}->mandatory (m_mandatory.enter)
                 {forbidden, mandatory}->usable (m_usable.enter)
@@ -55,8 +62,10 @@ StatusSelector (Process f, Process _manager) {
             t_forbidden << svg.forbidden
             t_usable << svg.usable
         }
-        hidden->visible (show)
-        visible->hidden (f.release, set_status)
-        visible->hidden (hide, set_status)
+        idle->hidden (cur_wpt)
+        hidden->idle (wp_leave.activation)
+        hidden->visible (wp_press.activation)
+        visible->hidden (visible.press, set_status)
+        visible->hidden (f.press)
     }
 }
