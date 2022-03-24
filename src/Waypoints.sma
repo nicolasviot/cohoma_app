@@ -73,10 +73,36 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
     c.cx =:> compass_heading.x2
     c.cy - 20 =:> compass_heading.y2    
   
-    FSM fsm {
-        State idle {
+  FSM drag_fsm {
+        State no_drag {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
             (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
+        }
+        State drag {
+            Double init_cx (0)
+            Double init_cy (0)
+            Double offset_x (0)
+            Double offset_y (0)
+            c.cx =: init_cx
+            c.cy =: init_cy
+            c.press.x - c.cx =: offset_x
+            c.press.y - c.cy =: offset_y
+            c.move.x - offset_x => c.cx
+            c.move.y - offset_y => c.cy
+            px2lon ($c.cx + map.t0_x, $map.zoomLevel) => lon
+            py2lat (map.t0_y - $c.cy, $map.zoomLevel) => lat 
+        }
+        no_drag->drag (c.press)
+        drag->no_drag (c.release)
+    }
+    drag aka drag_fsm.drag
+    end_drag aka drag_fsm.no_drag
+    FSM fsm {
+        State idle {
+            //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
+            //(lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
+            
+
         }
         State zoom_in {
             Double new_cx (0)
