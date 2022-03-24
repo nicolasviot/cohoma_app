@@ -232,7 +232,7 @@ for (auto item: ((djnn::List*)_edges)->children()){
   release_exclusive_access(DBG_REL);
 }
 
-
+#ifndef NO_ROS
 void 
 RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
 
@@ -252,6 +252,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
   int size = msg->nodes.size();
 
   for (int i = 0; i <  size - 1; ++i) {
+      std::cout << "trying to draw arc between " << i << " and " << i+1 << std::endl;
       ParentProcess* edge = Edge(_itinerary_edges, "", std::stoi(msg->nodes[i]), std::stoi(msg->nodes[i+1]), 20, _nodes);
       ((AbstractProperty*)edge->find_child("color/r"))->set_value(30, true);
       ((AbstractProperty*)edge->find_child("color/g"))->set_value(144, true);
@@ -263,6 +264,7 @@ void
 RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
 
 }
+#endif
 
 
 //callback for robot_state msg (contains data on one robot)
@@ -292,13 +294,22 @@ RosNode::send_msg_planning_request(){
   icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
   std::cerr << _parent << std::endl;
   message.id = _current_plan_id_vab.get_string_value();
-  
+  int iid;
 
   for (auto item: ((djnn::List*)_nodes)->children()){
-    if (item->find_child("status").get_string_value().compare("start") == 0)
-      message.start_node = std::stoi(item->find_child("id"));
-    if (item->find_child("status").get_string_value().compare("end") == 0)
-      message.end_node = std::stoi(item->find_child("id"))
+    std::cerr << "debug : " << ((TextProperty*)item->find_child("status"))->get_value() << std::endl;
+    if (((TextProperty*)item->find_child("status"))->get_value() == "start"){
+      std::cerr << "start" << std::endl;
+      iid = dynamic_cast<IntProperty*> (item->find_child ("id"))->get_value ();
+      message.start_node = std::to_string(iid);
+    }
+    if (((TextProperty*)item->find_child("status"))->get_value() == "end"){
+      std::cerr << "end" << std::endl;
+      iid = dynamic_cast<IntProperty*> (item->find_child ("id"))->get_value ();
+    
+      message.end_node = std::to_string(iid);
+      
+    }
   }
 
   
@@ -369,8 +380,9 @@ RosNode::send_validation_plan(){
   std::cerr << "in validation plan" << std::endl;
   std::cerr << _parent << std::endl;
    #ifndef NO_ROS
-  message.data = std::to_string(_current_plan_id_vab.get_value());
-  icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
+    icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
+    message.data = std::to_string(_current_plan_id_vab.get_value());
+    publisher_validation->publish(message);
   #endif
 }
 
