@@ -79,7 +79,6 @@ Component root {
   init_ros ()
   int init_width = 1024
   int init_height = 768
-
   double init_lat = get_arg_double (argc, argv, 1)
   if (init_lat == -1) {
     init_lat = 43.315313261816485
@@ -97,7 +96,7 @@ Component root {
   int g_2 = 255
   int b_2 = 0
 
-  Frame f ("CoHoMa", 0, 0, init_width+300, init_height+300)
+  Frame f ("CoHoMa", 0, 0, init_width + 300, init_height + 300)
   Exit quit (0, 1)
   f.close->quit
   mouseTracking = 1
@@ -162,6 +161,7 @@ Component root {
       }
       nodes aka ctrl_visibility.visible.layer.nodes
       shadow_edges aka ctrl_visibility.visible.layer.shadow_edges
+      itinerary_edges aka ctrl_visibility.visible.layer.itinerary_edges
       edges aka ctrl_visibility.visible.layer.edges
       manager aka ctrl_visibility.visible.layer.manager
       String name ("Navgraph")
@@ -334,7 +334,7 @@ Component root {
 
   }
 
-  // clear everything (waypoints + edges) => does not work 
+  // clear everything (waypoints + edges) 
   clear_all -> (root){
     for (int i =$root.l.map.layers.navgraph.edges.size; i>= 1; i--){
       delete root.l.map.layers.navgraph.edges.[i]
@@ -371,11 +371,5 @@ Component root {
   delete_content root.addEdge.preview_on.toto  
 }
 
-
-
-/*  Dispatcher dispatch (sub, l.map.layers.satelites)
-  sub.longitude =:> l.map.layers.satelites.[2].lon
-  sub.latitude =:> l.map.layers.satelites.[2].lat
-*/
    
 }

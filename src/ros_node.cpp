@@ -121,6 +121,7 @@ RosNode::impl_activate ()
   _nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
   _edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
   _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
+  _itinerary_edges = _parent->find_child("parent/l/map/layers/navgraph/itinerary_edges");
 
   //start the thread
   ExternalSource::start ();  
@@ -235,6 +236,27 @@ for (auto item: ((djnn::List*)_edges)->children()){
 void 
 RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
 
+/*  for (auto item: ((djnn::List*)_itinerary_edges)->children()){
+       item->deactivate ();
+
+      if (item->get_parent ())
+
+        item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+
+        item->schedule_delete ();
+
+        item = nullptr;
+      
+    }*/
+
+  int size = msg->nodes.size();
+
+  for (int i = 0; i <  size - 1; ++i) {
+      ParentProcess* edge = Edge(_itinerary_edges, "", std::stoi(msg->nodes[i]), std::stoi(msg->nodes[i+1]), 20, _nodes);
+      ((AbstractProperty*)edge->find_child("color/r"))->set_value(30, true);
+      ((AbstractProperty*)edge->find_child("color/g"))->set_value(144, true);
+      ((AbstractProperty*)edge->find_child("color/b"))->set_value(255, true);
+    }
 }
 
 void 
@@ -339,6 +361,9 @@ RosNode::send_validation_plan(){
  
   std::cerr << "in validation plan" << std::endl;
   std::cerr << _parent << std::endl;
+
+  icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
+  message.data = std::to_string(_current_plan_id_vab.get_value());
  #ifndef NO_ROS
   #endif
 }
