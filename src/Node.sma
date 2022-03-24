@@ -18,7 +18,7 @@ Spike pressed
 
 manager aka _manager_id
 Waypoints wpt(map, $lat, $lon, 80, 80, 80)
-status => wpt.usage_status
+wpt.usage_status => status
 lat =:> wpt.lat
 lon =:> wpt.lon
 
