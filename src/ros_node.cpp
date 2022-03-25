@@ -279,7 +279,7 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
 
   for (int i = 0; i <  size - 1; ++i) {
       std::cout << "trying to draw arc between " << i << " and " << i+1 << std::endl;
-      ParentProcess* edge = Edge(_itinerary_edges, "", std::stoi(msg->nodes[i]), std::stoi(msg->nodes[i+1]), 20, _nodes);
+      ParentProcess* edge = Edge(_itinerary_edges, "", std::stoi(msg->nodes[i])+1, std::stoi(msg->nodes[i+1])+1, 20, _nodes);
       ((AbstractProperty*)edge->find_child("color/r"))->set_value(30, true);
       ((AbstractProperty*)edge->find_child("color/g"))->set_value(144, true);
       ((AbstractProperty*)edge->find_child("color/b"))->set_value(255, true);
@@ -336,6 +336,7 @@ RosNode::send_msg_planning_request(){
 
   
   publisher_planning_request->publish(message);  
+  GRAPH_EXEC;
   #endif
 
 }
@@ -398,6 +399,7 @@ RosNode::send_msg_navgraph_update(){
   std::cerr << "about to publish on publisher_navgraph_update" << std::endl;
 
   publisher_navgraph_update->publish(message);
+  GRAPH_EXEC;
   std::cerr << "finished publishing" << std::endl;
 
 #endif
@@ -412,6 +414,7 @@ RosNode::send_validation_plan(){
     icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
     message.data = std::to_string(_current_plan_id_vab.get_value());
     publisher_validation->publish(message);
+    GRAPH_EXEC;
   #endif
 }
 
