@@ -11,10 +11,12 @@ _define_
 Reticule (Process map, Process f) {
   Spike show_reticule
   Spike hide_reticule
+  Spike show_forever
+  Spike end_forever
 
-  FSM reticule{
-    State off 
-    State on {
+  Switch ui (hidden) {
+    Component hidden
+    Component visible {
       OutlineColor _(Black)
       Line l1 (0, 0, 0, 0)
       Line l2 (0, 0, 0, 0)
@@ -43,7 +45,18 @@ Reticule (Process map, Process f) {
       //t1.width + 20 =:> rr.bg1.width
       t2.width + 20 =:> rr.bg2.width
     }
-    off -> on (show_reticule)
-    on -> off (hide_reticule)
   }
+
+  FSM reticule {
+    State off 
+    State on_from_wp
+    State on_from_main
+    off -> on_from_wp (show_reticule)
+    on_from_wp->off (hide_reticule)
+    off -> on_from_main (show_forever)
+    on_from_main->off (end_forever)
+  }
+  reticule.on_from_wp -> { "visible" =: ui.state }
+  reticule.on_from_main -> { "visible" =: ui.state }
+  reticule.off->{"hidden" =: ui.state }
 }

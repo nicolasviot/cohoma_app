@@ -188,8 +188,8 @@ Component root {
     }
   }
 
-  show_reticule->l.map.reticule.show_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.create
-  hide_reticule->l.map.reticule.hide_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
+  show_reticule->l.map.reticule.show_forever, l.map.layers.navgraph.ctrl_visibility.visible.layer.create
+  hide_reticule->l.map.reticule.end_forever, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
 
   Component right_pannel {
     Translation t (1024, 0)
