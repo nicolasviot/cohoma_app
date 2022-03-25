@@ -262,6 +262,28 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
 
 void 
 RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
+/*  for (auto item: ((djnn::List*)_itinerary_edges)->children()){
+       item->deactivate ();
+
+      if (item->get_parent ())
+
+        item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+
+        item->schedule_delete ();
+
+        item = nullptr;
+      
+    }*/
+
+  int size = msg->nodes.size();
+
+  for (int i = 0; i <  size - 1; ++i) {
+      std::cout << "trying to draw arc between " << i << " and " << i+1 << std::endl;
+      ParentProcess* edge = Edge(_itinerary_edges, "", std::stoi(msg->nodes[i]), std::stoi(msg->nodes[i+1]), 20, _nodes);
+      ((AbstractProperty*)edge->find_child("color/r"))->set_value(30, true);
+      ((AbstractProperty*)edge->find_child("color/g"))->set_value(144, true);
+      ((AbstractProperty*)edge->find_child("color/b"))->set_value(255, true);
+    }
 
 }
 #endif
@@ -325,6 +347,7 @@ RosNode::send_msg_navgraph_update(){
   CoreProcess* nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
   CoreProcess* edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
 
+  std::cerr << "about to generate json" << std::endl;
   nlohmann::json j;
   j["graph"]["directed"] = false;
 
@@ -337,8 +360,8 @@ RosNode::send_msg_navgraph_update(){
     double dlength = dynamic_cast<DoubleProperty*> (item->find_child ("length"))->get_value ();
 
     nlohmann::json jn = {
-      {"source", ssource_id},
-      {"target", starget_id},
+      {"source", std::to_string(ssource_id - 1)},
+      {"target", std::to_string(starget_id - 1)},
       {"metadata", { 
         {"length", dlength}
       }}
@@ -355,7 +378,7 @@ RosNode::send_msg_navgraph_update(){
     double dalt = dynamic_cast<DoubleProperty*> (item->find_child ("alt"))->get_value ();
        
     nlohmann::json jn = {
-      {"id", iid},
+      {"id", std::to_string(iid)},
       {"label", slabel},
       {"metadata", { 
         {"altitude", dalt},
@@ -366,11 +389,17 @@ RosNode::send_msg_navgraph_update(){
     j["graph"]["nodes"].push_back(jn);   
   }
 
+
   //TODO: remove - only for debug
-  //std::cerr << j << std::endl;
+  std::cerr << "finished generating JSON" << std::endl;
   icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
   message.data = j.dump();
+  // message.header = _node->get_clock()->now();
+  std::cerr << "about to publish on publisher_navgraph_update" << std::endl;
+
   publisher_navgraph_update->publish(message);
+  std::cerr << "finished publishing" << std::endl;
+
 #endif
 }
 

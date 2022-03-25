@@ -35,6 +35,7 @@ import Edge
 import RosManager
 import UpperLeftMenu
 import StripContainer
+import Trap
 
 
 _native_code_
@@ -159,6 +160,17 @@ Component root {
           NavGraph layer (map, f)
         }
       }
+    Component traps{
+      Switch ctrl_visibility (visible){
+        Component hidden
+        Component visible {
+          List layers{
+            Trap trap (map, $init_lat, $init_lon, r_1, g_1, b_1)
+          }
+        }
+      }
+      String name("Traps")
+    }
       nodes aka ctrl_visibility.visible.layer.nodes
       shadow_edges aka ctrl_visibility.visible.layer.shadow_edges
       itinerary_edges aka ctrl_visibility.visible.layer.itinerary_edges
@@ -237,7 +249,7 @@ Component root {
 
   addWptToLayer -> (root){
     addChildrenTo root.l.map.layers.navgraph.nodes {
-      Node new (root.l.map, 0, 0, 0, 0, "added_manually", 0, root.l.map.layers.navgraph.manager)
+      Node new (root.l.map, $root.l.map.pointer_lat, $root.l.map.pointer_lon, 0, 0, "by_operator", 0, root.l.map.layers.navgraph.manager)
     }
     //print (root.l.map.layers.navgraph.nodes.size)
     root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lat = root.addNode.preview.temporary.lat
