@@ -58,7 +58,7 @@ StatusSelector (Process f, Process _manager) {
                 }
                 State mandatory {
                     r_mandatory << svg.rect_mandatory
-                    "mandatory" =: status
+                    "compulsory" =: status
                     r_mandatory.press->press
                 }
                 State forbidden {

@@ -9,8 +9,11 @@ validate_plan_fun (Process c)
 %{
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
+ 	
+  	#ifndef NO_ROS
   if (node)
  	 node->send_validation_plan(); 
+ 	#endif
 %}
 
 _action_
@@ -18,8 +21,11 @@ update_graph_fun (Process c)
 %{
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
+  
+  	#ifndef NO_ROS
   if (node)
  	 node->send_msg_navgraph_update();  
+ 	#endif
 %}
 
 _action_
@@ -28,8 +34,11 @@ plan_request_fun (Process c)
 
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
+  	
+  	#ifndef NO_ROS
   if (node)
  	 node->send_msg_planning_request(); 
+ 	#endif
 %}
 
 

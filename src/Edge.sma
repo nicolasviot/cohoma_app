@@ -10,6 +10,17 @@ Int id_dest(_id_dest + 1)
 Double length(_length)
 
 
+//Rarccos(sin(a)sin(b) + cos(a)cos(b)cos(c-d)) a = lata, b=lona, c =latb, d =lonb
+/*
+Double R(6171000)
+a aka nodelist.[$id_src].wpt.lat
+b aka nodelist.[$id_src].wpt.lon
+c aka nodelist.[$id_src].wpt.lat
+d aka nodelist.[$id_src].wpt.lon
+
+arcos
+
+*/
 OutlineWidth width (5)
 OutlineColor color (180, 90, 140)
 Translation pos (0, 0)

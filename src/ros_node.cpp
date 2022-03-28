@@ -7,21 +7,24 @@
 
 #include <nlohmann/json.hpp>
 
-#ifndef NO_LEMON
+#ifndef NO_ROS
 #include "include/navgraph/navgraph.hpp"
+#endif  
+
 #include "Node.h"
 #include "NavGraph.h"
 #include "Edge.h"
-#endif
+#include "math.h"
+
 
 using std::placeholders::_1;
 
 using namespace djnn;
 
-#ifndef NO_LEMON
+#ifndef NO_ROS
 using navgraph::to_json;
 using navgraph::from_json;
-#endif
+#endif  
 
 RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* manager) :
   FatProcess (n),
@@ -50,14 +53,15 @@ RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, C
   _start_plan_vab_id(this, "start_plan_id", 0),
   _end_plan_vab_id(this, "end_plan_id", 0)
 
-#ifndef NO_ROS
+  #ifndef NO_ROS
   //ROS
   ,qos_best_effort(10),
   qos(1)
-#endif
-{
-#ifndef NO_ROS
+  #endif
 
+{
+
+  #ifndef NO_ROS
   _node = std::make_shared<rclcpp::Node>(n);
   // reliable ~= TCP connections => for the navgraph msgs
   // best_effort allows to drop some pacquets => for robot_state msgs
@@ -67,15 +71,16 @@ RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, C
   qos.durability_volatile();
   qos_best_effort.best_effort();
   qos_best_effort.durability_volatile();
+  #endif
 
-#endif
   finalize_construction (parent, n);
 }
 
 void
 RosNode::impl_activate ()
 { 
-#ifndef NO_ROS
+
+  #ifndef NO_ROS
   //subscriptions
   sub_navgraph =_node->create_subscription<icare_interfaces::msg::StringStamped>( 
   "/navgraph", qos, std::bind(&RosNode::receive_msg_navgraph, this, _1)); //Replace 10 with qosbesteffort
@@ -94,13 +99,12 @@ RosNode::impl_activate ()
   publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>("/validation", qos);
   publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped>("/navgraph_update", qos);
 
+  #endif
 
 
-#endif
-#ifndef NO_LEMON
   //activate navgraph fields
   navgraph_data.activate();
-#endif
+
 
   //activate robot_state fields
   _robot_id.activate();
@@ -135,10 +139,11 @@ RosNode::impl_deactivate ()
   // some insights here:
   // https://answers.ros.org/question/354792/rclcpp-how-to-unsubscribe-from-a-topic/
   
-#ifndef NO_LEMON
+#ifndef NO_ROS
   sub_navgraph.reset ();
   sub_robot_state.reset ();
-#endif
+
+#endif  
   //deactivate navgraph fields
   navgraph_data.deactivate();
 
@@ -161,8 +166,8 @@ RosNode::impl_deactivate ()
   ExternalSource::please_stop ();
 }
 
-
 #ifndef NO_ROS
+
 // callback for navgraph msg (contains the navigation graph)
 void 
 RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg) {
@@ -232,7 +237,7 @@ for (auto item: ((djnn::List*)_edges)->children()){
   release_exclusive_access(DBG_REL);
 }
 
-#ifndef NO_ROS
+
 void 
 RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
 
@@ -286,7 +291,7 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
     }
 
 }
-#endif
+
 
 
 //callback for robot_state msg (contains data on one robot)
@@ -307,12 +312,28 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }
-#endif
+
+
+
+void 
+RosNode::receive_msg_trap (const icare_interfaces::msg::Trap msg){
+//En attente de mise au points des échanges 
+}
+
+void 
+RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks){
+//TODO
+}
+void 
+RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation){
+//TODO
+}
+
 
 void
 RosNode::send_msg_planning_request(){
   std::cerr << "in send planning request" << std::endl;
-  #ifndef NO_ROS
+  
   icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
   std::cerr << _parent << std::endl;
   message.id = _current_plan_id_vab.get_string_value();
@@ -337,14 +358,14 @@ RosNode::send_msg_planning_request(){
   
   publisher_planning_request->publish(message);  
   GRAPH_EXEC;
-  #endif
+  
 
 }
 
 void 
 RosNode::send_msg_navgraph_update(){
 
-#ifndef NO_ROS
+
   CoreProcess* nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
   CoreProcess* edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
 
@@ -360,11 +381,17 @@ RosNode::send_msg_navgraph_update(){
     int starget_id = dynamic_cast<IntProperty*> (item->find_child ("id_dest"))->get_value ();
     double dlength = dynamic_cast<DoubleProperty*> (item->find_child ("length"))->get_value ();
 
-    nlohmann::json jn = {
+    //Rarccos(sin(a)sin(b) + cos(a)cos(b)cos(c-d)) a = lata, b=lona, c =latb, d =lonb
+  /*  double lata = dynamic_cast<DoubleProperty*> (nodes[ssource_id].find_child("lat"))->get_value() * 3.14259/180;
+    double lona = dynamic_cast<DoubleProperty*> (nodes[ssource_id].find_child("lon"))->get_value() * 3.14259/180;
+    double latb = dynamic_cast<DoubleProperty*> (nodes[starget_id].find_child("lat"))->get_value() * 3.14259/180;
+    double lonb = dynamic_cast<DoubleProperty*> (nodes[starget_id].find_child("lon"))->get_value() * 3.14259/180;
+    double dlength = 6371000 * acos(sin(lata)*sin(lona) + cos(lata)*cos(lona)*cos(latb-lonb));
+   */ nlohmann::json jn = {
       {"source", std::to_string(ssource_id - 1)},
       {"target", std::to_string(starget_id - 1)},
       {"metadata", { 
-        {"length", dlength}
+       // {"length", dlength}
       }}
     };                
     j["graph"]["edges"].push_back(jn); 
@@ -374,17 +401,23 @@ RosNode::send_msg_navgraph_update(){
   for (auto item: ((djnn::List*)nodes)->children()){
     int iid = dynamic_cast<IntProperty*> (item->find_child ("id"))->get_value ();
     string slabel = dynamic_cast<TextProperty*> (item->find_child ("label"))->get_value ();
-    double dlat = dynamic_cast<DoubleProperty*> (item->find_child ("lat"))->get_value ();
-    double dlon = dynamic_cast<DoubleProperty*> (item->find_child ("lon"))->get_value ();
+    double dlat = dynamic_cast<DoubleProperty*> (item->find_child ("wpt/lat"))->get_value ();
+    double dlon = dynamic_cast<DoubleProperty*> (item->find_child ("wpt/lon"))->get_value ();
     double dalt = dynamic_cast<DoubleProperty*> (item->find_child ("alt"))->get_value ();
-       
+    string scompulsory = dynamic_cast<TextProperty*>(item->find_child("status"))->get_value();
+    
+    bool compulsory = (scompulsory == "compulsory");   
+
+    
+
     nlohmann::json jn = {
       {"id", std::to_string(iid)},
       {"label", slabel},
       {"metadata", { 
         {"altitude", dalt},
         {"latitude", dlat},
-        {"longitude", dlon}
+        {"longitude", dlon},
+        {"compulsory", compulsory}
       }}
     };                
     j["graph"]["nodes"].push_back(jn);   
@@ -402,7 +435,7 @@ RosNode::send_msg_navgraph_update(){
   GRAPH_EXEC;
   std::cerr << "finished publishing" << std::endl;
 
-#endif
+
 }
 
 void 
@@ -410,15 +443,27 @@ RosNode::send_validation_plan(){
  
   std::cerr << "in validation plan" << std::endl;
   std::cerr << _parent << std::endl;
-   #ifndef NO_ROS
+   
     icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
     message.data = std::to_string(_current_plan_id_vab.get_value());
     publisher_validation->publish(message);
     GRAPH_EXEC;
-  #endif
+  
+}
+
+void 
+RosNode::send_selected_tasks(){
+//TODO
+
+}
+
+void 
+RosNode::send_validation_tasks(){
+//TODO
 }
 
 
+#endif
 
 
 void
