@@ -71,12 +71,11 @@ get_arg_double (int argc, char** argv, int n)
     double r = std::strtod (argv[n], nullptr);
     return r;
 }
-
-
 %}
 
 _main_
 Component root {
+
   init_ros ()
   int init_width = 1024
   int init_height = 768
@@ -188,8 +187,8 @@ Component root {
     }
   }
 
-  show_reticule->l.map.reticule.show_forever, l.map.layers.navgraph.ctrl_visibility.visible.layer.create
-  hide_reticule->l.map.reticule.end_forever, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
+  show_reticule -> l.map.reticule.show_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.create
+  hide_reticule -> l.map.reticule.hide_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
 
   Component right_pannel {
     Translation t (1024, 0)
@@ -219,11 +218,11 @@ Component root {
   Spike ctrl
   Spike ctrl_r
   f.key\-pressed == DJN_Key_Control -> ctrl
-  f.key\-released == DJN_Key_Control-> ctrl_r
+  f.key\-released == DJN_Key_Control -> ctrl_r
   Spike shift
   Spike shift_r
-  f.key\-pressed == DJN_Key_Shift-> shift
-  f.key\-released == DJN_Key_Shift-> shift_r
+  f.key\-pressed == DJN_Key_Shift -> shift
+  f.key\-released == DJN_Key_Shift -> shift_r
   Spike space
   Spike space_r
   f.key\-pressed == DJN_Key_Space -> space
@@ -264,6 +263,14 @@ Component root {
   Spike add_first_wpt
   Spike clear_all
   del -> clear_all
+  
+  Ref null_ref (0)
+  RefProperty current_addedge_node (nullptr)
+  DerefDouble ddx (current_addedge_node, "wpt/c/cx", DJNN_GET_ON_CHANGE)
+  DerefDouble ddy (current_addedge_node, "wpt/c/cy", DJNN_GET_ON_CHANGE)
+  DerefDouble ddtx (current_addedge_node, "wpt/pos/tx", DJNN_GET_ON_CHANGE)
+  DerefDouble ddty (current_addedge_node, "wpt/pos/ty", DJNN_GET_ON_CHANGE)
+  
   FSM addEdge {
     State idle
     State shift_on
@@ -295,9 +302,8 @@ Component root {
       Line temp_shadow_edge (0, 0, 0, 0)
 
       Int index (1)
-      RefProperty current (l.map.layers.navgraph.nodes.[index])
       index->(root) {
-        setRef (root.addEdge.preview_on.current, root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index])
+        setRef (root.current_addedge_node, root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index])
       }
       l.map.layers.navgraph.manager.selected_id =:> index
 
@@ -306,11 +312,6 @@ Component root {
 
         root.addEdge.preview_on.temp_shadow_edge.y1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.c.cy
       }
-
-      DerefDouble ddx (current, "wpt/c/cx", DJNN_GET_ON_CHANGE)
-      DerefDouble ddy (current, "wpt/c/cy", DJNN_GET_ON_CHANGE)
-      DerefDouble ddtx (current, "wpt/pos/tx", DJNN_GET_ON_CHANGE)
-      DerefDouble ddty (current, "wpt/pos/ty", DJNN_GET_ON_CHANGE)
       ddx.value =:> temp_shadow_edge.x1
       ddy.value =:> temp_shadow_edge.y1
       ddtx.value =:> pos.tx
@@ -326,14 +327,13 @@ Component root {
 
   }
 
-  //Node null_ref (root.l.map, 0, 0, 0, 0, "added_manually", 0, root.l.map.layers.navgraph.manager)
-  Ref null_ref (0)
-  // clear shadow edge list
-  clear_temp_list -> (root){
+
+
+  clear_temp_list -> (root) {
     
     root.l.map.layers.navgraph.manager.current_wpt = &(root.null_ref)
     root.l.map.layers.navgraph.manager.entered_wpt  =  &(root.null_ref)
-    root.addEdge.preview_on.current = &(root.null_ref)
+    root.current_addedge_node = &(root.null_ref)
 
     for (int i = $root.l.map.layers.navgraph.shadow_edges.size; i >= 1; i--){
       // keep the OutlineOpacity for now.
@@ -344,21 +344,16 @@ Component root {
       delete root.addEdge.preview_on.temp_id_list.[i]
     }
     
-    /*
-    delete_content root.l.map.layers.navgraph.shadow_edges
-    root.l.map.layers.navgraph.shadow_edges.size = 0 
-    delete_content root.addEdge.preview_on.temp_id_list
-    root.addEdge.preview_on.temp_id_list.size = 0
-    */
-    //root.l.map.layers.navgraph.manager.selected_id = 1
+    // delete_content root.l.map.layers.navgraph.shadow_edges
+    // delete_content root.addEdge.preview_on.temp_id_list
   }
 
-  // clear everything (waypoints + edges) => does not work 
-  clear_all -> (root){
-    
+  clear_all -> (root) {
+
     root.l.map.layers.navgraph.manager.current_wpt  =  &(root.null_ref)
     root.l.map.layers.navgraph.manager.entered_wpt  =  &(root.null_ref)
-    root.addEdge.preview_on.current = &(root.null_ref)
+    root.current_addedge_node  = &(root.null_ref)
+
     for (int i =$root.l.map.layers.navgraph.edges.size; i>= 1; i--){
       delete root.l.map.layers.navgraph.edges.[i]
     }
@@ -369,22 +364,16 @@ Component root {
       delete root.l.map.layers.navgraph.nodes.[i]
     }
     
-    /*
-    delete_content root.l.map.layers.navgraph.edges
-    root.l.map.layers.navgraph.edges.size = 0
-    delete_content root.l.map.layers.navgraph.shadow_edges
-    root.l.map.layers.navgraph.shadow_edges.size = 0
-    delete_content root.l.map.layers.navgraph.nodes
-    root.l.map.layers.navgraph.nodes.size = 0
-    */
-    //root.l.map.layers.navgraph.manager.selected_id = 1
+    // delete_content root.l.map.layers.navgraph.edges
+    // delete_content root.l.map.layers.navgraph.shadow_edges
+    // delete_content root.l.map.layers.navgraph.nodes
   }
 
   clear_temp_list -> show_reticule
   add_segment -> hide_reticule
 
   add_first_wpt -> (root){
-    root.addEdge.preview_on.current = &(root.null_ref)
+    root.current_addedge_node = &(root.null_ref)
     addChildrenTo root.addEdge.preview_on.temp_id_list{
       Int _($root.l.map.layers.navgraph.manager.selected_id)
     }
@@ -399,8 +388,5 @@ Component root {
         Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
      }
     }
-    //delete_content root.addEdge.preview_on.null_ref  
   }
-
-   
 }
