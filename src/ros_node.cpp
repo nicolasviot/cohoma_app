@@ -94,11 +94,23 @@ RosNode::impl_activate ()
   sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItinerary>(
     "/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, this, _1));
 
+  sub_candidate_tasks = _node->create_subscription<icare_interfaces::msg::Tasks>(
+    "/candidate_tasks", qos, std::bind(&RosNode::receive_msg_allocated_tasks, this, _1));
 
-  publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>("/planning_request", qos);
-  publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>("/validation", qos);
-  publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped>("/navgraph_update", qos);
+  sub_allocation = _node->create_subscription<icare_interfaces::msg::Allocation>(
+    "/allocation", qos, std::bind(&RosNode::receive_msg_allocation, this, _1));
 
+
+  publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>(
+    "/planning_request", qos);
+  publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>(
+    "/validation", qos);
+  publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped>(
+    "/navgraph_update", qos);
+  publisher_tasks = _node->create_publisher<icare_interfaces::msg::Tasks>(
+    "/tasks", qos);
+  publisher_validation_tasks = _node->create_publisher<icare_interfaces::msg::StringStamped>(
+    "/validate", qos);
   #endif
 
 
@@ -142,6 +154,10 @@ RosNode::impl_deactivate ()
 #ifndef NO_ROS
   sub_navgraph.reset ();
   sub_robot_state.reset ();
+  sub_graph_itinerary_loop.reset ();
+  sub_graph_itinerary_final.reset ();
+  sub_candidate_tasks.reset ();
+  sub_allocation.reset ();
 
 #endif  
   //deactivate navgraph fields
@@ -223,13 +239,13 @@ for (auto item: ((djnn::List*)_edges)->children()){
   for (lemon::ListGraph::NodeIt n(_navgraph.nodes()); n != lemon::INVALID; ++n) {
       navgraph::GeoPoint p = _navgraph.get_geopoint(n);
       ParentProcess* node = Node(_nodes, "", _map , p.latitude, p.longitude, p.altitude,
-       0, _navgraph.get_label(n), std::stoi(_navgraph.get_id(n)), _manager);
+       0, _navgraph.get_label(n), std::stoi(_navgraph.get_id(n)) + 1, _manager);
       //_parent->find_child ("nodes")->add_child(node, "");     
       std::cerr << "fin boucle"  << std::endl;
   }
   for (lemon::ListGraph::EdgeIt n(_navgraph.edges()); n!= lemon::INVALID; ++n){
-      ParentProcess* edge = Edge(_edges, "", std::stoi(_navgraph.get_id(_navgraph.source(n))), 
-        std::stoi(_navgraph.get_id(_navgraph.target(n))), _navgraph.get_length(n), _nodes);
+      ParentProcess* edge = Edge(_edges, "", std::stoi(_navgraph.get_id(_navgraph.source(n))) + 1, 
+        std::stoi(_navgraph.get_id(_navgraph.target(n))) + 1, _navgraph.get_length(n), _nodes);
      // _parent->find_child("edges")->add_child(edge, "");
   }
   //_parent->find_child("graph_pub")->navgraph = _navgraph;
@@ -258,7 +274,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
 
   for (int i = 0; i <  size - 1; ++i) {
       std::cout << "trying to draw arc between " << i << " and " << i+1 << std::endl;
-      ParentProcess* edge = Edge(_itinerary_edges, "", std::stoi(msg->nodes[i]), std::stoi(msg->nodes[i+1]), 20, _nodes);
+      ParentProcess* edge = Edge(_itinerary_edges, "", std::stoi(msg->nodes[i]) + 1, std::stoi(msg->nodes[i+1]) + 1, 20, _nodes);
       ((AbstractProperty*)edge->find_child("color/r"))->set_value(30, true);
       ((AbstractProperty*)edge->find_child("color/g"))->set_value(144, true);
       ((AbstractProperty*)edge->find_child("color/b"))->set_value(255, true);
@@ -311,6 +327,8 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
   _altitude_msl.set_value (msg -> altitude_msl, true);
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
+
+  //Todo, use header.
 }
 
 
@@ -355,7 +373,8 @@ RosNode::send_msg_planning_request(){
     }
   }
 
-  
+  message.header.stamp = _node->get_clock()->now();
+
   publisher_planning_request->publish(message);  
   GRAPH_EXEC;
   
@@ -411,7 +430,7 @@ RosNode::send_msg_navgraph_update(){
     
 
     nlohmann::json jn = {
-      {"id", std::to_string(iid)},
+      {"id", std::to_string(iid - 1)},
       {"label", slabel},
       {"metadata", { 
         {"altitude", dalt},
@@ -428,9 +447,9 @@ RosNode::send_msg_navgraph_update(){
   std::cerr << "finished generating JSON" << std::endl;
   icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
   message.data = j.dump();
-  // message.header = _node->get_clock()->now();
   std::cerr << "about to publish on publisher_navgraph_update" << std::endl;
 
+  message.header.stamp = _node->get_clock()->now();
   publisher_navgraph_update->publish(message);
   GRAPH_EXEC;
   std::cerr << "finished publishing" << std::endl;
@@ -446,6 +465,7 @@ RosNode::send_validation_plan(){
    
     icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
     message.data = std::to_string(_current_plan_id_vab.get_value());
+    message.header.stamp = _node->get_clock()->now();
     publisher_validation->publish(message);
     GRAPH_EXEC;
   
@@ -455,11 +475,18 @@ void
 RosNode::send_selected_tasks(){
 //TODO
 
+
+
+//  message.header.stamp = _node->get_clock()->now();
+
 }
 
 void 
 RosNode::send_validation_tasks(){
 //TODO
+
+//  message.header.stamp = _node->get_clock()->now();
+
 }
 
 

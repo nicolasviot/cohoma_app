@@ -254,7 +254,7 @@ Component root {
     //print (root.l.map.layers.navgraph.nodes.size)
     root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lat = root.addNode.preview.temporary.lat
     root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lon = root.addNode.preview.temporary.lon
-    root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].id = root.l.map.layers.navgraph.nodes.size - 1    
+    root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].id = root.l.map.layers.navgraph.nodes.size    
   }
 
 
@@ -275,8 +275,8 @@ Component root {
           }
 
         int size = $root.addEdge.preview_on.temp_id_list.size 
-        int src = $root.addEdge.preview_on.temp_id_list.[size]
-        int dest = $root.addEdge.preview_on.temp_id_list.[size - 1]
+        int src = $root.addEdge.preview_on.temp_id_list.[size - 1]
+        int dest = $root.addEdge.preview_on.temp_id_list.[size]
         addChildrenTo root.l.map.layers.navgraph.shadow_edges{
           Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
          
@@ -299,7 +299,7 @@ Component root {
       index->(root) {
         setRef (root.addEdge.preview_on.current, root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index])
       }
-      l.map.layers.navgraph.manager.selected_id + 1 =:> index
+      l.map.layers.navgraph.manager.selected_id =:> index
 
       index -> (root){
         root.addEdge.preview_on.temp_shadow_edge.x1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.c.cx

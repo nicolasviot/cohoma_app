@@ -5,8 +5,8 @@ use base
 _define_
 Edge (int _id_src, int _id_dest, double _length, Process nodelist){
 
-Int id_src(_id_src + 1)
-Int id_dest(_id_dest + 1)
+Int id_src(_id_src)
+Int id_dest(_id_dest)
 Double length(_length)
 
 
