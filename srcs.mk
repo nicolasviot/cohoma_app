@@ -14,7 +14,7 @@ srcs_sma ?= src/Dispatcher.sma src/Reticule.sma src/Strip.sma src/Slider.sma src
 
 # native sources
 srcs_other ?= src/cpp/coords-utils.cpp src/cpp/map_move.cpp src/cpp/tiles_manager.cpp \
-            src/ros_publisher.cpp  src/cpp/iojson.cpp\
+            src/cpp/iojson.cpp\
             src/ros_node.cpp src/cpp/navgraph.cpp 
             #src/ros_subscriber.cpp src/graph_subscriber.cpp
         
