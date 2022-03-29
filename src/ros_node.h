@@ -35,9 +35,7 @@
 
 
 //C++ stuff
-#ifndef NO_LEMON
-#include "include/navgraph/navgraph.hpp"
-#endif
+
 
 
 using namespace djnn;

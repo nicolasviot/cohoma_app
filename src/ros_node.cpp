@@ -7,9 +7,6 @@
 
 #include <nlohmann/json.hpp>
 
-#ifndef NO_ROS
-#include "include/navgraph/navgraph.hpp"
-#endif  
 
 #include "Node.h"
 #include "NavGraph.h"
@@ -21,10 +18,7 @@ using std::placeholders::_1;
 
 using namespace djnn;
 
-#ifndef NO_ROS
-using navgraph::to_json;
-using navgraph::from_json;
-#endif  
+
 
 RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* manager) :
   FatProcess (n),
@@ -189,13 +183,8 @@ void
 RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg) {
   get_exclusive_access(DBG_GET);
 
-  navgraph::NavGraph _navgraph(msg->data);
 
-/*  CoreProcess* nodes = _parent->find_child ("parent")->find_child("l")->find_child("map")->find_child("layers")->find_child("navgraph")->find_child("nodes");
-  CoreProcess* edges = _parent->find_child ("parent")->find_child("l")->find_child("map")->find_child("layers")->find_child("navgraph")->find_child("edges");
-  CoreProcess* shadow_edges = _parent->find_child ("parent")->find_child("l")->find_child("map")->find_child("layers")->find_child("navgraph")->find_child("shadow_edges");*/
- 
-
+// @Mathieu P. UPDATE DELETION PROCEDURE
 for (auto item: ((djnn::List*)_edges)->children()){
        item->deactivate ();
 
@@ -235,20 +224,49 @@ for (auto item: ((djnn::List*)_edges)->children()){
       
     }
 
+    nlohmann::json j = nlohmann::json::parse(msg->data);
+    nlohmann::json j_graph;
+    if (j.contains("graph"))
+        j_graph = j["graph"];
+    else if (j.contains("graphs")) {
+        if (j.size() > 1) {
+            std::cerr << "Several graphs defined in the JSON structure! loading the first one..." << std::endl;
+            j_graph = j["graphs"][0];
+        }
+        else if (j.size() == 0) {
+            std::cerr << "No graph defined in the JSON structure!" << std::endl;
+            return;
+        }
+    }
+    std::cerr << "about to get graph attributes" << std::endl;
+    // graph attributes
+    if (j_graph.contains("directed") && j_graph["directed"].get<bool>()) {
+        std::cerr << "graph is said to be directed! NavGraph are only undirected: the results graph may not be what expected!" << std::endl;
+    }
+    std::cerr << "about to parse nodes" << std::endl;
+    // nodes
+    for (auto& node: j_graph["nodes"]) {
+        std::cerr << "in from json parsing nodes" << std::endl;
+        auto& m = node["metadata"];
+        bool isPPO = m["compulsory"].get<bool>();
+        ParentProcess* node_ = Node(_nodes, "", _map , m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
+       0, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _manager);
 
-  for (lemon::ListGraph::NodeIt n(_navgraph.nodes()); n != lemon::INVALID; ++n) {
-      navgraph::GeoPoint p = _navgraph.get_geopoint(n);
-      ParentProcess* node = Node(_nodes, "", _map , p.latitude, p.longitude, p.altitude,
-       0, _navgraph.get_label(n), std::stoi(_navgraph.get_id(n)) + 1, _manager);
-      //_parent->find_child ("nodes")->add_child(node, "");     
-      std::cerr << "fin boucle"  << std::endl;
-  }
-  for (lemon::ListGraph::EdgeIt n(_navgraph.edges()); n!= lemon::INVALID; ++n){
-      ParentProcess* edge = Edge(_edges, "", std::stoi(_navgraph.get_id(_navgraph.source(n))) + 1, 
-        std::stoi(_navgraph.get_id(_navgraph.target(n))) + 1, _navgraph.get_length(n), _nodes);
-     // _parent->find_child("edges")->add_child(edge, "");
-  }
-  //_parent->find_child("graph_pub")->navgraph = _navgraph;
+  
+    }
+    std::cerr << "about to parse edges" << std::endl;
+    // edges
+    for (auto& edge: j_graph["edges"]) {
+
+
+      std::string source = edge["source"].get<std::string>();
+      std::string target = edge["target"].get<std::string>();
+      auto& m = edge["metadata"];
+      double length =m["length"].get<double>();
+      ParentProcess* edge_ = Edge(_edges, "", std::stoi(source) + 1, 
+        std::stoi(target) + 1,length, _nodes);
+       
+    }
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }
@@ -256,6 +274,7 @@ for (auto item: ((djnn::List*)_edges)->children()){
 
 void 
 RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
+
 
 /*  for (auto item: ((djnn::List*)_itinerary_edges)->children()){
        item->deactivate ();
@@ -362,13 +381,13 @@ RosNode::send_msg_planning_request(){
     if (((TextProperty*)item->find_child("status"))->get_value() == "start"){
       std::cerr << "start" << std::endl;
       iid = dynamic_cast<IntProperty*> (item->find_child ("id"))->get_value ();
-      message.start_node = std::to_string(iid);
+      message.start_node = std::to_string(iid - 1);
     }
     if (((TextProperty*)item->find_child("status"))->get_value() == "end"){
       std::cerr << "end" << std::endl;
       iid = dynamic_cast<IntProperty*> (item->find_child ("id"))->get_value ();
     
-      message.end_node = std::to_string(iid);
+      message.end_node = std::to_string(iid - 1);
       
     }
   }
