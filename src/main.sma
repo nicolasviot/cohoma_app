@@ -327,25 +327,14 @@ Component root {
 
   }
 
-
-
   clear_temp_list -> (root) {
     
     root.l.map.layers.navgraph.manager.current_wpt = &(root.null_ref)
     root.l.map.layers.navgraph.manager.entered_wpt  =  &(root.null_ref)
     root.current_addedge_node = &(root.null_ref)
 
-    for (int i = $root.l.map.layers.navgraph.shadow_edges.size; i >= 1; i--){
-      // keep the OutlineOpacity for now.
-      delete root.l.map.layers.navgraph.shadow_edges.[i]
-    }
-
-    for (int i = $root.addEdge.preview_on.temp_id_list.size; i >= 1; i--) {
-      delete root.addEdge.preview_on.temp_id_list.[i]
-    }
-    
-    // delete_content root.l.map.layers.navgraph.shadow_edges
-    // delete_content root.addEdge.preview_on.temp_id_list
+    delete_content root.l.map.layers.navgraph.shadow_edges
+    delete_content root.addEdge.preview_on.temp_id_list
   }
 
   clear_all -> (root) {
@@ -353,20 +342,10 @@ Component root {
     root.l.map.layers.navgraph.manager.current_wpt  =  &(root.null_ref)
     root.l.map.layers.navgraph.manager.entered_wpt  =  &(root.null_ref)
     root.current_addedge_node  = &(root.null_ref)
-
-    for (int i =$root.l.map.layers.navgraph.edges.size; i>= 1; i--){
-      delete root.l.map.layers.navgraph.edges.[i]
-    }
-    for (int i =$root.l.map.layers.navgraph.shadow_edges.size; i>=1; i--){
-      delete root.l.map.layers.navgraph.shadow_edges.[i]
-    }
-    for (int i =$root.l.map.layers.navgraph.nodes.size; i>= 1; i--){
-      delete root.l.map.layers.navgraph.nodes.[i]
-    }
     
-    // delete_content root.l.map.layers.navgraph.edges
-    // delete_content root.l.map.layers.navgraph.shadow_edges
-    // delete_content root.l.map.layers.navgraph.nodes
+    delete_content root.l.map.layers.navgraph.edges
+    delete_content root.l.map.layers.navgraph.shadow_edges
+    delete_content root.l.map.layers.navgraph.nodes
   }
 
   clear_temp_list -> show_reticule
