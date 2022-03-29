@@ -185,44 +185,88 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
 
 
 // @Mathieu P. UPDATE DELETION PROCEDURE
-for (auto item: ((djnn::List*)_edges)->children()){
-       item->deactivate ();
+// for (auto item: ((djnn::List*)_edges)->children()){
+//        item->deactivate ();
 
-      if (item->get_parent ())
+//       if (item->get_parent ())
 
-        item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+//         item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
 
+//         item->schedule_delete ();
+
+//         item = nullptr;
+//   }
+
+  Container *_edge_container = dynamic_cast<Container *> (_edges);
+  if (_edge_container) {
+    int _edge_container_size = _edge_container->children ().size ();
+    for (int i = _edge_container_size - 1; i >= 0; i--) {
+      auto *item = _edge_container->children ()[i];
+      if (item) {
+        item->deactivate ();
+        if (item->get_parent ())
+          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
         item->schedule_delete ();
-
         item = nullptr;
+      }
+    }
   }
 
 
-  for (auto item: ((djnn::List*)_shadow_edges)->children()){
-       item->deactivate ();
+//   for (auto item: ((djnn::List*)_shadow_edges)->children()){
+//        item->deactivate ();
 
-      if (item->get_parent ())
+//       if (item->get_parent ())
 
-        item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+//         item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
 
+//         item->schedule_delete ();
+
+//         item = nullptr;
+//     }
+
+  Container *_shadow_edges_container = dynamic_cast<Container *>( _shadow_edges);
+  if (_shadow_edges_container) {
+    int _shadow_edges_container_size = _shadow_edges_container->children ().size ();
+    for (int i = _shadow_edges_container_size - 1; i >= 0; i--) {
+      auto *item = _shadow_edges_container->children ()[i];
+      if (item) {
+        item->deactivate ();
+        if (item->get_parent ())
+          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
         item->schedule_delete ();
-
         item = nullptr;
+      }
     }
+  }
 
  
-  for (auto item: ((djnn::List*)_nodes)->children()){
-       item->deactivate ();
+//   for (auto item: ((djnn::List*)_nodes)->children()){
+//        item->deactivate ();
 
-      if (item->get_parent ())
+//       if (item->get_parent ())
 
-        item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+//         item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
 
-        item->schedule_delete ();
+//         item->schedule_delete ();
 
-        item = nullptr;
+//         item = nullptr;
       
+//     }
+  Container *_nodes_container = dynamic_cast<Container *> (_nodes);
+  if (_nodes_container) {
+    int _nodes_container_size = _nodes_container->children ().size ();
+    for (int i = _nodes_container_size - 1; i >= 0; i--) {
+      auto *item = _nodes_container->children ()[i];
+      if (item) {
+        item->deactivate ();
+        if (item->get_parent ())
+          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+        item->schedule_delete ();
+        item = nullptr;
+      }
     }
+  }
 
     nlohmann::json j = nlohmann::json::parse(msg->data);
     nlohmann::json j_graph;
