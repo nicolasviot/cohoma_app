@@ -11,7 +11,7 @@ smala-pkgconf :=
 djnn_cpp_path ?= ../djnn-cpp
 smala_path ?= ../smala
 
-#CXXFLAGS += -DNO_ROS -DNO_LEMON
+CXXFLAGS += -DNO_ROS -DNO_LEMON
 
 CXXFLAGS += -g #-Wall
 CXXFLAGS += -MMD

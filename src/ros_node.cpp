@@ -133,6 +133,9 @@ RosNode::impl_activate ()
   _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
   _itinerary_edges = _parent->find_child("parent/l/map/layers/itineraries/itinerary_unique");
 
+  _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("l/map/layers/navgraph/manager/current_wpt"));
+  _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("l/map/layers/navgraph/manager/entered_wpt"));
+
   //start the thread
   ExternalSource::start ();  
 }
@@ -183,19 +186,8 @@ void
 RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg) {
   get_exclusive_access(DBG_GET);
 
-
-// @Mathieu P. UPDATE DELETION PROCEDURE
-// for (auto item: ((djnn::List*)_edges)->children()){
-//        item->deactivate ();
-
-//       if (item->get_parent ())
-
-//         item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-
-//         item->schedule_delete ();
-
-//         item = nullptr;
-//   }
+  _current_wpt->set_value (nullptr, true);
+	_entered_wpt->set_value (nullptr, true);
 
   Container *_edge_container = dynamic_cast<Container *> (_edges);
   if (_edge_container) {
@@ -212,19 +204,6 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     }
   }
 
-
-//   for (auto item: ((djnn::List*)_shadow_edges)->children()){
-//        item->deactivate ();
-
-//       if (item->get_parent ())
-
-//         item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-
-//         item->schedule_delete ();
-
-//         item = nullptr;
-//     }
-
   Container *_shadow_edges_container = dynamic_cast<Container *>( _shadow_edges);
   if (_shadow_edges_container) {
     int _shadow_edges_container_size = _shadow_edges_container->children ().size ();
@@ -240,19 +219,6 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     }
   }
 
- 
-//   for (auto item: ((djnn::List*)_nodes)->children()){
-//        item->deactivate ();
-
-//       if (item->get_parent ())
-
-//         item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-
-//         item->schedule_delete ();
-
-//         item = nullptr;
-      
-//     }
   Container *_nodes_container = dynamic_cast<Container *> (_nodes);
   if (_nodes_container) {
     int _nodes_container_size = _nodes_container->children ().size ();
