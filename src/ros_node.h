@@ -67,6 +67,7 @@ class RosNode : public FatProcess, public ExternalSource
     void send_selected_tasks();
     void send_validation_tasks();
     #endif
+    void test_multiple_itineraries();
 
  
    private:

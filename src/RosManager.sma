@@ -41,6 +41,15 @@ plan_request_fun (Process c)
  	#endif
 %}
 
+_action_
+test_multiple_itineraries (Process c)
+%{
+
+	Process *data = (Process*) get_native_user_data(c);
+ 	RosNode *node = dynamic_cast<RosNode*>(data);
+  	node ->test_multiple_itineraries(); 
+  	
+%}
 
 _define_
 RosManager (Process _parent, Process _map, Process _manager){
@@ -52,6 +61,7 @@ RosManager (Process _parent, Process _map, Process _manager){
 	Spike update_graph
 	Spike plan_request
 	Spike validate_plan
+	Spike test_multiple_itineraries_spike
 
 	RosNode node(map, manager) 
   	NativeAction validate_plan_action (validate_plan_fun, node, 1)
@@ -63,5 +73,7 @@ RosManager (Process _parent, Process _map, Process _manager){
   	NativeAction plan_request_action (plan_request_fun, node, 1)
   	plan_request -> plan_request_action
 
+  	NativeAction test_multiple_itineraries_action(test_multiple_itineraries, node, 1)
+  	test_multiple_itineraries_spike -> test_multiple_itineraries_action
 
 }

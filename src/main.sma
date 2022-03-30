@@ -216,6 +216,7 @@ Component root {
   right_pannel.graph_pannel.plan_request -> ros_manager.plan_request
   right_pannel.graph_pannel.validate_plan -> ros_manager.validate_plan
   right_pannel.graph_pannel.update_graph -> ros_manager.update_graph
+  right_pannel.graph_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
 
   // Strips container
   StripContainer strips (f, 0, 768)

@@ -315,7 +315,16 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   release_exclusive_access(DBG_REL);
 }
 
+#endif
+void
+RosNode::test_multiple_itineraries(){
 
+  std::cerr << "in RosNode::test_multiple_itineraries" << std::endl;
+
+
+
+}
+#ifndef NO_ROS
 void 
 RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
 
@@ -554,6 +563,7 @@ RosNode::send_validation_tasks(){
 
 
 #endif
+
 
 
 void

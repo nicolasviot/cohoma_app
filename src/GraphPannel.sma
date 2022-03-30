@@ -11,6 +11,7 @@ Translation _ (20, 20)
 Spike plan_request 
 Spike validate_plan  
 Spike update_graph
+Spike test_multiple_itineraries_spike
 
 Component Descripteur1 {
 
@@ -54,6 +55,10 @@ Component IObuttons{
 
 	Button update_graph_but (frame, "send graph", 20, 200)
 	update_graph_but.click -> update_graph
+
+	Button test_multiple_itineraries_button (frame, "test multiple itineraries", 200, 200)
+	test_multiple_itineraries_button.click -> test_multiple_itineraries_spike
+
 }
 
 
