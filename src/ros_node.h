@@ -31,6 +31,7 @@
 #include "core/tree/double_property.h"
 #include "core/tree/int_property.h"
 #include "core/tree/bool_property.h"
+#include "core/tree/ref_property.h"
 #include "exec_env/external_source.h"
 
 
@@ -80,6 +81,8 @@ class RosNode : public FatProcess, public ExternalSource
     //navgraph fields
     TextProperty navgraph_data;
     CoreProcess* _nodes, *_edges, *_shadow_edges, *_itinerary_edges;
+
+    RefProperty *_current_wp, *_entered_wpt;
     
     //robot_state fields
     IntProperty _robot_id;
