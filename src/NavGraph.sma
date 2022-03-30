@@ -43,13 +43,11 @@ NavGraph (Process _map, Process f){
 		*/
 	}
 
-	List itinerary_edges{
+	List itineraries {
 
-
-
-		
+	
 	}
-
+	
 	List nodes {
 		//Node nodefictif(map, 0, 0, 0, 0, "n_fictif", 0, manager)
 

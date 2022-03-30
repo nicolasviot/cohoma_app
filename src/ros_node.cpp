@@ -131,7 +131,7 @@ RosNode::impl_activate ()
   _nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
   _edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
   _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
-  _itinerary_edges = _parent->find_child("parent/l/map/layers/navgraph/itinerary_edges");
+  _itinerary_edges = _parent->find_child("parent/l/map/layers/itineraries/itinerary_unique");
 
   //start the thread
   ExternalSource::start ();  

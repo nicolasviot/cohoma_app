@@ -25,10 +25,9 @@ import MapLayer
 import Animator
 import Waypoints
 import Dispatcher
-/*import ros_subscriber
-import ros_publisher
-*/import Strip
+import Strip
 import NavGraph
+import Itineraries
 import GraphPannel
 import Node
 import Edge
@@ -159,6 +158,25 @@ Component root {
           NavGraph layer (map, f)
         }
       }
+      nodes aka ctrl_visibility.visible.layer.nodes
+      shadow_edges aka ctrl_visibility.visible.layer.shadow_edges
+      itinerary_edges aka ctrl_visibility.visible.layer.itinerary_edges
+      edges aka ctrl_visibility.visible.layer.edges
+      manager aka ctrl_visibility.visible.layer.manager
+
+      String name ("Navgraph")
+    }
+    Component itineraries {
+      Switch ctrl_visibility (visible){
+        Component hidden
+        Component visible{
+          Itineraries layer (map, f, l.map.layers.navgraph.ctrl_visibility.visible.layer.nodes)
+        }
+      }
+      itinerary_unique aka ctrl_visibility.visible.layer.itinerary_unique
+      String name ("Itineraries")
+    }
+
     Component traps{
       Switch ctrl_visibility (visible){
         Component hidden
@@ -170,20 +188,17 @@ Component root {
       }
       String name("Traps")
     }
-      nodes aka ctrl_visibility.visible.layer.nodes
-      shadow_edges aka ctrl_visibility.visible.layer.shadow_edges
-      itinerary_edges aka ctrl_visibility.visible.layer.itinerary_edges
-      edges aka ctrl_visibility.visible.layer.edges
-      manager aka ctrl_visibility.visible.layer.manager
-      String name ("Navgraph")
-    }
+      
+    
 
 
     addChildrenTo map.layers {
       geoportail,
       osm,
       satelites,
-      navgraph
+      navgraph,
+      itineraries,
+      traps
     }
   }
 
