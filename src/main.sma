@@ -143,11 +143,11 @@ Component root {
         Layer visible {
           List layers {
             Vehicule vab (map, $init_lat, $init_lon, r_1, g_1, b_1, "vab")
-            Vehicule agilex1 (map, $init_lat, $init_lon, r_2, g_2, b_2, "agilex1")
-            Vehicule agilex2 (map, $init_lat, $init_lon, r_2, g_2, b_2, "agilex2")
-            Vehicule lynx (map, $init_lat, $init_lon, r_2, g_2, b_2, "lynx")
-            Vehicule spot (map, $init_lat, $init_lon, r_2, g_2, b_2, "spot")
-            Vehicule drone (map, $init_lat, $init_lon, r_2, g_2, b_2, "drone")
+            Vehicule agilex1 (map, $init_lat + 0.0005, $init_lon, r_2, g_2, b_2, "agilex1")
+            Vehicule agilex2 (map, $init_lat + 0.001, $init_lon, r_2, g_2, b_2, "agilex2")
+            Vehicule lynx (map, $init_lat, $init_lon + 0.001, r_2, g_2, b_2, "lynx")
+            Vehicule spot (map, $init_lat+ 0.001 , $init_lon + 0.001, r_2, g_2, b_2, "spot")
+            Vehicule drone (map, $init_lat+ 0.0015 , $init_lon + 0.0015, r_2, g_2, b_2, "drone")
           }
         }
       }
@@ -191,7 +191,7 @@ Component root {
         Component hidden
         Component visible {
           List layers{
-            Trap trap (map, $init_lat, $init_lon, r_1, g_1, b_1)
+            Trap trap (map, $init_lat , $init_lon- 0.002, r_1, g_1, b_1)
           }
         }
       }

@@ -37,28 +37,37 @@ Vehicule (Process map, double _lat, double _lon, int r, int g, int b, string ini
 
     Switch graphics(vab) {
         Component vab{
-            FillColor _ (240, 40, 40)
-            Rectangle _(-30, -30, 60, 60)
+            svg = loadFromXML ("res/svg/vab.svg")
+            icon << svg.icon
         }
         Component agilex1{
-            FillColor _ (200, 40, 40)
-            Rectangle _(-25, -25, 50, 50)
+            svg = loadFromXML ("res/svg/robot.svg")
+            icon << svg.icon
+            FillColor agiCOL (200, 40, 40)
+            agiCOL.value =: icon.shape.fill.value
         }
         Component agilex2{
-            FillColor _ (160, 40, 40)
-            Rectangle _(-20, -20, 40, 40)
+            svg = loadFromXML ("res/svg/robot.svg")
+            icon << svg.icon
+            FillColor agiCOL2 (160, 40, 40)
+            agiCOL2.value =: icon.shape.fill.value
         }
         Component lynx {
-            FillColor _ (140, 40, 40)
-            Rectangle _ (-15, -15, 30, 30)
+            svg = loadFromXML ("res/svg/robot.svg")
+            icon << svg.icon
+            FillColor lynxCOL (140, 40, 40)
+            lynxCOL.value =: icon.shape.fill.value
         }
         Component spot {
-            FillColor _ (100, 40, 40)
-            Rectangle _ (-10, -10, 20, 20)
+            svg = loadFromXML ("res/svg/robot.svg")
+            icon << svg.icon
+            FillColor spotCOL (100, 40, 40)
+            spotCOL.value =: icon.shape.fill.value
         }
         Component drone {
-            FillColor _ (60, 40, 40)
-            Rectangle _ (-5, -5, 10, 10)
+            svg = loadFromXML ("res/svg/drone.svg")
+            icon << svg.icon
+          
         }
     } 
 
