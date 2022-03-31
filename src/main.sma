@@ -24,7 +24,6 @@ import Map
 import MapLayer
 import Animator
 import Waypoints
-import Dispatcher
 import Strip
 import NavGraph
 import Itineraries
@@ -35,6 +34,7 @@ import RosManager
 import UpperLeftMenu
 import StripContainer
 import Trap
+import Vehicule
 
 
 _native_code_
@@ -142,14 +142,23 @@ Component root {
         Component hidden
         Layer visible {
           List layers {
-            Waypoints wp (map, $init_lat, $init_lon, r_1, g_1, b_1)
-            Waypoints wp2 (map, $init_lat, $init_lon, r_2, g_2, b_2)
+            Vehicule vab (map, $init_lat, $init_lon, r_1, g_1, b_1, "vab")
+            Vehicule agilex1 (map, $init_lat, $init_lon, r_2, g_2, b_2, "agilex1")
+            Vehicule agilex2 (map, $init_lat, $init_lon, r_2, g_2, b_2, "agilex2")
+            Vehicule lynx (map, $init_lat, $init_lon, r_2, g_2, b_2, "lynx")
+            Vehicule spot (map, $init_lat, $init_lon, r_2, g_2, b_2, "spot")
+            Vehicule drone (map, $init_lat, $init_lon, r_2, g_2, b_2, "drone")
           }
         }
       }
-      wp aka ctrl_visibility.visible.layers.[1]
-      wp2 aka ctrl_visibility.visible.layers.[2]
-       String name ("Satelites")
+      vab aka ctrl_visibility.visible.layers.[1]
+      agilex1 aka ctrl_visibility.visible.layers.[2]
+      agilex2 aka ctrl_visibility.visible.layers.[3]
+      lynx aka ctrl_visibility.visible.layers.[4]
+      spot aka ctrl_visibility.visible.layers.[5]
+      drone aka ctrl_visibility.visible.layers.[6]
+      
+      String name ("Satelites")
     }
     Component navgraph {
       Switch ctrl_visibility (visible) {
@@ -219,14 +228,14 @@ Component root {
   right_pannel.right_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
 
   // Strips container
-  StripContainer strips (f, 0, 768)
+ /* StripContainer strips (f, 0, 768)
   l.map.layers.satelites.wp.battery_voltage =:> strips.strip1.battery_voltage
   l.map.layers.satelites.wp2.battery_voltage =:> strips.strip2.battery_voltage
   l.map.layers.satelites.wp.altitude_msl =:> strips.strip1.altitude_msl
   l.map.layers.satelites.wp2.altitude_msl =:> strips.strip2.altitude_msl
   l.map.layers.satelites.wp.rot.a =:> strips.strip1.compass_heading
   l.map.layers.satelites.wp2.rot.a =:> strips.strip2.compass_heading
-  
+  */
   UpperLeftMenu menu (l.map, f)
 
   // Keyboard inputs 

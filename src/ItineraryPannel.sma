@@ -16,8 +16,6 @@ ItineraryPannel(double _dx, double _dy){
 		ItineraryDescriptor _ (10, 230)	
 	}
 
-	"selected" =: itineraries_descriptors.[$idSelected].fsm.state
-
 
 
 	
