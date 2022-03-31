@@ -186,9 +186,9 @@ void
 RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg) {
   get_exclusive_access(DBG_GET);
 
-  _current_wpt->set_value (nullptr, true);
+  /*_current_wpt->set_value (nullptr, true);
 	_entered_wpt->set_value (nullptr, true);
-
+*/
   Container *_edge_container = dynamic_cast<Container *> (_edges);
   if (_edge_container) {
     int _edge_container_size = _edge_container->children ().size ();

@@ -82,7 +82,7 @@ class RosNode : public FatProcess, public ExternalSource
     TextProperty navgraph_data;
     CoreProcess* _nodes, *_edges, *_shadow_edges, *_itinerary_edges;
 
-    RefProperty *_current_wp, *_entered_wpt;
+    RefProperty *_current_wpt, *_entered_wpt;
     
     //robot_state fields
     IntProperty _robot_id;

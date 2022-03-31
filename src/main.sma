@@ -28,7 +28,7 @@ import Dispatcher
 import Strip
 import NavGraph
 import Itineraries
-import GraphPannel
+import RightPannel
 import Node
 import Edge
 import RosManager
@@ -95,7 +95,7 @@ Component root {
   int g_2 = 255
   int b_2 = 0
 
-  Frame f ("CoHoMa", 0, 0, init_width + 300, init_height + 300)
+  Frame f ("CoHoMa", 0, 0, init_width + 600, init_height + 600)
   Exit quit (0, 1)
   f.close->quit
   mouseTracking = 1
@@ -208,15 +208,15 @@ Component root {
   Component right_pannel {
     Translation t (1024, 0)
     Rectangle bg (0, 0, 700, 900)
-    GraphPannel graph_pannel (root, f)
+    RightPannel right_pannel (root, f)
   }
 
   // Ros node w/ all sub and pub fonctions
   RosManager ros_manager(root, l.map, l.map.layers.navgraph.manager)
-  right_pannel.graph_pannel.plan_request -> ros_manager.plan_request
-  right_pannel.graph_pannel.validate_plan -> ros_manager.validate_plan
-  right_pannel.graph_pannel.update_graph -> ros_manager.update_graph
-  right_pannel.graph_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
+  right_pannel.right_pannel.plan_request -> ros_manager.plan_request
+  right_pannel.right_pannel.validate_plan -> ros_manager.validate_plan
+  right_pannel.right_pannel.update_graph -> ros_manager.update_graph
+  right_pannel.right_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
 
   // Strips container
   StripContainer strips (f, 0, 768)
