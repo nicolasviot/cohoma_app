@@ -133,8 +133,8 @@ RosNode::impl_activate ()
   _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
   _itinerary_edges = _parent->find_child("parent/l/map/layers/itineraries/itinerary_unique");
 
-  _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("l/map/layers/navgraph/manager/current_wpt"));
-  _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("l/map/layers/navgraph/manager/entered_wpt"));
+  _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_wpt"));
+  _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/entered_wpt"));
 
   //start the thread
   ExternalSource::start ();  
@@ -185,9 +185,9 @@ RosNode::impl_deactivate ()
 void 
 RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg) {
   get_exclusive_access(DBG_GET);
-/*
-  _current_wpt->set_value (nullptr, true);
-	_entered_wpt->set_value (nullptr, true);*/
+
+  _current_wpt->set_value ((CoreProcess*)nullptr, true);
+	_entered_wpt->set_value ((CoreProcess*)nullptr, true);
 
   Container *_edge_container = dynamic_cast<Container *> (_edges);
   if (_edge_container) {
