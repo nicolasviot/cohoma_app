@@ -23,7 +23,7 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
     String usage_status ("default")
     Int default_col (RGBToHex (r, g, b))
     Int usable_col (Blue)
-    Int forbidden_col (Red)
+    Int locked_col (Red)
     Int start_col (#FC60C8)
     Int end_col (#6D60FC)
     Int mandatory_col (#0CF266)
@@ -44,7 +44,18 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
     FillColor my_fc (r, g, b)
     NoOutline _
 
+
+    Translation screen_translation(0, 0)
+    Rotation rot (0, 0, 0)
+    screen_translation.tx =:> rot.cx
+    screen_translation.ty =:> rot.cy
+    heading_rot =:> rot.a
+
+
+
     Circle c (0, 0, 8)
+
+    //
     leave aka c.leave
     right_press aka c.right.press
     OutlineColor oc (r, g, b)
@@ -53,6 +64,8 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
     Switch ctrl_color (default) {
         Component default {
             default_col =: my_fc.value, oc.value
+            //my_custom_svg.my_awesome_default_design.my_awesome_circle.right.press -> right_press
+            //my_custom_svg.my_awesome_default_design.my_awesome_circle.leave -> leave
         }
         Component usable {
             usable_col =: my_fc.value, oc.value
@@ -63,50 +76,46 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
         Component end {
             end_col =: my_fc.value, oc.value
         }
-        Component forbidden {
-            forbidden_col =: my_fc.value, oc.value
+        Component locked {
+            locked_col =: my_fc.value, oc.value
         }
         Component mandatory {
             mandatory_col =: my_fc.value, oc.value
         }
     }
     usage_status => ctrl_color.state
-    Rotation rot (0, 0, 0)
-    c.cx =:> rot.cx
-    c.cy =:> rot.cy
-    heading_rot =:> rot.a
-    Line compass_heading (0, 0, 0, -20)
-    c.cx =:> compass_heading.x1
-    c.cy =:> compass_heading.y1
-    c.cx =:> compass_heading.x2
-    c.cy - 20 =:> compass_heading.y2    
-  
+
+
+
+
+    
+   
   FSM drag_fsm {
         State no_drag {
-            map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
-            (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
+            map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
+            (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
         }
         State drag {
             Double init_cx (0)
             Double init_cy (0)
             Double offset_x (0)
             Double offset_y (0)
-            c.cx =: init_cx
-            c.cy =: init_cy
-            c.press.x - c.cx =: offset_x
-            c.press.y - c.cy =: offset_y
-            c.move.x - offset_x => c.cx
-            c.move.y - offset_y => c.cy
-            px2lon ($c.cx + map.t0_x, $map.zoomLevel) => lon
-            py2lat (map.t0_y - $c.cy, $map.zoomLevel) => lat 
+            screen_translation.tx =: init_cx
+            screen_translation.ty =: init_cy
+            c.press.x - screen_translation.tx =: offset_x
+            c.press.y - screen_translation.ty =: offset_y
+            c.move.x - offset_x => screen_translation.tx
+            c.move.y - offset_y => screen_translation.ty
+            px2lon ($screen_translation.tx + map.t0_x, $map.zoomLevel) => lon
+            py2lat (map.t0_y - $screen_translation.ty, $map.zoomLevel) => lat 
         }
         no_drag->drag (c.left.press, map.reticule.show_reticule)
         drag->no_drag (c.left.release, map.reticule.hide_reticule)
     }
     FSM fsm {
         State idle {
-            //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
-            //(lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
+            //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
+            //(lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
             
 
         }
@@ -119,14 +128,14 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
             0 =: anim.inc.state, anim.gen.input
             Double dx (0)
             Double init_cx (0)
-            c.cx =: init_cx
+            screen_translation.tx =: init_cx
             new_cx - init_cx =: dx
             Double dy (0)
             Double init_cy(0)
-            c.cy =: init_cy
+            screen_translation.ty =: init_cy
             new_cy - init_cy =: dy
-            anim.output * (dx + map.new_dx) + init_cx =:> c.cx
-            anim.output * (dy + map.new_dy) + init_cy =:> c.cy
+            anim.output * (dx + map.new_dx) + init_cx =:> screen_translation.tx
+            anim.output * (dy + map.new_dy) + init_cy =:> screen_translation.ty
         }
         State zoom_out {
             Double new_cx (0)
@@ -137,14 +146,14 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
             0 =: anim.inc.state, anim.gen.input
             Double dx (0)
             Double init_cx (0)
-            c.cx =: init_cx
-            new_cx - c.cx =: dx
+            screen_translation.tx =: init_cx
+            new_cx - screen_translation.tx =: dx
             Double dy (0)
             Double init_cy(0)
-            new_cy - c.cy =: dy
-            c.cy =: init_cy
-            anim.output * (dx + map.new_dx) + init_cx =:> c.cx
-            anim.output * (dy + map.new_dy) + init_cy =:> c.cy
+            new_cy - screen_translation.ty =: dy
+            screen_translation.ty =: init_cy
+            anim.output * (dx + map.new_dx) + init_cx =:> screen_translation.tx
+            anim.output * (dy + map.new_dy) + init_cy =:> screen_translation.ty
         }
         idle->zoom_in (map.prepare_zoom_in)
         zoom_in->idle (zoom_in.anim.end)

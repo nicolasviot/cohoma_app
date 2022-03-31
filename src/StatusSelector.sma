@@ -63,7 +63,7 @@ StatusSelector (Process f, Process _manager) {
                 }
                 State forbidden {
                     r_forbidden << svg.rect_forbidden
-                    "forbidden" =: status
+                    "locked" =: status
                     r_forbidden.press->press
                 }
                 {default, usable, start, end, forbidden}->mandatory (m_mandatory.enter)

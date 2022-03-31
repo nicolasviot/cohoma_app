@@ -35,10 +35,10 @@ x2 aka edge.x2
 y1 aka edge.y1
 y2 aka edge.y2
 
-nodelist.[$id_src].wpt.c.cx =:> x1
-nodelist.[$id_src].wpt.c.cy =:> y1
-nodelist.[$id_dest].wpt.c.cx=:> x2
-nodelist.[$id_dest].wpt.c.cy=:> y2
+nodelist.[$id_src].wpt.screen_translation.tx =:> x1
+nodelist.[$id_src].wpt.screen_translation.ty =:> y1
+nodelist.[$id_dest].wpt.screen_translation.tx=:> x2
+nodelist.[$id_dest].wpt.screen_translation.ty=:> y2
 
 
 
