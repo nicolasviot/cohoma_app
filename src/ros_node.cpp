@@ -132,6 +132,13 @@ RosNode::impl_activate ()
   _edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
   _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
   _itinerary_edges = _parent->find_child("parent/l/map/layers/itineraries/itinerary_unique");
+  
+  _vab = _parent->find_child("parent/l/map/layers/satelites/vab");
+  _agilex1 = _parent->find_child("parent/l/map/layers/satelites/agilex1");
+  _agilex2 = _parent->find_child("parent/l/map/layers/satelites/agilex2");
+  _lynx = _parent->find_child("parent/l/map/layers/satelites/lynx");
+  _spot = _parent->find_child("parent/l/map/layers/satelites/spot");
+  _drone = _parent->find_child("parent/l/map/layers/satelites/drone");
 
   _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_wpt"));
   _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/entered_wpt"));
@@ -353,6 +360,81 @@ void
 RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
   RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
   get_exclusive_access(DBG_GET);
+
+    if (msg->robot_id == 1){
+      //Drone
+      ((DoubleProperty*)_drone->find_child("lat"))->set_value(msg->position.latitude, true);
+      ((DoubleProperty*)_drone->find_child("lon"))->set_value(msg->position.longitude, true);
+      ((DoubleProperty*)_drone->find_child("altitude_msl"))->set_value(msg->position.altitude, true);
+      ((DoubleProperty*)_drone->find_child("heading_rot"))->set_value(msg->compass_heading, true);
+      ((IntProperty*)_drone->find_child("battery_percentage"))->set_value(msg->battery_percentage, true);
+      ((IntProperty*)_drone->find_child("operation_mode"))->set_value(msg->operating_mode, true);
+      ((BoolProperty*)_drone->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
+      ((BoolProperty*)_drone->find_child("failsafe"))->set_value(msg->failsafe, true);
+    }
+    if (msg->robot_id == 2){
+      //Agilex 1
+      ((DoubleProperty*)_agilex1->find_child("lat"))->set_value(msg->position.latitude, true);
+      ((DoubleProperty*)_agilex1->find_child("lon"))->set_value(msg->position.longitude, true);
+      ((DoubleProperty*)_agilex1->find_child("altitude_msl"))->set_value(msg->position.altitude, true);
+      ((DoubleProperty*)_agilex1->find_child("heading_rot"))->set_value(msg->compass_heading, true);
+      ((IntProperty*)_agilex1->find_child("battery_percentage"))->set_value(msg->battery_percentage, true);
+      ((IntProperty*)_agilex1->find_child("operation_mode"))->set_value(msg->operating_mode, true);
+      ((BoolProperty*)_agilex1->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
+      ((BoolProperty*)_agilex1->find_child("failsafe"))->set_value(msg->failsafe, true);
+    
+    }
+    if (msg->robot_id == 3){
+      //Agilex 2
+      ((DoubleProperty*)_agilex2->find_child("lat"))->set_value(msg->position.latitude, true);
+      ((DoubleProperty*)_agilex2->find_child("lon"))->set_value(msg->position.longitude, true);
+      ((DoubleProperty*)_agilex2->find_child("altitude_msl"))->set_value(msg->position.altitude, true);
+      ((DoubleProperty*)_agilex2->find_child("heading_rot"))->set_value(msg->compass_heading, true);
+      ((IntProperty*)_agilex2->find_child("battery_percentage"))->set_value(msg->battery_percentage, true);
+      ((IntProperty*)_agilex2->find_child("operation_mode"))->set_value(msg->operating_mode, true);
+      ((BoolProperty*)_agilex2->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
+      ((BoolProperty*)_agilex2->find_child("failsafe"))->set_value(msg->failsafe, true);
+    
+    }
+    if (msg->robot_id == 4){
+      //Lynx
+      ((DoubleProperty*)_lynx->find_child("lat"))->set_value(msg->position.latitude, true);
+      ((DoubleProperty*)_lynx->find_child("lon"))->set_value(msg->position.longitude, true);
+      ((DoubleProperty*)_lynx->find_child("altitude_msl"))->set_value(msg->position.altitude, true);
+      ((DoubleProperty*)_lynx->find_child("heading_rot"))->set_value(msg->compass_heading, true);
+      ((IntProperty*)_lynx->find_child("battery_percentage"))->set_value(msg->battery_percentage, true);
+      ((IntProperty*)_lynx->find_child("operation_mode"))->set_value(msg->operating_mode, true);
+      ((BoolProperty*)_lynx->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
+      ((BoolProperty*)_lynx->find_child("failsafe"))->set_value(msg->failsafe, true);
+    
+    }
+    if (msg->robot_id == 5){
+      //Spot
+      ((DoubleProperty*)_spot->find_child("lat"))->set_value(msg->position.latitude, true);
+      ((DoubleProperty*)_spot->find_child("lon"))->set_value(msg->position.longitude, true);
+      ((DoubleProperty*)_spot->find_child("altitude_msl"))->set_value(msg->position.altitude, true);
+      ((DoubleProperty*)_spot->find_child("heading_rot"))->set_value(msg->compass_heading, true);
+      ((IntProperty*)_spot->find_child("battery_percentage"))->set_value(msg->battery_percentage, true);
+      ((IntProperty*)_spot->find_child("operation_mode"))->set_value(msg->operating_mode, true);
+      ((BoolProperty*)_spot->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
+      ((BoolProperty*)_spot->find_child("failsafe"))->set_value(msg->failsafe, true);
+    
+    }
+    if (msg->robot_id == 6){
+      //VAB
+      ((DoubleProperty*)_vab->find_child("lat"))->set_value(msg->position.latitude, true);
+      ((DoubleProperty*)_vab->find_child("lon"))->set_value(msg->position.longitude, true);
+      ((DoubleProperty*)_vab->find_child("altitude_msl"))->set_value(msg->position.altitude, true);
+      ((DoubleProperty*)_vab->find_child("heading_rot"))->set_value(msg->compass_heading, true);
+      ((IntProperty*)_vab->find_child("battery_percentage"))->set_value(msg->battery_percentage, true);
+      ((IntProperty*)_vab->find_child("operation_mode"))->set_value(msg->operating_mode, true);
+      ((BoolProperty*)_vab->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
+      ((BoolProperty*)_vab->find_child("failsafe"))->set_value(msg->failsafe, true);
+    
+    }
+
+
+
   _latitude.set_value (msg -> position.latitude, true);
   _longitude.set_value (msg -> position.longitude, true);
   _robot_id.set_value (msg -> robot_id, true);

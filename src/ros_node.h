@@ -82,6 +82,9 @@ class RosNode : public FatProcess, public ExternalSource
     TextProperty navgraph_data;
     CoreProcess* _nodes, *_edges, *_shadow_edges, *_itinerary_edges;
 
+    //robot
+    CoreProcess* _vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone;
+
     RefProperty *_current_wpt, *_entered_wpt;
     
     //robot_state fields
