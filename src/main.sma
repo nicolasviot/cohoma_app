@@ -218,6 +218,19 @@ Component root {
     Translation t (1024, 0)
     Rectangle bg (0, 0, 700, 900)
     RightPannel right_pannel (root, f)
+
+     //legend for NavGraph
+    Component NavGraph
+    {
+      nav_svg = loadFromXML ("res/svg/GraphNav_legend.svg")
+      Translation legend (350, 400)
+      nav << nav_svg.GraphNav
+      Translation legend_off (-350, -400)
+
+    //TODO Use the buuton to send and updated graph via Ros
+    //nav.update_button.rect.press -> xxx
+    }
+
   }
 
   // Ros node w/ all sub and pub fonctions
@@ -237,6 +250,9 @@ Component root {
   l.map.layers.satelites.wp2.rot.a =:> strips.strip2.compass_heading
   */
   UpperLeftMenu menu (l.map, f)
+
+ 
+  
 
   // Keyboard inputs 
   // Does not work on some keyboards
@@ -280,6 +296,7 @@ Component root {
     root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lon = root.addNode.preview.temporary.lon
     root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].id = root.l.map.layers.navgraph.nodes.size    
   }
+
 
 
   //Add Edge between waypoints 

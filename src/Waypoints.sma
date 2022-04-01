@@ -21,12 +21,16 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
 
 //APP-6A
     String usage_status ("default")
-    Int default_col (RGBToHex (r, g, b))
-    Int usable_col (Blue)
-    Int locked_col (Red)
-    Int start_col (#FC60C8)
-    Int end_col (#6D60FC)
-    Int mandatory_col (#0CF266)
+    Int node_col (#CCCCCC)
+    Int white_col (#FFFFFF)
+    Int black_col (#000000)
+    Int active_col (#29ABE2)
+    Int start_col (#70EE49)
+    Int mandatory_col (#FF30FF)
+
+    Int default_radius (5)
+    Int other_radius (8)
+
     Double lat($_lat)
     Double lon($_lon)
     Double altitude_msl(0)
@@ -38,12 +42,6 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
     Translation pos (0, 0)
     map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
     map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
-    FillOpacity fo (1)
-    opacity aka fo.a
-    
-    FillColor my_fc (r, g, b)
-    NoOutline _
-
 
     Translation screen_translation(0, 0)
     Rotation rot (0, 0, 0)
@@ -51,44 +49,63 @@ Waypoints (Process map, double _lat, double _lon, int r, int g, int b)
     screen_translation.ty =:> rot.cy
     heading_rot =:> rot.a
 
+    //graphical variables to be updated in different status
+    FillOpacity fill_opacity (0.6)
+    opacity aka fill_opacity.a
+    FillColor fill_color (r, g, b)
 
+    OutlineColor outline_color (r, g, b)
+    OutlineWidth outline_width (1)
+    OutlineOpacity outline_opacity(0.5)
 
-    Circle c (0, 0, 8)
+    Circle c (0, 0, 4)
 
-    //
+    // API (TODO)
     leave aka c.leave
     right_press aka c.right.press
-    OutlineColor oc (r, g, b)
-    OutlineWidth _ (5)
-    OutlineOpacity outline_opacity(1)
-    Switch ctrl_color (default) {
+
+
+    Switch status_switch (default) {
         Component default {
-            default_col =: my_fc.value, oc.value
-            //my_custom_svg.my_awesome_default_design.my_awesome_circle.right.press -> right_press
-            //my_custom_svg.my_awesome_default_design.my_awesome_circle.leave -> leave
-        }
-        Component usable {
-            usable_col =: my_fc.value, oc.value
+             node_col =: fill_color.value
+            white_col =: outline_color.value
+
+                1 =: outline_width.width
+            default_radius =: c.r
         }
         Component start {
-            start_col =: my_fc.value, oc.value
+            active_col =: fill_color.value
+             start_col =: outline_color.value
+            
+                     2 =: outline_width.width
+          other_radius =: c.r
         }
         Component end {
-            end_col =: my_fc.value, oc.value
+              active_col =: fill_color.value
+           mandatory_col =: outline_color.value
+            other_radius =: c.r
+                       2 =: outline_width.width
         }
-        Component locked {
-            locked_col =: my_fc.value, oc.value
+        Component forced {
+            active_col =: fill_color.value
+             black_col =: outline_color.value
+
+             other_radius =: c.r
+                        2 =: outline_width.width
         }
         Component mandatory {
-            mandatory_col =: my_fc.value, oc.value
+               active_col =: fill_color.value
+            mandatory_col =: outline_color.value
+
+                        1 =: outline_width.width
+
+            NoFill _ 
+            OutlineWidth _ (2)
+            Circle outer_circler (0,0, 12)
         }
     }
-    usage_status => ctrl_color.state
+    usage_status => status_switch.state
 
-
-
-
-    
    
   FSM drag_fsm {
         State no_drag {
