@@ -15,12 +15,19 @@ _define_
 Vehicule (Process map, double _lat, double _lon, int r, int g, int b, string init_state)
 {
 
-
+    
     Double lat($_lat)
     Double lon($_lon)
-    Double altitude_msl(0)
     Double battery_voltage(0)
+    Int battery_percentage(0)
+    Double altitude_msl(0)
     Double heading_rot(0)
+    Bool emergency_stop(0)
+    Bool failsafe(0)
+    Int operation_mode(0)
+
+
+
     String state(init_state)
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
