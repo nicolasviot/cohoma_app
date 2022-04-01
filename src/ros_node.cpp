@@ -143,6 +143,8 @@ RosNode::impl_activate ()
   _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_wpt"));
   _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/entered_wpt"));
 
+  _curent_itenerary = dynamic_cast<IntProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_itenerary"));
+
   //start the thread
   ExternalSource::start ();  
 }
@@ -292,9 +294,34 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
 void
 RosNode::test_multiple_itineraries(){
 
-  std::cerr << "in RosNode::test_multiple_itineraries" << std::endl;
 
+  std::vector<std::vector<int>> msg = {{2, 1, 0, 5, 6}, {2, 10, 8, 6}};
 
+  //Color:
+  int unselected = 0x232323;
+  int selected = 0x1E90FF;
+  
+  int id = 0;
+  for (auto itenerary : msg) {
+    List* new_ite = new List (_itinerary_edges, "");
+    int ite_size = itenerary.size ();
+    if ( ite_size > 0) {
+      for (int i = 1; i < ite_size; i++) {
+        ParentProcess* edge = Edge( new_ite, "", itenerary[i-1] + 1, itenerary[i] + 1, 20, _nodes);
+        if (id == 0)
+          ((AbstractProperty*) edge->find_child("color/value"))->set_value (selected, true);
+        else
+          ((AbstractProperty*) edge->find_child("color/value"))->set_value (unselected, true);
+      }
+    }
+    id++;
+  }
+  // set current to 0
+  _curent_itenerary->set_value (0, true);
+
+  //debug
+  int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
+  std::cerr << "in RosNode::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
 
 }
 #ifndef NO_ROS
@@ -323,7 +350,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       ((AbstractProperty*)edge->find_child("color/r"))->set_value(30, true);
       ((AbstractProperty*)edge->find_child("color/g"))->set_value(144, true);
       ((AbstractProperty*)edge->find_child("color/b"))->set_value(255, true);
-    }
+    } 
 }
 
 void 
