@@ -35,6 +35,7 @@ import UpperLeftMenu
 import StripContainer
 import Trap
 import Vehicule
+import TaskLayer
 
 
 _native_code_
@@ -191,13 +192,23 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-          List layers{
+          List layer{
             Trap trap (map, $init_lat , $init_lon- 0.002, r_1, g_1, b_1)
           }
         }
       }
       String name("Traps")
     }
+    Component tasks{
+      Switch ctrl_visibility (visible){
+        Component hidden
+        Component visible {
+          TaskLayer layer (map)
+        }
+      }
+      String name("Tasks")
+    }
+
       
     
 
@@ -208,7 +219,8 @@ Component root {
       satelites,
       navgraph,
       itineraries,
-      traps
+      traps, 
+      tasks
     }
   }
 

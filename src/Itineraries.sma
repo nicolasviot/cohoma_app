@@ -20,20 +20,21 @@ Itineraries (Process _map, Process f, Process navgraph){
 	List itinerary_unique{
 
 	}
-/*
+
 
 	id -> (this){
 		for (int i = 1; i < $this.itinerary_unique.size; i++){
 			for (int j = 1; j <$this.itinerary_unique.[i]; j++){
-				if ($id == i){
-					$this.itinerary_unique.[i].[j].color.value = 0x1E90FF
+				if ($this.id == i){
+					this.itinerary_unique.[i].[j].color.value = 0x1E90FF
 				}
 				else{
-					$this.itinerary_unique.[i].[j].color.value = 0x232323	
+					this.itinerary_unique.[i].[j].color.value = 0x232323	
 				}
 
 			}
 		}
-	}*/
+	}
+
 
 }
