@@ -132,38 +132,52 @@ Trap (Process map, double _lat, double _lon, int r, int g, int b)
         State zoom_in {
             Double new_cx (0)
             Double new_cy (0)
+            Double new_cr (0)
             map.new_t0_y - lat2py ($lat, $map.zoomLevel + 1) =: new_cy
             (lon2px ($lon, $map.zoomLevel + 1) - map.new_t0_x) =: new_cx
+            radius/get_resolution ($map.zoomLevel + 1) =: new_cr
             Animator anim (1000, 0, 1, DJN_IN_SINE, 0, 1)
             0 =: anim.inc.state, anim.gen.input
             Double dx (0)
+            Double dr (0)
             Double init_cx (0)
+            Double init_cr (0)
             c.cx =: init_cx
+            c.r =: init_cr
             new_cx - init_cx =: dx
             Double dy (0)
             Double init_cy(0)
             c.cy =: init_cy
             new_cy - init_cy =: dy
+            new_cr - init_cr =: dr
             anim.output * (dx + map.new_dx) + init_cx =:> c.cx
             anim.output * (dy + map.new_dy) + init_cy =:> c.cy
+            anim.output * dr + init_cr =:> c.r
         }
         State zoom_out {
             Double new_cx (0)
             Double new_cy (0)
+            Double new_cr (0)
+            radius/get_resolution ($map.zoomLevel - 1) =: new_cr
             map.new_t0_y - lat2py ($lat, $map.zoomLevel - 1) =: new_cy
             (lon2px ($lon, $map.zoomLevel - 1) - map.new_t0_x) =: new_cx
             Animator anim (1000, 0, 1, DJN_IN_SINE, 0, 1)
             0 =: anim.inc.state, anim.gen.input
             Double dx (0)
+            Double dr (0)
             Double init_cx (0)
+            Double init_cr (0)
             c.cx =: init_cx
+            c.r =: init_cr
             new_cx - c.cx =: dx
             Double dy (0)
             Double init_cy(0)
             new_cy - c.cy =: dy
             c.cy =: init_cy
+            new_cr - init_cr =: dr
             anim.output * (dx + map.new_dx) + init_cx =:> c.cx
             anim.output * (dy + map.new_dy) + init_cy =:> c.cy
+            anim.output * dr + init_cr =:> c.r
         }
         idle->zoom_in (map.prepare_zoom_in)
         zoom_in->idle (zoom_in.anim.end)
