@@ -43,6 +43,7 @@ Trap (Process map, double _lat, double _lon, int r, int g, int b)
     Translation pos (0, 0)
     map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
     map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+    Translation screen_translation (0, 0)
     
     NoOutline _
     FillColor red(240, 0, 0)

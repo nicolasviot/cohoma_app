@@ -43,8 +43,8 @@ Button (Process frame, string label, double x_, double y_) {
 
   FillColor w (255, 255, 255)
   Text thisLabel (10, 10, label)
-
+  LogPrinter debug("test : ")
+  thisLabel.width =:> debug.input
   r.height / 2 =: thisLabel.y
-  thisLabel.width + 20 =:> r.width
   thisLabel.width + 20 =:> r.width
 }

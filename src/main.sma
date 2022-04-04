@@ -241,8 +241,8 @@ Component root {
   right_pannel.right_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
 
   // Strips container
- /* StripContainer strips (f, 0, 768)
-  l.map.layers.satelites.wp.battery_voltage =:> strips.strip1.battery_voltage
+ StripContainer strips (f, 0, 768)
+ /* l.map.layers.satelites.wp.battery_voltage =:> strips.strip1.battery_voltage
   l.map.layers.satelites.wp2.battery_voltage =:> strips.strip2.battery_voltage
   l.map.layers.satelites.wp.altitude_msl =:> strips.strip1.altitude_msl
   l.map.layers.satelites.wp2.altitude_msl =:> strips.strip2.altitude_msl
@@ -308,8 +308,8 @@ Component root {
   
   Ref null_ref (0)
   RefProperty current_addedge_node (nullptr)
-  DerefDouble ddx (current_addedge_node, "wpt/c/cx", DJNN_GET_ON_CHANGE)
-  DerefDouble ddy (current_addedge_node, "wpt/c/cy", DJNN_GET_ON_CHANGE)
+  DerefDouble ddx (current_addedge_node, "wpt/screen_translation/tx", DJNN_GET_ON_CHANGE)
+  DerefDouble ddy (current_addedge_node, "wpt/screen_translation/ty", DJNN_GET_ON_CHANGE)
   DerefDouble ddtx (current_addedge_node, "wpt/pos/tx", DJNN_GET_ON_CHANGE)
   DerefDouble ddty (current_addedge_node, "wpt/pos/ty", DJNN_GET_ON_CHANGE)
   
@@ -350,16 +350,16 @@ Component root {
       l.map.layers.navgraph.manager.selected_id =:> index
 
       index -> (root){
-        root.addEdge.preview_on.temp_shadow_edge.x1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.c.cx
+        root.addEdge.preview_on.temp_shadow_edge.x1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.screen_translation.tx
 
-        root.addEdge.preview_on.temp_shadow_edge.y1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.c.cy
+        root.addEdge.preview_on.temp_shadow_edge.y1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.screen_translation.ty
       }
       ddx.value =:> temp_shadow_edge.x1
       ddy.value =:> temp_shadow_edge.y1
       ddtx.value =:> pos.tx
       ddty.value =:> pos.ty 
-      temporary.c.cx =:> temp_shadow_edge.x2
-      temporary.c.cy =:> temp_shadow_edge.y2
+      temporary.screen_translation.tx =:> temp_shadow_edge.x2
+      temporary.screen_translation.ty =:> temp_shadow_edge.y2
     }
 
     idle -> shift_on (shift, clear_temp_list)
