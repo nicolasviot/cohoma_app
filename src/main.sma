@@ -183,6 +183,7 @@ Component root {
         }
       }
       itinerary_unique aka ctrl_visibility.visible.layer.itinerary_unique
+      id aka ctrl_visibility.visible.layer.id
       String name ("Itineraries")
     }
 
@@ -239,7 +240,7 @@ Component root {
   right_pannel.right_pannel.validate_plan -> ros_manager.validate_plan
   right_pannel.right_pannel.update_graph -> ros_manager.update_graph
   right_pannel.right_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
-
+  right_pannel.right_pannel.itineraryPannel.idSelected =:> l.map.layers.itineraries.id
   // Strips container
  StripContainer strips (f, 0, 768)
  /* l.map.layers.satelites.wp.battery_voltage =:> strips.strip1.battery_voltage

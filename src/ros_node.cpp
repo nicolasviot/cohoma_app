@@ -295,7 +295,7 @@ void
 RosNode::test_multiple_itineraries(){
 
 
-  std::vector<std::vector<int>> msg = {{2, 1, 0, 5, 6}, {2, 10, 8, 6}};
+  std::vector<std::vector<int>> msg = {{2, 1, 0, 5, 6}, {2, 10, 8, 6}, {0, 1, 4, 7}};
 
   //Color:
   int unselected = 0x232323;
