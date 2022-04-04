@@ -1,7 +1,7 @@
 use core
 use gui
 use base
-import Waypoints
+import GraphNode
 
 _define_
 Node(Process map, double _lat, double _lon, double _alt, int _isPPO, string _label, int _id, Process _manager_id){
@@ -17,7 +17,7 @@ Int id(_id)
 Spike pressed
 
 manager aka _manager_id
-Waypoints wpt(map, $lat, $lon, 80, 80, 80)
+GraphNode wpt(map, $lat, $lon, 80, 80, 80)
 wpt.usage_status => status
 lat =:> wpt.lat
 lon =:> wpt.lon
@@ -49,14 +49,14 @@ Switch tooltip_switch(off){
 				wpt.pos.ty =:> t.ty
 
 				FillColor black(0, 0, 0)
-				Rectangle rec($wpt.c.cx, $wpt.c.cy, 50, 50)
-				wpt.c.cx =:> rec.x
-				wpt.c.cy =:> rec.y
+				Rectangle rec($wpt.screen_translation.tx, $wpt.screen_translation.ty, 50, 50)
+				wpt.screen_translation.tx =:> rec.x
+				wpt.screen_translation.ty =:> rec.y
 				NoFill _
 				FillColor text_color(130, 130, 0)
-				Text txt($wpt.c.cx, $wpt.c.cy, "test")
-				wpt.c.cx =:> txt.x
-				wpt.c.cy =:> txt.y
+				Text txt($wpt.screen_translation.tx, $wpt.screen_translation.ty, "test")
+				wpt.screen_translation.tx =:> txt.x
+				wpt.screen_translation.ty =:> txt.y
 			}
 			idle -> entering (wpt.c.enter)
 			entering -> display_tooltip (entering.t.end)

@@ -23,7 +23,7 @@ import Slider
 import Map
 import MapLayer
 import Animator
-import Waypoints
+import GraphNode
 import Strip
 import NavGraph
 import Itineraries
@@ -110,7 +110,7 @@ Component root {
   // from bottom to top :
   //  - geoportail tiles
   //  - OSM tiles
-  //  - Waypoints + Navigation graphs 
+  //  - GraphNode + Navigation graphs 
   //  - Vehicules TODO
   //  - Traps  TODO
   //  - Zones  TODO
@@ -272,12 +272,12 @@ Component root {
   Spike del_r
   f.key\-pressed == DJN_Key_Backspace -> del
 
-  // Add waypoints FSM
+  // Add GraphNode FSM
   Spike addWptToLayer
   FSM addNode {
     State idle 
     State preview{
-      Waypoints temporary (l.map, 0, 0, 50, 50, 50)
+      GraphNode temporary (l.map, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
       f.release -> addWptToLayer
@@ -299,7 +299,7 @@ Component root {
 
 
 
-  //Add Edge between waypoints 
+  //Add Edge between GraphNode 
   Spike clear_temp_list
   Spike add_segment
   Spike add_first_wpt
@@ -331,7 +331,7 @@ Component root {
          
           }
       }
-      Waypoints temporary (l.map, 0, 0, 50, 50, 50)
+      GraphNode temporary (l.map, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
       0 =: temporary.opacity
