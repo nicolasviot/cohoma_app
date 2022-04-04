@@ -224,6 +224,12 @@ Component root {
     }
   }
 
+  Double lat_flightsim(40.0)
+  Double lon_flightsim(1.30)
+
+  lat_flightsim =:> l.map.lat_center
+  lon_flightsim =:> l.map.lon_center
+
   show_reticule -> l.map.reticule.show_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.create
   hide_reticule -> l.map.reticule.hide_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
 

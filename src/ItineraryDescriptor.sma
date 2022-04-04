@@ -8,13 +8,13 @@ _native_code_
 #include "string.h"
 %}
 _define_
-ItineraryDescriptor(double dx, double dy, string start_state){
+ItineraryDescriptor(double dx, double dy, string start_state, int toto){
 
 	Translation t (dx, dy)
 
 	String description("This is the most amazing itinerary ever")
 	String legend ("Itinerary n°")
-	Int itinerary_id(0)
+	Int itinerary_id(toto)
 
 	String start(start_state)
 	FontFamily _ ("B612")
@@ -56,6 +56,8 @@ ItineraryDescriptor(double dx, double dy, string start_state){
 
 	fsm.unselected.bg.press -> select
 	fsm.selected.bg.press -> unselect
+	
+
 	start =: fsm.state
 
 
