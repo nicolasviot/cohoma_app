@@ -37,7 +37,7 @@ Trap (Process map, double _lat, double _lon, int r, int g, int b)
     Double radius(50)
 
     String trap_status("radius_unknown")
-   
+    
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
     Translation pos (0, 0)
@@ -52,6 +52,7 @@ Trap (Process map, double _lat, double _lon, int r, int g, int b)
     Circle c (0, 0, 50)
     c.cx - rect.width/2 =:> rect.x 
     c.cy - rect.height/2 =:> rect.y
+    radius/get_resolution ($map.zoomLevel) =:> c.r
     /*leave aka c.leave
     right_press aka c.right.press
     */
