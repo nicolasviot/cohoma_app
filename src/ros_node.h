@@ -32,6 +32,7 @@
 #include "core/tree/int_property.h"
 #include "core/tree/bool_property.h"
 #include "core/tree/ref_property.h"
+#include "core/tree/component.h"
 #include "exec_env/external_source.h"
 
 
@@ -80,7 +81,8 @@ class RosNode : public FatProcess, public ExternalSource
 
     //navgraph fields
     TextProperty navgraph_data;
-    CoreProcess* _nodes, *_edges, *_shadow_edges, *_itinerary_edges;
+    CoreProcess *_nodes, *_edges, *_shadow_edges; 
+    Component *_itineraries_list;
 
     //robot
     CoreProcess* _vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone;

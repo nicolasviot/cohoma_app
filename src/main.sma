@@ -183,7 +183,7 @@ Component root {
           Itineraries layer (map, f, l.map.layers.navgraph.ctrl_visibility.visible.layer.nodes)
         }
       }
-      itinerary_unique aka ctrl_visibility.visible.layer.itinerary_unique
+      itineraries_list aka ctrl_visibility.visible.layer.itineraries_list
       id aka ctrl_visibility.visible.layer.id
       String name ("Itineraries")
     }

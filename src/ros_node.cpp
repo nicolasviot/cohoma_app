@@ -131,7 +131,8 @@ RosNode::impl_activate ()
   _nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
   _edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
   _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
-  _itinerary_edges = _parent->find_child("parent/l/map/layers/itineraries/itinerary_unique");
+
+  _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
   
   _vab = _parent->find_child("parent/l/map/layers/satelites/vab");
   _agilex1 = _parent->find_child("parent/l/map/layers/satelites/agilex1");
@@ -143,7 +144,7 @@ RosNode::impl_activate ()
   _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_wpt"));
   _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/entered_wpt"));
 
-  _curent_itenerary = dynamic_cast<IntProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_itenerary"));
+  _curent_itenerary = dynamic_cast<IntProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
 
   //start the thread
   ExternalSource::start ();  
@@ -294,34 +295,71 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
 void
 RosNode::test_multiple_itineraries(){
 
+  //debug
+  //std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
 
-  std::vector<std::vector<int>> msg = {{2, 1, 0, 5, 6}, {2, 10, 8, 6}, {0, 1, 4, 7}};
+  //debug ros_msg
+  std::vector<std::pair<int,std::vector<int>>> msg = { \
+    {1, {2, 1, 0, 5, 6}}, \
+    {2, {2, 10, 8, 6}}, \
+    {3, {0, 1, 4, 7}}};
 
   //Color:
   int unselected = 0x232323;
   int selected = 0x1E90FF;
   
-  int id = 0;
-  for (auto itenerary : msg) {
-    List* new_ite = new List (_itinerary_edges, "");
-    int ite_size = itenerary.size ();
-    if ( ite_size > 0) {
-      for (int i = 1; i < ite_size; i++) {
-        ParentProcess* edge = Edge( new_ite, "", itenerary[i-1] + 1, itenerary[i] + 1, 20, _nodes);
-        if (id == 0)
-          ((AbstractProperty*) edge->find_child("color/value"))->set_value (selected, true);
-        else
-          ((AbstractProperty*) edge->find_child("color/value"))->set_value (unselected, true);
+  //std::cerr << "in RosNode::test_multiple_itineraries - size before"  << _itineraries_list->children ().size () <<std::endl;
+
+  //delete old content
+  _itineraries_list->clean_up_content ();
+ 
+  //std::cerr << "in RosNode::test_multiple_itineraries - size after "  << _itineraries_list->children ().size () <<std::endl;
+
+  /*
+    _itineraries_list {
+      id { id;
+          edges: liste of edges}
+      id { id;
+          edges: liste of edges}
+      id { id;
+           edges: liste of edges}
+      ...
+    }
+  */
+
+  int first_id = -1;
+  for (auto ros_itinerary : msg) {
+    // get first id
+    if (first_id == -1)
+      first_id = ros_itinerary.first;
+    Component *new_itinerary = new Component ( _itineraries_list, to_string(ros_itinerary.first) );
+    new IntProperty (new_itinerary, "id", ros_itinerary.first);
+    List* new_ite_edges = new List (new_itinerary, "edges");
+    int ite_edges_size = ros_itinerary.second.size ();
+    if ( ite_edges_size > 0) {
+      for (int i = 1; i < ite_edges_size; i++) {
+        ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
+        ((AbstractProperty*) edge->find_child("color/value"))->set_value (unselected, true);
       }
     }
-    id++;
   }
-  // set current to 0
-  _curent_itenerary->set_value (0, true);
+  
+
+  Component* itinerary_to_move = dynamic_cast<Component*> (_itineraries_list->find_child (to_string(first_id)));
+  if (itinerary_to_move) {
+    // set current to first_id
+    _curent_itenerary->set_value (first_id, true);
+    List* edges = dynamic_cast<List*> (itinerary_to_move->find_child ("edges"));
+    int edges_size = dynamic_cast<IntProperty*> (edges->find_child("size"))->get_value ();
+    for (int i = 1; i <= edges_size; i++) {
+      ((AbstractProperty*) edges->find_child( to_string(i)+"/color/value"))->set_value (selected, true);
+    }
+    _itineraries_list->move_child (itinerary_to_move, LAST);
+  }
 
   //debug
-  int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
-  std::cerr << "in RosNode::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
+  //int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
+  //std::cerr << "in RosNode::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
 
 }
 #ifndef NO_ROS
