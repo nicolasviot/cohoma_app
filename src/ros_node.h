@@ -34,6 +34,7 @@
 #include "core/tree/ref_property.h"
 #include "core/tree/component.h"
 #include "exec_env/external_source.h"
+#include "core/control/native_action.h"
 
 
 //C++ stuff
@@ -84,6 +85,7 @@ class RosNode : public FatProcess, public ExternalSource
     CoreProcess *_nodes, *_edges, *_shadow_edges; 
     Component *_itineraries_list;
     RefProperty *_ref_curent_itenerary;
+    NativeAction* _edge_released_na;
 
     //robot
     CoreProcess* _vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone;

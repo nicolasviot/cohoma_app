@@ -40,7 +40,16 @@ nodelist.[$id_src].wpt.screen_translation.ty =:> y1
 nodelist.[$id_dest].wpt.screen_translation.tx=:> x2
 nodelist.[$id_dest].wpt.screen_translation.ty=:> y2
 
-
+FSM enterLeave {
+    State idle {
+        5 =: width.width
+    }
+    State inside {
+        10 =: width.width
+    }
+    idle -> inside (edge.enter)
+    inside -> idle (edge.leave)
+}
 
 
 }
