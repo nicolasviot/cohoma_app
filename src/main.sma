@@ -170,7 +170,7 @@ Component root {
       }
       nodes aka ctrl_visibility.visible.layer.nodes
       shadow_edges aka ctrl_visibility.visible.layer.shadow_edges
-      itinerary_edges aka ctrl_visibility.visible.layer.itinerary_edges
+      //itinerary_edges aka ctrl_visibility.visible.layer.itinerary_edges
       edges aka ctrl_visibility.visible.layer.edges
       manager aka ctrl_visibility.visible.layer.manager
 
