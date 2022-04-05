@@ -91,6 +91,6 @@ Itineraries (Process _map, Process f, Process navgraph){
 	id -> id_changed_na
 
 	//debug
-	LogPrinter debug_itineraries("debug itineraries : ")
-	id =:> debug_itineraries.input
+	// LogPrinter debug_itineraries("debug itineraries : ")
+	// id =:> debug_itineraries.input
 }

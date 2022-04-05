@@ -16,8 +16,8 @@ NavGraph (Process _map, Process f){
 	ManagerId manager(0)
 
 
-	LogPrinter lp("id_selected")
-	manager.selected_id =:> lp.input
+	// LogPrinter lp("id_selected :")
+	// manager.selected_id =:> lp.input
 	
 	List nodes {
 		//Node nodefictif(map, 0, 0, 0, 0, "n_fictif", 0, manager)
