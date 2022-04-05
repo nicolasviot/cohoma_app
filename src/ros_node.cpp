@@ -133,6 +133,8 @@ RosNode::impl_activate ()
   _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
 
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
+  _id_curent_itenerary  = dynamic_cast<IntProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
+  _ref_curent_itenerary = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/ref_current_itinerary"));
   
   _vab = _parent->find_child("parent/l/map/layers/satelites/vab");
   _agilex1 = _parent->find_child("parent/l/map/layers/satelites/agilex1");
@@ -144,7 +146,7 @@ RosNode::impl_activate ()
   _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_wpt"));
   _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/entered_wpt"));
 
-  _curent_itenerary = dynamic_cast<IntProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
+ 
 
   //start the thread
   ExternalSource::start ();  
@@ -308,10 +310,11 @@ RosNode::test_multiple_itineraries(){
   int unselected = 0x232323;
   int selected = 0x1E90FF;
   
-  //std::cerr << "in RosNode::test_multiple_itineraries - size before"  << _itineraries_list->children ().size () <<std::endl;
+  std::cerr << "in RosNode::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _ref_curent_itenerary  <<std::endl;
 
   //delete old content
   _itineraries_list->clean_up_content ();
+  _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
  
   //std::cerr << "in RosNode::test_multiple_itineraries - size after "  << _itineraries_list->children ().size () <<std::endl;
 
@@ -343,19 +346,19 @@ RosNode::test_multiple_itineraries(){
       }
     }
   }
-  
+  _id_curent_itenerary->set_value (first_id, true);
 
-  Component* itinerary_to_move = dynamic_cast<Component*> (_itineraries_list->find_child (to_string(first_id)));
-  if (itinerary_to_move) {
-    // set current to first_id
-    _curent_itenerary->set_value (first_id, true);
-    List* edges = dynamic_cast<List*> (itinerary_to_move->find_child ("edges"));
-    int edges_size = dynamic_cast<IntProperty*> (edges->find_child("size"))->get_value ();
-    for (int i = 1; i <= edges_size; i++) {
-      ((AbstractProperty*) edges->find_child( to_string(i)+"/color/value"))->set_value (selected, true);
-    }
-    _itineraries_list->move_child (itinerary_to_move, LAST);
-  }
+  // move in native
+  // Component* itinerary_to_move = dynamic_cast<Component*> (_itineraries_list->find_child (to_string(first_id)));
+  // if (itinerary_to_move) {
+  //   // set current to first_id
+  //   List* edges = dynamic_cast<List*> (itinerary_to_move->find_child ("edges"));
+  //   int edges_size = dynamic_cast<IntProperty*> (edges->find_child("size"))->get_value ();
+  //   for (int i = 1; i <= edges_size; i++) {
+  //     ((AbstractProperty*) edges->find_child( to_string(i)+"/color/value"))->set_value (selected, true);
+  //   }
+  //   _itineraries_list->move_child (itinerary_to_move, LAST);
+  // }
 
   //debug
   //int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();

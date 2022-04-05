@@ -184,6 +184,7 @@ Component root {
         }
       }
       itineraries_list aka ctrl_visibility.visible.layer.itineraries_list
+      ref_current_itinerary aka ctrl_visibility.visible.layer.ref_current_itinerary
       id aka ctrl_visibility.visible.layer.id
       String name ("Itineraries")
     }
