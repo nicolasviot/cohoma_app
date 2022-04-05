@@ -8,7 +8,7 @@ import TaskEdge
 import TaskTrap
 
 _define_
-TaskLayer (Process map, Process nodes){
+TaskLayer (Process map){
 
 
 	List Areas{
