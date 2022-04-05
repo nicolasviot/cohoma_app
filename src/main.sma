@@ -180,7 +180,7 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible{
-          Itineraries layer (map, f, l.map.layers.navgraph.ctrl_visibility.visible.layer.nodes)
+          Itineraries layer (map, f, l.map.layers.navgraph.nodes)
         }
       }
       itineraries_list aka ctrl_visibility.visible.layer.itineraries_list

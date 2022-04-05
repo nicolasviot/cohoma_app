@@ -369,6 +369,10 @@ RosNode::test_multiple_itineraries(){
 void 
 RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
 
+  //delete old content
+  _itineraries_list->clean_up_content ();
+  _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
+
 
 /*  for (auto item: ((djnn::List*)_itinerary_edges)->children()){
        item->deactivate ();
@@ -383,7 +387,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       
     }*/
 
-  int size = msg->nodes.size();
+/*  int size = msg->nodes.size();
 
   for (int i = 0; i <  size - 1; ++i) {
       std::cout << "trying to draw arc between " << i << " and " << i+1 << std::endl;
@@ -391,7 +395,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       ((AbstractProperty*)edge->find_child("color/r"))->set_value(30, true);
       ((AbstractProperty*)edge->find_child("color/g"))->set_value(144, true);
       ((AbstractProperty*)edge->find_child("color/b"))->set_value(255, true);
-    } 
+    } */
 }
 
 void 
@@ -408,7 +412,7 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
         item = nullptr;
       
     }*/
-
+/*
   int size = msg->nodes.size();
 
   for (int i = 0; i <  size - 1; ++i) {
@@ -417,7 +421,7 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
       ((AbstractProperty*)edge->find_child("color/r"))->set_value(30, true);
       ((AbstractProperty*)edge->find_child("color/g"))->set_value(144, true);
       ((AbstractProperty*)edge->find_child("color/b"))->set_value(255, true);
-    }
+    }*/
 
 }
 

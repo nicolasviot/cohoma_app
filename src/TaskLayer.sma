@@ -4,22 +4,19 @@ use base
 use display
 
 import TaskArea
+import TaskEdge
+import TaskTrap
 
 _define_
-TaskLayer (Process map){
-
-
-
-
-
+TaskLayer (Process map, Process nodes){
 
 
 	List Areas{
 		TaskArea _(map)
 
 	}
-	List Segments{
-
+	List Edges{
+	
 	}
 	List Traps{
 

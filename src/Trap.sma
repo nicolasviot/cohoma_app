@@ -53,30 +53,7 @@ Trap (Process map, double _lat, double _lon, int r, int g, int b)
     c.cx - rect.width/2 =:> rect.x 
     c.cy - rect.height/2 =:> rect.y
     radius/get_resolution ($map.zoomLevel) =:> c.r
-    /*leave aka c.leave
-    right_press aka c.right.press
-    */
-   /* Switch ctrl_color (default) {
-        Component default {
-            default_col =: my_fc.value, oc.value
-        }
-        Component usable {
-            usable_col =: my_fc.value, oc.value
-        }
-        Component start {
-            start_col =: my_fc.value, oc.value
-        }
-        Component end {
-            end_col =: my_fc.value, oc.value
-        }
-        Component forbidden {
-            forbidden_col =: my_fc.value, oc.value
-        }
-        Component mandatory {
-            mandatory_col =: my_fc.value, oc.value
-        }
-    }
-   */ 
+
 
    Switch ctrl_trap_state(radius_unknown){
 
@@ -93,7 +70,7 @@ Trap (Process map, double _lat, double _lon, int r, int g, int b)
         c.cx =:> trap_g.trap_area.cx
         c.cy =:> trap_g.trap_area.cy      
     */
-    radius =:> c.r
+    radius/get_resolution ($map.zoomLevel) =:> c.r
     }
 
    }
