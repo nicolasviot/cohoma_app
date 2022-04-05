@@ -19,18 +19,16 @@ ItineraryPannel(double _dx, double _dy, Process _id_selected){
 	(id_selected == second.itinerary_id) ? "selected" : "unselected" =:> second.sw.state
 	(id_selected == third.itinerary_id) ? "selected" : "unselected" =:> third.sw.state
 
-	FSM itinerary_select{
+	FSM fsm_select{
 		State idle {}
 		State first_selected{
-			first.itinerary_id =: id_selected
-			
+			first.itinerary_id =?: id_selected
 		}
 		State second_selected{
-			second.itinerary_id =: id_selected
-			
+			second.itinerary_id =?: id_selected
 		}
 		State third_selected{
-			third.itinerary_id =: id_selected
+			third.itinerary_id =?: id_selected
 		}
 		idle -> first_selected (first.select)
 		idle -> second_selected (second.select)
@@ -43,6 +41,7 @@ ItineraryPannel(double _dx, double _dy, Process _id_selected){
 		third_selected -> second_selected (second.select)
 	}
 
-
-	
+	//debug
+	// LogPrinter lp ("state: ")
+	// fsm_select.state =:> lp.input	
 }

@@ -6,6 +6,7 @@ import Button
 _native_code_
 %{
 #include "string.h"
+#include <iostream>
 %}
 _define_
 ItineraryDescriptor(double dx, double dy, string start_state, int id){
@@ -35,7 +36,7 @@ ItineraryDescriptor(double dx, double dy, string start_state, int id){
 			Text description_label (10, 50, "toto") 
 			description =:> description_label.text
 		}
-		Component selected{
+		Component selected {
 			FillColor blue(0, 191, 255)
 			Rectangle bg(0, 0, 500, 100, 10, 10 )
 
@@ -48,9 +49,14 @@ ItineraryDescriptor(double dx, double dy, string start_state, int id){
 			description =:> description_label.text
 			
 			Button set_plan (bg, "set itinerary", 400, 25)
-
 		}
 	}
+
+	sw.unselected -> unselect
+	sw.selected -> select
+
 	sw.unselected.bg.press -> select
 	sw.selected.bg.press -> unselect
+
+	
 }
