@@ -17,7 +17,7 @@ Spike test_multiple_itineraries_spike
 
 
 
-ItineraryPannel itineraryPannel(0, 0)
+ItineraryPannel itineraryPannel(0, 0, root.l.map.layers.itineraries.id)
 Translation _ (0, 500)
 
 

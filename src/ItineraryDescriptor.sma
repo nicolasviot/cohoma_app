@@ -8,22 +8,20 @@ _native_code_
 #include "string.h"
 %}
 _define_
-ItineraryDescriptor(double dx, double dy, string start_state, int toto){
+ItineraryDescriptor(double dx, double dy, string start_state, int id){
 
 	Translation t (dx, dy)
 
 	String description("This is the most amazing itinerary ever")
 	String legend ("Itinerary n°")
-	Int itinerary_id(toto)
+	Int itinerary_id(id)
 
-	String start(start_state)
 	FontFamily _ ("B612")
     FontWeight _ (75)
     Spike select
     Spike unselect
 
-	Switch fsm (unselected){
-
+	Switch sw (unselected){
 		Component unselected{
 			Translation _ (40, 0)
 			FillColor grey(128, 128, 128)
@@ -53,12 +51,6 @@ ItineraryDescriptor(double dx, double dy, string start_state, int toto){
 
 		}
 	}
-
-	fsm.unselected.bg.press -> select
-	fsm.selected.bg.press -> unselect
-	
-
-	start =: fsm.state
-
-
+	sw.unselected.bg.press -> select
+	sw.selected.bg.press -> unselect
 }
