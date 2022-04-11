@@ -49,7 +49,7 @@ edge_released_action (Process src, Process data)
 	// release(src)->line(edge)->component(edge)->list(edges)->component(itinerary)
 	itinerary_id = find (&src, "../../../../id")
 	// and assign it to current itineraries.id(data)
-	data.id = itinerary_id
+	data.id = toString (itinerary_id)
 }
 
 _define_
@@ -57,8 +57,8 @@ Itineraries (Process _map, Process f){
 	map aka _map
 	Spike create_bindings
 	Spike clear
-	Int id (0)
-	Ref ref_current_itinerary (&id)
+	String id ("")
+	Ref ref_current_itinerary (nullptr)
 	ManagerId manager(0)
 	Component itineraries_list {}
 

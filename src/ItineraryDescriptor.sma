@@ -9,13 +9,13 @@ _native_code_
 #include <iostream>
 %}
 _define_
-ItineraryDescriptor(double dx, double dy, string start_state, int id){
+ItineraryDescriptor(double dx, double dy, string start_state, string id){
 
 	Translation t (dx, dy)
 
 	String description("This is the most amazing itinerary ever")
-	String legend ("Itinerary n°")
-	Int itinerary_id(id)
+	String legend ("Itinerary: ")
+	String itinerary_id(id)
 
 	FontFamily _ ("B612")
     FontWeight _ (75)

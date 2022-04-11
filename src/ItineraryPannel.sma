@@ -11,13 +11,13 @@ ItineraryPannel(double _dx, double _dy, Process _id_selected){
 	id_selected aka _id_selected
 
 	
-	ItineraryDescriptor first (10, 10, "selected", 1)
-	ItineraryDescriptor second (10, 120, "unselected", 2)
-	ItineraryDescriptor third (10, 230, "unselected", 3)
+	ItineraryDescriptor first (10, 10, "selected", "toto")
+	ItineraryDescriptor second (10, 120, "unselected", "titi")
+	ItineraryDescriptor third (10, 230, "unselected", "tata")
 
-	(id_selected == first.itinerary_id) ? "selected" : "unselected" =:> first.sw.state
-	(id_selected == second.itinerary_id) ? "selected" : "unselected" =:> second.sw.state
-	(id_selected == third.itinerary_id) ? "selected" : "unselected" =:> third.sw.state
+	(toString(id_selected) == toString(first.itinerary_id)) ? "selected" : "unselected" =:> first.sw.state
+	(toString(id_selected) == toString(second.itinerary_id)) ? "selected" : "unselected" =:> second.sw.state
+	(toString(id_selected) == toString(third.itinerary_id)) ? "selected" : "unselected" =:> third.sw.state
 
 	FSM fsm_select{
 		State idle {}
