@@ -83,10 +83,10 @@ RosNode::impl_activate ()
   sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>(
     "/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
 
-  sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItinerary>(
+  sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItineraryList>(
     "/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary_loop, this, _1));
 
-  sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItinerary>(
+  sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItineraryList>(
     "/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, this, _1));
 
   sub_candidate_tasks = _node->create_subscription<icare_interfaces::msg::Tasks>(
@@ -358,7 +358,7 @@ RosNode::test_multiple_itineraries(){
 }
 #ifndef NO_ROS
 void 
-RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
+RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
 
   //delete old content
   _itineraries_list->clean_up_content ();
@@ -390,7 +390,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
 }
 
 void 
-RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
+RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
 /*  for (auto item: ((djnn::List*)_itinerary_edges)->children()){
        item->deactivate ();
 
