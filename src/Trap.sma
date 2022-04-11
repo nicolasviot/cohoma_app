@@ -15,7 +15,7 @@ _native_code_
 %}
 
 _define_
-Trap (Process map, double _lat, double _lon, int r, int g, int b)
+Trap (Process map, double _lat, double _lon, int _id)
 {
 
 
@@ -35,6 +35,7 @@ Trap (Process map, double _lat, double _lon, int r, int g, int b)
     Double lon($_lon)
     Double altitude_msl(0)
     Double radius(50)
+    Int id($_id)
 
     String trap_status("radius_unknown")
     

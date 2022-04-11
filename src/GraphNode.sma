@@ -28,7 +28,7 @@ GraphNode(Process map, double _lat, double _lon, int r, int g, int b)
     Int start_col (#70EE49)
     Int mandatory_col (#FF30FF)
 
-    Int default_radius (5)
+    Int default_radius (15)
     Int other_radius (8)
 
     Double lat($_lat)
@@ -49,28 +49,41 @@ GraphNode(Process map, double _lat, double _lon, int r, int g, int b)
     screen_translation.ty =:> rot.cy
     heading_rot =:> rot.a
 
+ // API (TODO)
+    FillOpacity _ (0)
+    NoOutline _ 
+    Circle interact_mask (0, 0, 8)
+    leave aka interact_mask.leave
+    right_press aka interact_mask.right.press
+
+
+
     //graphical variables to be updated in different status
     FillOpacity fill_opacity (0.6)
     opacity aka fill_opacity.a
+
+
     FillColor fill_color (r, g, b)
 
     OutlineColor outline_color (r, g, b)
     OutlineWidth outline_width (1)
     OutlineOpacity outline_opacity(0.5)
 
-    Circle c (0, 0, 4)
+    Circle c (0, 0, 8)
 
-    // API (TODO)
-    leave aka c.leave
-    right_press aka c.right.press
+   
 
+    LogPrinter lp("leaving.....")
+    leave -> lp.input
+    c.leave -> leave
+    c.right.press -> right_press
 
     Switch status_switch (default) {
         Component default {
              node_col =: fill_color.value
             white_col =: outline_color.value
 
-                1 =: outline_width.width
+                3 =: outline_width.width
             default_radius =: c.r
         }
         Component start {
@@ -101,11 +114,21 @@ GraphNode(Process map, double _lat, double _lon, int r, int g, int b)
 
             NoFill _ 
             OutlineWidth _ (2)
-            Circle outer_circler (0,0, 12)
+            Circle outer_circler (0, 0, 16)
         }
     }
     usage_status => status_switch.state
+/*
+    FillOpacity _ (0)
+    NoOutline _ 
+    Circle interact_mask (0, 0, 25)
+    leave aka interact_mask.leave
+    right_press aka interact_mask.right.press
 
+    LogPrinter lp("leaving.....")
+    leave -> lp.input
+
+*/
    
   FSM drag_fsm {
         State no_drag {

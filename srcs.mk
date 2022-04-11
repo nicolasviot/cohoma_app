@@ -9,6 +9,7 @@ srcs_sma ?= src/Dispatcher.sma src/Reticule.sma src/Strip.sma src/Slider.sma src
             src/Button.sma src/PanAndZoom.sma src/StatusSelector.sma src/GraphNode.sma src/Trap.sma src/Node.sma src/Edge.sma src/ManagerId.sma \
             src/TaskEdge.sma src/TaskTrap.sma src/TaskAreaSummit.sma src/TaskArea.sma src/TaskLayer.sma \
             src/NavGraph.sma src/Itineraries.sma src/PixmapTile.sma src/MapLayer.sma src/Map.sma src/WidgetMap.sma \
+            src/AreaTaskDescriptor.sma src/CandidateTaskFilter.sma \
             src/ItineraryDescriptor.sma src/ItineraryPannel.sma src/RightPannel.sma src/RosManager.sma \
             src/Vehicule.sma src/UpperLeftMenu.sma src/StripContainer.sma src/main.sma
 # or

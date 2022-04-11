@@ -180,7 +180,7 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible{
-          Itineraries layer (map, f, l.map.layers.navgraph.nodes)
+          Itineraries layer (map, f)
         }
       }
       itineraries_list aka ctrl_visibility.visible.layer.itineraries_list
@@ -195,7 +195,7 @@ Component root {
         Component hidden
         Component visible {
           List layer{
-            Trap trap (map, $init_lat , $init_lon- 0.002, r_1, g_1, b_1)
+            Trap trap (map, $init_lat , $init_lon- 0.002, 0)
           }
         }
       }
@@ -226,11 +226,6 @@ Component root {
     }
   }
 
-  Double lat_flightsim(40.0)
-  Double lon_flightsim(1.30)
-
-  lat_flightsim =:> l.map.lat_center
-  lon_flightsim =:> l.map.lon_center
 
   show_reticule -> l.map.reticule.show_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.create
   hide_reticule -> l.map.reticule.hide_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
@@ -239,18 +234,6 @@ Component root {
     Translation t (1024, 0)
     Rectangle bg (0, 0, 700, 900)
     RightPannel right_pannel (root, f)
-
-     //legend for NavGraph
-    Component NavGraph
-    {
-      nav_svg = loadFromXML ("res/svg/GraphNav_legend.svg")
-      Translation legend (350, 400)
-      nav << nav_svg.GraphNav
-      Translation legend_off (-350, -400)
-
-    //TODO Use the buuton to send and updated graph via Ros
-    //nav.update_button.rect.press -> xxx
-    }
 
   }
 

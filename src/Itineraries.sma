@@ -53,7 +53,7 @@ edge_released_action (Process src, Process data)
 }
 
 _define_
-Itineraries (Process _map, Process f, Process navgraph){
+Itineraries (Process _map, Process f){
 	map aka _map
 	Spike create_bindings
 	Spike clear
