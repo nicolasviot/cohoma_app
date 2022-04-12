@@ -314,8 +314,18 @@ RosNode::test_multiple_itineraries(){
   
   //std::cerr << "in RosNode::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
 
-  //delete old content
-  _itineraries_list->clean_up_content ();
+  //schedule delete old content
+  int itineraries_list_size =  _itineraries_list->children ().size ();
+  for (int i = itineraries_list_size - 1; i >= 0; i--) {
+    auto *child = _itineraries_list->children ()[i];
+    if (child) {
+      child->deactivate ();
+      if (child->get_parent ())
+        child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
+      child->schedule_delete ();
+      child = nullptr;
+    }
+  }
   _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
  
   //std::cerr << "in RosNode::test_multiple_itineraries - size after "  << _itineraries_list->children ().size () <<std::endl;
