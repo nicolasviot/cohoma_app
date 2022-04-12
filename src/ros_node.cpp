@@ -134,7 +134,7 @@ RosNode::impl_activate ()
   _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
 
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
-  _id_curent_itenerary  = dynamic_cast<IntProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
+  _id_curent_itenerary  = dynamic_cast<TextProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
   _ref_curent_itenerary = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/ref_current_itinerary"));
   _edge_released_na = dynamic_cast<NativeAction*> (_parent->find_child ("parent/l/map/layers/itineraries/edge_released_na"));
   
@@ -303,10 +303,10 @@ RosNode::test_multiple_itineraries(){
   //std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
 
   //debug ros_msg
-  std::vector<std::pair<int,std::vector<int>>> msg = { \
-    {1, {2, 1, 0, 5, 6}}, \
-    {2, {2, 10, 8, 6}}, \
-    {3, {0, 1, 4, 7}}};
+  std::vector<std::pair<string,std::vector<int>>> msg = { \
+    {"toto", {2, 1, 0, 5, 6}}, \
+    {"titi", {2, 10, 8, 6}}, \
+    {"tata", {0, 1, 4, 7}}};
 
   //Color:
   int unselected = 0x232323;
@@ -332,13 +332,13 @@ RosNode::test_multiple_itineraries(){
     }
   */
 
-  int first_id = -1;
+  string first_id = "";
   for (auto ros_itinerary : msg) {
     // get first id
-    if (first_id == -1)
+    if (first_id == "")
       first_id = ros_itinerary.first;
-    Component *new_itinerary = new Component ( _itineraries_list, to_string(ros_itinerary.first) );
-    new IntProperty (new_itinerary, "id", ros_itinerary.first);
+    Component *new_itinerary = new Component ( _itineraries_list, ros_itinerary.first );
+    new TextProperty (new_itinerary, "id", ros_itinerary.first);
     List* new_ite_edges = new List (new_itinerary, "edges");
     int ite_edges_size = ros_itinerary.second.size ();
     if ( ite_edges_size > 0) {
