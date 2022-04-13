@@ -48,12 +48,20 @@ Trap (Process map, double _lat, double _lon, int _id)
     
     NoOutline _
     FillColor red(240, 0, 0)
+    Rotation rot (45, 0, 0)
     Rectangle rect (0, 0, 20, 20)
+    Rotation un_rot (-45, 0, 0)
     FillOpacity _(0.3)
     Circle c (0, 0, 50)
     c.cx - rect.width/2 =:> rect.x 
     c.cy - rect.height/2 =:> rect.y
     radius/get_resolution ($map.zoomLevel) =:> c.r
+
+    //rotation of the rectangle to be a losange
+    c.cx =:> rot.cx
+    c.cy =:> rot.cy
+    rot.cx =:> un_rot.cx
+    rot.cy =:> un_rot.cy
 
 
    Switch ctrl_trap_state(radius_unknown){
