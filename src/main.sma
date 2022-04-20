@@ -33,9 +33,11 @@ import Edge
 import RosManager
 import UpperLeftMenu
 import StripContainer
+import SafetyPilot
 import Trap
 import Vehicule
 import TaskLayer
+
 
 
 _native_code_
@@ -211,10 +213,20 @@ Component root {
       String name("Tasks")
     }
 
+    Component actors{
+      Switch ctrl_visibility (visible){
+        Component hidden
+        Component visible {
+          List layer{
+            SafetyPilot sfty_pilot (map, $init_lat , $init_lon- 0.005, 0)
+          }
+        }
+      }
+      String name("Actors")
+    }
+
       
     
-
-
     addChildrenTo map.layers {
       geoportail,
       osm,
@@ -222,7 +234,8 @@ Component root {
       navgraph,
       itineraries,
       traps, 
-      tasks
+      tasks,
+      actors
     }
   }
 
