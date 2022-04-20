@@ -15,6 +15,7 @@
 #include "icare_interfaces/msg/planning_request.hpp"
 //VAB planif output : subscriber
 #include "icare_interfaces/msg/graph_itinerary.hpp"
+#include "icare_interfaces/msg/graph_itinerary_list.hpp"
 //Traps : subscriber 
 #include "icare_interfaces/msg/trap.hpp"
 //Tasks : subscriber / publisher 
@@ -57,8 +58,8 @@ class RosNode : public FatProcess, public ExternalSource
   #ifndef NO_ROS
     void receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg);
     void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
-    void receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItinerary::SharedPtr msg);
-    void receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg);
+    void receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg);
+    void receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg);
     void receive_msg_trap (const icare_interfaces::msg::Trap msg);
     void receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks);
     void receive_msg_allocation(const icare_interfaces::msg::Allocation);
@@ -120,8 +121,8 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::QoS qos;
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
 	  rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
-    rclcpp::Subscription<icare_interfaces::msg::GraphItinerary>::SharedPtr sub_graph_itinerary_loop;
-    rclcpp::Subscription<icare_interfaces::msg::GraphItinerary>::SharedPtr sub_graph_itinerary_final;
+    rclcpp::Subscription<icare_interfaces::msg::GraphItineraryList>::SharedPtr sub_graph_itinerary_loop;
+    rclcpp::Subscription<icare_interfaces::msg::GraphItineraryList>::SharedPtr sub_graph_itinerary_final;
     rclcpp::Subscription<icare_interfaces::msg::Tasks>::SharedPtr sub_candidate_tasks;
     rclcpp::Subscription<icare_interfaces::msg::Allocation>::SharedPtr sub_allocation;
 

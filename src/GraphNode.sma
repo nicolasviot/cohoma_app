@@ -28,8 +28,8 @@ GraphNode(Process map, double _lat, double _lon, int r, int g, int b)
     Int start_col (#70EE49)
     Int mandatory_col (#FF30FF)
 
-    Int default_radius (15)
-    Int other_radius (8)
+    Int default_radius (8)
+    Int other_radius (4)
 
     Double lat($_lat)
     Double lon($_lon)
@@ -50,7 +50,6 @@ GraphNode(Process map, double _lat, double _lon, int r, int g, int b)
     heading_rot =:> rot.a
 
  // API (TODO)
-    FillOpacity _ (0)
     NoOutline _ 
     Circle interact_mask (0, 0, 8)
     leave aka interact_mask.leave
@@ -68,7 +67,6 @@ GraphNode(Process map, double _lat, double _lon, int r, int g, int b)
     OutlineColor outline_color (r, g, b)
     OutlineWidth outline_width (1)
     OutlineOpacity outline_opacity(0.5)
-
     Circle c (0, 0, 8)
 
    
@@ -114,7 +112,7 @@ GraphNode(Process map, double _lat, double _lon, int r, int g, int b)
 
             NoFill _ 
             OutlineWidth _ (2)
-            Circle outer_circler (0, 0, 16)
+            Circle outer_circler (0, 0, 5)
         }
     }
     usage_status => status_switch.state

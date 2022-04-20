@@ -26,7 +26,7 @@ TaskArea (Process map){
         Point pt2(-20, 20)
         Point pt3(20, 20)
         Point pt4(50, -20)
-    }
+    } 
     TaskAreaSummit sum1(map, 43.316021818382886, 1.4041900634765625)
     TaskAreaSummit sum2(map, 43.316006206187375, 1.4047694206237793)
     TaskAreaSummit sum3(map, 43.3159281451497, 1.4054131507873535)
