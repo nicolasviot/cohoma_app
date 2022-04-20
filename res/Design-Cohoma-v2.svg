@@ -1,187 +1,556 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 26.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="1419px" height="895px" viewBox="0 0 1419 895" enable-background="new 0 0 1419 895" xml:space="preserve">
-<rect id="background" x="-2.3" y="-2" fill="#666666" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="1419" height="895"/>
-<g id="Map_layer">
+	 width="1419px" height="895px" viewBox="0 0 1419 895" style="enable-background:new 0 0 1419 895;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#666666;stroke:#FFFFFF;stroke-width:4;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#FFFFFF;stroke-miterlimit:10;}
+	.st2{fill:#FFFFFF;}
+	.st3{font-family:'MyriadPro-Regular';}
+	.st4{font-size:15px;}
+	.st5{opacity:0.8;fill:#CCCCCC;stroke:#FFFFFF;stroke-miterlimit:10;enable-background:new    ;}
+	.st6{opacity:0.8;fill:#29ABE2;stroke:#000000;stroke-width:3;stroke-miterlimit:10;enable-background:new    ;}
+	.st7{opacity:0.8;fill:#29ABE2;stroke:#FFFFFF;stroke-miterlimit:10;enable-background:new    ;}
+	.st8{display:none;}
+	.st9{display:inline;fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+	.st10{opacity:0.8;fill:none;stroke:#FF30FF;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+	.st11{opacity:0.8;fill:none;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;enable-background:new    ;}
+	.st12{fill:#666666;stroke:#35B2FF;stroke-width:2;stroke-miterlimit:10;}
+	.st13{font-size:12px;}
+	.st14{opacity:0.8;fill:#29ABE2;stroke:#70EE49;stroke-miterlimit:10;enable-background:new    ;}
+	.st15{fill:#32ED2B;}
+	.st16{opacity:0.8;fill:#29ABE2;stroke:#FF30FF;stroke-miterlimit:10;enable-background:new    ;}
+	.st17{fill:#FF30FF;}
+	.st18{fill:none;stroke:#1D1D1B;stroke-width:0.25;stroke-linecap:round;stroke-miterlimit:10;}
+	.st19{opacity:0.8;fill:#29ABE2;stroke:#000000;stroke-width:2;stroke-miterlimit:10;enable-background:new    ;}
+	.st20{opacity:0.8;fill:#35B2FF;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;enable-background:new    ;}
+	.st21{opacity:0.5;fill:#CCECFF;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;enable-background:new    ;}
+	.st22{fill:none;}
+	.st23{fill:none;stroke:#FFFFFF;stroke-width:5;stroke-miterlimit:10;}
+	.st24{opacity:0.8;fill:none;stroke:#29ABE2;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+	.st25{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+	.st26{fill:#FF0000;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;}
+	.st27{font-family:'MyriadPro-BoldCond';}
 	
-		<image overflow="visible" enable-background="new    " width="899" height="680" id="map_layer" xlink:href="C032C7B7E9D6FBFE.png"  transform="matrix(1 0 0 1 279.1 147)">
-	</image>
-	<g id="woMixx.tif" opacity="0.8">
-		
-			<image overflow="visible" width="1878" height="1318" id="Layer_0" xlink:href="3680D1E2565B532C.png"  transform="matrix(0.4967 0 0 0.5185 245.2752 143.6654)">
-		</image>
+		.st28{opacity:0.3;fill:url(#trap-wait-area_00000062180958636435065440000015441838340719252355_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+	
+		.st29{opacity:0.3;fill:url(#trap-wait-area_00000092437978356437390750000009551347715875671967_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+	.st30{opacity:0.7;fill:#7DE1FF;stroke:#000000;stroke-width:0.5;stroke-linecap:round;enable-background:new    ;}
+	.st31{opacity:0.6;fill:#0000FF;enable-background:new    ;}
+	.st32{opacity:0.7;fill:#7DE1FF;stroke:#000000;stroke-width:0.5;enable-background:new    ;}
+	.st33{fill:#7DE1FF;stroke:#000000;stroke-width:0.5;}
+	.st34{opacity:0.8;fill:none;stroke:#7DE1FF;stroke-linecap:round;enable-background:new    ;}
+	.st35{fill:none;stroke:#000000;}
+	.st36{opacity:0.4;}
+	.st37{fill:#C86464;stroke:#000000;stroke-width:1;stroke-miterlimit:4;}
+	.st38{opacity:0.5;fill:#FFFFFF;enable-background:new    ;}
+	.st39{font-size:10px;}
+	
+		.st40{opacity:0.3;fill:#FF0000;stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+	.st41{opacity:0.6;fill:url(#SVGID_1_);stroke:#FF5555;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+	
+		.st42{opacity:0.3;fill:url(#SVGID_00000091704835425865789270000006316237767282070679_);stroke:#FF5555;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+	.st43{opacity:0.8;}
+	.st44{fill:#32ED2B;stroke:#1D1D1B;stroke-width:0.25;stroke-linecap:round;stroke-miterlimit:10;}
+	.st45{fill:#FF3FE6;stroke:#1D1D1B;stroke-width:0.25;stroke-linecap:round;stroke-miterlimit:10;}
+	.st46{opacity:0.8;fill:none;stroke:#FF30FF;stroke-width:3;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+	.st47{opacity:0.7;fill:none;stroke:#FFFFFF;stroke-miterlimit:10;enable-background:new    ;}
+	.st48{opacity:0.9;fill:none;stroke:#00B2FF;stroke-width:4;stroke-miterlimit:10;enable-background:new    ;}
+	.st49{opacity:0.8;fill:none;stroke:#CCECFF;stroke-width:4;stroke-miterlimit:10;enable-background:new    ;}
+	
+		.st50{opacity:0.3;fill:url(#trap-wait-area_00000158744937166530172560000015259018400720667023_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+	
+		.st51{opacity:0.3;fill:url(#trap-wait-area_00000010293621791958766810000010108942045290694021_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+	.st52{fill:none;stroke:#FFFA00;stroke-width:3;stroke-linecap:round;stroke-miterlimit:4;}
+	.st53{fill:none;stroke:#FFFA00;stroke-width:2;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:2,4;}
+	.st54{fill:none;stroke:#FFFA00;stroke-width:3;stroke-miterlimit:4;enable-background:new    ;}
+	.st55{fill:none;stroke:#FFFA00;stroke-width:2;stroke-miterlimit:10;stroke-dasharray:2,4;enable-background:new    ;}
+	.st56{opacity:0.1;fill:#FFFA8F;enable-background:new    ;}
+	.st57{fill:#499AF8;}
+	.st58{fill:#A4E3FC;}
+	.st59{fill:#F8D7A2;}
+	.st60{fill:#E66843;}
+	.st61{fill:#8EE291;}
+	.st62{fill:#9A84DD;}
+	.st63{fill:#FFFF7C;}
+	.st64{fill:#2353E9;}
+	.st65{fill:#2F6AEA;}
+	.st66{fill:#4395EB;}
+	.st67{fill:#5AC4ED;}
+	.st68{fill:#64D8EF;}
+	.st69{fill:#C92AB6;}
+	.st70{fill:#A056F6;}
+	.st71{fill:#B6FD4F;}
+	.st72{fill:#3E82DF;}
+	.st73{fill:#FDF362;}
+	.st74{fill:#D98AEC;}
+	.st75{fill:#70EE49;}
+	.st76{fill:#EAF205;}
+	.st77{fill:#E9B940;}
+	.st78{fill:#E48C34;}
+	.st79{fill:#FF0000;stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
+	
+		.st80{opacity:0.15;fill:#A056F6;stroke:#A056F6;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+	.st81{opacity:0.8;fill:#00B2FF;stroke:#000000;stroke-miterlimit:10;enable-background:new    ;}
+	.st82{opacity:0.2;fill:#B6FD4F;stroke:#000000;stroke-miterlimit:10;enable-background:new    ;}
+	.st83{opacity:0.8;fill:#00B2FF;stroke:#000000;stroke-width:1;stroke-miterlimit:9.9998;enable-background:new    ;}
+	.st84{opacity:0.3;fill:#B6FD4F;stroke:#000000;stroke-miterlimit:10;enable-background:new    ;}
+	.st85{fill:none;stroke:#FFFA00;stroke-width:4;stroke-miterlimit:10;stroke-dasharray:2,4;}
+	.st86{fill:none;stroke:#FFFA00;stroke-width:4;stroke-miterlimit:10;}
+</style>
+<rect id="background" x="-2.3" y="-2" class="st0" width="1419" height="895"/>
+<g id="GraphNav">
+	<rect x="1193" y="33.2" class="st0" width="221.7" height="197.6"/>
+	<rect x="1193" y="33.2" class="st1" width="221.7" height="36.4"/>
+	<text transform="matrix(1 0 0 1 1206.0908 56.5083)" class="st2 st3 st4">Navigation Graph</text>
+	<text transform="matrix(1 0 0 1 1226.1588 97.4916)" class="st2 st3 st4">Node</text>
+	<circle id="node" class="st5" cx="1211.7" cy="92.9" r="5.5"/>
+	<text transform="matrix(1 0 0 1 1226.1593 119.0633)" class="st2 st3 st4">Start Node</text>
+	<text transform="matrix(1 0 0 1 1226.1587 140.635)" class="st2 st3 st4">End Node</text>
+	<text transform="matrix(1 0 0 1 1226.1586 162.2067)" class="st2 st3 st4">Mandatory Node</text>
+	<text id="Forced" transform="matrix(1 0 0 1 1226.1586 183.7782)" class="st2 st3 st4">Forced Node</text>
+	<circle id="node_forced" class="st6" cx="1211.7" cy="179.2" r="5.2"/>
+	<g id="node_mandatory">
+		<circle id="GraphNode_00000083795221278490551850000002762137817906150278_" class="st7" cx="1211.7" cy="157.6" r="5.2"/>
+		<g id="waypoint_00000149381495119761874650000010747891893097652116_" class="st8">
+			<line class="st9" x1="1207.9" y1="153.8" x2="1216.1" y2="162"/>
+			<line class="st9" x1="1207.9" y1="162" x2="1216.1" y2="153.8"/>
+		</g>
+		<circle class="st10" cx="1211.7" cy="157.6" r="10.5"/>
+	</g>
+	<text transform="matrix(1 0 0 1 1225.1746 205.1697)" class="st2 st3 st4">Edge</text>
+	<line class="st11" x1="1204.3" y1="200.6" x2="1219.7" y2="200.6"/>
+	<g id="update_button">
+		<path class="st12" d="M1396.7,220.8h-72.1c-5.2,0-9.4-4.2-9.4-9.4v-8.7c0-5.2,4.2-9.4,9.4-9.4h72.1c5.2,0,9.4,4.2,9.4,9.4v8.7
+			C1406.1,216.5,1401.9,220.8,1396.7,220.8z"/>
+		<text transform="matrix(1 0 0 1 1319.8022 211.3952)" class="st2 st3 st13">Update Itinerary</text>
+	</g>
+	<g id="node_start">
+		<circle id="node_start2" class="st14" cx="1211.7" cy="114.5" r="5.2"/>
+		<polygon class="st15" points="1215.7,114.5 1209.7,111.1 1209.7,117.9 		"/>
+	</g>
+	<g id="node_end">
+		<circle id="node_endd" class="st16" cx="1211.7" cy="136.2" r="5.2"/>
+		<path class="st17" d="M1212.4,134.7c1.4,0.6,1.4,0.6,2.6-0.9c0-0.1,0.1,0.1,0.1,0.1c0.1,2.7,0,0,0.1,2.7c0,1.7-0.6,1.6-2.5,0.6
+			c-0.8-0.4-1.3-0.9-1.9-1c-0.8-0.1-1.4,1.7-1.6,1.6c-0.1,0-0.1-0.1-0.1-0.2c0-0.5-0.1-1.6-0.2-3
+			C1210.3,133.4,1210.3,133.2,1212.4,134.7z"/>
+		<line class="st18" x1="1208.9" y1="134.7" x2="1209.1" y2="139.6"/>
+	</g>
+	<circle id="node_forfed_00000182514348302660275910000010809241568417508794_" class="st19" cx="866.1" cy="368" r="5.2"/>
+	<circle id="node_forfed_00000021836934741742831170000000042175630545359033_" class="st19" cx="757.3" cy="326.9" r="5.2"/>
+</g>
+<g id="Itinerary">
+	<rect x="1194.1" y="245.7" class="st0" width="221.7" height="197.6"/>
+	<rect x="1194.1" y="245.7" class="st1" width="221.7" height="36.4"/>
+	<g id="itininerary_proposal">
+		<rect x="1196.5" y="291.1" class="st20" width="192.2" height="44.7"/>
+		<text transform="matrix(1 0 0 1 1204.4545 304.2748)" class="st2 st3 st4">It 1</text>
+		<text transform="matrix(1 0 0 1 1204.4545 322.2748)" class="st2 st3 st4">Shortest distance</text>
+		<g id="update_button_00000011002095034818549070000016339925699345471148_">
+			<path class="st12" d="M1372.7,327.3h-8.7c-5.2,0-9.4-4.2-9.4-9.4v-8.7c0-5.2,4.2-9.4,9.4-9.4h8.7c5.2,0,9.4,4.2,9.4,9.4v8.7
+				C1382.1,323.1,1377.9,327.3,1372.7,327.3z"/>
+			<text transform="matrix(1 0 0 1 1359.2651 317.9056)" class="st2 st3 st13">Set</text>
+		</g>
+	</g>
+	<g id="itininerary_proposal_00000052106569223655894410000010816214052558238607_">
+		<g id="update_button_00000170243492525704456010000004931476630690488210_">
+			<path class="st12" d="M1395.1,429.8h-8.7c-5.2,0-9.4-4.2-9.4-9.4v-8.7c0-5.2,4.2-9.4,9.4-9.4h8.7c5.2,0,9.4,4.2,9.4,9.4v8.7
+				C1404.5,425.5,1400.3,429.8,1395.1,429.8z"/>
+			<text transform="matrix(1 0 0 1 1381.6272 420.3899)" class="st2 st3 st13">Set</text>
+		</g>
+		<rect x="1221.6" y="393.6" class="st21" width="192.2" height="44.7"/>
+		<text transform="matrix(1 0 0 1 1229.4797 406.7591)" class="st2 st3 st4">It 1</text>
+		<text transform="matrix(1 0 0 1 1229.4797 424.7591)" class="st2 st3 st4">Far from traps</text>
+	</g>
+	<g id="itininerary_proposal_00000124875720177785724760000002351319910127667337_">
+		<g id="update_button_00000018221024063917182080000014282344748035947140_">
+			<path class="st12" d="M1395.1,380.5h-8.7c-5.2,0-9.4-4.2-9.4-9.4v-8.7c0-5.2,4.2-9.4,9.4-9.4h8.7c5.2,0,9.4,4.2,9.4,9.4v8.7
+				C1404.5,376.3,1400.3,380.5,1395.1,380.5z"/>
+			<text transform="matrix(1 0 0 1 1381.6272 371.1217)" class="st2 st3 st13">Set</text>
+		</g>
+		<rect x="1221.6" y="344.4" class="st21" width="192.2" height="44.7"/>
+		<text transform="matrix(1 0 0 1 1229.4797 357.4908)" class="st2 st3 st4">It 2</text>
+		<text transform="matrix(1 0 0 1 1229.4797 375.4908)" class="st2 st3 st4">Far from forest</text>
+		<polygon class="st22" points="1201.8,373.8 1273.2,373.8 1273.2,373.8 		"/>
+	</g>
+	<text transform="matrix(1 0 0 1 1207.2625 268.9487)" class="st2 st3 st4">Itinerary</text>
+</g>
+<g id="tasks_panel">
+	<rect x="1193" y="459.2" class="st0" width="221.7" height="369.5"/>
+	<rect x="1193" y="459.2" class="st1" width="221.7" height="36.4"/>
+	<text id="Tasks" transform="matrix(1 0 0 1 1206.0908 482.5157)" class="st2 st3 st4">Tasks</text>
+	<text transform="matrix(1 0 0 1 1207.6025 510.2438)" class="st2 st3 st13">Zones</text>
+	<text transform="matrix(1 0 0 1 1238.1304 534.1497)" class="st2 st3 st13">zone - P110 - P134</text>
+	<text transform="matrix(1 0 0 1 1205.0844 595.1003)" class="st2 st3 st13">Edges</text>
+	<text transform="matrix(1 0 0 1 1206.4998 729.1935)" class="st2 st3 st13">Identification</text>
+	<g id="checkbox">
+		<rect x="1211.1" y="523.8" class="st1" width="17.1" height="17.1"/>
+		<path class="st23" d="M1214.6,531.9c2.3,2.3,4.6,4.6,6.9,6.9c1.3-3.4,3.1-6.6,5.3-9.4"/>
+	</g>
+	<rect id="check-2" x="1211.1" y="551.3" class="st1" width="17.1" height="17.1"/>
+	<text transform="matrix(1 0 0 1 1237.4998 564.5997)" class="st2 st3 st13">zone - P110 - P124</text>
+	<text transform="matrix(1 0 0 1 1239.6488 617.0251)" class="st2 st3 st13">P110 - P112</text>
+	<g id="checkbox_00000108282216808063015140000006639994812004752062_">
+		<rect x="1212.7" y="606.6" class="st1" width="17.1" height="17.1"/>
+		<path class="st23" d="M1216.2,614.8c2.3,2.3,4.6,4.6,6.9,6.9c1.3-3.4,3.1-6.6,5.3-9.4"/>
+	</g>
+	
+		<rect id="check-2_00000127733299994779223010000013475489801198156465_" x="1212.7" y="634.2" class="st1" width="17.1" height="17.1"/>
+	<text transform="matrix(1 0 0 1 1239.0182 647.4753)" class="st2 st3 st13">P110 - P111</text>
+	<text transform="matrix(1 0 0 1 1239.6488 669.6997)" class="st2 st3 st13">P111 - P112 </text>
+	<g id="checkbox_00000089536474573948045890000009369983155135978390_">
+		<rect x="1212.7" y="659.3" class="st1" width="17.1" height="17.1"/>
+		<path class="st23" d="M1216.2,667.5c2.3,2.3,4.6,4.6,6.9,6.9c1.3-3.4,3.1-6.6,5.3-9.4"/>
+	</g>
+	
+		<rect id="check-2_00000096026623854000368880000008633516051786932128_" x="1212.7" y="686.9" class="st1" width="17.1" height="17.1"/>
+	<text transform="matrix(1 0 0 1 1239.0182 700.1498)" class="st2 st3 st13">P112 - P114</text>
+	<text transform="matrix(1 0 0 1 1240.7885 752.7504)" class="st2 st3 st13">Trap 1</text>
+	<g id="checkbox_00000098933604479651984870000016029402191005417880_">
+		<rect x="1213.8" y="742.4" class="st1" width="17.1" height="17.1"/>
+		<path class="st23" d="M1216.2,774.8c2.3,2.3,4.6,4.6,6.9,6.9c1.3-3.4,3.1-6.6,5.3-9.4"/>
+	</g>
+	
+		<rect id="check-2_00000127724260493335763970000001938047673224874933_" x="1213.8" y="769.9" class="st1" width="17.1" height="17.1"/>
+	<text transform="matrix(1 0 0 1 1240.1578 783.2004)" class="st2 st3 st13">Trap 2</text>
+</g>
+<circle id="GraphNode" class="st5" cx="47" cy="330.9" r="5.5"/>
+<circle id="GraphNode_00000133508108805231352840000003803372827501467554_" class="st5" cx="95.4" cy="284.3" r="5.5"/>
+<g id="WP-mandatory">
+	<circle id="GraphNode_00000037651371581574869380000015190954715562188676_" class="st7" cx="100.6" cy="331" r="5.2"/>
+	<g id="waypoint_00000001657941572728661110000008676324997185197242_" class="st8">
+		<line class="st9" x1="96.8" y1="327.2" x2="105" y2="335.4"/>
+		<line class="st9" x1="96.8" y1="335.4" x2="105" y2="327.2"/>
+	</g>
+	<circle class="st24" cx="100.6" cy="331" r="10.5"/>
+</g>
+<g id="WP-mandatory_00000049914989317110180570000006559632367433014441_">
+	<circle id="GraphNode_00000130618600074889580580000014907077331640675493_" class="st7" cx="100.6" cy="306.4" r="5.2"/>
+	<g id="waypoint_00000137096600480515353680000010306033732275092408_" class="st8">
+		<line class="st9" x1="96.8" y1="302.6" x2="105" y2="310.7"/>
+		<line class="st9" x1="96.8" y1="310.7" x2="105" y2="302.6"/>
+	</g>
+</g>
+<g id="WP-forbidden">
+	<circle id="GraphNode_00000051364545283376800730000011153844630190394775_" class="st5" cx="69.8" cy="330.9" r="5.2"/>
+	<g id="waypoint_00000061468084900229731050000016817201051029364414_">
+		<line class="st25" x1="65.8" y1="327" x2="73.9" y2="335.1"/>
+		<line class="st25" x1="65.8" y1="335.1" x2="73.9" y2="327"/>
+	</g>
+</g>
+<g id="Trap-wait">
+	
+		<rect id="trap-marker-wait" x="60.5" y="472.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -319.8902 190.0816)" class="st26" width="18" height="18"/>
+	<text transform="matrix(1 0 0 1 66.7285 485.6621)" class="st27 st4">?</text>
+	
+		<linearGradient id="trap-wait-area_00000071519148911691540910000007007214358610814861_" gradientUnits="userSpaceOnUse" x1="34" y1="848.5" x2="105" y2="848.5" gradientTransform="matrix(1 0 0 1 0 -368)">
+		<stop  offset="0" style="stop-color:#FF7BAC"/>
+		<stop  offset="1" style="stop-color:#FF7BAC;stop-opacity:0"/>
+	</linearGradient>
+	
+		<circle id="trap-wait-area" style="opacity:0.3;fill:url(#trap-wait-area_00000071519148911691540910000007007214358610814861_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" cx="69.5" cy="480.5" r="35.5"/>
+</g>
+<g id="Trap-wait_00000013887169550499912710000012822081471665072777_">
+	
+		<rect id="trap-marker-wait_00000155139509222704621200000006084822802434660267_" x="145.7" y="476.9" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -298.2708 251.7044)" class="st26" width="18" height="18"/>
+	<text transform="matrix(1 0 0 1 151.9533 490.3497)" class="st27 st4">?</text>
+	
+		<linearGradient id="trap-wait-area_00000054224520186166402250000009445464223788357044_" gradientUnits="userSpaceOnUse" x1="119.2" y1="853.2" x2="190.2" y2="853.2" gradientTransform="matrix(1 0 0 1 0 -368)">
+		<stop  offset="0" style="stop-color:#FF7BAC"/>
+		<stop  offset="1" style="stop-color:#FF7BAC;stop-opacity:0"/>
+	</linearGradient>
+	
+		<circle id="trap-wait-area_00000065055662835020163460000000797672426262895242_" style="opacity:0.3;fill:url(#trap-wait-area_00000054224520186166402250000009445464223788357044_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" cx="154.7" cy="485.2" r="35.5"/>
+</g>
+<g id="VAB">
+	<path id="path2988" class="st30" d="M51.5,582.8c-9.1,0-16.6-7.4-16.6-16.6s7.4-16.6,16.6-16.6h30.1c9.1,0,16.6,7.4,16.6,16.6
+		s-7.5,16.6-16.7,16.6H51.5z"/>
+	
+		<ellipse id="vab-marker" transform="matrix(6.652041e-02 -0.9978 0.9978 6.652041e-02 -503.3766 594.7531)" class="st31" cx="66.2" cy="566.4" rx="3.3" ry="3.3"/>
+</g>
+<g id="Drone">
+	<path id="UAV_00000121995831506571423420000009652437194042732428_" class="st32" d="M68.8,625.3l-28-23.3l27.9,9.2l27.9-9.8
+		L68.8,625.3z"/>
+	<circle id="GraphNode_00000116951582950089562290000003884267376724321193_" class="st31" cx="68.9" cy="625.4" r="3.3"/>
+</g>
+<g id="Robot1">
+	<g id="Drone_00000047042515095098460150000012256575447589146768_">
+		<path id="UAV_00000014620856097280365520000008566885559946529719_" class="st32" d="M69.6,685.8l-20.8-17.3l20.8,3.2l20.3-3.2
+			L69.6,685.8z"/>
+		<circle id="GraphNode_00000086653111880113809190000000407012383932343706_" class="st31" cx="69.8" cy="685.9" r="3.3"/>
+	</g>
+	<path id="UAV_00000060743005175068450510000017708807074956199614_" class="st32" d="M83.5,666.8"/>
+	<path id="UAV_00000036219827647903693570000010431644923587103370_" class="st32" d="M69.4,666.8"/>
+	<path class="st33" d="M80.2,689.9"/>
+	<path id="LWheel_00000147207657486958864750000003622822253736808346_" class="st34" d="M72.3,664.7c0,1.6-1.3,2.9-2.9,2.9
+		s-2.9-1.3-2.9-2.9l0,0c0-1.6,1.3-2.9,2.9-2.9C71,661.7,72.3,663,72.3,664.7L72.3,664.7z"/>
+	<path id="LWheel_00000100362005773993413380000013304345852475406010_" class="st34" d="M82.2,664.7c0,1.6-1.3,2.9-2.9,2.9
+		s-2.9-1.3-2.9-2.9l0,0c0-1.6,1.3-2.9,2.9-2.9C80.9,661.7,82.2,663,82.2,664.7L82.2,664.7z"/>
+	<path id="LWheel_00000081607088928017216110000013620856611781855659_" class="st34" d="M62.4,664.7c0,1.6-1.3,2.9-2.9,2.9
+		s-2.9-1.3-2.9-2.9l0,0c0-1.6,1.3-2.9,2.9-2.9C61.1,661.7,62.4,663,62.4,664.7L62.4,664.7z"/>
+</g>
+<g id="Robot2">
+	<g id="Drone_00000008147393462153197480000014878772577906491012_">
+		<path id="UAV_00000013889782812750399670000003314216494764614572_" class="st32" d="M69.6,746.6l-20.8-17.3l20.8,3.2l20.3-3.2
+			L69.6,746.6z"/>
+		<circle id="GraphNode_00000135677754487470746800000006429815064926821023_" class="st31" cx="69.8" cy="746.7" r="3.3"/>
+	</g>
+	<path id="UAV_00000108309608589468742530000001507147354563938469_" class="st32" d="M83.5,727.6"/>
+	<path id="UAV_00000006692424272064526520000001257604386892784543_" class="st32" d="M69.4,727.6"/>
+	<path id="LWheel_00000020399685034071170660000001462164902606641572_" class="st34" d="M72.3,725.4c0,1.6-1.3,2.9-2.9,2.9
+		s-2.9-1.3-2.9-2.9l0,0c0-1.6,1.3-2.9,2.9-2.9S72.3,723.8,72.3,725.4L72.3,725.4z"/>
+	<path id="LWheel_00000040572295837824520930000010604553251669903766_" class="st34" d="M82.2,725.4c0,1.6-1.3,2.9-2.9,2.9
+		s-2.9-1.3-2.9-2.9l0,0c0-1.6,1.3-2.9,2.9-2.9C80.9,722.5,82.2,723.8,82.2,725.4L82.2,725.4z"/>
+	<path id="LWheel_00000160889827275483883580000004567317848129487277_" class="st34" d="M62.4,725.4c0,1.6-1.3,2.9-2.9,2.9
+		s-2.9-1.3-2.9-2.9l0,0c0-1.6,1.3-2.9,2.9-2.9C61.1,722.5,62.4,723.8,62.4,725.4L62.4,725.4z"/>
+	<path class="st33" d="M80.2,744.1"/>
+	<polygon points="66.8,740 69.5,737.1 66.8,734.2 	"/>
+	<rect x="63.9" y="736.3" width="3.8" height="1.7"/>
+	<path class="st35" d="M70.4,734.6H72v4.9h-1.6"/>
+</g>
+<g id="Trap-deactivated" class="st36">
+	
+		<rect id="trap-marker_00000142159114049024685930000007925754984476763829_" x="145.7" y="395.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -240.5073 227.7621)" class="st37" width="18" height="18"/>
+</g>
+<g id="Trap-deactivated_00000007399641431079519690000012978140683272338853_" class="st36">
+	
+		<rect id="trap-marker_00000008857375525188519290000015868750447123745187_" x="463.1" y="148.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 27.1835 379.8533)" class="st37" width="18" height="18"/>
+</g>
+<g id="Trap-deactivated_00000036950274185498013620000006317957638881271989_" class="st36">
+	
+		<rect id="trap-marker_00000098922585052981121230000017130011945054221713_" x="433.8" y="167.6" transform="matrix(0.7071 -0.7071 0.7071 0.7071 4.8312 364.8451)" class="st37" width="18" height="18"/>
+</g>
+<g id="Trap-deactivated_00000159469569607088964980000011154879631323584417_" class="st36">
+	
+		<rect id="trap-marker_00000019660851175339812220000014022615212913145474_" x="530.1" y="218.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -2.6697 447.7141)" class="st37" width="18" height="18"/>
+</g>
+<path class="st38" d="M126.7,291.3h-16.1c-2.4,0-4.3-1.9-4.3-4.3v-5.3c0-2.4,1.9-4.3,4.3-4.3h16.1c2.4,0,4.3,1.9,4.3,4.3v5.3
+	C131,289.4,129.1,291.3,126.7,291.3z"/>
+<text transform="matrix(1 0 0 1 110.0238 288.0068)" class="st3 st13">T21</text>
+<line class="st1" x1="106.3" y1="284.3" x2="100.9" y2="284.3"/>
+<g id="title_bar">
+	<rect x="622.1" y="9.6" class="st22" width="1419" height="23.7"/>
+	<text transform="matrix(1 0 0 1 622.1 20.2046)" class="st2 st3 st4">COHOMA-STRATEGICAL PLANNING CENTER</text>
+	<rect id="Title" x="-0.1" y="2.4" class="st1" width="1414.8" height="24.4"/>
+</g>
+<text transform="matrix(1 0 0 1 605.1792 225.5771)" class="st3 st39">20m</text>
+<g id="Trap-confirmed_00000130625981216176981070000001288864810480191398_">
+	
+		<rect id="trap-marker_00000039827077637248622690000002282894003686022041_" x="89.1" y="148.8" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -82.8662 115.5943)" class="st26" width="18" height="18"/>
+	<circle id="trap-area_00000167368550196143017870000012327370568286696087_" class="st40" cx="98.1" cy="157.1" r="35.5"/>
+</g>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="625.9" y1="664.1" x2="806.5" y2="664.1" gradientTransform="matrix(1 0 0 1 0 -184)">
+	<stop  offset="0" style="stop-color:#D13026"/>
+	<stop  offset="0.1007" style="stop-color:#D13026;stop-opacity:0"/>
+	<stop  offset="0.2" style="stop-color:#D13026"/>
+	<stop  offset="0.3" style="stop-color:#D13026;stop-opacity:0"/>
+	<stop  offset="0.402" style="stop-color:#D13026"/>
+	<stop  offset="0.5" style="stop-color:#D13026;stop-opacity:0"/>
+	<stop  offset="0.6" style="stop-color:#D13026"/>
+	<stop  offset="0.7" style="stop-color:#D13026;stop-opacity:0"/>
+	<stop  offset="0.8" style="stop-color:#D13026"/>
+	<stop  offset="0.9" style="stop-color:#D13026;stop-opacity:0"/>
+	<stop  offset="1" style="stop-color:#D13026"/>
+</linearGradient>
+<polygon class="st41" points="806.5,491.5 741.1,558.7 693.9,609.2 625.9,544.2 648.2,452.9 683,351 "/>
+<linearGradient id="SVGID_00000032634211434799268640000013017951645524433793_" gradientUnits="userSpaceOnUse" x1="104.1" y1="989.15" x2="213.1" y2="989.15" gradientTransform="matrix(1 0 0 1 0 -184)">
+	<stop  offset="0" style="stop-color:#D13026"/>
+	<stop  offset="0.1007" style="stop-color:#D13026;stop-opacity:0"/>
+	<stop  offset="0.2" style="stop-color:#D13026"/>
+	<stop  offset="0.3" style="stop-color:#D13026;stop-opacity:0"/>
+	<stop  offset="0.402" style="stop-color:#D13026"/>
+	<stop  offset="0.5" style="stop-color:#D13026;stop-opacity:0"/>
+	<stop  offset="0.6" style="stop-color:#D13026"/>
+	<stop  offset="0.7" style="stop-color:#D13026;stop-opacity:0"/>
+	<stop  offset="0.8" style="stop-color:#D13026"/>
+	<stop  offset="0.9" style="stop-color:#D13026;stop-opacity:0"/>
+	<stop  offset="1" style="stop-color:#D13026"/>
+</linearGradient>
+<polygon style="opacity:0.3;fill:url(#SVGID_00000032634211434799268640000013017951645524433793_);stroke:#FF5555;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" points="
+	213.1,812 173.6,852.6 145.1,883.1 104.1,843.9 117.5,788.7 138.6,727.2 "/>
+<text transform="matrix(1 0 0 1 681.4896 166.7147)" class="st3 st39">2</text>
+<text transform="matrix(1 0 0 1 704.2374 285.6051)" class="st3 st39">1</text>
+<g id="Map_layer">
+	<g id="woMixx.tif" class="st43">
 	</g>
 	<g id="nav_layer">
 		<g id="node_start_00000026881457341207130350000011895475575796251012_">
-			
-				<circle id="node_start2_00000024712633028563878800000000996976227047647395_" opacity="0.8" fill="#29ABE2" stroke="#70EE49" stroke-miterlimit="10" enable-background="new    " cx="365.3" cy="247.7" r="7.3"/>
-			<polygon fill="#32ED2B" stroke="#1D1D1B" stroke-width="0.25" stroke-linecap="round" stroke-miterlimit="10" points="
-				370.8,247.7 362.6,242.9 362.6,252.5 			"/>
+			<circle id="node_start2_00000024712633028563878800000000996976227047647395_" class="st14" cx="365.3" cy="247.7" r="7.3"/>
+			<polygon class="st44" points="370.8,247.7 362.6,242.9 362.6,252.5 			"/>
 		</g>
 		<g id="node_end_00000019649913300450857160000015043362436660107163_">
-			
-				<circle id="node_endd_00000025411693751559291350000005853637307292834695_" opacity="0.8" fill="#29ABE2" stroke="#FF30FF" stroke-miterlimit="10" enable-background="new    " cx="1149.3" cy="665.3" r="9"/>
-			<path fill="#FF3FE6" stroke="#1D1D1B" stroke-width="0.25" stroke-linecap="round" stroke-miterlimit="10" d="M1150.4,662.7
-				c2.4,1,2.4,1,4.5-1.6c0.1-0.1,0.1,0.2,0.1,0.3c0.1,4.7,0,0,0.1,4.7c0.1,3-1.1,2.8-4.3,1c-1.4-0.8-2.3-1.6-3.2-1.7
-				c-1.3-0.1-2.3,3-2.8,2.8c-0.1,0-0.1-0.2-0.1-0.3c0-0.9-0.2-2.8-0.3-5.2C1146.8,660.4,1146.8,660.2,1150.4,662.7z"/>
-			
-				<line fill="#FF3FE6" stroke="#1D1D1B" stroke-width="0.25" stroke-linecap="round" stroke-miterlimit="10" x1="1144.4" y1="662.7" x2="1144.8" y2="671.2"/>
+			<circle id="node_endd_00000025411693751559291350000005853637307292834695_" class="st16" cx="1149.3" cy="665.3" r="9"/>
+			<path class="st45" d="M1150.4,662.7c2.4,1,2.4,1,4.5-1.6c0.1-0.1,0.1,0.2,0.1,0.3c0.1,4.7,0,0,0.1,4.7c0.1,3-1.1,2.8-4.3,1
+				c-1.4-0.8-2.3-1.6-3.2-1.7c-1.3-0.1-2.3,3-2.8,2.8c-0.1,0-0.1-0.2-0.1-0.3c0-0.9-0.2-2.8-0.3-5.2
+				C1146.8,660.4,1146.8,660.2,1150.4,662.7z"/>
+			<line class="st18" x1="1144.4" y1="662.7" x2="1144.8" y2="671.2"/>
 		</g>
 		<g id="node_mandatory_00000103975112507304988760000005967329252698974904_">
-			
-				<circle id="GraphNode_00000056408387877013745160000005381263357558986685_" opacity="0.8" fill="#29ABE2" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="492.8" cy="184.4" r="5.2"/>
-			<g id="waypoint_00000060000067986316431410000003742613976693486503_" display="none">
-				
-					<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="489" y1="180.6" x2="497.2" y2="188.8"/>
-				
-					<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="489" y1="188.8" x2="497.2" y2="180.6"/>
+			<circle id="GraphNode_00000056408387877013745160000005381263357558986685_" class="st7" cx="492.8" cy="184.4" r="5.2"/>
+			<g id="waypoint_00000060000067986316431410000003742613976693486503_" class="st8">
+				<line class="st9" x1="489" y1="180.6" x2="497.2" y2="188.8"/>
+				<line class="st9" x1="489" y1="188.8" x2="497.2" y2="180.6"/>
 			</g>
-			
-				<circle opacity="0.8" fill="none" stroke="#FF30FF" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="492.8" cy="184.4" r="10.5"/>
+			<circle class="st10" cx="492.8" cy="184.4" r="10.5"/>
 		</g>
 		<g id="node_mandatory_00000030487079572045556730000014696050699294273178_">
-			
-				<circle id="GraphNode_00000096054161984496322110000004579981507821003435_" opacity="0.8" fill="#29ABE2" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="1031.6" cy="426.5" r="5.2"/>
-			<g id="waypoint_00000160190075226592767190000002107299634545017019_" display="none">
-				
-					<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="1027.8" y1="422.7" x2="1036" y2="430.9"/>
-				
-					<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="1027.8" y1="430.9" x2="1036" y2="422.7"/>
+			<circle id="GraphNode_00000096054161984496322110000004579981507821003435_" class="st7" cx="1031.6" cy="426.5" r="5.2"/>
+			<g id="waypoint_00000160190075226592767190000002107299634545017019_" class="st8">
+				<line class="st9" x1="1027.8" y1="422.7" x2="1036" y2="430.9"/>
+				<line class="st9" x1="1027.8" y1="430.9" x2="1036" y2="422.7"/>
 			</g>
-			
-				<circle opacity="0.8" fill="none" stroke="#FF30FF" stroke-width="3" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="1031.6" cy="426.5" r="10.5"/>
+			<circle class="st46" cx="1031.6" cy="426.5" r="10.5"/>
 		</g>
-		
-			<circle id="node_00000124127561111021067240000007537616790017032374_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="622.6" cy="151.6" r="5.5"/>
-		
-			<circle id="node_00000000903937681510263700000013735198838605536424_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="437.3" cy="221.6" r="5.5"/>
-		
-			<circle id="node_00000057857218803929820040000005449992102990490513_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="726.5" cy="205.2" r="5.5"/>
-		
-			<circle id="node_00000072274581354504123640000007483789883957942460_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="848.1" cy="179.2" r="5.5"/>
-		
-			<circle id="node_00000138531509572604363780000015289024522392736693_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="907.7" cy="323.5" r="5.5"/>
-		
-			<circle id="node_00000061453539860810158210000003897377007882436518_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="757.3" cy="326.9" r="5.5"/>
-		
-			<circle id="node_00000161630495633202723930000017439409855323119771_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="865.5" cy="367.4" r="5.5"/>
-		
-			<circle id="node_00000074424405053689421930000018047894155993296298_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="837.1" cy="407" r="5.5"/>
-		
-			<circle id="node_00000092425890464288652970000004944882184330722466_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="963.2" cy="470.2" r="5.5"/>
-		
-			<circle id="node_00000017479193443342751700000004323140298244314019_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="1077.5" cy="320.9" r="5.5"/>
-		
-			<circle id="node_00000093881473162334215900000006295654609728781473_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="1144.4" cy="464.7" r="5.5"/>
-		
-			<circle id="node_00000169550918572168287810000016761437593057983925_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="1133.4" cy="525.2" r="5.5"/>
-		
-			<circle id="node_00000127723562646796417330000013698646362177383812_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="1047.6" cy="571.4" r="5.5"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M368.3,249.1c7.8,1.6,16.2,0.3,23.2-3.5
-			c7.5-4,13.2-10.7,20.4-15.1c6.6-4,14.1-6.1,21.6-8.1c21.5-5.8,37.2-24.6,55.8-36.8c14.3-9.4,34.5,2.6,51.1-2
-			c5.5-1.5,10.7-4.1,15.9-6.5c20.7-9.8,41.7-18.9,63.1-27c20-7.6,43.4,2.5,62.7,11.9c14.1,6.8,27.1,16.6,37.3,28.5
-			c3.8,4.4,4.9,12.3,8.8,15.9c4.2,3.9,12.8,4.8,18,7.5c13.6,7,25,17.9,35.8,28.5c15.7,15.5,31,31.3,46.3,47.1
-			c7.1,7.4,14.3,14.8,19.7,23.4c9.3,14.7,13.1,32.1,16.7,49.2"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M862.9,373.6c-2.2,14.3-10.7,27.4-22.8,35.3"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M868,361.9c4-5.8,8.4-6.9,13.7-11.4
-			c7.7-6.5,18.9-11.2,20.4-21.2"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M832.4,408.2c-23.9-11.5-89.5-47.7-81.3-81.2
-			c24.3,0.5,49.3-0.9,73.4-3.9c17.6-2.2,69.3,12.8,83.1,0.4c14-12.6-20.4-46.2-29.1-60.4c-17.5-28.5-33.8-52.2-37.4-86.3
-			c-18.9-5.3-42.1-2.1-60.8,2.8c-7.6,2-51.3,14.8-51.8,24.2c-1.7,33.3,3.5,68.5,21.8,96.4c5.6,8.6,12.7,18.1,9.8,27.9"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M912.1,328.2c-0.2,24,11.9,46.1,24.2,66.8
-			c12.2,20.6,25.2,42,27.2,65.9"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M914.3,330.4c0.5-1.8,3.2-1.2,4.8-0.1
-			c18.6,12.6,33.6,29.8,51.4,43.5c20.8,16.1,42,24.7,55.6,47.2c-6.5-11-21.6-12.6-34.4-12.9c-50.8-1.1-101.6-1.3-152.3-0.7"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M912.9,321.2c39.5-2.4,79-3.3,118.6-2.9
-			c14.3,0.1,41.7-5.9,47.1,10.2c4.8,14.3-4.2,30-11.8,41.5c-2.8,4.2-6,8.1-8.8,12.4c-8,12-12.3,25.9-16.6,39.7"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M1148.2,649.2c-5.4-6.5-7.4-15.2-8.8-23.5
-			c-5.5-30.8-7.2-62.2-5.2-93.4"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M1144.8,469.2c2.9,18.3-2,36.8-6.8,54.7"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M1081.3,320c9.8,24.3,26.9,44.7,41.3,66.6
-			s26.4,47.2,23.7,73.3c-26.5,0.9-55.4,6.5-81.5,1.7c-3.8-0.7-7.6-1.5-10.7-3.7c-3.7-2.6-6.1-6.7-8.6-10.4
-			c-3.9-5.6-8.5-10.6-13.8-14.9c-5.8-4.7-14.3,2.7-21.1,5.9c-4,1.9-8.3,3.3-12.2,5.4c-4.3,2.2-8.2,5.2-12,8.1
-			c-8.4,6.4-16.8,12.7-25.2,19.1c17.8,16.3,36.3,32.6,54.1,48.9c4.6,4.2,9.2,8.4,12.9,13.5c5.9,8.2,8.2,27.3,15.9,33.2
-			c7.2,5.5,26-3.8,35.4-5.1c7-1,14.6-1.7,19.5-6.8c2.3-2.5,3.7-5.6,5.4-8.6c5.1-8.5,13.7-14.9,23.3-17.3"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M1054.7,575.8c11.1,7.1,22.1,14.3,33.2,21.4
-			c14.6,9.4,29.4,19,40.7,32.2c7.7,9,13.6,19.5,19.4,29.9"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M1031.3,430.3c-2,45.8-3.3,94.4,19.3,134.3"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M851.9,180.8c50.5,4.1,93.6,36.5,133.6,67.7
-			c27.8,21.7,55.9,43.6,78.9,70.3"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M756.3,329.4c6.5-1.5,13.2,0.6,19.5,2.6
-			c16.7,5.3,33.3,10.6,50,15.9c11.6,3.7,23.8,7.8,31.3,17.3"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M867.1,368.7c9.5,7,18.5,14.6,27.5,22.3
-			c25.5,21.8,51.4,44,70.4,71.8"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M439.8,222.9c92.2,6.3,185.2,2,276.4-12.8"/>
-		<path opacity="0.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M624.8,154.1c71.2,1.6,142.2,7.7,212.6,18.4"/>
+		<circle id="node_00000124127561111021067240000007537616790017032374_" class="st5" cx="622.6" cy="151.6" r="5.5"/>
+		<circle id="node_00000000903937681510263700000013735198838605536424_" class="st5" cx="437.3" cy="221.6" r="5.5"/>
+		<circle id="node_00000057857218803929820040000005449992102990490513_" class="st5" cx="726.5" cy="205.2" r="5.5"/>
+		<circle id="node_00000072274581354504123640000007483789883957942460_" class="st5" cx="848.1" cy="179.2" r="5.5"/>
+		<circle id="node_00000138531509572604363780000015289024522392736693_" class="st5" cx="907.7" cy="323.5" r="5.5"/>
+		<circle id="node_00000061453539860810158210000003897377007882436518_" class="st5" cx="757.3" cy="326.9" r="5.5"/>
+		<circle id="node_00000161630495633202723930000017439409855323119771_" class="st5" cx="865.5" cy="367.4" r="5.5"/>
+		<circle id="node_00000074424405053689421930000018047894155993296298_" class="st5" cx="837.1" cy="407" r="5.5"/>
+		<circle id="node_00000092425890464288652970000004944882184330722466_" class="st5" cx="963.2" cy="470.2" r="5.5"/>
+		<circle id="node_00000017479193443342751700000004323140298244314019_" class="st5" cx="1077.5" cy="320.9" r="5.5"/>
+		<circle id="node_00000093881473162334215900000006295654609728781473_" class="st5" cx="1144.4" cy="464.7" r="5.5"/>
+		<circle id="node_00000169550918572168287810000016761437593057983925_" class="st5" cx="1133.4" cy="525.2" r="5.5"/>
+		<circle id="node_00000127723562646796417330000013698646362177383812_" class="st5" cx="1047.6" cy="571.4" r="5.5"/>
+		<path class="st47" d="M368.3,249.1c7.8,1.6,16.2,0.3,23.2-3.5c7.5-4,13.2-10.7,20.4-15.1c6.6-4,14.1-6.1,21.6-8.1
+			c21.5-5.8,37.2-24.6,55.8-36.8c14.3-9.4,34.5,2.6,51.1-2c5.5-1.5,10.7-4.1,15.9-6.5c20.7-9.8,41.7-18.9,63.1-27
+			c20-7.6,43.4,2.5,62.7,11.9c14.1,6.8,27.1,16.6,37.3,28.5c3.8,4.4,4.9,12.3,8.8,15.9c4.2,3.9,12.8,4.8,18,7.5
+			c13.6,7,25,17.9,35.8,28.5c15.7,15.5,31,31.3,46.3,47.1c7.1,7.4,14.3,14.8,19.7,23.4c9.3,14.7,13.1,32.1,16.7,49.2"/>
+		<path class="st47" d="M862.9,373.6c-2.2,14.3-10.7,27.4-22.8,35.3"/>
+		<path class="st47" d="M868,361.9c4-5.8,8.4-6.9,13.7-11.4c7.7-6.5,18.9-11.2,20.4-21.2"/>
+		<path class="st47" d="M832.4,408.2c-23.9-11.5-89.5-47.7-81.3-81.2c24.3,0.5,49.3-0.9,73.4-3.9c17.6-2.2,69.3,12.8,83.1,0.4
+			c14-12.6-20.4-46.2-29.1-60.4c-17.5-28.5-33.8-52.2-37.4-86.3c-18.9-5.3-42.1-2.1-60.8,2.8c-7.6,2-51.3,14.8-51.8,24.2
+			c-1.7,33.3,3.5,68.5,21.8,96.4c5.6,8.6,12.7,18.1,9.8,27.9"/>
+		<path class="st47" d="M912.1,328.2c-0.2,24,11.9,46.1,24.2,66.8c12.2,20.6,25.2,42,27.2,65.9"/>
+		<path class="st47" d="M914.3,330.4c0.5-1.8,3.2-1.2,4.8-0.1c18.6,12.6,33.6,29.8,51.4,43.5c20.8,16.1,42,24.7,55.6,47.2
+			c-6.5-11-21.6-12.6-34.4-12.9c-50.8-1.1-101.6-1.3-152.3-0.7"/>
+		<path class="st47" d="M912.9,321.2c39.5-2.4,79-3.3,118.6-2.9c14.3,0.1,41.7-5.9,47.1,10.2c4.8,14.3-4.2,30-11.8,41.5
+			c-2.8,4.2-6,8.1-8.8,12.4c-8,12-12.3,25.9-16.6,39.7"/>
+		<path class="st47" d="M1148.2,649.2c-5.4-6.5-7.4-15.2-8.8-23.5c-5.5-30.8-7.2-62.2-5.2-93.4"/>
+		<path class="st47" d="M1144.8,469.2c2.9,18.3-2,36.8-6.8,54.7"/>
+		<path class="st47" d="M1081.3,320c9.8,24.3,26.9,44.7,41.3,66.6s26.4,47.2,23.7,73.3c-26.5,0.9-55.4,6.5-81.5,1.7
+			c-3.8-0.7-7.6-1.5-10.7-3.7c-3.7-2.6-6.1-6.7-8.6-10.4c-3.9-5.6-8.5-10.6-13.8-14.9c-5.8-4.7-14.3,2.7-21.1,5.9
+			c-4,1.9-8.3,3.3-12.2,5.4c-4.3,2.2-8.2,5.2-12,8.1c-8.4,6.4-16.8,12.7-25.2,19.1c17.8,16.3,36.3,32.6,54.1,48.9
+			c4.6,4.2,9.2,8.4,12.9,13.5c5.9,8.2,8.2,27.3,15.9,33.2c7.2,5.5,26-3.8,35.4-5.1c7-1,14.6-1.7,19.5-6.8c2.3-2.5,3.7-5.6,5.4-8.6
+			c5.1-8.5,13.7-14.9,23.3-17.3"/>
+		<path class="st47" d="M1054.7,575.8c11.1,7.1,22.1,14.3,33.2,21.4c14.6,9.4,29.4,19,40.7,32.2c7.7,9,13.6,19.5,19.4,29.9"/>
+		<path class="st47" d="M1031.3,430.3c-2,45.8-3.3,94.4,19.3,134.3"/>
+		<path class="st47" d="M851.9,180.8c50.5,4.1,93.6,36.5,133.6,67.7c27.8,21.7,55.9,43.6,78.9,70.3"/>
+		<path class="st47" d="M756.3,329.4c6.5-1.5,13.2,0.6,19.5,2.6c16.7,5.3,33.3,10.6,50,15.9c11.6,3.7,23.8,7.8,31.3,17.3"/>
+		<path class="st47" d="M867.1,368.7c9.5,7,18.5,14.6,27.5,22.3c25.5,21.8,51.4,44,70.4,71.8"/>
+		<path class="st47" d="M439.8,222.9c92.2,6.3,185.2,2,276.4-12.8"/>
+		<path class="st47" d="M624.8,154.1c71.2,1.6,142.2,7.7,212.6,18.4"/>
 	</g>
 	<g id="Itinerary_layer">
-		<path opacity="0.9" fill="none" stroke="#00B2FF" stroke-width="4" stroke-miterlimit="10" d="M369.9,250.4
-			c12.2,3.5,26.2-0.5,34.7-9.9c3-3.4,5.4-7.3,8.8-10.3c5.4-4.8,12.8-6.5,19.8-8c8.8-2,16.3-7.3,22.7-13.7c4.3-4.3,8.7-8.7,13.1-13
-			c7.1-6.9,15.5-14.1,25.4-13.4c21.4,1.4,43-3.8,62.6-12.6c19.5-8.7,38.4-22,59.7-21.2c10.1,0.4,19.8,4,29.1,8
-			c28.7,12.5,55.2,29.9,78.1,51.2c16.7,15.6,21.3,39.6,26.2,62c4.6,20.9,9.1,41.8,13.7,62.7c23.7,3,43.7,18.7,65.9,27.6
-			c15,6,31,8.9,47.1,10.5c-0.2,4.8,3.1,8.9,6.3,12.5c14,15.9,27.9,31.9,41.9,47.8c9.1,10.4,18.5,21.1,30.8,27.5
-			c1.6,0.9,3.4,1.7,5.3,1.7c2.3,0.1,4.5-0.9,6.6-1.9c21.7-10.4,43.5-20.9,65.2-31.3c-0.9,28.3-1.9,59.4,6.7,86.4
-			c5.7,17.8,15.7,35.3,14.1,54c-0.3,3-0.8,6.2,0.8,8.7c1.1,1.7,2.9,2.8,4.8,3.8c14.1,7.4,29.3,12.7,42.7,21.3
-			c19.7,12.7,34.3,31.8,48.5,50.5"/>
-		<path opacity="0.8" fill="none" stroke="#CCECFF" stroke-width="4" stroke-miterlimit="10" d="M369.4,251.4c9.3,0,18.7,0,28,0
-			c2.5,0,5.1,0,7.5-0.7c5.2-1.5,9-5.9,13.2-9.4c7.1-5.9,16.7-10.5,18.6-19.5c79.9,1.2,159.4,1.6,239.3,2.8
-			c8.5,0.1,17.4,0.2,25.1-3.5c8.6-4.1,15.3-12.6,24.7-13.8c22.4,19.7,44.7,40.2,66.5,60.4c30,27.8,60.4,57.4,75,95.6
-			c16.1-14.3,31.2-28.9,48.4-41.9c17.5,16.2,40.7,24.6,60.7,37.6c29.5,19.2,51.1,48.1,75.2,73.6c6.2,6.6,12.9,13.1,21.5,16
-			c9.5,3.1,19.9,1.2,29.9,1.8c14.1,0.9,27.9,7.2,37.7,17.4c-2.7,14.6-5.3,29.2-8,43.8c-2.4,13-4.8,26-5.2,39.2
-			c-0.6,16.2,1.7,32.4,4,48.4c2.3,16.2,4.6,32.3,6.9,48.5"/>
-		<path opacity="0.8" fill="none" stroke="#CCECFF" stroke-width="4" stroke-miterlimit="10" d="M367.7,249
-			c50.8-10.1,90.2-49.1,135.9-73.5c38.5-20.6,82.4-30.9,126.1-29.6c72.3,2.2,141.5,35.3,213.8,33.9c29,25.7,62.3,46.5,98.1,61.2
-			c42.6,17.5,91.2,28.2,121.1,63.2c2,2.3,4.8,4.9,7.5,3.7s-1.4-6.3-2.1-3.4c21.4,51.6,46.3,101.8,74.2,150.1c2.3,4,10.8,5.7,9.1,1.3
-			c-14.1,68-12.1,139.2,5.6,206.3"/>
+		<path class="st48" d="M369.9,250.4c12.2,3.5,26.2-0.5,34.7-9.9c3-3.4,5.4-7.3,8.8-10.3c5.4-4.8,12.8-6.5,19.8-8
+			c8.8-2,16.3-7.3,22.7-13.7c4.3-4.3,8.7-8.7,13.1-13c7.1-6.9,15.5-14.1,25.4-13.4c21.4,1.4,43-3.8,62.6-12.6
+			c19.5-8.7,38.4-22,59.7-21.2c10.1,0.4,19.8,4,29.1,8c28.7,12.5,55.2,29.9,78.1,51.2c16.7,15.6,21.3,39.6,26.2,62
+			c4.6,20.9,9.1,41.8,13.7,62.7c23.7,3,43.7,18.7,65.9,27.6c15,6,31,8.9,47.1,10.5c-0.2,4.8,3.1,8.9,6.3,12.5
+			c14,15.9,27.9,31.9,41.9,47.8c9.1,10.4,18.5,21.1,30.8,27.5c1.6,0.9,3.4,1.7,5.3,1.7c2.3,0.1,4.5-0.9,6.6-1.9
+			c21.7-10.4,43.5-20.9,65.2-31.3c-0.9,28.3-1.9,59.4,6.7,86.4c5.7,17.8,15.7,35.3,14.1,54c-0.3,3-0.8,6.2,0.8,8.7
+			c1.1,1.7,2.9,2.8,4.8,3.8c14.1,7.4,29.3,12.7,42.7,21.3c19.7,12.7,34.3,31.8,48.5,50.5"/>
+		<path class="st49" d="M369.4,251.4c9.3,0,18.7,0,28,0c2.5,0,5.1,0,7.5-0.7c5.2-1.5,9-5.9,13.2-9.4c7.1-5.9,16.7-10.5,18.6-19.5
+			c79.9,1.2,159.4,1.6,239.3,2.8c8.5,0.1,17.4,0.2,25.1-3.5c8.6-4.1,15.3-12.6,24.7-13.8c22.4,19.7,44.7,40.2,66.5,60.4
+			c30,27.8,60.4,57.4,75,95.6c16.1-14.3,31.2-28.9,48.4-41.9c17.5,16.2,40.7,24.6,60.7,37.6c29.5,19.2,51.1,48.1,75.2,73.6
+			c6.2,6.6,12.9,13.1,21.5,16c9.5,3.1,19.9,1.2,29.9,1.8c14.1,0.9,27.9,7.2,37.7,17.4c-2.7,14.6-5.3,29.2-8,43.8
+			c-2.4,13-4.8,26-5.2,39.2c-0.6,16.2,1.7,32.4,4,48.4c2.3,16.2,4.6,32.3,6.9,48.5"/>
+		<path class="st49" d="M367.7,249c50.8-10.1,90.2-49.1,135.9-73.5c38.5-20.6,82.4-30.9,126.1-29.6c72.3,2.2,141.5,35.3,213.8,33.9
+			c29,25.7,62.3,46.5,98.1,61.2c42.6,17.5,91.2,28.2,121.1,63.2c2,2.3,4.8,4.9,7.5,3.7s-1.4-6.3-2.1-3.4
+			c21.4,51.6,46.3,101.8,74.2,150.1c2.3,4,10.8,5.7,9.1,1.3c-14.1,68-12.1,139.2,5.6,206.3"/>
+	</g>
+	<g id="traps_layer">
+		<g id="Trap-wait_00000001654999862564348330000016030012049283753104_">
+			
+				<rect id="trap-marker-wait_00000013183220643365684380000003538424100651202474_" x="669.2" y="155.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 82.5956 527.6058)" class="st26" width="18" height="18"/>
+			<text transform="matrix(1 0 0 1 674.4728 168.5748)" class="st27 st4">?</text>
+			
+				<linearGradient id="trap-wait-area_00000046312690741038324690000001507542345229368203_" gradientUnits="userSpaceOnUse" x1="642.7" y1="531.4" x2="713.7" y2="531.4" gradientTransform="matrix(1 0 0 1 0 -368)">
+				<stop  offset="0" style="stop-color:#FF7BAC"/>
+				<stop  offset="1" style="stop-color:#FF7BAC;stop-opacity:0"/>
+			</linearGradient>
+			
+				<circle id="trap-wait-area_00000181063026990419285740000015711407699703082905_" style="opacity:0.3;fill:url(#trap-wait-area_00000046312690741038324690000001507542345229368203_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" cx="678.2" cy="163.4" r="35.5"/>
+		</g>
+		<g id="Trap-wait_00000134962140097247962830000007149990770873380502_">
+			
+				<rect id="trap-marker-wait_00000116216846238082621720000001601039858241752491_" x="692" y="273.8" transform="matrix(0.7071 -0.7071 0.7071 0.7071 5.3543 578.522)" class="st26" width="18" height="18"/>
+			<text transform="matrix(1 0 0 1 698.2206 287.2271)" class="st27 st4">?</text>
+			
+				<linearGradient id="trap-wait-area_00000083799193812780219260000005435110748062064316_" gradientUnits="userSpaceOnUse" x1="665.5" y1="650.1" x2="736.5" y2="650.1" gradientTransform="matrix(1 0 0 1 0 -368)">
+				<stop  offset="0" style="stop-color:#FF7BAC"/>
+				<stop  offset="1" style="stop-color:#FF7BAC;stop-opacity:0"/>
+			</linearGradient>
+			
+				<circle id="trap-wait-area_00000083792281254064293480000005622539668664136090_" style="opacity:0.3;fill:url(#trap-wait-area_00000083799193812780219260000005435110748062064316_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" cx="701" cy="282.1" r="35.5"/>
+		</g>
+		<g id="Trap-confirmed_00000001658058541022969970000014529472497163152003_">
+			
+				<rect id="trap-marker_00000138568999772973898550000011709170893772269700_" x="604.6" y="213.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 22.537 498.9812)" class="st26" width="18" height="18"/>
+			<circle id="trap-area_00000129910128512184403400000008258192843857397136_" class="st40" cx="613.6" cy="222.3" r="17.8"/>
+		</g>
+		<g id="Trap-confirmed">
+			
+				<rect id="trap-marker" x="60.5" y="396.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -266.1507 167.8221)" class="st26" width="18" height="18"/>
+			<circle id="trap-area" class="st40" cx="69.5" cy="404.5" r="35.5"/>
+		</g>
 	</g>
 	<g id="tasks_chooser_layer">
-		<path opacity="0.4" fill="#FFFF7C" d="M717.1,293.2c-30-39.8-4.6-96.9,44.6-104.4c46.8-7.1,103.9-7,162.5,15
-			c64,24,152.6,82.7,142.9,129.3c-6.7,31.8-59.3,58.4-92.6,45.6c-40-15.4-24.3-77.4-64.4-99.3c-53.1-28.9-124.2,55.6-175.7,28.8
+		
+			<rect id="trap-marker-wait_00000023251546608998512030000014545333155059425155_" x="669.2" y="155.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 82.5956 527.6058)" class="st52" width="18" height="18"/>
+		
+			<rect id="trap-marker-wait_00000115483187883073680860000007690676718319216814_" x="692" y="274.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 4.9989 578.6692)" class="st53" width="18" height="18"/>
+		<path class="st54" d="M716.5,292.7c-30-39.8-4.6-96.9,44.6-104.4c46.8-7.1,103.9-7,162.5,15c64,24,152.6,82.7,142.9,129.3
+			c-6.7,31.8-59.3,58.4-92.6,45.6c-40-15.4-24.3-77.4-64.4-99.3c-53.1-28.9-124.2,55.6-175.7,28.8
+			C727.9,304.6,722,299.9,716.5,292.7z"/>
+		<path class="st55" d="M970.4,395.6c15.1,43-22.8,85.6-67.7,78.5c-42.7-6.8-92.3-22.7-137.2-58.1c-49-38.6-109.9-114.3-88.5-152.1
+			c14.6-25.8,67.8-34.4,93.2-14c30.5,24.5-0.3,74.1,28.6,104.2c38.2,39.8,123.5-13.9,160.9,23.6
+			C963.8,382.1,967.6,387.8,970.4,395.6z"/>
+		<path class="st56" d="M717.1,293.2c-30-39.8-4.6-96.9,44.6-104.4c46.8-7.1,103.9-7,162.5,15c64,24,152.6,82.7,142.9,129.3
+			c-6.7,31.8-59.3,58.4-92.6,45.6c-40-15.4-24.3-77.4-64.4-99.3C857,250.5,785.9,335,734.4,308.2
 			C728.5,305.1,722.6,300.4,717.1,293.2z"/>
-		<path opacity="0.3" fill="#E4D7F4" d="M970.4,395.6c15.1,43-22.8,85.6-67.7,78.5c-42.7-6.8-92.3-22.7-137.2-58.1
-			c-49-38.6-109.9-114.3-88.5-152.1c14.6-25.8,67.8-34.4,93.2-14c30.5,24.5-0.3,74.1,28.6,104.2c38.2,39.8,123.5-13.9,160.9,23.6
+		<path class="st56" d="M970.4,395.6c15.1,43-22.8,85.6-67.7,78.5c-42.7-6.8-92.3-22.7-137.2-58.1c-49-38.6-109.9-114.3-88.5-152.1
+			c14.6-25.8,67.8-34.4,93.2-14c30.5,24.5-0.3,74.1,28.6,104.2c38.2,39.8,123.5-13.9,160.9,23.6
 			C963.8,382.1,967.6,387.8,970.4,395.6z"/>
 	</g>
 	<g id="alocated_tasks_layer">
-		<text transform="matrix(1 0 0 1 421.6255 -355.8761)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="30px">Diverging</text>
-		<text transform="matrix(1 0 0 1 423.9051 -219.3161)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="30px">Qualitative</text>
-		<rect x="-17.8" y="-386.1" fill="#499AF8" width="74.4" height="43.8"/>
-		<rect x="63.7" y="-386.1" fill="#A4E3FC" width="74.4" height="43.8"/>
-		<rect x="153" y="-386.1" fill="#FFFFFF" width="74.4" height="43.8"/>
-		<rect x="241.9" y="-386.1" fill="#F8D7A2" width="74.4" height="43.8"/>
-		<rect x="328.1" y="-386.1" fill="#E66843" width="74.4" height="43.8"/>
-		<rect x="-19.9" y="-253.8" fill="#8EE291" width="74.4" height="43.8"/>
-		<rect x="61.6" y="-253.8" fill="#499AF8" width="74.4" height="43.8"/>
-		<rect x="150.9" y="-253.8" fill="#9A84DD" width="74.4" height="43.8"/>
-		<rect x="239.8" y="-253.8" fill="#E66843" width="74.4" height="43.8"/>
-		<rect x="326" y="-253.8" fill="#FFFF7C" width="74.4" height="43.8"/>
-		<text transform="matrix(1 0 0 1 1041.5742 -214.116)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="30px">Blue</text>
-		<rect x="840.1" y="-444.8" fill="#2353E9" width="74.4" height="43.8"/>
-		<rect x="679.2" y="-248.6" fill="#2F6AEA" width="74.4" height="43.8"/>
-		<rect x="840.1" y="-318.3" fill="#4395EB" width="74.4" height="43.8"/>
-		<rect x="840.1" y="-262.5" fill="#5AC4ED" width="74.4" height="43.8"/>
-		<rect x="840.1" y="-206.5" fill="#64D8EF" width="74.4" height="43.8"/>
-		<text transform="matrix(1 0 0 1 1041.5742 -351.6192)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="30px">Neon</text>
-		<rect x="597.8" y="-386.1" fill="#C92AB6" width="74.4" height="43.8"/>
-		<rect x="679.2" y="-386.1" fill="#A056F6" width="74.4" height="43.8"/>
-		<rect x="760.1" y="-386.1" fill="#B6FD4F" width="74.4" height="43.8"/>
-		<rect x="840.1" y="-386.1" fill="#3E82DF" width="74.4" height="43.8"/>
-		<rect x="920.5" y="-386.1" fill="#FDF362" width="74.4" height="43.8"/>
-		<text transform="matrix(1 0 0 1 1144.5978 -630.033)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="30px">Alert</text>
-		<rect x="597.8" y="-664.5" fill="#D98AEC" width="74.4" height="43.8"/>
-		<rect x="679.2" y="-664.5" fill="#70EE49" width="74.4" height="43.8"/>
-		<rect x="1045.8" y="-721.3" fill="#EAF205" width="74.4" height="43.8"/>
-		<rect x="840.1" y="-664.5" fill="#E9B940" width="74.4" height="43.8"/>
-		<rect x="920.5" y="-664.5" fill="#E48C34" width="74.4" height="43.8"/>
-		
-			<rect x="1045.8" y="-609.6" fill="#FF0000" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " width="74.4" height="43.8"/>
-		<rect x="1045.8" y="-666.4" fill="#E48C34" width="74.4" height="43.8"/>
+		<text transform="matrix(1 0 0 1 421.6255 -355.8761)" class="st2 st3" style="font-size:30px;">Diverging</text>
+		<text transform="matrix(1 0 0 1 423.9051 -219.3162)" class="st2 st3" style="font-size:30px;">Qualitative</text>
+		<rect x="-17.8" y="-386.1" class="st57" width="74.4" height="43.8"/>
+		<rect x="63.7" y="-386.1" class="st58" width="74.4" height="43.8"/>
+		<rect x="153" y="-386.1" class="st2" width="74.4" height="43.8"/>
+		<rect x="241.9" y="-386.1" class="st59" width="74.4" height="43.8"/>
+		<rect x="328.1" y="-386.1" class="st60" width="74.4" height="43.8"/>
+		<rect x="-19.9" y="-253.8" class="st61" width="74.4" height="43.8"/>
+		<rect x="61.6" y="-253.8" class="st57" width="74.4" height="43.8"/>
+		<rect x="150.9" y="-253.8" class="st62" width="74.4" height="43.8"/>
+		<rect x="239.8" y="-253.8" class="st60" width="74.4" height="43.8"/>
+		<rect x="326" y="-253.8" class="st63" width="74.4" height="43.8"/>
+		<text transform="matrix(1 0 0 1 1041.5742 -214.116)" class="st2 st3" style="font-size:30px;">Blue</text>
+		<rect x="840.1" y="-444.8" class="st64" width="74.4" height="43.8"/>
+		<rect x="679.2" y="-248.6" class="st65" width="74.4" height="43.8"/>
+		<rect x="840.1" y="-318.3" class="st66" width="74.4" height="43.8"/>
+		<rect x="840.1" y="-262.5" class="st67" width="74.4" height="43.8"/>
+		<rect x="840.1" y="-206.5" class="st68" width="74.4" height="43.8"/>
+		<text transform="matrix(1 0 0 1 1041.5742 -351.6191)" class="st2 st3" style="font-size:30px;">Neon</text>
+		<rect x="597.8" y="-386.1" class="st69" width="74.4" height="43.8"/>
+		<rect x="679.2" y="-386.1" class="st70" width="74.4" height="43.8"/>
+		<rect x="760.1" y="-386.1" class="st71" width="74.4" height="43.8"/>
+		<rect x="840.1" y="-386.1" class="st72" width="74.4" height="43.8"/>
+		<rect x="920.5" y="-386.1" class="st73" width="74.4" height="43.8"/>
+		<text transform="matrix(1 0 0 1 1144.5978 -630.033)" class="st2 st3" style="font-size:30px;">Alert</text>
+		<rect x="597.8" y="-664.5" class="st74" width="74.4" height="43.8"/>
+		<rect x="679.2" y="-664.5" class="st75" width="74.4" height="43.8"/>
+		<rect x="1045.8" y="-721.3" class="st76" width="74.4" height="43.8"/>
+		<rect x="840.1" y="-664.5" class="st77" width="74.4" height="43.8"/>
+		<rect x="920.5" y="-664.5" class="st78" width="74.4" height="43.8"/>
+		<rect x="1045.8" y="-609.6" class="st79" width="74.4" height="43.8"/>
+		<rect x="1045.8" y="-666.4" class="st78" width="74.4" height="43.8"/>
 	</g>
 	<g id="actors_layer">
 		<g id="safety_pilot">
-			
-				<circle id="trap-area_00000048501747377774823650000010483433930486750645_" opacity="0.15" fill="#A056F6" stroke="#A056F6" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="864.7" cy="368" r="227.1"/>
+			<circle id="trap-area_00000048501747377774823650000010483433930486750645_" class="st80" cx="864.7" cy="368" r="227.1"/>
 			<g>
 				<g>
 					<g>
@@ -189,420 +558,64 @@
 							c-0.8,0-1.4,0.6-1.4,1.4v12.2c0,1.8,1.5,3.3,3.3,3.3h14.1c1.8,0,3.3-1.5,3.3-3.3V360C874.1,359.2,873.4,358.6,872.7,358.6z
 							 M863.3,347.3h0.9v0.9h-0.9V347.3z M863.3,355.8h0.9v0.9h-0.9V355.8z M862.3,357.7h2.8v0.9h-2.8V357.7z M873.1,368.9h-0.9v0.9
 							h0.9v2.3c0,1.3-1.1,2.3-2.3,2.3h-14.1c-1.3,0-2.3-1.1-2.3-2.3v-2.3h0.9v-0.9h-0.9V360c0-0.3,0.2-0.5,0.5-0.5h8.4v0.9h0.9v-0.9
-							h8.4c0.3,0,0.5,0.2,0.5,0.5V368.9z"/>
-						<path d="M859.5,360.5c-2.3,0-4.2,1.9-4.2,4.2s1.9,4.2,4.2,4.2c2.3,0,4.2-1.9,4.2-4.2S861.8,360.5,859.5,360.5z M859.5,368
-							c-1.8,0-3.3-1.5-3.3-3.3s1.5-3.3,3.3-3.3c1.8,0,3.3,1.5,3.3,3.3S861.3,368,859.5,368z"/>
+							h8.4c0.3,0,0.5,0.2,0.5,0.5L873.1,368.9L873.1,368.9z"/>
+						<path d="M859.5,360.5c-2.3,0-4.2,1.9-4.2,4.2s1.9,4.2,4.2,4.2s4.2-1.9,4.2-4.2S861.8,360.5,859.5,360.5z M859.5,368
+							c-1.8,0-3.3-1.5-3.3-3.3s1.5-3.3,3.3-3.3s3.3,1.5,3.3,3.3S861.3,368,859.5,368z"/>
 						<path d="M860,363.3h-2.8v2.8h2.8v-0.9h1.9v-0.9H860V363.3z M859,365.2h-0.9v-0.9h0.9V365.2z"/>
 						<path d="M868,360.5c-2.3,0-4.2,1.9-4.2,4.2s1.9,4.2,4.2,4.2s4.2-1.9,4.2-4.2S870.3,360.5,868,360.5z M868,368
-							c-1.8,0-3.3-1.5-3.3-3.3s1.5-3.3,3.3-3.3c1.8,0,3.3,1.5,3.3,3.3S869.8,368,868,368z"/>
-						<path d="M866.6,365.2h0.9v1.9h0.9v-1.9h0.9v-2.8h-2.8V365.2z M867.5,363.3h0.9v0.9h-0.9V363.3z"/>
+							c-1.8,0-3.3-1.5-3.3-3.3s1.5-3.3,3.3-3.3s3.3,1.5,3.3,3.3S869.8,368,868,368z"/>
+						<path d="M866.6,365.2h0.9v1.9h0.9v-1.9h0.9v-2.8h-2.8L866.6,365.2L866.6,365.2z M867.5,363.3h0.9v0.9h-0.9V363.3z"/>
 						<path d="M859,369.9c-1,0-1.9,0.8-1.9,1.9c0,1,0.8,1.9,1.9,1.9c1,0,1.9-0.8,1.9-1.9C860.9,370.7,860.1,369.9,859,369.9z
-							 M859,372.7c-0.5,0-0.9-0.4-0.9-0.9c0-0.5,0.4-0.9,0.9-0.9c0.5,0,0.9,0.4,0.9,0.9C860,372.3,859.6,372.7,859,372.7z"/>
+							 M859,372.7c-0.5,0-0.9-0.4-0.9-0.9s0.4-0.9,0.9-0.9s0.9,0.4,0.9,0.9C860,372.3,859.6,372.7,859,372.7z"/>
 						<path d="M863.7,369.9c-1,0-1.9,0.8-1.9,1.9c0,1,0.8,1.9,1.9,1.9s1.9-0.8,1.9-1.9C865.6,370.7,864.8,369.9,863.7,369.9z
-							 M863.7,372.7c-0.5,0-0.9-0.4-0.9-0.9c0-0.5,0.4-0.9,0.9-0.9c0.5,0,0.9,0.4,0.9,0.9C864.7,372.3,864.3,372.7,863.7,372.7z"/>
+							 M863.7,372.7c-0.5,0-0.9-0.4-0.9-0.9s0.4-0.9,0.9-0.9s0.9,0.4,0.9,0.9C864.7,372.3,864.3,372.7,863.7,372.7z"/>
 						<path d="M868.4,369.9c-1,0-1.9,0.8-1.9,1.9c0,1,0.8,1.9,1.9,1.9c1,0,1.9-0.8,1.9-1.9C870.3,370.7,869.5,369.9,868.4,369.9z
-							 M868.4,372.7c-0.5,0-0.9-0.4-0.9-0.9c0-0.5,0.4-0.9,0.9-0.9c0.5,0,0.9,0.4,0.9,0.9C869.4,372.3,868.9,372.7,868.4,372.7z"/>
-						<path d="M872.7,353.9c1,0,1.9-0.8,1.9-1.9c0-1-0.8-1.9-1.9-1.9c-1,0-1.9,0.8-1.9,1.9C870.8,353.1,871.6,353.9,872.7,353.9z
-							 M872.7,351.1c0.5,0,0.9,0.4,0.9,0.9s-0.4,0.9-0.9,0.9c-0.5,0-0.9-0.4-0.9-0.9S872.1,351.1,872.7,351.1z"/>
-						<path d="M872.7,346.4v0.9c2.6,0,4.7,2.1,4.7,4.7c0,2.6-2.1,4.7-4.7,4.7v0.9c3.1,0,5.6-2.5,5.6-5.6S875.8,346.4,872.7,346.4z"
-							/>
+							 M868.4,372.7c-0.5,0-0.9-0.4-0.9-0.9s0.4-0.9,0.9-0.9s0.9,0.4,0.9,0.9C869.4,372.3,868.9,372.7,868.4,372.7z"/>
+						<path d="M872.7,353.9c1,0,1.9-0.8,1.9-1.9c0-1-0.8-1.9-1.9-1.9c-1,0-1.9,0.8-1.9,1.9S871.6,353.9,872.7,353.9z M872.7,351.1
+							c0.5,0,0.9,0.4,0.9,0.9s-0.4,0.9-0.9,0.9s-0.9-0.4-0.9-0.9S872.1,351.1,872.7,351.1z"/>
+						<path d="M872.7,346.4v0.9c2.6,0,4.7,2.1,4.7,4.7s-2.1,4.7-4.7,4.7v0.9c3.1,0,5.6-2.5,5.6-5.6S875.8,346.4,872.7,346.4z"/>
 						<path d="M875.5,352c0,1.6-1.3,2.8-2.8,2.8v0.9c2.1,0,3.8-1.7,3.8-3.8c0-2.1-1.7-3.8-3.8-3.8v0.9
 							C874.2,349.2,875.5,350.5,875.5,352z"/>
 						<rect x="868.9" y="351.6" width="0.9" height="0.9"/>
 						<rect x="867" y="351.6" width="0.9" height="0.9"/>
 						<path d="M852.9,352c0,1,0.8,1.9,1.9,1.9s1.9-0.8,1.9-1.9c0-1-0.8-1.9-1.9-1.9S852.9,351,852.9,352z M855.8,352
-							c0,0.5-0.4,0.9-0.9,0.9c-0.5,0-0.9-0.4-0.9-0.9s0.4-0.9,0.9-0.9C855.3,351.1,855.8,351.5,855.8,352z"/>
-						<path d="M854.8,356.7c-2.6,0-4.7-2.1-4.7-4.7c0-2.6,2.1-4.7,4.7-4.7v-0.9c-3.1,0-5.6,2.5-5.6,5.6s2.5,5.6,5.6,5.6V356.7z"/>
-						<path d="M854.8,349.2v-0.9c-2.1,0-3.8,1.7-3.8,3.8c0,2.1,1.7,3.8,3.8,3.8v-0.9c-1.6,0-2.8-1.3-2.8-2.8
+							c0,0.5-0.4,0.9-0.9,0.9s-0.9-0.4-0.9-0.9s0.4-0.9,0.9-0.9C855.3,351.1,855.8,351.5,855.8,352z"/>
+						<path d="M854.8,356.7c-2.6,0-4.7-2.1-4.7-4.7s2.1-4.7,4.7-4.7v-0.9c-3.1,0-5.6,2.5-5.6,5.6s2.5,5.6,5.6,5.6V356.7z"/>
+						<path d="M854.8,349.2v-0.9c-2.1,0-3.8,1.7-3.8,3.8c0,2.1,1.7,3.8,3.8,3.8V355c-1.6,0-2.8-1.3-2.8-2.8
 							C852,350.5,853.3,349.2,854.8,349.2z"/>
 						<rect x="857.6" y="351.6" width="0.9" height="0.9"/>
 						<rect x="859.5" y="351.6" width="0.9" height="0.9"/>
 					</g>
 				</g>
 			</g>
-			<text transform="matrix(1 0 0 1 852.9452 386.32)" font-family="'MyriadPro-Regular'" font-size="10px">200m</text>
+			<text transform="matrix(1 0 0 1 852.9452 386.32)" class="st3 st39">200m</text>
 		</g>
 	</g>
 	<g id="robot_layer">
 		<g>
-			<rect x="635.7" y="219.2" opacity="0.8" fill="#00B2FF" stroke="#000000" stroke-miterlimit="10" width="14.7" height="7"/>
-			<polygon opacity="0.2" fill="#B6FD4F" stroke="#000000" stroke-miterlimit="10" points="662.4,212 662.4,233.4 642.8,222.7 			
-				"/>
+			<rect x="635.7" y="219.2" class="st81" width="14.7" height="7"/>
+			<polygon class="st82" points="662.4,212 662.4,233.4 642.8,222.7 			"/>
 		</g>
 		<g id="VAB_00000078047056099486383360000017966006595602601649_">
-			
-				<path id="path2988_00000059995858623822208800000012944702639652215685_" opacity="0.7" fill="#7DE1FF" stroke="#000000" stroke-width="0.5" stroke-linecap="round" enable-background="new    " d="
-				M513.1,189c-5.4,0-9.8-4.4-9.8-9.8c0-5.4,4.4-9.8,9.8-9.8h17.7c5.4,0,9.8,4.4,9.8,9.8c0,5.4-4.4,9.8-9.8,9.8H513.1z"/>
-			
-				<circle id="vab-marker_00000131335897167078972660000014284678723580326558_" opacity="0.6" fill="#0000FF" enable-background="new    " cx="521.8" cy="179.3" r="1.9"/>
+			<path id="path2988_00000059995858623822208800000012944702639652215685_" class="st30" d="M513.1,189c-5.4,0-9.8-4.4-9.8-9.8
+				c0-5.4,4.4-9.8,9.8-9.8h17.7c5.4,0,9.8,4.4,9.8,9.8c0,5.4-4.4,9.8-9.8,9.8H513.1z"/>
+			<circle id="vab-marker_00000131335897167078972660000014284678723580326558_" class="st31" cx="521.8" cy="179.3" r="1.9"/>
 		</g>
 		<g id="Drone_00000142141654125018220580000000187231764923062698_">
-			
-				<path id="UAV_00000134959847009238953030000011075034906091004829_" opacity="0.7" fill="#7DE1FF" stroke="#000000" stroke-width="0.5" enable-background="new    " d="
-				M760.2,237.4l-28-23.3l27.9,9.2l27.9-9.8L760.2,237.4z"/>
-			
-				<circle id="GraphNode_00000049908266534072727720000012275952337910936221_" opacity="0.6" fill="#0000FF" enable-background="new    " cx="760.3" cy="237.5" r="3.3"/>
+			<path id="UAV_00000134959847009238953030000011075034906091004829_" class="st32" d="M760.2,237.4l-28-23.3l27.9,9.2l27.9-9.8
+				L760.2,237.4z"/>
+			<circle id="GraphNode_00000049908266534072727720000012275952337910936221_" class="st31" cx="760.3" cy="237.5" r="3.3"/>
 		</g>
 		<g>
 			
-				<rect x="560.2" y="168.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 45.1091 452.0975)" opacity="0.8" fill="#00B2FF" stroke="#000000" stroke-miterlimit="10" width="16.2" height="7"/>
-			<polygon opacity="0.3" fill="#B6FD4F" stroke="#000000" stroke-miterlimit="10" points="575.9,148.8 591,164 568.1,171.8 			"/>
+				<rect x="560.2" y="168.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 45.1153 452.1071)" class="st83" width="16.2" height="7"/>
+			<polygon class="st84" points="575.9,148.8 591,164 568.1,171.8 			"/>
 		</g>
 	</g>
 </g>
-<g id="GraphNav">
-	<rect x="1193" y="33.2" fill="#666666" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="221.7" height="197.6"/>
-	<rect x="1193" y="33.2" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" width="221.7" height="36.4"/>
-	<text transform="matrix(1 0 0 1 1206.0908 56.5083)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">Navigation Graph</text>
-	<text transform="matrix(1 0 0 1 1226.1588 97.4916)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">Node</text>
-	
-		<circle id="node" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="1211.7" cy="92.9" r="5.5"/>
-	<text transform="matrix(1 0 0 1 1226.1593 119.0633)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">Start Node</text>
-	<text transform="matrix(1 0 0 1 1226.1587 140.635)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">End Node</text>
-	<text transform="matrix(1 0 0 1 1226.1586 162.2067)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">Mandatory Node</text>
-	
-		<text id="Forced" transform="matrix(1 0 0 1 1226.1586 183.7782)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">Forced Node</text>
-	
-		<circle id="node_forced" opacity="0.8" fill="#29ABE2" stroke="#000000" stroke-width="3" stroke-miterlimit="10" enable-background="new    " cx="1211.7" cy="179.2" r="5.2"/>
-	<g id="node_mandatory">
-		
-			<circle id="GraphNode_00000083795221278490551850000002762137817906150278_" opacity="0.8" fill="#29ABE2" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="1211.7" cy="157.6" r="5.2"/>
-		<g id="waypoint_00000149381495119761874650000010747891893097652116_" display="none">
-			
-				<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="1207.9" y1="153.8" x2="1216.1" y2="162"/>
-			
-				<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="1207.9" y1="162" x2="1216.1" y2="153.8"/>
-		</g>
-		
-			<circle opacity="0.8" fill="none" stroke="#FF30FF" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="1211.7" cy="157.6" r="10.5"/>
-	</g>
-	<text transform="matrix(1 0 0 1 1225.1746 205.1697)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">Edge</text>
-	
-		<line opacity="0.8" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="1204.3" y1="200.6" x2="1219.7" y2="200.6"/>
-	<g id="update_button">
-		<path fill="#666666" stroke="#35B2FF" stroke-width="2" stroke-miterlimit="10" d="M1396.7,220.8h-72.1c-5.2,0-9.4-4.2-9.4-9.4
-			v-8.7c0-5.2,4.2-9.4,9.4-9.4h72.1c5.2,0,9.4,4.2,9.4,9.4v8.7C1406.1,216.5,1401.9,220.8,1396.7,220.8z"/>
-		<text transform="matrix(1 0 0 1 1319.8022 211.3952)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12px">Update Itinerary</text>
-	</g>
-	<g id="node_start">
-		
-			<circle id="node_start2" opacity="0.8" fill="#29ABE2" stroke="#70EE49" stroke-miterlimit="10" enable-background="new    " cx="1211.7" cy="114.5" r="5.2"/>
-		<polygon fill="#32ED2B" points="1215.7,114.5 1209.7,111.1 1209.7,117.9 		"/>
-	</g>
-	<g id="node_end">
-		
-			<circle id="node_endd" opacity="0.8" fill="#29ABE2" stroke="#FF30FF" stroke-miterlimit="10" enable-background="new    " cx="1211.7" cy="136.2" r="5.2"/>
-		<path fill="#FF30FF" d="M1212.4,134.7c1.4,0.6,1.4,0.6,2.6-0.9c0-0.1,0.1,0.1,0.1,0.1c0.1,2.7,0,0,0.1,2.7c0,1.7-0.6,1.6-2.5,0.6
-			c-0.8-0.4-1.3-0.9-1.9-1c-0.8-0.1-1.4,1.7-1.6,1.6c-0.1,0-0.1-0.1-0.1-0.2c0-0.5-0.1-1.6-0.2-3
-			C1210.3,133.4,1210.3,133.2,1212.4,134.7z"/>
-		
-			<line fill="#FF3FE6" stroke="#1D1D1B" stroke-width="0.25" stroke-linecap="round" stroke-miterlimit="10" x1="1208.9" y1="134.7" x2="1209.1" y2="139.6"/>
-	</g>
-	
-		<circle id="node_forfed_00000182514348302660275910000010809241568417508794_" opacity="0.8" fill="#29ABE2" stroke="#000000" stroke-width="2" stroke-miterlimit="10" enable-background="new    " cx="866.1" cy="368" r="5.2"/>
-	
-		<circle id="node_forfed_00000021836934741742831170000000042175630545359033_" opacity="0.8" fill="#29ABE2" stroke="#000000" stroke-width="2" stroke-miterlimit="10" enable-background="new    " cx="757.3" cy="326.9" r="5.2"/>
-</g>
-<g id="Itinerary">
-	
-		<rect x="1194.1" y="245.7" fill="#666666" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="221.7" height="197.6"/>
-	<rect x="1194.1" y="245.7" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" width="221.7" height="36.4"/>
-	<g id="itininerary_proposal">
-		
-			<rect x="1196.5" y="291.1" opacity="0.8" fill="#35B2FF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" width="192.2" height="44.7"/>
-		<text transform="matrix(1 0 0 1 1204.4545 304.2748)"><tspan x="0" y="0" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">It 1</tspan><tspan x="0" y="18" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">Shortest distance</tspan></text>
-		<g id="update_button_00000011002095034818549070000016339925699345471148_">
-			<path fill="#666666" stroke="#35B2FF" stroke-width="2" stroke-miterlimit="10" d="M1372.7,327.3h-8.7c-5.2,0-9.4-4.2-9.4-9.4
-				v-8.7c0-5.2,4.2-9.4,9.4-9.4h8.7c5.2,0,9.4,4.2,9.4,9.4v8.7C1382.1,323.1,1377.9,327.3,1372.7,327.3z"/>
-			<text transform="matrix(1 0 0 1 1359.2651 317.9056)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12px">Set</text>
-		</g>
-	</g>
-	<g id="itininerary_proposal_00000052106569223655894410000010816214052558238607_">
-		<g id="update_button_00000170243492525704456010000004931476630690488210_">
-			<path fill="#666666" stroke="#35B2FF" stroke-width="2" stroke-miterlimit="10" d="M1395.1,429.8h-8.7c-5.2,0-9.4-4.2-9.4-9.4
-				v-8.7c0-5.2,4.2-9.4,9.4-9.4h8.7c5.2,0,9.4,4.2,9.4,9.4v8.7C1404.5,425.5,1400.3,429.8,1395.1,429.8z"/>
-			<text transform="matrix(1 0 0 1 1381.6272 420.3899)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12px">Set</text>
-		</g>
-		
-			<rect x="1221.6" y="393.6" opacity="0.5" fill="#CCECFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" width="192.2" height="44.7"/>
-		<text transform="matrix(1 0 0 1 1229.4797 406.7591)"><tspan x="0" y="0" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">It 1</tspan><tspan x="0" y="18" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">Far from traps</tspan></text>
-	</g>
-	<g id="itininerary_proposal_00000124875720177785724760000002351319910127667337_">
-		<g id="update_button_00000018221024063917182080000014282344748035947140_">
-			<path fill="#666666" stroke="#35B2FF" stroke-width="2" stroke-miterlimit="10" d="M1395.1,380.5h-8.7c-5.2,0-9.4-4.2-9.4-9.4
-				v-8.7c0-5.2,4.2-9.4,9.4-9.4h8.7c5.2,0,9.4,4.2,9.4,9.4v8.7C1404.5,376.3,1400.3,380.5,1395.1,380.5z"/>
-			<text transform="matrix(1 0 0 1 1381.6272 371.1217)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12px">Set</text>
-		</g>
-		
-			<rect x="1221.6" y="344.4" opacity="0.5" fill="#CCECFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" width="192.2" height="44.7"/>
-		<text transform="matrix(1 0 0 1 1229.4797 357.4908)"><tspan x="0" y="0" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">It 2</tspan><tspan x="0" y="18" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">Far from forest</tspan></text>
-		<rect x="1201.8" y="373.8" fill="none" width="71.4" height="0"/>
-	</g>
-	<text transform="matrix(1 0 0 1 1207.2625 268.9487)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">Itinerary</text>
-</g>
-<g id="tasks_panel">
-	<rect x="1193" y="457.5" fill="#666666" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="221.7" height="369.5"/>
-	<rect x="1193" y="457.5" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" width="221.7" height="36.4"/>
-	
-		<text id="Tasks" transform="matrix(1 0 0 1 1206.0908 480.8157)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">Tasks</text>
-	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="1268.9" y1="871.6057" x2="1268.9" y2="870.174">
-		<stop  offset="2.247200e-02" style="stop-color:#C69C2F"/>
-		<stop  offset="7.595032e-02" style="stop-color:#DEAE34"/>
-		<stop  offset="0.1011" style="stop-color:#EBB737"/>
-		<stop  offset="0.2579" style="stop-color:#F6CD4F"/>
-		<stop  offset="0.2809" style="stop-color:#F8D153"/>
-		<stop  offset="0.4494" style="stop-color:#F3CF4F"/>
-		<stop  offset="0.5162" style="stop-color:#F1D767"/>
-		<stop  offset="0.6569" style="stop-color:#EDECA5"/>
-		<stop  offset="0.6573" style="stop-color:#EDECA5"/>
-		<stop  offset="0.6839" style="stop-color:#EEE187"/>
-		<stop  offset="0.7157" style="stop-color:#F0D86A"/>
-		<stop  offset="0.7499" style="stop-color:#F1D054"/>
-		<stop  offset="0.787" style="stop-color:#F1CA44"/>
-		<stop  offset="0.8292" style="stop-color:#F2C73B"/>
-		<stop  offset="0.8876" style="stop-color:#F2C638"/>
-		<stop  offset="0.9081" style="stop-color:#F1CE50"/>
-		<stop  offset="0.9511" style="stop-color:#EEE48E"/>
-		<stop  offset="0.9663" style="stop-color:#EDECA5"/>
-	</linearGradient>
-	<path opacity="0.7" fill="url(#SVGID_1_)" d="M1244.1,552.6c-6.6-4.3-5.8-14.1,1.1-17.9c6.6-3.5,15.1-6.5,24.9-6.3
-		c10.8,0.2,27,4.2,28,11.7c0.7,5.1-5.7,11.8-11.3,11.7c-6.8-0.2-7.7-10.2-14.8-11.3c-9.4-1.5-15.5,14.8-24.6,13.5
-		C1246.4,553.8,1245.3,553.4,1244.1,552.6z"/>
-	<path fill="#F8D7A2" d="M1244.1,591.1c-6.6-4.3-5.8-14.1,1.1-17.9c6.6-3.5,15.1-6.5,24.9-6.3c10.8,0.2,27,4.2,28,11.7
-		c0.7,5.1-5.7,11.8-11.3,11.7c-6.8-0.2-7.7-10.2-14.8-11.3c-9.4-1.5-15.5,14.8-24.6,13.5C1246.4,592.2,1245.3,591.9,1244.1,591.1z"
-		/>
-	<text transform="matrix(1 0 0 1 1207.6025 508.5438)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12px">Zones</text>
-	<text transform="matrix(1 0 0 1 1205.5938 623.0328)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12px">Edges</text>
-	<text transform="matrix(1 0 0 1 1206.4998 727.4935)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12px">Identification</text>
-	<text transform="matrix(1 0 0 1 1213.2 748.7386)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12px">Trap1</text>
-	<text transform="matrix(1 0 0 1 1214.4161 774.9886)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12px">Trap 2</text>
-	<rect x="1213.2" y="536.9" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" width="17.1" height="17.1"/>
-	<path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-miterlimit="10" d="M1216.7,545.1c2.3,2.3,4.6,4.6,6.9,6.9
-		c1.3-3.4,3.1-6.6,5.3-9.4"/>
-	<rect x="1214.4" y="573.5" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" width="17.1" height="17.1"/>
-</g>
-<circle id="GraphNode" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="47" cy="330.9" r="5.5"/>
-<circle id="GraphNode_00000133508108805231352840000003803372827501467554_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="95.4" cy="284.3" r="5.5"/>
-<g id="WP-mandatory">
-	
-		<circle id="GraphNode_00000037651371581574869380000015190954715562188676_" opacity="0.8" fill="#29ABE2" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="100.6" cy="331" r="5.2"/>
-	<g id="waypoint_00000001657941572728661110000008676324997185197242_" display="none">
-		
-			<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="96.8" y1="327.2" x2="105" y2="335.4"/>
-		
-			<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="96.8" y1="335.4" x2="105" y2="327.2"/>
-	</g>
-	
-		<circle opacity="0.8" fill="none" stroke="#29ABE2" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="100.6" cy="331" r="10.5"/>
-</g>
-<g id="WP-mandatory_00000049914989317110180570000006559632367433014441_">
-	
-		<circle id="GraphNode_00000130618600074889580580000014907077331640675493_" opacity="0.8" fill="#29ABE2" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="100.6" cy="306.4" r="5.2"/>
-	<g id="waypoint_00000137096600480515353680000010306033732275092408_" display="none">
-		
-			<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="96.8" y1="302.6" x2="105" y2="310.7"/>
-		
-			<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="96.8" y1="310.7" x2="105" y2="302.6"/>
-	</g>
-</g>
-<g id="WP-forbidden">
-	
-		<circle id="GraphNode_00000051364545283376800730000011153844630190394775_" opacity="0.8" fill="#CCCCCC" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " cx="69.8" cy="330.9" r="5.2"/>
-	<g id="waypoint_00000061468084900229731050000016817201051029364414_">
-		<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="65.8" y1="327" x2="73.9" y2="335.1"/>
-		<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="65.8" y1="335.1" x2="73.9" y2="327"/>
-	</g>
-</g>
-<g id="Trap-confirmed">
-	
-		<rect id="trap-marker" x="60.5" y="396.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -266.1741 167.8108)" fill="#FF0000" stroke="#000000" stroke-width="0.5" stroke-linecap="round" stroke-miterlimit="4" width="18" height="18"/>
-	
-		<circle id="trap-area" opacity="0.3" fill="#FF0000" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="69.5" cy="404.5" r="35.5"/>
-</g>
-<g id="Trap-confirmed_00000001658058541022969970000014529472497163152003_">
-	
-		<rect id="trap-marker_00000138568999772973898550000011709170893772269700_" x="604.6" y="213.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 22.5139 498.9826)" fill="#FF0000" stroke="#000000" stroke-width="0.5" stroke-linecap="round" stroke-miterlimit="4" width="18" height="18"/>
-	
-		<circle id="trap-area_00000129910128512184403400000008258192843857397136_" opacity="0.3" fill="#FF0000" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="613.6" cy="222.3" r="17.8"/>
-</g>
-<g id="Trap-wait">
-	
-		<rect id="trap-marker-wait" x="60.5" y="472.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -319.914 190.0706)" fill="#FF0000" stroke="#000000" stroke-width="0.5" stroke-linecap="round" stroke-miterlimit="4" width="18" height="18"/>
-	<text transform="matrix(1 0 0 1 66.7285 485.6621)" font-family="'MyriadPro-BoldCond'" font-size="15px">?</text>
-	
-		<linearGradient id="trap-wait-area_00000099646844733873421760000000019630108258429628_" gradientUnits="userSpaceOnUse" x1="34" y1="664.5" x2="105" y2="664.5" gradientTransform="matrix(1 0 0 1 0 -184)">
-		<stop  offset="0" style="stop-color:#FF7BAC"/>
-		<stop  offset="1" style="stop-color:#FF7BAC;stop-opacity:0"/>
-	</linearGradient>
-	
-		<circle id="trap-wait-area" opacity="0.3" fill="url(#trap-wait-area_00000099646844733873421760000000019630108258429628_)" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="69.5" cy="480.5" r="35.5"/>
-</g>
-<g id="Trap-wait_00000013887169550499912710000012822081471665072777_">
-	
-		<rect id="trap-marker-wait_00000155139509222704621200000006084822802434660267_" x="145.7" y="476.9" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -298.2677 251.7045)" fill="#FF0000" stroke="#000000" stroke-width="0.5" stroke-linecap="round" stroke-miterlimit="4" width="18" height="18"/>
-	<text transform="matrix(1 0 0 1 151.9533 490.3497)" font-family="'MyriadPro-BoldCond'" font-size="15px">?</text>
-	
-		<linearGradient id="trap-wait-area_00000073710416321040965150000000554513946878043839_" gradientUnits="userSpaceOnUse" x1="119.2248" y1="669.1876" x2="190.2248" y2="669.1876" gradientTransform="matrix(1 0 0 1 0 -184)">
-		<stop  offset="0" style="stop-color:#FF7BAC"/>
-		<stop  offset="1" style="stop-color:#FF7BAC;stop-opacity:0"/>
-	</linearGradient>
-	
-		<circle id="trap-wait-area_00000065055662835020163460000000797672426262895242_" opacity="0.3" fill="url(#trap-wait-area_00000073710416321040965150000000554513946878043839_)" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="154.7" cy="485.2" r="35.5"/>
-</g>
-<g id="Trap-wait_00000001654999862564348330000016030012049283753104_">
-	
-		<rect id="trap-marker-wait_00000013183220643365684380000003538424100651202474_" x="669.2" y="155.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 82.5968 527.643)" fill="#FF0000" stroke="#000000" stroke-width="0.5" stroke-linecap="round" stroke-miterlimit="4" width="18" height="18"/>
-	<text transform="matrix(1 0 0 1 674.4728 168.5748)" font-family="'MyriadPro-BoldCond'" font-size="15px">?</text>
-	
-		<linearGradient id="trap-wait-area_00000011730270410104013930000009583210405829133983_" gradientUnits="userSpaceOnUse" x1="642.7442" y1="347.4127" x2="713.7442" y2="347.4127" gradientTransform="matrix(1 0 0 1 0 -184)">
-		<stop  offset="0" style="stop-color:#FF7BAC"/>
-		<stop  offset="1" style="stop-color:#FF7BAC;stop-opacity:0"/>
-	</linearGradient>
-	
-		<circle id="trap-wait-area_00000181063026990419285740000015711407699703082905_" opacity="0.3" fill="url(#trap-wait-area_00000011730270410104013930000009583210405829133983_)" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="678.2" cy="163.4" r="35.5"/>
-</g>
-<g id="Trap-wait_00000134962140097247962830000007149990770873380502_">
-	
-		<rect id="trap-marker-wait_00000116216846238082621720000001601039858241752491_" x="692" y="273.8" transform="matrix(0.7071 -0.7071 0.7071 0.7071 5.3597 578.4806)" fill="#FF0000" stroke="#000000" stroke-width="0.5" stroke-linecap="round" stroke-miterlimit="4" width="18" height="18"/>
-	<text transform="matrix(1 0 0 1 698.2206 287.2271)" font-family="'MyriadPro-BoldCond'" font-size="15px">?</text>
-	
-		<linearGradient id="trap-wait-area_00000140013497368968077240000002141792159411899817_" gradientUnits="userSpaceOnUse" x1="665.4921" y1="466.065" x2="736.4921" y2="466.065" gradientTransform="matrix(1 0 0 1 0 -184)">
-		<stop  offset="0" style="stop-color:#FF7BAC"/>
-		<stop  offset="1" style="stop-color:#FF7BAC;stop-opacity:0"/>
-	</linearGradient>
-	
-		<circle id="trap-wait-area_00000083792281254064293480000005622539668664136090_" opacity="0.3" fill="url(#trap-wait-area_00000140013497368968077240000002141792159411899817_)" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="701" cy="282.1" r="35.5"/>
-</g>
-<g id="VAB">
-	
-		<path id="path2988" opacity="0.7" fill="#7DE1FF" stroke="#000000" stroke-width="0.5" stroke-linecap="round" enable-background="new    " d="
-		M51.5,582.8c-9.1,0-16.6-7.4-16.6-16.6s7.4-16.6,16.6-16.6h30.1c9.1,0,16.6,7.4,16.6,16.6s-7.5,16.6-16.7,16.6H51.5z"/>
-	<circle id="vab-marker" opacity="0.6" fill="#0000FF" enable-background="new    " cx="66.2" cy="566.4" r="3.3"/>
-</g>
-<g id="Drone">
-	
-		<path id="UAV_00000121995831506571423420000009652437194042732428_" opacity="0.7" fill="#7DE1FF" stroke="#000000" stroke-width="0.5" enable-background="new    " d="
-		M68.8,625.3l-28-23.3l27.9,9.2l27.9-9.8L68.8,625.3z"/>
-	
-		<circle id="GraphNode_00000116951582950089562290000003884267376724321193_" opacity="0.6" fill="#0000FF" enable-background="new    " cx="68.9" cy="625.4" r="3.3"/>
-</g>
-<g id="Robot1">
-	<g id="Drone_00000047042515095098460150000012256575447589146768_">
-		
-			<path id="UAV_00000014620856097280365520000008566885559946529719_" opacity="0.7" fill="#7DE1FF" stroke="#000000" stroke-width="0.5" enable-background="new    " d="
-			M69.6,685.8l-20.8-17.3l20.8,3.2l20.3-3.2L69.6,685.8z"/>
-		
-			<circle id="GraphNode_00000086653111880113809190000000407012383932343706_" opacity="0.6" fill="#0000FF" enable-background="new    " cx="69.8" cy="685.9" r="3.3"/>
-	</g>
-	
-		<path id="UAV_00000060743005175068450510000017708807074956199614_" opacity="0.7" fill="#7DE1FF" stroke="#000000" stroke-width="0.5" enable-background="new    " d="
-		M83.5,666.8"/>
-	
-		<path id="UAV_00000036219827647903693570000010431644923587103370_" opacity="0.7" fill="#7DE1FF" stroke="#000000" stroke-width="0.5" enable-background="new    " d="
-		M69.4,666.8"/>
-	<path fill="#7DE1FF" stroke="#000000" stroke-width="0.5" d="M80.2,689.9"/>
-	
-		<path id="LWheel_00000147207657486958864750000003622822253736808346_" opacity="0.8" fill="none" stroke="#7DE1FF" stroke-linecap="round" enable-background="new    " d="
-		M72.3,664.7c0,1.6-1.3,2.9-2.9,2.9s-2.9-1.3-2.9-2.9l0,0c0-1.6,1.3-2.9,2.9-2.9C71,661.7,72.3,663,72.3,664.7L72.3,664.7z"/>
-	
-		<path id="LWheel_00000100362005773993413380000013304345852475406010_" opacity="0.8" fill="none" stroke="#7DE1FF" stroke-linecap="round" enable-background="new    " d="
-		M82.2,664.7c0,1.6-1.3,2.9-2.9,2.9s-2.9-1.3-2.9-2.9l0,0c0-1.6,1.3-2.9,2.9-2.9C80.9,661.7,82.2,663,82.2,664.7L82.2,664.7z"/>
-	
-		<path id="LWheel_00000081607088928017216110000013620856611781855659_" opacity="0.8" fill="none" stroke="#7DE1FF" stroke-linecap="round" enable-background="new    " d="
-		M62.4,664.7c0,1.6-1.3,2.9-2.9,2.9s-2.9-1.3-2.9-2.9l0,0c0-1.6,1.3-2.9,2.9-2.9C61.1,661.7,62.4,663,62.4,664.7L62.4,664.7z"/>
-</g>
-<g id="Robot2">
-	<g id="Drone_00000008147393462153197480000014878772577906491012_">
-		
-			<path id="UAV_00000013889782812750399670000003314216494764614572_" opacity="0.7" fill="#7DE1FF" stroke="#000000" stroke-width="0.5" enable-background="new    " d="
-			M69.6,746.6l-20.8-17.3l20.8,3.2l20.3-3.2L69.6,746.6z"/>
-		
-			<circle id="GraphNode_00000135677754487470746800000006429815064926821023_" opacity="0.6" fill="#0000FF" enable-background="new    " cx="69.8" cy="746.7" r="3.3"/>
-	</g>
-	
-		<path id="UAV_00000108309608589468742530000001507147354563938469_" opacity="0.7" fill="#7DE1FF" stroke="#000000" stroke-width="0.5" enable-background="new    " d="
-		M83.5,727.6"/>
-	
-		<path id="UAV_00000006692424272064526520000001257604386892784543_" opacity="0.7" fill="#7DE1FF" stroke="#000000" stroke-width="0.5" enable-background="new    " d="
-		M69.4,727.6"/>
-	
-		<path id="LWheel_00000020399685034071170660000001462164902606641572_" opacity="0.8" fill="none" stroke="#7DE1FF" stroke-linecap="round" enable-background="new    " d="
-		M72.3,725.4c0,1.6-1.3,2.9-2.9,2.9s-2.9-1.3-2.9-2.9l0,0c0-1.6,1.3-2.9,2.9-2.9S72.3,723.8,72.3,725.4L72.3,725.4z"/>
-	
-		<path id="LWheel_00000040572295837824520930000010604553251669903766_" opacity="0.8" fill="none" stroke="#7DE1FF" stroke-linecap="round" enable-background="new    " d="
-		M82.2,725.4c0,1.6-1.3,2.9-2.9,2.9s-2.9-1.3-2.9-2.9l0,0c0-1.6,1.3-2.9,2.9-2.9C80.9,722.5,82.2,723.8,82.2,725.4L82.2,725.4z"/>
-	
-		<path id="LWheel_00000160889827275483883580000004567317848129487277_" opacity="0.8" fill="none" stroke="#7DE1FF" stroke-linecap="round" enable-background="new    " d="
-		M62.4,725.4c0,1.6-1.3,2.9-2.9,2.9s-2.9-1.3-2.9-2.9l0,0c0-1.6,1.3-2.9,2.9-2.9C61.1,722.5,62.4,723.8,62.4,725.4L62.4,725.4z"/>
-	<path fill="#7DE1FF" stroke="#000000" stroke-width="0.5" d="M80.2,744.1"/>
-	<polygon points="66.8,740 69.5,737.1 66.8,734.2 	"/>
-	<rect x="63.9" y="736.3" width="3.8" height="1.7"/>
-	<path fill="none" stroke="#000000" d="M70.4,734.6H72v4.9h-1.6"/>
-</g>
-<g id="Trap-deactivated" opacity="0.4">
-	
-		<rect id="trap-marker_00000142159114049024685930000007925754984476763829_" x="145.7" y="395.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -240.5056 227.7989)" fill="#C86464" stroke="#000000" stroke-width="1" stroke-miterlimit="4" width="18" height="18"/>
-</g>
-<g id="Trap-deactivated_00000007399641431079519690000012978140683272338853_" opacity="0.4">
-	
-		<rect id="trap-marker_00000008857375525188519290000015868750447123745187_" x="463.1" y="148.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 27.2159 379.8185)" fill="#C86464" stroke="#000000" stroke-width="1" stroke-miterlimit="4" width="18" height="18"/>
-</g>
-<g id="Trap-deactivated_00000036950274185498013620000006317957638881271989_" opacity="0.4">
-	
-		<rect id="trap-marker_00000098922585052981121230000017130011945054221713_" x="433.8" y="167.6" transform="matrix(0.7071 -0.7071 0.7071 0.7071 4.8224 364.7921)" fill="#C86464" stroke="#000000" stroke-width="1" stroke-miterlimit="4" width="18" height="18"/>
-</g>
-<g id="Trap-deactivated_00000159469569607088964980000011154879631323584417_" opacity="0.4">
-	
-		<rect id="trap-marker_00000019660851175339812220000014022615212913145474_" x="530.1" y="218.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -2.7025 447.6929)" fill="#C86464" stroke="#000000" stroke-width="1" stroke-miterlimit="4" width="18" height="18"/>
-</g>
-<path opacity="0.5" fill="#FFFFFF" enable-background="new    " d="M126.7,291.3h-16.1c-2.4,0-4.3-1.9-4.3-4.3v-5.3
-	c0-2.4,1.9-4.3,4.3-4.3h16.1c2.4,0,4.3,1.9,4.3,4.3v5.3C131,289.4,129.1,291.3,126.7,291.3z"/>
-<text transform="matrix(1 0 0 1 110.0238 288.0068)" font-family="'MyriadPro-Regular'" font-size="12px">T21</text>
-<line fill="none" stroke="#FFFFFF" stroke-miterlimit="10" x1="106.3" y1="284.3" x2="100.9" y2="284.3"/>
-<g id="title_bar">
-	<rect x="622.1" y="9.6" fill="none" width="1419" height="23.7"/>
-	<text transform="matrix(1 0 0 1 622.1 20.2046)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">COHOMA-STRATEGICAL PLANNING CENTER</text>
-	<rect id="Title" x="-0.1" y="2.4" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" width="1414.8" height="24.4"/>
-</g>
-<path opacity="0.7" fill="#FFFF7C" d="M940.2-61.3c-6.6-4.3-5.8-14.1,1.1-17.9c6.6-3.5,15.1-6.5,24.9-6.3c10.8,0.2,27,4.2,28,11.7
-	c0.7,5.1-5.7,11.8-11.3,11.7c-6.8-0.2-7.7-10.2-14.8-11.3c-9.4-1.5-15.5,14.8-24.6,13.5C942.5-60.1,941.4-60.5,940.2-61.3z"/>
-<text transform="matrix(1 0 0 1 605.1792 225.5771)" font-family="'MyriadPro-Regular'" font-size="10px">20m</text>
-<g id="Trap-confirmed_00000130625981216176981070000001288864810480191398_">
-	
-		<rect id="trap-marker_00000039827077637248622690000002282894003686022041_" x="89.1" y="148.8" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -82.814 115.595)" fill="#FF0000" stroke="#000000" stroke-width="0.5" stroke-linecap="round" stroke-miterlimit="4" width="18" height="18"/>
-	
-		<circle id="trap-area_00000167368550196143017870000012327370568286696087_" opacity="0.3" fill="#FF0000" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="98.1" cy="157.1" r="35.5"/>
-</g>
-<linearGradient id="SVGID_00000078010179887941338920000014098433683273572789_" gradientUnits="userSpaceOnUse" x1="625.9446" y1="480.1202" x2="806.502" y2="480.1202">
-	<stop  offset="0" style="stop-color:#D13026"/>
-	<stop  offset="0.1007" style="stop-color:#D13026;stop-opacity:0"/>
-	<stop  offset="0.2" style="stop-color:#D13026"/>
-	<stop  offset="0.3" style="stop-color:#D13026;stop-opacity:0"/>
-	<stop  offset="0.402" style="stop-color:#D13026"/>
-	<stop  offset="0.5" style="stop-color:#D13026;stop-opacity:0"/>
-	<stop  offset="0.6" style="stop-color:#D13026"/>
-	<stop  offset="0.7" style="stop-color:#D13026;stop-opacity:0"/>
-	<stop  offset="0.8" style="stop-color:#D13026"/>
-	<stop  offset="0.9" style="stop-color:#D13026;stop-opacity:0"/>
-	<stop  offset="1" style="stop-color:#D13026"/>
-</linearGradient>
-<polygon opacity="0.6" fill="url(#SVGID_00000078010179887941338920000014098433683273572789_)" stroke="#FF5555" stroke-linecap="round" stroke-miterlimit="10" points="
-	806.5,491.5 741.1,558.7 693.9,609.2 625.9,544.2 648.2,452.9 683,351 "/>
-<linearGradient id="SVGID_00000073002384461578069190000005898205761326257062_" gradientUnits="userSpaceOnUse" x1="104.0736" y1="805.1663" x2="213.1138" y2="805.1663">
-	<stop  offset="0" style="stop-color:#D13026"/>
-	<stop  offset="0.1007" style="stop-color:#D13026;stop-opacity:0"/>
-	<stop  offset="0.2" style="stop-color:#D13026"/>
-	<stop  offset="0.3" style="stop-color:#D13026;stop-opacity:0"/>
-	<stop  offset="0.402" style="stop-color:#D13026"/>
-	<stop  offset="0.5" style="stop-color:#D13026;stop-opacity:0"/>
-	<stop  offset="0.6" style="stop-color:#D13026"/>
-	<stop  offset="0.7" style="stop-color:#D13026;stop-opacity:0"/>
-	<stop  offset="0.8" style="stop-color:#D13026"/>
-	<stop  offset="0.9" style="stop-color:#D13026;stop-opacity:0"/>
-	<stop  offset="1" style="stop-color:#D13026"/>
-</linearGradient>
-<polygon opacity="0.3" fill="url(#SVGID_00000073002384461578069190000005898205761326257062_)" stroke="#FF5555" stroke-linecap="round" stroke-miterlimit="10" points="
-	213.1,812 173.6,852.6 145.1,883.1 104.1,843.9 117.5,788.7 138.6,727.2 "/>
-<text transform="matrix(1 0 0 1 681.4896 166.7147)" font-family="'MyriadPro-Regular'" font-size="10px">2</text>
-<text transform="matrix(1 0 0 1 704.2374 285.6051)" font-family="'MyriadPro-Regular'" font-size="10px">1</text>
+<path class="st1" d="M622.1,151.4"/>
+<path class="st85" d="M841.7,169.9c-31.2,7.3-61.9,16.8-91.8,28.4c-3.9,1.5-22.3,5.4-22.1,7.9c0.2,4.1,18.3,14.8,21.2,17.2
+	c19.3,15.3,38.5,30.6,57.8,45.9c5.7,4.5,11.4,9.1,16.5,14.3c7.1,7.3,12.9,16,20.7,22.7c16.8,14.4,41.6,20.8,63.2,18.8"/>
+<path class="st86" d="M725.1,217.8c9.5,18.9,19.1,38.1,22.6,58.9c2.6,15.7,1.8,32.3,9,46.5"/>
+<path class="st86" d="M758.7,327.2c47.5,1.1,94.9,0.8,142.4-1"/>
 </svg>
