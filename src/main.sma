@@ -259,7 +259,7 @@ Component root {
       itineraries,
       traps, 
       tasks,
-      actors
+      actors,
       lima,
       result
     }
