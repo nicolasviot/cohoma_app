@@ -216,23 +216,19 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
       Bool min (0)
       zoomLevel == 19 =:> max
       zoomLevel == 1 =:> min
-      FSM check_zoom {
-        State both {
+      Switch check_zoom (both) {
+        Component both {
           g_map.pick_area.wheel.dy > 0 -> zoom_in_req
           g_map.pick_area.wheel.dy < 0 -> zoom_out_req
         }
-        State only_in {
+        Component only_in {
           g_map.pick_area.wheel.dy > 0 -> zoom_in_req
         }
-        State only_out {
+        Component only_out {
           g_map.pick_area.wheel.dy < 0 -> zoom_out_req
         }
-        both->only_in (min.true)
-        only_in->both (min.false)
-        both->only_out (max.true)
-        only_out->both (max.false)
       }
-      check_zoom.state => check_zoom.initial 
+      min == 1 ? "only_in" : (max == 1 ? "only_out" : "both") =:> check_zoom.state 
     }
     State zooming_in
     State zooming_out
