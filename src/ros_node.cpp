@@ -401,29 +401,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
 
 void 
 RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
-/*  for (auto item: ((djnn::List*)_itinerary_edges)->children()){
-       item->deactivate ();
-
-      if (item->get_parent ())
-
-        item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-
-        item->schedule_delete ();
-
-        item = nullptr;
-      
-    }*/
-/*
-  int size = msg->nodes.size();
-
-  for (int i = 0; i <  size - 1; ++i) {
-      std::cout << "trying to draw arc between " << i << " and " << i+1 << std::endl;
-      ParentProcess* edge = Edge(_itinerary_edges, "", std::stoi(msg->nodes[i])+1, std::stoi(msg->nodes[i+1])+1, 20, _nodes);
-      ((AbstractProperty*)edge->find_child("color/r"))->set_value(30, true);
-      ((AbstractProperty*)edge->find_child("color/g"))->set_value(144, true);
-      ((AbstractProperty*)edge->find_child("color/b"))->set_value(255, true);
-    }*/
-
+// export to result layer
 }
 
 
@@ -532,11 +510,11 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::Trap msg){
 }
 
 void 
-RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks){
+RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
 //TODO
 }
 void 
-RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation){
+RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
 //TODO
 }
 

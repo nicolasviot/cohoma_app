@@ -1,0 +1,92 @@
+start_point:
+  latitude: 1.729783361205679
+  longitude: 44.27432196595285
+  altitude: 355.9395436139318
+limits:
+  points:
+  - latitude: 1.730245013810423
+    longitude: 44.273987027194
+    altitude: 353.4020949513767
+  - latitude: 1.727561722355053
+    longitude: 44.27606670575096
+    altitude: 354.9857714890402
+  - latitude: 1.726114653154427
+    longitude: 44.27527283408215
+    altitude: 360.7276999827914
+  - latitude: 1.726174130539044
+    longitude: 44.27424281023033
+    altitude: 360.0052072048103
+  - latitude: 1.728857651044453
+    longitude: 44.27246047661149
+    altitude: 356.4967671436403
+  - latitude: 1.730245013810423
+    longitude: 44.273987027194
+    altitude: 353.4020949513767
+phases: []
+zones:
+- polygon:
+    points:
+    - latitude: 1.730245013810423
+      longitude: 44.273987027194
+      altitude: 353.4020949513767
+    - latitude: 1.727561722355053
+      longitude: 44.27606670575096
+      altitude: 354.9857714890402
+    - latitude: 1.726114653154427
+      longitude: 44.27527283408215
+      altitude: 360.7276999827914
+    - latitude: 1.726174130539044
+      longitude: 44.27424281023033
+      altitude: 360.0052072048103
+    - latitude: 1.728857651044453
+      longitude: 44.27246047661149
+      altitude: 356.4967671436403
+    - latitude: 1.730245013810423
+      longitude: 44.273987027194
+      altitude: 353.4020949513767
+  type: 6
+- polygon:
+    points:
+    - latitude: 1.730245013810423
+      longitude: 44.273987027194
+      altitude: 353.4020949513767
+    - latitude: 1.727561722355053
+      longitude: 44.27606670575096
+      altitude: 354.9857714890402
+    - latitude: 1.726114653154427
+      longitude: 44.27527283408215
+      altitude: 360.7276999827914
+    - latitude: 1.726174130539044
+      longitude: 44.27424281023033
+      altitude: 360.0052072048103
+    - latitude: 1.728857651044453
+      longitude: 44.27246047661149
+      altitude: 356.4967671436403
+    - latitude: 1.730245013810423
+      longitude: 44.273987027194
+      altitude: 353.4020949513767
+  type: 3
+limas:
+- points:
+  - latitude: 1.72954755492094
+    longitude: 44.27454525208339
+    altitude: 355.6885026644179
+  - latitude: 1.730230127226058
+    longitude: 44.27382741959425
+    altitude: 354.3055319330382
+- points:
+  - latitude: 1.729637632977594
+    longitude: 44.27459179197952
+    altitude: 354.9655187572938
+  - latitude: 1.72774131662401
+    longitude: 44.27306606824116
+    altitude: 359.459594262197
+- points:
+  - latitude: 1.727783939576377
+    longitude: 44.27595901914592
+    altitude: 355.1890215022731
+  - latitude: 1.725966143121076
+    longitude: 44.27515916379403
+    altitude: 359.3154840468254
+
+

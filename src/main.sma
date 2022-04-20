@@ -36,6 +36,7 @@ import StripContainer
 import Trap
 import Vehicule
 import TaskLayer
+import LimaLayer
 
 
 _native_code_
@@ -81,11 +82,15 @@ Component root {
   int init_height = 768
   double init_lat = get_arg_double (argc, argv, 1)
   if (init_lat == -1) {
-    init_lat = 43.315313261816485
+    //init_lat = 43.315313261816485
+    //Caylus data 
+    init_lat = 44.27432196595285
   }
   double init_lon = get_arg_double (argc, argv, 2)
   if (init_lon == -1){
-    init_lon = 1.404974527891014
+    //init_lon = 1.404974527891014
+    //Caylus data
+    init_lon = 1.729783361205679
   }
   int init_zoom = 17
   
@@ -210,6 +215,25 @@ Component root {
       }
       String name("Tasks")
     }
+    Component lima{
+      Switch ctrl_visibility (visible){
+        Component hidden
+        Component visible {
+          LimaLayer layer (map)
+        }
+      }
+      String name("LIMA")
+    }
+    Component result{
+      Switch ctrl_visibility (visible){
+        Component hidden
+        Component visible {
+          TaskLayer layer (map)
+        }
+      }
+      String name("Result")
+    }
+
 
       
     
@@ -222,7 +246,9 @@ Component root {
       navgraph,
       itineraries,
       traps, 
-      tasks
+      tasks,
+      lima,
+      result
     }
   }
 
@@ -334,11 +360,15 @@ Component root {
          
           }
       }
+      NoOutline _
+      NoFill _
       GraphNode temporary (l.map, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
-      0 =: temporary.opacity
-      0 =: temporary.outline_opacity
+      l.map.pointer_lon -> (root){
+        root.current_addEdge.preview_on.temporary.opacity = 0
+        root.current_addEdge.preview_on.temporary.outline_opacity = 0
+      }
       OutlineOpacity _ (0.5)
       OutlineWidth _ (5)
       OutlineColor _ (180, 90, 140)
@@ -403,6 +433,9 @@ Component root {
     }
   }
 
+
+
+/* */
   add_segment -> (root){
     for (int i = 1; i < $root.addEdge.preview_on.temp_id_list.size; i++){
       int src = $root.addEdge.preview_on.temp_id_list.[i]
@@ -414,3 +447,8 @@ Component root {
     }
   }
 }
+
+
+
+//TODO : use inheritance for graphNode, Trap, Vehicule
+//TODO : tester le constructeur C++

@@ -19,7 +19,20 @@ NavGraph (Process _map, Process f){
 	// LogPrinter lp("id_selected :")
 	// manager.selected_id =:> lp.input
 	
+
+	
+	List edges {
+
+		
+		
+		
+		
+	}
 	List nodes {
+
+	}
+
+	addChildrenTo nodes {
 		//Node nodefictif(map, 0, 0, 0, 0, "n_fictif", 0, manager)
 
 		
@@ -38,11 +51,7 @@ NavGraph (Process _map, Process f){
 		
 		
 	}
-	
-
-	List edges {
-
-		
+	addChildrenTo edges {
 		Edge edge1(12, 11, 22.11618714809018, nodes)
 		Edge edge2(12, 10, 22.11618714809018, nodes)
 		Edge edge3(12, 9, 22.11618714809018, nodes)
@@ -61,10 +70,8 @@ NavGraph (Process _map, Process f){
 		Edge edge16(4, 3, 22.11618714809018, nodes)
 		Edge edge17(3, 2, 22.11618714809018, nodes)
 		Edge edge18(2, 1, 22.11618714809018, nodes)
-		
-		
 	}
-
+	
 	List itineraries {
 	
 	}
