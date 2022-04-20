@@ -597,7 +597,7 @@ RosNode::send_msg_navgraph_update(){
     string scompulsory = dynamic_cast<TextProperty*>(item->find_child("status"))->get_value();
     
     bool compulsory = (scompulsory == "compulsory");   
-
+    bool locked = true;
     
 
     nlohmann::json jn = {
@@ -607,7 +607,8 @@ RosNode::send_msg_navgraph_update(){
         {"altitude", dalt},
         {"latitude", dlat},
         {"longitude", dlon},
-        {"compulsory", compulsory}
+        {"compulsory", compulsory},
+        {"locked", locked}
       }}
     };                
     j["graph"]["nodes"].push_back(jn);   
@@ -617,6 +618,7 @@ RosNode::send_msg_navgraph_update(){
   //TODO: remove - only for debug
   std::cerr << "finished generating JSON" << std::endl;
   icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
+  std::cerr << j.dump() << std::endl;
   message.data = j.dump();
   std::cerr << "about to publish on publisher_navgraph_update" << std::endl;
 
@@ -624,6 +626,7 @@ RosNode::send_msg_navgraph_update(){
   publisher_navgraph_update->publish(message);
   GRAPH_EXEC;
   std::cerr << "finished publishing" << std::endl;
+
 
 
 }

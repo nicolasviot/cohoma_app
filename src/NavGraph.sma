@@ -32,7 +32,7 @@ NavGraph (Process _map, Process f){
 
 	}
 
-	addChildrenTo nodes {
+/*	addChildrenTo nodes {
 		//Node nodefictif(map, 0, 0, 0, 0, "n_fictif", 0, manager)
 
 		
@@ -70,8 +70,9 @@ NavGraph (Process _map, Process f){
 		Edge edge16(4, 3, 22.11618714809018, nodes)
 		Edge edge17(3, 2, 22.11618714809018, nodes)
 		Edge edge18(2, 1, 22.11618714809018, nodes)
-	}
 	
+	}
+*/	
 	List itineraries {
 	
 	}

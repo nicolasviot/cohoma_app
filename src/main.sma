@@ -38,6 +38,7 @@ import Trap
 import Vehicule
 import TaskLayer
 import LimaLayer
+import ExclusionAreaLayer
 
 
 
@@ -94,7 +95,9 @@ Component root {
     //Caylus data
     init_lon = 1.729783361205679
   }
-  int init_zoom = 17
+  //maximum lvl of zoom of 19
+  int init_zoom = 19
+
   
   int r_1 = 255
   int g_1 = 0
@@ -235,6 +238,15 @@ Component root {
       }
       String name("Result")
     }
+    Component mission_zones{
+      Switch ctrl_visibility (visible){
+        Component hidden
+        Component visible{
+          ExclusionAreaLayer layer (map)
+        }
+      }
+      String name("Exclusion areas")
+    }
 
 
     Component actors{
@@ -254,6 +266,7 @@ Component root {
     addChildrenTo map.layers {
       geoportail,
       osm,
+      mission_zones,
       satelites,
       navgraph,
       itineraries,
@@ -378,10 +391,6 @@ Component root {
       GraphNode temporary (l.map, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
-      l.map.pointer_lon -> (root){
-        root.current_addEdge.preview_on.temporary.opacity = 0
-        root.current_addEdge.preview_on.temporary.outline_opacity = 0
-      }
       OutlineOpacity _ (0.5)
       OutlineWidth _ (5)
       OutlineColor _ (180, 90, 140)
