@@ -364,7 +364,7 @@ Component root {
   Spike addEdgeSpike1
   Spike addEdgeSpike2
   del -> clear_all
-  LogPrinter lp ("debug selected_id")
+  LogPrinter lp ("debug selected_id dans le main")
   Ref null_ref (0)
   RefProperty current_addedge_node (nullptr)
   DerefDouble ddx (current_addedge_node, "wpt/screen_translation/tx", DJNN_GET_ON_CHANGE)
@@ -408,7 +408,7 @@ Component root {
       }
       l.map.layers.navgraph.manager.selected_id =:> index
 
-      l.map.layers.navgraph.manager.selected_id =:> lp.input
+      index =:> lp.input
 
       index -> (root){
         root.addEdge.preview_on.temp_shadow_edge.x1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.screen_translation.tx
@@ -471,7 +471,7 @@ Component root {
     for (int i = 1; i < $root.addEdge.preview_on.temp_id_list.size; i++){
       int src = $root.addEdge.preview_on.temp_id_list.[i]
       int dest = $root.addEdge.preview_on.temp_id_list.[i+1]
-
+      print (root.addEdge.preview_on.temp_id_list.[i])
       addChildrenTo root.l.map.layers.navgraph.edges {
         Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
      }

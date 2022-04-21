@@ -269,7 +269,9 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     }
     std::cerr << "about to parse nodes" << std::endl;
     // nodes
-    for (auto& node: j_graph["nodes"]) {
+    for (int i=j_graph["nodes"].size() - 1; i >=0; i--){
+    //for (auto& node: j_graph["nodes"]) {
+        auto& node = j_graph["nodes"][i];
         std::cerr << "in from json parsing nodes" << std::endl;
         auto& m = node["metadata"];
         bool isPPO = m["compulsory"].get<bool>();
