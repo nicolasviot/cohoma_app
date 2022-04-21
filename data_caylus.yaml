@@ -1,92 +1,95 @@
 start_point:
-  latitude: 1.729783361205679
-  longitude: 44.27432196595285
+  latitude: 44.27432196595285
+  longitude: 1.729783361205679
   altitude: 355.9395436139318
 limits:
   points:
-  - latitude: 1.730245013810423
-    longitude: 44.273987027194
+  - latitude: 44.273987027194
+    longitude: 1.730245013810423
     altitude: 353.4020949513767
-  - latitude: 1.727561722355053
-    longitude: 44.27606670575096
+  - latitude: 44.27606670575096
+    longitude: 1.727561722355053
     altitude: 354.9857714890402
-  - latitude: 1.726114653154427
-    longitude: 44.27527283408215
+  - latitude: 44.27527283408215
+    longitude: 1.726114653154427
     altitude: 360.7276999827914
-  - latitude: 1.726174130539044
-    longitude: 44.27424281023033
+  - latitude: 44.27424281023033
+    longitude: 1.726174130539044
     altitude: 360.0052072048103
-  - latitude: 1.728857651044453
-    longitude: 44.27246047661149
+  - latitude: 44.27246047661149
+    longitude: 1.728857651044453
     altitude: 356.4967671436403
-  - latitude: 1.730245013810423
-    longitude: 44.273987027194
+  - latitude: 44.273987027194
+    longitude: 1.730245013810423
     altitude: 353.4020949513767
 phases: []
 zones:
 - polygon:
     points:
-    - latitude: 1.730245013810423
-      longitude: 44.273987027194
-      altitude: 353.4020949513767
-    - latitude: 1.727561722355053
-      longitude: 44.27606670575096
-      altitude: 354.9857714890402
-    - latitude: 1.726114653154427
-      longitude: 44.27527283408215
-      altitude: 360.7276999827914
-    - latitude: 1.726174130539044
-      longitude: 44.27424281023033
-      altitude: 360.0052072048103
-    - latitude: 1.728857651044453
-      longitude: 44.27246047661149
-      altitude: 356.4967671436403
-    - latitude: 1.730245013810423
-      longitude: 44.273987027194
-      altitude: 353.4020949513767
+    - latitude: 44.27525349811598
+      longitude: 1.726118963093772
+      altitude: 361.8574409183851
+    - latitude: 44.27423777005773
+      longitude: 1.726178157676348
+      altitude: 360.6801826560711
+    - latitude: 44.27407892648813
+      longitude: 1.726438070983625
+      altitude: 355.3812722479119
+    - latitude: 44.27448241754246
+      longitude: 1.726920940512346
+      altitude: 355.2828171390969
+    - latitude: 44.27468108197568
+      longitude: 1.726620377991235
+      altitude: 355.1843620302819
+    - latitude: 44.27496089055605
+      longitude: 1.726439790427292
+      altitude: 355.0859069214669
+    - latitude: 44.27522750414526
+      longitude: 1.726479182787166
+      altitude: 354.9874518126518
+    - latitude: 44.27525349811598
+      longitude: 1.726118963093772
+      altitude: 361.8574409183851
   type: 6
 - polygon:
     points:
-    - latitude: 1.730245013810423
-      longitude: 44.273987027194
-      altitude: 353.4020949513767
-    - latitude: 1.727561722355053
-      longitude: 44.27606670575096
-      altitude: 354.9857714890402
-    - latitude: 1.726114653154427
-      longitude: 44.27527283408215
-      altitude: 360.7276999827914
-    - latitude: 1.726174130539044
-      longitude: 44.27424281023033
-      altitude: 360.0052072048103
-    - latitude: 1.728857651044453
-      longitude: 44.27246047661149
-      altitude: 356.4967671436403
-    - latitude: 1.730245013810423
-      longitude: 44.273987027194
-      altitude: 353.4020949513767
+    - latitude: 44.27246283621425
+      longitude: 1.728853168617424
+      altitude: 357.5785825189377
+    - latitude: 44.27327264678223
+      longitude: 1.72959625069901
+      altitude: 356.4907336045619
+    - latitude: 44.27342451002093
+      longitude: 1.729303127363166
+      altitude: 356.82916944311
+    - latitude: 44.27269229471858
+      longitude: 1.728522798768126
+      altitude: 357.8522823958792
+    - latitude: 44.27246283621425
+      longitude: 1.728853168617424
+      altitude: 357.5785825189377
   type: 3
 limas:
 - points:
-  - latitude: 1.72954755492094
-    longitude: 44.27454525208339
+  - latitude: 44.27454525208339
+    longitude: 1.72954755492094
     altitude: 355.6885026644179
-  - latitude: 1.730230127226058
-    longitude: 44.27382741959425
+  - latitude: 44.27382741959425
+    longitude: 1.730230127226058
     altitude: 354.3055319330382
 - points:
-  - latitude: 1.729637632977594
-    longitude: 44.27459179197952
+  - latitude: 44.27459179197952
+    longitude: 1.729637632977594
     altitude: 354.9655187572938
-  - latitude: 1.72774131662401
-    longitude: 44.27306606824116
+  - latitude: 44.27306606824116
+    longitude: 1.72774131662401
     altitude: 359.459594262197
 - points:
-  - latitude: 1.727783939576377
-    longitude: 44.27595901914592
+  - latitude: 44.27595901914592
+    longitude: 1.727783939576377
     altitude: 355.1890215022731
-  - latitude: 1.725966143121076
-    longitude: 44.27515916379403
+  - latitude: 44.27515916379403
+    longitude: 1.725966143121076
     altitude: 359.3154840468254
 
 
