@@ -4,7 +4,7 @@ use base
 import GraphNode
 
 _define_
-Node(Process map, double _lat, double _lon, double _alt, int _isPPO, string _label, int _id, Process _manager_id){
+Node(Process map, Process f, double _lat, double _lon, double _alt, int _isPPO, string _label, int _id, Process _manager_id){
 
 
 Double lat(_lat)
@@ -17,7 +17,7 @@ Int id(_id)
 Spike pressed
 
 manager aka _manager_id
-GraphNode wpt(map, $lat, $lon, 80, 80, 80)
+GraphNode wpt(map, f,  $lat, $lon, 80, 80, 80)
 wpt.usage_status => status
 lat =:> wpt.lat
 lon =:> wpt.lon

@@ -332,7 +332,7 @@ Component root {
   FSM addNode {
     State idle 
     State preview{
-      GraphNode temporary (l.map, 0, 0, 50, 50, 50)
+      GraphNode temporary (l.map,f, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
       f.release -> addWptToLayer
@@ -344,13 +344,13 @@ Component root {
 
   addWptToLayer -> (root){
     addChildrenTo root.l.map.layers.navgraph.nodes {
-      Node new (root.l.map, $root.l.map.pointer_lat, $root.l.map.pointer_lon, 0, 0, "by_operator", 0, root.l.map.layers.navgraph.manager)
+      Node new (root.l.map, root.f, $root.l.map.pointer_lat, $root.l.map.pointer_lon, 0, 0, "by_operator", 0, root.l.map.layers.navgraph.manager)
     }
     //print (root.l.map.layers.navgraph.nodes.size)
     root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lat = root.addNode.preview.temporary.lat
     root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lon = root.addNode.preview.temporary.lon
     root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].id = root.l.map.layers.navgraph.nodes.size    
-  }
+ }
 
 
 
@@ -359,8 +359,12 @@ Component root {
   Spike add_segment
   Spike add_first_wpt
   Spike clear_all
+  Spike disable_drag
+  Spike renable_drag
+  Spike addEdgeSpike1
+  Spike addEdgeSpike2
   del -> clear_all
-  
+  LogPrinter lp ("debug selected_id")
   Ref null_ref (0)
   RefProperty current_addedge_node (nullptr)
   DerefDouble ddx (current_addedge_node, "wpt/screen_translation/tx", DJNN_GET_ON_CHANGE)
@@ -388,7 +392,7 @@ Component root {
       }
       NoOutline _
       NoFill _
-      GraphNode temporary (l.map, 0, 0, 50, 50, 50)
+      GraphNode temporary (l.map, f, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
       OutlineOpacity _ (0.5)
@@ -404,6 +408,8 @@ Component root {
       }
       l.map.layers.navgraph.manager.selected_id =:> index
 
+      l.map.layers.navgraph.manager.selected_id =:> lp.input
+
       index -> (root){
         root.addEdge.preview_on.temp_shadow_edge.x1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.screen_translation.tx
 
@@ -417,12 +423,15 @@ Component root {
       temporary.screen_translation.ty =:> temp_shadow_edge.y2
     }
 
-    idle -> shift_on (shift, clear_temp_list)
+    idle -> shift_on (shift, addEdgeSpike1)
     shift_on -> preview_on (root.l.map.layers.navgraph.manager.selected_id, add_first_wpt)
     preview_on -> idle (shift_r, add_segment)
-    shift_on -> idle (shift_r, hide_reticule)
+    shift_on -> idle (shift_r, addEdgeSpike2)
 
   }
+
+  addEdgeSpike1 -> addEdge.preview_on.temporary.disable_drag, clear_temp_list
+  addEdgeSpike2 -> hide_reticule, addEdge.preview_on.temporary.renable_drag
 
   clear_temp_list -> (root) {
     

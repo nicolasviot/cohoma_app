@@ -132,7 +132,7 @@ RosNode::impl_activate ()
   _nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
   _edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
   _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
-
+  _frame = _parent->find_child("parent/f");
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
   _id_curent_itenerary  = dynamic_cast<TextProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
   _ref_curent_itenerary = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/ref_current_itinerary"));
@@ -273,7 +273,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
         std::cerr << "in from json parsing nodes" << std::endl;
         auto& m = node["metadata"];
         bool isPPO = m["compulsory"].get<bool>();
-        ParentProcess* node_ = Node(_nodes, "", _map , m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
+        ParentProcess* node_ = Node(_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
        0, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _manager);
 
   

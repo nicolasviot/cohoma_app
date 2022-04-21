@@ -15,7 +15,7 @@ unsigned long RGBToHex(int r, int g, int b)
 %}
 
 _define_
-GraphNode(Process map, double _lat, double _lon, int r, int g, int b)
+GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
 {
 
 
@@ -37,6 +37,13 @@ GraphNode(Process map, double _lat, double _lon, int r, int g, int b)
     Double battery_voltage(0)
     Double heading_rot(0)
 
+    Spike disable_drag
+    Spike renable_drag
+
+    Spike shift
+    Spike shift_r
+    f.key\-pressed == DJN_Key_Shift -> shift
+    f.key\-released == DJN_Key_Shift -> shift_r
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
     Translation pos (0, 0)
@@ -133,6 +140,11 @@ GraphNode(Process map, double _lat, double _lon, int r, int g, int b)
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
             (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
         }
+        State no_drag_while_drawing_edge{
+            map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
+            (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
+      
+        }
         State drag {
             Double init_cx (0)
             Double init_cy (0)
@@ -148,6 +160,8 @@ GraphNode(Process map, double _lat, double _lon, int r, int g, int b)
             py2lat (map.t0_y - $screen_translation.ty, $map.zoomLevel) => lat 
         }
         no_drag->drag (c.left.press, map.reticule.show_reticule)
+        no_drag->no_drag_while_drawing_edge (shift)
+        no_drag_while_drawing_edge -> no_drag (shift_r)
         drag->no_drag (c.left.release, map.reticule.hide_reticule)
     }
     FSM fsm {
