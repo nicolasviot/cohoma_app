@@ -21,7 +21,7 @@ Vehicule (Process map, double _lat, double _lon, int r, int g, int b, string ini
     Double battery_voltage(24)
     Int battery_percentage(75)
     Double altitude_msl(500)
-    Double heading_rot(0)
+    Double heading_rot(180)
     Bool emergency_stop(0)
     Bool failsafe(0)
     Int operation_mode(0)
@@ -37,8 +37,6 @@ Vehicule (Process map, double _lat, double _lon, int r, int g, int b, string ini
  
     Translation screen_translation (0, 0)
     Rotation rot (0, 0, 0)
-    screen_translation.tx =:> rot.cx
-    screen_translation.ty =:> rot.cy
     heading_rot =:> rot.a
     // [insert beautiful graphics here]
 
