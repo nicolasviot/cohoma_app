@@ -18,9 +18,9 @@ Vehicule (Process map, double _lat, double _lon, int r, int g, int b, string ini
     
     Double lat($_lat)
     Double lon($_lon)
-    Double battery_voltage(0)
-    Int battery_percentage(0)
-    Double altitude_msl(0)
+    Double battery_voltage(24)
+    Int battery_percentage(75)
+    Double altitude_msl(500)
     Double heading_rot(0)
     Bool emergency_stop(0)
     Bool failsafe(0)
