@@ -3,6 +3,9 @@ use gui
 use base
 use display 
 
+
+
+
 import ItineraryDescriptor
 _define_
 ItineraryPannel(double _dx, double _dy, Process _id_selected){
@@ -10,10 +13,14 @@ ItineraryPannel(double _dx, double _dy, Process _id_selected){
 
 	id_selected aka _id_selected
 
-	
+	Spike plan_set
 	ItineraryDescriptor first (10, 10, "selected", "toto")
 	ItineraryDescriptor second (10, 120, "unselected", "titi")
 	ItineraryDescriptor third (10, 230, "unselected", "tata")
+	
+	first.plan_set -> plan_set
+	second.plan_set -> plan_set
+	third.plan_set -> plan_set
 
 	(toString(id_selected) == toString(first.itinerary_id)) ? "selected" : "unselected" =:> first.sw.state
 	(toString(id_selected) == toString(second.itinerary_id)) ? "selected" : "unselected" =:> second.sw.state

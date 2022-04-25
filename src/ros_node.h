@@ -59,7 +59,7 @@ class RosNode : public FatProcess, public ExternalSource
     void receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg);
     void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
     void receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg);
-    void receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg);
+    void receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg);
     void receive_msg_trap (const icare_interfaces::msg::Trap msg);
     void receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks);
     void receive_msg_allocation(const icare_interfaces::msg::Allocation);
@@ -83,7 +83,7 @@ class RosNode : public FatProcess, public ExternalSource
 
     //navgraph fields
     TextProperty navgraph_data;
-    CoreProcess *_nodes, *_edges, *_shadow_edges; 
+    CoreProcess *_nodes, *_edges, *_shadow_edges, *_task_edges, *_task_areas, *_task_traps; 
     Component *_itineraries_list;
     RefProperty *_ref_curent_itenerary;
     NativeAction* _edge_released_na;
@@ -122,7 +122,7 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
 	  rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
     rclcpp::Subscription<icare_interfaces::msg::GraphItineraryList>::SharedPtr sub_graph_itinerary_loop;
-    rclcpp::Subscription<icare_interfaces::msg::GraphItineraryList>::SharedPtr sub_graph_itinerary_final;
+    rclcpp::Subscription<icare_interfaces::msg::GraphItinerary>::SharedPtr sub_graph_itinerary_final;
     rclcpp::Subscription<icare_interfaces::msg::Tasks>::SharedPtr sub_candidate_tasks;
     rclcpp::Subscription<icare_interfaces::msg::Allocation>::SharedPtr sub_allocation;
 

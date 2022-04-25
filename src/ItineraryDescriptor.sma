@@ -21,6 +21,7 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
     FontWeight _ (75)
     Spike select
     Spike unselect
+    Spike plan_set
 
 	Switch sw (unselected){
 		Component unselected{
@@ -49,6 +50,7 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 			description =:> description_label.text
 			
 			Button set_plan (bg, "set itinerary", 400, 25)
+			set_plan.click -> plan_set
 		}
 	}
 

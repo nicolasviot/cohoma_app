@@ -13,6 +13,7 @@
 #include "NavGraph.h"
 #include "Edge.h"
 #include "math.h"
+#include "Trap.h"
 
 
 using std::placeholders::_1;
@@ -132,6 +133,10 @@ RosNode::impl_activate ()
   _nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
   _edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
   _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
+  _task_edges = _parent->find_child("parent/l/map/layers/tasks/tasklayer/edges");
+  _task_areas = _parent->find_child("parent/l/map/layers/tasks/tasklayer/areas");
+  _task_traps = _parent->find_child("parent/l/map/layers/tasks/tasklayer/traps");
+  
   _frame = _parent->find_child("parent/f");
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
   _id_curent_itenerary  = dynamic_cast<TextProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
@@ -371,39 +376,127 @@ RosNode::test_multiple_itineraries(){
 #ifndef NO_ROS
 void 
 RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
+ //debug
+  //std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
 
-  //delete old content
-  _itineraries_list->clean_up_content ();
+  //debug ros_msg
+  std::vector<std::pair<string,std::vector<int>>> msg_struct; /*= { \
+    {msg->itineraries[0]->id, {}, \
+    {msg->itineraries[1]->id, {}}, \
+    {msg->itineraries[2]->id, {}}};
+*/
+
+  for (int i = 0; i <msg->itineraries.size(); i++){
+    std::string id = msg->itineraries[i].id;
+  //  std::string description = msg->itineraries[i]->description;
+    std::vector<int> nodes;
+    
+    for (int j = 0; j < msg->itineraries[i].nodes.size(); j++){
+      nodes.push_back(std::stoi(msg->itineraries[i].nodes[j]));
+    }
+    msg_struct.push_back(std::pair<string, std::vector<int>>(id, nodes));
+
+  }
+
+  //Color:
+  int unselected = 0x232323;
+  int selected = 0x1E90FF;
+  
+  //std::cerr << "in RosNode::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
+
+  //schedule delete old content
+  int itineraries_list_size =  _itineraries_list->children ().size ();
+  for (int i = itineraries_list_size - 1; i >= 0; i--) {
+    auto *child = _itineraries_list->children ()[i];
+    if (child) {
+      child->deactivate ();
+      if (child->get_parent ())
+        child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
+      child->schedule_delete ();
+      child = nullptr;
+    }
+  }
   _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
+ 
+  //std::cerr << "in RosNode::test_multiple_itineraries - size after "  << _itineraries_list->children ().size () <<std::endl;
 
+  /*
+    _itineraries_list {
+      id { id;
+          edges: liste of edges}
+      id { id;
+          edges: liste of edges}
+      id { id;
+           edges: liste of edges}
+      ...
+    }
+  */
 
-/*  for (auto item: ((djnn::List*)_itinerary_edges)->children()){
-       item->deactivate ();
+  string first_id = "";
+  for (auto ros_itinerary : msg_struct) {
+    // get first id
+    if (first_id == "")
+      first_id = ros_itinerary.first;
+    Component *new_itinerary = new Component ( _itineraries_list, ros_itinerary.first );
+    new TextProperty (new_itinerary, "id", ros_itinerary.first);
+    List* new_ite_edges = new List (new_itinerary, "edges");
+    int ite_edges_size = ros_itinerary.second.size ();
+    if ( ite_edges_size > 0) {
+      for (int i = 1; i < ite_edges_size; i++) {
+        ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
+        ((AbstractProperty*) edge->find_child("color/value"))->set_value (unselected, true);
+        new Binding (edge, "binding_edge_released", edge, "edge/release", _edge_released_na, "");
+      }
+    }
+  }
+  _id_curent_itenerary->set_value (first_id, true);
+  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/description"))->set_value(msg->itineraries[0].description, true);
+  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/description"))->set_value(msg->itineraries[1].description, true);
+  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/description"))->set_value(msg->itineraries[2].description, true);
 
-      if (item->get_parent ())
+  //debug
+  //int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
+  //std::cerr << "in RosNode::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
 
-        item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-
-        item->schedule_delete ();
-
-        item = nullptr;
-      
-    }*/
-
-/*  int size = msg->nodes.size();
-
-  for (int i = 0; i <  size - 1; ++i) {
-      std::cout << "trying to draw arc between " << i << " and " << i+1 << std::endl;
-      ParentProcess* edge = Edge(_itinerary_edges, "", std::stoi(msg->nodes[i]) + 1, std::stoi(msg->nodes[i+1]) + 1, 20, _nodes);
-      ((AbstractProperty*)edge->find_child("color/r"))->set_value(30, true);
-      ((AbstractProperty*)edge->find_child("color/g"))->set_value(144, true);
-      ((AbstractProperty*)edge->find_child("color/b"))->set_value(255, true);
-    } */
 }
 
 void 
-RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
+RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
 // export to result layer
+
+    //schedule delete old content
+  int itineraries_list_size =  _itineraries_list->children ().size ();
+  for (int i = itineraries_list_size - 1; i >= 0; i--) {
+    auto *child = _itineraries_list->children ()[i];
+    if (child) {
+      child->deactivate ();
+      if (child->get_parent ())
+        child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
+      child->schedule_delete ();
+      child = nullptr;
+    }
+  }
+  _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
+
+
+  //Color:
+  int unselected = 0x232323;
+  int selected = 0x1E90FF;
+  Component *new_itinerary = new Component ( _itineraries_list, msg->id );
+    new TextProperty (new_itinerary, "id", msg->id);
+    List* new_ite_edges = new List (new_itinerary, "edges");
+    int ite_edges_size = msg->nodes.size ();
+    if ( ite_edges_size > 0) {
+      for (int i = 1; i < ite_edges_size; i++) {
+        ParentProcess* edge = Edge( new_ite_edges, "", std::stoi(msg->nodes[i-1]) + 1,std::stoi(msg->nodes[i]) + 1, 20, _nodes);
+        ((AbstractProperty*) edge->find_child("color/value"))->set_value (selected, true);
+        //new Binding (edge, "binding_edge_released", edge, "edge/release", _edge_released_na, "");
+      }
+    }
+
+
+
+
 }
 
 
@@ -513,8 +606,55 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::Trap msg){
 
 void 
 RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
-//TODO
+
+  Container *_edge_container = dynamic_cast<Container *> (_task_edges);
+  if (_edge_container) {
+    int _edge_container_size = _edge_container->children ().size ();
+    for (int i = _edge_container_size - 1; i >= 0; i--) {
+      auto *item = _edge_container->children ()[i];
+      if (item) {
+        item->deactivate ();
+        if (item->get_parent ())
+          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+        item->schedule_delete ();
+        item = nullptr;
+      }
+    }
+  }
+
+  Container *_trap_container = dynamic_cast<Container *> (_task_traps);
+  if (_trap_container) {
+    int _trap_container_size = _trap_container->children ().size ();
+    for (int i = _trap_container_size - 1; i >= 0; i--) {
+      auto *item = _trap_container->children ()[i];
+      if (item) {
+        item->deactivate ();
+        if (item->get_parent ())
+          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+        item->schedule_delete ();
+        item = nullptr;
+      }
+    }
+  }
+
+  Container *_task_container = dynamic_cast<Container *> (_task_areas);
+  if (_task_container) {
+    int _task_container_size = _task_container->children ().size ();
+    for (int i = _task_container_size - 1; i >= 0; i--) {
+      auto *item = _task_container->children ()[i];
+      if (item) {
+        item->deactivate ();
+        if (item->get_parent ())
+          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+        item->schedule_delete ();
+        item = nullptr;
+      }
+    }
+  }
 }
+
+
+
 void 
 RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
 //TODO
@@ -640,7 +780,7 @@ RosNode::send_validation_plan(){
   std::cerr << _parent << std::endl;
    
     icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
-    message.data = std::to_string(_current_plan_id_vab.get_value());
+    message.data = _id_curent_itenerary->get_string_value();
     message.header.stamp = _node->get_clock()->now();
     publisher_validation->publish(message);
     GRAPH_EXEC;

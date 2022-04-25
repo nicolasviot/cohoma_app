@@ -210,6 +210,7 @@ Component root {
         }
       }
       String name("Traps")
+      traplayer aka ctrl_visibility.visible.layer
     }
     Component tasks{
       Switch ctrl_visibility (visible){
@@ -219,6 +220,7 @@ Component root {
         }
       }
       String name("Tasks")
+      tasklayer aka ctrl_visibility.visible.layer
     }
     Component lima{
       Switch ctrl_visibility (visible){
@@ -295,6 +297,7 @@ Component root {
   right_pannel.right_pannel.validate_plan -> ros_manager.validate_plan
   right_pannel.right_pannel.update_graph -> ros_manager.update_graph
   right_pannel.right_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
+  right_pannel.right_pannel.itineraryPannel.plan_set ->ros_manager.validate_plan
   // Strips container
   StripContainer strips (f, 0, 768)/*
     vab aka ctrl_visibility.visible.layers.[1]
