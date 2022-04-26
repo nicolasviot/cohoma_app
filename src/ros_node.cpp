@@ -602,6 +602,12 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
 void 
 RosNode::receive_msg_trap (const icare_interfaces::msg::Trap msg){
 //En attente de mise au points des échanges 
+//  ParentProcess* new_trap = Trap(_parent->find_child("parent/l/map/layers/traps/traplayer"), "", _map, msg->location.latitude, msg->location.longitude, msg->id)
+
+  
+
+
+
 }
 
 void 
@@ -792,6 +798,25 @@ RosNode::send_selected_tasks(){
 //TODO
 
 
+/*  icare_interfaces::msg::Tasks message= icare_interfaces::msg::Tasks();
+  for (int i = 0; i < _task_traps.size(); i++){
+    if (_task_traps[i].selected == true){*/
+      /*int16 id                            # Manager trap id
+geographic_msgs/GeoPoint location   # location
+bool identified false               # whether the trap has been identified (i.e. QRCode read)
+bool active true                    # whether the trap is active
+
+icare_interfaces/TrapIdentification info
+uint8[] detected_by                 # list of robots having detected this trap
+uint32[] local_ids                   # locals ids of the detection per robot
+*/
+
+
+  /*    icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
+      trap_to_add.id = dynamic_cast<IntProperty*> (_task_traps[i]->find_child (""))->get_value ();
+      message.trap_deactivations.push_back(trap_to_add);*/
+    //}
+  //}
 
 //  message.header.stamp = _node->get_clock()->now();
 

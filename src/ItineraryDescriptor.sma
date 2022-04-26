@@ -27,7 +27,7 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 		Component unselected{
 			Translation _ (40, 0)
 			FillColor grey(128, 128, 128)
-			Rectangle bg(0, 0, 500, 100, 10, 10 )
+			Rectangle bg(0, 0, 300, 100, 10, 10 )
 
     		FontSize _ (5, 12)
     		FillColor _ (255, 255, 255)
@@ -39,7 +39,7 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 		}
 		Component selected {
 			FillColor blue(0, 191, 255)
-			Rectangle bg(0, 0, 500, 100, 10, 10 )
+			Rectangle bg(0, 0, 300, 100, 10, 10 )
 
     		FontSize _ (5, 12)
     		FillColor _ (255, 255, 255)
@@ -49,7 +49,7 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 			Text description_label (10, 50, "toto") 
 			description =:> description_label.text
 			
-			Button set_plan (bg, "set itinerary", 400, 25)
+			Button set_plan (bg, "set itinerary", 200, 25)
 			set_plan.click -> plan_set
 		}
 	}

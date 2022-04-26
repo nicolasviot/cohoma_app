@@ -81,8 +81,8 @@ _main_
 Component root {
 
   init_ros ()
-  int init_width = 1024
-  int init_height = 768
+  int init_width = 1424
+  int init_height = 868
   double init_lat = get_arg_double (argc, argv, 1)
   if (init_lat == -1) {
     //init_lat = 43.315313261816485
@@ -285,7 +285,7 @@ Component root {
   hide_reticule -> l.map.reticule.hide_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
 
   Component right_pannel {
-    Translation t (1024, 0)
+    Translation t (1424, 0)
     Rectangle bg (0, 0, 700, 900)
     RightPannel right_pannel (root, f)
 
@@ -299,7 +299,7 @@ Component root {
   right_pannel.right_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
   right_pannel.right_pannel.itineraryPannel.plan_set ->ros_manager.validate_plan
   // Strips container
-  StripContainer strips (f, 0, 768)/*
+  StripContainer strips (f, 0, 868)/*
     vab aka ctrl_visibility.visible.layers.[1]
       agilex1 aka ctrl_visibility.visible.layers.[2]
       agilex2 aka ctrl_visibility.visible.layers.[3]

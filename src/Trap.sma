@@ -19,23 +19,55 @@ Trap (Process map, double _lat, double _lon, int _id)
 {
 
 
-//APP-6A
+/*int16 id                            # Manager trap id
+geographic_msgs/GeoPoint location   # location
+bool identified false               # whether the trap has been identified (i.e. QRCode read)
+bool active true                    # whether the trap is active
+
+icare_interfaces/TrapIdentification info
+uint8[] detected_by                 # list of robots having detected this trap
+uint32[] local_ids                   # locals ids of the detection per robot*/
 
 
-  //  svg = loadFromXML("res/svg/Design_Cohoma_simple.svg")
-   /* String usage_status ("default")
-    Int default_col (RGBToHex (r, g, b))
-    Int usable_col (Blue)
-    Int forbidden_col (Red)
-    Int start_col (#FC60C8)
-    Int end_col (#6D60FC)
-    Int mandatory_col (#0CF266)
-   */
+
     Double lat($_lat)
     Double lon($_lon)
     Double altitude_msl(0)
-    Double radius(50)
     Int id($_id)
+    Bool identified(0)
+    Bool active(0)
+
+    //identification 
+
+    /*builtin_interfaces/Time stamp       # identification stamp
+    uint8 robot_id                      # Robot ID, see RobotState.msg
+    geographic_msgs/GeoPoint location   # location
+    string id                            # 4 digits
+    string description                  # text describing the kind of trap
+    float32 radius                      # action radius [m]
+    bool remotely_deactivate            # whether the trap can be deactivated remotely
+    bool contact_deactivate             # whether the trap can be deactivated through contact
+    int8 contact_mode                   # which type of satellite can deactivate; see enum
+    string code                        # code to deactivate the trap
+    string hazard                       # description of an hazardous situation to take into account
+
+    */
+    String trap_id("")
+    String description("")
+
+    Double radius(50)
+    Bool remotely_deactivate(0)
+    Bool contact_deactivate(0)
+    Int contact_mode(0)
+    /*int8 CONTACT_UNKONWN = 0
+      int8 CONTACT_AERIAL = 1
+      int8 CONTACT_GROUND = 2
+      int8 CONTACT_GROUND_MULTIPLE = 3
+      int8 CONTACT_AERIAL_AND_GROUND = 4
+      int8 CONTACT_AERIAL_OR_GROUND = 5*/
+    String code("")
+    String hazard("")
+
 
     String trap_status("radius_unknown")
     

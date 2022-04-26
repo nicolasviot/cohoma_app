@@ -48,7 +48,7 @@ Strip (string _name, Process frame){
    (_name=="DRONE")?"aérien":"terrestre" =:> g.type.text
    name =:> g.id.text
 
-   FSM drag {
+   /*FSM drag {
       State idle{
 
       }
@@ -58,6 +58,6 @@ Strip (string _name, Process frame){
       }
       idle-> dragging (g.background.press)
       dragging -> idle (g.background.release)
-   }
+   }*/
 }
 
