@@ -20,7 +20,6 @@ Component AreaTaskFilter{
 	List tasks{
 		AreaTaskDescriptor _ (arg, 20, 0, "Area 1 ")
 		AreaTaskDescriptor _ (arg, 20, 40, "Area 2 ")
-
 	}
 
 

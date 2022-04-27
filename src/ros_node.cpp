@@ -115,6 +115,8 @@ RosNode::impl_activate ()
     "/tasks", qos);
   publisher_validation_tasks = _node->create_publisher<icare_interfaces::msg::StringStamped>(
     "/validate", qos);
+  publisher_lima = _node->create_publisher<icare_interfaces::msg::LimaCrossed>(
+    "/lima", qos);
   #endif
 
 
@@ -760,7 +762,7 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
   for (int i=0; i<msg.trap_deactivations.size(); i++){
    ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_deactivations[i].id, msg.trap_deactivations[i].location.latitude, msg.trap_deactivations[i].location.longitude);
     ((BoolProperty*)trap_to_add->find_child("active"))->set_value(msg.trap_deactivations[i].active, true);
-  ((BoolProperty*)trap_to_add->find_child("identified"))->set_value(msg.trap_deactivations[i].identified, true);
+    ((BoolProperty*)trap_to_add->find_child("identified"))->set_value(msg.trap_deactivations[i].identified, true);
     ((TextProperty*)trap_to_add->find_child("trap_id"))->set_value(msg.trap_deactivations[i].info.id, true);
     ((TextProperty*)trap_to_add->find_child("description"))->set_value(msg.trap_deactivations[i].info.description, true);
     ((IntProperty*)trap_to_add->find_child("contact_mode"))->set_value(msg.trap_deactivations[i].info.contact_mode, true);
@@ -777,6 +779,19 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
 void 
 RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
 //TODO
+}
+
+void
+RosNode::send_msg_lima(){
+
+icare_interfaces::msg::LimaCrossed message = icare_interfaces::msg::LimaCrossed();
+//message.id = id;
+message.id = 2;
+
+publisher_lima->publish(message);
+
+
+
 }
 
 

@@ -296,6 +296,7 @@ Component root {
   right_pannel.right_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
   right_pannel.right_pannel.test_allocation_spike -> ros_manager.test_allocation_spike
   right_pannel.right_pannel.itineraryPannel.plan_set ->ros_manager.validate_plan
+  right_pannel.right_pannel.test_lima_spike -> ros_manager.test_lima_spike
   // Strips container
   StripContainer strips (f, 0, 868)/*
     vab aka ctrl_visibility.visible.layers.[1]

@@ -24,6 +24,7 @@
 //Allocation : subscriber
 #include "icare_interfaces/msg/allocation.hpp"
 #include "geographic_msgs/msg/geo_point.hpp"
+#include "icare_interfaces/msg/lima_crossed.hpp"
 #endif
 
 //Djnn-smala stuff
@@ -72,6 +73,7 @@ class RosNode : public FatProcess, public ExternalSource
     void send_validation_plan();
     void send_selected_tasks();
     void send_validation_tasks();
+    void send_msg_lima();
     #endif
     void test_multiple_itineraries();
 
@@ -134,6 +136,7 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation;
     rclcpp::Publisher<icare_interfaces::msg::Tasks>::SharedPtr publisher_tasks;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation_tasks;
+    rclcpp::Publisher<icare_interfaces::msg::LimaCrossed>::SharedPtr publisher_lima;
 #endif
     
   };
