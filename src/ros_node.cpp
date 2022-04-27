@@ -4,6 +4,7 @@
 #include "core/execution/graph.h"
 #include "core/control/binding.h"
 #include "core/ontology/coupling.h"
+#include "base/connector.h"
 #include "core/core-dev.h"
 #include "core/tree/list.h"
 #include "gui/shape/poly.h"
@@ -666,10 +667,14 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
   for (int i=0; i < msg.uav_zones.size(); i++){
     ParentProcess* area_to_add = TaskArea(_task_areas , "", _map);
     for (int j = 0; j < msg.uav_zones[i].points.size(); j++){
-      ParentProcess* task_summit = TaskAreaSummit(area_to_add, "summit_" + std::to_string(j), map, msg.uav_zones[i].points[j].latitude, msg.uav_zones[i].points[j].longitude);
-      ParentProcess* point = PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
-      new Coupling (area_to_add, "x_bind", area_to_add, std::string("summit_") + std::to_string(j) + std::string("/x"), std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x"), true);
-      new Coupling (area_to_add, "y_bind", area_to_add, std::string("summit_") + std::to_string(j) + std::string("/y"), std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y"), true);
+      auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.uav_zones[i].points[j].latitude, msg.uav_zones[i].points[j].longitude);
+      //auto* cpnt_23 = new PolyPoint (cpnt_21, "pt2", - 20, 20);
+      auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
+     //new Connector (cpnt_1, "", cpnt_26->find_child ("x"), cpnt_21->find_child ("pt1/x"), 1);
+  
+      new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
+
+      new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
     
 
     }
