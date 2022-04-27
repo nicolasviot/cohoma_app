@@ -8,7 +8,7 @@ Edge (int _id_src, int _id_dest, double _length, Process nodelist){
 Int id_src(_id_src)
 Int id_dest(_id_dest)
 Double length(_length)
-
+Double explored(0)
 
 //Rarccos(sin(a)sin(b) + cos(a)cos(b)cos(c-d)) a = lata, b=lona, c =latb, d =lonb
 /*

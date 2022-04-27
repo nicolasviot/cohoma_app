@@ -142,6 +142,7 @@ RosNode::impl_activate ()
   _task_edges = _parent->find_child("parent/l/map/layers/tasks/tasklayer/edges");
   _task_areas = _parent->find_child("parent/l/map/layers/tasks/tasklayer/areas");
   _task_traps = _parent->find_child("parent/l/map/layers/tasks/tasklayer/traps");
+  _traps = _parent->find_child("parent/l/map/layers/traps/traplayer/traps");
   
   _frame = _parent->find_child("parent/f");
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
@@ -607,10 +608,47 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
 
 void 
 RosNode::receive_msg_trap (const icare_interfaces::msg::Trap msg){
-//En attente de mise au points des échanges 
-//  ParentProcess* new_trap = Trap(_parent->find_child("parent/l/map/layers/traps/traplayer"), "", _map, msg->location.latitude, msg->location.longitude, msg->id)
+int index_found = -1;
 
-  
+Container *_traps_container = dynamic_cast<Container *> (_traps);
+
+for (int i = 0; i < _traps_container->children().size(); i++){
+  if (((IntProperty*)_traps_container->children()[i]->find_child("id"))->get_value() == msg.id){
+    index_found = i;
+  }
+}
+
+if (index_found == -1){
+
+/*int16 id                            # Manager trap id
+geographic_msgs/GeoPoint location   # location
+bool identified false               # whether the trap has been identified (i.e. QRCode read)
+bool active true                    # whether the trap is active
+
+icare_interfaces/TrapIdentification info
+uint8[] detected_by                 # list of robots having detected this trap
+uint32[] local_ids                   # locals ids of the detection per robot*/
+  auto *new_trap = Trap(_traps, "", _map, msg.id, msg.location.latitude, msg.location.longitude);
+  ((BoolProperty*)new_trap->find_child("active"))->set_value(msg.active, true);
+  ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.identified, true);
+    ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.info.id, true);
+    ((TextProperty*)new_trap->find_child("description"))->set_value(msg.info.description, true);
+    ((IntProperty*)new_trap->find_child("contact_mode"))->set_value(msg.info.contact_mode, true);
+    ((TextProperty*)new_trap->find_child("code"))->set_value(msg.info.code, true);
+    ((TextProperty*)new_trap->find_child("hazard"))->set_value(msg.info.hazard, true);
+    
+
+}
+if (index_found != -1){
+   ((BoolProperty*)_traps_container->children()[index_found]->find_child("active"))->set_value(msg.active, true);
+  ((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->set_value(msg.identified, true);
+    ((TextProperty*)_traps_container->children()[index_found]->find_child("trap_id"))->set_value(msg.info.id, true);
+    ((TextProperty*)_traps_container->children()[index_found]->find_child("description"))->set_value(msg.info.description, true);
+    ((IntProperty*)_traps_container->children()[index_found]->find_child("contact_mode"))->set_value(msg.info.contact_mode, true);
+    ((TextProperty*)_traps_container->children()[index_found]->find_child("code"))->set_value(msg.info.code, true);
+    ((TextProperty*)_traps_container->children()[index_found]->find_child("hazard"))->set_value(msg.info.hazard, true);
+}
+
 
 
 
@@ -668,6 +706,7 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     ParentProcess* area_to_add = TaskArea(_task_areas , "", _map);
     for (int j = 0; j < msg.uav_zones[i].points.size(); j++){
       auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.uav_zones[i].points[j].latitude, msg.uav_zones[i].points[j].longitude);
+      ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.uav_zones[i].points[j].altitude, true);
       //auto* cpnt_23 = new PolyPoint (cpnt_21, "pt2", - 20, 20);
       auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
      //new Connector (cpnt_1, "", cpnt_26->find_child ("x"), cpnt_21->find_child ("pt1/x"), 1);
@@ -678,6 +717,7 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     
 
     }
+    ((IntProperty*)area_to_add->find_child("nb_summit"))->set_value(((int)msg.uav_zones[i].points.size()), true);
       //Area {
       // Point pt1
       // Point pt2
@@ -700,9 +740,25 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
   for (int i=0; i <msg.trap_identifications.size(); i++){
     //Create trap_tasks
     ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_identifications[i].id, msg.trap_identifications[i].location.latitude, msg.trap_identifications[i].location.longitude);
+    ((BoolProperty*)trap_to_add->find_child("active"))->set_value(msg.trap_identifications[i].active, true);
+  ((BoolProperty*)trap_to_add->find_child("identified"))->set_value(msg.trap_identifications[i].identified, true);
+    ((TextProperty*)trap_to_add->find_child("trap_id"))->set_value(msg.trap_identifications[i].info.id, true);
+    ((TextProperty*)trap_to_add->find_child("description"))->set_value(msg.trap_identifications[i].info.description, true);
+    ((IntProperty*)trap_to_add->find_child("contact_mode"))->set_value(msg.trap_identifications[i].info.contact_mode, true);
+    ((TextProperty*)trap_to_add->find_child("code"))->set_value(msg.trap_identifications[i].info.code, true);
+    ((TextProperty*)trap_to_add->find_child("hazard"))->set_value(msg.trap_identifications[i].info.hazard, true);
+    
   }
   for (int i=0; i<msg.trap_deactivations.size(); i++){
    ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_deactivations[i].id, msg.trap_deactivations[i].location.latitude, msg.trap_deactivations[i].location.longitude);
+    ((BoolProperty*)trap_to_add->find_child("active"))->set_value(msg.trap_deactivations[i].active, true);
+  ((BoolProperty*)trap_to_add->find_child("identified"))->set_value(msg.trap_deactivations[i].identified, true);
+    ((TextProperty*)trap_to_add->find_child("trap_id"))->set_value(msg.trap_deactivations[i].info.id, true);
+    ((TextProperty*)trap_to_add->find_child("description"))->set_value(msg.trap_deactivations[i].info.description, true);
+    ((IntProperty*)trap_to_add->find_child("contact_mode"))->set_value(msg.trap_deactivations[i].info.contact_mode, true);
+    ((TextProperty*)trap_to_add->find_child("code"))->set_value(msg.trap_deactivations[i].info.code, true);
+    ((TextProperty*)trap_to_add->find_child("hazard"))->set_value(msg.trap_deactivations[i].info.hazard, true);
+    
   }
 
 
@@ -851,7 +907,6 @@ RosNode::send_selected_tasks(){
   for (auto trap: ((djnn::List*)_task_traps)->children()){
     if (((BoolProperty*)trap->find_child("selected"))->get_value() == true){
       
-      
       /*int16 id                            # Manager trap id
 geographic_msgs/GeoPoint location   # location
 bool identified false               # whether the trap has been identified (i.e. QRCode read)
@@ -861,15 +916,66 @@ icare_interfaces/TrapIdentification info
 uint8[] detected_by                 # list of robots having detected this trap
 uint32[] local_ids                   # locals ids of the detection per robot
 */
+/*
+((BoolProperty*)new_trap->find_child("active"))->set_value(msg.active, true);
+  ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.identified, true);
+    ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.info.id, true);
+    ((TextProperty*)new_trap->find_child("description"))->set_value(msg.info.description, true);
+    ((IntProperty*)new_trap->find_child("contact_mode"))->set_value(msg.info.contact_mode, true);
+    ((TextProperty*)new_trap->find_child("code"))->set_value(msg.info.code, true);
+    ((TextProperty*)new_trap->find_child("hazard"))->set_value(msg.info.hazard, true);
 
+*/
 
       icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
       trap_to_add.id = dynamic_cast<IntProperty*> (trap->find_child ("id"))->get_value ();
-      message.trap_deactivations.push_back(trap_to_add);
+      trap_to_add.identified = dynamic_cast<BoolProperty*>(trap->find_child("identified"))->get_value();
+      trap_to_add.active = dynamic_cast<BoolProperty*>(trap->find_child("active"))->get_value();
+      trap_to_add.info.id = dynamic_cast<TextProperty*>(trap->find_child("trap_id"))->get_value();
+      trap_to_add.info.description = dynamic_cast<TextProperty*>(trap->find_child("description"))->get_value();
+      trap_to_add.info.contact_mode = dynamic_cast<IntProperty*>(trap->find_child("contact_mode"))->get_value();
+      trap_to_add.info.code = dynamic_cast<TextProperty*>(trap->find_child("code"))->get_value();
+      trap_to_add.info.hazard = dynamic_cast<TextProperty*>(trap->find_child("hazard"))->get_value();
+      if(trap_to_add.identified){
+        message.trap_deactivations.push_back(trap_to_add);
+     
+      } 
+      if(!trap_to_add.identified){
+        message.trap_identifications.push_back(trap_to_add);
+      }
+    }
+
+  }
+  for (auto edge: ((djnn::List*)_task_edges)->children()){
+    if (dynamic_cast<BoolProperty*> (edge->find_child ("selected"))->get_value ()){
+    icare_interfaces::msg::GraphEdge edge_to_add = icare_interfaces::msg::GraphEdge();
+    edge_to_add.source = dynamic_cast<IntProperty*> (edge->find_child ("id_source"))->get_value () - 1;
+ 
+    edge_to_add.target = dynamic_cast<IntProperty*> (edge->find_child ("id_dest"))->get_value () - 1;
+    edge_to_add.length = dynamic_cast<DoubleProperty*> (edge->find_child("length"))->get_value();
+    edge_to_add.explored = dynamic_cast<DoubleProperty*> (edge->find_child("explored"))->get_value();
+    message.ugv_edges.push_back(edge_to_add);
     }
   }
+  
+  for (auto area: ((djnn::List*)_task_areas)->children()){
+   if (dynamic_cast<BoolProperty*> (area->find_child("selected"))->get_value()){
 
+    icare_interfaces::msg::GeoPolygon geopolygon_to_add = icare_interfaces::msg::GeoPolygon();
+    for (int i = 1; i <= dynamic_cast<IntProperty*>(area->find_child("nb_summit"))->get_value();i++){
+      geographic_msgs::msg::GeoPoint point_to_add = geographic_msgs::msg::GeoPoint();
+      point_to_add.latitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lat")))->get_value();
+      point_to_add.longitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lon")))->get_value();
+      point_to_add.altitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/alt")))->get_value();
+      geopolygon_to_add.points.push_back(point_to_add);
+      }
+
+   
+    message.uav_zones.push_back(geopolygon_to_add);
+    }
+  }
   message.header.stamp = _node->get_clock()->now();
+  publisher_tasks->publish(message);
 
 }
 

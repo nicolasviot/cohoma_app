@@ -22,6 +22,7 @@
 #include "icare_interfaces/msg/tasks.hpp"
 //Allocation : subscriber
 #include "icare_interfaces/msg/allocation.hpp"
+#include "geographic_msgs/msg/geo_point.hpp"
 #endif
 
 //Djnn-smala stuff
@@ -83,7 +84,7 @@ class RosNode : public FatProcess, public ExternalSource
 
     //navgraph fields
     TextProperty navgraph_data;
-    CoreProcess *_nodes, *_edges, *_shadow_edges, *_task_edges, *_task_areas, *_task_traps; 
+    CoreProcess *_nodes, *_edges, *_shadow_edges, *_task_edges, *_task_areas, *_task_traps, *_traps; 
     Component *_itineraries_list;
     RefProperty *_ref_curent_itenerary;
     NativeAction* _edge_released_na;

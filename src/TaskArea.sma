@@ -16,7 +16,7 @@ _native_code_
 
 _define_
 TaskArea (Process map){
-
+    Int nb_summit(0)
     Bool selected(0)
     FillOpacity _ (0.5)
     FillColor _ (140, 30, 30)

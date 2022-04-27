@@ -42,6 +42,20 @@ plan_request_fun (Process c)
 %}
 
 _action_
+send_selected_allocation_fun (Process c)
+%{
+
+	Process *data = (Process*) get_native_user_data(c);
+ 	RosNode *node = dynamic_cast<RosNode*>(data);
+  	
+  	#ifndef NO_ROS
+  if (node)
+ 	 node->send_selected_tasks(); 
+ 	#endif
+%}
+
+
+_action_
 test_multiple_itineraries (Process c)
 %{
 
@@ -62,6 +76,7 @@ RosManager (Process _parent, Process _map, Process _manager){
 	Spike plan_request
 	Spike validate_plan
 	Spike test_multiple_itineraries_spike
+	Spike test_allocation_spike
 
 	RosNode node(map, manager) 
   	NativeAction validate_plan_action (validate_plan_fun, node, 1)
@@ -75,5 +90,6 @@ RosManager (Process _parent, Process _map, Process _manager){
 
   	NativeAction test_multiple_itineraries_action(test_multiple_itineraries, node, 1)
   	test_multiple_itineraries_spike -> test_multiple_itineraries_action
-
+  	NativeAction test_send_allocated_action (send_selected_allocation_fun, node, 1)
+  	test_allocation_spike -> test_send_allocated_action
 }

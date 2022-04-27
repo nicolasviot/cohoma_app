@@ -12,6 +12,8 @@ TaskEdge (Process map, int _source, int _dest, Process nodes){
 
 	Int id_source(_source)
 	Int id_dest(_dest)
+    Double length(0)
+    Double explored(0)
 
 
     Bool selected (0)

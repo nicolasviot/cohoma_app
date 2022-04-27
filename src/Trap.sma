@@ -70,7 +70,6 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 
 
     String trap_status("radius_unknown")
-    
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
     Translation pos (0, 0)

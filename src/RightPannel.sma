@@ -16,6 +16,7 @@ Spike plan_request
 Spike validate_plan  
 Spike update_graph
 Spike test_multiple_itineraries_spike
+Spike test_allocation_spike
 
      //legend for NavGraph
 Component NavGraph
@@ -49,6 +50,8 @@ Component IObuttons{
 	Button test_multiple_itineraries_button (frame, "test multiple itineraries", 100, 150)
 	test_multiple_itineraries_button.click -> test_multiple_itineraries_spike
 
+	Button test_allocation_button(frame, "test allocation", 20, 250)
+	test_allocation_button.click -> test_allocation_spike
 }
 
 

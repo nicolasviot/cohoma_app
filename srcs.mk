@@ -6,7 +6,7 @@ exe_dir ?= .
 exe ?= cohoma
 
 srcs_sma ?= src/Dispatcher.sma src/Reticule.sma src/Strip.sma src/Slider.sma src/CheckBox.sma src/Animator.sma src/TextLineEdit.sma \
-            src/Button.sma src/PanAndZoom.sma src/StatusSelector.sma src/GraphNode.sma src/Trap.sma src/Node.sma src/Edge.sma src/ManagerId.sma \
+            src/Button.sma src/PanAndZoom.sma src/StatusSelector.sma src/GraphNode.sma src/Trap.sma src/TrapLayer.sma src/Node.sma src/Edge.sma src/ManagerId.sma \
             src/TaskEdge.sma src/TaskTrap.sma src/SafetyPilot.sma src/TaskAreaSummit.sma src/TaskArea.sma src/Lima.sma src/LimaLayer.sma src/TaskLayer.sma \
             src/TaskEdge.sma src/TaskTrap.sma src/TaskAreaSummit.sma src/TaskArea.sma src/Lima.sma src/LimaLayer.sma src/ExclusionArea.sma src/ExclusionAreaLayer.sma src/TaskLayer.sma \
             src/NavGraph.sma src/Itineraries.sma src/PixmapTile.sma src/MapLayer.sma src/Map.sma src/WidgetMap.sma \

@@ -38,6 +38,7 @@ import Trap
 import Vehicule
 import TaskLayer
 import LimaLayer
+import TrapLayer
 import ExclusionAreaLayer
 
 
@@ -204,9 +205,7 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-          List layer{
-            Trap trap (map, $init_lat , $init_lon- 0.002, 0)
-          }
+          TrapLayer layer (map)
         }
       }
       String name("Traps")
@@ -295,6 +294,7 @@ Component root {
   right_pannel.right_pannel.validate_plan -> ros_manager.validate_plan
   right_pannel.right_pannel.update_graph -> ros_manager.update_graph
   right_pannel.right_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
+  right_pannel.right_pannel.test_allocation_spike -> ros_manager.test_allocation_spike
   right_pannel.right_pannel.itineraryPannel.plan_set ->ros_manager.validate_plan
   // Strips container
   StripContainer strips (f, 0, 868)/*

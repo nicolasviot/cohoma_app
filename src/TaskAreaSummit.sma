@@ -24,6 +24,7 @@ TaskAreaSummit(Process map, double _lat, double _lon){
 	Double y(0)
     Double lat($_lat)
     Double lon($_lon)
+    Double alt(0)
 
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
