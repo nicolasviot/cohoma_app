@@ -17,9 +17,30 @@ _native_code_
 _define_
 TaskArea (Process map){
 
-
+    Bool selected(0)
     FillOpacity _ (0.5)
     FillColor _ (140, 30, 30)
+    OutlineWidth perimeter_width(0)
+    OutlineColor yellow(255, 255, 0)
+    Switch ctrl_area_selected(not_select){ 
+    
+    Component select { 
+        5 =: perimeter_width.width
+        255 =: yellow.r
+        255 =: yellow.g
+        0 =: yellow.b
+    }
+    Component not_select{
+        0 =: perimeter_width.width
+        0 =: yellow.r
+        0 =: yellow.g
+        0 =: yellow.b
+
+    }
+
+   }
+   selected?"select":"not_select" => ctrl_area_selected.state
+
 
  Polygon area {
         Point pt1(-50, -20)
@@ -27,10 +48,10 @@ TaskArea (Process map){
         Point pt3(20, 20)
         Point pt4(50, -20)
     } 
-    TaskAreaSummit sum1(map, 43.316021818382886, 1.4041900634765625)
-    TaskAreaSummit sum2(map, 43.316006206187375, 1.4047694206237793)
-    TaskAreaSummit sum3(map, 43.3159281451497, 1.4054131507873535)
-    TaskAreaSummit sum4(map, 43.31569396143501, 1.4050912857055664)
+    TaskAreaSummit sum1(map, 44.27432196595285, 1.729783361205679)
+    TaskAreaSummit sum2(map, 44.27432196595285 + 0.002, 1.729783361205679)
+    TaskAreaSummit sum3(map, 44.27432196595285 + 0.002, 1.729783361205679 + 0.002)
+    TaskAreaSummit sum4(map, 44.27432196595285, 1.729783361205679 + 0.002)
     sum1.x =:> area.pt1.x
     sum1.y =:> area.pt1.y
     sum2.x =:> area.pt2.x
@@ -39,6 +60,10 @@ TaskArea (Process map){
     sum3.y =:> area.pt3.y
     sum4.x =:> area.pt4.x
     sum4.y =:> area.pt4.y
+
+    area.press -> {
+        selected?0:1 =: selected
+    }
     
     
 

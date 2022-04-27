@@ -12,12 +12,13 @@ _define_
 TaskLayer (Process map){
 
 
-	List Areas{
+	List areas{
 		TaskArea _(map)
 	}
-	List Edges{
+	List edges{
+		//TaskEdge _(map, 1, 2, nodes)
 	}
-	List Traps{
-		TaskTrap _(map, 1, 43.315313261816485, 1.404974527891014)
+	List traps{
+		TaskTrap _(map, 1, 44.27432196595285, 1.729783361205679)
 	}
 }

@@ -19,8 +19,42 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
 
     Double lat($_lat)
     Double lon($_lon)
-    Double radius(50)
+    Bool selected (0)
 
+    Bool identified(0)
+    Bool active(0)
+
+    //identification 
+
+    /*builtin_interfaces/Time stamp       # identification stamp
+    uint8 robot_id                      # Robot ID, see RobotState.msg
+    geographic_msgs/GeoPoint location   # location
+    string id                            # 4 digits
+    string description                  # text describing the kind of trap
+    float32 radius                      # action radius [m]
+    bool remotely_deactivate            # whether the trap can be deactivated remotely
+    bool contact_deactivate             # whether the trap can be deactivated through contact
+    int8 contact_mode                   # which type of satellite can deactivate; see enum
+    string code                        # code to deactivate the trap
+    string hazard                       # description of an hazardous situation to take into account
+
+    */
+    String trap_id_str("")
+    String description("")
+
+    Double radius(50)
+    Bool remotely_deactivate(0)
+    Bool contact_deactivate(0)
+    Int contact_mode(0)
+    /*int8 CONTACT_UNKONWN = 0
+      int8 CONTACT_AERIAL = 1
+      int8 CONTACT_GROUND = 2
+      int8 CONTACT_GROUND_MULTIPLE = 3
+      int8 CONTACT_AERIAL_AND_GROUND = 4
+      int8 CONTACT_AERIAL_OR_GROUND = 5*/
+    String code("")
+    String hazard("")
+    
     String trap_status("radius_unknown")
     
     Scaling sc (1, 1, 0, 0)
@@ -35,6 +69,30 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
     Rotation rot (45, 0, 0)
     Rectangle rect (0, 0, 20, 20)
     Rotation un_rot (-45, 0, 0)
+
+    OutlineWidth circle_perimeter_width(0)
+    OutlineColor yellow(255, 255, 0)
+    Spike toogleselect
+    Switch ctrl_trap_selected(not_select){ 
+    
+    Component select { 
+        5 =: circle_perimeter_width.width
+        255 =: yellow.r
+        255 =: yellow.g
+        0 =: yellow.b
+    }
+    Component not_select{
+        0 =: circle_perimeter_width.width
+        0 =: yellow.r
+        0 =: yellow.g
+        0 =: yellow.b
+
+    }
+
+   }
+   selected?"select":"not_select" => ctrl_trap_selected.state
+
+
     FillOpacity _(0.3)
     Circle c (0, 0, 50)
     c.cx - rect.width/2 =:> rect.x 
@@ -47,28 +105,13 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
     rot.cx =:> un_rot.cx
     rot.cy =:> un_rot.cy
 
-
-   Switch ctrl_trap_state(radius_unknown){
-
-    Component radius_unknown {
-       /* trap_g << svg.Trap_wait
-        c.cx - trap_g.trap_marker_wait.width/2 =:> trap_g.trap_marker_wait.x
-        c.cy - trap_g.trap_marker_wait.height/2 =:> trap_g.trap_marker_wait.y
-        c.cx =:> trap_g.trap_wait_area.cx
-        c.cy =:> trap_g.trap_wait_area.cy*/
-    }
-    Component radius_known{
-     /*   trap_g << svg.Trap_confirmed
-        radius =:> trap_g.trap_area.r
-        c.cx =:> trap_g.trap_area.cx
-        c.cy =:> trap_g.trap_area.cy      
-    */
-    radius/get_resolution ($map.zoomLevel) =:> c.r
-    }
-
+      rect.press -> toogleselect
+   c.press -> toogleselect
+   toogleselect ->{
+    selected?0:1 =: selected 
    }
-   trap_status => ctrl_trap_state.state
-    
+
+   radius/get_resolution ($map.zoomLevel) =:> c.r
 
   FSM drag_fsm {
         State no_drag {

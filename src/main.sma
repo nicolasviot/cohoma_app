@@ -234,9 +234,7 @@ Component root {
     Component result{
       Switch ctrl_visibility (visible){
         Component hidden
-        Component visible {
-          TaskLayer layer (map)
-        }
+        Component visible 
       }
       String name("Result")
     }

@@ -3,8 +3,10 @@
 #include "exec_env/global_mutex.h"
 #include "core/execution/graph.h"
 #include "core/control/binding.h"
+#include "core/ontology/coupling.h"
 #include "core/core-dev.h"
 #include "core/tree/list.h"
+#include "gui/shape/poly.h"
 
 #include <nlohmann/json.hpp>
 
@@ -14,7 +16,10 @@
 #include "Edge.h"
 #include "math.h"
 #include "Trap.h"
-
+#include "TaskTrap.h"
+#include "TaskAreaSummit.h"
+#include "TaskArea.h"
+#include "TaskEdge.h"
 
 using std::placeholders::_1;
 
@@ -657,6 +662,45 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
       }
     }
   }
+
+  for (int i=0; i < msg.uav_zones.size(); i++){
+    ParentProcess* area_to_add = TaskArea(_task_areas , "", _map);
+    for (int j = 0; j < msg.uav_zones[i].points.size(); j++){
+      ParentProcess* task_summit = TaskAreaSummit(area_to_add, "summit_" + std::to_string(j), map, msg.uav_zones[i].points[j].latitude, msg.uav_zones[i].points[j].longitude);
+      ParentProcess* point = PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
+      new Coupling (area_to_add, "x_bind", area_to_add, std::string("summit_") + std::to_string(j) + std::string("/x"), std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x"), true);
+      new Coupling (area_to_add, "y_bind", area_to_add, std::string("summit_") + std::to_string(j) + std::string("/y"), std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y"), true);
+    
+
+    }
+      //Area {
+      // Point pt1
+      // Point pt2
+      // Point pt3
+      //}
+
+      //TaskAreaSummit sum1
+      //TaskAreaSummit sum2
+      //TaskAreaSummit sum3
+      //sum1.x =:> area.pt1.x
+      //sum2.y =:> area.pt1.y
+
+
+
+  }
+  for (int i=0; i < msg.ugv_edges.size(); i++){
+    //Create ugv_edges
+    ParentProcess* edge_to_add = TaskEdge(_task_edges, "", _map, std::stoi(msg.ugv_edges[i].source) + 1, std::stoi(msg.ugv_edges[i].target) + 1, _nodes);
+  }
+  for (int i=0; i <msg.trap_identifications.size(); i++){
+    //Create trap_tasks
+    ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_identifications[i].id, msg.trap_identifications[i].location.latitude, msg.trap_identifications[i].location.longitude);
+  }
+  for (int i=0; i<msg.trap_deactivations.size(); i++){
+   ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_deactivations[i].id, msg.trap_deactivations[i].location.latitude, msg.trap_deactivations[i].location.longitude);
+  }
+
+
 }
 
 
@@ -798,9 +842,11 @@ RosNode::send_selected_tasks(){
 //TODO
 
 
-/*  icare_interfaces::msg::Tasks message= icare_interfaces::msg::Tasks();
-  for (int i = 0; i < _task_traps.size(); i++){
-    if (_task_traps[i].selected == true){*/
+ icare_interfaces::msg::Tasks message= icare_interfaces::msg::Tasks();
+  for (auto trap: ((djnn::List*)_task_traps)->children()){
+    if (((BoolProperty*)trap->find_child("selected"))->get_value() == true){
+      
+      
       /*int16 id                            # Manager trap id
 geographic_msgs/GeoPoint location   # location
 bool identified false               # whether the trap has been identified (i.e. QRCode read)
@@ -812,13 +858,13 @@ uint32[] local_ids                   # locals ids of the detection per robot
 */
 
 
-  /*    icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
-      trap_to_add.id = dynamic_cast<IntProperty*> (_task_traps[i]->find_child (""))->get_value ();
-      message.trap_deactivations.push_back(trap_to_add);*/
-    //}
-  //}
+      icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
+      trap_to_add.id = dynamic_cast<IntProperty*> (trap->find_child ("id"))->get_value ();
+      message.trap_deactivations.push_back(trap_to_add);
+    }
+  }
 
-//  message.header.stamp = _node->get_clock()->now();
+  message.header.stamp = _node->get_clock()->now();
 
 }
 
