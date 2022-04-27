@@ -18,6 +18,7 @@
 #include "icare_interfaces/msg/graph_itinerary_list.hpp"
 //Traps : subscriber 
 #include "icare_interfaces/msg/trap.hpp"
+#include "icare_interfaces/msg/trap_list.hpp"
 //Tasks : subscriber / publisher 
 #include "icare_interfaces/msg/tasks.hpp"
 //Allocation : subscriber
@@ -61,7 +62,7 @@ class RosNode : public FatProcess, public ExternalSource
     void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
     void receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg);
     void receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg);
-    void receive_msg_trap (const icare_interfaces::msg::Trap msg);
+    void receive_msg_trap (const icare_interfaces::msg::TrapList msg);
     void receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks);
     void receive_msg_allocation(const icare_interfaces::msg::Allocation);
 
@@ -126,6 +127,7 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Subscription<icare_interfaces::msg::GraphItinerary>::SharedPtr sub_graph_itinerary_final;
     rclcpp::Subscription<icare_interfaces::msg::Tasks>::SharedPtr sub_candidate_tasks;
     rclcpp::Subscription<icare_interfaces::msg::Allocation>::SharedPtr sub_allocation;
+    rclcpp::Subscription<icare_interfaces::msg::TrapList>::SharedPtr sub_traps;
 
     rclcpp::Publisher<icare_interfaces::msg::PlanningRequest>::SharedPtr publisher_planning_request;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_navgraph_update;

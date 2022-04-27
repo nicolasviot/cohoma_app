@@ -102,6 +102,8 @@ RosNode::impl_activate ()
   sub_allocation = _node->create_subscription<icare_interfaces::msg::Allocation>(
     "/allocation", qos, std::bind(&RosNode::receive_msg_allocation, this, _1));
 
+  sub_traps = _node->create_subscription<icare_interfaces::msg::TrapList>(
+    "/traps", qos, std::bind(&RosNode::receive_msg_trap, this, _1));
 
   publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>(
     "/planning_request", qos);
@@ -607,13 +609,15 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
 
 
 void 
-RosNode::receive_msg_trap (const icare_interfaces::msg::Trap msg){
+RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
+
+for (int k= 0; k < msg.traps.size(); k ++){
 int index_found = -1;
 
 Container *_traps_container = dynamic_cast<Container *> (_traps);
 
 for (int i = 0; i < _traps_container->children().size(); i++){
-  if (((IntProperty*)_traps_container->children()[i]->find_child("id"))->get_value() == msg.id){
+  if (((IntProperty*)_traps_container->children()[i]->find_child("id"))->get_value() == msg.traps[k].id){
     index_found = i;
   }
 }
@@ -628,30 +632,33 @@ bool active true                    # whether the trap is active
 icare_interfaces/TrapIdentification info
 uint8[] detected_by                 # list of robots having detected this trap
 uint32[] local_ids                   # locals ids of the detection per robot*/
-  auto *new_trap = Trap(_traps, "", _map, msg.id, msg.location.latitude, msg.location.longitude);
-  ((BoolProperty*)new_trap->find_child("active"))->set_value(msg.active, true);
-  ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.identified, true);
-    ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.info.id, true);
-    ((TextProperty*)new_trap->find_child("description"))->set_value(msg.info.description, true);
-    ((IntProperty*)new_trap->find_child("contact_mode"))->set_value(msg.info.contact_mode, true);
-    ((TextProperty*)new_trap->find_child("code"))->set_value(msg.info.code, true);
-    ((TextProperty*)new_trap->find_child("hazard"))->set_value(msg.info.hazard, true);
-    
-
+  auto *new_trap = Trap(_traps, "", _map, msg.traps[k].id, msg.traps[k].location.latitude, msg.traps[k].location.longitude);
+  ((BoolProperty*)new_trap->find_child("active"))->set_value(msg.traps[k].active, true);
+  ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.traps[k].identified, true);
+    ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.traps[k].info.id, true);
+    ((TextProperty*)new_trap->find_child("description"))->set_value(msg.traps[k].info.description, true);
+    ((IntProperty*)new_trap->find_child("contact_mode"))->set_value(msg.traps[k].info.contact_mode, true);
+    ((TextProperty*)new_trap->find_child("code"))->set_value(msg.traps[k].info.code, true);
+    ((TextProperty*)new_trap->find_child("hazard"))->set_value(msg.traps[k].info.hazard, true);
+    ((DoubleProperty*)new_trap->find_child("radius"))->set_value(msg.traps[k].info.radius, true);
+//rajouter radius
 }
 if (index_found != -1){
-   ((BoolProperty*)_traps_container->children()[index_found]->find_child("active"))->set_value(msg.active, true);
-  ((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->set_value(msg.identified, true);
-    ((TextProperty*)_traps_container->children()[index_found]->find_child("trap_id"))->set_value(msg.info.id, true);
-    ((TextProperty*)_traps_container->children()[index_found]->find_child("description"))->set_value(msg.info.description, true);
-    ((IntProperty*)_traps_container->children()[index_found]->find_child("contact_mode"))->set_value(msg.info.contact_mode, true);
-    ((TextProperty*)_traps_container->children()[index_found]->find_child("code"))->set_value(msg.info.code, true);
-    ((TextProperty*)_traps_container->children()[index_found]->find_child("hazard"))->set_value(msg.info.hazard, true);
+   ((BoolProperty*)_traps_container->children()[index_found]->find_child("active"))->set_value(msg.traps[k].active, true);
+  ((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->set_value(msg.traps[k].identified, true);
+    ((TextProperty*)_traps_container->children()[index_found]->find_child("trap_id"))->set_value(msg.traps[k].info.id, true);
+    ((TextProperty*)_traps_container->children()[index_found]->find_child("description"))->set_value(msg.traps[k].info.description, true);
+    ((IntProperty*)_traps_container->children()[index_found]->find_child("contact_mode"))->set_value(msg.traps[k].info.contact_mode, true);
+    ((TextProperty*)_traps_container->children()[index_found]->find_child("code"))->set_value(msg.traps[k].info.code, true);
+    ((TextProperty*)_traps_container->children()[index_found]->find_child("hazard"))->set_value(msg.traps[k].info.hazard, true);
+
+    ((DoubleProperty*)_traps_container->find_child("radius"))->set_value(msg.traps[k].info.radius, true);
+
 }
 
 
 
-
+}
 }
 
 void 
@@ -747,6 +754,7 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     ((IntProperty*)trap_to_add->find_child("contact_mode"))->set_value(msg.trap_identifications[i].info.contact_mode, true);
     ((TextProperty*)trap_to_add->find_child("code"))->set_value(msg.trap_identifications[i].info.code, true);
     ((TextProperty*)trap_to_add->find_child("hazard"))->set_value(msg.trap_identifications[i].info.hazard, true);
+    ((DoubleProperty*)trap_to_add->find_child("radius"))->set_value(msg.trap_identifications[i].info.radius, true);
     
   }
   for (int i=0; i<msg.trap_deactivations.size(); i++){
@@ -758,7 +766,7 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     ((IntProperty*)trap_to_add->find_child("contact_mode"))->set_value(msg.trap_deactivations[i].info.contact_mode, true);
     ((TextProperty*)trap_to_add->find_child("code"))->set_value(msg.trap_deactivations[i].info.code, true);
     ((TextProperty*)trap_to_add->find_child("hazard"))->set_value(msg.trap_deactivations[i].info.hazard, true);
-    
+    ((DoubleProperty*)trap_to_add->find_child("radius"))->set_value(msg.trap_deactivations[i].info.radius, true);
   }
 
 
