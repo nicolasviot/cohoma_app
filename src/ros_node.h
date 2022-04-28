@@ -25,6 +25,7 @@
 #include "icare_interfaces/msg/allocation.hpp"
 #include "geographic_msgs/msg/geo_point.hpp"
 #include "icare_interfaces/msg/lima_crossed.hpp"
+//#include "icare_intefaces/msg/site.hpp"
 #endif
 
 //Djnn-smala stuff
@@ -66,6 +67,7 @@ class RosNode : public FatProcess, public ExternalSource
     void receive_msg_trap (const icare_interfaces::msg::TrapList msg);
     void receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks);
     void receive_msg_allocation(const icare_interfaces::msg::Allocation);
+    void receive_msg_site();//const icare_interfaces::msg::Site);
 
 
     void send_msg_planning_request();
@@ -130,7 +132,7 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Subscription<icare_interfaces::msg::Tasks>::SharedPtr sub_candidate_tasks;
     rclcpp::Subscription<icare_interfaces::msg::Allocation>::SharedPtr sub_allocation;
     rclcpp::Subscription<icare_interfaces::msg::TrapList>::SharedPtr sub_traps;
-
+    //rclcpp::Subscription<icare_interfaces::msg::Site>::SharedPtr sub_site;
     rclcpp::Publisher<icare_interfaces::msg::PlanningRequest>::SharedPtr publisher_planning_request;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_navgraph_update;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation;

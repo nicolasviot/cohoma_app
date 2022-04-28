@@ -93,7 +93,7 @@ RosNode::impl_activate ()
   sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItineraryList>(
     "/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary_loop, this, _1));
 
-  sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItineraryList>(
+  sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItinerary>(
     "/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, this, _1));
 
   sub_candidate_tasks = _node->create_subscription<icare_interfaces::msg::Tasks>(
@@ -612,7 +612,7 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
 
 void 
 RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
-
+std::cerr << "received some traps to display" << std::endl;
 for (int k= 0; k < msg.traps.size(); k ++){
 int index_found = -1;
 
@@ -623,9 +623,9 @@ for (int i = 0; i < _traps_container->children().size(); i++){
     index_found = i;
   }
 }
-
 if (index_found == -1){
 
+std::cerr << "new trap !" << std::endl;
 /*int16 id                            # Manager trap id
 geographic_msgs/GeoPoint location   # location
 bool identified false               # whether the trap has been identified (i.e. QRCode read)
@@ -634,7 +634,9 @@ bool active true                    # whether the trap is active
 icare_interfaces/TrapIdentification info
 uint8[] detected_by                 # list of robots having detected this trap
 uint32[] local_ids                   # locals ids of the detection per robot*/
-  auto *new_trap = Trap(_traps, "", _map, msg.traps[k].id, msg.traps[k].location.latitude, msg.traps[k].location.longitude);
+  ParentProcess *new_trap = Trap(_traps, "", _map, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id);
+  std::cerr << msg.traps[k].location.latitude << std::endl;
+  std::cerr << msg.traps[k].location.longitude << std::endl;
   ((BoolProperty*)new_trap->find_child("active"))->set_value(msg.traps[k].active, true);
   ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.traps[k].identified, true);
     ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.traps[k].info.id, true);
@@ -646,6 +648,8 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 //rajouter radius
 }
 if (index_found != -1){
+
+std::cerr << "old trap to update!" << std::endl;
    ((BoolProperty*)_traps_container->children()[index_found]->find_child("active"))->set_value(msg.traps[k].active, true);
   ((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->set_value(msg.traps[k].identified, true);
     ((TextProperty*)_traps_container->children()[index_found]->find_child("trap_id"))->set_value(msg.traps[k].info.id, true);
@@ -654,7 +658,7 @@ if (index_found != -1){
     ((TextProperty*)_traps_container->children()[index_found]->find_child("code"))->set_value(msg.traps[k].info.code, true);
     ((TextProperty*)_traps_container->children()[index_found]->find_child("hazard"))->set_value(msg.traps[k].info.hazard, true);
 
-    ((DoubleProperty*)_traps_container->find_child("radius"))->set_value(msg.traps[k].info.radius, true);
+    ((DoubleProperty*)_traps_container->children()[index_found]->find_child("radius"))->set_value(msg.traps[k].info.radius, true);
 
 }
 
@@ -1001,7 +1005,20 @@ uint32[] local_ids                   # locals ids of the detection per robot
   publisher_tasks->publish(message);
 
 }
+void 
+RosNode::receive_msg_site(){//const icare_interfaces::msg::Site msg){
+/*
+  # Describe the mission site
+geographic_msgs/GeoPoint start_point
+icare_interfaces/GeoPolygon limits
+icare_interfaces/GeoPolygon[] phases
+icare_interfaces/RestrictedZone[] zones
+icare_interfaces/GeoPolygon[] limas
+*/
 
+//TODO refactor (merge) ExclusionArea + lima 
+
+}
 void 
 RosNode::send_validation_tasks(){
 //TODO

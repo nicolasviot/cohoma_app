@@ -36,8 +36,11 @@ TaskEdge (Process map, int _source, int _dest, Process nodes){
 
 
    Edge the_edge($id_source, $id_dest, 20, nodes)
-   the_edge.line.press ->{
+   the_edge.edge.press ->{
    	selected?0:1 =: selected 
+   }
+   ctrl_edge_selected.select.the_surrounding_edge.edge.press ->{
+    selected?0:1 =: selected
    }
 
 
