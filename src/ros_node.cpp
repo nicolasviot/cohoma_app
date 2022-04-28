@@ -21,7 +21,8 @@
 #include "TaskAreaSummit.h"
 #include "TaskArea.h"
 #include "TaskEdge.h"
-
+#include "ExclusionArea.h"
+#include "Lima.h"
 using std::placeholders::_1;
 
 using namespace djnn;
@@ -58,7 +59,8 @@ RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, C
   #ifndef NO_ROS
   //ROS
   ,qos_best_effort(10),
-  qos(1)
+  qos(1),
+  qos_transient(1)
   #endif
 
 {
@@ -73,6 +75,8 @@ RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, C
   qos.durability_volatile();
   qos_best_effort.best_effort();
   qos_best_effort.durability_volatile();
+  qos_transient.reliable();
+  qos_transient.transient_local();
   #endif
 
   finalize_construction (parent, n);
@@ -85,7 +89,7 @@ RosNode::impl_activate ()
   #ifndef NO_ROS
   //subscriptions
   sub_navgraph =_node->create_subscription<icare_interfaces::msg::StringStamped>( 
-  "/navgraph", qos, std::bind(&RosNode::receive_msg_navgraph, this, _1)); //Replace 10 with qosbesteffort
+  "/navgraph", qos_transient, std::bind(&RosNode::receive_msg_navgraph, this, _1)); //Replace 10 with qosbesteffort
   
   sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>(
     "/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
@@ -105,12 +109,15 @@ RosNode::impl_activate ()
   sub_traps = _node->create_subscription<icare_interfaces::msg::TrapList>(
     "/traps", qos, std::bind(&RosNode::receive_msg_trap, this, _1));
 
+  sub_site = _node->create_subscription<icare_interfaces::msg::Site>(
+    "/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
+
   publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>(
     "/planning_request", qos);
   publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>(
     "/validation", qos);
   publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped>(
-    "/navgraph_update", qos);
+    "/navgraph_update", qos_transient);
   publisher_tasks = _node->create_publisher<icare_interfaces::msg::Tasks>(
     "/tasks", qos);
   publisher_validation_tasks = _node->create_publisher<icare_interfaces::msg::StringStamped>(
@@ -147,13 +154,15 @@ RosNode::impl_activate ()
   _task_areas = _parent->find_child("parent/l/map/layers/tasks/tasklayer/areas");
   _task_traps = _parent->find_child("parent/l/map/layers/tasks/tasklayer/traps");
   _traps = _parent->find_child("parent/l/map/layers/traps/traplayer/traps");
+  _exclusion_areas = _parent->find_child("parent/l/map/layers/site/layer/exclusion_areas");
+  _limas = _parent->find_child("parent/l/map/layers/site/layer/limas");
   
   _frame = _parent->find_child("parent/f");
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
   _id_curent_itenerary  = dynamic_cast<TextProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
   _ref_curent_itenerary = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/ref_current_itinerary"));
   _edge_released_na = dynamic_cast<NativeAction*> (_parent->find_child ("parent/l/map/layers/itineraries/edge_released_na"));
-  
+  //_send_lima_na = dynamic_cast<NativeAction*> (_parent->find_child("parent/ros_manager/send_lima_na"))
   _vab = _parent->find_child("parent/l/map/layers/satelites/vab");
   _agilex1 = _parent->find_child("parent/l/map/layers/satelites/agilex1");
   _agilex2 = _parent->find_child("parent/l/map/layers/satelites/agilex2");
@@ -396,6 +405,8 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
     {msg->itineraries[1]->id, {}}, \
     {msg->itineraries[2]->id, {}}};
 */
+  if (msg->itineraries.size()<= 0)
+    return;
 
   for (int i = 0; i <msg->itineraries.size(); i++){
     std::string id = msg->itineraries[i].id;
@@ -429,19 +440,6 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
   }
   _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
  
-  //std::cerr << "in RosNode::test_multiple_itineraries - size after "  << _itineraries_list->children ().size () <<std::endl;
-
-  /*
-    _itineraries_list {
-      id { id;
-          edges: liste of edges}
-      id { id;
-          edges: liste of edges}
-      id { id;
-           edges: liste of edges}
-      ...
-    }
-  */
 
   string first_id = "";
   for (auto ros_itinerary : msg_struct) {
@@ -462,12 +460,12 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
   }
   _id_curent_itenerary->set_value (first_id, true);
   ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/description"))->set_value(msg->itineraries[0].description, true);
-  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/description"))->set_value(msg->itineraries[1].description, true);
-  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/description"))->set_value(msg->itineraries[2].description, true);
-
-  //debug
-  //int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
-  //std::cerr << "in RosNode::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
+  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/second/description"))->set_value(msg->itineraries[1].description, true);
+  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/third/description"))->set_value(msg->itineraries[2].description, true);
+  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/itinerary_id"))->set_value(msg->itineraries[0].id, true);
+  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/second/itinerary_id"))->set_value(msg->itineraries[1].id, true);
+  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/third/itinerary_id"))->set_value(msg->itineraries[2].id, true);
+  //"humanize the label ? "
 
 }
 
@@ -790,7 +788,7 @@ RosNode::send_msg_lima(){
 
 icare_interfaces::msg::LimaCrossed message = icare_interfaces::msg::LimaCrossed();
 //message.id = id;
-message.id = 2;
+message.id = 1;
 
 publisher_lima->publish(message);
 
@@ -1006,7 +1004,7 @@ uint32[] local_ids                   # locals ids of the detection per robot
 
 }
 void 
-RosNode::receive_msg_site(){//const icare_interfaces::msg::Site msg){
+RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
 /*
   # Describe the mission site
 geographic_msgs/GeoPoint start_point
@@ -1015,8 +1013,86 @@ icare_interfaces/GeoPolygon[] phases
 icare_interfaces/RestrictedZone[] zones
 icare_interfaces/GeoPolygon[] limas
 */
+  /*# Restricted Zones
+icare_interfaces/GeoPolygon polygon
+string name
+uint8 type
 
-//TODO refactor (merge) ExclusionArea + lima 
+uint8 TYPE_UNKNOWN    = 0 # Unknown zone type
+uint8 TYPE_RFA        = 1 # Restricted Fire Area (deactivation only on clearance)
+uint8 TYPE_NFA        = 2 # No Fire Area (deactivation forbidden)
+uint8 TYPE_NFZ        = 3 # No Fly Zone
+uint8 TYPE_FFA        = 4 # Free Fire Area (deactivation allowed)
+uint8 TYPE_ROZ_ALL    = 5 # Restricted Operation Zone (forbidden to all vehicles)
+uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehicles)*/
+
+//TODO refactor (merge) ExclusionArea + lima
+ParentProcess* area_to_add; 
+   for (int i=0; i < msg.zones.size(); i++){
+    if(msg.zones[i].type == 0){
+
+            area_to_add = ExclusionArea(_task_areas , "", _map, "unknown");
+
+    }
+    if(msg.zones[i].type == 1){
+
+            area_to_add = ExclusionArea(_task_areas , "", _map, "RFA");
+    }
+
+   if(msg.zones[i].type == 2){
+
+            area_to_add = ExclusionArea(_task_areas , "", _map, "NFA");
+   }
+   if(msg.zones[i].type == 3){
+            area_to_add = ExclusionArea(_task_areas , "", _map, "NFZ");
+   }
+  if(msg.zones[i].type == 4){
+  area_to_add = ExclusionArea(_task_areas , "", _map, "FFA");
+  }
+
+  if(msg.zones[i].type == 5){
+   area_to_add = ExclusionArea(_task_areas , "", _map, "ROZ_ALL");
+  }
+
+  if(msg.zones[i].type == 6){
+   area_to_add = ExclusionArea(_task_areas , "", _map, "ROZ_GROUND");
+}
+
+
+        
+    for (int j = 0; j < msg.zones[i].polygon.points.size(); j++){
+      auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude);
+      ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.zones[i].polygon.points[j].altitude, true);
+      auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
+   
+      new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
+
+      new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
+    
+
+    }
+
+
+
+  }
+for (int i=0; i < msg.limas.size(); i++){
+    ParentProcess *lima_to_add = Lima(_limas, "", _map);
+    ((IntProperty*)lima_to_add->find_child("id"))->set_value(i, true);
+    for (int j = 0; j < msg.limas[i].points.size(); j++){
+      auto* task_summit = TaskAreaSummit(lima_to_add, std::string("summit_") + std::to_string(j), _map, msg.limas[i].points[j].latitude, msg.limas[i].points[j].longitude);
+      ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.limas[i].points[j].altitude, true);
+      auto* point = new PolyPoint(lima_to_add->find_child("lima"), std::string("pt_") + std::to_string(j), 0, 0);
+      
+      new Connector (lima_to_add, "x_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
+
+      new Connector (lima_to_add, "x_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
+      //TODO : 
+      // binding : lima.press -> send correct lima id
+     /*   new Binding (edge, "binding_edge_released", edge, "edge/release", _edge_released_na, "");
+        new Binding (lima_to_add, "binding_edge_released", lima, "press", _lima_released_na, "");*/
+
+    }
+  }
 
 }
 void 

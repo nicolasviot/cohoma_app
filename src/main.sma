@@ -40,6 +40,7 @@ import TaskLayer
 import LimaLayer
 import TrapLayer
 import ExclusionAreaLayer
+import SiteLayer
 
 
 
@@ -259,12 +260,22 @@ Component root {
       }
       String name("Actors")
     }
+    Component site{
+      Switch ctrl_visibility(visible){
+        Component hidden
+        Component visible {
+          SiteLayer layer (map)
+        }
+      }
+      String name("Site")
+    }
 
       
     
     addChildrenTo map.layers {
       geoportail,
       osm,
+      site,
       mission_zones,
       satelites,
       navgraph,

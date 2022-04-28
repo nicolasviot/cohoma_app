@@ -8,7 +8,7 @@ exe ?= cohoma
 srcs_sma ?= src/Dispatcher.sma src/Reticule.sma src/Strip.sma src/Slider.sma src/CheckBox.sma src/Animator.sma src/TextLineEdit.sma \
             src/Button.sma src/PanAndZoom.sma src/StatusSelector.sma src/GraphNode.sma src/Trap.sma src/TrapLayer.sma src/Node.sma src/Edge.sma src/ManagerId.sma \
             src/TaskEdge.sma src/TaskTrap.sma src/SafetyPilot.sma src/TaskAreaSummit.sma src/TaskArea.sma src/Lima.sma src/LimaLayer.sma src/TaskLayer.sma \
-            src/TaskEdge.sma src/TaskTrap.sma src/TaskAreaSummit.sma src/TaskArea.sma src/Lima.sma src/LimaLayer.sma src/ExclusionArea.sma src/ExclusionAreaLayer.sma src/TaskLayer.sma \
+            src/TaskEdge.sma src/TaskTrap.sma src/TaskAreaSummit.sma src/TaskArea.sma src/Lima.sma src/LimaLayer.sma src/ExclusionArea.sma src/ExclusionAreaLayer.sma src/SiteLayer.sma src/TaskLayer.sma \
             src/NavGraph.sma src/Itineraries.sma src/PixmapTile.sma src/MapLayer.sma src/Map.sma src/WidgetMap.sma \
             src/AreaTaskDescriptor.sma src/CandidateTaskFilter.sma \
             src/ItineraryDescriptor.sma src/ItineraryPannel.sma src/RightPannel.sma src/RosManager.sma \
@@ -45,7 +45,7 @@ ros_x86_libs := $(shell ls $(ros_lib_path)/x86_64-linux-gnu/lib*.so 2>/dev/null 
 # ros_libs := $(filter -l%,$(ros_libs))
 
 
-#PATH_TO_WORKSPACE = /home/ubuntu/djnn_smala_install_debug/dev_ws
+PATH_TO_WORKSPACE = /home/lii/Documents/dev_ws
 icare_interfaces_libs_install_path := $(PATH_TO_WORKSPACE)/install/icare_interfaces/lib
 icare_libs := $(shell ls $(icare_interfaces_libs_install_path)/lib*.so 2>/dev/null | xargs echo)
 icare_libs := $(patsubst $(icare_interfaces_libs_install_path)/lib%.so, -l%, $(icare_libs))

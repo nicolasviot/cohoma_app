@@ -25,7 +25,7 @@
 #include "icare_interfaces/msg/allocation.hpp"
 #include "geographic_msgs/msg/geo_point.hpp"
 #include "icare_interfaces/msg/lima_crossed.hpp"
-//#include "icare_intefaces/msg/site.hpp"
+#include "icare_interfaces/msg/site.hpp"
 #endif
 
 //Djnn-smala stuff
@@ -67,7 +67,7 @@ class RosNode : public FatProcess, public ExternalSource
     void receive_msg_trap (const icare_interfaces::msg::TrapList msg);
     void receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks);
     void receive_msg_allocation(const icare_interfaces::msg::Allocation);
-    void receive_msg_site();//const icare_interfaces::msg::Site);
+    void receive_msg_site(const icare_interfaces::msg::Site);
 
 
     void send_msg_planning_request();
@@ -89,7 +89,7 @@ class RosNode : public FatProcess, public ExternalSource
 
     //navgraph fields
     TextProperty navgraph_data;
-    CoreProcess *_nodes, *_edges, *_shadow_edges, *_task_edges, *_task_areas, *_task_traps, *_traps; 
+    CoreProcess *_nodes, *_edges, *_shadow_edges, *_task_edges, *_task_areas, *_task_traps, *_traps, *_exclusion_areas, *_limas; 
     Component *_itineraries_list;
     RefProperty *_ref_curent_itenerary;
     NativeAction* _edge_released_na;
@@ -125,6 +125,8 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Node::SharedPtr _node;
     rclcpp::QoS qos_best_effort;
     rclcpp::QoS qos;
+    rclcpp::QoS qos_transient;
+
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
 	  rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
     rclcpp::Subscription<icare_interfaces::msg::GraphItineraryList>::SharedPtr sub_graph_itinerary_loop;
@@ -132,7 +134,8 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Subscription<icare_interfaces::msg::Tasks>::SharedPtr sub_candidate_tasks;
     rclcpp::Subscription<icare_interfaces::msg::Allocation>::SharedPtr sub_allocation;
     rclcpp::Subscription<icare_interfaces::msg::TrapList>::SharedPtr sub_traps;
-    //rclcpp::Subscription<icare_interfaces::msg::Site>::SharedPtr sub_site;
+    rclcpp::Subscription<icare_interfaces::msg::Site>::SharedPtr sub_site;
+
     rclcpp::Publisher<icare_interfaces::msg::PlanningRequest>::SharedPtr publisher_planning_request;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_navgraph_update;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation;
