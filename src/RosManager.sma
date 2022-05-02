@@ -71,7 +71,9 @@ test_lima (Process c)
 
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
+	#ifndef NO_ROS
   	node ->send_msg_lima(); 
+	#endif
   	
 %}
 
