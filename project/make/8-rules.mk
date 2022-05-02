@@ -55,4 +55,6 @@ else
 endif
 
 deps := $(objs:.o=.d)
+ifneq ($(nodeps),1)
 -include $(deps)
+endif
