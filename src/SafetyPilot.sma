@@ -45,7 +45,7 @@ SafetyPilot (Process map, double _lat, double _lon, int _id)
     radius/get_resolution ($map.zoomLevel) =:> c.r
 
     FillColor _ (0,0,0)
-    FillOpacity _ (0.8)
+    FillOpacity _ (3.3) //ahah sinon ça se multiplie
     Translation icon_translation(0,0)
     svg = loadFromXML("res/svg/safety_pilot.svg")
     icon << svg.icon
