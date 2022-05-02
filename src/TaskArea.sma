@@ -43,12 +43,12 @@ TaskArea (Process map){
 
 
  Polygon area {
-        Point pt1(-50, -20)
+  /*      Point pt1(-50, -20)
         Point pt2(-20, 20)
         Point pt3(20, 20)
-        Point pt4(50, -20)
+        Point pt4(50, -20)*/
     } 
-    TaskAreaSummit sum1(map, 44.27432196595285, 1.729783361205679)
+   /* TaskAreaSummit sum1(map, 44.27432196595285, 1.729783361205679)
     TaskAreaSummit sum2(map, 44.27432196595285 + 0.002, 1.729783361205679)
     TaskAreaSummit sum3(map, 44.27432196595285 + 0.002, 1.729783361205679 + 0.002)
     TaskAreaSummit sum4(map, 44.27432196595285, 1.729783361205679 + 0.002)
@@ -59,7 +59,7 @@ TaskArea (Process map){
     sum3.x =:> area.pt3.x
     sum3.y =:> area.pt3.y
     sum4.x =:> area.pt4.x
-    sum4.y =:> area.pt4.y
+    sum4.y =:> area.pt4.y*/
 
     area.press -> {
         selected?0:1 =: selected

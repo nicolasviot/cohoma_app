@@ -750,6 +750,7 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
   }
   for (int i=0; i <msg.trap_identifications.size(); i++){
     //Create trap_tasks
+    std::cerr << "trying to add a trap_identification at " + std::to_string(msg.trap_identifications[i].location.latitude) << std::endl;
     ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_identifications[i].id, msg.trap_identifications[i].location.latitude, msg.trap_identifications[i].location.longitude);
     ((BoolProperty*)trap_to_add->find_child("active"))->set_value(msg.trap_identifications[i].active, true);
   ((BoolProperty*)trap_to_add->find_child("identified"))->set_value(msg.trap_identifications[i].identified, true);
@@ -762,6 +763,8 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     
   }
   for (int i=0; i<msg.trap_deactivations.size(); i++){
+
+    std::cerr << "trying to add a trap_deactivation" << std::endl;
    ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_deactivations[i].id, msg.trap_deactivations[i].location.latitude, msg.trap_deactivations[i].location.longitude);
     ((BoolProperty*)trap_to_add->find_child("active"))->set_value(msg.trap_deactivations[i].active, true);
     ((BoolProperty*)trap_to_add->find_child("identified"))->set_value(msg.trap_deactivations[i].identified, true);

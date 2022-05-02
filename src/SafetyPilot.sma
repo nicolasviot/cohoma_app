@@ -24,7 +24,7 @@ SafetyPilot (Process map, double _lat, double _lon, int _id)
     Double lat($_lat)
     Double lon($_lon)
     Double altitude_msl(0)
-    Double radius(200)
+    Double radius(100)
     Int id($_id)
     
     Scaling sc (1, 1, 0, 0)

@@ -26,8 +26,8 @@ AssignmentSequence export_id (1){
 	id =: manager.selected_id
 	this =: manager.current_wpt
 } 
-wpt.c.press -> export_id
-wpt.c.enter -> {wpt =: manager.entered_wpt}
+wpt.interact_mask.press -> export_id
+wpt.interact_mask.enter -> {wpt =: manager.entered_wpt}
 
 LogPrinter lp ("debug enter/leave")
 

@@ -132,7 +132,7 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
             px2lon ($c.cx + map.t0_x, $map.zoomLevel) => lon
             py2lat (map.t0_y - $c.cy, $map.zoomLevel) => lat 
         }
-        no_drag->drag (c.left.press, map.reticule.show_reticule)
+        //no_drag->drag (c.left.press, map.reticule.show_reticule)
         drag->no_drag (c.left.release, map.reticule.hide_reticule)
     }
     FSM fsm {

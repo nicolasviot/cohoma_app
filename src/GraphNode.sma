@@ -56,14 +56,9 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
     screen_translation.ty =:> rot.cy
     heading_rot =:> rot.a
 
- // API (TODO)
-    NoOutline _ 
-    Circle interact_mask (0, 0, 8)
-    leave aka interact_mask.leave
-    right_press aka interact_mask.right.press
 
-
-
+    
+  
     //graphical variables to be updated in different status
     FillOpacity fill_opacity (0.6)
     opacity aka fill_opacity.a
@@ -76,12 +71,8 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
     OutlineOpacity outline_opacity(0.5)
     Circle c (0, 0, 8)
 
-   
+  
 
-    LogPrinter lp("leaving.....")
-    leave -> lp.input
-    c.leave -> leave
-    c.right.press -> right_press
 
     Switch status_switch (default) {
         Component default {
@@ -123,17 +114,28 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
         }
     }
     usage_status => status_switch.state
-/*
+
     FillOpacity _ (0)
-    NoOutline _ 
-    Circle interact_mask (0, 0, 25)
-    leave aka interact_mask.leave
-    right_press aka interact_mask.right.press
+    OutlineOpacity _(0)
+    Circle interact_mask (0, 0, 30)
+      Spike leave
+    Spike right_press
+    interact_mask.leave -> leave
+    interact_mask.right.press -> right_press
+    c.cx =:> interact_mask.cx
+    c.cy =:> interact_mask.cy
 
-    LogPrinter lp("leaving.....")
-    leave -> lp.input
+FSM enterLeave {
+    State idle {
+        10 =: c.r
+    }
+    State inside {
+        20 =: c.r
+    }
+    idle -> inside (interact_mask.enter)
+    inside -> idle (interact_mask.leave)
+}
 
-*/
    
   FSM drag_fsm {
         State no_drag {
@@ -152,17 +154,17 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
             Double offset_y (0)
             screen_translation.tx =: init_cx
             screen_translation.ty =: init_cy
-            c.press.x - screen_translation.tx =: offset_x
-            c.press.y - screen_translation.ty =: offset_y
-            c.move.x - offset_x => screen_translation.tx
-            c.move.y - offset_y => screen_translation.ty
+            interact_mask.press.x - screen_translation.tx =: offset_x
+            interact_mask.press.y - screen_translation.ty =: offset_y
+            interact_mask.move.x - offset_x => screen_translation.tx
+            interact_mask.move.y - offset_y => screen_translation.ty
             px2lon ($screen_translation.tx + map.t0_x, $map.zoomLevel) => lon
             py2lat (map.t0_y - $screen_translation.ty, $map.zoomLevel) => lat 
         }
-        no_drag->drag (c.left.press, map.reticule.show_reticule)
+        no_drag->drag (interact_mask.left.press, map.reticule.show_reticule)
         no_drag->no_drag_while_drawing_edge (shift)
         no_drag_while_drawing_edge -> no_drag (shift_r)
-        drag->no_drag (c.left.release, map.reticule.hide_reticule)
+        drag->no_drag (interact_mask.left.release, map.reticule.hide_reticule)
     }
     FSM fsm {
         State idle {

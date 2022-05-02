@@ -40,15 +40,30 @@ nodelist.[$id_src].wpt.screen_translation.ty =:> y1
 nodelist.[$id_dest].wpt.screen_translation.tx=:> x2
 nodelist.[$id_dest].wpt.screen_translation.ty=:> y2
 
+OutlineOpacity _(0)
+//OutlineColor _(255, 0, 0)
+OutlineWidth outer_width (20)
+Line outerEdge (0, 0, 0, 0)
+outer_x1 aka outerEdge.x1
+outer_x2 aka outerEdge.x2
+outer_y1 aka outerEdge.y1
+outer_y2 aka outerEdge.y2
+
+nodelist.[$id_src].wpt.screen_translation.tx =:> outer_x1
+nodelist.[$id_src].wpt.screen_translation.ty =:> outer_y1
+nodelist.[$id_dest].wpt.screen_translation.tx=:> outer_x2
+nodelist.[$id_dest].wpt.screen_translation.ty=:> outer_y2
+
+
 FSM enterLeave {
     State idle {
-        5 =: width.width
-    }
-    State inside {
         10 =: width.width
     }
-    idle -> inside (edge.enter)
-    inside -> idle (edge.leave)
+    State inside {
+        20 =: width.width
+    }
+    idle -> inside (outerEdge.enter)
+    inside -> idle (outerEdge.leave)
 }
 
 
