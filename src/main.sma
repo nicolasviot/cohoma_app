@@ -468,9 +468,10 @@ Component root {
       }
       NoOutline _
       NoFill _
-      GraphNode temporary (l.map, f, 0, 0, 50, 50, 50)
+   /*   GraphNode temporary (l.map, f, 0, 0, 50, 50, 50)
+      0 =: temporary.opacity
       l.map.pointer_lat =:> temporary.lat
-      l.map.pointer_lon =:> temporary.lon
+      l.map.pointer_lon =:> temporary.lon*/
       OutlineOpacity _ (0.5)
       OutlineWidth _ (5)
       OutlineColor _ (180, 90, 140)
@@ -495,19 +496,22 @@ Component root {
       ddy.value =:> temp_shadow_edge.y1
       ddtx.value =:> pos.tx
       ddty.value =:> pos.ty 
-      temporary.screen_translation.tx =:> temp_shadow_edge.x2
+      f.move.x  - pos.tx =:> temp_shadow_edge.x2
+      f.move.y  - pos.ty =:> temp_shadow_edge.y2
+      /*temporary.screen_translation.tx =:> temp_shadow_edge.x2
       temporary.screen_translation.ty =:> temp_shadow_edge.y2
-    }
+    */}
 
-    idle -> shift_on (shift, addEdgeSpike1)
+    //idle -> shift_on (shift, addEdgeSpike1)
+    idle -> shift_on (shift, clear_temp_list)
     shift_on -> preview_on (root.l.map.layers.navgraph.manager.selected_id, add_first_wpt)
     preview_on -> idle (shift_r, add_segment)
-    shift_on -> idle (shift_r, addEdgeSpike2)
-
+    //shift_on -> idle (shift_r, addEdgeSpike2)
+    shift_on -> idle (shift_r, hide_reticule)
   }
 
-  addEdgeSpike1 -> addEdge.preview_on.temporary.disable_drag, clear_temp_list
-  addEdgeSpike2 -> hide_reticule, addEdge.preview_on.temporary.renable_drag
+  //addEdgeSpike1 -> addEdge.preview_on.temporary.disable_drag, clear_temp_list
+  //addEdgeSpike2 -> hide_reticule, addEdge.preview_on.temporary.renable_drag
 
   clear_temp_list -> (root) {
     
