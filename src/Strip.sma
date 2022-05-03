@@ -14,6 +14,8 @@ Strip (string _name, Process frame){
    Bool failsafe(0)
    Int operation_mode(0)
    String name(_name)
+   Int color (#0F0F0F)
+   String status("...")
 
 
    DoubleFormatter b_volt (0, 1)
@@ -47,6 +49,8 @@ Strip (string _name, Process frame){
    battery_percentage * 60/100  =:> g.left.energy.gauge.energy_rect.width
    (_name=="DRONE")?"aérien":"terrestre" =:> g.type.text
    name =:> g.id.text
+   status =:> g.left.status.status_label.text
+   color =:> g.strip_color.fill.value
 
    /*FSM drag {
       State idle{

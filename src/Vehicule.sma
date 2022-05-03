@@ -12,7 +12,7 @@ _native_code_
 %}
 
 _define_
-Vehicule (Process map, double _lat, double _lon, int r, int g, int b, string init_state)
+Vehicule (Process map, double _lat, double _lon, string init_state, Process color)
 {
 
     
@@ -44,34 +44,32 @@ Vehicule (Process map, double _lat, double _lon, int r, int g, int b, string ini
         Component vab{
             svg = loadFromXML ("res/svg/vab.svg")
             icon << svg.icon
+            color =: icon.shape.fill.value
         }
         Component agilex1{
             svg = loadFromXML ("res/svg/robot.svg")
             icon << svg.icon
-            FillColor agiCOL (200, 40, 40)
-            agiCOL.value =: icon.shape.fill.value
+            color =: icon.shape.fill.value
         }
         Component agilex2{
             svg = loadFromXML ("res/svg/robot.svg")
             icon << svg.icon
-            FillColor agiCOL2 (160, 40, 40)
-            agiCOL2.value =: icon.shape.fill.value
+            color =: icon.shape.fill.value
         }
         Component lynx {
             svg = loadFromXML ("res/svg/robot.svg")
             icon << svg.icon
-            FillColor lynxCOL (140, 40, 40)
-            lynxCOL.value =: icon.shape.fill.value
+            color =: icon.shape.fill.value
         }
         Component spot {
             svg = loadFromXML ("res/svg/robot.svg")
             icon << svg.icon
-            FillColor spotCOL (100, 40, 40)
-            spotCOL.value =: icon.shape.fill.value
+            color =: icon.shape.fill.value
         }
         Component drone {
             svg = loadFromXML ("res/svg/drone.svg")
             icon << svg.icon
+            color =: icon.shape.fill.value
           
         }
     } 

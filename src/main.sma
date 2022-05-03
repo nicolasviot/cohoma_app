@@ -100,13 +100,6 @@ Component root {
   //maximum lvl of zoom of 19
   int init_zoom = 19
 
-  
-  int r_1 = 255
-  int g_1 = 0
-  int b_1 = 0
-  int r_2 = 0
-  int g_2 = 255
-  int b_2 = 0
 
   Frame f ("CoHoMa", 0, 0, init_width + 600, init_height + 600)
   Exit quit (0, 1)
@@ -118,6 +111,23 @@ Component root {
 
   Spike show_reticule
   Spike hide_reticule
+
+
+  //COLORS FOR VEHICULES -- blues variations
+  //Int vabCOL (#6BC0FF)
+  //Int agiCOL (#ADE2ED)
+  //Int agiCOL2 (#51D5F0)
+  //Int lynxCOL (#5C64FF)
+  //Int spotCOL (#ABBFEB)
+  //Int droneCOL (#5EFFF1)
+  
+  //flashy
+  Int vabCOL (#00B1E6)
+  Int agiCOL (#0C2EE8)
+  Int agiCOL2 (#B500FF)
+  Int lynxCOL (#B3B100)
+  Int spotCOL (#0CE820)
+  Int droneCOL (#1ACAFF)
 
   //Create one layer per data.
   // from bottom to top :
@@ -155,12 +165,12 @@ Component root {
         Component hidden
         Layer visible {
           List layers {
-            Vehicule vab (map, $init_lat, $init_lon, r_1, g_1, b_1, "vab")
-            Vehicule agilex1 (map, $init_lat + 0.0005, $init_lon, r_2, g_2, b_2, "agilex1")
-            Vehicule agilex2 (map, $init_lat + 0.001, $init_lon, r_2, g_2, b_2, "agilex2")
-            Vehicule lynx (map, $init_lat, $init_lon + 0.001, r_2, g_2, b_2, "lynx")
-            Vehicule spot (map, $init_lat+ 0.001 , $init_lon + 0.001, r_2, g_2, b_2, "spot")
-            Vehicule drone (map, $init_lat+ 0.0015 , $init_lon + 0.0015, r_2, g_2, b_2, "drone")
+            Vehicule vab (map, $init_lat, $init_lon, "vab", vabCOL)
+            Vehicule agilex1 (map, $init_lat + 0.0005, $init_lon,  "agilex1",agiCOL)
+            Vehicule agilex2 (map, $init_lat + 0.001, $init_lon,  "agilex2",agiCOL2)
+            Vehicule lynx (map, $init_lat, $init_lon + 0.001,  "lynx", lynxCOL)
+            Vehicule spot (map, $init_lat+ 0.001 , $init_lon + 0.001, "spot", spotCOL)
+            Vehicule drone (map, $init_lat+ 0.0015 , $init_lon + 0.0015, "drone", droneCOL)
           }
         }
       }
@@ -331,7 +341,7 @@ Component root {
   l.map.layers.satelites.vab.emergency_stop =:> strips.strip_vab.emergency_stop
   l.map.layers.satelites.vab.failsafe =:> strips.strip_vab.failsafe
   l.map.layers.satelites.vab.operation_mode =:> strips.strip_vab.operation_mode
-
+  vabCOL =: strips.strip_vab.color
 
   // agilex 1
   l.map.layers.satelites.agilex1.battery_voltage =:> strips.strip_agilex_1.battery_voltage
@@ -341,6 +351,7 @@ Component root {
   l.map.layers.satelites.agilex1.emergency_stop =:> strips.strip_agilex_1.emergency_stop
   l.map.layers.satelites.agilex1.failsafe =:> strips.strip_agilex_1.failsafe
   l.map.layers.satelites.agilex1.operation_mode =:> strips.strip_agilex_1.operation_mode
+  agiCOL =: strips.strip_agilex_1.color
 
   // agilex 2
   l.map.layers.satelites.agilex2.battery_voltage =:> strips.strip_agilex_2.battery_voltage
@@ -350,6 +361,7 @@ Component root {
   l.map.layers.satelites.agilex2.emergency_stop =:> strips.strip_agilex_2.emergency_stop
   l.map.layers.satelites.agilex2.failsafe =:> strips.strip_agilex_2.failsafe
   l.map.layers.satelites.agilex2.operation_mode =:> strips.strip_agilex_2.operation_mode
+  agiCOL2 =: strips.strip_agilex_2.color
 
   // lynx
   l.map.layers.satelites.lynx.battery_voltage =:> strips.strip_lynx.battery_voltage
@@ -359,6 +371,7 @@ Component root {
   l.map.layers.satelites.lynx.emergency_stop =:> strips.strip_lynx.emergency_stop
   l.map.layers.satelites.lynx.failsafe =:> strips.strip_lynx.failsafe
   l.map.layers.satelites.lynx.operation_mode =:> strips.strip_lynx.operation_mode
+  lynxCOL =: strips.strip_lynx.color
 
   // spot
   l.map.layers.satelites.spot.battery_voltage =:> strips.strip_spot.battery_voltage
@@ -368,6 +381,7 @@ Component root {
   l.map.layers.satelites.spot.emergency_stop =:> strips.strip_spot.emergency_stop
   l.map.layers.satelites.spot.failsafe =:> strips.strip_spot.failsafe
   l.map.layers.satelites.spot.operation_mode =:> strips.strip_spot.operation_mode
+  spotCOL =: strips.strip_spot.color
 
   // drone
   l.map.layers.satelites.drone.battery_voltage =:> strips.strip_drone.battery_voltage
@@ -377,7 +391,7 @@ Component root {
   l.map.layers.satelites.drone.emergency_stop =:> strips.strip_drone.emergency_stop
   l.map.layers.satelites.drone.failsafe =:> strips.strip_drone.failsafe
   l.map.layers.satelites.drone.operation_mode =:> strips.strip_drone.operation_mode
-
+  droneCOL =: strips.strip_drone.color
 
 
   UpperLeftMenu menu (l.map, f)
