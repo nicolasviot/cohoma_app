@@ -382,7 +382,7 @@ RosNode::test_multiple_itineraries(){
       for (int i = 1; i < ite_edges_size; i++) {
         ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
         ((AbstractProperty*) edge->find_child("color/value"))->set_value (unselected, true);
-        new Binding (edge, "binding_edge_released", edge, "edge/release", _edge_released_na, "");
+        new Binding (edge, "binding_edge_released", edge, "outerEdge/release", _edge_released_na, "");
       }
     }
   }
@@ -454,7 +454,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       for (int i = 1; i < ite_edges_size; i++) {
         ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
         ((AbstractProperty*) edge->find_child("color/value"))->set_value (unselected, true);
-        new Binding (edge, "binding_edge_released", edge, "edge/release", _edge_released_na, "");
+        new Binding (edge, "binding_edge_released", edge, "outerEdge/release", _edge_released_na, "");
       }
     }
   }

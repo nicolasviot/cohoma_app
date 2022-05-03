@@ -28,8 +28,8 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
     Int start_col (#70EE49)
     Int mandatory_col (#FF30FF)
 
-    Int default_radius (8)
-    Int other_radius (4)
+    Int default_radius (10)
+    Int other_radius (10)
 
     Double lat($_lat)
     Double lon($_lon)
@@ -110,7 +110,7 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
 
             NoFill _ 
             OutlineWidth _ (2)
-            Circle outer_circler (0, 0, 5)
+            Circle outer_circler (0, 0, 15)
         }
     }
     usage_status => status_switch.state
