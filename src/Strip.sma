@@ -15,8 +15,8 @@ Strip (string _name, Process frame){
    Int operation_mode(0)
    String name(_name)
    Int color (#0F0F0F)
-   String status("...")
 
+   
 
    DoubleFormatter b_volt (0, 1)
    battery_voltage =:> b_volt.input
@@ -30,14 +30,21 @@ Strip (string _name, Process frame){
    emergency_stop?"true":"false" =:> emergency_stop_str
    String failsafe_str("")
    failsafe?"true":"false" =:> failsafe_str
-   DoubleFormatter operation_mode_format(0, 1)
-   operation_mode =:> operation_mode_format.input
+   String status("")
+   /* OPERATING_MODE_UNKNOWN = 0            # Default value
+   OPERATING_MODE_MANUAL = 1             # Operated by security pilot
+   OPERATING_MODE_TELEOPERATION = 2      # Operated by remote operator
+   OPERATING_MODE_AUTONOMOUS = 3 
+   */
+   (operation_mode == 1 ) ? "Manual" : ((operation_mode == 2 )? "TeleOP" : ((operation_mode == 3 )? "Auto" : "???")) =:> status
+
+
    Translation t (0, 0)
 
    Double parent_tx(0)
    Double parent_ty(0)
    
-
+   
    svg = loadFromXML ("res/svg/stripV2.svg")
    g << svg.Strip
 
@@ -49,8 +56,51 @@ Strip (string _name, Process frame){
    battery_percentage * 60/100  =:> g.left.energy.gauge.energy_rect.width
    (_name=="DRONE")?"aérien":"terrestre" =:> g.type.text
    name =:> g.id.text
-   status =:> g.left.status.status_label.text
+   status =:> g.left.status.mode.mode_text.text
    color =:> g.strip_color.fill.value
+
+   //link status
+   Spike data_in
+   battery_voltage -> data_in
+   //for debugging
+   //g.id.press -> data_in
+
+   //for status link element
+   Int link_ON_color (#00E600)
+   Int link_OFF_color (#CDCCC6)
+
+   FSM link_status_FSM{
+      State connected{
+        link_ON_color =: g.left.link.link_rect.fill.value
+        Timer status_timer (4000) //wait 4seconds
+        Clock timer (100)
+        Incr ellapsedIncr (0)
+
+        AssignmentSequence reset_color (1){
+            0 =: ellapsedIncr.state
+        }
+
+
+        data_in -> reset_color
+        data_in -> status_timer.reset
+
+        |-> reset_color
+        
+        timer.tick -> ellapsedIncr
+        227 - ((ellapsedIncr.state * 100) / 4000) *  23 =:> g.left.link.link_rect.fill.g
+        106 + ((ellapsedIncr.state * 100) / 4000) *  100 =:> g.left.link.link_rect.fill.r
+        68 + ((ellapsedIncr.state * 100) / 4000) *  130 =:> g.left.link.link_rect.fill.b
+      }
+      State disconnected{
+        link_OFF_color =: g.left.link.link_rect.fill.value
+      }
+      disconnected -> connected (data_in)
+      connected -> disconnected (connected.status_timer.end) 
+   }
+
+
+  
+
 
    /*FSM drag {
       State idle{
