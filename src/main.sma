@@ -112,7 +112,6 @@ Component root {
   Spike show_reticule
   Spike hide_reticule
 
-
   //COLORS FOR VEHICULES -- blues variations
   //Int vabCOL (#6BC0FF)
   //Int agiCOL (#ADE2ED)
@@ -143,7 +142,7 @@ Component root {
     Component geoportail {
       Switch ctrl_visibility (visible) {
         Component hidden
-        Layer visible {
+        Layer visible { 
           MapLayer layer (f, map, load_geoportail_tile, "geoportail")
         }
       }
@@ -163,7 +162,7 @@ Component root {
     Component satelites {
       Switch ctrl_visibility (visible) {
         Component hidden
-        Layer visible {
+        Component visible { //using Layer prevents some animations to work (TODO Stephane)
           List layers {
             Vehicule vab (map, $init_lat, $init_lon, "vab", vabCOL)
             Vehicule agilex1 (map, $init_lat + 0.0005, $init_lon,  "agilex1",agiCOL)
@@ -318,86 +317,12 @@ Component root {
   right_pannel.right_pannel.test_allocation_spike -> ros_manager.test_allocation_spike
   right_pannel.right_pannel.itineraryPannel.plan_set ->ros_manager.validate_plan
   right_pannel.right_pannel.test_lima_spike -> ros_manager.test_lima_spike
+  
   // Strips container
-  StripContainer strips (f, 0, 868)/*
-    vab aka ctrl_visibility.visible.layers.[1]
-      agilex1 aka ctrl_visibility.visible.layers.[2]
-      agilex2 aka ctrl_visibility.visible.layers.[3]
-      lynx aka ctrl_visibility.visible.layers.[4]
-      spot aka ctrl_visibility.visible.layers.[5]
-      drone aka ctrl_visibility.visible.layers.[6]
-      Double battery_voltage(0)
-    Int battery_percentage(0)
-    Double altitude_msl(0)
-    Double heading_rot(0)
-    Bool emergency_stop(0)
-    Bool failsafe(0)
-    Int operation_mode(0)*/
-  // VAB
-  l.map.layers.satelites.vab.battery_voltage =:> strips.strip_vab.battery_voltage
-  l.map.layers.satelites.vab.battery_percentage =:> strips.strip_vab.battery_percentage
-  l.map.layers.satelites.vab.altitude_msl =:> strips.strip_vab.altitude_msl
-  l.map.layers.satelites.vab.heading_rot =:> strips.strip_vab.heading_rot
-  l.map.layers.satelites.vab.emergency_stop =:> strips.strip_vab.emergency_stop
-  l.map.layers.satelites.vab.failsafe =:> strips.strip_vab.failsafe
-  l.map.layers.satelites.vab.operation_mode =:> strips.strip_vab.operation_mode
-  vabCOL =: strips.strip_vab.color
-
-  // agilex 1
-  l.map.layers.satelites.agilex1.battery_voltage =:> strips.strip_agilex_1.battery_voltage
-  l.map.layers.satelites.agilex1.battery_percentage =:> strips.strip_agilex_1.battery_percentage
-  l.map.layers.satelites.agilex1.altitude_msl =:> strips.strip_agilex_1.altitude_msl
-  l.map.layers.satelites.agilex1.heading_rot =:> strips.strip_agilex_1.heading_rot
-  l.map.layers.satelites.agilex1.emergency_stop =:> strips.strip_agilex_1.emergency_stop
-  l.map.layers.satelites.agilex1.failsafe =:> strips.strip_agilex_1.failsafe
-  l.map.layers.satelites.agilex1.operation_mode =:> strips.strip_agilex_1.operation_mode
-  agiCOL =: strips.strip_agilex_1.color
-
-  // agilex 2
-  l.map.layers.satelites.agilex2.battery_voltage =:> strips.strip_agilex_2.battery_voltage
-  l.map.layers.satelites.agilex2.battery_percentage =:> strips.strip_agilex_2.battery_percentage
-  l.map.layers.satelites.agilex2.altitude_msl =:> strips.strip_agilex_2.altitude_msl
-  l.map.layers.satelites.agilex2.heading_rot =:> strips.strip_agilex_2.heading_rot
-  l.map.layers.satelites.agilex2.emergency_stop =:> strips.strip_agilex_2.emergency_stop
-  l.map.layers.satelites.agilex2.failsafe =:> strips.strip_agilex_2.failsafe
-  l.map.layers.satelites.agilex2.operation_mode =:> strips.strip_agilex_2.operation_mode
-  agiCOL2 =: strips.strip_agilex_2.color
-
-  // lynx
-  l.map.layers.satelites.lynx.battery_voltage =:> strips.strip_lynx.battery_voltage
-  l.map.layers.satelites.lynx.battery_percentage =:> strips.strip_lynx.battery_percentage
-  l.map.layers.satelites.lynx.altitude_msl =:> strips.strip_lynx.altitude_msl
-  l.map.layers.satelites.lynx.heading_rot =:> strips.strip_lynx.heading_rot
-  l.map.layers.satelites.lynx.emergency_stop =:> strips.strip_lynx.emergency_stop
-  l.map.layers.satelites.lynx.failsafe =:> strips.strip_lynx.failsafe
-  l.map.layers.satelites.lynx.operation_mode =:> strips.strip_lynx.operation_mode
-  lynxCOL =: strips.strip_lynx.color
-
-  // spot
-  l.map.layers.satelites.spot.battery_voltage =:> strips.strip_spot.battery_voltage
-  l.map.layers.satelites.spot.battery_percentage =:> strips.strip_spot.battery_percentage
-  l.map.layers.satelites.spot.altitude_msl =:> strips.strip_spot.altitude_msl
-  l.map.layers.satelites.spot.heading_rot =:> strips.strip_spot.heading_rot
-  l.map.layers.satelites.spot.emergency_stop =:> strips.strip_spot.emergency_stop
-  l.map.layers.satelites.spot.failsafe =:> strips.strip_spot.failsafe
-  l.map.layers.satelites.spot.operation_mode =:> strips.strip_spot.operation_mode
-  spotCOL =: strips.strip_spot.color
-
-  // drone
-  l.map.layers.satelites.drone.battery_voltage =:> strips.strip_drone.battery_voltage
-  l.map.layers.satelites.drone.battery_percentage =:> strips.strip_drone.battery_percentage
-  l.map.layers.satelites.drone.altitude_msl =:> strips.strip_drone.altitude_msl
-  l.map.layers.satelites.drone.heading_rot =:> strips.strip_drone.heading_rot
-  l.map.layers.satelites.drone.emergency_stop =:> strips.strip_drone.emergency_stop
-  l.map.layers.satelites.drone.failsafe =:> strips.strip_drone.failsafe
-  l.map.layers.satelites.drone.operation_mode =:> strips.strip_drone.operation_mode
-  droneCOL =: strips.strip_drone.color
-
+  StripContainer strips (f, 0, 868, l.map.layers.satelites )
 
   UpperLeftMenu menu (l.map, f)
 
- 
-  
 
   // Keyboard inputs 
   // Does not work on some keyboards

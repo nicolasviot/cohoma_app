@@ -3,7 +3,7 @@ use gui
 use display
 
 _define_
-Strip (string _name, Process frame){
+Strip (string _name, Process frame, Process satellite){
 
    
    Double battery_voltage(24)
@@ -16,6 +16,16 @@ Strip (string _name, Process frame){
    String name(_name)
    Int color (#0F0F0F)
 
+
+   //link with model (vehicule component)
+   satellite.battery_voltage =:> battery_voltage
+   satellite.battery_percentage =:> battery_percentage
+   satellite.altitude_msl =:> altitude_msl
+   satellite.heading_rot =:> heading_rot
+   satellite.emergency_stop =:> emergency_stop
+   satellite.failsafe =:> failsafe
+   satellite.operation_mode =:> operation_mode
+   satellite.color =:> color
    
 
    DoubleFormatter b_volt (0, 1)
@@ -44,7 +54,7 @@ Strip (string _name, Process frame){
    Double parent_tx(0)
    Double parent_ty(0)
    
-   
+
    svg = loadFromXML ("res/svg/stripV2.svg")
    g << svg.Strip
 
@@ -80,10 +90,8 @@ Strip (string _name, Process frame){
             0 =: ellapsedIncr.state
         }
 
-
         data_in -> reset_color
         data_in -> status_timer.reset
-
         |-> reset_color
         
         timer.tick -> ellapsedIncr
@@ -98,8 +106,8 @@ Strip (string _name, Process frame){
       connected -> disconnected (connected.status_timer.end) 
    }
 
-
-  
+   g.id.press -> satellite.startAnim
+   g.id.release -> satellite.stopAnim
 
 
    /*FSM drag {

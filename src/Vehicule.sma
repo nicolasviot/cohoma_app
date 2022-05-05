@@ -12,7 +12,7 @@ _native_code_
 %}
 
 _define_
-Vehicule (Process map, double _lat, double _lon, string init_state, Process color)
+Vehicule (Process map, double _lat, double _lon, string init_state, Process _color)
 {
 
     
@@ -25,8 +25,7 @@ Vehicule (Process map, double _lat, double _lon, string init_state, Process colo
     Bool emergency_stop(0)
     Bool failsafe(0)
     Int operation_mode(0)
-
-
+    Int color ($_color)
 
     String state(init_state)
     Scaling sc (1, 1, 0, 0)
@@ -73,13 +72,13 @@ Vehicule (Process map, double _lat, double _lon, string init_state, Process colo
           
         }
     } 
-
+    
     state =:> graphics.state
     FSM fsm {
         State idle {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
             (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
-            
+ 
 
         }
         State zoom_in {
@@ -122,6 +121,40 @@ Vehicule (Process map, double _lat, double _lon, string init_state, Process colo
         zoom_in->idle (zoom_in.anim.end)
         idle->zoom_out (map.prepare_zoom_out)
         zoom_out -> idle (zoom_out.anim.end)
+    }
+
+
+    //HIGHLIGHT ANIMATION ON REQUEST /////
+    Spike startAnim
+    Spike stopAnim
+
+    FSM locate_FSM{
+        State idle{
+
+        }
+        State animate{
+            Double radius(60)
+            OutlineWidth _ (4)
+            OutlineColor _ ($color)
+            Circle c (0, 0, $radius)
+            radius =:> c.r
+
+            Clock timer (30)
+            Incr ellapsedIncr (0)
+
+            AssignmentSequence reset_radius (1){
+                0 =: ellapsedIncr.state
+            }
+
+            //reset_radius
+            timer.tick -> ellapsedIncr
+
+            60 - ellapsedIncr.state * 3 =:> radius
+            (radius <= 5) -> reset_radius
+        }
+       
+        idle -> animate (startAnim)
+        animate -> idle (stopAnim)
     }
 
 }
