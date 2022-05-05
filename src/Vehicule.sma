@@ -146,7 +146,8 @@ Vehicule (Process map, double _lat, double _lon, string init_state, Process _col
                 0 =: ellapsedIncr.state
             }
 
-            //reset_radius
+            |-> reset_radius
+            
             timer.tick -> ellapsedIncr
 
             60 - ellapsedIncr.state * 3 =:> radius

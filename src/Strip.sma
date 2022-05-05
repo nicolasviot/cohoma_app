@@ -18,7 +18,7 @@ Strip (string _name, Process frame, Process satellite){
 
 
    //link with model (vehicule component)
-   satellite.battery_voltage =:> battery_voltage
+   satellite.battery_voltage => battery_voltage
    satellite.battery_percentage =:> battery_percentage
    satellite.altitude_msl =:> altitude_msl
    satellite.heading_rot =:> heading_rot
@@ -80,6 +80,9 @@ Strip (string _name, Process frame, Process satellite){
    Int link_OFF_color (#CDCCC6)
 
    FSM link_status_FSM{
+      State disconnected{
+        link_OFF_color =: g.left.link.link_rect.fill.value
+      }
       State connected{
         link_ON_color =: g.left.link.link_rect.fill.value
         Timer status_timer (4000) //wait 4seconds
@@ -99,15 +102,13 @@ Strip (string _name, Process frame, Process satellite){
         106 + ((ellapsedIncr.state * 100) / 4000) *  100 =:> g.left.link.link_rect.fill.r
         68 + ((ellapsedIncr.state * 100) / 4000) *  130 =:> g.left.link.link_rect.fill.b
       }
-      State disconnected{
-        link_OFF_color =: g.left.link.link_rect.fill.value
-      }
+
       disconnected -> connected (data_in)
       connected -> disconnected (connected.status_timer.end) 
    }
 
-   g.id.press -> satellite.startAnim
-   g.id.release -> satellite.stopAnim
+   g.background.press -> satellite.startAnim
+   g.background.release -> satellite.stopAnim
 
 
    /*FSM drag {
