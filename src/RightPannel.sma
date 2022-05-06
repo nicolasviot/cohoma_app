@@ -11,7 +11,7 @@ _define_
 RightPannel (Process root, Process frame){
 
 
-Translation _ (10, 0)
+Translation _ (10, 10)
 Spike plan_request 
 Spike validate_plan  
 Spike update_graph
@@ -24,9 +24,6 @@ Component NavGraph
 {
 	nav_svg = loadFromXML ("res/svg/GraphNav_legend.svg")
 	nav << nav_svg.GraphNav
-
-    //TODO Use the buuton to send and updated graph via Ros
-	
 
 	button aka nav.update_button.update_bg
 
@@ -48,7 +45,7 @@ Component NavGraph
 	}
 }
 
-Translation _(0, 220)
+Translation _(0, 80)
 ItineraryPannel itineraryPannel(0, 0, root.l.map.layers.itineraries.id)
 Translation _ (0, 320)
 

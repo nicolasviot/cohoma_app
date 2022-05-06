@@ -13,7 +13,7 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 
 	Translation t (dx, dy)
 
-	String description("This is the most amazing itinerary ever")
+	String description("..")
 	String legend ("Itinerary: ")
 	String itinerary_id(id)
 
@@ -25,28 +25,28 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 
 	Switch sw (unselected){
 		Component unselected{
-			Translation _ (40, 0)
+			Translation _ (20, 0)
 			FillColor grey(128, 128, 128)
-			Rectangle bg(0, 0, 300, 100, 10, 10 )
+			Rectangle bg(0, 0, 300, 50, 10, 10)
 
     		FontSize _ (5, 12)
     		FillColor _ (255, 255, 255)
-			Text legend_label(10, 20, "toto")
+			Text legend_label(10, 20, "...")
 			legend + toString (itinerary_id) =:> legend_label.text
 			FontSize _ (5, 8)
-			Text description_label (10, 50, "toto") 
+			Text description_label (10, 50, "...") 
 			description =:> description_label.text
 		}
 		Component selected {
 			FillColor blue(0, 191, 255)
-			Rectangle bg(0, 0, 300, 100, 10, 10 )
+			Rectangle bg(0, 0, 300, 50, 10, 10 )
 
     		FontSize _ (5, 12)
     		FillColor _ (255, 255, 255)
-			Text legend_label(10, 20, "toto")
+			Text legend_label(10, 20, "...")
 			legend + toString (itinerary_id) =:> legend_label.text
 			FontSize _ (5, 8)
-			Text description_label (10, 50, "toto") 
+			Text description_label (10, 50, "...") 
 			description =:> description_label.text
 			
 			Button set_plan (bg, "set itinerary", 200, 25)

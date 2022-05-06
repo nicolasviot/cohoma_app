@@ -14,9 +14,9 @@ ItineraryPannel(double _dx, double _dy, Process _id_selected){
 	id_selected aka _id_selected
 
 	Spike plan_set
-	ItineraryDescriptor first (10, 10, "selected", "toto")
-	ItineraryDescriptor second (10, 120, "unselected", "titi")
-	ItineraryDescriptor third (10, 230, "unselected", "tata")
+	ItineraryDescriptor first (0, 0, "selected", "Shorter")
+	ItineraryDescriptor second (0, 60, "unselected", "Safer")
+	ItineraryDescriptor third (0, 120, "unselected", "Mix")
 	
 	first.plan_set -> plan_set
 	second.plan_set -> plan_set
