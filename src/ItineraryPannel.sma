@@ -13,10 +13,13 @@ ItineraryPannel(double _dx, double _dy, Process _id_selected){
 
 	id_selected aka _id_selected
 
+	ite_svg = loadFromXML ("res/svg/Itinerary_Panel.svg")
+	ite_gfx << ite_svg.itinerary_panel
+
 	Spike plan_set
-	ItineraryDescriptor first (0, 0, "selected", "Shorter")
-	ItineraryDescriptor second (0, 60, "unselected", "Safer")
-	ItineraryDescriptor third (0, 120, "unselected", "Mix")
+	ItineraryDescriptor first (0, 44, "selected", "Shorter")
+	ItineraryDescriptor second (0, 96, "unselected", "Safer")
+	ItineraryDescriptor third (0, 148, "unselected", "Mix")
 	
 	first.plan_set -> plan_set
 	second.plan_set -> plan_set

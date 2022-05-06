@@ -4,7 +4,7 @@
 	 width="1419px" height="895px" viewBox="0 0 1419 895" enable-background="new 0 0 1419 895" xml:space="preserve">
 <g id="itinerary_panel">
 	
-		<rect x="2.89" y="3.71" fill="#666666" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="424.41" height="163.13"/>
+		<rect x="2.89" y="3.71" fill="#666666" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="424.41" height="200"/>
 	<rect x="2.66" y="3.71" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" width="424.64" height="36.4"/>
 	<text transform="matrix(1 0 0 1 9.052 26.0969)" fill="#FFFFFF" font-family="'Helvetica'" font-size="15px">Itinerary</text>
 </g>

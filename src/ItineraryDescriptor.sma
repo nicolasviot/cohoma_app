@@ -2,12 +2,15 @@ use core
 use gui
 use display
 use base
+
 import Button
+
 _native_code_
 %{
 #include "string.h"
 #include <iostream>
 %}
+
 _define_
 ItineraryDescriptor(double dx, double dy, string start_state, string id){
 
@@ -23,39 +26,43 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 	regex.[1] =:> legend
   	regex.[2] =:> cost
 
-	FontFamily _ ("B612")
-    FontWeight _ (75)
+	FontFamily _ ("Helvetica")
+    //FontWeight _ (50)
     Spike select
     Spike unselect
     Spike plan_set
 
 	Switch sw (unselected){
 		Component unselected{
-			Translation _ (20, 0)
+			Translation _ (30, 0)
 			FillColor grey(128, 128, 128)
-			Rectangle bg(0, 0, 300, 50, 10, 10)
+			Rectangle bg(0, 0, 390, 50, 10, 10)
 
-    		FontSize _ (5, 12)
-    		FillColor _ (255, 255, 255)
-			Text legend_label(10, 20, "...")
+			FontSize _ (5, 12)
+			FillColor _ (255, 255, 255)
+			Text legend_label (10, 28, "...")
 			legend =:> legend_label.text
-			FontSize _ (5, 8)
-			Text cost_label (10, 50, "...") 
+			Text cost_label (150, 28, "...") 
 			cost =:> cost_label.text
 		}
 		Component selected {
-			FillColor blue(0, 191, 255)
-			Rectangle bg(0, 0, 300, 50, 10, 10 )
+			Translation _ (8, 0)
+			FillColor blue(53, 178, 255)
+			Rectangle bg(0, 0, 390, 50, 10, 10 )
 
     		FontSize _ (5, 12)
-    		FillColor _ (255, 255, 255)
-			Text legend_label(10, 20, "...")
+			FillColor _ (255, 255, 255)
+			Text legend_label (10, 28, "...")
 			legend =:> legend_label.text
-			FontSize _ (5, 8)
-			Text cost_label (10, 50, "...") 
+			Text cost_label (150, 28, "...") 
 			cost =:> cost_label.text
 			
-			Button set_plan (bg, "set itinerary", 200, 25)
+			Button set_plan (bg, "set itinerary", 299, 3)
+			44 =: set_plan.r.height
+			88 =: set_plan.r.width
+			24 =: set_plan.thisLabel.y
+			// set_plan.r.height = 44
+			// set_plan.thisLabel.y = 28
 			set_plan.click -> plan_set
 		}
 	}
