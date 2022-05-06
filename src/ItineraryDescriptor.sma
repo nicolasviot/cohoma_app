@@ -13,9 +13,15 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 
 	Translation t (dx, dy)
 
-	String description("..")
+	// ex msg : "b39409be39-39090 Planning shortest|safest|tradeoff OK a path including PPO ... with cost 286.458"
+	String description_input ("b39409be39-39090 Planning safest OK a path including PPO ... with cost 286.458")
+	Regex regex (".* Planning (\\S*) .* cost (\\S*)")
+	String cost ("..")
 	String legend ("Itinerary: ")
 	String itinerary_id(id)
+	description_input =:> regex.input
+	regex.[1] =:> legend
+  	regex.[2] =:> cost
 
 	FontFamily _ ("B612")
     FontWeight _ (75)
@@ -32,10 +38,10 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
     		FontSize _ (5, 12)
     		FillColor _ (255, 255, 255)
 			Text legend_label(10, 20, "...")
-			legend + toString (itinerary_id) =:> legend_label.text
+			legend =:> legend_label.text
 			FontSize _ (5, 8)
-			Text description_label (10, 50, "...") 
-			description =:> description_label.text
+			Text cost_label (10, 50, "...") 
+			cost =:> cost_label.text
 		}
 		Component selected {
 			FillColor blue(0, 191, 255)
@@ -44,10 +50,10 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
     		FontSize _ (5, 12)
     		FillColor _ (255, 255, 255)
 			Text legend_label(10, 20, "...")
-			legend + toString (itinerary_id) =:> legend_label.text
+			legend =:> legend_label.text
 			FontSize _ (5, 8)
-			Text description_label (10, 50, "...") 
-			description =:> description_label.text
+			Text cost_label (10, 50, "...") 
+			cost =:> cost_label.text
 			
 			Button set_plan (bg, "set itinerary", 200, 25)
 			set_plan.click -> plan_set
