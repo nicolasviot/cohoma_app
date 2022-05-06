@@ -153,7 +153,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
             map.new_t0_y - lat2py ($lat, $map.zoomLevel + 1) =: new_cy
             (lon2px ($lon, $map.zoomLevel + 1) - map.new_t0_x) =: new_cx
             radius/get_resolution ($map.zoomLevel + 1) =: new_cr
-            Animator anim (1000, 0, 1, DJN_IN_SINE, 0, 1)
+            Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
             0 =: anim.inc.state, anim.gen.input
             Double dx (0)
             Double dr (0)
@@ -178,7 +178,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
             radius/get_resolution ($map.zoomLevel - 1) =: new_cr
             map.new_t0_y - lat2py ($lat, $map.zoomLevel - 1) =: new_cy
             (lon2px ($lon, $map.zoomLevel - 1) - map.new_t0_x) =: new_cx
-            Animator anim (1000, 0, 1, DJN_IN_SINE, 0, 1)
+            Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
             0 =: anim.inc.state, anim.gen.input
             Double dx (0)
             Double dr (0)

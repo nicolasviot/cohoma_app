@@ -178,7 +178,7 @@ FSM enterLeave {
             Double new_cy (0)
             map.new_t0_y - lat2py ($lat, $map.zoomLevel + 1) =: new_cy
             (lon2px ($lon, $map.zoomLevel + 1) - map.new_t0_x) =: new_cx
-            Animator anim (1000, 0, 1, DJN_IN_SINE, 0, 1)
+            Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
             0 =: anim.inc.state, anim.gen.input
             Double dx (0)
             Double init_cx (0)
@@ -196,7 +196,7 @@ FSM enterLeave {
             Double new_cy (0)
             map.new_t0_y - lat2py ($lat, $map.zoomLevel - 1) =: new_cy
             (lon2px ($lon, $map.zoomLevel - 1) - map.new_t0_x) =: new_cx
-            Animator anim (1000, 0, 1, DJN_IN_SINE, 0, 1)
+            Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
             0 =: anim.inc.state, anim.gen.input
             Double dx (0)
             Double init_cx (0)

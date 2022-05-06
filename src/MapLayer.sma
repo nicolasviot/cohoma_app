@@ -191,7 +191,7 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
       1 =: ref_zoom_current.value, ref_zoom_above.value
     }
     State zooming_in {
-      Animator anim (1000, 0, 1, DJN_IN_SINE, 0, 1)
+      Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
       0 =: anim.inc.state, anim.gen.input
       anim.output =:> ref_opacity_above.value
       1 - anim.output =:> ref_opacity_current.value
@@ -203,7 +203,7 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
       0.5 + anim.output/2 =:> ref_zoom_above.value
     }
     State zooming_out {
-      Animator anim (1000, 0, 1, DJN_IN_SINE, 0, 1)
+      Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
       0 =: anim.inc.state, anim.gen.input
       anim.output =:> ref_opacity_above.value
       1 - anim.output =:> ref_opacity_current.value
