@@ -11,7 +11,7 @@ _define_
 RightPannel (Process root, Process frame){
 
 
-Translation _ (20, 20)
+Translation _ (10, 0)
 Spike plan_request 
 Spike validate_plan  
 Spike update_graph
@@ -23,12 +23,29 @@ Spike test_lima_spike
 Component NavGraph
 {
 	nav_svg = loadFromXML ("res/svg/GraphNav_legend.svg")
-	//Translation legend (350, 400)
 	nav << nav_svg.GraphNav
-	//Translation legend_off (-350, -400)
 
     //TODO Use the buuton to send and updated graph via Ros
-	nav.update_button.rect.press -> plan_request
+	
+
+	button aka nav.update_button.update_bg
+
+	FSM button_FSM {
+		State idle{
+			#666682 =: button.fill.value
+		}
+		State hover{
+			#8080FF =: button.fill.value
+		}
+		State pressed{
+			#1A1AFF =: button.fill.value
+		}
+		idle -> hover (button.enter)
+		hover -> idle (button.leave)
+		idle -> pressed (button.press)
+		pressed -> idle (button.release, plan_request)
+		hover -> pressed (button.press)
+	}
 }
 
 Translation _(0, 220)
