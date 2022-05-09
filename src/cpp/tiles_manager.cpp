@@ -70,7 +70,9 @@ int download_tile (int z, int row, int col, const std::string &uri, const std::s
   using namespace curl;
   CURL *curl = curl_easy_init ();
   if (!curl) {
+    djnn::lock_ios_mutex ();
     std::cerr << "Error setting curl" << std::endl;
+    djnn::release_ios_mutex ();
     return 1;
   }
 
@@ -82,7 +84,9 @@ int download_tile (int z, int row, int col, const std::string &uri, const std::s
     fp = fopen(filepath.c_str(), "wb");
     if (!fp) {
       if(errno == EMFILE) {
+        djnn::lock_ios_mutex ();
         std::cerr << "too many open files, retrying later..." << __FL__;
+        djnn::release_ios_mutex ();
         usleep(500'000+random()*300'000);
       } else {
         break;
@@ -93,8 +97,10 @@ int download_tile (int z, int row, int col, const std::string &uri, const std::s
 
   //fp = fopen(filepath.c_str(), "wb");
   if (fp == nullptr) {
+    djnn::lock_ios_mutex ();
     std::cerr << "Fail to create file " << filepath << std::endl;
     perror("");
+    djnn::release_ios_mutex ();
     curl_easy_cleanup (curl);
     return 2;
   }
@@ -121,10 +127,12 @@ int download_tile (int z, int row, int col, const std::string &uri, const std::s
   // FIXME: when definitely not ok, the code should behave in a better way... like it's not updating later...
 
   if (res != CURLE_OK) {
+    djnn::lock_ios_mutex ();
     std::cerr << "Error performing curl: " << res << " " /*<< uri << " error: "*/ << curl_easy_strerror (res) << std::endl;
     fclose(fp);
     int err = remove(filepath.c_str());
     if(err) perror("");
+    djnn::release_ios_mutex ();
     assert (!filesystem::exists(filepath));
     curl_easy_cleanup (curl);
     return 3;
@@ -179,10 +187,10 @@ int load_image_from_osm (int z, int row, int col, const std::string& name)
 
 void
 load_osm_tile (djnn::Process* src) {
+  djnn::get_exclusive_access(DBG_GET);
   auto * native = dynamic_cast<djnn::NativeAsyncAction*> (src);
   assert(src);
   djnn::Process* data = (djnn::Process*) get_native_user_data (src);
-  djnn::get_exclusive_access(DBG_GET);
   int x = getInt (data->find_child("X"));
   int y = getInt (data->find_child("Y"));
   int z = getInt (data->find_child("Z"));
@@ -193,40 +201,30 @@ load_osm_tile (djnn::Process* src) {
   int max = pow (2, z);
   if (x < max && y < max) {
     ((djnn::AbstractProperty*) (data->find_child("img/path")))->set_value(new_path, true);
+
     djnn::release_exclusive_access(DBG_REL);
     int failure = load_image_from_osm (z, y, x, name);
-
     djnn::get_exclusive_access(DBG_GET);
-    if (native->should_i_stop()) {
-      //DBG;
-      djnn::release_exclusive_access(DBG_REL);
-      return;
-    } else {
-      //DBG;
-    }
-    if (!failure) {
-      new_path = "cache/" + name + "/" + std::to_string (z) + "_" + std::to_string (x) + "_" + std::to_string (y) + ".png";
 
-      //get_exclusive_access(DBG_GET);
-      //std::cerr << new_path << std::endl;
-      assert (filesystem::exists(new_path));
-      assert (std::filesystem::file_size(new_path));
-      ((djnn::AbstractProperty*) (data->find_child("img/path")))->set_value(new_path, true);
+    if (! native->should_i_stop()) {
+      if (!failure) {
+        new_path = "cache/" + name + "/" + std::to_string (z) + "_" + std::to_string (x) + "_" + std::to_string (y) + ".png";
+        //std::cerr << new_path << std::endl;
+        assert (filesystem::exists(new_path));
+        assert (std::filesystem::file_size(new_path));
+      }
     }
-    djnn::release_exclusive_access(DBG_REL);
-  } else {
-    //std::cout << "Warning: out of bounds x (" << x << ") or y (" << y << "), max is " << max << "\n";
-    ((djnn::AbstractProperty*) (data->find_child("img/path")))->set_value(new_path, true);
-    djnn::release_exclusive_access(DBG_REL);
   }
+  ((djnn::AbstractProperty*) (data->find_child("img/path")))->set_value(new_path, true);
+  djnn::release_exclusive_access(DBG_REL);
 }
 
 void
 load_geoportail_tile (djnn::Process* src) {
+  djnn::get_exclusive_access(DBG_GET);
   auto * native = dynamic_cast<djnn::NativeAsyncAction*> (src);
   assert(src);
   djnn::Process* data = (djnn::Process*) get_native_user_data (src);
-  djnn::get_exclusive_access(DBG_GET);
   int x = getInt (data->find_child("X"));
   int y = getInt (data->find_child("Y"));
   int z = getInt (data->find_child("Z"));
