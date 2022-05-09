@@ -7,6 +7,8 @@ _native_code_
 #include <iostream>
 #include "cpp/coords-utils.h"
 #include <cmath>
+
+#include "base/native_async_action.h"
 %}
 
 _define_
@@ -34,10 +36,10 @@ PixmapTile (int _x, int _y, int _zoomLevel, int row_m, int col_m, NativeCode loa
   Int y (_y)
 
   Image img ("src/img/default.png", _x, _y, 256, 256)
-  NativeAsyncAction update_image (loader, this, 0)
-  Z->update_image
-  X->update_image
-  Y->update_image
+  // NativeAsyncAction update_image (loader, this, 0)
+  // Z->update_image
+  // X->update_image
+  // Y->update_image
 
   /*
   NoFill _
