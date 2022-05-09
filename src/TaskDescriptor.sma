@@ -8,7 +8,7 @@ import CheckBox
 
 
 _define_
-TaskDescriptor (Process arg, double x, double y, string text){
+TaskDescriptor (Process arg, double x, double y, string init_state){
 
 	Translation t (x, y)
 	FillColor fc(180, 30, 30)
@@ -19,24 +19,29 @@ TaskDescriptor (Process arg, double x, double y, string text){
 
 	Switch descriptor(area){
 		Component area{
-			Rectangle _(45, 0, 30, 30)
+			Rectangle _(60, 0, 30, 30)
 		}
 		Component edge{
-			Line _ (45, 0, 75, 0)
+			OutlineWidth _(5)
+			OutlineColor _(230, 10, 10)
+			Line _ (60, 15, 90, 15)
 		}
 		Component trap_identification{
-			Rotation _ (45, 60, 15)
-			Rectangle _(45, 0, 30, 30)
-			Text _ (45, 0, "?")
+			Text _ (60, 15, "?")
+			Rotation _ (45, 70, 10)
+			Rectangle _(60, 0, 20, 20)
+			
 			
 		}
 
 		Component trap_deactivation{
-			Rotation _ (45, 60, 15)
-			Rectangle _(45, 0, 30, 30)
-			Text _ (45, 0, "!")
+			Text _ (60, 15, "!")
+			Rotation _ (45, 70, 10)
+			Rectangle _(60, 0, 20, 20)
+			
 			
 		}
 	}
+	$init_state =: descriptor.state
 
 }

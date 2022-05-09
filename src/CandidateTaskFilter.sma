@@ -16,8 +16,8 @@ Rectangle bg (0, 0, 350, 250, 5, 5)
 Component AreaTaskFilter{
 
 	List tasks{
-		TaskDescriptor _ (arg, 20, 0, "Area 1 ")
-		TaskDescriptor _ (arg, 20, 40, "Area 2 ")
+		TaskDescriptor _ (arg, 20, 0, "area")
+		TaskDescriptor _ (arg, 20, 40, "area")
 	}
 
 
@@ -26,11 +26,9 @@ Translation _t_2(100, 0)
 Component SegmentTaskFilter{
 
 	List tasks{
-		TaskDescriptor _ (arg, 20, 0, "Area 1 ")
+		TaskDescriptor _ (arg, 20, 0, "edge")
 		
 	}
-
-
 
 }
 Translation _t_3(100, 0)
@@ -38,11 +36,9 @@ Component TrapTaskFilter{
 
 
 	List tasks{
-		TaskDescriptor _ (arg, 20, 0, "Area 1 ")
-		
+		TaskDescriptor  _(arg, 20, 0, "trap_identification")
+		TaskDescriptor _(arg, 20, 0, "trap_deactivation")		
 	}
-
-
 }
 
 
