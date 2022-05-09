@@ -21,7 +21,7 @@
 		
 			<circle opacity="0.8" fill="none" stroke="#FF30FF" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" enable-background="new    " cx="207.18" cy="53.36" r="10.5"/>
 	</g>
-	<text transform="matrix(1 0 0 1 385.5228 57.9049)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="15px">Edge</text>
+	<text transform="matrix(1 0 0 1 385.5228 57.9049)" fill="#FFFFFF" font-family="'Helvetica'" font-size="15px">Edge</text>
 	
 		<line opacity="0.8" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" enable-background="new    " x1="369.15" y1="53.36" x2="384.55" y2="53.36"/>
 	<g id="update_button">
@@ -29,6 +29,12 @@
 			c-3.31,0-5.99-2.68-5.99-5.99v-8.34c0-3.31,2.68-5.99,5.99-5.99h85.79c3.31,0,5.99,2.68,5.99,5.99v8.34
 			C247.85,29.38,245.16,32.07,241.85,32.07z"/>
 		<text transform="matrix(1 0 0 1 156.4286 25.147)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.0037px">Ask Plannification</text>
+	</g>
+	<g id="update_graph_button">
+		<path id="update_graph_bg" fill="#666682" stroke="#35B2FF" stroke-width="2" stroke-miterlimit="10" d="M412.04,32.07h-85.79
+			c-3.31,0-5.99-2.68-5.99-5.99v-8.34c0-3.31,2.68-5.99,5.99-5.99h85.79c3.31,0,5.99,2.68,5.99,5.99v8.34
+			C418.04,29.38,415.35,32.07,412.04,32.07z"/>
+		<text transform="matrix(1 0 0 1 326.6236 25.147)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.0037px">Update NavGraph</text>
 	</g>
 	<g id="node_start">
 		
