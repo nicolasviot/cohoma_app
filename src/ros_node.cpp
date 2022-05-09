@@ -1,7 +1,7 @@
 #include "ros_node.h"
 
 #include "exec_env/global_mutex.h"
-#include "core/execution/graph.h"
+//#include "core/execution/graph.h"
 #include "core/control/binding.h"
 #include "core/ontology/coupling.h"
 #include "base/connector.h"
@@ -9,12 +9,12 @@
 #include "core/tree/list.h"
 #include "gui/shape/poly.h"
 
-#include <nlohmann/json.hpp>
+//#include <nlohmann/json.hpp>
 
 
-#include <iostream>
+//#include <iostream>
 
-#include <fstream>
+//#include <fstream>
 
 #include "Node.h"
 #include "NavGraph.h"
@@ -1132,6 +1132,7 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
 
 #endif
 
+/*
 //Util : 
   void write_to_log (string _filename, string s) {
 
@@ -1155,6 +1156,7 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
     file_out.close();
 
   }
+*/
 
   void
   RosNode::run () {
