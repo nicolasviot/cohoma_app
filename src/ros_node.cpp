@@ -34,37 +34,37 @@ using namespace djnn;
 
 
 RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* manager) :
-  FatProcess (n),
-  ExternalSource (n),
+FatProcess (n),
+ExternalSource (n),
   //arguments
-  _map (my_map),
-  _manager (manager),
+_map (my_map),
+_manager (manager),
 
   //navgraph fields
-  navgraph_data(this, "data", ""),
+navgraph_data(this, "data", ""),
 
   //robot_state fields
-   _robot_id(this, "robot_id", 0),
-  _battery_percentage(this, "battery_percentage", 0),
-  _battery_voltage(this, "battery_voltage", 0),
-  _latitude(this, "latitude", 0),
-  _longitude(this, "longitude", 0),
-  _altitude_msl(this, "altitude_msl", 0),
-  _compass_heading(this, "compass_heading", 0),
-  _emergency_stop(this, "emergency_stop", 0),
-  _failsafe(this, "failsafe", 0),
-  _operation_mode(this, "operation_mode", 0),
+_robot_id(this, "robot_id", 0),
+_battery_percentage(this, "battery_percentage", 0),
+_battery_voltage(this, "battery_voltage", 0),
+_latitude(this, "latitude", 0),
+_longitude(this, "longitude", 0),
+_altitude_msl(this, "altitude_msl", 0),
+_compass_heading(this, "compass_heading", 0),
+_emergency_stop(this, "emergency_stop", 0),
+_failsafe(this, "failsafe", 0),
+_operation_mode(this, "operation_mode", 0),
 
   //Planif VAB
-  _current_plan_id_vab(this, "current_plan_id", 0),
-  _start_plan_vab_id(this, "start_plan_id", 0),
-  _end_plan_vab_id(this, "end_plan_id", 0)
+_current_plan_id_vab(this, "current_plan_id", 0),
+_start_plan_vab_id(this, "start_plan_id", 0),
+_end_plan_vab_id(this, "end_plan_id", 0)
 
   #ifndef NO_ROS
   //ROS
-  ,qos_best_effort(10),
-  qos(1),
-  qos_transient(1)
+,qos_best_effort(10),
+qos(1),
+qos_transient(1)
   #endif
 
 {
@@ -158,8 +158,8 @@ RosNode::impl_activate ()
   _task_areas = _parent->find_child("parent/l/map/layers/tasks/tasklayer/areas");
   _task_traps = _parent->find_child("parent/l/map/layers/tasks/tasklayer/traps");
   _traps = _parent->find_child("parent/l/map/layers/traps/traplayer/traps");
-  _exclusion_areas = _parent->find_child("parent/l/map/layers/site/layer/exclusion_areas");
-  _limas = _parent->find_child("parent/l/map/layers/site/layer/limas");
+  _exclusion_areas = _parent->find_child("parent/l/map/layers/site/sitelayer/exclusion_areas");
+  _limas = _parent->find_child("parent/l/map/layers/site/sitelayer/limas");
   _frame = _parent->find_child("parent/f");
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
   _id_curent_itenerary  = dynamic_cast<TextProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
@@ -176,7 +176,7 @@ RosNode::impl_activate ()
   _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_wpt"));
   _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/entered_wpt"));
 
- 
+
 
   //start the thread
   ExternalSource::start ();  
@@ -189,7 +189,7 @@ RosNode::impl_deactivate ()
   // seems there is no way to do it properly
   // some insights here:
   // https://answers.ros.org/question/354792/rclcpp-how-to-unsubscribe-from-a-topic/
-  
+
 #ifndef NO_ROS
   sub_navgraph.reset ();
   sub_robot_state.reset ();
@@ -203,7 +203,7 @@ RosNode::impl_deactivate ()
   navgraph_data.deactivate();
 
   //deactivate robot_state fields
-    _robot_id.deactivate();
+  _robot_id.deactivate();
   _battery_percentage.deactivate();
   _battery_voltage.deactivate();
   _latitude.deactivate();
@@ -229,7 +229,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   get_exclusive_access(DBG_GET);
 
   _current_wpt->set_value ((CoreProcess*)nullptr, true);
-	_entered_wpt->set_value ((CoreProcess*)nullptr, true);
+  _entered_wpt->set_value ((CoreProcess*)nullptr, true);
 
   Container *_edge_container = dynamic_cast<Container *> (_edges);
   if (_edge_container) {
@@ -276,51 +276,51 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     }
   }
 
-    nlohmann::json j = nlohmann::json::parse(msg->data);
-    nlohmann::json j_graph;
-    if (j.contains("graph"))
-        j_graph = j["graph"];
-    else if (j.contains("graphs")) {
-        if (j.size() > 1) {
-            std::cerr << "Several graphs defined in the JSON structure! loading the first one..." << std::endl;
-            j_graph = j["graphs"][0];
-        }
-        else if (j.size() == 0) {
-            std::cerr << "No graph defined in the JSON structure!" << std::endl;
-            return;
-        }
+  nlohmann::json j = nlohmann::json::parse(msg->data);
+  nlohmann::json j_graph;
+  if (j.contains("graph"))
+    j_graph = j["graph"];
+  else if (j.contains("graphs")) {
+    if (j.size() > 1) {
+      std::cerr << "Several graphs defined in the JSON structure! loading the first one..." << std::endl;
+      j_graph = j["graphs"][0];
     }
+    else if (j.size() == 0) {
+      std::cerr << "No graph defined in the JSON structure!" << std::endl;
+      return;
+    }
+  }
     //std::cerr << "about to get graph attributes" << std::endl;
     // graph attributes
-    if (j_graph.contains("directed") && j_graph["directed"].get<bool>()) {
-        std::cerr << "graph is said to be directed! NavGraph are only undirected: the results graph may not be what expected!" << std::endl;
-    }
+  if (j_graph.contains("directed") && j_graph["directed"].get<bool>()) {
+    std::cerr << "graph is said to be directed! NavGraph are only undirected: the results graph may not be what expected!" << std::endl;
+  }
     //std::cerr << "about to parse nodes" << std::endl;
     // nodes
-    for (int i=j_graph["nodes"].size() - 1; i >=0; i--){
+  for (int i=j_graph["nodes"].size() - 1; i >=0; i--){
     //for (auto& node: j_graph["nodes"]) {
-        auto& node = j_graph["nodes"][i];
+    auto& node = j_graph["nodes"][i];
         //std::cerr << "in from json parsing nodes" << std::endl;
-        auto& m = node["metadata"];
-        bool isPPO = m["compulsory"].get<bool>();
-        ParentProcess* node_ = Node(_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
-       0, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _manager);
+    auto& m = node["metadata"];
+    bool isPPO = m["compulsory"].get<bool>();
+    ParentProcess* node_ = Node(_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
+     0, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _manager);
 
-  
-    }
-    std::cerr << "about to parse edges" << std::endl;
+
+  }
+  std::cerr << "about to parse edges" << std::endl;
     // edges
-    for (auto& edge: j_graph["edges"]) {
+  for (auto& edge: j_graph["edges"]) {
 
 
-      std::string source = edge["source"].get<std::string>();
-      std::string target = edge["target"].get<std::string>();
-      auto& m = edge["metadata"];
-      double length =m["length"].get<double>();
-      ParentProcess* edge_ = Edge(_edges, "", std::stoi(source) + 1, 
-        std::stoi(target) + 1,length, _nodes);
-       
-    }
+    std::string source = edge["source"].get<std::string>();
+    std::string target = edge["target"].get<std::string>();
+    auto& m = edge["metadata"];
+    double length =m["length"].get<double>();
+    ParentProcess* edge_ = Edge(_edges, "", std::stoi(source) + 1, 
+      std::stoi(target) + 1,length, _nodes);
+
+  }
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }
@@ -339,25 +339,25 @@ RosNode::test_multiple_itineraries(){
     {"tata", {0, 1, 4, 7}}};
 
   //Color:
-  int unselected = 0x232323;
-  int selected = 0x1E90FF;
-  
+    int unselected = 0x232323;
+    int selected = 0x1E90FF;
+
   //std::cerr << "in RosNode::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
 
   //schedule delete old content
-  int itineraries_list_size =  _itineraries_list->children ().size ();
-  for (int i = itineraries_list_size - 1; i >= 0; i--) {
-    auto *child = _itineraries_list->children ()[i];
-    if (child) {
-      child->deactivate ();
-      if (child->get_parent ())
-        child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
-      child->schedule_delete ();
-      child = nullptr;
+    int itineraries_list_size =  _itineraries_list->children ().size ();
+    for (int i = itineraries_list_size - 1; i >= 0; i--) {
+      auto *child = _itineraries_list->children ()[i];
+      if (child) {
+        child->deactivate ();
+        if (child->get_parent ())
+          child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
+        child->schedule_delete ();
+        child = nullptr;
+      }
     }
-  }
-  _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
- 
+    _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
+
   //std::cerr << "in RosNode::test_multiple_itineraries - size after "  << _itineraries_list->children ().size () <<std::endl;
 
   /*
@@ -372,33 +372,33 @@ RosNode::test_multiple_itineraries(){
     }
   */
 
-  string first_id = "";
-  for (auto ros_itinerary : msg) {
+    string first_id = "";
+    for (auto ros_itinerary : msg) {
     // get first id
-    if (first_id == "")
-      first_id = ros_itinerary.first;
-    Component *new_itinerary = new Component ( _itineraries_list, ros_itinerary.first );
-    new TextProperty (new_itinerary, "id", ros_itinerary.first);
-    List* new_ite_edges = new List (new_itinerary, "edges");
-    int ite_edges_size = ros_itinerary.second.size ();
-    if ( ite_edges_size > 0) {
-      for (int i = 1; i < ite_edges_size; i++) {
-        ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
-        ((AbstractProperty*) edge->find_child("color/value"))->set_value (unselected, true);
-        new Binding (edge, "binding_edge_released", edge, "outerEdge/release", _edge_released_na, "");
+      if (first_id == "")
+        first_id = ros_itinerary.first;
+      Component *new_itinerary = new Component ( _itineraries_list, ros_itinerary.first );
+      new TextProperty (new_itinerary, "id", ros_itinerary.first);
+      List* new_ite_edges = new List (new_itinerary, "edges");
+      int ite_edges_size = ros_itinerary.second.size ();
+      if ( ite_edges_size > 0) {
+        for (int i = 1; i < ite_edges_size; i++) {
+          ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
+          ((AbstractProperty*) edge->find_child("color/value"))->set_value (unselected, true);
+          new Binding (edge, "binding_edge_released", edge, "outerEdge/release", _edge_released_na, "");
+        }
       }
     }
-  }
-  _id_curent_itenerary->set_value (first_id, true);
+    _id_curent_itenerary->set_value (first_id, true);
 
   //debug
   //int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
   //std::cerr << "in RosNode::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
 
-}
+  }
 #ifndef NO_ROS
-void 
-RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
+  void 
+  RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
  //debug
   //std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
 
@@ -408,93 +408,93 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
     {msg->itineraries[1]->id, {}}, \
     {msg->itineraries[2]->id, {}}};
 */
-  if (msg->itineraries.size()<= 0)
-    return;
+    if (msg->itineraries.size()<= 0)
+      return;
 
-  for (int i = 0; i <msg->itineraries.size(); i++){
-    std::string id = msg->itineraries[i].id;
+    for (int i = 0; i <msg->itineraries.size(); i++){
+      std::string id = msg->itineraries[i].id;
   //  std::string description = msg->itineraries[i]->description;
-    std::vector<int> nodes;
-    
-    for (int j = 0; j < msg->itineraries[i].nodes.size(); j++){
-      nodes.push_back(std::stoi(msg->itineraries[i].nodes[j]));
-    }
-    msg_struct.push_back(std::pair<string, std::vector<int>>(id, nodes));
+      std::vector<int> nodes;
 
-  }
+      for (int j = 0; j < msg->itineraries[i].nodes.size(); j++){
+        nodes.push_back(std::stoi(msg->itineraries[i].nodes[j]));
+      }
+      msg_struct.push_back(std::pair<string, std::vector<int>>(id, nodes));
+
+    }
 
   //Color:
-  int unselected = 0x232323;
-  int selected = 0x1E90FF;
-  
+    int unselected = 0x232323;
+    int selected = 0x1E90FF;
+
   //std::cerr << "in RosNode::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
 
   //schedule delete old content
-  int itineraries_list_size =  _itineraries_list->children ().size ();
-  for (int i = itineraries_list_size - 1; i >= 0; i--) {
-    auto *child = _itineraries_list->children ()[i];
-    if (child) {
-      child->deactivate ();
-      if (child->get_parent ())
-        child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
-      child->schedule_delete ();
-      child = nullptr;
-    }
-  }
-  _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
- 
-
-  string first_id = "";
-  for (auto ros_itinerary : msg_struct) {
-    // get first id
-    if (first_id == "")
-      first_id = ros_itinerary.first;
-    Component *new_itinerary = new Component ( _itineraries_list, ros_itinerary.first );
-    new TextProperty (new_itinerary, "id", ros_itinerary.first);
-    List* new_ite_edges = new List (new_itinerary, "edges");
-    int ite_edges_size = ros_itinerary.second.size ();
-    if ( ite_edges_size > 0) {
-      for (int i = 1; i < ite_edges_size; i++) {
-        ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
-        ((AbstractProperty*) edge->find_child("color/value"))->set_value (unselected, true);
-        new Binding (edge, "binding_edge_released", edge, "outerEdge/release", _edge_released_na, "");
+    int itineraries_list_size =  _itineraries_list->children ().size ();
+    for (int i = itineraries_list_size - 1; i >= 0; i--) {
+      auto *child = _itineraries_list->children ()[i];
+      if (child) {
+        child->deactivate ();
+        if (child->get_parent ())
+          child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
+        child->schedule_delete ();
+        child = nullptr;
       }
     }
-  }
-  _id_curent_itenerary->set_value (first_id, true);
-  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/description_input"))->set_value(msg->itineraries[0].description, true);
-  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/second/description_input"))->set_value(msg->itineraries[1].description, true);
-  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/third/description_input"))->set_value(msg->itineraries[2].description, true);
-  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/itinerary_id"))->set_value(msg->itineraries[0].id, true);
-  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/second/itinerary_id"))->set_value(msg->itineraries[1].id, true);
-  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/third/itinerary_id"))->set_value(msg->itineraries[2].id, true);
+    _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
+
+
+    string first_id = "";
+    for (auto ros_itinerary : msg_struct) {
+    // get first id
+      if (first_id == "")
+        first_id = ros_itinerary.first;
+      Component *new_itinerary = new Component ( _itineraries_list, ros_itinerary.first );
+      new TextProperty (new_itinerary, "id", ros_itinerary.first);
+      List* new_ite_edges = new List (new_itinerary, "edges");
+      int ite_edges_size = ros_itinerary.second.size ();
+      if ( ite_edges_size > 0) {
+        for (int i = 1; i < ite_edges_size; i++) {
+          ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
+          ((AbstractProperty*) edge->find_child("color/value"))->set_value (unselected, true);
+          new Binding (edge, "binding_edge_released", edge, "outerEdge/release", _edge_released_na, "");
+        }
+      }
+    }
+    _id_curent_itenerary->set_value (first_id, true);
+    ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/description_input"))->set_value(msg->itineraries[0].description, true);
+    ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/second/description_input"))->set_value(msg->itineraries[1].description, true);
+    ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/third/description_input"))->set_value(msg->itineraries[2].description, true);
+    ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/itinerary_id"))->set_value(msg->itineraries[0].id, true);
+    ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/second/itinerary_id"))->set_value(msg->itineraries[1].id, true);
+    ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/third/itinerary_id"))->set_value(msg->itineraries[2].id, true);
   //"humanize the label ? "
 
-}
+  }
 
-void 
-RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
+  void 
+  RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
 // export to result layer
 
     //schedule delete old content
-  int itineraries_list_size =  _itineraries_list->children ().size ();
-  for (int i = itineraries_list_size - 1; i >= 0; i--) {
-    auto *child = _itineraries_list->children ()[i];
-    if (child) {
-      child->deactivate ();
-      if (child->get_parent ())
-        child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
-      child->schedule_delete ();
-      child = nullptr;
+    int itineraries_list_size =  _itineraries_list->children ().size ();
+    for (int i = itineraries_list_size - 1; i >= 0; i--) {
+      auto *child = _itineraries_list->children ()[i];
+      if (child) {
+        child->deactivate ();
+        if (child->get_parent ())
+          child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
+        child->schedule_delete ();
+        child = nullptr;
+      }
     }
-  }
-  _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
+    _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
 
 
   //Color:
-  int unselected = 0x232323;
-  int selected = 0x1E90FF;
-  Component *new_itinerary = new Component ( _itineraries_list, msg->id );
+    int unselected = 0x232323;
+    int selected = 0x1E90FF;
+    Component *new_itinerary = new Component ( _itineraries_list, msg->id );
     new TextProperty (new_itinerary, "id", msg->id);
     List* new_ite_edges = new List (new_itinerary, "edges");
     int ite_edges_size = msg->nodes.size ();
@@ -509,15 +509,15 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
 
 
 
-}
+  }
 
 
 
 //callback for robot_state msg (contains data on one robot)
-void 
-RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
-  RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
-  get_exclusive_access(DBG_GET);
+  void 
+  RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
+    RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
+    get_exclusive_access(DBG_GET);
 
     if (msg->robot_id == 1){
       //Drone
@@ -540,7 +540,7 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
       ((IntProperty*)_agilex1->find_child("operation_mode"))->set_value(msg->operating_mode, true);
       ((BoolProperty*)_agilex1->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
       ((BoolProperty*)_agilex1->find_child("failsafe"))->set_value(msg->failsafe, true);
-    
+
     }
     if (msg->robot_id == 3){
       //Agilex 2
@@ -552,7 +552,7 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
       ((IntProperty*)_agilex2->find_child("operation_mode"))->set_value(msg->operating_mode, true);
       ((BoolProperty*)_agilex2->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
       ((BoolProperty*)_agilex2->find_child("failsafe"))->set_value(msg->failsafe, true);
-    
+
     }
     if (msg->robot_id == 4){
       //Lynx
@@ -564,7 +564,7 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
       ((IntProperty*)_lynx->find_child("operation_mode"))->set_value(msg->operating_mode, true);
       ((BoolProperty*)_lynx->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
       ((BoolProperty*)_lynx->find_child("failsafe"))->set_value(msg->failsafe, true);
-    
+
     }
     if (msg->robot_id == 5){
       //Spot
@@ -576,7 +576,7 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
       ((IntProperty*)_spot->find_child("operation_mode"))->set_value(msg->operating_mode, true);
       ((BoolProperty*)_spot->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
       ((BoolProperty*)_spot->find_child("failsafe"))->set_value(msg->failsafe, true);
-    
+
     }
     if (msg->robot_id == 6){
       //VAB
@@ -588,45 +588,45 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
       ((IntProperty*)_vab->find_child("operation_mode"))->set_value(msg->operating_mode, true);
       ((BoolProperty*)_vab->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
       ((BoolProperty*)_vab->find_child("failsafe"))->set_value(msg->failsafe, true);
-    
+
     }
 
 
 
-  _latitude.set_value (msg -> position.latitude, true);
-  _longitude.set_value (msg -> position.longitude, true);
-  _robot_id.set_value (msg -> robot_id, true);
-  _battery_percentage.set_value ( msg -> battery_percentage, true);
-  _battery_voltage.set_value (msg -> battery_voltage, true);
-  _compass_heading.set_value (msg -> compass_heading, true);
-  _emergency_stop.set_value (msg -> emergency_stop, true);
-  _failsafe.set_value (msg -> failsafe, true);
-  _operation_mode.set_value (msg -> operating_mode, true);
-  _altitude_msl.set_value (msg -> altitude_msl, true);
-  GRAPH_EXEC;
-  release_exclusive_access(DBG_REL);
+    _latitude.set_value (msg -> position.latitude, true);
+    _longitude.set_value (msg -> position.longitude, true);
+    _robot_id.set_value (msg -> robot_id, true);
+    _battery_percentage.set_value ( msg -> battery_percentage, true);
+    _battery_voltage.set_value (msg -> battery_voltage, true);
+    _compass_heading.set_value (msg -> compass_heading, true);
+    _emergency_stop.set_value (msg -> emergency_stop, true);
+    _failsafe.set_value (msg -> failsafe, true);
+    _operation_mode.set_value (msg -> operating_mode, true);
+    _altitude_msl.set_value (msg -> altitude_msl, true);
+    GRAPH_EXEC;
+    release_exclusive_access(DBG_REL);
 
   //Todo, use header.
-}
-
-
-
-void 
-RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
-std::cerr << "received some traps to display" << std::endl;
-for (int k= 0; k < msg.traps.size(); k ++){
-int index_found = -1;
-
-Container *_traps_container = dynamic_cast<Container *> (_traps);
-
-for (int i = 0; i < _traps_container->children().size(); i++){
-  if (((IntProperty*)_traps_container->children()[i]->find_child("id"))->get_value() == msg.traps[k].id){
-    index_found = i;
   }
-}
-if (index_found == -1){
 
-std::cerr << "new trap !" << std::endl;
+
+
+  void 
+  RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
+    std::cerr << "received some traps to display" << std::endl;
+    for (int k= 0; k < msg.traps.size(); k ++){
+      int index_found = -1;
+
+      Container *_traps_container = dynamic_cast<Container *> (_traps);
+
+      for (int i = 0; i < _traps_container->children().size(); i++){
+        if (((IntProperty*)_traps_container->children()[i]->find_child("id"))->get_value() == msg.traps[k].id){
+          index_found = i;
+        }
+      }
+      if (index_found == -1){
+
+        std::cerr << "new trap !" << std::endl;
 /*int16 id                            # Manager trap id
 geographic_msgs/GeoPoint location   # location
 bool identified false               # whether the trap has been identified (i.e. QRCode read)
@@ -635,103 +635,105 @@ bool active true                    # whether the trap is active
 icare_interfaces/TrapIdentification info
 uint8[] detected_by                 # list of robots having detected this trap
 uint32[] local_ids                   # locals ids of the detection per robot*/
-  ParentProcess *new_trap = Trap(_traps, "", _map, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id);
-  std::cerr << msg.traps[k].location.latitude << std::endl;
-  std::cerr << msg.traps[k].location.longitude << std::endl;
-  ((BoolProperty*)new_trap->find_child("active"))->set_value(msg.traps[k].active, true);
-  ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.traps[k].identified, true);
-    ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.traps[k].info.id, true);
-    ((TextProperty*)new_trap->find_child("description"))->set_value(msg.traps[k].info.description, true);
-    ((IntProperty*)new_trap->find_child("contact_mode"))->set_value(msg.traps[k].info.contact_mode, true);
-    ((TextProperty*)new_trap->find_child("code"))->set_value(msg.traps[k].info.code, true);
-    ((TextProperty*)new_trap->find_child("hazard"))->set_value(msg.traps[k].info.hazard, true);
-    ((DoubleProperty*)new_trap->find_child("radius"))->set_value(msg.traps[k].info.radius, true);
+        ParentProcess *new_trap = Trap(_traps, "", _map, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id);
+        std::cerr << msg.traps[k].location.latitude << std::endl;
+        std::cerr << msg.traps[k].location.longitude << std::endl;
+        ((BoolProperty*)new_trap->find_child("active"))->set_value(msg.traps[k].active, true);
+        ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.traps[k].identified, true);
+        ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.traps[k].info.id, true);
+        ((TextProperty*)new_trap->find_child("description"))->set_value(msg.traps[k].info.description, true);
+        ((IntProperty*)new_trap->find_child("contact_mode"))->set_value(msg.traps[k].info.contact_mode, true);
+        ((TextProperty*)new_trap->find_child("code"))->set_value(msg.traps[k].info.code, true);
+        ((TextProperty*)new_trap->find_child("hazard"))->set_value(msg.traps[k].info.hazard, true);
+        ((DoubleProperty*)new_trap->find_child("radius"))->set_value(msg.traps[k].info.radius, true);
 //rajouter radius
-}
-if (index_found != -1){
-
-std::cerr << "old trap to update!" << std::endl;
-   ((BoolProperty*)_traps_container->children()[index_found]->find_child("active"))->set_value(msg.traps[k].active, true);
-  ((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->set_value(msg.traps[k].identified, true);
-    ((TextProperty*)_traps_container->children()[index_found]->find_child("trap_id"))->set_value(msg.traps[k].info.id, true);
-    ((TextProperty*)_traps_container->children()[index_found]->find_child("description"))->set_value(msg.traps[k].info.description, true);
-    ((IntProperty*)_traps_container->children()[index_found]->find_child("contact_mode"))->set_value(msg.traps[k].info.contact_mode, true);
-    ((TextProperty*)_traps_container->children()[index_found]->find_child("code"))->set_value(msg.traps[k].info.code, true);
-    ((TextProperty*)_traps_container->children()[index_found]->find_child("hazard"))->set_value(msg.traps[k].info.hazard, true);
-
-    ((DoubleProperty*)_traps_container->children()[index_found]->find_child("radius"))->set_value(msg.traps[k].info.radius, true);
-
-}
-
-
-
-}
-}
-
-void 
-RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
-
-  Container *_edge_container = dynamic_cast<Container *> (_task_edges);
-  if (_edge_container) {
-    int _edge_container_size = _edge_container->children ().size ();
-    for (int i = _edge_container_size - 1; i >= 0; i--) {
-      auto *item = _edge_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
       }
+      if (index_found != -1){
+
+        std::cerr << "old trap to update!" << std::endl;
+        ((BoolProperty*)_traps_container->children()[index_found]->find_child("active"))->set_value(msg.traps[k].active, true);
+        ((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->set_value(msg.traps[k].identified, true);
+        ((TextProperty*)_traps_container->children()[index_found]->find_child("trap_id"))->set_value(msg.traps[k].info.id, true);
+        ((TextProperty*)_traps_container->children()[index_found]->find_child("description"))->set_value(msg.traps[k].info.description, true);
+        ((IntProperty*)_traps_container->children()[index_found]->find_child("contact_mode"))->set_value(msg.traps[k].info.contact_mode, true);
+        ((TextProperty*)_traps_container->children()[index_found]->find_child("code"))->set_value(msg.traps[k].info.code, true);
+        ((TextProperty*)_traps_container->children()[index_found]->find_child("hazard"))->set_value(msg.traps[k].info.hazard, true);
+
+        ((DoubleProperty*)_traps_container->children()[index_found]->find_child("radius"))->set_value(msg.traps[k].info.radius, true);
+
+      }
+
+
+
     }
   }
 
-  Container *_trap_container = dynamic_cast<Container *> (_task_traps);
-  if (_trap_container) {
-    int _trap_container_size = _trap_container->children ().size ();
-    for (int i = _trap_container_size - 1; i >= 0; i--) {
-      auto *item = _trap_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
+  void 
+  RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
+
+    Container *_edge_container = dynamic_cast<Container *> (_task_edges);
+    if (_edge_container) {
+      int _edge_container_size = _edge_container->children ().size ();
+      for (int i = _edge_container_size - 1; i >= 0; i--) {
+        auto *item = _edge_container->children ()[i];
+        if (item) {
+          item->deactivate ();
+          if (item->get_parent ())
+            item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+          item->schedule_delete ();
+          item = nullptr;
+        }
       }
     }
-  }
 
-  Container *_task_container = dynamic_cast<Container *> (_task_areas);
-  if (_task_container) {
-    int _task_container_size = _task_container->children ().size ();
-    for (int i = _task_container_size - 1; i >= 0; i--) {
-      auto *item = _task_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
+    Container *_trap_container = dynamic_cast<Container *> (_task_traps);
+    if (_trap_container) {
+      int _trap_container_size = _trap_container->children ().size ();
+      for (int i = _trap_container_size - 1; i >= 0; i--) {
+        auto *item = _trap_container->children ()[i];
+        if (item) {
+          item->deactivate ();
+          if (item->get_parent ())
+            item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+          item->schedule_delete ();
+          item = nullptr;
+        }
       }
     }
-  }
 
-  for (int i=0; i < msg.uav_zones.size(); i++){
-    ParentProcess* area_to_add = TaskArea(_task_areas , "", _map);
-    for (int j = 0; j < msg.uav_zones[i].points.size(); j++){
-      auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.uav_zones[i].points[j].latitude, msg.uav_zones[i].points[j].longitude);
-      ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.uav_zones[i].points[j].altitude, true);
+    Container *_task_container = dynamic_cast<Container *> (_task_areas);
+    if (_task_container) {
+      int _task_container_size = _task_container->children ().size ();
+      for (int i = _task_container_size - 1; i >= 0; i--) {
+        auto *item = _task_container->children ()[i];
+        if (item) {
+          item->deactivate ();
+          if (item->get_parent ())
+            item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+          item->schedule_delete ();
+          item = nullptr;
+        }
+      }
+    }
+
+    for (int i=0; i < msg.uav_zones.size(); i++){
+      ParentProcess* area_to_add = TaskArea(_task_areas , "", _map);
+      ((DoubleProperty*)area_to_add->find_child("area_prop"))->set_value(msg.uav_zones[i].area, true);
+      ((DoubleProperty*)area_to_add->find_child("explored"))->set_value(msg.uav_zones[i].explored, true);
+      for (int j = 0; j < msg.uav_zones[i].points.size(); j++){
+        auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.uav_zones[i].points[j].latitude, msg.uav_zones[i].points[j].longitude);
+        ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.uav_zones[i].points[j].altitude, true);
       //auto* cpnt_23 = new PolyPoint (cpnt_21, "pt2", - 20, 20);
-      auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
+        auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
      //new Connector (cpnt_1, "", cpnt_26->find_child ("x"), cpnt_21->find_child ("pt1/x"), 1);
-  
-      new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
 
-      new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
-    
+        new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
 
-    }
-    ((IntProperty*)area_to_add->find_child("nb_summit"))->set_value(((int)msg.uav_zones[i].points.size()), true);
+        new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
+
+
+      }
+      ((IntProperty*)area_to_add->find_child("nb_summit"))->set_value(((int)msg.uav_zones[i].points.size()), true);
       //Area {
       // Point pt1
       // Point pt2
@@ -746,114 +748,114 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
 
 
 
-  }
-  for (int i=0; i < msg.ugv_edges.size(); i++){
+    }
+    for (int i=0; i < msg.ugv_edges.size(); i++){
     //Create ugv_edges
-    ParentProcess* edge_to_add = TaskEdge(_task_edges, "", _map, std::stoi(msg.ugv_edges[i].source) + 1, std::stoi(msg.ugv_edges[i].target) + 1, _nodes);
-  }
-  for (int i=0; i <msg.trap_identifications.size(); i++){
+      ParentProcess* edge_to_add = TaskEdge(_task_edges, "", _map, std::stoi(msg.ugv_edges[i].source) + 1, std::stoi(msg.ugv_edges[i].target) + 1, _nodes);
+    }
+    for (int i=0; i <msg.trap_identifications.size(); i++){
     //Create trap_tasks
-    std::cerr << "trying to add a trap_identification at " + std::to_string(msg.trap_identifications[i].location.latitude) << std::endl;
-    ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_identifications[i].id, msg.trap_identifications[i].location.latitude, msg.trap_identifications[i].location.longitude);
-    ((BoolProperty*)trap_to_add->find_child("active"))->set_value(msg.trap_identifications[i].active, true);
-  ((BoolProperty*)trap_to_add->find_child("identified"))->set_value(msg.trap_identifications[i].identified, true);
-    ((TextProperty*)trap_to_add->find_child("trap_id"))->set_value(msg.trap_identifications[i].info.id, true);
-    ((TextProperty*)trap_to_add->find_child("description"))->set_value(msg.trap_identifications[i].info.description, true);
-    ((IntProperty*)trap_to_add->find_child("contact_mode"))->set_value(msg.trap_identifications[i].info.contact_mode, true);
-    ((TextProperty*)trap_to_add->find_child("code"))->set_value(msg.trap_identifications[i].info.code, true);
-    ((TextProperty*)trap_to_add->find_child("hazard"))->set_value(msg.trap_identifications[i].info.hazard, true);
-    ((DoubleProperty*)trap_to_add->find_child("radius"))->set_value(msg.trap_identifications[i].info.radius, true);
-    
+      std::cerr << "trying to add a trap_identification at " + std::to_string(msg.trap_identifications[i].location.latitude) << std::endl;
+      ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_identifications[i].id, msg.trap_identifications[i].location.latitude, msg.trap_identifications[i].location.longitude);
+      ((BoolProperty*)trap_to_add->find_child("active"))->set_value(msg.trap_identifications[i].active, true);
+      ((BoolProperty*)trap_to_add->find_child("identified"))->set_value(msg.trap_identifications[i].identified, true);
+      ((TextProperty*)trap_to_add->find_child("trap_id"))->set_value(msg.trap_identifications[i].info.id, true);
+      ((TextProperty*)trap_to_add->find_child("description"))->set_value(msg.trap_identifications[i].info.description, true);
+      ((IntProperty*)trap_to_add->find_child("contact_mode"))->set_value(msg.trap_identifications[i].info.contact_mode, true);
+      ((TextProperty*)trap_to_add->find_child("code"))->set_value(msg.trap_identifications[i].info.code, true);
+      ((TextProperty*)trap_to_add->find_child("hazard"))->set_value(msg.trap_identifications[i].info.hazard, true);
+      ((DoubleProperty*)trap_to_add->find_child("radius"))->set_value(msg.trap_identifications[i].info.radius, true);
+
+    }
+    for (int i=0; i<msg.trap_deactivations.size(); i++){
+
+      std::cerr << "trying to add a trap_deactivation" << std::endl;
+      ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_deactivations[i].id, msg.trap_deactivations[i].location.latitude, msg.trap_deactivations[i].location.longitude);
+      ((BoolProperty*)trap_to_add->find_child("active"))->set_value(msg.trap_deactivations[i].active, true);
+      ((BoolProperty*)trap_to_add->find_child("identified"))->set_value(msg.trap_deactivations[i].identified, true);
+      ((TextProperty*)trap_to_add->find_child("trap_id"))->set_value(msg.trap_deactivations[i].info.id, true);
+      ((TextProperty*)trap_to_add->find_child("description"))->set_value(msg.trap_deactivations[i].info.description, true);
+      ((IntProperty*)trap_to_add->find_child("contact_mode"))->set_value(msg.trap_deactivations[i].info.contact_mode, true);
+      ((TextProperty*)trap_to_add->find_child("code"))->set_value(msg.trap_deactivations[i].info.code, true);
+      ((TextProperty*)trap_to_add->find_child("hazard"))->set_value(msg.trap_deactivations[i].info.hazard, true);
+      ((DoubleProperty*)trap_to_add->find_child("radius"))->set_value(msg.trap_deactivations[i].info.radius, true);
+    }
+
+
   }
-  for (int i=0; i<msg.trap_deactivations.size(); i++){
-
-    std::cerr << "trying to add a trap_deactivation" << std::endl;
-   ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_deactivations[i].id, msg.trap_deactivations[i].location.latitude, msg.trap_deactivations[i].location.longitude);
-    ((BoolProperty*)trap_to_add->find_child("active"))->set_value(msg.trap_deactivations[i].active, true);
-    ((BoolProperty*)trap_to_add->find_child("identified"))->set_value(msg.trap_deactivations[i].identified, true);
-    ((TextProperty*)trap_to_add->find_child("trap_id"))->set_value(msg.trap_deactivations[i].info.id, true);
-    ((TextProperty*)trap_to_add->find_child("description"))->set_value(msg.trap_deactivations[i].info.description, true);
-    ((IntProperty*)trap_to_add->find_child("contact_mode"))->set_value(msg.trap_deactivations[i].info.contact_mode, true);
-    ((TextProperty*)trap_to_add->find_child("code"))->set_value(msg.trap_deactivations[i].info.code, true);
-    ((TextProperty*)trap_to_add->find_child("hazard"))->set_value(msg.trap_deactivations[i].info.hazard, true);
-    ((DoubleProperty*)trap_to_add->find_child("radius"))->set_value(msg.trap_deactivations[i].info.radius, true);
-  }
-
-
-}
 
 
 
-void 
-RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
+  void 
+  RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
 //TODO
-}
-
-void
-RosNode::send_msg_lima(){
-
-icare_interfaces::msg::LimaCrossed message = icare_interfaces::msg::LimaCrossed();
-//message.id = id;
-message.id = 1;
-
-publisher_lima->publish(message);
-
-
-
-}
-
-
-void
-RosNode::send_msg_planning_request(){
-  std::cerr << "in send planning request" << std::endl;
-  
-  icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
-  std::cerr << _parent << std::endl;
-  message.id = _current_plan_id_vab.get_string_value();
-  int iid;
-
-  for (auto item: ((djnn::List*)_nodes)->children()){
-    std::cerr << "debug : " << ((TextProperty*)item->find_child("status"))->get_value() << std::endl;
-    if (((TextProperty*)item->find_child("status"))->get_value() == "start"){
-      std::cerr << "start" << std::endl;
-      iid = dynamic_cast<IntProperty*> (item->find_child ("id"))->get_value ();
-      message.start_node = std::to_string(iid - 1);
-    }
-    if (((TextProperty*)item->find_child("status"))->get_value() == "end"){
-      std::cerr << "end" << std::endl;
-      iid = dynamic_cast<IntProperty*> (item->find_child ("id"))->get_value ();
-    
-      message.end_node = std::to_string(iid - 1);
-      
-    }
   }
 
-  message.header.stamp = _node->get_clock()->now();
+  void
+  RosNode::send_msg_lima(){
 
-  publisher_planning_request->publish(message);  
-  GRAPH_EXEC;
-  
+    icare_interfaces::msg::LimaCrossed message = icare_interfaces::msg::LimaCrossed();
+//message.id = id;
+    message.id = 1;
 
-}
-
-void 
-RosNode::send_msg_navgraph_update(){
+    publisher_lima->publish(message);
 
 
-  CoreProcess* nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
-  CoreProcess* edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
 
-  std::cerr << "about to generate json" << std::endl;
-  nlohmann::json j;
-  j["graph"]["directed"] = false;
+  }
+
+
+  void
+  RosNode::send_msg_planning_request(){
+    std::cerr << "in send planning request" << std::endl;
+
+    icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
+    std::cerr << _parent << std::endl;
+    message.id = _current_plan_id_vab.get_string_value();
+    int iid;
+
+    for (auto item: ((djnn::List*)_nodes)->children()){
+      std::cerr << "debug : " << ((TextProperty*)item->find_child("status"))->get_value() << std::endl;
+      if (((TextProperty*)item->find_child("status"))->get_value() == "start"){
+        std::cerr << "start" << std::endl;
+        iid = dynamic_cast<IntProperty*> (item->find_child ("id"))->get_value ();
+        message.start_node = std::to_string(iid - 1);
+      }
+      if (((TextProperty*)item->find_child("status"))->get_value() == "end"){
+        std::cerr << "end" << std::endl;
+        iid = dynamic_cast<IntProperty*> (item->find_child ("id"))->get_value ();
+
+        message.end_node = std::to_string(iid - 1);
+
+      }
+    }
+
+    message.header.stamp = _node->get_clock()->now();
+
+    publisher_planning_request->publish(message);  
+    GRAPH_EXEC;
+
+
+  }
+
+  void 
+  RosNode::send_msg_navgraph_update(){
+
+
+    CoreProcess* nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
+    CoreProcess* edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
+
+    std::cerr << "about to generate json" << std::endl;
+    nlohmann::json j;
+    j["graph"]["directed"] = false;
 
 
   //Edges
-  for (auto item: ((djnn::List*)edges)->children()){
+    for (auto item: ((djnn::List*)edges)->children()){
 
-    int ssource_id = dynamic_cast<IntProperty*> (item->find_child ("id_src"))->get_value ();
-    int starget_id = dynamic_cast<IntProperty*> (item->find_child ("id_dest"))->get_value ();
-    double dlength = dynamic_cast<DoubleProperty*> (item->find_child ("length"))->get_value ();
+      int ssource_id = dynamic_cast<IntProperty*> (item->find_child ("id_src"))->get_value ();
+      int starget_id = dynamic_cast<IntProperty*> (item->find_child ("id_dest"))->get_value ();
+      double dlength = dynamic_cast<DoubleProperty*> (item->find_child ("length"))->get_value ();
 
     //Rarccos(sin(a)sin(b) + cos(a)cos(b)cos(c-d)) a = lata, b=lona, c =latb, d =lonb
   /*  double lata = dynamic_cast<DoubleProperty*> (nodes[ssource_id].find_child("lat"))->get_value() * 3.14259/180;
@@ -917,15 +919,15 @@ RosNode::send_msg_navgraph_update(){
 
 void 
 RosNode::send_validation_plan(){
- 
+
   std::cerr << "in validation plan" << std::endl;
   std::cerr << _parent << std::endl;
-   
-    icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
-    message.data = _id_curent_itenerary->get_string_value();
-    message.header.stamp = _node->get_clock()->now();
-    publisher_validation->publish(message);
-    GRAPH_EXEC;
+
+  icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
+  message.data = _id_curent_itenerary->get_string_value();
+  message.header.stamp = _node->get_clock()->now();
+  publisher_validation->publish(message);
+  GRAPH_EXEC;
   
 }
 
@@ -935,9 +937,9 @@ RosNode::send_selected_tasks(){
 
 
  icare_interfaces::msg::Tasks message= icare_interfaces::msg::Tasks();
-  for (auto trap: ((djnn::List*)_task_traps)->children()){
-    if (((BoolProperty*)trap->find_child("selected"))->get_value() == true){
-      
+ for (auto trap: ((djnn::List*)_task_traps)->children()){
+  if (((BoolProperty*)trap->find_child("selected"))->get_value() == true){
+
       /*int16 id                            # Manager trap id
 geographic_msgs/GeoPoint location   # location
 bool identified false               # whether the trap has been identified (i.e. QRCode read)
@@ -958,59 +960,63 @@ uint32[] local_ids                   # locals ids of the detection per robot
 
 */
 
-      icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
-      trap_to_add.id = dynamic_cast<IntProperty*> (trap->find_child ("id"))->get_value ();
-      trap_to_add.identified = dynamic_cast<BoolProperty*>(trap->find_child("identified"))->get_value();
-      trap_to_add.active = dynamic_cast<BoolProperty*>(trap->find_child("active"))->get_value();
-      trap_to_add.info.id = dynamic_cast<TextProperty*>(trap->find_child("trap_id"))->get_value();
-      trap_to_add.info.description = dynamic_cast<TextProperty*>(trap->find_child("description"))->get_value();
-      trap_to_add.info.contact_mode = dynamic_cast<IntProperty*>(trap->find_child("contact_mode"))->get_value();
-      trap_to_add.info.code = dynamic_cast<TextProperty*>(trap->find_child("code"))->get_value();
-      trap_to_add.info.hazard = dynamic_cast<TextProperty*>(trap->find_child("hazard"))->get_value();
-      if(trap_to_add.identified){
-        message.trap_deactivations.push_back(trap_to_add);
-     
-      } 
-      if(!trap_to_add.identified){
-        message.trap_identifications.push_back(trap_to_add);
-      }
-    }
+    icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
+    trap_to_add.id = dynamic_cast<IntProperty*> (trap->find_child ("id"))->get_value ();
+    trap_to_add.identified = dynamic_cast<BoolProperty*>(trap->find_child("identified"))->get_value();
+    trap_to_add.active = dynamic_cast<BoolProperty*>(trap->find_child("active"))->get_value();
+    trap_to_add.info.id = dynamic_cast<TextProperty*>(trap->find_child("trap_id"))->get_value();
+    trap_to_add.info.description = dynamic_cast<TextProperty*>(trap->find_child("description"))->get_value();
+    trap_to_add.info.contact_mode = dynamic_cast<IntProperty*>(trap->find_child("contact_mode"))->get_value();
+    trap_to_add.info.code = dynamic_cast<TextProperty*>(trap->find_child("code"))->get_value();
+    trap_to_add.info.hazard = dynamic_cast<TextProperty*>(trap->find_child("hazard"))->get_value();
+    if(trap_to_add.identified){
+      message.trap_deactivations.push_back(trap_to_add);
 
+    } 
+    if(!trap_to_add.identified){
+      message.trap_identifications.push_back(trap_to_add);
+    }
   }
-  for (auto edge: ((djnn::List*)_task_edges)->children()){
-    if (dynamic_cast<BoolProperty*> (edge->find_child ("selected"))->get_value ()){
+
+}
+for (auto edge: ((djnn::List*)_task_edges)->children()){
+  if (dynamic_cast<BoolProperty*> (edge->find_child ("selected"))->get_value ()){
     icare_interfaces::msg::GraphEdge edge_to_add = icare_interfaces::msg::GraphEdge();
     edge_to_add.source = dynamic_cast<IntProperty*> (edge->find_child ("id_source"))->get_value () - 1;
- 
+
     edge_to_add.target = dynamic_cast<IntProperty*> (edge->find_child ("id_dest"))->get_value () - 1;
     edge_to_add.length = dynamic_cast<DoubleProperty*> (edge->find_child("length"))->get_value();
     edge_to_add.explored = dynamic_cast<DoubleProperty*> (edge->find_child("explored"))->get_value();
     message.ugv_edges.push_back(edge_to_add);
-    }
   }
-  
-  for (auto area: ((djnn::List*)_task_areas)->children()){
-   if (dynamic_cast<BoolProperty*> (area->find_child("selected"))->get_value()){
+}
 
-    icare_interfaces::msg::GeoPolygon geopolygon_to_add = icare_interfaces::msg::GeoPolygon();
-    for (int i = 1; i <= dynamic_cast<IntProperty*>(area->find_child("nb_summit"))->get_value();i++){
-      geographic_msgs::msg::GeoPoint point_to_add = geographic_msgs::msg::GeoPoint();
-      point_to_add.latitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lat")))->get_value();
-      point_to_add.longitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lon")))->get_value();
-      point_to_add.altitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/alt")))->get_value();
-      geopolygon_to_add.points.push_back(point_to_add);
-      }
+for (auto area: ((djnn::List*)_task_areas)->children()){
+ if (dynamic_cast<BoolProperty*> (area->find_child("selected"))->get_value()){
 
-   
-    message.uav_zones.push_back(geopolygon_to_add);
-    }
+  icare_interfaces::msg::ExplorationPolygon geopolygon_to_add = icare_interfaces::msg::ExplorationPolygon();
+  geopolygon_to_add.area = dynamic_cast<DoubleProperty*>(area->find_child("area_prop"))->get_value();
+  geopolygon_to_add.explored = dynamic_cast<DoubleProperty*>(area->find_child("explored"))->get_value();
+  for (int i = 1; i <= dynamic_cast<IntProperty*>(area->find_child("nb_summit"))->get_value();i++){
+    geographic_msgs::msg::GeoPoint point_to_add = geographic_msgs::msg::GeoPoint();
+    point_to_add.latitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lat")))->get_value();
+    point_to_add.longitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lon")))->get_value();
+    point_to_add.altitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/alt")))->get_value();
+    geopolygon_to_add.points.push_back(point_to_add);
   }
-  message.header.stamp = _node->get_clock()->now();
-  publisher_tasks->publish(message);
+
+
+  message.uav_zones.push_back(geopolygon_to_add);
+}
+}
+message.header.stamp = _node->get_clock()->now();
+publisher_tasks->publish(message);
 
 }
 void 
 RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
+
+  std::cerr<<"about to CRASH DAMMIT" << std::endl;
 /*
 # Describe the mission site
 geographic_msgs/GeoPoint start_point
@@ -1034,125 +1040,126 @@ uint8 TYPE_ROZ_ALL    = 5 # Restricted Operation Zone (forbidden to all vehicles
 uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehicles)*/
 
 //TODO refactor (merge) ExclusionArea + lima
-ParentProcess* area_to_add; 
-   for (int i=0; i < msg.zones.size(); i++){
+  for (int i=0; i < msg.zones.size(); i++){
+    ParentProcess* area_to_add = ExclusionArea(_exclusion_areas,"", _map, "unknown"); 
+    ((TextProperty*)area_to_add->find_child("name"))->set_value(msg.zones[i].name, true);
+    std::cerr << std::to_string(msg.zones[i].type) << std::endl;
     if(msg.zones[i].type == 0){
-
-            area_to_add = ExclusionArea(_exclusion_areas , "", _map, "unknown");
-
+      ((TextProperty*)area_to_add->find_child("status"))->set_value("unknown", true);
     }
     if(msg.zones[i].type == 1){
 
-            area_to_add = ExclusionArea(_exclusion_areas , "", _map, "RFA");
-    }
 
-   if(msg.zones[i].type == 2){
+      ((TextProperty*)area_to_add->find_child("status"))->set_value("rfa", true);}
 
-            area_to_add = ExclusionArea(_exclusion_areas , "", _map, "NFA");
-   }
-   if(msg.zones[i].type == 3){
-            area_to_add = ExclusionArea(_exclusion_areas , "", _map, "NFZ");
-   }
-  if(msg.zones[i].type == 4){
-  area_to_add = ExclusionArea(_exclusion_areas , "", _map, "FFA");
+      if(msg.zones[i].type == 2){
+
+        ((TextProperty*)area_to_add->find_child("status"))->set_value("nfa", true);
+      }
+      if(msg.zones[i].type == 3){
+        ((TextProperty*)area_to_add->find_child("status"))->set_value("nfz", true);
+      }
+      if(msg.zones[i].type == 4){
+        ((TextProperty*)area_to_add->find_child("status"))->set_value("ffa", true);
+      }
+
+      if(msg.zones[i].type == 5){
+        ((TextProperty*)area_to_add->find_child("status"))->set_value("roz_all", true);
+      }
+
+      if(msg.zones[i].type == 6){
+        ((TextProperty*)area_to_add->find_child("status"))->set_value("roz_ground", true);
+      }
+
+
+
+      for (int j = 0; j < msg.zones[i].polygon.points.size(); j++){
+        auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude);
+        ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.zones[i].polygon.points[j].altitude, true);
+        auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
+
+        new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
+
+        new Connector (area_to_add, "y_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
+
+
+      }
+
+
+
   }
+    for (int i=0; i < msg.limas.size(); i++){
+      ParentProcess *lima_to_add = Lima(_limas, "", _map);
+      ((IntProperty*)lima_to_add->find_child("id"))->set_value(msg.limas[i].index, true);
+      ((TextProperty*)lima_to_add->find_child("name"))->set_value(msg.limas[i].name, true);
+      for (int j = 0; j < msg.limas[i].points.size(); j++){
+        auto* task_summit = TaskAreaSummit(lima_to_add, std::string("summit_") + std::to_string(j), _map, msg.limas[i].points[j].latitude, msg.limas[i].points[j].longitude);
+        ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.limas[i].points[j].altitude, true);
+        auto* point = new PolyPoint(lima_to_add->find_child("lima"), std::string("pt_") + std::to_string(j), 0, 0);
 
-  if(msg.zones[i].type == 5){
-   area_to_add = ExclusionArea(_exclusion_areas , "", _map, "ROZ_ALL");
-  }
+        new Connector (lima_to_add, "x_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
 
-  if(msg.zones[i].type == 6){
-   area_to_add = ExclusionArea(_exclusion_areas , "", _map, "ROZ_GROUND");
-}
-
-
-        
-    for (int j = 0; j < msg.zones[i].polygon.points.size(); j++){
-      auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude);
-      ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.zones[i].polygon.points[j].altitude, true);
-      auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
-   
-      new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
-
-      new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
-    
-
-    }
-
-
-
-  }
-for (int i=0; i < msg.limas.size(); i++){
-    ParentProcess *lima_to_add = Lima(_limas, "", _map);
-    ((IntProperty*)lima_to_add->find_child("id"))->set_value(i, true);
-    for (int j = 0; j < msg.limas[i].points.size(); j++){
-      auto* task_summit = TaskAreaSummit(lima_to_add, std::string("summit_") + std::to_string(j), _map, msg.limas[i].points[j].latitude, msg.limas[i].points[j].longitude);
-      ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.limas[i].points[j].altitude, true);
-      auto* point = new PolyPoint(lima_to_add->find_child("lima"), std::string("pt_") + std::to_string(j), 0, 0);
-      
-      new Connector (lima_to_add, "x_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
-
-      new Connector (lima_to_add, "x_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
+        new Connector (lima_to_add, "y_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
       //TODO : 
       // binding : lima.press -> send correct lima id
      /*   new Binding (edge, "binding_edge_released", edge, "edge/release", _edge_released_na, "");
         new Binding (lima_to_add, "binding_edge_released", lima, "press", _lima_released_na, "");*/
 
+      }
     }
-  }
+    ParentProcess *limits_to_add = ExclusionArea(_exclusion_areas, "", _map, "limits");
+      
+    for (int i=0; i<msg.limits.points.size(); i++){
+      auto* limit_summit = TaskAreaSummit(limits_to_add, std::string("summit_") + std::to_string(i), _map, msg.limits.points[i].latitude, msg.limits.points[i].longitude);
+      ((DoubleProperty*)limit_summit->find_child("alt"))->set_value(msg.limits.points[i].altitude, true);
+      auto* point = new PolyPoint(limits_to_add->find_child("area"), std::string("pt_") + std::to_string(i), 0, 0);
 
-for (int i=0; i<msg.limits.points.size(); i++){
-  ParentProcess *limits_to_add = ExclusionArea(_exclusion_areas, "", _map, "limits");
-  auto* limit_summit = TaskAreaSummit(limits_to_add, std::string("summit_") + std::to_string(i), _map, msg.limits.points[i].latitude, msg.limits.points[i].longitude);
-  ((DoubleProperty*)limit_summit->find_child("alt"))->set_value(msg.limits.points[i].altitude, true);
-  auto* point = new PolyPoint(limits_to_add->find_child("area"), std::string("pt_") + std::to_string(i), 0, 0);
-   
       new Connector (limits_to_add, "x_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/x")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/x")), 1);
 
-      new Connector (limits_to_add, "x_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/y")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/y")), 1);
-    
-}
+      new Connector (limits_to_add, "y_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/y")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/y")), 1);
 
-}
-void 
-RosNode::send_validation_tasks(){
+    }
+
+  }
+  void 
+  RosNode::send_validation_tasks(){
 //TODO
 
 //  message.header.stamp = _node->get_clock()->now();
 
-}
+  }
 
 
 #endif
 
 //Util : 
-void write_to_log (string _filename, string s) {
+  void write_to_log (string _filename, string s) {
 
-  string filename(_filename);
+    string filename(_filename);
 
-  std::fstream file_out;
+    std::fstream file_out;
 
 
 
-  file_out.open(filename, std::ios_base::app);
+    file_out.open(filename, std::ios_base::app);
 
-  if (!file_out.is_open()) {
+    if (!file_out.is_open()) {
 
-  std::cout << "failed to open " << filename << '\n';
+      std::cout << "failed to open " << filename << '\n';
 
-  } else {
+    } else {
 
-  file_out << s << std::endl;
+      file_out << s << std::endl;
+
+    }
+    file_out.close();
 
   }
-  file_out.close();
 
-}
-
-void
-RosNode::run () {
+  void
+  RosNode::run () {
   #ifndef NO_ROS
-  rclcpp::spin(_node);
-  rclcpp::shutdown();
+    rclcpp::spin(_node);
+    rclcpp::shutdown();
   #endif
-}
+  }

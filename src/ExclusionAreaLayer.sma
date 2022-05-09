@@ -9,10 +9,10 @@ ExclusionAreaLayer (Process map){
 
 
 	List areas{
-		ExclusionArea limites(map, "limits")
+/*		ExclusionArea limites(map, "limits")
 
 		ExclusionArea roz_all(map, "roz_all")
 
-		ExclusionArea nfz(map, "nfz")
+		ExclusionArea nfz(map, "nfz")*/
 	}
 }

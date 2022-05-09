@@ -142,7 +142,7 @@ Component root {
     Component geoportail {
       Switch ctrl_visibility (visible) {
         Component hidden
-        Layer visible { 
+        Component visible { 
           MapLayer layer (f, map, load_geoportail_tile, "geoportail")
         }
       }
@@ -231,7 +231,7 @@ Component root {
       String name("Tasks")
       tasklayer aka ctrl_visibility.visible.layer
     }
-    Component lima{
+ /*   Component lima{
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
@@ -239,7 +239,7 @@ Component root {
         }
       }
       String name("LIMA")
-    }
+    }*/
     Component result{
       Switch ctrl_visibility (visible){
         Component hidden
@@ -247,7 +247,7 @@ Component root {
       }
       String name("Result")
     }
-    Component mission_zones{
+/*    Component mission_zones{
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible{
@@ -256,7 +256,7 @@ Component root {
       }
       String name("Exclusion areas")
     }
-
+*/
 
     Component actors{
       Switch ctrl_visibility (visible){
@@ -286,14 +286,14 @@ Component root {
       geoportail,
       osm,
       site,
-      mission_zones,
+      //mission_zones,
       satelites,
       navgraph,
       itineraries,
       traps, 
       tasks,
       actors,
-      lima,
+      //lima,
       result
     }
   }

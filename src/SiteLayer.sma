@@ -11,7 +11,7 @@ SiteLayer (Process map){
 
 
 
-	List exclusions_areas{
+	List exclusion_areas{
 
 	}
 

@@ -9,40 +9,58 @@ import Edge
 _define_
 TaskEdge (Process map, int _source, int _dest, Process nodes){
 
-
 	Int id_source(_source)
 	Int id_dest(_dest)
     Double length(0)
     Double explored(0)
 
+    Double x1(0)
+    Double x2 (0)
+    Double y1(0)
+    Double y2(0)
 
     Bool selected (0)
 
-    Switch ctrl_edge_selected(not_select){ 
+    Spike press
+    FSM ctrl_edge_selected{ 
     
-    Component select { 
-        Edge the_surrounding_edge($id_source, $id_dest, 20, nodes)
+    State select { 
+/*        Edge the_surrounding_edge($id_source, $id_dest, 20, nodes)
         255 =: the_surrounding_edge.color.r
         255 =: the_surrounding_edge.color.g
         0 =: the_surrounding_edge.color.b
-    	8 =: the_surrounding_edge.width.width
+    	30 =: the_surrounding_edge.width.width*/
+
+        Translation pos(0, 0)
+        OutlineColor yellow (255, 255, 0)
+        OutlineWidth _(30)
+        Line the_surrounding_edge(0, 0, 0, 0)
+        x1 =:> the_surrounding_edge.x1
+        x2 =:> the_surrounding_edge.x2
+        y1 =:> the_surrounding_edge.y1
+        y2 =:> the_surrounding_edge.y2
+        the_surrounding_edge.press -> press
     }
-    Component not_select{
+    State not_select{
     }
+    select -> not_select (press)
+    not_select -> select (press)
 
    }
 
-   selected?"select":"not_select" => ctrl_edge_selected.state
+    Edge the_edge($id_source, $id_dest, 20, nodes)
+    the_edge.outerEdge.press -> press
+    the_edge.pos.tx =:> ctrl_edge_selected.select.pos.tx
+    the_edge.pos.ty =:> ctrl_edge_selected.select.pos.ty
+   220 =: the_edge.color.r
+   20 =: the_edge.color.g
+   20 =: the_edge.color.b
 
+   the_edge.edge.x1 =:> x1
+   the_edge.edge.x2 =:> x2
+   the_edge.edge.y1 =:> y1
+   the_edge.edge.y2 =:> y2
 
-   Edge the_edge($id_source, $id_dest, 20, nodes)
-   36 =: the_edge.width
-   the_edge.edge.press ->{
-   	selected?0:1 =: selected 
-   }
-   ctrl_edge_selected.select.the_surrounding_edge.edge.press ->{
-    selected?0:1 =: selected
-   }
 
 
 

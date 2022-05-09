@@ -18,11 +18,13 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 
 	// ex msg : "b39409be39-39090 Planning shortest|safest|tradeoff OK a path including PPO ... with cost 286.458"
 	String description_input ("")
-	Regex regex (".* Planning (\\S*) .* cost (\\S*)")
+	Regex regex (".*Planning (\\S*) .* cost (\\S*)")
 	String cost ("..")
 	String legend ("Itinerary: ")
 	String itinerary_id(id)
 	description_input =:> regex.input
+	LogPrinter lp ("debug regexp")
+	description_input =:> lp.input
 	regex.[1] =:> legend
   	regex.[2] =:> cost
 

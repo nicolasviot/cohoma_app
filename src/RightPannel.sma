@@ -27,7 +27,7 @@ Component NavGraph
 	nav << nav_svg.GraphNav
 
 	button aka nav.update_button.update_bg
-
+	button_update_graph aka nav.update_graph_button.update_graph_bg
 	FSM button_FSM {
 		State idle{
 			#666682 =: button.fill.value
@@ -44,7 +44,24 @@ Component NavGraph
 		pressed -> idle (button.release, plan_request)
 		hover -> pressed (button.press)
 	}
+	FSM button_update_graph_FSM {
+		State idle{
+			#666682 =: button_update_graph.fill.value
+		}
+		State hover{
+			#8080FF =: button_update_graph.fill.value
+		}
+		State pressed{
+			#1A1AFF =: button_update_graph.fill.value
+		}
+		idle -> hover (button_update_graph.enter)
+		hover -> idle (button_update_graph.leave)
+		idle -> pressed (button_update_graph.press)
+		pressed -> idle (button_update_graph.release, update_graph)
+		hover -> pressed (button_update_graph.press)
+	}
 }
+
 
 Translation _(0, 80)
 ItineraryPannel itineraryPannel(0, 0, root.l.map.layers.itineraries.id)
@@ -57,18 +74,18 @@ Translation _ (0, 100)
 Component IObuttons{
 /*	Button send_plan_req (frame, " request plan ", 20, 150)
 	send_plan_req.click -> plan_request
-*/	
+*/	/*
 	Button valid_plan (frame, " validate plan ", 100, 150)
-	valid_plan.click -> validate_plan
+	valid_plan.click -> validate_plan*/
 
-	Button update_graph_but (frame, "send graph", 20, 200)
+/*	Button update_graph_but (frame, "send graph", 20, 200)
 	update_graph_but.click -> update_graph
-
+*/
 	/*Button test_multiple_itineraries_button (frame, "test multiple itineraries", 100, 150)
 	test_multiple_itineraries_button.click -> test_multiple_itineraries_spike
 */
-	Button test_allocation_button(frame, "test allocation", 20, 250)
-	test_allocation_button.click -> test_allocation_spike
+/*	Button test_allocation_button(frame, "test allocation", 20, 250)
+	test_allocation_button.click -> test_allocation_spike*/
 	
 	Button test_lima_button(frame, "test lima", 100, 250)
 	test_lima_button.click -> test_lima_spike

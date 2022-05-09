@@ -18,6 +18,8 @@ _define_
 TaskArea (Process map){
     Int nb_summit(0)
     Bool selected(0)
+    Double area_prop(0)
+    Double explored(0)
     FillOpacity _ (0.5)
     FillColor _ (140, 30, 30)
     OutlineWidth perimeter_width(0)

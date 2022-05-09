@@ -26,6 +26,7 @@
 #include "geographic_msgs/msg/geo_point.hpp"
 #include "icare_interfaces/msg/lima_crossed.hpp"
 #include "icare_interfaces/msg/site.hpp"
+#include "icare_interfaces/msg/exploration_polygon.hpp"
 #endif
 
 //Djnn-smala stuff
