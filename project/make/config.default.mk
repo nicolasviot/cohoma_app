@@ -15,3 +15,8 @@ smala_path ?= ../smala
 
 CXXFLAGS += -g #-Wall
 CXXFLAGS += -MMD
+
+#CFLAGS += -fsanitize=address -O1
+#LDFLAGS += -fsanitize=address
+#CXXFLAGS += -fsanitize=thread -O1
+#LDFLAGS += -fsanitize=thread

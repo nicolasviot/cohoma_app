@@ -14,4 +14,4 @@ smala-pkgconf ?= smala
 #smala_path ?= ../smala
 
 config.mk:
-	cp $(project_dir)/2-config.default.mk config.mk
+	cp $(project_dir)/config.default.mk config.mk
