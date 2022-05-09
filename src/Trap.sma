@@ -18,31 +18,14 @@ _define_
 Trap (Process map, double _lat, double _lon, int _id)
 {
 
-
-/*int16 id                            # Manager trap id
-geographic_msgs/GeoPoint location   # location
-bool identified false               # whether the trap has been identified (i.e. QRCode read)
-bool active true                    # whether the trap is active
-
-icare_interfaces/TrapIdentification info
-uint8[] detected_by                 # list of robots having detected this trap
-uint32[] local_ids                   # locals ids of the detection per robot*/
-
-
-
     Double lat($_lat)
     Double lon($_lon)
     Double altitude_msl(0)
     Int id($_id)
-    Bool identified(0)
-    Bool active(0)
+    Bool identified(1)
+    Bool active(1)
 
-    //identification 
-
-    /*builtin_interfaces/Time stamp       # identification stamp
-    uint8 robot_id                      # Robot ID, see RobotState.msg
-    geographic_msgs/GeoPoint location   # location
-    string id                            # 4 digits
+    /*
     string description                  # text describing the kind of trap
     float32 radius                      # action radius [m]
     bool remotely_deactivate            # whether the trap can be deactivated remotely
@@ -52,9 +35,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     string hazard                       # description of an hazardous situation to take into account
 
     */
-    String trap_id("")
-    String description("")
-
+    String description("this is a trap")
     Double radius(50)
     Bool remotely_deactivate(0)
     Bool contact_deactivate(0)
@@ -68,8 +49,6 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     String code("")
     String hazard("")
 
-
-    String trap_status("radius_unknown")
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
     Translation pos (0, 0)
@@ -77,16 +56,20 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
     Translation screen_translation (0, 0)
     
+
+    //Rectangle
     NoOutline _
     FillColor red(240, 0, 0)
     Rotation rot (45, 0, 0)
-    Rectangle rect (0, 0, 20, 20)
+    Rectangle rect (0, 0, 30, 30)
     Rotation un_rot (-45, 0, 0)
-    FillOpacity _(0.3)
+
+    //Circle (linked with radius)
+    FillOpacity circle_opacity(0.3)
     Circle c (0, 0, 50)
     c.cx - rect.width/2 =:> rect.x 
     c.cy - rect.height/2 =:> rect.y
-    radius/get_resolution ($map.zoomLevel) =:> c.r
+    radius/get_resolution ($map.zoomLevel) =:> c.r //attention peut etre pas tout le temps
 
     //rotation of the rectangle to be a losange
     c.cx =:> rot.cx
@@ -95,26 +78,80 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     rot.cy =:> un_rot.cy
 
 
-   Switch ctrl_trap_state(radius_unknown){
+    //text for identification and information
+    FillColor _ (0,0,0)
+    FillOpacity text_opacity (3)
+    1 / circle_opacity.a =:> text_opacity.a
+    FontSize _ (0, 18)
+    TextAnchor _ (1)
+    Text trap_id_text (0,0, "?")
+    toString(id) =:> trap_id_text.text
+    c.cx =:> trap_id_text.x
+    c.cy + 5 =:> trap_id_text.y
 
-    Component radius_unknown {
-       /* trap_g << svg.Trap_wait
-        c.cx - trap_g.trap_marker_wait.width/2 =:> trap_g.trap_marker_wait.x
-        c.cy - trap_g.trap_marker_wait.height/2 =:> trap_g.trap_marker_wait.y
-        c.cx =:> trap_g.trap_wait_area.cx
-        c.cy =:> trap_g.trap_wait_area.cy*/
-    }
-    Component radius_known{
-     /*   trap_g << svg.Trap_confirmed
-        radius =:> trap_g.trap_area.r
-        c.cx =:> trap_g.trap_area.cx
-        c.cy =:> trap_g.trap_area.cy      
-    */
-    radius/get_resolution ($map.zoomLevel) =:> c.r
-    }
+    FontSize _ (0, 14)
+    Text trap_description_text (0,0, "...")
+    Text trap_description_text2 (0,0, "...")
+    Text trap_description_text3 (0,0, "...")
+    Text trap_description_text4 (0,0, "...")
+    c.cx =:> trap_description_text.x
+    c.cx =:> trap_description_text2.x
+    c.cx =:> trap_description_text3.x
+    c.cx =:> trap_description_text4.x
+    c.cy + 30 =:> trap_description_text.y
+    c.cy + 50 =:> trap_description_text2.y
+    c.cy + 70 =:> trap_description_text3.y
+    c.cy + 90 =:> trap_description_text4.y
+    description =:> trap_description_text.text
+    
 
+    //identified switch
+    Switch identified_switch(active){
+    Component true {
+        radius/get_resolution ($map.zoomLevel) =:> c.r
+        description  =:> trap_description_text.text
+        "Hazard:" + hazard + " Code:"+code => trap_description_text2.text
+        "Deactivate: Remotely:"+ toString(remotely_deactivate) + "  " + "Contact:" + toString(contact_deactivate) + " " =:> trap_description_text3.text
+        "contact mode:"+ toString(contact_mode) =:> trap_description_text4.text
+    }
+    Component false{
+        50 =: radius //set radius to maximum possible radius
+       "unkown" =: trap_description_text.text
+        " " =: trap_description_text2.text
+        " " =: trap_description_text3.text
+    }
    }
-   trap_status => ctrl_trap_state.state
+   identified =:> identified_switch.state
+   
+
+    //active FSM
+    Switch activated_switch (active){
+        Component true{
+           0.3 =: circle_opacity.a
+        }
+        Component false{
+            0.1 =: circle_opacity.a
+            //draw a cross
+            OutlineColor _ (0,0,0)
+            OutlineWidth _ (2)
+            Line l1 (0,0, 50, 50)
+            Line l2 (0, 50, 50, 0)
+            rect.x =:> l1.x1
+            rect.x + rect.width =:> l1.x2
+            c.cy =:> l1.y1
+            c.cy =:> l1.y2
+
+            c.cx =:> l2.x1
+            c.cx =:> l2.x2
+            rect.y =:> l2.y1
+            rect.y + rect.width =:> l2.y2
+        }
+    }
+    active =:> activated_switch.state
+
+
+
+
     
 
   FSM drag_fsm {
@@ -143,8 +180,6 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         State idle {
             //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
             //(lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
-            
-
         }
         State zoom_in {
             Double new_cx (0)
@@ -201,5 +236,40 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         idle->zoom_out (map.prepare_zoom_out)
         zoom_out -> idle (zoom_out.anim.end)
     }
+
+
+ //HIGHLIGHT ANIMATION ON REQUEST /////
+    Spike start_highlight_Anim
+    Spike stop_highlight_Anim
+
+    FSM locate_FSM{
+        State idle{
+
+        }
+        State animate{
+            Double radius(60)
+            OutlineWidth _ (4)
+            OutlineColor _ ($red.value)
+            Circle c (0, 0, $radius)
+            radius =:> c.r
+
+            Clock timer (30)
+            Incr ellapsedIncr (0)
+
+            AssignmentSequence reset_radius (1){
+                0 =: ellapsedIncr.state
+            }
+
+            |-> reset_radius
+            
+            timer.tick -> ellapsedIncr
+
+            60 - ellapsedIncr.state * 3 =:> radius
+            (radius <= 5) -> reset_radius
+        }
+       
+        idle -> animate (start_highlight_Anim)
+        animate -> idle (stop_highlight_Anim)
+    }    
 
 }
