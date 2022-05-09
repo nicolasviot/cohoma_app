@@ -87,8 +87,8 @@ Component IObuttons{
 /*	Button test_allocation_button(frame, "test allocation", 20, 250)
 	test_allocation_button.click -> test_allocation_spike*/
 	
-	Button test_lima_button(frame, "test lima", 100, 250)
-	test_lima_button.click -> test_lima_spike
+/*	Button test_lima_button(frame, "test lima", 100, 250)
+	test_lima_button.click -> test_lima_spike*/
 
 	ClockComponent clock(200, 250)
 }

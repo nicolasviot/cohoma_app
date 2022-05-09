@@ -76,7 +76,7 @@ class RosNode : public FatProcess, public ExternalSource
     void send_validation_plan();
     void send_selected_tasks();
     void send_validation_tasks();
-    void send_msg_lima();
+    void send_msg_lima(int);
     #endif
     void test_multiple_itineraries();
     void write_to_log (string, string);

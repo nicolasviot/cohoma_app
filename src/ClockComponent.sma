@@ -15,7 +15,7 @@ Translation t(_x, _y)
     Text text_clock (20, 20, "default")
     wc.state_text =:> text_clock.text
     // il faut une source trigger
-    Clock clock_trigger (1000)
+    Clock clock_trigger (100)
     clock_trigger.tick -> wc.state_text
 
     FileWriter fw ("toto.log")

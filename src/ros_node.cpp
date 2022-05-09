@@ -9,7 +9,7 @@
 #include "core/tree/list.h"
 #include "gui/shape/poly.h"
 
-//#include <nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
 
 
 //#include <iostream>
@@ -792,11 +792,11 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
   }
 
   void
-  RosNode::send_msg_lima(){
+  RosNode::send_msg_lima(int id){
 
     icare_interfaces::msg::LimaCrossed message = icare_interfaces::msg::LimaCrossed();
 //message.id = id;
-    message.id = 1;
+    message.id = id;
 
     publisher_lima->publish(message);
 
@@ -1089,7 +1089,7 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
 
   }
     for (int i=0; i < msg.limas.size(); i++){
-      ParentProcess *lima_to_add = Lima(_limas, "", _map);
+      ParentProcess *lima_to_add = Lima(_limas, "", _map, this);
       ((IntProperty*)lima_to_add->find_child("id"))->set_value(msg.limas[i].index, true);
       ((TextProperty*)lima_to_add->find_child("name"))->set_value(msg.limas[i].name, true);
       for (int j = 0; j < msg.limas[i].points.size(); j++){
@@ -1100,6 +1100,11 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
         new Connector (lima_to_add, "x_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
 
         new Connector (lima_to_add, "y_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
+       
+      /*  new NativeAction (lima_to_add, "send_lima_id_na", RosNode::send_msg_lima, msg.limas[i].index, true);
+
+        new Binding (lima_to_add, "lima_pressed", lima_to_add, "pressed", lima_to_add, "send_lima_id_na");
+      */  
       //TODO : 
       // binding : lima.press -> send correct lima id
      /*   new Binding (edge, "binding_edge_released", edge, "edge/release", _edge_released_na, "");
