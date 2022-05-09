@@ -152,7 +152,7 @@ Component root {
     Component osm {
       Switch ctrl_visibility (visible) {
         Component hidden
-        Layer visible {
+        Component visible {
           MapLayer layer (f, map, load_osm_tile, "osm")
         }
       }
@@ -162,7 +162,7 @@ Component root {
     Component satelites {
       Switch ctrl_visibility (visible) {
         Component hidden
-        Component visible { //using Layer prevents some animations to work (TODO Stephane)
+        Layer visible { //using Layer prevents some animations to work (TODO Stephane)
           List layers {
             Vehicule vab (map, $init_lat, $init_lon, "vab", vabCOL)
             Vehicule agilex1 (map, $init_lat + 0.0005, $init_lon,  "agilex1",agiCOL)
