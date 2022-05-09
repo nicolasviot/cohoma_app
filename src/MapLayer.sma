@@ -46,28 +46,28 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
 
   zoomLevel aka map.zoomLevel
 
-  NativeAsyncAction move_left_l1 (fn_move_left_l1, this, 1)
-  NativeAsyncAction move_right_l1 (fn_move_right_l1, this, 1)
-  NativeAsyncAction move_up_l1 (fn_move_up_l1, this, 1)
-  NativeAsyncAction move_down_l1 (fn_move_down_l1, this, 1)
+  NativeAction move_left_l1 (fn_move_left_l1, this, 1)
+  NativeAction move_right_l1 (fn_move_right_l1, this, 1)
+  NativeAction move_up_l1 (fn_move_up_l1, this, 1)
+  NativeAction move_down_l1 (fn_move_down_l1, this, 1)
 
-  NativeAsyncAction move_left_l2 (fn_move_left_l2, this, 1)
-  NativeAsyncAction move_right_l2 (fn_move_right_l2, this, 1)
-  NativeAsyncAction move_up_l2 (fn_move_up_l2, this, 1)
-  NativeAsyncAction move_down_l2 (fn_move_down_l2, this, 1)
+  NativeAction move_left_l2 (fn_move_left_l2, this, 1)
+  NativeAction move_right_l2 (fn_move_right_l2, this, 1)
+  NativeAction move_up_l2 (fn_move_up_l2, this, 1)
+  NativeAction move_down_l2 (fn_move_down_l2, this, 1)
 
-  NativeAsyncAction zoom_in (fn_zoom_in, this, 1)
-  NativeAsyncAction zoom_out (fn_zoom_out, this, 1)
+  NativeAction zoom_in (fn_zoom_in, this, 1)
+  NativeAction zoom_out (fn_zoom_out, this, 1)
 
 
   map.move_left     -> move_left_l1
-  move_left_l1.end  -> move_left_l2
+  move_left_l1  -> move_left_l2
   map.move_right    -> move_right_l1
-  move_right_l1.end -> move_right_l2
+  move_right_l1 -> move_right_l2
   map.move_up       -> move_up_l1
-  move_up_l1.end    -> move_up_l2
+  move_up_l1    -> move_up_l2
   map.move_down     -> move_down_l1
-  move_down_l1.end  -> move_down_l2
+  move_down_l1  -> move_down_l2
 
   int cur_row = $map.row_0
   int cur_col = $map.col_0
@@ -142,18 +142,18 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
   ref_y_0.value   =:> t0_y
   ref_x_0.value   =:> t0_x
 
-  move_left_l1.end  -> set_tile_0 : (this) {
+  move_left_l1 -> set_tile_0 : (this) {
     setRef (this.ref_corner_tile, this.layers.[1].tiles.[1].[1])
   }
-  move_right_l1.end -> set_tile_0
-  move_up_l1.end    -> set_tile_0
-  move_down_l1.end  -> set_tile_0
+  move_right_l1 -> set_tile_0
+  move_up_l1    -> set_tile_0
+  move_down_l1  -> set_tile_0
 
 
   map.zoom_in_req->zoom_in
   map.zoom_out_req->zoom_out
 
-  zoom_in.end->set_corner_tile_in:(this) {
+  zoom_in->set_corner_tile_in:(this) {
     this.buff_lon = this.pointer_lon
     this.buff_lat = this.pointer_lat
     this.new_t0_x = this.layers.[2].tiles.[1].[1].x0
@@ -161,7 +161,7 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
   }
   set_corner_tile_in->map.prepare_zoom_in
 
-  zoom_out.end->set_corner_tile_out:(this) {
+  zoom_out->set_corner_tile_out:(this) {
     this.buff_lon = this.pointer_lon
     this.buff_lat = this.pointer_lat
     this.new_t0_x = this.layers.[2].tiles.[1].[1].x0

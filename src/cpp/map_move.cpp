@@ -106,7 +106,7 @@ fn_zoom_out (djnn::CoreProcess *src)
 void 
 fn_move_right_l1 (djnn::CoreProcess *src)
   {
-    djnn::get_exclusive_access(DBG_GET);
+    //djnn::get_exclusive_access(DBG_GET);
     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
 
     int nbCol = getInt (data->find_child ("nbCols"));
@@ -115,7 +115,7 @@ fn_move_right_l1 (djnn::CoreProcess *src)
 
     djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
     if (tiles == nullptr) {
-      djnn::release_exclusive_access(DBG_REL);
+      //djnn::release_exclusive_access(DBG_REL);
       return;
     }
 
@@ -139,7 +139,7 @@ fn_move_right_l1 (djnn::CoreProcess *src)
         img_x->set_value (x1 - 256, true);  
       }
     }
-    djnn::release_exclusive_access(DBG_REL);
+    //djnn::release_exclusive_access(DBG_REL);
   }
 
   void
