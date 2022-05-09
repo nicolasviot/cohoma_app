@@ -45,10 +45,10 @@ endif
 em_ext_libs_path := ../../../djnn-emscripten-ext-libs
 
 # ---------------------------------------
-# save user-provided CXXFLAGS, and use CXXFLAGS as the utltimate compiler configuration
+# save user-provided CXXFLAGS, and use CXXFLAGS as the ultimate compiler configuration
 
 CXXFLAGS_CFG := $(CXXFLAGS)
-CXXFLAGS :=
+#CXXFLAGS :=
 
 # cross-compile support
 ifndef cross_prefix

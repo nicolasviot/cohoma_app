@@ -19,7 +19,9 @@ srcs_sma ?= src/ClockComponent.sma src/Reticule.sma src/Strip.sma src/Slider.sma
 # native sources
 srcs_other ?= src/cpp/coords-utils.cpp src/cpp/map_move.cpp src/cpp/tiles_manager.cpp \
              src/ros_node.cpp\
-            
+
+build/src/ros_node.o: CXXFLAGS+=-fno-implicit-templates
+
 # or
 #srcs_other := $(shell find $(src_dir) -name "*.cpp")
 
