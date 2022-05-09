@@ -21,6 +21,7 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
 
 //APP-6A
     String usage_status ("default")
+    Int id(0)
     Int node_col (#CCCCCC)
     Int white_col (#FFFFFF)
     Int black_col (#000000)
@@ -115,13 +116,46 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
     }
     usage_status => status_switch.state
 
+
+
+    Spike leave
+    Spike right_press
+    Spike enter
+FSM tooltip{
+    State idle
+    State entered{
+        Timer t (500)
+    }
+    State display_tooltip{
+        Translation t(20, 0)
+
+        FillOpacity fo (0.8)
+        FillColor light_grey (204, 204, 204)
+        
+        Rectangle bg (0, 0, 50, 20, 5, 5)
+        FillColor _ (0, 0, 0)
+        Text legend (0, 0, "Node 0")
+        legend.x =:> bg.x
+        legend.y - 12 =:> bg.y
+        legend.width =:> bg.width
+        legend.height =:> bg.height
+        "Node " + toString(id) + " " + usage_status =:> legend.text
+
+
+    }
+    idle -> entered (enter)
+    entered -> display_tooltip(entered.t.end)
+    entered -> idle (leave)
+    display_tooltip -> idle (leave)
+}
+
     FillOpacity _ (0)
     OutlineOpacity _(0)
     Circle interact_mask (0, 0, 30)
-      Spike leave
-    Spike right_press
+
     interact_mask.leave -> leave
     interact_mask.right.press -> right_press
+    interact_mask.enter -> enter
     c.cx =:> interact_mask.cx
     c.cy =:> interact_mask.cy
 
@@ -136,7 +170,7 @@ FSM enterLeave {
     inside -> idle (interact_mask.leave)
 }
 
-   
+
   FSM drag_fsm {
         State no_drag {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty

@@ -14,5 +14,5 @@ ManagerId (int _selected){
 	Ref current_trap(0)
 	Ref entered_trap(0)
 
-	selected_id =:> lp.input
+	//selected_id =:> lp.input
 }

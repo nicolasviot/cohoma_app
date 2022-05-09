@@ -24,7 +24,6 @@ Dispatcher (Process input, Process _list) {
 Int _battery_percentage(0)
 Double _battery_voltage(0)
 Double _altitude_msl(0)
-Double _compass_heading(0)
 Bool _emergency_stop(0)
 Bool _failsafe(0)
 Int _operation_mode(0)
@@ -36,10 +35,10 @@ input.compass_heading =:> _compass_heading
 input.emergency_stop =:> _emergency_stop
 input.failsafe =:> _failsafe
 input.operation_mode =:> _operation_mode
-LogPrinter lp("test compass")
+//LogPrinter lp("test compass")
 msg aka input
 
-input.compass_heading =:> lp.input
+//input.compass_heading =:> lp.input
 
 
 	my_list aka _list

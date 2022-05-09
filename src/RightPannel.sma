@@ -5,6 +5,7 @@ use base
 import Button
 import ItineraryPannel
 import CandidateTaskFilter
+import ClockComponent
 
 
 _define_
@@ -54,21 +55,25 @@ CandidateTaskFilter _(frame)
 
 Translation _ (0, 100)
 Component IObuttons{
-	Button send_plan_req (frame, " request plan ", 20, 20)
+/*	Button send_plan_req (frame, " request plan ", 20, 150)
 	send_plan_req.click -> plan_request
-	Button valid_plan (frame, " validate plan ", 100, 20)
+*/	
+	Button valid_plan (frame, " validate plan ", 100, 150)
 	valid_plan.click -> validate_plan
 
-	Button update_graph_but (frame, "send graph", 20, 150)
+	Button update_graph_but (frame, "send graph", 20, 200)
 	update_graph_but.click -> update_graph
 
-	Button test_multiple_itineraries_button (frame, "test multiple itineraries", 100, 150)
+	/*Button test_multiple_itineraries_button (frame, "test multiple itineraries", 100, 150)
 	test_multiple_itineraries_button.click -> test_multiple_itineraries_spike
-
+*/
 	Button test_allocation_button(frame, "test allocation", 20, 250)
 	test_allocation_button.click -> test_allocation_spike
+	
 	Button test_lima_button(frame, "test lima", 100, 250)
 	test_lima_button.click -> test_lima_spike
+
+	ClockComponent clock(200, 250)
 }
 
 

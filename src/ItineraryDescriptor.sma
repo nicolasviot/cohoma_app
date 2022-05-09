@@ -17,7 +17,7 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 	Translation t (dx, dy)
 
 	// ex msg : "b39409be39-39090 Planning shortest|safest|tradeoff OK a path including PPO ... with cost 286.458"
-	String description_input ("b39409be39-39090 Planning safest OK a path including PPO ... with cost 286.458")
+	String description_input ("")
 	Regex regex (".* Planning (\\S*) .* cost (\\S*)")
 	String cost ("..")
 	String legend ("Itinerary: ")

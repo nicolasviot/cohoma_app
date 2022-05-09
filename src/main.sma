@@ -305,8 +305,21 @@ Component root {
   Component right_pannel {
     Translation t (1424, 0)
     Rectangle bg (0, 0, 700, 900)
-    RightPannel right_pannel (root, f)
 
+    Switch ctrl_tab(plan){
+      Component plan{
+
+        RightPannel right_pannel (root, f)
+
+      }
+      Component supervise{
+      
+      }
+    }
+    right_pannel aka ctrl_tab.plan.right_pannel
+
+
+   
   }
 
   // Ros node w/ all sub and pub fonctions
@@ -380,7 +393,7 @@ Component root {
   Spike addEdgeSpike1
   Spike addEdgeSpike2
   del -> clear_all
-  LogPrinter lp ("debug selected_id dans le main")
+  //LogPrinter lp ("debug selected_id dans le main")
   Ref null_ref (0)
   RefProperty current_addedge_node (nullptr)
   DerefDouble ddx (current_addedge_node, "wpt/screen_translation/tx", DJNN_GET_ON_CHANGE)
@@ -414,7 +427,7 @@ Component root {
       l.map.pointer_lon =:> temporary.lon*/
       OutlineOpacity _ (0.5)
       OutlineWidth _ (5)
-      OutlineColor _ (180, 90, 140)
+      OutlineColor _ (234, 234, 234)
       Translation pos (0, 0)
     
       Line temp_shadow_edge (0, 0, 0, 0)
@@ -425,7 +438,7 @@ Component root {
       }
       l.map.layers.navgraph.manager.selected_id =:> index
 
-      index =:> lp.input
+      //index =:> lp.input
 
       index -> (root){
         root.addEdge.preview_on.temp_shadow_edge.x1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.screen_translation.tx

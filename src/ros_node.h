@@ -78,7 +78,7 @@ class RosNode : public FatProcess, public ExternalSource
     void send_msg_lima();
     #endif
     void test_multiple_itineraries();
-
+    void write_to_log (string, string);
  
    private:
     const std::string _topic_name;
@@ -89,7 +89,9 @@ class RosNode : public FatProcess, public ExternalSource
 
     //navgraph fields
     TextProperty navgraph_data;
-    CoreProcess *_nodes, *_edges, *_shadow_edges, *_task_edges, *_task_areas, *_task_traps, *_traps, *_exclusion_areas, *_limas; 
+    CoreProcess *_nodes, *_edges, *_shadow_edges, *_traps;
+    CoreProcess *_task_edges, *_task_areas, *_task_traps;
+    CoreProcess *_exclusion_areas, *_limas; 
     Component *_itineraries_list;
     RefProperty *_ref_curent_itenerary;
     NativeAction* _edge_released_na;

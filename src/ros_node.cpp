@@ -12,6 +12,10 @@
 #include <nlohmann/json.hpp>
 
 
+#include <iostream>
+
+#include <fstream>
+
 #include "Node.h"
 #include "NavGraph.h"
 #include "Edge.h"
@@ -156,7 +160,6 @@ RosNode::impl_activate ()
   _traps = _parent->find_child("parent/l/map/layers/traps/traplayer/traps");
   _exclusion_areas = _parent->find_child("parent/l/map/layers/site/layer/exclusion_areas");
   _limas = _parent->find_child("parent/l/map/layers/site/layer/limas");
-  
   _frame = _parent->find_child("parent/f");
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
   _id_curent_itenerary  = dynamic_cast<TextProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
@@ -287,17 +290,17 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
             return;
         }
     }
-    std::cerr << "about to get graph attributes" << std::endl;
+    //std::cerr << "about to get graph attributes" << std::endl;
     // graph attributes
     if (j_graph.contains("directed") && j_graph["directed"].get<bool>()) {
         std::cerr << "graph is said to be directed! NavGraph are only undirected: the results graph may not be what expected!" << std::endl;
     }
-    std::cerr << "about to parse nodes" << std::endl;
+    //std::cerr << "about to parse nodes" << std::endl;
     // nodes
     for (int i=j_graph["nodes"].size() - 1; i >=0; i--){
     //for (auto& node: j_graph["nodes"]) {
         auto& node = j_graph["nodes"][i];
-        std::cerr << "in from json parsing nodes" << std::endl;
+        //std::cerr << "in from json parsing nodes" << std::endl;
         auto& m = node["metadata"];
         bool isPPO = m["compulsory"].get<bool>();
         ParentProcess* node_ = Node(_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
@@ -459,9 +462,9 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
     }
   }
   _id_curent_itenerary->set_value (first_id, true);
-  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/description"))->set_value(msg->itineraries[0].description, true);
-  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/second/description"))->set_value(msg->itineraries[1].description, true);
-  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/third/description"))->set_value(msg->itineraries[2].description, true);
+  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/description_input"))->set_value(msg->itineraries[0].description, true);
+  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/second/description_input"))->set_value(msg->itineraries[1].description, true);
+  ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/third/description_input"))->set_value(msg->itineraries[2].description, true);
   ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/first/itinerary_id"))->set_value(msg->itineraries[0].id, true);
   ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/second/itinerary_id"))->set_value(msg->itineraries[1].id, true);
   ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/third/itinerary_id"))->set_value(msg->itineraries[2].id, true);
@@ -1009,12 +1012,13 @@ uint32[] local_ids                   # locals ids of the detection per robot
 void 
 RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
 /*
-  # Describe the mission site
+# Describe the mission site
 geographic_msgs/GeoPoint start_point
 icare_interfaces/GeoPolygon limits
-icare_interfaces/GeoPolygon[] phases
 icare_interfaces/RestrictedZone[] zones
-icare_interfaces/GeoPolygon[] limas
+icare_interfaces/Lima[] limas
+
+
 */
   /*# Restricted Zones
 icare_interfaces/GeoPolygon polygon
@@ -1034,31 +1038,31 @@ ParentProcess* area_to_add;
    for (int i=0; i < msg.zones.size(); i++){
     if(msg.zones[i].type == 0){
 
-            area_to_add = ExclusionArea(_task_areas , "", _map, "unknown");
+            area_to_add = ExclusionArea(_exclusion_areas , "", _map, "unknown");
 
     }
     if(msg.zones[i].type == 1){
 
-            area_to_add = ExclusionArea(_task_areas , "", _map, "RFA");
+            area_to_add = ExclusionArea(_exclusion_areas , "", _map, "RFA");
     }
 
    if(msg.zones[i].type == 2){
 
-            area_to_add = ExclusionArea(_task_areas , "", _map, "NFA");
+            area_to_add = ExclusionArea(_exclusion_areas , "", _map, "NFA");
    }
    if(msg.zones[i].type == 3){
-            area_to_add = ExclusionArea(_task_areas , "", _map, "NFZ");
+            area_to_add = ExclusionArea(_exclusion_areas , "", _map, "NFZ");
    }
   if(msg.zones[i].type == 4){
-  area_to_add = ExclusionArea(_task_areas , "", _map, "FFA");
+  area_to_add = ExclusionArea(_exclusion_areas , "", _map, "FFA");
   }
 
   if(msg.zones[i].type == 5){
-   area_to_add = ExclusionArea(_task_areas , "", _map, "ROZ_ALL");
+   area_to_add = ExclusionArea(_exclusion_areas , "", _map, "ROZ_ALL");
   }
 
   if(msg.zones[i].type == 6){
-   area_to_add = ExclusionArea(_task_areas , "", _map, "ROZ_GROUND");
+   area_to_add = ExclusionArea(_exclusion_areas , "", _map, "ROZ_GROUND");
 }
 
 
@@ -1097,6 +1101,18 @@ for (int i=0; i < msg.limas.size(); i++){
     }
   }
 
+for (int i=0; i<msg.limits.points.size(); i++){
+  ParentProcess *limits_to_add = ExclusionArea(_exclusion_areas, "", _map, "limits");
+  auto* limit_summit = TaskAreaSummit(limits_to_add, std::string("summit_") + std::to_string(i), _map, msg.limits.points[i].latitude, msg.limits.points[i].longitude);
+  ((DoubleProperty*)limit_summit->find_child("alt"))->set_value(msg.limits.points[i].altitude, true);
+  auto* point = new PolyPoint(limits_to_add->find_child("area"), std::string("pt_") + std::to_string(i), 0, 0);
+   
+      new Connector (limits_to_add, "x_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/x")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/x")), 1);
+
+      new Connector (limits_to_add, "x_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/y")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/y")), 1);
+    
+}
+
 }
 void 
 RosNode::send_validation_tasks(){
@@ -1109,7 +1125,29 @@ RosNode::send_validation_tasks(){
 
 #endif
 
+//Util : 
+void write_to_log (string _filename, string s) {
 
+  string filename(_filename);
+
+  std::fstream file_out;
+
+
+
+  file_out.open(filename, std::ios_base::app);
+
+  if (!file_out.is_open()) {
+
+  std::cout << "failed to open " << filename << '\n';
+
+  } else {
+
+  file_out << s << std::endl;
+
+  }
+  file_out.close();
+
+}
 
 void
 RosNode::run () {

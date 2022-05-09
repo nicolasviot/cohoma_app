@@ -18,6 +18,7 @@ Spike pressed
 
 manager aka _manager_id
 GraphNode wpt(map, f,  $lat, $lon, 80, 80, 80)
+id - 1 =:> wpt.id
 wpt.usage_status => status
 lat =:> wpt.lat
 lon =:> wpt.lon
