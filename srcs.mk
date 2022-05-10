@@ -18,7 +18,7 @@ srcs_sma ?= src/ClockComponent.sma src/Reticule.sma src/Strip.sma src/Slider.sma
 
 # native sources
 srcs_other ?= src/cpp/coords-utils.cpp src/cpp/map_move.cpp src/cpp/tiles_manager.cpp \
-             src/ros_node.cpp #src/ros_node_inst.cpp
+             src/ros_node_proxy.cpp src/ros_node.cpp #src/ros_node_inst.cpp
 
 #build/src/ros_node.o: CXXFLAGS+=-fno-implicit-templates
 

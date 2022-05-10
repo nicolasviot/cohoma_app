@@ -1,128 +1,266 @@
 #include "ros_node.h"
 
+#include "exec_env/global_mutex.h"
+//#include "core/execution/graph.h"
+#include "core/control/binding.h"
+#include "core/ontology/coupling.h"
+#include "base/connector.h"
+#include "core/core-dev.h"
+#include "core/tree/list.h"
+#include "gui/shape/poly.h"
+
+#include <nlohmann/json.hpp>
+
+
+#include <iostream>
+
+//#include <fstream>
+
+#include "Node.h"
+#include "NavGraph.h"
+#include "Edge.h"
+#include "math.h"
+#include "Trap.h"
+#include "TaskTrap.h"
+#include "TaskAreaSummit.h"
+#include "TaskArea.h"
+#include "TaskEdge.h"
+#include "ExclusionArea.h"
+#include "Lima.h"
 using std::placeholders::_1;
 
 using namespace djnn;
 
 
 
-RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* manager, RosNodeProxy* proxy) :
+RosNodeProxy::RosNodeProxy (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* manager) :
 FatProcess (n),
-ExternalSource (n),
+//ExternalSource (n),
   //arguments
-//_map (my_map),
-//_manager (manager),
-_ros_node_proxy (proxy)
+_map (my_map),
+_manager (manager),
 
-  #ifndef NO_ROS
-  //ROS
-,qos_best_effort(10),
-qos(1),
-qos_transient(1)
-  #endif
+  //navgraph fields
+navgraph_data(this, "data", ""),
 
+  //robot_state fields
+_robot_id(this, "robot_id", 0),
+_battery_percentage(this, "battery_percentage", 0),
+_battery_voltage(this, "battery_voltage", 0),
+_latitude(this, "latitude", 0),
+_longitude(this, "longitude", 0),
+_altitude_msl(this, "altitude_msl", 0),
+_compass_heading(this, "compass_heading", 0),
+_emergency_stop(this, "emergency_stop", 0),
+_failsafe(this, "failsafe", 0),
+_operation_mode(this, "operation_mode", 0),
+
+  //Planif VAB
+_current_plan_id_vab(this, "current_plan_id", 0),
+_start_plan_vab_id(this, "start_plan_id", 0),
+_end_plan_vab_id(this, "end_plan_id", 0)
 {
 
-  #ifndef NO_ROS
-  _node = std::make_shared<rclcpp::Node>(n);
-  // reliable ~= TCP connections => for the navgraph msgs
-  // best_effort allows to drop some pacquets => for robot_state msgs
-
-  
-  qos.reliable();
-  qos.durability_volatile();
-  qos_best_effort.best_effort();
-  qos_best_effort.durability_volatile();
-  qos_transient.reliable();
-  qos_transient.transient_local();
-  #endif
+  _ros_node = new RosNode(parent, n+"_real", my_map, manager, this );
 
   finalize_construction (parent, n);
 }
 
 void
-RosNode::impl_activate ()
-{ 
+RosNodeProxy::impl_activate ()
+{
+  _ros_node->impl_activate();
 
-  #ifndef NO_ROS
-  //subscriptions
-  sub_navgraph =_node->create_subscription<icare_interfaces::msg::StringStamped>( 
-  "/navgraph", qos_transient, std::bind(&RosNode::receive_msg_navgraph, this, _1)); //Replace 10 with qosbesteffort
-  
-  sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>(
-    "/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
+  //activate navgraph fields
+  navgraph_data.activate();
 
-  sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItineraryList>(
-    "/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary_loop, this, _1));
 
-  sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItinerary>(
-    "/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, this, _1));
+  //activate robot_state fields
+  _robot_id.activate();
+  _battery_percentage.activate();
+  _battery_voltage.activate();
+  _latitude.activate();
+  _longitude.activate();
+  _altitude_msl.activate();
+  _compass_heading.activate();
+  _emergency_stop.activate();
+  _failsafe.activate();
+  _operation_mode.activate();
 
-  sub_candidate_tasks = _node->create_subscription<icare_interfaces::msg::Tasks>(
-    "/candidate_tasks", qos, std::bind(&RosNode::receive_msg_allocated_tasks, this, _1));
+  _current_plan_id_vab.activate();
+  _start_plan_vab_id.activate();
+  _end_plan_vab_id.activate();
 
-  sub_allocation = _node->create_subscription<icare_interfaces::msg::Allocation>(
-    "/allocation", qos, std::bind(&RosNode::receive_msg_allocation, this, _1));
+  _nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
+  _edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
+  _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
+  _task_edges = _parent->find_child("parent/l/map/layers/tasks/tasklayer/edges");
+  _task_areas = _parent->find_child("parent/l/map/layers/tasks/tasklayer/areas");
+  _task_traps = _parent->find_child("parent/l/map/layers/tasks/tasklayer/traps");
+  _traps = _parent->find_child("parent/l/map/layers/traps/traplayer/traps");
+  _exclusion_areas = _parent->find_child("parent/l/map/layers/site/sitelayer/exclusion_areas");
+  _limas = _parent->find_child("parent/l/map/layers/site/sitelayer/limas");
+  _frame = _parent->find_child("parent/f");
+  _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
+  _id_curent_itenerary  = dynamic_cast<TextProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
+  _ref_curent_itenerary = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/ref_current_itinerary"));
+  _edge_released_na = dynamic_cast<NativeAction*> (_parent->find_child ("parent/l/map/layers/itineraries/edge_released_na"));
+  //_send_lima_na = dynamic_cast<NativeAction*> (_parent->find_child("parent/ros_manager/send_lima_na"))
+  _vab = _parent->find_child("parent/l/map/layers/satelites/vab");
+  _agilex1 = _parent->find_child("parent/l/map/layers/satelites/agilex1");
+  _agilex2 = _parent->find_child("parent/l/map/layers/satelites/agilex2");
+  _lynx = _parent->find_child("parent/l/map/layers/satelites/lynx");
+  _spot = _parent->find_child("parent/l/map/layers/satelites/spot");
+  _drone = _parent->find_child("parent/l/map/layers/satelites/drone");
 
-  sub_traps = _node->create_subscription<icare_interfaces::msg::TrapList>(
-    "/traps", qos, std::bind(&RosNode::receive_msg_trap, this, _1));
+  _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_wpt"));
+  _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/entered_wpt"));
 
-  sub_site = _node->create_subscription<icare_interfaces::msg::Site>(
-    "/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
 
-  publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>(
-    "/planning_request", qos);
-  publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>(
-    "/validation", qos);
-  publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped>(
-    "/navgraph_update", qos_transient);
-  publisher_tasks = _node->create_publisher<icare_interfaces::msg::Tasks>(
-    "/tasks", qos);
-  publisher_validation_tasks = _node->create_publisher<icare_interfaces::msg::StringStamped>(
-    "/validate", qos);
-  publisher_lima = _node->create_publisher<icare_interfaces::msg::LimaCrossed>(
-    "/lima", qos);
-  #endif
 
   //start the thread
-  ExternalSource::start ();  
+  //ExternalSource::start ();  
 }
 
 void
-RosNode::impl_deactivate ()
+RosNodeProxy::impl_deactivate ()
 {
   // Here we should disable the subcription but it 
   // seems there is no way to do it properly
   // some insights here:
   // https://answers.ros.org/question/354792/rclcpp-how-to-unsubscribe-from-a-topic/
 
-#ifndef NO_ROS
-  sub_navgraph.reset ();
-  sub_robot_state.reset ();
-  sub_graph_itinerary_loop.reset ();
-  sub_graph_itinerary_final.reset ();
-  sub_candidate_tasks.reset ();
-  sub_allocation.reset ();
+  _ros_node->impl_deactivate();
 
-#endif
+  //deactivate navgraph fields
+  navgraph_data.deactivate();
 
-  ExternalSource::please_stop ();
+  //deactivate robot_state fields
+  _robot_id.deactivate();
+  _battery_percentage.deactivate();
+  _battery_voltage.deactivate();
+  _latitude.deactivate();
+  _longitude.deactivate();
+  _altitude_msl.deactivate();
+  _compass_heading.deactivate();
+  _emergency_stop.deactivate();
+  _failsafe.deactivate();
+  _operation_mode.deactivate();
+
+  _current_plan_id_vab.deactivate();
+  _start_plan_vab_id.deactivate();
+  _end_plan_vab_id.deactivate();
+
+  //ExternalSource::please_stop ();
 }
-
-#ifndef NO_ROS
 
 // callback for navgraph msg (contains the navigation graph)
 void 
-RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg) {
-  _ros_node_proxy->receive_msg_navgraph(msg->data);
+RosNodeProxy::receive_msg_navgraph (const string& msg) {
+  get_exclusive_access(DBG_GET);
+
+  _current_wpt->set_value ((CoreProcess*)nullptr, true);
+  _entered_wpt->set_value ((CoreProcess*)nullptr, true);
+
+  Container *_edge_container = dynamic_cast<Container *> (_edges);
+  if (_edge_container) {
+    int _edge_container_size = _edge_container->children ().size ();
+    for (int i = _edge_container_size - 1; i >= 0; i--) {
+      auto *item = _edge_container->children ()[i];
+      if (item) {
+        item->deactivate ();
+        if (item->get_parent ())
+          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+        item->schedule_delete ();
+        item = nullptr;
+      }
+    }
+  }
+
+  Container *_shadow_edges_container = dynamic_cast<Container *>( _shadow_edges);
+  if (_shadow_edges_container) {
+    int _shadow_edges_container_size = _shadow_edges_container->children ().size ();
+    for (int i = _shadow_edges_container_size - 1; i >= 0; i--) {
+      auto *item = _shadow_edges_container->children ()[i];
+      if (item) {
+        item->deactivate ();
+        if (item->get_parent ())
+          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+        item->schedule_delete ();
+        item = nullptr;
+      }
+    }
+  }
+
+  Container *_nodes_container = dynamic_cast<Container *> (_nodes);
+  if (_nodes_container) {
+    int _nodes_container_size = _nodes_container->children ().size ();
+    for (int i = _nodes_container_size - 1; i >= 0; i--) {
+      auto *item = _nodes_container->children ()[i];
+      if (item) {
+        item->deactivate ();
+        if (item->get_parent ())
+          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+        item->schedule_delete ();
+        item = nullptr;
+      }
+    }
+  }
+
+  nlohmann::json j = nlohmann::json::parse(msg);
+  nlohmann::json j_graph;
+  if (j.contains("graph"))
+    j_graph = j["graph"];
+  else if (j.contains("graphs")) {
+    if (j.size() > 1) {
+      std::cerr << "Several graphs defined in the JSON structure! loading the first one..." << std::endl;
+      j_graph = j["graphs"][0];
+    }
+    else if (j.size() == 0) {
+      std::cerr << "No graph defined in the JSON structure!" << std::endl;
+      return;
+    }
+  }
+    //std::cerr << "about to get graph attributes" << std::endl;
+    // graph attributes
+  if (j_graph.contains("directed") && j_graph["directed"].get<bool>()) {
+    std::cerr << "graph is said to be directed! NavGraph are only undirected: the results graph may not be what expected!" << std::endl;
+  }
+    //std::cerr << "about to parse nodes" << std::endl;
+    // nodes
+  for (int i=j_graph["nodes"].size() - 1; i >=0; i--){
+    //for (auto& node: j_graph["nodes"]) {
+    auto& node = j_graph["nodes"][i];
+        //std::cerr << "in from json parsing nodes" << std::endl;
+    auto& m = node["metadata"];
+    bool isPPO = m["compulsory"].get<bool>();
+    ParentProcess* node_ = Node(_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
+     0, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _manager);
+
+
+  }
+  std::cerr << "about to parse edges" << std::endl;
+    // edges
+  for (auto& edge: j_graph["edges"]) {
+
+
+    std::string source = edge["source"].get<std::string>();
+    std::string target = edge["target"].get<std::string>();
+    auto& m = edge["metadata"];
+    double length =m["length"].get<double>();
+    ParentProcess* edge_ = Edge(_edges, "", std::stoi(source) + 1, 
+      std::stoi(target) + 1,length, _nodes);
+
+  }
+  GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
 }
 
-#endif
 void
-RosNode::test_multiple_itineraries(){
+RosNodeProxy::test_multiple_itineraries(){
   #if 0
   //debug
-  //std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
+  //std::cerr << "in RosNodeProxy::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
 
   //debug ros_msg
   std::vector<std::pair<string,std::vector<int>>> msg = { \
@@ -134,7 +272,7 @@ RosNode::test_multiple_itineraries(){
     int unselected = 0x232323;
     int selected = 0x1E90FF;
 
-  //std::cerr << "in RosNode::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
+  //std::cerr << "in RosNodeProxy::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
 
   //schedule delete old content
     int itineraries_list_size =  _itineraries_list->children ().size ();
@@ -150,7 +288,7 @@ RosNode::test_multiple_itineraries(){
     }
     _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
 
-  //std::cerr << "in RosNode::test_multiple_itineraries - size after "  << _itineraries_list->children ().size () <<std::endl;
+  //std::cerr << "in RosNodeProxy::test_multiple_itineraries - size after "  << _itineraries_list->children ().size () <<std::endl;
 
   /*
     _itineraries_list {
@@ -185,14 +323,14 @@ RosNode::test_multiple_itineraries(){
 
   //debug
   //int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
-  //std::cerr << "in RosNode::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
+  //std::cerr << "in RosNodeProxy::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
   #endif
   }
 #ifndef NO_ROS
   void 
-  RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
+  RosNodeProxy::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
  //debug
-  //std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
+  //std::cerr << "in RosNodeProxy::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
 
   get_exclusive_access(DBG_GET);
   //debug ros_msg
@@ -220,7 +358,7 @@ RosNode::test_multiple_itineraries(){
     int unselected = 0x232323;
     int selected = 0x1E90FF;
 
-  //std::cerr << "in RosNode::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
+  //std::cerr << "in RosNodeProxy::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
 
   //schedule delete old content
     int itineraries_list_size =  _itineraries_list->children ().size ();
@@ -268,7 +406,7 @@ RosNode::test_multiple_itineraries(){
   }
 
   void 
-  RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
+  RosNodeProxy::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
   
   get_exclusive_access(DBG_GET);
   // export to result layer
@@ -311,7 +449,7 @@ RosNode::test_multiple_itineraries(){
 
 //callback for robot_state msg (contains data on one robot)
   void 
-  RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
+  RosNodeProxy::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
     RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
 
 #if 0
@@ -430,7 +568,7 @@ RosNode::test_multiple_itineraries(){
 
 
   void 
-  RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
+  RosNodeProxy::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     std::cerr << "received some traps to display" << std::endl;
     get_exclusive_access(DBG_GET);
     for (int k= 0; k < msg.traps.size(); k ++){
@@ -490,7 +628,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
   }
 
   void 
-  RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
+  RosNodeProxy::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
 
     get_exclusive_access(DBG_GET);
 
@@ -575,8 +713,6 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     for (int i=0; i < msg.ugv_edges.size(); i++){
     //Create ugv_edges
       ParentProcess* edge_to_add = TaskEdge(_task_edges, "", _map, std::stoi(msg.ugv_edges[i].source) + 1, std::stoi(msg.ugv_edges[i].target) + 1, _nodes);
-      ((DoubleProperty*)edge_to_add->find_child("length"))->set_value(msg.ugv_edges[i].length, true);
-      ((DoubleProperty*)edge_to_add->find_child("explored"))->set_value(msg.ugv_edges[i].explored, true);
     }
     for (int i=0; i <msg.trap_identifications.size(); i++){
     //Create trap_tasks
@@ -613,19 +749,17 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 
 
   void 
-  RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
+  RosNodeProxy::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
     
     //TODO
     //get_exclusive_access(DBG_GET);
     /* .. Traitement .. */
     //GRAPH_EXEC;
     //release_exclusive_access(DBG_REL);
-  
-
   }
 
   void
-  RosNode::send_msg_lima(int id){
+  RosNodeProxy::send_msg_lima(int id){
 
     icare_interfaces::msg::LimaCrossed message = icare_interfaces::msg::LimaCrossed();
 //message.id = id;
@@ -636,7 +770,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 
 
   void
-  RosNode::send_msg_planning_request(){
+  RosNodeProxy::send_msg_planning_request(){
     std::cerr << "in send planning request" << std::endl;
 
     /*get_exclusive_access(DBG_GET);
@@ -670,7 +804,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
   }
 
   void 
-  RosNode::send_msg_navgraph_update(){
+  RosNodeProxy::send_msg_navgraph_update(){
 
 /*    get_exclusive_access(DBG_GET);
 */    CoreProcess* nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
@@ -749,7 +883,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 }
 
 void 
-RosNode::send_validation_plan(){
+RosNodeProxy::send_validation_plan(){
 
   std::cerr << "in validation plan" << std::endl;
   std::cerr << _parent << std::endl;
@@ -763,7 +897,7 @@ RosNode::send_validation_plan(){
 }
 
 void 
-RosNode::send_selected_tasks(){
+RosNodeProxy::send_selected_tasks(){
 //TODO
 
  /*get_exclusive_access(DBG_GET);
@@ -814,9 +948,9 @@ uint32[] local_ids                   # locals ids of the detection per robot
 for (auto edge: ((djnn::List*)_task_edges)->children()){
   if (dynamic_cast<BoolProperty*> (edge->find_child ("selected"))->get_value ()){
     icare_interfaces::msg::GraphEdge edge_to_add = icare_interfaces::msg::GraphEdge();
-    edge_to_add.source = std::to_string(dynamic_cast<IntProperty*> (edge->find_child ("id_source"))->get_value () - 1);
+    edge_to_add.source = dynamic_cast<IntProperty*> (edge->find_child ("id_source"))->get_value () - 1;
 
-    edge_to_add.target = std::to_string(dynamic_cast<IntProperty*> (edge->find_child ("id_dest"))->get_value () - 1);
+    edge_to_add.target = dynamic_cast<IntProperty*> (edge->find_child ("id_dest"))->get_value () - 1;
     edge_to_add.length = dynamic_cast<DoubleProperty*> (edge->find_child("length"))->get_value();
     edge_to_add.explored = dynamic_cast<DoubleProperty*> (edge->find_child("explored"))->get_value();
     message.ugv_edges.push_back(edge_to_add);
@@ -847,7 +981,7 @@ publisher_tasks->publish(message);
   release_exclusive_access(DBG_REL);
 */}
 void 
-RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
+RosNodeProxy::receive_msg_site(const icare_interfaces::msg::Site msg){
 
 
   get_exclusive_access(DBG_GET);
@@ -935,7 +1069,7 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
 
         new Connector (lima_to_add, "y_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
        
-      /*  new NativeAction (lima_to_add, "send_lima_id_na", RosNode::send_msg_lima, msg.limas[i].index, true);
+      /*  new NativeAction (lima_to_add, "send_lima_id_na", RosNodeProxy::send_msg_lima, msg.limas[i].index, true);
 
         new Binding (lima_to_add, "lima_pressed", lima_to_add, "pressed", lima_to_add, "send_lima_id_na");
       */  
@@ -962,7 +1096,7 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
    release_exclusive_access(DBG_REL);
   }
   void 
-  RosNode::send_validation_tasks(){
+  RosNodeProxy::send_validation_tasks(){
 //TODO
 
 //  message.header.stamp = _node->get_clock()->now();
@@ -998,10 +1132,3 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
   }
 */
 
-  void
-  RosNode::run () {
-  #ifndef NO_ROS
-    rclcpp::spin(_node);
-    rclcpp::shutdown();
-  #endif
-  }

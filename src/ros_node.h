@@ -1,3 +1,5 @@
+#pragma once
+
 #include <functional>
 #include <memory>
 #include <string>
@@ -30,18 +32,10 @@
 #endif
 
 //Djnn-smala stuff
-#include "core/ontology/process.h"
-#include "core/ontology/coupling.h"
-#include "core/control/action.h"
-#include "core/property/text_property.h"
-#include "core/property/double_property.h"
-#include "core/property/int_property.h"
-#include "core/property/bool_property.h"
-#include "core/property/ref_property.h"
-#include "core/tree/component.h"
 #include "exec_env/external_source.h"
-#include "core/control/native_action.h"
+//#include "core/control/native_action.h"
 
+#include "ros_node_proxy.h"
 
 //C++ stuff
 
@@ -49,10 +43,12 @@
 
 using namespace djnn;
 
+class RosNodeProxy;
+
 class RosNode : public FatProcess, public ExternalSource
   {
   public:
-    RosNode (ParentProcess* parent, const string& n, CoreProcess* map, CoreProcess* manager);
+    RosNode (ParentProcess* parent, const string& n, CoreProcess* map, CoreProcess* manager, RosNodeProxy*);
     ~RosNode() {}
 
     void impl_activate () override;
@@ -84,44 +80,7 @@ class RosNode : public FatProcess, public ExternalSource
    private:
     const std::string _topic_name;
 
-    //Arguments
-	  CoreProcess* _map, *_manager;
-	
-
-    //navgraph fields
-    TextProperty navgraph_data;
-    CoreProcess *_nodes, *_edges, *_shadow_edges, *_traps;
-    CoreProcess *_task_edges, *_task_areas, *_task_traps;
-    CoreProcess *_exclusion_areas, *_limas; 
-    Component *_itineraries_list;
-    RefProperty *_ref_curent_itenerary;
-    NativeAction* _edge_released_na;
-
-    //robot
-    CoreProcess* _vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone, *_frame;
-
-    RefProperty *_current_wpt, *_entered_wpt;
-    TextProperty *_id_curent_itenerary;
-    
-    //robot_state fields
-    IntProperty _robot_id;
-    DoubleProperty _latitude;
-    DoubleProperty _longitude;
-    IntProperty _battery_percentage;
-    DoubleProperty _battery_voltage;
-    DoubleProperty _altitude_msl;
-    DoubleProperty _compass_heading;
-    BoolProperty _emergency_stop;
-    BoolProperty _failsafe;
-    IntProperty _operation_mode;
-
-    //Planif VAB
-    IntProperty _current_plan_id_vab;
-    IntProperty _start_plan_vab_id;
-    IntProperty _end_plan_vab_id;
-    
-
-	  std::vector<ParentProcess*> navgraph_list;
+    RosNodeProxy * _ros_node_proxy;
   
 #ifndef NO_ROS
     //Ros
