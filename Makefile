@@ -23,7 +23,7 @@ include $(project_dir)/2-config.default.mk
 include $(project_dir)/4-utils.mk
 
 # sources
-include srcs.mk
+-include srcs.mk
 
 # main stuff
 include $(project_dir)/5-main.mk
