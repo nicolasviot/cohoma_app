@@ -763,6 +763,8 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     for (int i=0; i < msg.ugv_edges.size(); i++){
     //Create ugv_edges
       ParentProcess* edge_to_add = TaskEdge(_task_edges, "", _map, std::stoi(msg.ugv_edges[i].source) + 1, std::stoi(msg.ugv_edges[i].target) + 1, _nodes);
+      ((DoubleProperty*)edge_to_add->find_child("length"))->set_value(msg.ugv_edges[i].length, true);
+      ((DoubleProperty*)edge_to_add->find_child("explored"))->set_value(msg.ugv_edges[i].explored, true);
     }
     for (int i=0; i <msg.trap_identifications.size(); i++){
     //Create trap_tasks
@@ -806,6 +808,8 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     /* .. Traitement .. */
     //GRAPH_EXEC;
     //release_exclusive_access(DBG_REL);
+  
+
   }
 
   void
@@ -998,9 +1002,9 @@ uint32[] local_ids                   # locals ids of the detection per robot
 for (auto edge: ((djnn::List*)_task_edges)->children()){
   if (dynamic_cast<BoolProperty*> (edge->find_child ("selected"))->get_value ()){
     icare_interfaces::msg::GraphEdge edge_to_add = icare_interfaces::msg::GraphEdge();
-    edge_to_add.source = dynamic_cast<IntProperty*> (edge->find_child ("id_source"))->get_value () - 1;
+    edge_to_add.source = std::to_string(dynamic_cast<IntProperty*> (edge->find_child ("id_source"))->get_value () - 1);
 
-    edge_to_add.target = dynamic_cast<IntProperty*> (edge->find_child ("id_dest"))->get_value () - 1;
+    edge_to_add.target = std::to_string(dynamic_cast<IntProperty*> (edge->find_child ("id_dest"))->get_value () - 1);
     edge_to_add.length = dynamic_cast<DoubleProperty*> (edge->find_child("length"))->get_value();
     edge_to_add.explored = dynamic_cast<DoubleProperty*> (edge->find_child("explored"))->get_value();
     message.ugv_edges.push_back(edge_to_add);
