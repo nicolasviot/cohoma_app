@@ -402,6 +402,7 @@ RosNode::test_multiple_itineraries(){
  //debug
   //std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
 
+  get_exclusive_access(DBG_GET);
   //debug ros_msg
   std::vector<std::pair<string,std::vector<int>>> msg_struct; /*= { \
     {msg->itineraries[0]->id, {}, \
@@ -469,12 +470,16 @@ RosNode::test_multiple_itineraries(){
     ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/second/itinerary_id"))->set_value(msg->itineraries[1].id, true);
     ((AbstractProperty*)_parent->find_child("parent/right_pannel/right_pannel/itineraryPannel/third/itinerary_id"))->set_value(msg->itineraries[2].id, true);
   //"humanize the label ? "
+    GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
 
   }
 
   void 
   RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
-// export to result layer
+  
+  get_exclusive_access(DBG_GET);
+  // export to result layer
 
     //schedule delete old content
     int itineraries_list_size =  _itineraries_list->children ().size ();
@@ -508,7 +513,8 @@ RosNode::test_multiple_itineraries(){
 
 
 
-
+  GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
   }
 
 
@@ -614,6 +620,7 @@ RosNode::test_multiple_itineraries(){
   void 
   RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     std::cerr << "received some traps to display" << std::endl;
+    get_exclusive_access(DBG_GET);
     for (int k= 0; k < msg.traps.size(); k ++){
       int index_found = -1;
 
@@ -666,10 +673,14 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 
 
     }
+    GRAPH_EXEC;
+    release_exclusive_access(DBG_REL);
   }
 
   void 
   RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
+
+    get_exclusive_access(DBG_GET);
 
     Container *_edge_container = dynamic_cast<Container *> (_task_edges);
     if (_edge_container) {
@@ -781,14 +792,20 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
       ((DoubleProperty*)trap_to_add->find_child("radius"))->set_value(msg.trap_deactivations[i].info.radius, true);
     }
 
-
+    GRAPH_EXEC;
+    release_exclusive_access(DBG_REL);
   }
 
 
 
   void 
   RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
-//TODO
+    
+    //TODO
+    //get_exclusive_access(DBG_GET);
+    /* .. Traitement .. */
+    //GRAPH_EXEC;
+    //release_exclusive_access(DBG_REL);
   }
 
   void
@@ -798,16 +815,15 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 //message.id = id;
     message.id = id;
 
-    publisher_lima->publish(message);
-
-
-
+    publisher_lima->publish(message)
   }
 
 
   void
   RosNode::send_msg_planning_request(){
     std::cerr << "in send planning request" << std::endl;
+
+    get_exclusive_access(DBG_GET);
 
     icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
     std::cerr << _parent << std::endl;
@@ -834,14 +850,13 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 
     publisher_planning_request->publish(message);  
     GRAPH_EXEC;
-
-
+    release_exclusive_access(DBG_REL);
   }
 
   void 
   RosNode::send_msg_navgraph_update(){
 
-
+    get_exclusive_access(DBG_GET);
     CoreProcess* nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
     CoreProcess* edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
 
@@ -912,7 +927,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
   publisher_navgraph_update->publish(message);
   GRAPH_EXEC;
   std::cerr << "finished publishing" << std::endl;
-
+  release_exclusive_access(DBG_REL);
 
 
 }
@@ -935,6 +950,7 @@ void
 RosNode::send_selected_tasks(){
 //TODO
 
+ get_exclusive_access(DBG_GET);
 
  icare_interfaces::msg::Tasks message= icare_interfaces::msg::Tasks();
  for (auto trap: ((djnn::List*)_task_traps)->children()){
@@ -1011,12 +1027,15 @@ for (auto area: ((djnn::List*)_task_areas)->children()){
 }
 message.header.stamp = _node->get_clock()->now();
 publisher_tasks->publish(message);
-
+GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
 }
 void 
 RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
 
   std::cerr<<"about to CRASH DAMMIT" << std::endl;
+
+  get_exclusive_access(DBG_GET);
 /*
 # Describe the mission site
 geographic_msgs/GeoPoint start_point
@@ -1124,7 +1143,8 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
       new Connector (limits_to_add, "y_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/y")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/y")), 1);
 
     }
-
+    GRAPH_EXEC;
+   release_exclusive_access(DBG_REL);
   }
   void 
   RosNode::send_validation_tasks(){
