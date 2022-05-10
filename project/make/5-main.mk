@@ -67,7 +67,7 @@ os := em
 EXE := .html
 launch_cmd := emrun
 
-EMFLAGS := -Wall -Wno-unused-variable \
+EMFLAGS := -Wall -Wno-unused-variable -Oz \
 -s USE_BOOST_HEADERS -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_FREETYPE=1 -s USE_WEBGL2=1 \
 -DSDL_DISABLE_IMMINTRIN_H \
 -s EXPORT_ALL=1 -s DISABLE_EXCEPTION_CATCHING=0 \

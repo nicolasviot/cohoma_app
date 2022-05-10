@@ -1,11 +1,8 @@
 
 #----------------------------
 
-$(objs): CXXFLAGS += $(CXXFLAGS_PCH_DEF) $(CXXFLAGS_PCH_INC) $(djnn_cflags) $(smala_cflags) -I$(src_dir) -I$(build_dir)/$(src_dir) -I$(build_dir)/lib\
+$(objs): CXXFLAGS += $(CXXFLAGS_CFG) $(CXXFLAGS_PCH_DEF) $(CXXFLAGS_PCH_INC) $(djnn_cflags) $(smala_cflags) -I$(src_dir) -I$(build_dir)/$(src_dir) -I$(build_dir)/lib\
 	$(CXXFLAGS_COMMON) $(CXXFLAGS_CK)
-
-#$(CXXFLAGS_CFG)
-
 
 $(objs): $(pch_dst)
 
@@ -56,10 +53,6 @@ else
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 endif
-
-
-# dependencies
-CXXFLAGS += -MMD
 
 deps := $(objs:.o=.d)
 ifneq ($(nodeps),1)
