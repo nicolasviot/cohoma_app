@@ -331,6 +331,7 @@ Component root {
   right_pannel.right_pannel.test_allocation_spike -> ros_manager.test_allocation_spike
   right_pannel.right_pannel.itineraryPannel.plan_set ->ros_manager.validate_plan
   right_pannel.right_pannel.test_lima_spike -> ros_manager.test_lima_spike
+  right_pannel.right_pannel.send_selected_tasks -> ros_manager.send_selected_tasks
   
   // Strips container
   StripContainer strips (f, 0, 868, l.map.layers.satelites )

@@ -19,6 +19,7 @@ Spike update_graph
 Spike test_multiple_itineraries_spike
 Spike test_allocation_spike
 Spike test_lima_spike
+Spike send_selected_tasks
 
      //legend for NavGraph
 Component NavGraph
@@ -68,7 +69,8 @@ ItineraryPannel itineraryPannel(0, 0, root.l.map.layers.itineraries.id)
 Translation _ (0, 320)
 
 
-CandidateTaskFilter _(frame)
+CandidateTaskFilter filter(frame)
+filter.send_selected_tasks -> send_selected_tasks
 
 Translation _ (0, 100)
 Component IObuttons{

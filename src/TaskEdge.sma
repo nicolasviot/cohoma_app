@@ -24,6 +24,9 @@ TaskEdge (Process map, int _source, int _dest, Process nodes){
     Spike press
     FSM ctrl_edge_selected{ 
     
+    State not_select{
+        0 =: selected
+    }
     State select { 
 /*        Edge the_surrounding_edge($id_source, $id_dest, 20, nodes)
         255 =: the_surrounding_edge.color.r
@@ -40,8 +43,7 @@ TaskEdge (Process map, int _source, int _dest, Process nodes){
         y1 =:> the_surrounding_edge.y1
         y2 =:> the_surrounding_edge.y2
         the_surrounding_edge.press -> press
-    }
-    State not_select{
+        1 =: selected
     }
     select -> not_select (press)
     not_select -> select (press)

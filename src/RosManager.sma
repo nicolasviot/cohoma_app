@@ -77,6 +77,13 @@ test_lima (Process c)
   	
 %}
 
+_action_
+send_selected_tasks_native (Process c)
+%{
+	Process *data = (Process*) get_native_user_data(c);
+	RosNode *node = dynamic_cast<RosNode*>(data);
+	node->send_selected_tasks();
+%}
 
 _define_
 RosManager (Process _parent, Process _map, Process _manager){
@@ -91,6 +98,7 @@ RosManager (Process _parent, Process _map, Process _manager){
 	Spike test_multiple_itineraries_spike
 	Spike test_allocation_spike
 	Spike test_lima_spike
+	Spike send_selected_tasks
 
 	RosNode node(map, manager) 
   	NativeAction validate_plan_action (validate_plan_fun, node, 1)
@@ -108,4 +116,6 @@ RosManager (Process _parent, Process _map, Process _manager){
   	test_allocation_spike -> test_send_allocated_action
   	NativeAction test_lima_action (test_lima, node, 1)
   	test_lima_spike -> test_lima_action
+  	NativeAction send_selected_tasks_action(send_selected_tasks_native, node, 1)
+  	send_selected_tasks -> send_selected_tasks_action
 }

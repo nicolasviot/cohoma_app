@@ -815,7 +815,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 //message.id = id;
     message.id = id;
 
-    publisher_lima->publish(message)
+    publisher_lima->publish(message);
   }
 
 
@@ -823,8 +823,8 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
   RosNode::send_msg_planning_request(){
     std::cerr << "in send planning request" << std::endl;
 
-    get_exclusive_access(DBG_GET);
-
+    /*get_exclusive_access(DBG_GET);
+*/
     icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
     std::cerr << _parent << std::endl;
     message.id = _current_plan_id_vab.get_string_value();
@@ -845,19 +845,19 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 
       }
     }
-
-    message.header.stamp = _node->get_clock()->now();
+    /*GRAPH_EXEC;
+    release_exclusive_access(DBG_REL);
+    */message.header.stamp = _node->get_clock()->now();
 
     publisher_planning_request->publish(message);  
-    GRAPH_EXEC;
-    release_exclusive_access(DBG_REL);
+    
   }
 
   void 
   RosNode::send_msg_navgraph_update(){
 
-    get_exclusive_access(DBG_GET);
-    CoreProcess* nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
+/*    get_exclusive_access(DBG_GET);
+*/    CoreProcess* nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
     CoreProcess* edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
 
     std::cerr << "about to generate json" << std::endl;
@@ -925,10 +925,10 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 
   message.header.stamp = _node->get_clock()->now();
   publisher_navgraph_update->publish(message);
-  GRAPH_EXEC;
-  std::cerr << "finished publishing" << std::endl;
-  release_exclusive_access(DBG_REL);
-
+  /*GRAPH_EXEC;
+  */std::cerr << "finished publishing" << std::endl;
+/*  release_exclusive_access(DBG_REL);
+*/
 
 }
 
@@ -950,8 +950,8 @@ void
 RosNode::send_selected_tasks(){
 //TODO
 
- get_exclusive_access(DBG_GET);
-
+ /*get_exclusive_access(DBG_GET);
+*/
  icare_interfaces::msg::Tasks message= icare_interfaces::msg::Tasks();
  for (auto trap: ((djnn::List*)_task_traps)->children()){
   if (((BoolProperty*)trap->find_child("selected"))->get_value() == true){
@@ -1013,7 +1013,7 @@ for (auto area: ((djnn::List*)_task_areas)->children()){
   icare_interfaces::msg::ExplorationPolygon geopolygon_to_add = icare_interfaces::msg::ExplorationPolygon();
   geopolygon_to_add.area = dynamic_cast<DoubleProperty*>(area->find_child("area_prop"))->get_value();
   geopolygon_to_add.explored = dynamic_cast<DoubleProperty*>(area->find_child("explored"))->get_value();
-  for (int i = 1; i <= dynamic_cast<IntProperty*>(area->find_child("nb_summit"))->get_value();i++){
+  for (int i = 0; i < dynamic_cast<IntProperty*>(area->find_child("nb_summit"))->get_value();i++){
     geographic_msgs::msg::GeoPoint point_to_add = geographic_msgs::msg::GeoPoint();
     point_to_add.latitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lat")))->get_value();
     point_to_add.longitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lon")))->get_value();
@@ -1027,13 +1027,12 @@ for (auto area: ((djnn::List*)_task_areas)->children()){
 }
 message.header.stamp = _node->get_clock()->now();
 publisher_tasks->publish(message);
-GRAPH_EXEC;
+/*GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
-}
+*/}
 void 
 RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
 
-  std::cerr<<"about to CRASH DAMMIT" << std::endl;
 
   get_exclusive_access(DBG_GET);
 /*
