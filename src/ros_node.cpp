@@ -328,7 +328,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
 #endif
 void
 RosNode::test_multiple_itineraries(){
-
+  #if 0
   //debug
   //std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
 
@@ -394,7 +394,7 @@ RosNode::test_multiple_itineraries(){
   //debug
   //int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
   //std::cerr << "in RosNode::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
-
+  #endif
   }
 #ifndef NO_ROS
   void 
@@ -640,7 +640,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         std::cerr << msg.traps[k].location.longitude << std::endl;
         ((BoolProperty*)new_trap->find_child("active"))->set_value(msg.traps[k].active, true);
         ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.traps[k].identified, true);
-        ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.traps[k].info.id, true);
+        ((TextProperty*)new_trap->find_child("trap_id_text/text"))->set_value(msg.traps[k].info.id, true);
         ((TextProperty*)new_trap->find_child("description"))->set_value(msg.traps[k].info.description, true);
         ((IntProperty*)new_trap->find_child("contact_mode"))->set_value(msg.traps[k].info.contact_mode, true);
         ((TextProperty*)new_trap->find_child("code"))->set_value(msg.traps[k].info.code, true);
