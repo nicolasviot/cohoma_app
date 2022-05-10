@@ -11,12 +11,14 @@ smala-pkgconf :=
 djnn_cpp_path ?= ../djnn-cpp
 smala_path ?= ../smala
 
-#CXXFLAGS += -DNO_ROS -DNO_LEMON
-
-CXXFLAGS += -g #-Wall
-CXXFLAGS += -MMD
-
-#CFLAGS += -fsanitize=address -O1
+#CXXFLAGS += -g
+#CXXFLAGS += -O0
+#CXXFLAGS += -Wall
+#CXXFLAGS += -fsanitize=address -O1
 #LDFLAGS += -fsanitize=address
 #CXXFLAGS += -fsanitize=thread -O1
 #LDFLAGS += -fsanitize=thread
+#CXXFLAGS += -ftime-trace
+CXXFLAGS += -std=c++17
+
+#CXXFLAGS += -DNO_ROS -DNO_LEMON
