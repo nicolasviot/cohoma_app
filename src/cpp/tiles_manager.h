@@ -12,7 +12,7 @@
  *
  */
 #include <string>
-#include "core/core.h"
+#include "core/core-dev.h"
 
 void check_and_build_dir (const std::string &path);
 int download_tile (int z, int row, int col);
