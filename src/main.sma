@@ -287,11 +287,11 @@ Component root {
       osm,
       site,
       //mission_zones,
-      satelites,
       navgraph,
       itineraries,
       traps, 
       tasks,
+      satelites,
       actors,
       //lima,
       result

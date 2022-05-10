@@ -116,6 +116,10 @@ RosNode::impl_activate ()
   sub_site = _node->create_subscription<icare_interfaces::msg::Site>(
     "/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
 
+  sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>(
+  "map", qos, std::bind(&RosNode::receive_msg_map, this, std::placeholders::_1));
+
+
   publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>(
     "/planning_request", qos);
   publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>(
@@ -1156,6 +1160,17 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
 //  message.header.stamp = _node->get_clock()->now();
 
   }
+
+void 
+RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap){
+std::cerr << "received exploration map" << std::endl;
+
+
+
+
+
+}
+
 
 
 #endif
