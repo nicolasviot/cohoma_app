@@ -25,6 +25,8 @@ Trap (Process map, double _lat, double _lon, int _id)
     Bool identified(1)
     Bool active(1)
 
+    String trap_id("?")
+
     /*
     string description                  # text describing the kind of trap
     float32 radius                      # action radius [m]
@@ -85,23 +87,28 @@ Trap (Process map, double _lat, double _lon, int _id)
     FontSize _ (0, 18)
     TextAnchor _ (1)
     Text trap_id_text (0,0, "?")
-    toString(id) =:> trap_id_text.text
+    trap_id =:> trap_id_text.text
     c.cx =:> trap_id_text.x
     c.cy + 5 =:> trap_id_text.y
 
     FontSize _ (0, 14)
     Text trap_description_text (0,0, "...")
-    Text trap_description_text2 (0,0, "...")
-    Text trap_description_text3 (0,0, "...")
-    Text trap_description_text4 (0,0, "...")
     c.cx =:> trap_description_text.x
-    c.cx =:> trap_description_text2.x
-    c.cx =:> trap_description_text3.x
-    c.cx =:> trap_description_text4.x
     c.cy + 30 =:> trap_description_text.y
+
+    Text trap_description_text2 (0,0, "...")
+    c.cx =:> trap_description_text2.x
     c.cy + 50 =:> trap_description_text2.y
+
+    Text trap_description_text3 (0,0, "...")
+    c.cx =:> trap_description_text3.x
     c.cy + 70 =:> trap_description_text3.y
+
+    Text trap_description_text4 (0,0, "...")
+    c.cx =:> trap_description_text4.x
     c.cy + 90 =:> trap_description_text4.y
+    
+    
     description =:> trap_description_text.text
     
 
@@ -111,7 +118,7 @@ Trap (Process map, double _lat, double _lon, int _id)
         radius/get_resolution ($map.zoomLevel) =:> c.r
         description  =:> trap_description_text.text
         "Hazard:" + hazard + " Code:"+code => trap_description_text2.text
-        "Deactivate: Remotely:"+ toString(remotely_deactivate) + "  " + "Contact:" + toString(contact_deactivate) + " " =:> trap_description_text3.text
+        "Remotely:"+ toString(remotely_deactivate) + "  " + "Contact:" + toString(contact_deactivate) + " " =:> trap_description_text3.text
         "contact mode:"+ toString(contact_mode) =:> trap_description_text4.text
     }
     Component false{
