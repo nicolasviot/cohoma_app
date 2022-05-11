@@ -72,6 +72,7 @@ Strip (string _name, Process frame, Process satellite){
    //link status
    Spike data_in
    battery_voltage -> data_in
+   heading_rot -> data_in
    //for debugging
    //g.id.press -> data_in
 

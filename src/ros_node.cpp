@@ -1013,14 +1013,18 @@ uint32[] local_ids                   # locals ids of the detection per robot
 */
 
     icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
-    trap_to_add.id = dynamic_cast<IntProperty*> (trap->find_child ("id"))->get_value ();
+    trap_to_add.id = dynamic_cast<IntProperty*> (trap->find_child ("trap_id"))->get_value ();
     trap_to_add.identified = dynamic_cast<BoolProperty*>(trap->find_child("identified"))->get_value();
     trap_to_add.active = dynamic_cast<BoolProperty*>(trap->find_child("active"))->get_value();
-    trap_to_add.info.id = dynamic_cast<TextProperty*>(trap->find_child("trap_id"))->get_value();
+   /* trap_to_add.info.id = dynamic_cast<TextProperty*>(trap->find_child("trap_id"))->get_value();
     trap_to_add.info.description = dynamic_cast<TextProperty*>(trap->find_child("description"))->get_value();
     trap_to_add.info.contact_mode = dynamic_cast<IntProperty*>(trap->find_child("contact_mode"))->get_value();
     trap_to_add.info.code = dynamic_cast<TextProperty*>(trap->find_child("code"))->get_value();
     trap_to_add.info.hazard = dynamic_cast<TextProperty*>(trap->find_child("hazard"))->get_value();
+   */ 
+    trap_to_add.location.latitude = dynamic_cast<DoubleProperty*>(trap->find_child("lat"))->get_value();
+    trap_to_add.location.longitude = dynamic_cast<DoubleProperty*>(trap->find_child("lon"))->get_value();
+    
     if(trap_to_add.identified){
       message.trap_deactivations.push_back(trap_to_add);
 

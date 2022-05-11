@@ -63,7 +63,7 @@ TaskArea (Process map){
     sum4.x =:> area.pt4.x
     sum4.y =:> area.pt4.y*/
 
-    area.press -> {
+    area.release -> {
         selected?0:1 =: selected
     }
     

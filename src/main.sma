@@ -304,7 +304,7 @@ Component root {
 
   Component right_pannel {
     Translation t (1424, 0)
-    Rectangle bg (0, 0, 700, 900)
+    Rectangle bg (0, 0, 700, init_height + 600)
 
     Switch ctrl_tab(plan){
       Component plan{
