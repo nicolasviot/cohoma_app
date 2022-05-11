@@ -111,13 +111,13 @@ RosNode::impl_activate ()
     "/allocation", qos, std::bind(&RosNode::receive_msg_allocation, this, _1));
 
   sub_traps = _node->create_subscription<icare_interfaces::msg::TrapList>(
-    "/traps", qos, std::bind(&RosNode::receive_msg_trap, this, _1));
+    "/traps", qos_transient, std::bind(&RosNode::receive_msg_trap, this, _1));
 
   sub_site = _node->create_subscription<icare_interfaces::msg::Site>(
     "/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
 
   sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>(
-  "map", qos, std::bind(&RosNode::receive_msg_map, this, std::placeholders::_1));
+  "map", qos_transient, std::bind(&RosNode::receive_msg_map, this, std::placeholders::_1));
 
 
   publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>(
