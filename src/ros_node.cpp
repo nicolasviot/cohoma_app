@@ -1098,19 +1098,59 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
       }
 
 
+      auto* bary_summit = TaskAreaSummit(area_to_add, "bary_summit", _map, 0, 0);
+      int n = msg.zones[i].polygon.points.size();
+      
+      double above_x = 0;
+      double below_x = 0;
 
-      for (int j = 0; j < msg.zones[i].polygon.points.size(); j++){
+      double above_y = 0;
+      double below_y = 0;
+      for (int j = 0; j < n; j++){
         auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude);
         ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.zones[i].polygon.points[j].altitude, true);
         auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
-
+        /*double cur_lat =  dynamic_cast<DoubleProperty*>(bary_summit->find_child("lat"))->get_value();
+        double cur_lon =  dynamic_cast<DoubleProperty*>(bary_summit->find_child("lon"))->get_value();
+        
+        ((DoubleProperty*)bary_summit->find_child("lat"))->set_value(cur_lat + msg.zones[i].polygon.points[j].latitude / n, true);
+        ((DoubleProperty*)bary_summit->find_child("lon"))->set_value(cur_lon + msg.zones[i].polygon.points[j].longitude / n, true);
+       */
+        ((TextProperty*)area_to_add->find_child("name"))->set_value(msg.zones[i].name, true);
         new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
 
         new Connector (area_to_add, "y_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
-
-
       }
 
+  
+      //Compute abovex : 
+      for (int j = 0; j < n -1; j++){
+        above_x = above_x + (msg.zones[i].polygon.points[j].latitude + msg.zones[i].polygon.points[j+ 1].latitude) * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude);
+      }
+      //Compute belowx :
+      for (int j = 0; j < n -1; j++){
+        below_x = below_x + 3 * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude); 
+      }
+      //Compute above y
+       for (int j = 0; j < n -1; j++){
+        above_y = above_y + (msg.zones[i].polygon.points[j].longitude + msg.zones[i].polygon.points[j+ 1].longitude) * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude);
+      }
+      //Compute below y
+      for (int j = 0; j < n -1; j++){
+        below_y = below_y + 3 * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude); 
+      }
+      
+      double res_lat = above_x/below_x;
+      double res_lon = above_y/below_y;
+      std::cerr << "res_latitude = " << res_lat << std::endl;
+      std::cerr << "res_longitude = " << res_lon << std::endl;
+
+      ((DoubleProperty*)bary_summit->find_child("lat"))->set_value(above_x/ below_x, true);
+      ((DoubleProperty*)bary_summit->find_child("lon"))->set_value(above_y / below_y, true);
+     
+     new Connector (area_to_add, "x_bary_bind", area_to_add->find_child("bary_summit/x"), area_to_add->find_child("barycenterX"), 1);
+     new Connector (area_to_add, "y_bary_bind", area_to_add->find_child("bary_summit/y"), area_to_add->find_child("barycenterY"), 1);
+        
 
 
   }

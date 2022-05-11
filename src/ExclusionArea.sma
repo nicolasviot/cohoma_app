@@ -20,11 +20,8 @@ ExclusionArea (Process map, string _status){
 
 
     String name("")
-    FillOpacity fo(0.2)
-    FillColor fill_color (20, 190, 20)
-    OutlineWidth _(6)
-    OutlineColor outline_color(20, 190, 20)
-
+ 
+    String status(_status)
 /*    uint8 TYPE_UNKNOWN    = 0 # Unknown zone type
     uint8 TYPE_RFA        = 1 # Restricted Fire Area (deactivation only on clearance)
     uint8 TYPE_NFA        = 2 # No Fire Area (deactivation forbidden)
@@ -35,13 +32,27 @@ ExclusionArea (Process map, string _status){
 
 */
 
-     Polygon area {  
-     } 
+    FillColor  white(234, 234, 234)
+    FontSize _ (5, 30)
+    FontWeight _ (75)
     Text zone_label(0, 0, "")
+    Text type_label(0, 0, "")
+    status =:> type_label.text
     name =:> zone_label.text
     Double barycenterX(0)
     Double barycenterY(0)
-    String status(_status)
+    barycenterX - zone_label.width / 2=:> zone_label.x
+    barycenterY =:> zone_label.y
+    barycenterX  - type_label.width / 2 =:> type_label.x
+    barycenterY + zone_label.height  =:> type_label.y
+    FillOpacity fo(0.2)
+    FillColor fill_color (20, 190, 20)
+    OutlineWidth _(6)
+    OutlineColor outline_color(20, 190, 20)
+
+ 
+     Polygon area {  
+     } 
     Switch type(_status){
         Component limits{
             0 =: fo.a
@@ -83,12 +94,12 @@ ExclusionArea (Process map, string _status){
         }
         Component nfz{
             0.3 =: fo.a
-            255 =: fill_color.r
-            0 =: fill_color.g
-            0 =: fill_color.b
+            250 =: fill_color.r
+            250 =: fill_color.g
+            50 =: fill_color.b
             255 =: outline_color.r
-            0 =: outline_color.g
-            0 =: outline_color.b
+            250=: outline_color.g
+            50 =: outline_color.b
         }
         Component nfa
         Component rfa
