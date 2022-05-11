@@ -6,7 +6,7 @@ import Button
 import ItineraryPannel
 import CandidateTaskFilter
 import ClockComponent
-
+import CompteRendu
 
 _define_
 RightPannel (Process root, Process frame){
@@ -21,6 +21,7 @@ Spike test_allocation_spike
 Spike test_lima_spike
 Spike send_selected_tasks
 Spike test_visibility_map
+
 
      //legend for NavGraph
 Component NavGraph
@@ -73,7 +74,7 @@ Translation _ (0, 320)
 CandidateTaskFilter filter(frame)
 filter.send_selected_tasks -> send_selected_tasks
 
-Translation _ (0, 100)
+Translation _ (0, 200)
 Component IObuttons{
 /*	Button send_plan_req (frame, " request plan ", 20, 150)
 	send_plan_req.click -> plan_request
