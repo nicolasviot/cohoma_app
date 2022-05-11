@@ -1162,9 +1162,13 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
   }
 
 void 
-RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap){
+RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
 std::cerr << "received exploration map" << std::endl;
 
+ float lat_center = msg.origin.latitude;
+ float lon_center = msg.origin.longitude; 
+std::cerr << lat_center << std::endl;
+std::cerr << lon_center << std::endl;
 
 
 
@@ -1201,6 +1205,37 @@ std::cerr << "received exploration map" << std::endl;
   }
 */
 
+
+  void RosNode::test_draw_visibility_map(){
+    float lat_center_map = 44.27432196595285;
+    float lon_center_map = 1.729783361205679;
+
+    int width = 20; //20 collumns
+    int height = 20; //20 rows
+    int ugv_camera_layer[width * height]; //1 if said pixel is explored, 0 if not
+    int uav_camera_layer[width * height]; //1 if said pixel is explored, 0 if not
+    //uint8[] ugv_lidar_layer; //dispo mais pas utilisé
+    
+
+
+    float resolution = 5; //cells are 5 meters large squares 
+    std::cerr << "debug draw_visbility map" << " lattiude " << lat_center_map << " longitude " << lon_center_map << " resolution " << resolution << std::endl;
+
+
+
+    //@Mathieu ; 
+    //Pour faire en sorte que l'image que tu crée suive le pan, tu peux essayer d'instancier un TaskAreaSummit 
+    //(c'est un waypoint sans aspect) et créer un binding ayant pour source ses x et y
+
+    //Fusion rules (colors subject to change )
+
+    //ugv_camera => yellow ( #f4d03f )
+    //uav_camera => purple ( #9b59b6 )
+    //uav_camera && ugv_camera => cyan #7fb3d5 *
+
+
+
+  }
   void
   RosNode::run () {
   #ifndef NO_ROS

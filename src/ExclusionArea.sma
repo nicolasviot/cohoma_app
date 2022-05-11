@@ -37,7 +37,10 @@ ExclusionArea (Process map, string _status){
 
      Polygon area {  
      } 
-
+    Text zone_label(0, 0, "")
+    name =:> zone_label.text
+    Double barycenterX(0)
+    Double barycenterY(0)
     String status(_status)
     Switch type(_status){
         Component limits{

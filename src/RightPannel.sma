@@ -20,6 +20,7 @@ Spike test_multiple_itineraries_spike
 Spike test_allocation_spike
 Spike test_lima_spike
 Spike send_selected_tasks
+Spike test_visibility_map
 
      //legend for NavGraph
 Component NavGraph
@@ -92,6 +93,8 @@ Component IObuttons{
 /*	Button test_lima_button(frame, "test lima", 100, 250)
 	test_lima_button.click -> test_lima_spike*/
 
+	Button test_visibility_map_button(frame, "test_visibility_map", 100, 200)
+	test_visibility_map_button.click->test_visibility_map
 	ClockComponent clock(200, 250)
 }
 

@@ -85,6 +85,17 @@ send_selected_tasks_native (Process c)
 	node->send_selected_tasks();
 %}
 
+
+_action_
+test_visibility_map_native (Process c)
+%{
+	Process *data = (Process*) get_native_user_data(c);
+	RosNode *node = dynamic_cast<RosNode*>(data);
+	node->test_draw_visibility_map();
+%}
+
+
+
 _define_
 RosManager (Process _parent, Process _map, Process _manager){
 
@@ -99,6 +110,7 @@ RosManager (Process _parent, Process _map, Process _manager){
 	Spike test_allocation_spike
 	Spike test_lima_spike
 	Spike send_selected_tasks
+	Spike test_visibility_map
 
 	RosNode node(map, manager) 
   	NativeAction validate_plan_action (validate_plan_fun, node, 1)
@@ -118,4 +130,6 @@ RosManager (Process _parent, Process _map, Process _manager){
   	test_lima_spike -> test_lima_action
   	NativeAction send_selected_tasks_action(send_selected_tasks_native, node, 1)
   	send_selected_tasks -> send_selected_tasks_action
+  	NativeAction test_visibility_map_action(test_visibility_map_native, node, 1)
+  	test_visibility_map -> test_visibility_map_action
 }

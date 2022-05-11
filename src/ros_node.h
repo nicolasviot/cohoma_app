@@ -81,6 +81,7 @@ class RosNode : public FatProcess, public ExternalSource
     void send_msg_lima(int);
     #endif
     void test_multiple_itineraries();
+    void test_draw_visibility_map();
     void write_to_log (string, string);
  
    private:
@@ -131,6 +132,7 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::QoS qos_best_effort;
     rclcpp::QoS qos;
     rclcpp::QoS qos_transient;
+
 
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
 	  rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;

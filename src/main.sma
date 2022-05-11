@@ -332,6 +332,7 @@ Component root {
   right_pannel.right_pannel.itineraryPannel.plan_set ->ros_manager.validate_plan
   right_pannel.right_pannel.test_lima_spike -> ros_manager.test_lima_spike
   right_pannel.right_pannel.send_selected_tasks -> ros_manager.send_selected_tasks
+  right_pannel.right_pannel.test_visibility_map -> ros_manager.test_visibility_map
   
   // Strips container
   StripContainer strips (f, 0, 868, l.map.layers.satelites )
