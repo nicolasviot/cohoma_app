@@ -25,7 +25,7 @@ arcos
 */
 OutlineWidth width (5)
 OutlineColor color (234, 234, 234)
-//OutlineCapStyle _ (0)
+OutlineCapStyle _ (1)
 OutlineJoinStyle _(0)
 Translation pos (0, 0)
 nodelist.[$id_src].wpt.pos.tx =:> pos.tx

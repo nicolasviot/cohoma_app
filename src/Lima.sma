@@ -41,6 +41,7 @@ Lima (Process map, Process my_node){
     FillColor fill_color(20, 20, 190)
     OutlineWidth outline_width(15)
     OutlineColor outline_color(20, 20, 250)
+    OutlineCapStyle _ (1) 
     FSM hovered_lima{
         State not_hovered{
             220 =: outline_color.b

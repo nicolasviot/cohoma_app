@@ -49,6 +49,7 @@ ExclusionArea (Process map, string _status){
     FillColor fill_color (20, 190, 20)
     OutlineWidth _(6)
     OutlineColor outline_color(20, 190, 20)
+    OutlineCapStyle _ (1)
 
  
      Polygon area {  
