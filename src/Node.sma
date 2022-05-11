@@ -11,6 +11,7 @@ Double lat(_lat)
 Double lon(_lon)
 Double alt(_alt)
 Bool isPPO(_isPPO)
+Bool islocked(0)
 String label(_label)
 String status ("")
 Int id(_id)
@@ -18,6 +19,8 @@ Spike pressed
 
 manager aka _manager_id
 GraphNode wpt(map, f,  $lat, $lon, 80, 80, 80)
+isPPO?"mandatory":"default" =:wpt.usage_status
+islocked =:> wpt.islocked
 id - 1 =:> wpt.id
 wpt.usage_status => status
 lat =:> wpt.lat

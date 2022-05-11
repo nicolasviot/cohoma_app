@@ -19,6 +19,7 @@ TaskEdge (Process map, int _source, int _dest, Process nodes){
     Double y1(0)
     Double y2(0)
 
+   
     Bool selected (0)
 
     Spike press
@@ -36,7 +37,8 @@ TaskEdge (Process map, int _source, int _dest, Process nodes){
 
         Translation pos(0, 0)
         OutlineColor yellow (255, 255, 0)
-        OutlineWidth _(30)
+        OutlineWidth width(30)
+       // OutlineCapStyle capstyle(1)
         Line the_surrounding_edge(0, 0, 0, 0)
         x1 =:> the_surrounding_edge.x1
         x2 =:> the_surrounding_edge.x2

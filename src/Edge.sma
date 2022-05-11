@@ -2,6 +2,7 @@ use core
 use gui
 use base
 
+
 _define_
 Edge (int _id_src, int _id_dest, double _length, Process nodelist){
 
@@ -26,7 +27,6 @@ arcos
 OutlineWidth width (5)
 OutlineColor color (234, 234, 234)
 OutlineCapStyle _ (1)
-OutlineJoinStyle _(0)
 Translation pos (0, 0)
 nodelist.[$id_src].wpt.pos.tx =:> pos.tx
 

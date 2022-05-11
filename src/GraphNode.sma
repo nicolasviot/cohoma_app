@@ -28,7 +28,7 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
     Int active_col (#29ABE2)
     Int start_col (#70EE49)
     Int mandatory_col (#FF30FF)
-
+    Bool islocked(0)
     Int default_radius (10)
     Int other_radius (10)
 
@@ -170,36 +170,39 @@ FSM enterLeave {
     inside -> idle (interact_mask.leave)
 }
 
+      FSM drag_fsm {
+            State no_drag {
+                map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
+                (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
+            }
+            State no_drag_while_drawing_edge{
+                map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
+                (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
+          
+            }
+            State drag {
+                Double init_cx (0)
+                Double init_cy (0)
+                Double offset_x (0)
+                Double offset_y (0)
+                screen_translation.tx =: init_cx
+                screen_translation.ty =: init_cy
+                interact_mask.press.x - screen_translation.tx =: offset_x
+                interact_mask.press.y - screen_translation.ty =: offset_y
+                interact_mask.move.x - offset_x => screen_translation.tx
+                interact_mask.move.y - offset_y => screen_translation.ty
+                px2lon ($screen_translation.tx + map.t0_x, $map.zoomLevel) => lon
+                py2lat (map.t0_y - $screen_translation.ty, $map.zoomLevel) => lat 
+            }
+            no_drag->drag (interact_mask.left.press, map.reticule.show_reticule)
+            no_drag->no_drag_while_drawing_edge (shift)
+            no_drag_while_drawing_edge -> no_drag (shift_r)
+            drag->no_drag (interact_mask.left.release, map.reticule.hide_reticule)
+        }
 
-  FSM drag_fsm {
-        State no_drag {
-            map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
-            (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
-        }
-        State no_drag_while_drawing_edge{
-            map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
-            (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
-      
-        }
-        State drag {
-            Double init_cx (0)
-            Double init_cy (0)
-            Double offset_x (0)
-            Double offset_y (0)
-            screen_translation.tx =: init_cx
-            screen_translation.ty =: init_cy
-            interact_mask.press.x - screen_translation.tx =: offset_x
-            interact_mask.press.y - screen_translation.ty =: offset_y
-            interact_mask.move.x - offset_x => screen_translation.tx
-            interact_mask.move.y - offset_y => screen_translation.ty
-            px2lon ($screen_translation.tx + map.t0_x, $map.zoomLevel) => lon
-            py2lat (map.t0_y - $screen_translation.ty, $map.zoomLevel) => lat 
-        }
-        no_drag->drag (interact_mask.left.press, map.reticule.show_reticule)
-        no_drag->no_drag_while_drawing_edge (shift)
-        no_drag_while_drawing_edge -> no_drag (shift_r)
-        drag->no_drag (interact_mask.left.release, map.reticule.hide_reticule)
-    }
+
+
+
     FSM fsm {
         State idle {
             //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty

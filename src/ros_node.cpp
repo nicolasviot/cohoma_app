@@ -235,6 +235,21 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   _current_wpt->set_value ((CoreProcess*)nullptr, true);
   _entered_wpt->set_value ((CoreProcess*)nullptr, true);
 
+    //schedule delete old content
+    int itineraries_list_size =  _itineraries_list->children ().size ();
+    for (int i = itineraries_list_size - 1; i >= 0; i--) {
+      auto *child = _itineraries_list->children ()[i];
+      if (child) {
+        child->deactivate ();
+        if (child->get_parent ())
+          child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
+        child->schedule_delete ();
+        child = nullptr;
+      }
+    }
+    _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
+    
+
   Container *_edge_container = dynamic_cast<Container *> (_edges);
   if (_edge_container) {
     int _edge_container_size = _edge_container->children ().size ();
@@ -280,6 +295,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     }
   }
 
+
   nlohmann::json j = nlohmann::json::parse(msg->data);
   nlohmann::json j_graph;
   if (j.contains("graph"))
@@ -306,10 +322,14 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     auto& node = j_graph["nodes"][i];
         //std::cerr << "in from json parsing nodes" << std::endl;
     auto& m = node["metadata"];
+    bool locked = m["locked"].get<bool>();
     bool isPPO = m["compulsory"].get<bool>();
+    if (isPPO){
+      std::cerr << "one more PPO imported" << std::endl;
+    }
     ParentProcess* node_ = Node(_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
-     0, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _manager);
-
+     isPPO, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _manager);
+    ((BoolProperty*)node_->find_child("islocked"))->set_value(locked, true);
 
   }
   std::cerr << "about to parse edges" << std::endl;
@@ -852,6 +872,11 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         message.end_node = std::to_string(iid - 1);
 
       }
+      if (((TextProperty*)item->find_child("status"))->get_value()=="forced"){
+        std::cerr << "forced" <<std::endl;
+        iid = dynamic_cast<IntProperty*> (item->find_child("id"))->get_value();
+        message.node_contraints.push_back(std::to_string(iid -1));
+      }
     }
     /*GRAPH_EXEC;
     release_exclusive_access(DBG_REL);
@@ -903,10 +928,13 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     double dlat = dynamic_cast<DoubleProperty*> (item->find_child ("wpt/lat"))->get_value ();
     double dlon = dynamic_cast<DoubleProperty*> (item->find_child ("wpt/lon"))->get_value ();
     double dalt = dynamic_cast<DoubleProperty*> (item->find_child ("alt"))->get_value ();
-    string scompulsory = dynamic_cast<TextProperty*>(item->find_child("status"))->get_value();
+    string scompulsory = dynamic_cast<TextProperty*>(item->find_child("wpt/usage_status"))->get_value();
     
-    bool compulsory = (scompulsory == "compulsory");   
-    bool locked = true;
+    bool compulsory = (scompulsory == "mandatory");   
+    if (compulsory){
+      std::cerr << "one more PPO exported"<< std::endl;
+    }
+    bool locked = dynamic_cast<BoolProperty*>(item->find_child("islocked"))->get_value();
     
 
     nlohmann::json jn = {
