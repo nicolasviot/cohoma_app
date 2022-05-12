@@ -243,9 +243,14 @@ Component root {
     Component result{
       Switch ctrl_visibility (visible){
         Component hidden
-        Component visible 
+        Component visible  {
+          Scaling scaling_visibility_map (1, 1, 0, 0)
+          DataImage visibility_map (0,0,0,0)
+        }
       }
       String name("Result")
+      visibility_map aka ctrl_visibility.visible.visibility_map
+      scaling_visibility_map aka ctrl_visibility.visible.scaling_visibility_map
     }
 /*    Component mission_zones{
       Switch ctrl_visibility (visible){

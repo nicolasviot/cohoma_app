@@ -12,7 +12,7 @@
 #include <nlohmann/json.hpp>
 
 
-//#include <iostream>
+#include <iostream>
 
 //#include <fstream>
 
@@ -183,7 +183,8 @@ RosNode::impl_activate ()
   _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_wpt"));
   _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/entered_wpt"));
 
-
+  _scaling_visibility_map = dynamic_cast<Scaling*> (_parent->find_child ("parent/l/map/layers/result/scaling_visibility_map"));
+  _visibility_map = dynamic_cast<DataImage*> (_parent->find_child ("parent/l/map/layers/result/visibility_map"));
 
   //start the thread
   ExternalSource::start ();  
@@ -1298,36 +1299,125 @@ std::cerr << lon_center << std::endl;
 */
 
 
-  void RosNode::test_draw_visibility_map(){
-    float lat_center_map = 44.27432196595285;
-    float lon_center_map = 1.729783361205679;
+  static string frame_data;
 
-    int width = 20; //20 collumns
-    int height = 20; //20 rows
-    int ugv_camera_layer[width * height]; //1 if said pixel is explored, 0 if not
-    int uav_camera_layer[width * height]; //1 if said pixel is explored, 0 if not
-    //uint8[] ugv_lidar_layer; //dispo mais pas utilisé
-    
-
-
-    float resolution = 5; //cells are 5 meters large squares 
-    std::cerr << "debug draw_visbility map" << " lattiude " << lat_center_map << " longitude " << lon_center_map << " resolution " << resolution << std::endl;
-
+  void
+  RosNode::test_draw_visibility_map(){
 
 
     //@Mathieu ; 
     //Pour faire en sorte que l'image que tu crée suive le pan, tu peux essayer d'instancier un TaskAreaSummit 
     //(c'est un waypoint sans aspect) et créer un binding ayant pour source ses x et y
 
-    //Fusion rules (colors subject to change )
+  float lat_center_map = 44.27432196595285;
+  float lon_center_map = 1.729783361205679;
 
-    //ugv_camera => yellow ( #f4d03f )
-    //uav_camera => purple ( #9b59b6 )
-    //uav_camera && ugv_camera => cyan #7fb3d5 *
+  int w = 10; //20 collumns
+  int h = 10; //20 rows
+  int ugv_camera_layer[100] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+                                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+                                1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
+                                1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
+                                1, 1, 0, 0, 1, 1, 0, 0, 1, 1, \
+                                0, 0, 0, 0, 1, 1, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  int uav_camera_layer[100] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 1, 1, 0, 0, 0, 0, \
+                                1, 1, 0, 0, 1, 1, 0, 0, 1, 1, \
+                                1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
+                                1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
+                                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+                                1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    
+  float resolution = 5; //cells are 5 meters large squares 
 
+  if (_visibility_map)
+    std::cerr << "debug draw_visbility map\n" << " lattiude " << lat_center_map << " longitude " << lon_center_map << " resolution " << resolution << std::endl;
+  else 
+    std::cerr << " \n\n\n NOO !! \n\n\n " << std::endl;
+  
 
+  //get_exclusive_access(DBG_GET);
 
+  int x_debug = 500;
+  int y_debug = 500;
+
+  int x_pos = x_debug - w/2;
+  int y_pos = y_debug - h/2;
+    
+  _scaling_visibility_map->sx()->set_value (resolution, true);
+  _scaling_visibility_map->sy()->set_value (resolution, true);
+  _scaling_visibility_map->cx()->set_value (x_pos, true);
+  _scaling_visibility_map->cy()->set_value (y_pos, true);
+  _visibility_map->x()->set_value (x_pos, true);  //lat
+  _visibility_map->y()->set_value (y_pos, true);  // long
+  _visibility_map->width()->set_value (w, true);
+  _visibility_map->height()->set_value (h, true);
+  _visibility_map->format()->set_value(5 , true);  // frame is ARGB_32 , QImage::Format_ARGB32 = 5 
+
+  int octect = 4;
+  int size_map = w*h*octect;;
+    
+  frame_data.reserve(size_map);
+
+  // link frame_data to the data_image
+  string*& data = _visibility_map->get_data_ref();
+  data = &frame_data;
+
+  //ugv_camera => yellow ( #f4d03f )
+  //uav_camera => purple ( #9b59b6 )
+  //uav_camera && ugv_camera => cyan #7fb3d5
+
+  for (int i = 0 ;  i < w*h ; i++ ) {
+    int j0 = i*octect;
+    int j1 = j0 + 1;
+    int j2 = j0 + 2;
+    int j3 = j0 + 3;
+    if (ugv_camera_layer[i] == 1) {
+      //yellow
+      frame_data[j0] = static_cast<char>(0x3F);   //B
+      frame_data[j1] = static_cast<char>(0xD0); //G
+      frame_data[j2] = static_cast<char>(0xF4); //R
+      frame_data[j3] = static_cast<char>(0xFF); //A
+    }
+    if (uav_camera_layer[i] == 1) {
+      //yellow
+      frame_data[j0] = static_cast<char>(0x9B);   //B
+      frame_data[j1] = static_cast<char>(0x59); //G
+      frame_data[j2] = static_cast<char>(0xB6); //R
+      frame_data[j3] = static_cast<char>(0xFF); //A
+    }
+    if ((ugv_camera_layer[i] == 1) && (uav_camera_layer[i] == 1)) {
+      //yellow
+      frame_data[j0] = static_cast<char>(0xD5);   //B
+      frame_data[j1] = static_cast<char>(0xB3); //G
+      frame_data[j2] = static_cast<char>(0x7F); //R
+      frame_data[j3] = static_cast<char>(0xFF); //A
+    }
+    if ((ugv_camera_layer[i] == 0) && (uav_camera_layer[i] == 0)) {
+      //blank
+      frame_data[j0] = static_cast<char>(0x00);   //B
+      frame_data[j1] = static_cast<char>(0x00); //G
+      frame_data[j2] = static_cast<char>(0x00); //R
+      frame_data[j3] = static_cast<char>(0x00); //A
+    }
   }
+
+  // // ask for draw
+  _visibility_map->set_invalid_cache (true);
+  _visibility_map->get_frame ()->damaged ()->activate (); // ?
+    
+  //GRAPH_EXEC;
+  //release_exclusive_access(DBG_REL);  
+  }
+
+
   void
   RosNode::run () {
   #ifndef NO_ROS
