@@ -165,6 +165,7 @@ RosNode::impl_activate ()
   _exclusion_areas = _parent->find_child("parent/l/map/layers/site/sitelayer/exclusion_areas");
   _limas = _parent->find_child("parent/l/map/layers/site/sitelayer/limas");
   _frame = _parent->find_child("parent/f");
+  _actor = _parent->find_child("parent/l/map/layers/actors/sfty_pilot");
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
   _id_curent_itenerary  = dynamic_cast<TextProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
   _ref_curent_itenerary = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/ref_current_itinerary"));
@@ -620,7 +621,11 @@ RosNode::test_multiple_itineraries(){
       ((BoolProperty*)_vab->find_child("failsafe"))->set_value(msg->failsafe, true);
 
     }
-
+    if (msg->robot_id == 7){
+      //Safety pilot
+      ((DoubleProperty*)_actor->find_child("lat"))->set_value(msg->position.latitude,true);
+      ((DoubleProperty*)_actor->find_child("lon"))->set_value(msg->position.longitude, true);
+    }
 
 
     _latitude.set_value (msg -> position.latitude, true);

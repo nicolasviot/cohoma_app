@@ -262,12 +262,12 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-          List layer{
             SafetyPilot sfty_pilot (map, $init_lat , $init_lon- 0.005, 0)
-          }
+          
         }
       }
       String name("Actors")
+      sfty_pilot aka ctrl_visibility.visible.sfty_pilot
     }
     Component site{
       Switch ctrl_visibility(visible){
