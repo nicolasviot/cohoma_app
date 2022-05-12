@@ -6,7 +6,7 @@ import Button
 import ItineraryPannel
 import CandidateTaskFilter
 import ClockComponent
-import CompteRendu
+import Console
 
 _define_
 RightPannel (Process root, Process frame){
@@ -75,7 +75,11 @@ CandidateTaskFilter filter(frame)
 filter.send_selected_tasks -> send_selected_tasks
 
 //Translation _ (0, 200)
-Image icare_logo ("res/icare-logo-2.png", 20, 200, 400, 400)
+//Image icare_logo ("res/icare-logo-2.png", 20, 200, 400, 400)
+Console console(0, 0)
+
+ClockComponent clock(170, 150)
+
 Component IObuttons{
 /*	Button send_plan_req (frame, " request plan ", 20, 150)
 	send_plan_req.click -> plan_request
@@ -95,10 +99,8 @@ Component IObuttons{
 /*	Button test_lima_button(frame, "test lima", 100, 250)
 	test_lima_button.click -> test_lima_spike*/
 
-/*	Button test_visibility_map_button(frame, "test_visibility_map", 100, 200)
+	Button test_visibility_map_button(frame, "test_visibility_map", 0, 200)
 	test_visibility_map_button.click->test_visibility_map
-*/
-	ClockComponent clock(170, 150)
 }
 
 

@@ -166,6 +166,8 @@ RosNode::impl_activate ()
   _limas = _parent->find_child("parent/l/map/layers/site/sitelayer/limas");
   _frame = _parent->find_child("parent/f");
   _actor = _parent->find_child("parent/l/map/layers/actors/sfty_pilot");
+  _clock = _parent->find_child("parent/right_pannel/right_pannel/clock");
+  _console = _parent->find_child("parent/right_pannel/right_pannel/console");
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
   _id_curent_itenerary  = dynamic_cast<TextProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
   _ref_curent_itenerary = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/ref_current_itinerary"));
@@ -682,9 +684,22 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         ((TextProperty*)new_trap->find_child("code"))->set_value(msg.traps[k].info.code, true);
         ((TextProperty*)new_trap->find_child("hazard"))->set_value(msg.traps[k].info.hazard, true);
         ((DoubleProperty*)new_trap->find_child("radius"))->set_value(msg.traps[k].info.radius, true);
+
+        std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+        ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - New trap at ["+ std::to_string(msg.traps[k].location.latitude) + "," + std::to_string(msg.traps[k].location.longitude) + "]", true);
+        if (msg.traps[k].identified){
+          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap identified at ["+ std::to_string(msg.traps[k].location.latitude) + "," + std::to_string(msg.traps[k].location.longitude) + "]" + " code =" + msg.traps[k].info.code, true);
+        }
+
 //rajouter radius
       }
       if (index_found != -1){
+
+        std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+
+        if (msg.traps[k].identified && !((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->get_value()){
+          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap identified at ["+ std::to_string(msg.traps[k].location.latitude) + "," + std::to_string(msg.traps[k].location.longitude) + "]" + " code =" + msg.traps[k].info.code, true);
+        }
 
         std::cerr << "old trap to update!" << std::endl;
         ((BoolProperty*)_traps_container->children()[index_found]->find_child("active"))->set_value(msg.traps[k].active, true);
