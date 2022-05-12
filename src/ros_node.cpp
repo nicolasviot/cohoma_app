@@ -686,9 +686,9 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         ((DoubleProperty*)new_trap->find_child("radius"))->set_value(msg.traps[k].info.radius, true);
 
         std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
-        ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - New trap at ["+ std::to_string(msg.traps[k].location.latitude) + "," + std::to_string(msg.traps[k].location.longitude) + "]", true);
+        ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - New trap #" + std::to_string(msg.traps[k].id), true);
         if (msg.traps[k].identified){
-          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap identified at ["+ std::to_string(msg.traps[k].location.latitude) + "," + std::to_string(msg.traps[k].location.longitude) + "]" + " code =" + msg.traps[k].info.code, true);
+          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap identified id="+ msg.traps[k].info.id +"(" +std::to_string(msg.traps[k].id) + ")" +  " code =" + msg.traps[k].info.code, true);
         }
 
 //rajouter radius

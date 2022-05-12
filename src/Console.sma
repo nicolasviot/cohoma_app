@@ -66,7 +66,7 @@ logger activation de lima
   */StandAlonePushButton clear("Clear", 200, 250)
   bg.width - 60 =:> clear.x
   bg.height - 30 =:> clear.y
-  //clear.click -> {""=:ste.line}
+  clear.click -> ste.clear
 
 
 
