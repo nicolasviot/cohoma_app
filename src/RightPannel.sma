@@ -100,7 +100,7 @@ Component IObuttons{
 	test_lima_button.click -> test_lima_spike*/
 
 
-	Button test_visibility_map_button(frame, "test_visibility_map", 100, 200)
+	Button test_visibility_map_button(frame, "test_visibility_map", 10, 500)
 	test_visibility_map_button.click->test_visibility_map
 }
 

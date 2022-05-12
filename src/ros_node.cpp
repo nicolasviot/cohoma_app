@@ -183,7 +183,7 @@ RosNode::impl_activate ()
   _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_wpt"));
   _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/entered_wpt"));
 
-  _scaling_visibility_map = dynamic_cast<Scaling*> (_parent->find_child ("parent/l/map/layers/result/scaling_visibility_map"));
+  _georef_visibility_map = _parent->find_child ("parent/l/map/layers/result/georef_visibility_map");
   _visibility_map = dynamic_cast<DataImage*> (_parent->find_child ("parent/l/map/layers/result/visibility_map"));
 
   //start the thread
@@ -1345,18 +1345,21 @@ std::cerr << lon_center << std::endl;
 
   //get_exclusive_access(DBG_GET);
 
-  int x_debug = 500;
-  int y_debug = 500;
+  if (_georef_visibility_map) {
+    dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lat"))->set_value (lat_center_map, true);
+    dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
+  }
+  else 
+    std::cerr << " \n\n\n NOO georef_visilbility \n\n\n " << std::endl;
 
-  int x_pos = x_debug - w/2;
-  int y_pos = y_debug - h/2;
+  // TODO
+  // int x_pos = x_debug - w/2;
+  // int y_pos = y_debug - h/2;
     
-  _scaling_visibility_map->sx()->set_value (resolution, true);
-  _scaling_visibility_map->sy()->set_value (resolution, true);
-  _scaling_visibility_map->cx()->set_value (x_pos, true);
-  _scaling_visibility_map->cy()->set_value (y_pos, true);
-  _visibility_map->x()->set_value (x_pos, true);  //lat
-  _visibility_map->y()->set_value (y_pos, true);  // long
+ 
+
+  //_visibility_map->x()->set_value (x_pos, true);  //lat
+  //_visibility_map->y()->set_value (y_pos, true);  // long
   _visibility_map->width()->set_value (w, true);
   _visibility_map->height()->set_value (h, true);
   _visibility_map->format()->set_value(5 , true);  // frame is ARGB_32 , QImage::Format_ARGB32 = 5 
@@ -1381,28 +1384,28 @@ std::cerr << lon_center << std::endl;
     int j3 = j0 + 3;
     if (ugv_camera_layer[i] == 1) {
       //yellow
-      frame_data[j0] = static_cast<char>(0x3F);   //B
+      frame_data[j0] = static_cast<char>(0x3F); //B
       frame_data[j1] = static_cast<char>(0xD0); //G
       frame_data[j2] = static_cast<char>(0xF4); //R
       frame_data[j3] = static_cast<char>(0xFF); //A
     }
     if (uav_camera_layer[i] == 1) {
       //yellow
-      frame_data[j0] = static_cast<char>(0x9B);   //B
+      frame_data[j0] = static_cast<char>(0x9B); //B
       frame_data[j1] = static_cast<char>(0x59); //G
       frame_data[j2] = static_cast<char>(0xB6); //R
       frame_data[j3] = static_cast<char>(0xFF); //A
     }
     if ((ugv_camera_layer[i] == 1) && (uav_camera_layer[i] == 1)) {
       //yellow
-      frame_data[j0] = static_cast<char>(0xD5);   //B
+      frame_data[j0] = static_cast<char>(0xD5); //B
       frame_data[j1] = static_cast<char>(0xB3); //G
       frame_data[j2] = static_cast<char>(0x7F); //R
       frame_data[j3] = static_cast<char>(0xFF); //A
     }
     if ((ugv_camera_layer[i] == 0) && (uav_camera_layer[i] == 0)) {
       //blank
-      frame_data[j0] = static_cast<char>(0x00);   //B
+      frame_data[j0] = static_cast<char>(0x00); //B
       frame_data[j1] = static_cast<char>(0x00); //G
       frame_data[j2] = static_cast<char>(0x00); //R
       frame_data[j3] = static_cast<char>(0x00); //A
