@@ -249,6 +249,7 @@ Component root {
         }
       }
       String name("Result")
+      georef_visibility_map aka ctrl_visibility.visible.layer.georef_visibility_map
       visibility_map aka ctrl_visibility.visible.layer.visibility_map
     }
 /*    Component mission_zones{
