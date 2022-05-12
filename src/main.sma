@@ -41,6 +41,7 @@ import LimaLayer
 import TrapLayer
 import ExclusionAreaLayer
 import SiteLayer
+import EnvMapLayer
 
 
 
@@ -244,13 +245,11 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible  {
-          Scaling scaling_visibility_map (1, 1, 0, 0)
-          DataImage visibility_map (0,0,0,0)
+          EnvMapLayer layer (map)
         }
       }
       String name("Result")
-      visibility_map aka ctrl_visibility.visible.visibility_map
-      scaling_visibility_map aka ctrl_visibility.visible.scaling_visibility_map
+      visibility_map aka ctrl_visibility.visible.layer.visibility_map
     }
 /*    Component mission_zones{
       Switch ctrl_visibility (visible){

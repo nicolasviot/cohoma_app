@@ -183,7 +183,6 @@ RosNode::impl_activate ()
   _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_wpt"));
   _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/entered_wpt"));
 
-  _scaling_visibility_map = dynamic_cast<Scaling*> (_parent->find_child ("parent/l/map/layers/result/scaling_visibility_map"));
   _visibility_map = dynamic_cast<DataImage*> (_parent->find_child ("parent/l/map/layers/result/visibility_map"));
 
   //start the thread
@@ -1351,10 +1350,10 @@ std::cerr << lon_center << std::endl;
   int x_pos = x_debug - w/2;
   int y_pos = y_debug - h/2;
     
-  _scaling_visibility_map->sx()->set_value (resolution, true);
-  _scaling_visibility_map->sy()->set_value (resolution, true);
-  _scaling_visibility_map->cx()->set_value (x_pos, true);
-  _scaling_visibility_map->cy()->set_value (y_pos, true);
+  // _scaling_visibility_map->sx()->set_value (resolution, true);
+  // _scaling_visibility_map->sy()->set_value (resolution, true);
+  // _scaling_visibility_map->cx()->set_value (x_pos, true);
+  // _scaling_visibility_map->cy()->set_value (y_pos, true);
   _visibility_map->x()->set_value (x_pos, true);  //lat
   _visibility_map->y()->set_value (y_pos, true);  // long
   _visibility_map->width()->set_value (w, true);
