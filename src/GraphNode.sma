@@ -31,6 +31,7 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
     Bool islocked(0)
     Int default_radius (10)
     Int other_radius (10)
+    String label("")
 
     Double lat($_lat)
     Double lon($_lon)
@@ -115,9 +116,12 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
         }
     }
     usage_status => status_switch.state
-
-
-
+    FillOpacity _ (1.2)
+    FillColor _ (0, 0, 0)
+    FontWeight _ (75)
+    FontSize _ (5, 20)
+    Text label_text(-$c.r/2, -20, "")
+    label =:>label_text.text
     Spike leave
     Spike right_press
     Spike enter
@@ -126,12 +130,14 @@ FSM tooltip{
     State entered{
         Timer t (500)
     }
+
     State display_tooltip{
         Translation t(20, 0)
 
         FillOpacity fo (0.8)
         FillColor light_grey (204, 204, 204)
-        
+        FontSize _ (5, 12)
+        FontWeight _ (50)
         Rectangle bg (0, 0, 50, 20, 5, 5)
         FillColor _ (0, 0, 0)
         Text legend (0, 0, "Node 0")
@@ -139,7 +145,7 @@ FSM tooltip{
         legend.y - 12 =:> bg.y
         legend.width =:> bg.width
         legend.height =:> bg.height
-        "Node " + toString(id) + " " + usage_status =:> legend.text
+        "Node " + toString(id) + " (" + label + ") " + usage_status  =:> legend.text
 
 
     }

@@ -25,7 +25,7 @@ id - 1 =:> wpt.id
 wpt.usage_status => status
 lat =:> wpt.lat
 lon =:> wpt.lon
-
+label =:> wpt.label
 AssignmentSequence export_id (1){
 	id =: manager.selected_id
 	this =: manager.current_wpt
