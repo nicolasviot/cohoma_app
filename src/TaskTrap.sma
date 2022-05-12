@@ -115,8 +115,14 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
 
   FSM drag_fsm {
         State no_drag {
-            map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
-            (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
+            AssignmentSequence set_ty (0) {
+                map.t0_y - lat2py ($lat, $map.zoomLevel) =: c.cy
+            }
+            map.t0_y -> set_ty
+            AssignmentSequence set_tx (0) {
+                (lon2px ($lon, $map.zoomLevel) - map.t0_x) =: c.cx
+            }
+            map.t0_x -> set_tx
             radius/get_resolution ($map.zoomLevel) =:> c.r
         }
         State drag {

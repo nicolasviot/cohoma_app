@@ -158,16 +158,16 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
   zoom_in->set_corner_tile_in:(this) {
     this.buff_lon = this.pointer_lon
     this.buff_lat = this.pointer_lat
-    this.new_t0_x = this.layers.[2].tiles.[1].[1].x0
-    this.new_t0_y = this.layers.[2].tiles.[1].[1].y0
+    this.new_t0_x = this.layers.[1].tiles.[1].[1].x0
+    this.new_t0_y = this.layers.[1].tiles.[1].[1].y0
   }
   set_corner_tile_in->map.prepare_zoom_in
 
   zoom_out->set_corner_tile_out:(this) {
     this.buff_lon = this.pointer_lon
     this.buff_lat = this.pointer_lat
-    this.new_t0_x = this.layers.[2].tiles.[1].[1].x0
-    this.new_t0_y = this.layers.[2].tiles.[1].[1].y0
+    this.new_t0_x = this.layers.[1].tiles.[1].[1].x0
+    this.new_t0_y = this.layers.[1].tiles.[1].[1].y0
   }
   set_corner_tile_out->map.prepare_zoom_out
 
@@ -176,10 +176,10 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
   Spike update_layer_after_zoom_out
 
   update_layer_after_zoom_in->switch_layers:(this) {
-    moveChild this.layers.[2] <<
+    //moveChild this.layers.[2] <<
     setRef (this.ref_corner_tile, this.layers.[1].tiles.[1].[1])
-    setRef (this.ref_layer_current, this.layers.[1])
-    setRef (this.ref_layer_above, this.layers.[2])
+    //setRef (this.ref_layer_current, this.layers.[1])
+    //setRef (this.ref_layer_above, this.layers.[2])
   }
   update_layer_after_zoom_out->switch_layers
 
@@ -192,7 +192,7 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
     map.ypan + map.py0 + map.new_dy =: ref_tr_above_ty.value
     map.center_x =: ref_sc_current_cx.value, ref_sc_above_cx.value
     map.center_y =: ref_sc_current_cy.value, ref_sc_above_cy.value
-    1 =: ref_zoom_current.value, ref_zoom_above.value
+    //1 =: ref_zoom_current.value, ref_zoom_above.value
   }
 
   map.prepare_zoom_in->prepare_zoom_in
@@ -203,8 +203,8 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
     map.ypan + map.py0 + map.new_dy =: ref_tr_above_ty.value
     map.center_x =: ref_sc_current_cx.value, ref_sc_above_cx.value
     map.center_y =: ref_sc_current_cy.value, ref_sc_above_cy.value
-    0 =:> ref_zoom_current.value
-    1 =:> ref_zoom_above.value
+    //0 =:> ref_zoom_current.value
+    //1 =:> ref_zoom_above.value
   }
   map.prepare_zoom_out->prepare_zoom_out
   prepare_zoom_out->switch_layers, map.end_zoom_out

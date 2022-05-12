@@ -302,7 +302,7 @@ Component root {
   hide_reticule -> l.map.reticule.hide_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
 
   Component right_pannel {
-    Translation t (1424, 0)
+    Translation t (1024, 0)
     Rectangle bg (0, 0, 700, 900)
     RightPannel right_pannel (root, f)
     StandAlonePushButton z_in ("zoom in", 150, 600)

@@ -37,8 +37,14 @@ TaskAreaSummit(Process map, double _lat, double _lon){
     screen_translation.tx + pos.tx=:> x
     screen_translation.ty + pos.ty=:> y
 
-    map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
-    (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
+    AssignmentSequence set_ty (0) {
+        map.t0_y - lat2py ($lat, $map.zoomLevel) =: screen_translation.ty
+    }
+    map.t0_y -> set_ty
+    AssignmentSequence set_tx (0) {
+        (lon2px ($lon, $map.zoomLevel) - map.t0_x) =: screen_translation.tx
+    }
+    map.t0_x -> set_tx
 
 /*
     FSM fsm {

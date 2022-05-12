@@ -173,14 +173,11 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   FSM fsm {
     State idle {
       //Calcul des coordonnées du pointeur
-      px2lon (t0_x + g_map.pick_area.width/2 - px0 - (xpan - cur_ref_x), $zoomLevel) => pointer_lon
-      py2lat (t0_y - g_map.pick_area.height/2 + py0 + (ypan - cur_ref_y), $zoomLevel) => pointer_lat
- 
+      px2lon (t0_x + g_map.pick_area.width/2 - px0 - (xpan - cur_ref_x), $zoomLevel) =:> pointer_lon
+      py2lat (t0_y - g_map.pick_area.height/2 + py0 + (ypan - cur_ref_y), $zoomLevel) =:> pointer_lat
+
       floor((g_map.pick_area.width/2 - (xpan - cur_ref_x) + 512)/256.0) + x_odd =:> pointer_col
       floor((g_map.pick_area.height/2 - (ypan - cur_ref_y) + 512)/256.0) + y_odd =:> pointer_row
-
-     // (g_map.pick_area.width/2 - (xpan - cur_ref_x - acc_dx) + 512)%256.0 =:> mod_x_zooom_in
-      //(g_map.pick_area.height/2 - (ypan - cur_ref_y - acc_dy) + 512)%256.0 =:> mod_y_zooom_in
     }
     State pressed {
     }

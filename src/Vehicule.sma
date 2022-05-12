@@ -15,7 +15,7 @@ _define_
 Vehicule (Process map, double _lat, double _lon, string init_state, Process _color)
 {
 
-    
+    Double init_lat (_lat)
     Double lat($_lat)
     Double lon($_lon)
     Double battery_voltage(24)
@@ -74,8 +74,14 @@ Vehicule (Process map, double _lat, double _lon, string init_state, Process _col
     } 
     
     state =:> graphics.state
-    map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
-    (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
+    AssignmentSequence set_ty (0) {
+        map.t0_y - lat2py ($lat, $map.zoomLevel) =: screen_translation.ty
+    }
+    map.t0_y -> set_ty
+    AssignmentSequence set_tx (0) {
+        (lon2px ($lon, $map.zoomLevel) - map.t0_x) =: screen_translation.tx
+    }
+    map.t0_x -> set_tx
 
 /*
     FSM fsm {

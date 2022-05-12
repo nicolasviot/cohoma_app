@@ -119,8 +119,14 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 
   FSM drag_fsm {
         State no_drag {
-            map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
-            (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
+            AssignmentSequence set_ty (0) {
+                map.t0_y - lat2py ($lat, $map.zoomLevel) =: c.cy
+            }
+            map.t0_y -> set_ty
+            AssignmentSequence set_tx (0) {
+                (lon2px ($lon, $map.zoomLevel) - map.t0_x) =: c.cx
+            }
+            map.t0_x -> set_tx
             radius/get_resolution ($map.zoomLevel + 1) =:> c.r
         }
         State drag {

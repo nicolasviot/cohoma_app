@@ -139,13 +139,24 @@ FSM enterLeave {
    
   FSM drag_fsm {
         State no_drag {
-            map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
-            (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
+            AssignmentSequence set_ty (0) {
+                map.t0_y - lat2py ($lat, $map.zoomLevel) =: screen_translation.ty
+            }
+            map.t0_y -> set_ty
+            AssignmentSequence set_tx (0) {
+                (lon2px ($lon, $map.zoomLevel) - map.t0_x) =: screen_translation.tx
+            }
+            map.t0_x -> set_tx
         }
         State no_drag_while_drawing_edge{
-            map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
-            (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
-      
+            AssignmentSequence set_ty (0) {
+                map.t0_y - lat2py ($lat, $map.zoomLevel) =: screen_translation.ty
+            }
+            map.t0_y -> set_ty
+            AssignmentSequence set_tx (0) {
+                (lon2px ($lon, $map.zoomLevel) - map.t0_x) =: screen_translation.tx
+            }
+            map.t0_x -> set_tx
         }
         State drag {
             Double init_cx (0)
@@ -173,7 +184,7 @@ FSM enterLeave {
     Double init_cx (0)
     Double dy (0)
     Double init_cy(0)
-    map.prepare_zoom_in->{
+/*    map.prepare_zoom_in->{
         map.new_t0_y - lat2py ($lat, $map.zoomLevel) =: new_cy
         (lon2px ($lon, $map.zoomLevel) - map.new_t0_x) =: new_cx
         screen_translation.tx =: init_cx
@@ -193,7 +204,7 @@ FSM enterLeave {
         screen_translation.ty =: init_cy
         (dx + map.new_dx) + init_cx =: screen_translation.tx
         (dy + map.new_dy) + init_cy =: screen_translation.ty
-    }
+    }*/
 /*    
     FSM fsm {
         State idle {
