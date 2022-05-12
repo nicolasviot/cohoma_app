@@ -42,7 +42,8 @@
 #include "core/tree/component.h"
 #include "exec_env/external_source.h"
 #include "core/control/native_action.h"
-
+#include "gui/shape/image.h"
+#include "gui/transformation/scaling.h"
 
 //C++ stuff
 
@@ -123,6 +124,10 @@ class RosNode : public FatProcess, public ExternalSource
     IntProperty _current_plan_id_vab;
     IntProperty _start_plan_vab_id;
     IntProperty _end_plan_vab_id;
+
+    //Visibility_map
+    Scaling* _scaling_visibility_map;
+    DataImage* _visibility_map;
     
 
 	  std::vector<ParentProcess*> navgraph_list;
