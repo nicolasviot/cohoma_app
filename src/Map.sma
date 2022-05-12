@@ -73,6 +73,8 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   Spike zoom_out_req
   Spike incr_zoom
   Spike decr_zoom
+  Spike zoom_in
+  Spike zoom_out
 
   Int pix_offset_x (0)
   Int pix_offset_y (0)
@@ -86,6 +88,8 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   Double new_t0_x (0)
   Double new_t0_y (0)
 
+  Double center_x (0)
+  Double center_y (0)
   int t0_col = lon2tilex (_lon, _zoom) // indice x de la tuile couvrant le point de référence
   int t0_row = lat2tiley (_lat, _zoom) // indice y de la tuile couvrant le point de référence
   
@@ -136,6 +140,9 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
     NoOutline _
     PickFill _
     Rectangle pick_area (0, 0, 0, 0, 0, 0)
+    pick_area.width/2 =:> center_x
+    pick_area.height/2 =:> center_y
+  
     RectangleClip clip_area (0, 0, _width, _height)
 
     PanAndZoom pz (f.move, pick_area.press, pick_area.release, pick_area.wheel.dy)
@@ -166,14 +173,14 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   FSM fsm {
     State idle {
       //Calcul des coordonnées du pointeur
-      px2lon (t0_x + g_map.pick_area.move.x - px0 - (xpan - cur_ref_x), $zoomLevel) => pointer_lon
-      py2lat (t0_y - g_map.pick_area.move.y + py0 + (ypan - cur_ref_y), $zoomLevel) => pointer_lat
+      px2lon (t0_x + g_map.pick_area.width/2 - px0 - (xpan - cur_ref_x), $zoomLevel) => pointer_lon
+      py2lat (t0_y - g_map.pick_area.height/2 + py0 + (ypan - cur_ref_y), $zoomLevel) => pointer_lat
  
-      floor((g_map.pick_area.move.local_x - (xpan - cur_ref_x) + 512)/256.0) + x_odd =:> pointer_col
-      floor((g_map.pick_area.move.local_y - (ypan - cur_ref_y) + 512)/256.0) + y_odd =:> pointer_row
+      floor((g_map.pick_area.width/2 - (xpan - cur_ref_x) + 512)/256.0) + x_odd =:> pointer_col
+      floor((g_map.pick_area.height/2 - (ypan - cur_ref_y) + 512)/256.0) + y_odd =:> pointer_row
 
-      (g_map.pick_area.move.local_x - (xpan - cur_ref_x - acc_dx) + 512)%256.0 =:> mod_x_zooom_in
-      (g_map.pick_area.move.local_y - (ypan - cur_ref_y - acc_dy) + 512)%256.0 =:> mod_y_zooom_in
+     // (g_map.pick_area.width/2 - (xpan - cur_ref_x - acc_dx) + 512)%256.0 =:> mod_x_zooom_in
+      //(g_map.pick_area.height/2 - (ypan - cur_ref_y - acc_dy) + 512)%256.0 =:> mod_y_zooom_in
     }
     State pressed {
     }
@@ -186,58 +193,69 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
 
   incr_zoom-> {
     zoomLevel + 1 =: zoomLevel
-    xpan + new_dx =: xpan
-    ypan + new_dy =: ypan
+    //xpan + new_dx =: xpan
+    //ypan + new_dy =: ypan
   }
 
   decr_zoom-> {
     zoomLevel - 1 =: zoomLevel
-    xpan + new_dx =: xpan
-    ypan + new_dy =: ypan
+    //xpan + new_dx =: xpan
+    //ypan + new_dy =: ypan
   }
 
   AssignmentSequence prepare_zoom_in (1) {
-    px2lon (new_t0_x + g_map.pick_area.move.x - px0 - (xpan - cur_ref_x), zoomLevel+1) =: new_lon
-    py2lat (new_t0_y - g_map.pick_area.move.y + py0 + (ypan - cur_ref_y), zoomLevel+1) =: new_lat
-    lon2px ($new_lon, zoomLevel + 1) - lon2px ($buff_lon, zoomLevel + 1) =: new_dx
-    lat2py ($buff_lat, zoomLevel + 1) - lat2py ($new_lat, zoomLevel + 1) =: new_dy
+    px2lon (new_t0_x + g_map.pick_area.width/2 - px0 - (xpan - cur_ref_x), $zoomLevel) =: new_lon
+    py2lat (new_t0_y - g_map.pick_area.height/2 + py0 + (ypan - cur_ref_y), $zoomLevel) =: new_lat
+    lon2px ($new_lon, $zoomLevel) - lon2px ($buff_lon, $zoomLevel) =: new_dx
+    lat2py ($buff_lat, $zoomLevel) - lat2py ($new_lat, $zoomLevel) =: new_dy
+    xpan + new_dx =: xpan
+    ypan + new_dy =: ypan
   }
   
   AssignmentSequence prepare_zoom_out (1) {
-    px2lon (new_t0_x + g_map.pick_area.move.x - px0 - (xpan - cur_ref_x), zoomLevel-1) =: new_lon
-    py2lat (new_t0_y - g_map.pick_area.move.y + py0 + (ypan - cur_ref_y), zoomLevel-1) =: new_lat
-    lon2px ($new_lon, zoomLevel - 1) - lon2px ($buff_lon, zoomLevel - 1) =: new_dx
-    lat2py ($buff_lat, zoomLevel - 1) - lat2py ($new_lat, zoomLevel - 1) =: new_dy
+    px2lon (new_t0_x + g_map.pick_area.width/2 - px0 - (xpan - cur_ref_x), $zoomLevel) =: new_lon
+    py2lat (new_t0_y - g_map.pick_area.height/2 + py0 + (ypan - cur_ref_y), $zoomLevel) =: new_lat
+    lon2px ($new_lon, $zoomLevel) - lon2px ($buff_lon, $zoomLevel) =: new_dx
+    lat2py ($buff_lat, $zoomLevel) - lat2py ($new_lat, $zoomLevel) =: new_dy
+    xpan + new_dx =: xpan
+    ypan + new_dy =: ypan
   }
-
+/*
   FSM zoom_fsm {
     State idle {
+*/
       Bool max (0)
       Bool min (0)
       zoomLevel == 19 =:> max
       zoomLevel == 1 =:> min
       Switch check_zoom (both) {
         Component both {
-          g_map.pick_area.wheel.dy > 0 -> zoom_in_req
-          g_map.pick_area.wheel.dy < 0 -> zoom_out_req
+          zoom_in -> incr_zoom
+          incr_zoom->zoom_in_req
+          zoom_out -> decr_zoom
+          decr_zoom->zoom_out_req
         }
         Component only_in {
-          g_map.pick_area.wheel.dy > 0 -> zoom_in_req
+          zoom_in -> incr_zoom
+          incr_zoom->zoom_in_req
         }
         Component only_out {
-          g_map.pick_area.wheel.dy < 0 -> zoom_out_req
+          zoom_out -> decr_zoom
+          decr_zoom->zoom_out_req
         }
       }
       min == 1 ? "only_in" : (max == 1 ? "only_out" : "both") =:> check_zoom.state 
-    }
+    
+    /*
     State zooming_in
     State zooming_out
     idle->zooming_in (zoom_in_req)
-    zooming_in->idle (end_zoom_in, incr_zoom)
+    zooming_in->idle (end_zoom_in)
     idle->zooming_out (zoom_out_req)
-    zooming_out->idle (end_zoom_out, decr_zoom)
+    zooming_out->idle (end_zoom_out)
   }
-
+  */
+ 
   AssignmentSequence prepare_move_right (1) {
     pix_offset_x =: buff_pix_offset_x
     cur_ref_x + 256*pix_offset_x =: cur_ref_x

@@ -37,7 +37,10 @@ TaskAreaSummit(Process map, double _lat, double _lon){
     screen_translation.tx + pos.tx=:> x
     screen_translation.ty + pos.ty=:> y
 
+    map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
+    (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
 
+/*
     FSM fsm {
         State idle {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
@@ -87,6 +90,6 @@ TaskAreaSummit(Process map, double _lat, double _lon){
         zoom_out -> idle (zoom_out.anim.end)
     }
 
-
+*/
 
 }

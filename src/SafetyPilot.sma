@@ -59,6 +59,7 @@ SafetyPilot (Process map, double _lat, double _lon, int _id)
         State no_drag {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
             (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
+            radius/get_resolution ($map.zoomLevel) =:> c.r
         }
         State drag {
             Double init_cx (0)
@@ -77,6 +78,9 @@ SafetyPilot (Process map, double _lat, double _lon, int _id)
         no_drag->drag (c.left.press, map.reticule.show_reticule)
         drag->no_drag (c.left.release, map.reticule.hide_reticule)
     }
+    
+
+/*
     FSM fsm {
         State idle {
             //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
@@ -139,5 +143,5 @@ SafetyPilot (Process map, double _lat, double _lon, int _id)
         idle->zoom_out (map.prepare_zoom_out)
         zoom_out -> idle (zoom_out.anim.end)
     }
-
+*/
 }

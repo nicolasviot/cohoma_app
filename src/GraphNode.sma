@@ -166,6 +166,35 @@ FSM enterLeave {
         no_drag_while_drawing_edge -> no_drag (shift_r)
         drag->no_drag (interact_mask.left.release, map.reticule.hide_reticule)
     }
+    
+    Double new_cx (0)
+    Double new_cy (0)
+    Double dx (0)
+    Double init_cx (0)
+    Double dy (0)
+    Double init_cy(0)
+    map.prepare_zoom_in->{
+        map.new_t0_y - lat2py ($lat, $map.zoomLevel) =: new_cy
+        (lon2px ($lon, $map.zoomLevel) - map.new_t0_x) =: new_cx
+        screen_translation.tx =: init_cx
+        new_cx - init_cx =: dx
+        screen_translation.ty =: init_cy
+        new_cy - init_cy =: dy
+        (dx + map.new_dx) + init_cx =: screen_translation.tx
+        (dy + map.new_dy) + init_cy =: screen_translation.ty
+    }
+
+    map.prepare_zoom_out->{
+        map.new_t0_y - lat2py ($lat, $map.zoomLevel) =: new_cy
+        (lon2px ($lon, $map.zoomLevel) - map.new_t0_x) =: new_cx
+        screen_translation.tx =: init_cx
+        new_cx - screen_translation.tx =: dx
+        new_cy - screen_translation.ty =: dy
+        screen_translation.ty =: init_cy
+        (dx + map.new_dx) + init_cx =: screen_translation.tx
+        (dy + map.new_dy) + init_cy =: screen_translation.ty
+    }
+/*    
     FSM fsm {
         State idle {
             //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
@@ -214,5 +243,5 @@ FSM enterLeave {
         idle->zoom_out (map.prepare_zoom_out)
         zoom_out -> idle (zoom_out.anim.end)
     }
-
+*/
 }

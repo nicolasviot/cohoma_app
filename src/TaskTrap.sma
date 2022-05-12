@@ -111,12 +111,13 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
     selected?0:1 =: selected 
    }
 
-   radius/get_resolution ($map.zoomLevel) =:> c.r
+
 
   FSM drag_fsm {
         State no_drag {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
             (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
+            radius/get_resolution ($map.zoomLevel) =:> c.r
         }
         State drag {
             Double init_cx (0)
@@ -135,6 +136,7 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
         //no_drag->drag (c.left.press, map.reticule.show_reticule)
         drag->no_drag (c.left.release, map.reticule.hide_reticule)
     }
+    /*
     FSM fsm {
         State idle {
             //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
@@ -197,5 +199,5 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
         idle->zoom_out (map.prepare_zoom_out)
         zoom_out -> idle (zoom_out.anim.end)
     }
-	
+	*/
 }

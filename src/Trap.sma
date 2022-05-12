@@ -121,6 +121,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         State no_drag {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
             (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
+            radius/get_resolution ($map.zoomLevel + 1) =:> c.r
         }
         State drag {
             Double init_cx (0)
@@ -139,6 +140,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         no_drag->drag (c.left.press, map.reticule.show_reticule)
         drag->no_drag (c.left.release, map.reticule.hide_reticule)
     }
+    /*
     FSM fsm {
         State idle {
             //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
@@ -201,5 +203,5 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         idle->zoom_out (map.prepare_zoom_out)
         zoom_out -> idle (zoom_out.anim.end)
     }
-
+*/
 }

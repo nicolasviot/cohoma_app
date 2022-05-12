@@ -56,8 +56,10 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
   NativeAsyncAction move_up_l2 (fn_move_up_l2, this, 1)
   NativeAsyncAction move_down_l2 (fn_move_down_l2, this, 1)
 
-  NativeAsyncAction zoom_in (fn_zoom_in, this, 1)
-  NativeAsyncAction zoom_out (fn_zoom_out, this, 1)
+  //NativeAsyncAction zoom_in (fn_zoom_in, this, 1)
+  NativeAction zoom_in (fn_zoom_in, this, 1)
+  NativeAction zoom_out (fn_zoom_out, this, 1)
+  //NativeAsyncAction zoom_out (fn_zoom_out, this, 1)
 
 
   map.move_left     -> move_left_l1
@@ -153,7 +155,7 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
   map.zoom_in_req->zoom_in
   map.zoom_out_req->zoom_out
 
-  zoom_in.end->set_corner_tile_in:(this) {
+  zoom_in->set_corner_tile_in:(this) {
     this.buff_lon = this.pointer_lon
     this.buff_lat = this.pointer_lat
     this.new_t0_x = this.layers.[2].tiles.[1].[1].x0
@@ -161,7 +163,7 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
   }
   set_corner_tile_in->map.prepare_zoom_in
 
-  zoom_out.end->set_corner_tile_out:(this) {
+  zoom_out->set_corner_tile_out:(this) {
     this.buff_lon = this.pointer_lon
     this.buff_lat = this.pointer_lat
     this.new_t0_x = this.layers.[2].tiles.[1].[1].x0
@@ -184,7 +186,34 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
   update_layer_after_zoom_in->map.end_zoom_in
   update_layer_after_zoom_out->map.end_zoom_out
  
-  FSM zoom_control {
+  
+  AssignmentSequence prepare_zoom_in (1) {      
+    map.xpan + map.px0 + map.new_dx =: ref_tr_above_tx.value
+    map.ypan + map.py0 + map.new_dy =: ref_tr_above_ty.value
+    map.center_x =: ref_sc_current_cx.value, ref_sc_above_cx.value
+    map.center_y =: ref_sc_current_cy.value, ref_sc_above_cy.value
+    1 =: ref_zoom_current.value, ref_zoom_above.value
+  }
+
+  map.prepare_zoom_in->prepare_zoom_in
+  prepare_zoom_in->switch_layers, map.end_zoom_in //update_layer_after_zoom_in
+
+  AssignmentSequence prepare_zoom_out (1) {      
+    map.xpan + map.px0 + map.new_dx =: ref_tr_above_tx.value
+    map.ypan + map.py0 + map.new_dy =: ref_tr_above_ty.value
+    map.center_x =: ref_sc_current_cx.value, ref_sc_above_cx.value
+    map.center_y =: ref_sc_current_cy.value, ref_sc_above_cy.value
+    0 =:> ref_zoom_current.value
+    1 =:> ref_zoom_above.value
+  }
+  map.prepare_zoom_out->prepare_zoom_out
+  prepare_zoom_out->switch_layers, map.end_zoom_out
+  map.end_zoom_out->{1 =: ref_zoom_current.value, ref_zoom_above.value}
+
+  map.xpan + map.px0 =:> ref_tr_current_tx.value, ref_tr_above_tx.value
+  map.ypan + map.py0 =:> ref_tr_current_ty.value, ref_tr_above_ty.value
+
+  /*FSM zoom_control {
     State idle {
       map.xpan + map.px0 =:> ref_tr_current_tx.value, ref_tr_above_tx.value
       map.ypan + map.py0 =:> ref_tr_current_ty.value, ref_tr_above_ty.value
@@ -218,5 +247,5 @@ MapLayer (Process f, Process map, NativeCode loader, string name)
     zooming_in->idle (zooming_in.anim.end, update_layer_after_zoom_in)
     idle->zooming_out (map.prepare_zoom_out)
     zooming_out->idle (zooming_out.anim.end, update_layer_after_zoom_out)
-  }
+  }*/
 }

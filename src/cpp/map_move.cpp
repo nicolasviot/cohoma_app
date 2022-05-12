@@ -38,7 +38,7 @@
   void
   fn_zoom_in (djnn::CoreProcess *src)
   {
-    djnn::get_exclusive_access(DBG_GET);
+    //djnn::get_exclusive_access(DBG_GET);
     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
 
     int nbCols = djnn::getInt (data->find_child ("nbCols"));
@@ -46,7 +46,8 @@
     int nbRows = djnn::getInt (data->find_child ("nbRows"));
     int row = djnn::getInt (data->find_child ("pointer_row"));
     int col = djnn::getInt (data->find_child ("pointer_col"));
-    int z = djnn::getInt (data->find_child ("zoomLevel")) + 1;
+    int z = djnn::getInt (data->find_child ("zoomLevel"));
+
     double lon = djnn::getDouble (data->find_child ("pointer_lon"));
     double lat = djnn::getDouble (data->find_child ("pointer_lat"));
 
@@ -58,7 +59,7 @@
     djnn::List *tiles = (djnn::List*) data->find_optional_child ("layers/2/tiles");
     djnn::CoreProcess* tile = tiles->find_child (std::to_string(row))->find_child(std::to_string (col));
     if (tiles == nullptr) {
-      djnn::release_exclusive_access(DBG_REL);
+      //djnn::release_exclusive_access(DBG_REL);
       return;
     }
     for (int n_row = 1; n_row <= nbRows; n_row++) {
@@ -68,20 +69,21 @@
       }
     }
     fill4tiles (tiles, nbRows, nbCols, row + 1, col + 1, tx, ty, z);
-    djnn::release_exclusive_access(DBG_REL);
+    //djnn::release_exclusive_access(DBG_REL);
   }
 
 void
 fn_zoom_out (djnn::CoreProcess *src)
 {
-  djnn::get_exclusive_access(DBG_GET);
+  //djnn::get_exclusive_access(DBG_GET);
   djnn::Process *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
 
   int nbCols = djnn::getInt (data->find_child ("nbCols"));
   int nbRows = djnn::getInt (data->find_child ("nbRows"));
   int row = djnn::getInt (data->find_child ("pointer_row"));
   int col = djnn::getInt (data->find_child ("pointer_col"));
-  int z = djnn::getInt (data->find_child ("zoomLevel")) - 1;
+  int z = djnn::getInt (data->find_child ("zoomLevel"));
+
   double lon = djnn::getDouble (data->find_child ("pointer_lon"));
   double lat = djnn::getDouble (data->find_child ("pointer_lat"));
   int tx =  lon2tilex (lon, z); // x de la tuile couvrant le point de référence
@@ -89,7 +91,7 @@ fn_zoom_out (djnn::CoreProcess *src)
   djnn::List *tiles = (djnn::List*) data->find_optional_child ("layers/2/tiles");
   djnn::CoreProcess* tile = tiles->find_child (std::to_string(row))->find_child(std::to_string (col));
   if (tiles == nullptr) {
-    djnn::release_exclusive_access(DBG_REL);
+    //djnn::release_exclusive_access(DBG_REL);
     return;
   }
   for (int n_row = 1; n_row <= nbRows; n_row++) {
@@ -99,7 +101,7 @@ fn_zoom_out (djnn::CoreProcess *src)
     }
   }
   fill4tiles (tiles, nbRows, nbCols, row + 1, col + 1, tx, ty, z);
-  djnn::release_exclusive_access(DBG_REL);
+  //djnn::release_exclusive_access(DBG_REL);
   }
 
 

@@ -42,7 +42,7 @@ import TrapLayer
 import ExclusionAreaLayer
 import SiteLayer
 
-
+import gui.widgets.StandAlonePushButton
 
 _native_code_
 %{
@@ -305,7 +305,8 @@ Component root {
     Translation t (1424, 0)
     Rectangle bg (0, 0, 700, 900)
     RightPannel right_pannel (root, f)
-
+    StandAlonePushButton z_in ("zoom in", 150, 600)
+    StandAlonePushButton z_out ("zoom out", 250, 600)
   }
 
   // Ros node w/ all sub and pub fonctions
@@ -318,6 +319,9 @@ Component root {
   right_pannel.right_pannel.itineraryPannel.plan_set ->ros_manager.validate_plan
   right_pannel.right_pannel.test_lima_spike -> ros_manager.test_lima_spike
   
+  right_pannel.z_in.click->l.map.zoom_in
+  right_pannel.z_out.click->l.map.zoom_out
+
   // Strips container
   StripContainer strips (f, 0, 868, l.map.layers.satelites )
 
