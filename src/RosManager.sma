@@ -82,7 +82,9 @@ send_selected_tasks_native (Process c)
 %{
 	Process *data = (Process*) get_native_user_data(c);
 	RosNode *node = dynamic_cast<RosNode*>(data);
+	#ifndef NO_ROS
 	node->send_selected_tasks();
+	#endif
 %}
 
 
