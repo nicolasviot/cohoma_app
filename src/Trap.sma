@@ -22,13 +22,13 @@ Trap (Process map, double _lat, double _lon, int _id)
     Double lon($_lon)
     Double altitude_msl(0)
     Int id($_id)
-    Bool identified(1)
+    Bool identified(0)
     Bool active(1)
     String state ("unknown") //can be unkown, identified, deactivated
     String trap_id("?")
 
     
-    active ? (identified ? "identified" : "unkown") : "deactivated" =:> state
+    active ? (identified ? "identified" : "unknown") : "deactivated" =:> state
 
 
     /*
@@ -42,7 +42,7 @@ Trap (Process map, double _lat, double _lon, int _id)
 
     */
     String description("this is a trap")
-    Double radius(50)
+    Double radius(30)
     Bool remotely_deactivate(0)
     Bool contact_deactivate(0)
     Int contact_mode(0)
@@ -61,202 +61,268 @@ Trap (Process map, double _lat, double _lon, int _id)
     map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
     map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
     Translation screen_translation (0, 0)
+
+
+  
+    //encapsulating content to prevent opacities interferences with menu and localization
+    Component content{
+
     
+        //Rectangle
+        OutlineOpacity trap_out_op (0)
+        OutlineColor _ (0,0,0)
+        OutlineWidth _ (2)
+        FillOpacity golbal_opacity (1)
+        FillColor red(240, 0, 0)
+        Rotation rot (45, 0, 0)
+        Rectangle rect (0, 0, 30, 30)
+        Rotation un_rot (-45, 0, 0)
 
-    //Rectangle
-    OutlineOpacity trap_out_op (0)
-    OutlineColor _ (0,0,0)
-    OutlineWidth _ (2)
-    FillOpacity golbal_opacity (1)
-    FillColor red(240, 0, 0)
-    Rotation rot (45, 0, 0)
-    Rectangle rect (0, 0, 30, 30)
-    Rotation un_rot (-45, 0, 0)
+        NoOutline _
 
-    NoOutline _
+        //Circle (linked with radius)
+        FillOpacity circle_opacity(0.3)
+        Circle c (0, 0, 50)
+        c.cx - rect.width/2 =:> rect.x 
+        c.cy - rect.height/2 =:> rect.y
+        radius/get_resolution ($map.zoomLevel) =:> c.r //attention peut etre pas tout le temps
 
-    //Circle (linked with radius)
-    FillOpacity circle_opacity(0.3)
-    Circle c (0, 0, 50)
-    c.cx - rect.width/2 =:> rect.x 
-    c.cy - rect.height/2 =:> rect.y
-    radius/get_resolution ($map.zoomLevel) =:> c.r //attention peut etre pas tout le temps
+        //rotation of the rectangle to be a losange
+        c.cx =:> rot.cx
+        c.cy =:> rot.cy
+        rot.cx =:> un_rot.cx
+        rot.cy =:> un_rot.cy
 
-    //rotation of the rectangle to be a losange
-    c.cx =:> rot.cx
-    c.cy =:> rot.cy
-    rot.cx =:> un_rot.cx
-    rot.cy =:> un_rot.cy
-
-    //for drag interaction
-    picking aka rect
+        //for drag interaction
+        picking aka rect
 
 
-    //text for identification and information
-    FillColor _ (0,0,0)
-    FillOpacity text_opacity (3)
-    1 / circle_opacity.a =:> text_opacity.a
-    FontSize _ (0, 18)
-    TextAnchor _ (1)
-    Text trap_id_text (0,0, "?")
-    trap_id =:> trap_id_text.text
-    c.cx =:> trap_id_text.x
-    c.cy + 5 =:> trap_id_text.y
+        //text for identification and information
+        FillColor _ (0,0,0)
+        FillOpacity text_opacity (3)
+        1 / circle_opacity.a =:> text_opacity.a
+        FontSize _ (0, 18)
+        TextAnchor _ (1)
+        Text trap_id_text (0,0, "?")
+        trap_id =:> trap_id_text.text
+        c.cx =:> trap_id_text.x
+        c.cy + 5 =:> trap_id_text.y
 
-    FontSize _ (0, 14)
-    Text trap_description_text (0,0, "...")
-    c.cx =:> trap_description_text.x
-    c.cy + 30 =:> trap_description_text.y
+        FontSize _ (0, 14)
+        Text trap_description_text (0,0, "...")
+        c.cx =:> trap_description_text.x
+        c.cy + 30 =:> trap_description_text.y
 
-    Text trap_description_text2 (0,0, "...")
-    c.cx =:> trap_description_text2.x
-    c.cy + 50 =:> trap_description_text2.y
+        Text trap_description_text2 (0,0, "...")
+        c.cx =:> trap_description_text2.x
+        c.cy + 50 =:> trap_description_text2.y
 
-    Text trap_description_text3 (0,0, "...")
-    c.cx =:> trap_description_text3.x
-    c.cy + 70 =:> trap_description_text3.y
+        Text trap_description_text3 (0,0, "...")
+        c.cx =:> trap_description_text3.x
+        c.cy + 70 =:> trap_description_text3.y
 
-    Text trap_description_text4 (0,0, "...")
-    c.cx =:> trap_description_text4.x
-    c.cy + 90 =:> trap_description_text4.y
-    
-    description =:> trap_description_text.text
-
-    // state switch
-    Switch trap_state_switch(unknown){
-        Component unknown
-        {
-              50 =: radius //set radius to maximum possible radius
-        "unkown" =: trap_description_text.text
-             " " =: trap_description_text2.text
-             " " =: trap_description_text3.text
-             " " =: trap_description_text4.text
-            
-        }
-        Component identified
-        {
+        Text trap_description_text4 (0,0, "...")
+        c.cx =:> trap_description_text4.x
+        c.cy + 90 =:> trap_description_text4.y
         
-            radius/get_resolution ($map.zoomLevel) =:> c.r
-            "Hazard:" + hazard + " Code:"+code =:> trap_description_text2.text
-            "Remotely:"+ toString(remotely_deactivate) + "  " + "Contact:" + toString(contact_deactivate) + " " =:> trap_description_text3.text
-            "contact mode:"+ toString(contact_mode) =:> trap_description_text4.text
-            1 =: trap_out_op.a
+        description =:> trap_description_text.text
+
+        // state switch
+        Switch trap_state_switch(unknown){
+            Component unknown
+            {   
+                //fill in red
+                240 =: red.r
+                50 =: radius //set radius to maximum possible radius
+                0.1 =: trap_out_op.a
+                1 =: golbal_opacity.a
+            "unkown" =: trap_description_text.text
+                " " =: trap_description_text2.text
+                " " =: trap_description_text3.text
+                " " =: trap_description_text4.text
+                
+            }
+            Component identified
+            {
+                240 =: red.r
+                1 =: trap_out_op.a
+                1 =: golbal_opacity.a
+                radius/get_resolution ($map.zoomLevel) =:> c.r
+                "Hazard:" + hazard + " Code:"+code =:> trap_description_text2.text
+                "Remotely:"+ toString(remotely_deactivate) + "  " + "Contact:" + toString(contact_deactivate) + " " =:> trap_description_text3.text
+                "contact mode:"+ toString(contact_mode) =:> trap_description_text4.text
+                1 =: trap_out_op.a
+
+            }
+            Component deactivated
+        {    
+                0 =: c.r //set circle radius to zero
+                0.1 =: trap_out_op.a
+                0.3 =: golbal_opacity.a
+                //fill in grey
+                100 =: red.r
+                " " =: trap_description_text.text
+                " " =: trap_description_text2.text
+                " " =: trap_description_text3.text
+                " " =: trap_description_text4.text
 
         }
-        Component deactivated
-       {    
-            0 =: radius
-            0.1 =: trap_out_op.a
-            0.3 =: golbal_opacity.a
-            //fill in grey
-            100 =: red.r
-            " " =: trap_description_text.text
-            " " =: trap_description_text2.text
-            " " =: trap_description_text3.text
-            " " =: trap_description_text4.text
+        }
+        state =:> trap_state_switch.state
 
-       }
+
+    FSM drag_fsm {
+            State no_drag {
+                map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
+                (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
+            }
+            State drag {
+                Double init_cx (0)
+                Double init_cy (0)
+                Double offset_x (0)
+                Double offset_y (0)
+                c.cx =: init_cx
+                c.cy =: init_cy
+                picking.press.x - c.cx =: offset_x
+                picking.press.y - c.cy =: offset_y
+                picking.move.x - offset_x => c.cx
+                picking.move.y - offset_y => c.cy
+                px2lon ($c.cx + map.t0_x, $map.zoomLevel) => lon
+                py2lat (map.t0_y - $c.cy, $map.zoomLevel) => lat 
+            }
+            no_drag->drag (picking.left.press, map.reticule.show_reticule)
+            drag->no_drag (picking.left.release, map.reticule.hide_reticule)
+        }
+        FSM fsm {
+            State idle {
+                //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
+                //(lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
+            }
+            State zoom_in {
+                Double new_cx (0)
+                Double new_cy (0)
+                Double new_cr (0)
+                map.new_t0_y - lat2py ($lat, $map.zoomLevel + 1) =: new_cy
+                (lon2px ($lon, $map.zoomLevel + 1) - map.new_t0_x) =: new_cx
+                radius/get_resolution ($map.zoomLevel + 1) =: new_cr
+                Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
+                0 =: anim.inc.state, anim.gen.input
+                Double dx (0)
+                Double dr (0)
+                Double init_cx (0)
+                Double init_cr (0)
+                c.cx =: init_cx
+                c.r =: init_cr
+                new_cx - init_cx =: dx
+                Double dy (0)
+                Double init_cy(0)
+                c.cy =: init_cy
+                new_cy - init_cy =: dy
+                new_cr - init_cr =: dr
+                anim.output * (dx + map.new_dx) + init_cx =:> c.cx
+                anim.output * (dy + map.new_dy) + init_cy =:> c.cy
+                anim.output * dr + init_cr =:> c.r
+            }
+            State zoom_out {
+                Double new_cx (0)
+                Double new_cy (0)
+                Double new_cr (0)
+                radius/get_resolution ($map.zoomLevel - 1) =: new_cr
+                map.new_t0_y - lat2py ($lat, $map.zoomLevel - 1) =: new_cy
+                (lon2px ($lon, $map.zoomLevel - 1) - map.new_t0_x) =: new_cx
+                Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
+                0 =: anim.inc.state, anim.gen.input
+                Double dx (0)
+                Double dr (0)
+                Double init_cx (0)
+                Double init_cr (0)
+                c.cx =: init_cx
+                c.r =: init_cr
+                new_cx - c.cx =: dx
+                Double dy (0)
+                Double init_cy(0)
+                new_cy - c.cy =: dy
+                c.cy =: init_cy
+                new_cr - init_cr =: dr
+                anim.output * (dx + map.new_dx) + init_cx =:> c.cx
+                anim.output * (dy + map.new_dy) + init_cy =:> c.cy
+                anim.output * dr + init_cr =:> c.r
+            }
+            idle->zoom_in (map.prepare_zoom_in)
+            zoom_in->idle (zoom_in.anim.end)
+            idle->zoom_out (map.prepare_zoom_out)
+            zoom_out -> idle (zoom_out.anim.end)
+        }
+
+    }  
+
+    //menu to manually set the state
+    Spike state_manually_updated //utiliser ce spike pour mettre à jour les booléen via ros.
+    Translation rect_pos (0,0)
+    content.rect.x =:> rect_pos.tx
+    content.rect.y =:> rect_pos.ty
+
+
+    AssignmentSequence unknown_assignement (1){
+        1 =: active
+        0 =: identified 
     }
-    state =:> trap_state_switch.state
+
+    AssignmentSequence identified_assignement (1){
+        1 =: active
+        1 =: identified 
+    }        
+
+    AssignmentSequence deactivated_assignement (1){
+        0 =: active
+        1 =: identified 
+   }
+
 
     FSM set_State_Menu{
         State hidden{
 
         }
         State visible{
-            Rectangle unknown_rect ( 0,0, 20, 20, 0,0)
+            Translation _ (20, -30) //position right center from the trap
+            FillOpacity _ (1)
+
+            FillColor _ (50,50,50)
+            NoOutline _
+
+            Rectangle bg (5, -30, 90, 130, 0, 0)
+            FillColor _ (200, 200, 200)
+            Text state_label (15, -10, toString(state) )
+            state =:> state_label.text
+
+            FillColor _ (200,200,200)
+            OutlineColor _ (0,0,0)
+            Rectangle rect_unknown (10, 0, 80, 30, 5, 5)
+            FillColor _ (0, 0, 0)
+            Text _ (15, 20, "unknown" )
+
+            FillColor _ (200,200,200)
+            Rectangle rect_identified (10, 30, 80, 30, 5, 5)
+            FillColor _ (0, 0, 0)
+            Text _ (15, 50, "identified" )
+
+            FillColor _ (200,200,200)
+            Rectangle rect_deactivated (10, 60, 80, 30, 5, 5)
+            FillColor _ (0, 0, 0)
+            Text _ (15, 80, "deactivated" )
+
+            rect_unknown.press -> unknown_assignement
+            rect_unknown.press -> state_manually_updated
+            rect_identified.press -> identified_assignement
+            rect_identified.press -> state_manually_updated
+            rect_deactivated.press -> deactivated_assignement
+            rect_deactivated.press -> state_manually_updated
 
         }
-    }
-
-    TextPrinter tp
-    state =:> tp.input
-
-  
-
-  FSM drag_fsm {
-        State no_drag {
-            map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
-            (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
-        }
-        State drag {
-            Double init_cx (0)
-            Double init_cy (0)
-            Double offset_x (0)
-            Double offset_y (0)
-            c.cx =: init_cx
-            c.cy =: init_cy
-            picking.press.x - c.cx =: offset_x
-            picking.press.y - c.cy =: offset_y
-            picking.move.x - offset_x => c.cx
-            picking.move.y - offset_y => c.cy
-            px2lon ($c.cx + map.t0_x, $map.zoomLevel) => lon
-            py2lat (map.t0_y - $c.cy, $map.zoomLevel) => lat 
-        }
-        no_drag->drag (picking.left.press, map.reticule.show_reticule)
-        drag->no_drag (picking.left.release, map.reticule.hide_reticule)
-    }
-    FSM fsm {
-        State idle {
-            //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
-            //(lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
-        }
-        State zoom_in {
-            Double new_cx (0)
-            Double new_cy (0)
-            Double new_cr (0)
-            map.new_t0_y - lat2py ($lat, $map.zoomLevel + 1) =: new_cy
-            (lon2px ($lon, $map.zoomLevel + 1) - map.new_t0_x) =: new_cx
-            radius/get_resolution ($map.zoomLevel + 1) =: new_cr
-            Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
-            0 =: anim.inc.state, anim.gen.input
-            Double dx (0)
-            Double dr (0)
-            Double init_cx (0)
-            Double init_cr (0)
-            c.cx =: init_cx
-            c.r =: init_cr
-            new_cx - init_cx =: dx
-            Double dy (0)
-            Double init_cy(0)
-            c.cy =: init_cy
-            new_cy - init_cy =: dy
-            new_cr - init_cr =: dr
-            anim.output * (dx + map.new_dx) + init_cx =:> c.cx
-            anim.output * (dy + map.new_dy) + init_cy =:> c.cy
-            anim.output * dr + init_cr =:> c.r
-        }
-        State zoom_out {
-            Double new_cx (0)
-            Double new_cy (0)
-            Double new_cr (0)
-            radius/get_resolution ($map.zoomLevel - 1) =: new_cr
-            map.new_t0_y - lat2py ($lat, $map.zoomLevel - 1) =: new_cy
-            (lon2px ($lon, $map.zoomLevel - 1) - map.new_t0_x) =: new_cx
-            Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
-            0 =: anim.inc.state, anim.gen.input
-            Double dx (0)
-            Double dr (0)
-            Double init_cx (0)
-            Double init_cr (0)
-            c.cx =: init_cx
-            c.r =: init_cr
-            new_cx - c.cx =: dx
-            Double dy (0)
-            Double init_cy(0)
-            new_cy - c.cy =: dy
-            c.cy =: init_cy
-            new_cr - init_cr =: dr
-            anim.output * (dx + map.new_dx) + init_cx =:> c.cx
-            anim.output * (dy + map.new_dy) + init_cy =:> c.cy
-            anim.output * dr + init_cr =:> c.r
-        }
-        idle->zoom_in (map.prepare_zoom_in)
-        zoom_in->idle (zoom_in.anim.end)
-        idle->zoom_out (map.prepare_zoom_out)
-        zoom_out -> idle (zoom_out.anim.end)
-    }
-
+        hidden -> visible (content.picking.right.press )
+        visible -> hidden (content.picking.right.press)
+        visible -> hidden (state_manually_updated)
+    } 
 
  //HIGHLIGHT ANIMATION ON REQUEST /////
     Spike start_highlight_Anim
@@ -269,7 +335,7 @@ Trap (Process map, double _lat, double _lon, int _id)
         State animate{
             Double radius(60)
             OutlineWidth _ (4)
-            OutlineColor _ ($red.value)
+            OutlineColor _ ($content.red.value)
             Circle c (0, 0, $radius)
             radius =:> c.r
 
@@ -290,6 +356,6 @@ Trap (Process map, double _lat, double _lon, int _id)
        
         idle -> animate (start_highlight_Anim)
         animate -> idle (stop_highlight_Anim)
-    }    
+    }  
 
 }
