@@ -1,3 +1,5 @@
+#pragma once
+
 #include <functional>
 #include <memory>
 #include <string>
@@ -80,7 +82,7 @@ class RosNode : public FatProcess, public ExternalSource
     void send_selected_tasks();
     void send_validation_tasks();
     void send_msg_lima(int);
-    #endif
+  #endif
     void test_multiple_itineraries();
     void test_draw_visibility_map();
     void write_to_log (string, string);

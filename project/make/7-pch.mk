@@ -6,15 +6,16 @@
 # https://stackoverflow.com/questions/26755219/how-to-use-pch-with-clang
 
 ifeq ($(compiler),llvm)
-pch_ext = .pch
+pch_ext ?= .pch
+CXXFLAGS_PCH_GEN += -fpch-instantiate-templates -fpch-codegen -fpch-debuginfo
 endif
 ifeq ($(compiler),gnu)
-pch_ext = .gch
+pch_ext ?= .gch
 endif
 
-pch_file := precompiled.h
-pch_src := src/$(pch_file)
-pch_dst := $(build_dir)/$(pch_src)$(pch_ext)
+pch_file ?= $(src_dir)/precompiled.h
+#pch_src ?= src/$(pch_file)
+pch_dst ?= $(build_dir)/$(pch_file)
 
 # SDL and other stuff define new variables for compiling, canceling the use of pch with gnu cc
 # FIXME this is not safe as every other external lib may define something
@@ -27,28 +28,30 @@ CXXFLAGS_PCH_DEF += -Dmain=SDL_main
 endif
 endif
 
-$(pch_dst): $(pch_src)
+$(build_dir)/%$(pch_ext): %
 	@mkdir -p $(dir $@)
 ifeq ($V,max)
-	$(CXX) -x c++-header $(CXXFLAGS) $< -o $@
+	$(CXX) -x c++-header $(CXXFLAGS) $(CXXFLAGS_PCH_GEN) $< -o $@
 else
 	@$(call rule_message,compiling to,$(stylized_target))
-	@$(CXX) -x c++-header $(CXXFLAGS) $< -o $@
+	@$(CXX) -x c++-header $(CXXFLAGS) $(CXXFLAGS_PCH_GEN) $< -o $@
 endif
 
 ifeq ($(compiler),llvm)
-CXXFLAGS_PCH_INC += -include-pch $(pch_dst)
-#-fpch-instantiate-templates -fpch-codegen -fpch-debuginfo
+CXXFLAGS_PCH_INC += -include-pch $(pch_dst)$(pch_ext)
 endif
 ifeq ($(compiler),gnu)
 # https://stackoverflow.com/a/3164874
-CXXFLAGS_PCH_INC += -I$(dir $(pch_dst)) -include $(pch_file) -Winvalid-pch
+CXXFLAGS_PCH_INC += -I$(dir $(pch_dst)) -include $(notdir $(pch_file)) -Winvalid-pch
 #-fno-implicit-templates
 #$(build_dir)/src/core/utils/build/external_template.o: CXXFLAGS += -fimplicit-templates
 endif
 
-$(pch_dst): override CXXFLAGS = $(CXXFLAGS_CFG) $(CXXFLAGS_PCH_DEF) $(djnn_cflags) $(CXXFLAGS_COMMON) $(CXXFLAGS_CK)
+$(build_dir)/%$(pch_ext): override CXXFLAGS = $(CXXFLAGS_CFG) $(CXXFLAGS_PCH_DEF) $(djnn_cflags) $(CXXFLAGS_COMMON) $(CXXFLAGS_CK)
 
 pch: $(pch_dst)
 clean_pch:
 	rm -f $(pch_dst)
+
+
+$(objs): $(pch_dst)$(pch_ext)
