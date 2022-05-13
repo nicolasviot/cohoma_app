@@ -2,7 +2,9 @@ use core
 use gui
 use base
 use display 
+use animation
 
+import gui.animation.Animator
 
 
 
@@ -50,6 +52,39 @@ ItineraryPannel(double _dx, double _dy, Process _id_selected){
 		third_selected -> first_selected (first.select)
 		third_selected -> second_selected (second.select)
 	}
+
+
+	//waiting feedback
+
+	//HIGHLIGHT ANIMATION ON REQUEST /////
+    Spike startWaitingAnim
+    Spike stopWaitingAnim
+
+    Animator radius_anim (800, 0, 360, DJN_IN_OUT_SINE, 1, 0)
+
+    20 =: radius_anim.fps
+    startWaitingAnim -> radius_anim.start
+    stopWaitingAnim -> radius_anim.reset
+    stopWaitingAnim -> radius_anim.abort
+
+	
+    FSM locate_FSM{
+        State idle{
+
+        }
+        State animate{
+			Translation _ (100,15)
+			FillColor _ (200,200,200)
+			Text _ (30, 12, "computing itinerary")
+			Rotation rot (0, 10, 5)
+			FillColor _ (100,250,100)
+			Rectangle _ (0, 0, 20, 10, 5,5)
+			radius_anim.output =:> rot.a
+        }
+       
+        idle -> animate (startWaitingAnim)
+        animate -> idle (stopWaitingAnim)
+    }
 
 	//debug
 	// LogPrinter lp ("state: ")

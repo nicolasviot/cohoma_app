@@ -78,6 +78,11 @@ Translation _(0, 140)
 ItineraryPannel itineraryPannel(0, 0, root.l.map.layers.itineraries.id)
 Translation _ (0, 220)
 
+plan_request -> itineraryPannel.startWaitingAnim
+//TODO add a stop for the update animation when receiving data from ros 
+// trigger   itineraryPannel.stopWaitingAnim
+//itineraryPannel.first.sw.unselected.bg.press ->  itineraryPannel.stopWaitingAnim
+
 Component validate_tasks_button
 {
 	validate_tasks_button_svg = loadFromXML ("res/svg/RightPanel_button.svg")
