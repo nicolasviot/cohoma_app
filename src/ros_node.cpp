@@ -185,6 +185,7 @@ RosNode::impl_activate ()
 
   _georef_visibility_map = _parent->find_child ("parent/l/map/layers/result/georef_visibility_map");
   _visibility_map = dynamic_cast<DataImage*> (_parent->find_child ("parent/l/map/layers/result/visibility_map"));
+  _visibility_map_resolution  = dynamic_cast<DoubleProperty*> (_parent->find_child ("parent/l/map/layers/result/visibility_map_resolution"));
 
   //start the thread
   ExternalSource::start ();  
@@ -1346,9 +1347,13 @@ std::cerr << lon_center << std::endl;
     dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
   }
   else 
-    std::cerr << " \n\n\n NO georef_visilbility found !!\n\n\n " << std::endl;
+    std::cerr << " \n\n\n NO _georef_visilbility found !!\n\n\n " << std::endl;
 
-  //TODO : set resolution ?
+  if (_visibility_map_resolution)
+    _visibility_map_resolution->set_value (resolution, true);
+  else 
+    std::cerr << " \n\n\n NO _visibility_map_resolution found !!\n\n\n " << std::endl;
+
 
   _visibility_map->width()->set_value (w, true);
   _visibility_map->height()->set_value (h, true);
@@ -1380,14 +1385,14 @@ std::cerr << lon_center << std::endl;
       frame_data[j3] = static_cast<char>(0xFF); //A
     }
     if (uav_camera_layer[i] == 1) {
-      //yellow
+      //purple
       frame_data[j0] = static_cast<char>(0x9B); //B
       frame_data[j1] = static_cast<char>(0x59); //G
       frame_data[j2] = static_cast<char>(0xB6); //R
       frame_data[j3] = static_cast<char>(0xFF); //A
     }
     if ((ugv_camera_layer[i] == 1) && (uav_camera_layer[i] == 1)) {
-      //yellow
+      //cyan
       frame_data[j0] = static_cast<char>(0xD5); //B
       frame_data[j1] = static_cast<char>(0xB3); //G
       frame_data[j2] = static_cast<char>(0x7F); //R
