@@ -128,30 +128,34 @@ Vehicule (Process map, double _lat, double _lon, string init_state, Process _col
     Spike startAnim
     Spike stopAnim
 
+
+    //TODO compute radius according to the map center
+    Double radius(60)
+    Double distance_to_center_pix (100)
+
+    ClampMin clamp_radius (60, 60)
+    distance_to_center_pix =:> clamp_radius.input
+    clamp_radius.result =:> radius
+
+    Animator radius_anim (500, 60, 5, DJN_IN_OUT_SINE, 1, 0)
+    distance_to_center_pix =:> radius_anim.min
+
+    20 =: radius_anim.fps
+    radius_anim.output =:> radius
+    startAnim -> radius_anim.start
+    stopAnim -> radius_anim.reset
+    stopAnim -> radius_anim.abort
+
     FSM locate_FSM{
         State idle{
 
         }
         State animate{
-            Double radius(60)
+
             OutlineWidth _ (4)
             OutlineColor _ ($color)
             Circle c (0, 0, $radius)
             radius =:> c.r
-
-            Clock timer (30)
-            Incr ellapsedIncr (0)
-
-            AssignmentSequence reset_radius (1){
-                0 =: ellapsedIncr.state
-            }
-
-            |-> reset_radius
-            
-            timer.tick -> ellapsedIncr
-
-            60 - ellapsedIncr.state * 3 =:> radius
-            (radius <= 5) -> reset_radius
         }
        
         idle -> animate (startAnim)

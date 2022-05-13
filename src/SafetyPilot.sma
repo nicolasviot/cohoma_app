@@ -53,7 +53,7 @@ SafetyPilot (Process map, double _lat, double _lon, int _id)
     c.cx =:> icon_translation.tx
     c.cy =:> icon_translation.ty
 
-    
+    picking aka icon.picking
 
   FSM drag_fsm {
         State no_drag {
@@ -67,15 +67,15 @@ SafetyPilot (Process map, double _lat, double _lon, int _id)
             Double offset_y (0)
             c.cx =: init_cx
             c.cy =: init_cy
-            c.press.x - c.cx =: offset_x
-            c.press.y - c.cy =: offset_y
-            c.move.x - offset_x => c.cx
-            c.move.y - offset_y => c.cy
+            picking.press.x - c.cx =: offset_x
+            picking.press.y - c.cy =: offset_y
+            picking.move.x - offset_x => c.cx
+            picking.move.y - offset_y => c.cy
             px2lon ($c.cx + map.t0_x, $map.zoomLevel) => lon
             py2lat (map.t0_y - $c.cy, $map.zoomLevel) => lat 
         }
-        no_drag->drag (c.left.press, map.reticule.show_reticule)
-        drag->no_drag (c.left.release, map.reticule.hide_reticule)
+        no_drag->drag (picking.left.press, map.reticule.show_reticule)
+        drag->no_drag (picking.left.release, map.reticule.hide_reticule)
     }
     FSM fsm {
         State idle {
