@@ -18,7 +18,7 @@ _native_code_
 _define_
 EnvMapLayer (Process map){
 
-	Double resolution (5)
+	Double visibility_map_resolution (1)
 
 	TaskAreaSummit georef_visibility_map (map, 0, 0)
 	Translation t_to_georef (0, 0)
@@ -29,9 +29,9 @@ EnvMapLayer (Process map){
 	georef_visibility_map.x => t_to_georef.tx
 	georef_visibility_map.y => t_to_georef.ty
 
-	resolution * 1 / get_resolution ($map.zoomLevel) =:> scale.sx
-	resolution * 1 / get_resolution ($map.zoomLevel) =:> scale.sy
+	visibility_map_resolution * 1 / get_resolution ($map.zoomLevel) =:> scale.sx
+	visibility_map_resolution * 1 / get_resolution ($map.zoomLevel) =:> scale.sy
 
-	- (visibility_map.width * resolution / get_resolution ($map.zoomLevel)) / 2 =:> t_to_center.tx
-	- (visibility_map.height * resolution / get_resolution ($map.zoomLevel)) / 2 =:> t_to_center.ty
+	- (visibility_map.width * visibility_map_resolution / get_resolution ($map.zoomLevel)) / 2 =:> t_to_center.tx
+	- (visibility_map.height * visibility_map_resolution / get_resolution ($map.zoomLevel)) / 2 =:> t_to_center.ty
 }

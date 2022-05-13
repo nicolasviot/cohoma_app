@@ -251,6 +251,7 @@ Component root {
       String name("Result")
       georef_visibility_map aka ctrl_visibility.visible.layer.georef_visibility_map
       visibility_map aka ctrl_visibility.visible.layer.visibility_map
+      visibility_map_resolution aka ctrl_visibility.visible.layer.visibility_map_resolution
     }
 /*    Component mission_zones{
       Switch ctrl_visibility (visible){
