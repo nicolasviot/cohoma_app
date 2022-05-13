@@ -24,7 +24,12 @@ Trap (Process map, double _lat, double _lon, int _id)
     Int id($_id)
     Bool identified(1)
     Bool active(1)
+    String state ("unknown") //can be unkown, identified, deactivated
     String trap_id("?")
+
+    
+    active ? (identified ? "identified" : "unkown") : "deactivated" =:> state
+
 
     /*
     string description                  # text describing the kind of trap
@@ -47,8 +52,8 @@ Trap (Process map, double _lat, double _lon, int _id)
       int8 CONTACT_GROUND_MULTIPLE = 3
       int8 CONTACT_AERIAL_AND_GROUND = 4
       int8 CONTACT_AERIAL_OR_GROUND = 5*/
-    String code("")
-    String hazard("")
+    String code("?")
+    String hazard("?")
 
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
@@ -59,11 +64,16 @@ Trap (Process map, double _lat, double _lon, int _id)
     
 
     //Rectangle
-    NoOutline _
+    OutlineOpacity trap_out_op (0)
+    OutlineColor _ (0,0,0)
+    OutlineWidth _ (2)
+    FillOpacity golbal_opacity (1)
     FillColor red(240, 0, 0)
     Rotation rot (45, 0, 0)
     Rectangle rect (0, 0, 30, 30)
     Rotation un_rot (-45, 0, 0)
+
+    NoOutline _
 
     //Circle (linked with radius)
     FillOpacity circle_opacity(0.3)
@@ -110,53 +120,59 @@ Trap (Process map, double _lat, double _lon, int _id)
     c.cx =:> trap_description_text4.x
     c.cy + 90 =:> trap_description_text4.y
     
-    
     description =:> trap_description_text.text
-    
 
-    //identified switch
-    Switch identified_switch(active){
-    Component true {
-        radius/get_resolution ($map.zoomLevel) =:> c.r
-        description  =:> trap_description_text.text
-        "Hazard:" + hazard + " Code:"+code => trap_description_text2.text
-        "Remotely:"+ toString(remotely_deactivate) + "  " + "Contact:" + toString(contact_deactivate) + " " =:> trap_description_text3.text
-        "contact mode:"+ toString(contact_mode) =:> trap_description_text4.text
-    }
-    Component false{
-        50 =: radius //set radius to maximum possible radius
-       "unkown" =: trap_description_text.text
-        " " =: trap_description_text2.text
-        " " =: trap_description_text3.text
-    }
-   }
-   identified =:> identified_switch.state
-   
-
-    //active FSM
-    Switch activated_switch (active){
-        Component true{
-           0.3 =: circle_opacity.a
+    // state switch
+    Switch trap_state_switch(unknown){
+        Component unknown
+        {
+              50 =: radius //set radius to maximum possible radius
+        "unkown" =: trap_description_text.text
+             " " =: trap_description_text2.text
+             " " =: trap_description_text3.text
+             " " =: trap_description_text4.text
+            
         }
-        Component false{
-            0.1 =: circle_opacity.a
-            //draw a cross
-            OutlineColor _ (0,0,0)
-            OutlineWidth _ (2)
-            Line l1 (0,0, 50, 50)
-            Line l2 (0, 50, 50, 0)
-            rect.x =:> l1.x1
-            rect.x + rect.width =:> l1.x2
-            c.cy =:> l1.y1
-            c.cy =:> l1.y2
+        Component identified
+        {
+        
+            radius/get_resolution ($map.zoomLevel) =:> c.r
+            "Hazard:" + hazard + " Code:"+code =:> trap_description_text2.text
+            "Remotely:"+ toString(remotely_deactivate) + "  " + "Contact:" + toString(contact_deactivate) + " " =:> trap_description_text3.text
+            "contact mode:"+ toString(contact_mode) =:> trap_description_text4.text
+            1 =: trap_out_op.a
 
-            c.cx =:> l2.x1
-            c.cx =:> l2.x2
-            rect.y =:> l2.y1
-            rect.y + rect.width =:> l2.y2
+        }
+        Component deactivated
+       {    
+            0 =: radius
+            0.1 =: trap_out_op.a
+            0.3 =: golbal_opacity.a
+            //fill in grey
+            100 =: red.r
+            " " =: trap_description_text.text
+            " " =: trap_description_text2.text
+            " " =: trap_description_text3.text
+            " " =: trap_description_text4.text
+
+       }
+    }
+    state =:> trap_state_switch.state
+
+    FSM set_State_Menu{
+        State hidden{
+
+        }
+        State visible{
+            Rectangle unknown_rect ( 0,0, 20, 20, 0,0)
+
         }
     }
-    active =:> activated_switch.state
+
+    TextPrinter tp
+    state =:> tp.input
+
+  
 
   FSM drag_fsm {
         State no_drag {
