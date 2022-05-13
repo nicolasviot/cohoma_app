@@ -107,11 +107,11 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
         Component mandatory {
                active_col =: fill_color.value
             mandatory_col =: outline_color.value
-
                         1 =: outline_width.width
 
             NoFill _ 
             OutlineWidth _ (2)
+            OutlineOpacity _ (1.5)
             Circle outer_circler (0, 0, 15)
         }
     }
