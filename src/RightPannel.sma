@@ -22,7 +22,6 @@ Spike test_lima_spike
 Spike send_selected_tasks
 Spike test_visibility_map
 
-
      //legend for NavGraph
 Component NavGraph
 {
@@ -34,42 +33,82 @@ Component NavGraph
 	FSM button_FSM {
 		State idle{
 			#666682 =: button.fill.value
+			#FFFFFF =: button.stroke.value
 		}
 		State hover{
-			#8080FF =: button.fill.value
+			#8080FF =: button.stroke.value
+			#666682 =: button.fill.value
 		}
 		State pressed{
 			#1A1AFF =: button.fill.value
+			#8080FF =: button.stroke.value
 		}
 		idle -> hover (button.enter)
 		hover -> idle (button.leave)
 		idle -> pressed (button.press)
-		pressed -> idle (button.release, plan_request)
+		pressed -> hover (button.release, plan_request)
 		hover -> pressed (button.press)
+		pressed -> idle (button.leave)
+
 	}
 	FSM button_update_graph_FSM {
 		State idle{
 			#666682 =: button_update_graph.fill.value
+			#FFFFFF =: button_update_graph.stroke.value
 		}
 		State hover{
-			#8080FF =: button_update_graph.fill.value
+			#8080FF =: button_update_graph.stroke.value
+			#666682 =: button_update_graph.fill.value
 		}
 		State pressed{
 			#1A1AFF =: button_update_graph.fill.value
+			#8080FF =: button_update_graph.stroke.value
 		}
 		idle -> hover (button_update_graph.enter)
 		hover -> idle (button_update_graph.leave)
 		idle -> pressed (button_update_graph.press)
-		pressed -> idle (button_update_graph.release, update_graph)
+		pressed -> hover (button_update_graph.release, update_graph)
 		hover -> pressed (button_update_graph.press)
+		pressed -> idle (button_update_graph.leave)
 	}
 }
 
 
-Translation _(0, 80)
+Translation _(0, 140)
 ItineraryPannel itineraryPannel(0, 0, root.l.map.layers.itineraries.id)
-Translation _ (0, 320)
+Translation _ (0, 220)
 
+Component validate_tasks_button
+{
+	validate_tasks_button_svg = loadFromXML ("res/svg/RightPanel_button.svg")
+	task_button << validate_tasks_button_svg.button
+
+	button aka task_button.bg
+	button_text aka task_button.text.text //un peu bizarre...
+
+
+	FSM button_FSM {
+		State idle{
+			#666682 =: button.fill.value
+			#FFFFFF =: button.stroke.value
+		}
+		State hover{
+			#8080FF =: button.stroke.value
+			#666682 =: button.fill.value
+		}
+		State pressed{
+			#1A1AFF =: button.fill.value
+			#8080FF =: button.stroke.value
+		}
+		idle -> hover (button.enter)
+		hover -> idle (button.leave)
+		idle -> pressed (button.press)
+		pressed -> hover (button.release, send_selected_tasks)
+		hover -> pressed (button.press)
+		pressed -> idle (button.leave)
+	}
+}
+Translation _ (0, 80)
 
 CandidateTaskFilter filter(frame)
 filter.send_selected_tasks -> send_selected_tasks
