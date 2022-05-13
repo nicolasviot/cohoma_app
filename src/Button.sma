@@ -31,10 +31,10 @@ Button (Process frame, string label, double x_, double y_) {
 
   FSM fsm {
     State idle {
-      50 =: fc.r
+      #666682 =:fc.value
     }
     State pressed {
-      150 =: fc.r
+      #1A1AFF =: fc.value
     }
     idle->pressed (r.press)
     pressed->idle (r.release, click)

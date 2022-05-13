@@ -60,6 +60,7 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 			cost =:> cost_label.text
 			
 			Button set_plan (bg, "set itinerary", 299, 3)
+
 			44 =: set_plan.r.height
 			88 =: set_plan.r.width
 			24 =: set_plan.thisLabel.y
