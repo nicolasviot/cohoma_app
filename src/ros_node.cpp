@@ -1304,16 +1304,11 @@ std::cerr << lon_center << std::endl;
   void
   RosNode::test_draw_visibility_map(){
 
-
-    //@Mathieu ; 
-    //Pour faire en sorte que l'image que tu crée suive le pan, tu peux essayer d'instancier un TaskAreaSummit 
-    //(c'est un waypoint sans aspect) et créer un binding ayant pour source ses x et y
-
   float lat_center_map = 44.27432196595285;
   float lon_center_map = 1.729783361205679;
 
-  int w = 10; //20 collumns
-  int h = 10; //20 rows
+  int w = 10; // for debug
+  int h = 10; // for debug
   int ugv_camera_layer[100] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
                                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
                                 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
@@ -1340,9 +1335,10 @@ std::cerr << lon_center << std::endl;
   if (_visibility_map)
     std::cerr << "debug draw_visbility map\n" << " lattiude " << lat_center_map << " longitude " << lon_center_map << " resolution " << resolution << std::endl;
   else 
-    std::cerr << " \n\n\n NOO !! \n\n\n " << std::endl;
+    std::cerr << " \n\n\n NOO _visibility_map found !! \n\n\n " << std::endl;
   
 
+  // DO NOT FORGET !!
   //get_exclusive_access(DBG_GET);
 
   if (_georef_visibility_map) {
@@ -1350,16 +1346,10 @@ std::cerr << lon_center << std::endl;
     dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
   }
   else 
-    std::cerr << " \n\n\n NOO georef_visilbility \n\n\n " << std::endl;
+    std::cerr << " \n\n\n NO georef_visilbility found !!\n\n\n " << std::endl;
 
-  // TODO
-  // int x_pos = x_debug - w/2;
-  // int y_pos = y_debug - h/2;
-    
- 
+  //TODO : set resolution ?
 
-  //_visibility_map->x()->set_value (x_pos, true);  //lat
-  //_visibility_map->y()->set_value (y_pos, true);  // long
   _visibility_map->width()->set_value (w, true);
   _visibility_map->height()->set_value (h, true);
   _visibility_map->format()->set_value(5 , true);  // frame is ARGB_32 , QImage::Format_ARGB32 = 5 
@@ -1416,8 +1406,10 @@ std::cerr << lon_center << std::endl;
   _visibility_map->set_invalid_cache (true);
   _visibility_map->get_frame ()->damaged ()->activate (); // ?
     
+  // DO NOT FORGET !!
   //GRAPH_EXEC;
   //release_exclusive_access(DBG_REL);  
+
   }
 
 
