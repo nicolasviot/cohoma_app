@@ -13,6 +13,8 @@
 
 
 #include <iostream>
+#include <algorithm>
+#include <iterator>
 
 //#include <fstream>
 
@@ -117,7 +119,7 @@ RosNode::impl_activate ()
     "/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
 
   sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>(
-  "map", qos_transient, std::bind(&RosNode::receive_msg_map, this, std::placeholders::_1));
+  "/map", qos_transient, std::bind(&RosNode::receive_msg_map, this, std::placeholders::_1));
 
 
   publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>(
@@ -680,7 +682,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         std::cerr << msg.traps[k].location.longitude << std::endl;
         ((BoolProperty*)new_trap->find_child("active"))->set_value(msg.traps[k].active, true);
         ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.traps[k].identified, true);
-        ((TextProperty*)new_trap->find_child("trap_id_text/text"))->set_value(msg.traps[k].info.id, true);
+        ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.traps[k].info.id, true);
         ((TextProperty*)new_trap->find_child("description"))->set_value(msg.traps[k].info.description, true);
         ((IntProperty*)new_trap->find_child("contact_mode"))->set_value(msg.traps[k].info.contact_mode, true);
         ((TextProperty*)new_trap->find_child("code"))->set_value(msg.traps[k].info.code, true);
@@ -1255,6 +1257,8 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
 
   }
 
+static string frame_data;
+
 void 
 RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
 std::cerr << "received exploration map" << std::endl;
@@ -1263,8 +1267,116 @@ std::cerr << "received exploration map" << std::endl;
  float lon_center = msg.origin.longitude; 
 std::cerr << lat_center << std::endl;
 std::cerr << lon_center << std::endl;
+std::cerr << msg.resolution << std::endl;
+std::cerr << msg.width << std::endl;
+std::cerr << msg.height << std::endl;
+
+  float lat_center_map = msg.origin.latitude;
+  float lon_center_map = msg.origin.longitude;
+
+  int w = msg.width; // for debug
+  int h = msg.height; // for debug
+
+ /* int ugv_camera_layer[w * h];
+  for (int i = 0; i < msg.ugv_camera_layer.size(); i++){
+    ugv_camera_layer[i] = msg.ugv_camera_layer[i];
+    if (msg.ugv_camera_layer[i] != 0){
+      std::cerr << "matrix not empty" << std::endl;
+    }
+  }
+  int uav_camera_layer[w * h];
+  for (int i = 0; i < msg.uav_camera_layer.size(); i++){
+    uav_camera_layer[i] = msg.uav_camera_layer[i];
+  }
+ */ 
+
+  if (_visibility_map)
+    std::cerr << "debug draw_visbility map\n" << " lattiude " << lat_center_map << " longitude " << lon_center_map << " resolution " << msg.resolution << std::endl;
+  else 
+    std::cerr << " \n\n\n NOO _visibility_map found !! \n\n\n " << std::endl;
+  
+
+  // DO NOT FORGET !!
+  get_exclusive_access(DBG_GET);
+
+  if (_georef_visibility_map) {
+    dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lat"))->set_value (lat_center_map, true);
+    dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
+  }
+  else 
+    std::cerr << " \n\n\n NO _georef_visilbility found !!\n\n\n " << std::endl;
+
+  if (_visibility_map_resolution)
+    _visibility_map_resolution->set_value (msg.resolution * 1.4, true);
+  else 
+    std::cerr << " \n\n\n NO _visibility_map_resolution found !!\n\n\n " << std::endl;
 
 
+  _visibility_map->width()->set_value (w, true);
+  _visibility_map->height()->set_value (h, true);
+  _visibility_map->format()->set_value(5 , true);  // frame is ARGB_32 , QImage::Format_ARGB32 = 5 
+
+  int octect = 4;
+  int size_map = w*h*octect;;
+    
+  frame_data.reserve(size_map);
+
+  // link frame_data to the data_image
+  string*& data = _visibility_map->get_data_ref();
+  data = &frame_data;
+
+  //ugv_camera => yellow ( #f4d03f )
+  //uav_camera => purple ( #9b59b6 )
+  //uav_camera && ugv_camera => cyan #7fb3d5
+
+  for (int i = 0 ;  i < w*h ; i++ ) {
+    int j0 = i*octect;
+    int j1 = j0 + 1;
+    int j2 = j0 + 2;
+    int j3 = j0 + 3;
+    if (msg.ugv_camera_layer[i] != 0) {
+      //yellow
+      frame_data[j0] = static_cast<char>(0x3F); //B
+      frame_data[j1] = static_cast<char>(0xD0); //G
+      frame_data[j2] = static_cast<char>(0xF4); //R
+      frame_data[j3] = static_cast<char>(0x6A); //A
+    }
+    if (msg.uav_camera_layer[i] != 0) {
+      //purple
+      frame_data[j0] = static_cast<char>(0x9B); //B
+      frame_data[j1] = static_cast<char>(0x59); //G
+      frame_data[j2] = static_cast<char>(0xB6); //R
+      frame_data[j3] = static_cast<char>(0x6A); //A
+    }
+    if ((msg.ugv_camera_layer[i] != 0) && (msg.uav_camera_layer[i] != 0)) {
+      //cyan
+      frame_data[j0] = static_cast<char>(0xD5); //B
+      frame_data[j1] = static_cast<char>(0xB3); //G
+      frame_data[j2] = static_cast<char>(0x7F); //R
+      frame_data[j3] = static_cast<char>(0x6A); //A
+    }
+    if ((msg.ugv_camera_layer[i] == 0) && (msg.uav_camera_layer[i] == 0)) {
+      //blank
+      /*frame_data[j0] = static_cast<char>(0x00); //B
+      frame_data[j1] = static_cast<char>(0x00); //G
+      frame_data[j2] = static_cast<char>(0x00); //R
+      frame_data[j3] = static_cast<char>(0x00); //A
+      */
+      frame_data[j0] = static_cast<char>(0xFF); //B
+      frame_data[j1] = static_cast<char>(0xFF); //G
+      frame_data[j2] = static_cast<char>(0xFF); //R
+      frame_data[j3] = static_cast<char>(0x00); //A
+    
+    }
+  }
+
+  // // ask for draw
+  _visibility_map->set_invalid_cache (true);
+  _visibility_map->get_frame ()->damaged ()->activate (); // ?
+    
+  // DO NOT FORGET !!
+  GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);  
 
 
 }
@@ -1300,7 +1412,7 @@ std::cerr << lon_center << std::endl;
 */
 
 
-  static string frame_data;
+  
 
   void
   RosNode::test_draw_visibility_map(){

@@ -77,7 +77,7 @@ int download_tile (int z, int row, int col, const std::string &uri, const std::s
   }
 
   auto tries = 3;
-
+  std::cerr << uri << std::endl;
   FILE* fp = nullptr;
   while (tries && fp == nullptr) {
     errno = 0;
