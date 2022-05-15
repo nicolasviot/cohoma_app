@@ -38,7 +38,8 @@ Lima (Process map, Process my_node){
     Spike leave
     node aka my_node
     FillOpacity fo (0.8)
-    FillColor fill_color(20, 20, 190)
+    //FillColor fill_color(20, 20, 190)
+    NoFill _
     OutlineWidth outline_width(15)
     OutlineColor outline_color(20, 20, 250)
     OutlineCapStyle _ (1) 
