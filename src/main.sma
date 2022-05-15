@@ -156,7 +156,7 @@ Component root {
       opacity aka ctrl_visibility.visible.layer.opacity
       String name ("Geoportail")
     }
-    Component osm {
+/*    Component osm {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible {
@@ -165,7 +165,7 @@ Component root {
       }
       opacity aka ctrl_visibility.visible.layer.opacity
       String name ("OSM")
-    }
+    }*/
     Component satelites {
       Switch ctrl_visibility (visible) {
         Component hidden
@@ -296,7 +296,7 @@ Component root {
     
     addChildrenTo map.layers {
       geoportail,
-      osm,
+      //osm,
       result,
       site,
       //mission_zones,

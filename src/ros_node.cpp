@@ -331,13 +331,16 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     auto& m = node["metadata"];
     bool locked = m["locked"].get<bool>();
     bool isPPO = m["compulsory"].get<bool>();
+    int phase = m["phase"].get<int>();
     if (isPPO){
       std::cerr << "one more PPO imported" << std::endl;
     }
+    std::cerr << phase << std::endl;
     ParentProcess* node_ = Node(_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
      isPPO, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _manager);
     ((BoolProperty*)node_->find_child("islocked"))->set_value(locked, true);
-
+    ((IntProperty*)node_->find_child("phase"))->set_value(phase, true);
+    ((BoolProperty*)node_->find_child("wpt/isMandatory"))->set_value(isPPO, true);
   }
   std::cerr << "about to parse edges" << std::endl;
     // edges
@@ -432,7 +435,9 @@ RosNode::test_multiple_itineraries(){
   RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
  //debug
   //std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
-
+  if (msg->itineraries.size()<1){
+    return;
+  }
   get_exclusive_access(DBG_GET);
   //debug ros_msg
   std::vector<std::pair<string,std::vector<int>>> msg_struct; /*= { \
@@ -953,8 +958,8 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     double dlon = dynamic_cast<DoubleProperty*> (item->find_child ("wpt/lon"))->get_value ();
     double dalt = dynamic_cast<DoubleProperty*> (item->find_child ("alt"))->get_value ();
     string scompulsory = dynamic_cast<TextProperty*>(item->find_child("wpt/usage_status"))->get_value();
-    
-    bool compulsory = (scompulsory == "mandatory");   
+    int phase = dynamic_cast<IntProperty*> (item->find_child ("phase"))->get_value();
+    bool compulsory = dynamic_cast<BoolProperty*> (item->find_child("wpt/isMandatory"))->get_value();   
     if (compulsory){
       std::cerr << "one more PPO exported"<< std::endl;
     }
@@ -969,7 +974,8 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         {"latitude", dlat},
         {"longitude", dlon},
         {"compulsory", compulsory},
-        {"locked", locked}
+        {"locked", locked},
+        {"phase", phase}
       }}
     };                
     j["graph"]["nodes"].push_back(jn);   

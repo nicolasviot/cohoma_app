@@ -29,6 +29,7 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
     Int start_col (#70EE49)
     Int mandatory_col (#FF30FF)
     Bool islocked(0)
+    Bool isMandatory(0)
     Int default_radius (10)
     Int other_radius (10)
     String label("")
@@ -83,6 +84,7 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
 
                 3 =: outline_width.width
             default_radius =: c.r
+            0 =: isMandatory
         }
         Component start {
             active_col =: fill_color.value
@@ -113,6 +115,7 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
             OutlineWidth _ (2)
             OutlineOpacity _ (1.5)
             Circle outer_circler (0, 0, 15)
+            1 =: isMandatory
         }
     }
     usage_status => status_switch.state

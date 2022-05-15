@@ -29,7 +29,7 @@ EnvMapLayer (Process map){
 	georef_visibility_map.x => t_to_georef.tx
 	georef_visibility_map.y => t_to_georef.ty
 
-	visibility_map_resolution  / get_resolution ($map.zoomLevel) =:> scale.sx
+	visibility_map_resolution / get_resolution ($map.zoomLevel) =:> scale.sx
 	visibility_map_resolution / get_resolution ($map.zoomLevel) =:> scale.sy
 
 	- (visibility_map.width * visibility_map_resolution / get_resolution ($map.zoomLevel)) / 2 =:> t_to_center.tx

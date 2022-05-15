@@ -27,7 +27,7 @@ UpperLeftMenu (Process map, Process f)
     /* Slider */
     Translation pos (0, 20)
     Slider s1 (f, 5, 5, 0, 100, 0)
-    s1.output/100 =:> map.layers.osm.opacity
+    //s1.output/100 =:> map.layers.osm.opacity
 
     /* Title 2 */
     Text t2 (6, 0, "Layers")

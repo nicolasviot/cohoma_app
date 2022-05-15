@@ -54,6 +54,8 @@ TaskEdge (Process map, int _source, int _dest, Process nodes){
 
     Edge the_edge($id_source, $id_dest, 20, nodes)
     the_edge.outerEdge.press -> press
+    length =:> the_edge.length
+    explored =:> the_edge.explored
     the_edge.pos.tx =:> ctrl_edge_selected.select.pos.tx
     the_edge.pos.ty =:> ctrl_edge_selected.select.pos.ty
    220 =: the_edge.color.r

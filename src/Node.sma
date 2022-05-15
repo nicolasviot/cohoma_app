@@ -16,6 +16,7 @@ String label(_label)
 String status ("")
 Int id(_id)
 Spike pressed
+Int phase(0)
 
 manager aka _manager_id
 GraphNode wpt(map, f,  $lat, $lon, 80, 80, 80)
