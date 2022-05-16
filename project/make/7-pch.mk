@@ -13,7 +13,7 @@ ifeq ($(compiler),gnu)
 pch_ext ?= .gch
 endif
 
-pch_file ?= $(src_dir)/precompiled.h
+pch_file ?= $(src_dir)/precompiled.hpp
 #pch_src ?= src/$(pch_file)
 pch_dst ?= $(build_dir)/$(pch_file)
 
