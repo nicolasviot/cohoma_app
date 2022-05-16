@@ -167,7 +167,8 @@ RosNode::impl_activate ()
   _exclusion_areas = _parent->find_child("parent/l/map/layers/site/sitelayer/exclusion_areas");
   _limas = _parent->find_child("parent/l/map/layers/site/sitelayer/limas");
   _frame = _parent->find_child("parent/f");
-  _actor = _parent->find_child("parent/l/map/layers/actors/sfty_pilot");
+  _actor = _parent->find_child("parent/l/map/layers/actors/sfty_pilot_uav");
+  _actor_ugv = _parent->find_child("parent/l/map/layers/actors/sfty_pilot_ugv");
   _clock = _parent->find_child("parent/right_pannel/right_pannel/clock");
   _console = _parent->find_child("parent/right_pannel/right_pannel/console");
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
@@ -638,6 +639,10 @@ RosNode::test_multiple_itineraries(){
       ((DoubleProperty*)_actor->find_child("lat"))->set_value(msg->position.latitude,true);
       ((DoubleProperty*)_actor->find_child("lon"))->set_value(msg->position.longitude, true);
     }
+    if (msg->robot_id == 8){
+      ((DoubleProperty*)_actor_ugv->find_child("lat"))->set_value(msg->position.latitude, true);
+      ((DoubleProperty*)_actor_ugv->find_child("lon"))->set_value(msg->position.longitude, true);
+    }
 
 
     _latitude.set_value (msg -> position.latitude, true);
@@ -697,9 +702,13 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 
         std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
         ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - New trap #" + std::to_string(msg.traps[k].id) + "\n", true);
+        GRAPH_EXEC;
         if (msg.traps[k].identified){
           ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap identified id="+ msg.traps[k].info.id +"(" +std::to_string(msg.traps[k].id) + ")" +  " code =" + msg.traps[k].info.code + "\n", true);
+          GRAPH_EXEC;
         }
+
+
 
 //rajouter radius
       }

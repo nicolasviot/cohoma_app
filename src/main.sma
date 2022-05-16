@@ -274,12 +274,13 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-            SafetyPilot sfty_pilot (map, $init_lat , $init_lon- 0.005, 0)
-          
+            SafetyPilot sfty_pilot_uav (map, $init_lat , $init_lon- 0.005, 0, "UAV")
+            SafetyPilot sfty_pilot_ugv (map, $init_lat , $init_lon+ 0.005, 0, "UGV")
         }
       }
       String name("Actors")
-      sfty_pilot aka ctrl_visibility.visible.sfty_pilot
+      sfty_pilot_uav aka ctrl_visibility.visible.sfty_pilot_uav
+      sfty_pilot_ugv aka ctrl_visibility.visible.sfty_pilot_ugv
     }
     Component site{
       Switch ctrl_visibility(visible){

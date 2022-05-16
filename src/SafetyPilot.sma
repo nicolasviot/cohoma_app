@@ -15,7 +15,7 @@ _native_code_
 %}
 
 _define_
-SafetyPilot (Process map, double _lat, double _lon, int _id)
+SafetyPilot (Process map, double _lat, double _lon, int _id, string _type)
 {
 
 
@@ -35,7 +35,7 @@ SafetyPilot (Process map, double _lat, double _lon, int _id)
     Translation screen_translation (0, 0)
     
 
-    
+    String type($_type)
 
 
     NoOutline _
@@ -54,6 +54,24 @@ SafetyPilot (Process map, double _lat, double _lon, int _id)
     c.cy =:> icon_translation.ty
 
     picking aka icon.picking
+
+
+    Switch ctrl_type_operator(UAV){
+        Component UAV{
+            #A056F6 =: circleFill.value
+            160 =: circleFill.r
+            86 =: circleFill.g
+            246 =: circleFill.b
+        }
+        Component UGV{
+            112 =: circleFill.r
+            141 =: circleFill.g
+            35 =: circleFill.b    
+
+        }
+    }
+
+    type =:> ctrl_type_operator.state
 
   FSM drag_fsm {
         State no_drag {
