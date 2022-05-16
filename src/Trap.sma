@@ -61,8 +61,8 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
     */
     String description("this is a trap")
     Double radius(30)
-    Bool remotely_deactivate(0)
-    Bool contact_deactivate(0)
+    Bool remotely_deactivate(1)
+    Bool contact_deactivate(1)
     Int contact_mode(0)
     /*int8 CONTACT_UNKONWN = 0
       int8 CONTACT_AERIAL = 1
@@ -114,37 +114,22 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
         //for drag interaction
         picking aka rect
 
-
+        //always visible data : ID and deactivation mode 
+        remotely_icon_svg = loadFromXML ("res/svg/trap_remote_icon.svg")
+        contact_icon_svg = loadFromXML ("res/svg/trap_contact_icon.svg")
+        
         //text for identification and information
         FillColor _ (0,0,0)
         FillOpacity text_opacity (3)
         1 / circle_opacity.a =:> text_opacity.a
-        FontSize _ (0, 18)
+        FontSize _ (0, 12)
         TextAnchor _ (1)
         Text trap_id_text (0,0, "?")
         trap_id =:> trap_id_text.text
         c.cx =:> trap_id_text.x
         c.cy + 5 =:> trap_id_text.y
 
-        FontSize _ (0, 14)
-        Text trap_description_text (0,0, "...")
-        c.cx =:> trap_description_text.x
-        c.cy + 30 =:> trap_description_text.y
-
-        Text trap_description_text2 (0,0, "...")
-        c.cx =:> trap_description_text2.x
-        c.cy + 50 =:> trap_description_text2.y
-
-        Text trap_description_text3 (0,0, "...")
-        c.cx =:> trap_description_text3.x
-        c.cy + 70 =:> trap_description_text3.y
-
-        Text trap_description_text4 (0,0, "...")
-        c.cx =:> trap_description_text4.x
-        c.cy + 90 =:> trap_description_text4.y
-        
-        description =:> trap_description_text.text
-
+         
         // state switch
         Switch trap_state_switch(unknown){
             Component unknown
@@ -153,12 +138,7 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
                 240 =: red.r
                 50 =: radius //set radius to maximum possible radius
                 0.1 =: trap_out_op.a
-                1 =: global_opacity.a
-            "unkown" =: trap_description_text.text
-                " " =: trap_description_text2.text
-                " " =: trap_description_text3.text
-                " " =: trap_description_text4.text
-                
+                1 =: global_opacity.a               
             }
             Component identified
             {
@@ -166,10 +146,36 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
                 1 =: trap_out_op.a
                 1 =: global_opacity.a
                 radius * 1.52 /get_resolution ($map.zoomLevel) =:> c.r
-                "Hazard:" + hazard + " Code:"+code =:> trap_description_text2.text
-                "Remotely:"+ toString(remotely_deactivate) + "  " + "Contact:" + toString(contact_deactivate) + " " =:> trap_description_text3.text
-                "contact mode:"+ toString(contact_mode) =:> trap_description_text4.text
                 1 =: trap_out_op.a
+
+                //Translation to match the content (TODO:should have a unifed technique instead....)  
+                Translation rect_pos (0,0)
+                content.rect.x =:> rect_pos.tx
+                content.rect.y =:> rect_pos.ty
+
+
+                //add icons for active traps only
+                Switch remotely_switch (true){
+                    Component true{
+                        Translation _ (40,-5)
+                        remote_icon << remotely_icon_svg.remotely_icon
+                    }
+                    Component false{
+
+                    }
+                }
+    
+                //add icons for active traps only
+                Switch contact_switch (true){
+                    Component true{
+                        Translation _ (-10,-5)
+                        contact_icon << contact_icon_svg.contact_icon
+                    }
+                    Component false{
+
+                    }
+                }
+                contact_deactivate =:> contact_switch.state
 
             }
             Component deactivated
@@ -179,11 +185,6 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
                 0.3 =: global_opacity.a
                 //fill in grey
                 100 =: red.r
-                " " =: trap_description_text.text
-                " " =: trap_description_text2.text
-                " " =: trap_description_text3.text
-                " " =: trap_description_text4.text
-
         }
         }
         state =:> trap_state_switch.state
@@ -274,14 +275,38 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
 
     }  
 
-    //menu to manually set the state
-    Spike state_manually_updated //utiliser ce spike pour mettre à jour les booléen via ros.
-    Spike ask_delete //utiliser pour supprimer le trap
-    
-    
+    //Translation to match the content (TODO:should have a unifed technique instead....)  
     Translation rect_pos (0,0)
     content.rect.x =:> rect_pos.tx
     content.rect.y =:> rect_pos.ty
+
+    ///////TRAP INFO OVERLAY ON HOVER //////
+
+
+        overlay_svg = loadFromXML ("res/svg/trap_info.svg")
+        
+        FSM info_overlay_FSM{
+            State idle{
+
+            }
+            State visible{
+                Translation _ (15,0)
+                info << overlay_svg.trap_info
+               description =:> info.description_text.text
+                      code =:> info.code_text.text
+                    hazard =:> info.hazard_text.text
+               contact_mode=:> info.contact_text.text
+                
+            }
+            idle -> visible (content.picking.enter)
+            visible -> idle (content.picking.leave)
+        }
+
+
+
+    //menu to manually set the state
+    Spike state_manually_updated //utiliser ce spike pour mettre à jour les booléen via ros.
+    Spike ask_delete //utiliser pour supprimer le trap
 
     AssignmentSequence unknown_assignement (1){
         1 =: active

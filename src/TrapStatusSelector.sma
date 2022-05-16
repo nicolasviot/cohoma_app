@@ -40,7 +40,7 @@ TrapStatusSelector (Process trap) {
                 }
                 {unknown,  identified} -> deactivated (m_deactivated.enter)
                 {identified, deactivated} -> unknown (m_unknown.enter)
-                {identified, unknown} -> identified (m_identified.enter)
+                {deactivated, unknown} -> identified (m_identified.enter)
             }
         
             t_unknown << svg.unknown
