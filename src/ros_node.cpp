@@ -1313,10 +1313,10 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
     else 
       std::cerr << " \n\n\n NO _georef_visilbility found !!\n\n\n " << std::endl;
 
-    if (_visibility_map_resolution)
-      _visibility_map_resolution->set_value (msg.resolution * 1.4, true);
-    else 
-      std::cerr << " \n\n\n NO _visibility_map_resolution found !!\n\n\n " << std::endl;
+  if (_visibility_map_resolution)
+    _visibility_map_resolution->set_value (msg.resolution, true);
+  else 
+    std::cerr << " \n\n\n NO _visibility_map_resolution found !!\n\n\n " << std::endl;
 
 
     _visibility_map->width()->set_value (w, true);
