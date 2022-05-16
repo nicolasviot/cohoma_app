@@ -1341,28 +1341,28 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
       int j1 = j0 + 1;
       int j2 = j0 + 2;
       int j3 = j0 + 3;
-      if (msg.ugv_camera_layer[i] != 0) {
+      if ((msg.outside_area_layer[i] != 0 ) && (msg.ugv_camera_layer[i] != 0) ) {
         //yellow
         frame_data[j0] = static_cast<char>(0x3F); //B
         frame_data[j1] = static_cast<char>(0xD0); //G
         frame_data[j2] = static_cast<char>(0xF4); //R
         frame_data[j3] = static_cast<char>(0x6A); //A
       }
-      if (msg.uav_camera_layer[i] != 0) {
+      if ( (msg.outside_area_layer[i] != 0) && (msg.uav_camera_layer[i] != 0)) {
         //purple
         frame_data[j0] = static_cast<char>(0x9B); //B
         frame_data[j1] = static_cast<char>(0x59); //G
         frame_data[j2] = static_cast<char>(0xB6); //R
         frame_data[j3] = static_cast<char>(0x6A); //A
       }
-      if ((msg.ugv_camera_layer[i] != 0) && (msg.uav_camera_layer[i] != 0)) {
+      if ((msg.outside_area_layer[i] != 0) && (msg.ugv_camera_layer[i] != 0) && (msg.uav_camera_layer[i] != 0)  ) {
         //cyan
         frame_data[j0] = static_cast<char>(0xD5); //B
         frame_data[j1] = static_cast<char>(0xB3); //G
         frame_data[j2] = static_cast<char>(0x7F); //R
         frame_data[j3] = static_cast<char>(0x6A); //A
       }
-      if ((msg.ugv_camera_layer[i] == 0) && (msg.uav_camera_layer[i] == 0)) {
+      if ((msg.outside_area_layer[i] == 0) && ( (msg.uav_camera_layer[i] == 0)|| (msg.ugv_camera_layer[i] == 0)) ) {
         //blank
         /*frame_data[j0] = static_cast<char>(0x00); //B
         frame_data[j1] = static_cast<char>(0x00); //G
