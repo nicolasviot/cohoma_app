@@ -106,12 +106,13 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
     rot.cy =:> un_rot.cy
 
       rect.press -> toogleselect
+   0 =: c.pickable 
    c.press -> toogleselect
    toogleselect ->{
     selected?0:1 =: selected 
    }
 
-   radius/get_resolution ($map.zoomLevel) =:> c.r
+   radius * 1.52 /get_resolution ($map.zoomLevel) =:> c.r
 
   FSM drag_fsm {
         State no_drag {

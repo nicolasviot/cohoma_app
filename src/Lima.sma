@@ -89,8 +89,33 @@ Lima (Process map, Process my_node){
     lima.press -> pressed
     lima.enter -> enter
     lima.leave -> leave
+
+    Spike send_msg_lima
+    FSM lima_selection{
+        State no_click{
+            190 =: outline_color.b
+            20 =: outline_color.g
+        }
+        State first_click{
+            20 =: outline_color.b
+            190 =: outline_color.g
+            Timer t(5000)
+            FillColor _ (0, 0, 0)
+            FontWeight _ (50)
+            FontSize _ (5, 24)
+            Text legend(0, 0, "")
+            lima.press.x =: legend.x
+            lima.press.y =: legend.y
+            name =: legend.text
+        }
+        no_click -> first_click (pressed)
+        first_click -> no_click (first_click.t.end)
+        first_click -> no_click (pressed, send_msg_lima)
+
+    }
+
     NativeAction test_lima_action (validate_lima, this, 1)
-    pressed -> test_lima_action
+    send_msg_lima -> test_lima_action
 
 
 }

@@ -147,7 +147,7 @@ Trap (Process map, double _lat, double _lon, int _id)
                 240 =: red.r
                 1 =: trap_out_op.a
                 1 =: global_opacity.a
-                radius/get_resolution ($map.zoomLevel) =:> c.r
+                radius * 1.52 /get_resolution ($map.zoomLevel) =:> c.r
                 "Hazard:" + hazard + " Code:"+code =:> trap_description_text2.text
                 "Remotely:"+ toString(remotely_deactivate) + "  " + "Contact:" + toString(contact_deactivate) + " " =:> trap_description_text3.text
                 "contact mode:"+ toString(contact_mode) =:> trap_description_text4.text
