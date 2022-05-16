@@ -137,7 +137,7 @@ Vehicule (Process map, double _lat, double _lon, string init_state, Process _col
     distance_to_center_pix =:> clamp_radius.input
     clamp_radius.result =:> radius
 
-    Animator radius_anim (500, 60, 5, DJN_IN_OUT_SINE, 1, 0)
+    Animator radius_anim (1000, 60, 5, DJN_IN_OUT_SINE, 1, 0)
     distance_to_center_pix =:> radius_anim.min
 
     20 =: radius_anim.fps

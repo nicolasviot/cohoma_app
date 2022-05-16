@@ -91,9 +91,11 @@ send_selected_tasks_native (Process c)
 _action_
 test_visibility_map_native (Process c)
 %{
-	Process *data = (Process*) get_native_user_data(c);
-	RosNode *node = dynamic_cast<RosNode*>(data);
-	node->test_draw_visibility_map();
+	#ifndef NO_ROS
+		Process *data = (Process*) get_native_user_data(c);
+		RosNode *node = dynamic_cast<RosNode*>(data);
+		node->test_draw_visibility_map();
+	#endif
 %}
 
 
