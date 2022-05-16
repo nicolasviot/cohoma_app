@@ -4,6 +4,7 @@ use base
 use animation
 
 import gui.animation.Animator
+import TrapStatusSelector
 
 _native_code_
 %{
@@ -265,7 +266,6 @@ Trap (Process map, double _lat, double _lon, int _id)
     content.rect.x =:> rect_pos.tx
     content.rect.y =:> rect_pos.ty
 
-
     AssignmentSequence unknown_assignement (1){
         1 =: active
         0 =: identified 
@@ -287,59 +287,11 @@ Trap (Process map, double _lat, double _lon, int _id)
         0.01 =: content.global_opacity.a
    }
 
-    FSM set_State_Menu{
-        State hidden{
+    TrapStatusSelector menu (this)
 
-        }
-        State visible{
-            Translation _ (20, -30) //position right center from the trap
-            FillOpacity _ (1)
-
-            FillColor _ (50,50,50)
-            NoOutline _
-
-            Rectangle bg (5, -30, 90, 180, 0, 0)
-            FillColor _ (200, 200, 200)
-            Text state_label (15, -10, toString(state) )
-            state =:> state_label.text
-
-            FillColor _ (200,200,200)
-            OutlineColor _ (0,0,0)
-            Rectangle rect_unknown (10, 0, 80, 30, 5, 5)
-            FillColor _ (0, 0, 0)
-            Text _ (15, 20, "unknown" )
-
-            FillColor _ (200,200,200)
-            Rectangle rect_identified (10, 30, 80, 30, 5, 5)
-            FillColor _ (0, 0, 0)
-            Text _ (15, 50, "identified" )
-
-            FillColor _ (200,200,200)
-            Rectangle rect_deactivated (10, 60, 80, 30, 5, 5)
-            FillColor _ (0, 0, 0)
-            Text _ (15, 80, "deactivated" )
-
-            FillColor _ (200,200,200)
-            Rectangle rect_delete (10, 100, 80, 30, 5, 5)
-            FillColor _ (100, 0, 0)
-            Text _ (15, 120, "delete" )
-
-            rect_unknown.press -> unknown_assignement
-            rect_unknown.press -> state_manually_updated
-            rect_identified.press -> identified_assignement
-            rect_identified.press -> state_manually_updated
-            rect_deactivated.press -> deactivated_assignement
-            rect_deactivated.press -> state_manually_updated
-            rect_delete.press -> ask_delete
-            rect_delete.press -> delete_assignement
-    
-
-        }
-        hidden -> visible (content.picking.right.press )
-        visible -> hidden (content.picking.right.press)
-        visible -> hidden (state_manually_updated)
-        visible -> hidden (ask_delete)
-    } 
+    content.picking.right.press -> menu.press
+    state_manually_updated -> menu.hide
+    ask_delete -> menu.hide
 
  //HIGHLIGHT ANIMATION ON REQUEST /////
     Spike start_highlight_Anim
