@@ -72,7 +72,7 @@ Trap (Process map, double _lat, double _lon, int _id)
         OutlineOpacity trap_out_op (0)
         OutlineColor _ (0,0,0)
         OutlineWidth _ (2)
-        FillOpacity golbal_opacity (1)
+        FillOpacity global_opacity (1)
         FillColor red(240, 0, 0)
         Rotation rot (45, 0, 0)
         Rectangle rect (0, 0, 30, 30)
@@ -135,7 +135,7 @@ Trap (Process map, double _lat, double _lon, int _id)
                 240 =: red.r
                 50 =: radius //set radius to maximum possible radius
                 0.1 =: trap_out_op.a
-                1 =: golbal_opacity.a
+                1 =: global_opacity.a
             "unkown" =: trap_description_text.text
                 " " =: trap_description_text2.text
                 " " =: trap_description_text3.text
@@ -146,7 +146,7 @@ Trap (Process map, double _lat, double _lon, int _id)
             {
                 240 =: red.r
                 1 =: trap_out_op.a
-                1 =: golbal_opacity.a
+                1 =: global_opacity.a
                 radius/get_resolution ($map.zoomLevel) =:> c.r
                 "Hazard:" + hazard + " Code:"+code =:> trap_description_text2.text
                 "Remotely:"+ toString(remotely_deactivate) + "  " + "Contact:" + toString(contact_deactivate) + " " =:> trap_description_text3.text
@@ -158,7 +158,7 @@ Trap (Process map, double _lat, double _lon, int _id)
         {    
                 0 =: c.r //set circle radius to zero
                 0.1 =: trap_out_op.a
-                0.3 =: golbal_opacity.a
+                0.3 =: global_opacity.a
                 //fill in grey
                 100 =: red.r
                 " " =: trap_description_text.text
@@ -259,8 +259,6 @@ Trap (Process map, double _lat, double _lon, int _id)
     //menu to manually set the state
     Spike state_manually_updated //utiliser ce spike pour mettre à jour les booléen via ros.
     Spike ask_delete //utiliser pour supprimer le trap
-
-    //ask_delete -> delete this
     
     
     Translation rect_pos (0,0)
@@ -284,8 +282,9 @@ Trap (Process map, double _lat, double _lon, int _id)
    }
 
     AssignmentSequence delete_assignement (1){
-        0 =: active
-        0 =: identified 
+        //0 =: active
+        //0 =: identified 
+        0.01 =: content.global_opacity.a
    }
 
     FSM set_State_Menu{
