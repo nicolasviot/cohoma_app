@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="menu" inkscape:version="1.1 (c4e8f9e, 2021-05-24)" sodipodi:docname="status_selector.svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="468px" height="60px"
+	 viewBox="0 0 468 60" enable-background="new 0 0 468 60" xml:space="preserve">
+<sodipodi:namedview  bordercolor="#666666" borderopacity="1.0" id="namedview7" inkscape:current-layer="svg5" inkscape:cx="97.677549" inkscape:cy="-14.927466" inkscape:document-rotation="0" inkscape:document-units="px" inkscape:pagecheckerboard="0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:window-height="776" inkscape:window-maximized="0" inkscape:window-width="1440" inkscape:window-x="52" inkscape:window-y="25" inkscape:zoom="3.0815679" pagecolor="#ffffff" showgrid="false" units="px">
+	<inkscape:grid  id="grid1503" type="xygrid"></inkscape:grid>
+</sodipodi:namedview>
+<path id="bg" sodipodi:nodetypes="ssssssscccss" fill="#2F2F2F" fill-opacity="0.8078" d="M15-65.74h83c2.77,0,5,2.23,5,5V60.42
+	c0,2.77-2.23,5-5,5H15c-2.77,0-5-2.23-5-5V10L0,0l10-10v-50.74C10-63.51,12.23-65.74,15-65.74z"/>
+<g id="delete_btn">
+	<rect id="rect_delete" x="10" y="37.97" fill="#DD5408" fill-opacity="0.9608" width="93" height="21.09"/>
+	<text id="delete" transform="matrix(1 0 0 1 51.5 54.1251)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">Delete</text>
+</g>
+<rect id="mask_deactivated" x="10" y="-10" fill="#2F2F2F" fill-opacity="0" width="93" height="21.09"/>
+<rect id="rect_deactivated" x="10" y="-10" fill="#DD9408" fill-opacity="0.9608" width="93" height="21.09"/>
+<text id="deactivated" transform="matrix(1 0 0 1 20.384 5.0342)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">Deactivated</text>
+<rect id="mask_identified" x="10" y="-34.11" fill="#2F2F2F" fill-opacity="0" width="93" height="21.09"/>
+<rect id="rect_identified" x="10" y="-34.11" fill="#DD9408" fill-opacity="0.9608" width="93" height="21.09"/>
+<text id="identified" transform="matrix(1 0 0 1 20.384 -17.952)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">Identified</text>
+<rect id="mask_unknown" x="10" y="-58.09" fill="#2F2F2F" fill-opacity="0" width="93" height="21.09"/>
+<rect id="rect_unknown" x="10" y="-58.09" fill="#DD9408" fill-opacity="0.9608" width="93" height="21.09"/>
+<text id="unknown" transform="matrix(1 0 0 1 20.384 -41.936)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">Unknown</text>
+</svg>
