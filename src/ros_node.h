@@ -1,9 +1,5 @@
 #pragma once
 
-#include <functional>
-#include <memory>
-#include <string>
-
 #ifndef NO_ROS
 //Ros Stuff
 #include "rclcpp/rclcpp.hpp"

@@ -1,4 +1,5 @@
 CXXFLAGS += -std=c++17
+CXXFLAGS += -MMD
 
 build_dir ?= build
 

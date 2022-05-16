@@ -706,7 +706,8 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - New trap #" + std::to_string(msg.traps[k].id) + "\n", true);
         GRAPH_EXEC;
         if (msg.traps[k].identified){
-          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap identified id="+ msg.traps[k].info.id +"(" +std::to_string(msg.traps[k].id) + ")" +  " code =" + msg.traps[k].info.code + "\n", true);
+          //Trap identified : #id_str (id_int) FKSF hard
+          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - New trap identified "+ msg.traps[k].info.id +"(" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + msg.traps[k].info.hazard + "\n", true);
           GRAPH_EXEC;
         }
 
@@ -719,7 +720,9 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
 
         if (msg.traps[k].identified && !((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->get_value()){
-          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap identified at ["+ std::to_string(msg.traps[k].location.latitude) + "," + std::to_string(msg.traps[k].location.longitude) + "]" + " code =" + msg.traps[k].info.code, true);
+          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - trap identified "+ msg.traps[k].info.id +"(" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + msg.traps[k].info.hazard + "\n", true);
+        }else if(msg.traps[k].identified){
+          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp+ " - trap updated "+ msg.traps[k].info.id +"(" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + msg.traps[k].info.hazard + "\n", true);
         }
 
         std::cerr << "old trap to update!" << std::endl;
