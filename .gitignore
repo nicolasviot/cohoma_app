@@ -1,4 +1,4 @@
-build/
-config.mk
-cache/
-toto.log
+/build/
+/config.mk
+/cache/
+/toto.log
