@@ -97,7 +97,7 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
     Circle c (0, 0, 50)
     c.cx - rect.width/2 =:> rect.x 
     c.cy - rect.height/2 =:> rect.y
-    radius/get_resolution ($map.zoomLevel) =:> c.r
+    radius * 1.52 /get_resolution ($map.zoomLevel) =:> c.r
 
     //rotation of the rectangle to be a losange
     c.cx =:> rot.cx

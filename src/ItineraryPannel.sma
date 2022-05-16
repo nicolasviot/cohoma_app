@@ -59,7 +59,7 @@ ItineraryPannel(double _dx, double _dy, Process _id_selected){
 	//HIGHLIGHT ANIMATION ON REQUEST /////
     Spike startWaitingAnim
     Spike stopWaitingAnim
-
+    id_selected -> stopWaitingAnim
     Animator radius_anim (800, 0, 360, DJN_IN_OUT_SINE, 1, 0)
 
     20 =: radius_anim.fps

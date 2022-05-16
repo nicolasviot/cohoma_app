@@ -85,7 +85,7 @@ Trap (Process map, double _lat, double _lon, int _id)
         Circle c (0, 0, 50)
         c.cx - rect.width/2 =:> rect.x 
         c.cy - rect.height/2 =:> rect.y
-        radius/get_resolution ($map.zoomLevel) =:> c.r //attention peut etre pas tout le temps
+        radius * 1.52 /get_resolution ($map.zoomLevel) =:> c.r //attention peut etre pas tout le temps
 
         //rotation of the rectangle to be a losange
         c.cx =:> rot.cx
