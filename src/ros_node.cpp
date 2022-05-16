@@ -134,6 +134,8 @@ RosNode::impl_activate ()
     "/validate", qos);
   publisher_lima = _node->create_publisher<icare_interfaces::msg::LimaCrossed>(
     "/lima", qos);
+  publisher_trap_activation = _node->create_publisher<icare_interfaces::msg::TrapActivation>(
+    "/activation", qos);
   #endif
 
 
@@ -688,7 +690,7 @@ bool active true                    # whether the trap is active
 icare_interfaces/TrapIdentification info
 uint8[] detected_by                 # list of robots having detected this trap
 uint32[] local_ids                   # locals ids of the detection per robot*/
-        ParentProcess *new_trap = Trap(_traps, "", _map, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id);
+        ParentProcess *new_trap = Trap(_traps, "", _map, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id, this);
         std::cerr << msg.traps[k].location.latitude << std::endl;
         std::cerr << msg.traps[k].location.longitude << std::endl;
         ((BoolProperty*)new_trap->find_child("active"))->set_value(msg.traps[k].active, true);
@@ -1399,6 +1401,16 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
 
   }
 
+  void 
+  RosNode::send_msg_trap_activation(int id, bool new_active_state){
+    icare_interfaces::msg::TrapActivation msg = icare_interfaces::msg::TrapActivation();
+
+
+    msg.active = new_active_state;
+    msg.id = id;
+    publisher_trap_activation->publish(msg);
+
+  }
 
   /*
   //Util : 

@@ -5,7 +5,7 @@ use animation
 
 import gui.animation.Animator
 import TrapStatusSelector
-
+import ros_node
 _native_code_
 %{
 #include "cpp/coords-utils.h"
@@ -15,8 +15,25 @@ _native_code_
 }*/
 %}
 
+
+_action_
+change_activation_action (Process c)
+%{
+
+    Process *data = (Process*) get_native_user_data(c);
+    RosNode *node = dynamic_cast<RosNode*>(data->find_child("node"));
+    IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
+    BoolProperty *new_activation = dynamic_cast<BoolProperty*>(data->find_child("active")); 
+    #ifndef NO_ROS
+    node ->send_msg_trap_activation(id->get_value(), new_activation->get_value()); 
+    #endif
+    
+%}
+
+
+
 _define_
-Trap (Process map, double _lat, double _lon, int _id)
+Trap (Process map, double _lat, double _lon, int _id, Process _node)
 {
 
     Double lat($_lat)
@@ -28,7 +45,7 @@ Trap (Process map, double _lat, double _lon, int _id)
     String state ("unknown") //can be unkown, identified, deactivated
     String trap_id("?")
 
-    
+    node aka _node
     active ? (identified ? "identified" : "unknown") : "deactivated" =:> state
 
 
@@ -292,6 +309,10 @@ Trap (Process map, double _lat, double _lon, int _id)
     content.picking.right.press -> menu.press
     state_manually_updated -> menu.hide
     ask_delete -> menu.hide
+    NativeAction update_trap_activation_state_action(change_activation_action, this, 1)
+    deactivated_assignement -> update_trap_activation_state_action
+    identified_assignement -> update_trap_activation_state_action
+    unknown_assignement -> update_trap_activation_state_action
 
  //HIGHLIGHT ANIMATION ON REQUEST /////
     Spike start_highlight_Anim
