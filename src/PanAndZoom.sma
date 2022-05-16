@@ -9,7 +9,7 @@ _native_code_
 %}
 
 _define_
-PanAndZoom (Process move, Process press, Process release, Process dwheel) {
+PanAndZoom (Process move, Process picking, Process dwheel) {
     // input
 
     // move: e.g., frame.move // unfortunately, we need to know where the cursor is while zooming // FIXME put it in wheel event?..
@@ -23,6 +23,9 @@ PanAndZoom (Process move, Process press, Process release, Process dwheel) {
     Double zoom (1)
     Double xpan (0)
     Double ypan (0)
+    press_trigger aka picking.left.press
+    press aka picking.press
+    release aka picking.release
 
     AdderAccumulator acc_dx (0, 0, 0)
     AdderAccumulator acc_dy (0, 0, 0)
@@ -32,7 +35,6 @@ PanAndZoom (Process move, Process press, Process release, Process dwheel) {
     Double dzoom (1)
     Double dx (0)
     Double dy (0)
-
 
     // zoom management
 
@@ -112,10 +114,9 @@ PanAndZoom (Process move, Process press, Process release, Process dwheel) {
             }
             move -> seq
         }
-        idle -> pressing (press)
+        idle -> pressing (press_trigger)
         pressing -> idle (release)
         pressing -> panning (move)
         panning -> idle (release)
     }
-
 }

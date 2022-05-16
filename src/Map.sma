@@ -138,7 +138,8 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
     Rectangle pick_area (0, 0, 0, 0, 0, 0)
     RectangleClip clip_area (0, 0, _width, _height)
 
-    PanAndZoom pz (f.move, pick_area.press, pick_area.release, pick_area.wheel.dy)
+
+    PanAndZoom pz (f.move, pick_area, pick_area.wheel.dy)
     this.{width,height} =:> clip_area.{width,height}, pick_area.{width, height}
 
     Component layers
