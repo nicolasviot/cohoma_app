@@ -11,12 +11,13 @@ Int id_dest(_id_dest)
 Double length(_length)
 Double explored(0)
 DoubleFormatter df(0, 2)
+DoubleFormatter dm(0, 2)
 100 * explored =:> df.input 
-
+length =:> dm.input
 //Rarccos(sin(a)sin(b) + cos(a)cos(b)cos(c-d)) a = lata, b=lona, c =latb, d =lonb
 /*
 Double R(6171000)
-a aka nodelist.[$id_src].wpt.lat
+a aka nodelist.[$id_src].wpt.latinput
 b aka nodelist.[$id_src].wpt.lon
 c aka nodelist.[$id_src].wpt.lat
 d aka nodelist.[$id_src].wpt.lon
@@ -67,7 +68,7 @@ FSM tooltip{
         legend.y - 12 =:> bg.y
         legend.width =:> bg.width
         legend.height =:> bg.height
-        "Length : " + toString(length) + "m, explored : " + df.output + "%" =:> legend.text
+        "Length : " + dm.output + "m, explored : " + df.output + "%" =:> legend.text
 
 
     }
