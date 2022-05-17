@@ -701,13 +701,15 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         ((TextProperty*)new_trap->find_child("code"))->set_value(msg.traps[k].info.code, true);
         ((TextProperty*)new_trap->find_child("hazard"))->set_value(msg.traps[k].info.hazard, true);
         ((DoubleProperty*)new_trap->find_child("radius"))->set_value(msg.traps[k].info.radius, true);
-
+        ((BoolProperty*)new_trap->find_child("remotely_deactivate"))->set_value(msg.traps[k].info.remotely_deactivate, true);
+        ((BoolProperty*)new_trap->find_child("contact_deactivate"))->set_value(msg.traps[k].info.contact_deactivate, true);
+       
         std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
         ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - New trap #" + std::to_string(msg.traps[k].id) + "\n", true);
         GRAPH_EXEC;
         if (msg.traps[k].identified){
           //Trap identified : #id_str (id_int) FKSF hard
-          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - New trap identified "+ msg.traps[k].info.id +"(" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + msg.traps[k].info.hazard + "\n", true);
+          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - New trap identified "+ msg.traps[k].info.id +"(" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + " " + msg.traps[k].info.hazard + "\n", true);
           GRAPH_EXEC;
         }
 
@@ -720,9 +722,9 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
 
         if (msg.traps[k].identified && !((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->get_value()){
-          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - trap identified "+ msg.traps[k].info.id +"(" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + msg.traps[k].info.hazard + "\n", true);
+          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - trap identified "+ msg.traps[k].info.id +"(#" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + " " + msg.traps[k].info.hazard + "\n", true);
         }else if(msg.traps[k].identified){
-          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp+ " - trap updated "+ msg.traps[k].info.id +"(" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + msg.traps[k].info.hazard + "\n", true);
+          ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp+ " - trap updated "+ msg.traps[k].info.id +"(#" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + " " + msg.traps[k].info.hazard + "\n", true);
         }
 
         std::cerr << "old trap to update!" << std::endl;
@@ -733,7 +735,8 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         ((IntProperty*)_traps_container->children()[index_found]->find_child("contact_mode"))->set_value(msg.traps[k].info.contact_mode, true);
         ((TextProperty*)_traps_container->children()[index_found]->find_child("code"))->set_value(msg.traps[k].info.code, true);
         ((TextProperty*)_traps_container->children()[index_found]->find_child("hazard"))->set_value(msg.traps[k].info.hazard, true);
-
+        ((BoolProperty*)_traps_container->children()[index_found]->find_child("remotely_deactivate"))->set_value(msg.traps[k].info.remotely_deactivate, true);
+        ((BoolProperty*)_traps_container->children()[index_found]->find_child("contact_deactivate"))->set_value(msg.traps[k].info.contact_deactivate, true);
         ((DoubleProperty*)_traps_container->children()[index_found]->find_child("radius"))->set_value(msg.traps[k].info.radius, true);
 
       }
@@ -1155,7 +1158,7 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
     new Connector (limits_to_add, "y_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/y")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/y")), 1);
 
   }
-    
+
   for (int i=0; i < msg.zones.size(); i++){
     ParentProcess* area_to_add = ExclusionArea(_exclusion_areas,"", _map, "unknown"); 
     ((TextProperty*)area_to_add->find_child("name"))->set_value(msg.zones[i].name, true);

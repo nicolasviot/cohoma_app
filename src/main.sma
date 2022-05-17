@@ -151,8 +151,8 @@ Component root {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible {
-          MapLayer layer (f, map, load_geoportail_tile, "geoportail")
-          //MapLayerSync layer (f, map, load_geoportail_tile, "geoportail")
+          //MapLayer layer (f, map, load_geoportail_tile, "geoportail")
+          MapLayerSync layer (f, map, load_geoportail_tile, "geoportail")
         }
       }
       opacity aka ctrl_visibility.visible.layer.opacity
