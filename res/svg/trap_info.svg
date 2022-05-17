@@ -3,24 +3,32 @@
 <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="595.28px" height="841.89px" viewBox="0 0 595.28 841.89" enable-background="new 0 0 595.28 841.89" xml:space="preserve">
 <g id="trap_info">
-	<path id="bg" fill="#303030" fill-opacity="0.8078" d="M-78.97-11.91v-55.7c0-1.86,2.69-3.36,6.02-3.36H72.95
-		c3.34,0,6.02,1.5,6.02,3.36v55.7c0,1.86-2.69,3.36-6.02,3.36H12.23L0.19-1.84l-12.04-6.71h-61.1
-		C-76.28-8.55-78.97-10.05-78.97-11.91z"/>
+	<path id="bg" fill="#303030" fill-opacity="0.8078" d="M-78.97-13.82v-76.45c0-2.55,2.69-4.61,6.02-4.61h145.9
+		c3.34,0,6.02,2.06,6.02,4.61v76.45c0,2.55-2.69,4.61-6.02,4.61H12.23L0.19,0l-12.04-9.21h-61.1
+		C-76.28-9.21-78.97-11.27-78.97-13.82z"/>
 	
-		<text id="deactivated" transform="matrix(1.053 0 0 1 -74.7312 -31.8768)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Contact Mode: </text>
+		<text id="deactivated" transform="matrix(1.053 0 0 1 -76.0539 -30.8946)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Contact Mode:</text>
 	
-		<text id="deactivated_00000105395447086514181370000008509834911979510207_" transform="matrix(1.053 0 0 1 -61.6818 -19.6483)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Description: </text>
+		<text id="des" transform="matrix(1.053 0 0 1 -63.3039 -17.9615)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Description:</text>
 	
-		<text id="identified" transform="matrix(1.053 0 0 1 -32.4867 -44.5055)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Code:</text>
+		<text id="identified" transform="matrix(1.053 0 0 1 -33.3034 -69.8483)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Code:</text>
 	
-		<text id="unknown" transform="matrix(1.053 0 0 1 -41.4975 -55.1104)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Hazard: </text>
+		<text id="unknown" transform="matrix(1.053 0 0 1 -42.3034 -82.9158)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Hazard:</text>
 	
-		<text id="hazard_text" transform="matrix(1.053 0 0 1 -0.233 -55.0249)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">...</text>
+		<text id="hazard_text" transform="matrix(1.053 0 0 1 -5.4018 -82.0619)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">...</text>
 	
-		<text id="code_text" transform="matrix(1.053 0 0 1 -0.233 -44.42)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">...</text>
+		<text id="code_text" transform="matrix(1.053 0 0 1 -5.4018 -68.9945)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">...</text>
 	
-		<text id="contact_text" transform="matrix(1.053 0 0 1 -0.2327 -31.877)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">...</text>
+		<text id="id" transform="matrix(1.053 0 0 1 -19.3028 -56.9557)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">ID:</text>
 	
-		<text id="description_text" transform="matrix(1.053 0 0 1 0.1975 -19.5774)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">...</text>
+		<text id="id_text" transform="matrix(1.053 0 0 1 -5.4018 -56.2586)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">#...</text>
+	
+		<text id="contact_text" transform="matrix(1.053 0 0 1 -5.4018 -30.1267)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">...</text>
+	
+		<text id="description_text" transform="matrix(1.053 0 0 1 -5.4018 -17.1223)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">...</text>
+	<text id="de" transform="matrix(1.053 0 0 1 -59.304 -43.4126)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Deactivate:</text>
+	
+		<text id="deactivate_text" transform="matrix(1.053 0 0 1 -5.4018 -42.5734)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Remote/Contact</text>
 </g>
+<rect x="-19.3" y="11.47" fill="#FFFFFF" width="19.44" height="120.63"/>
 </svg>

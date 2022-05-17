@@ -59,11 +59,11 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
     string hazard                       # description of an hazardous situation to take into account
 
     */
-    String description("this is a trap")
+    String description("..")
     Double radius(30)
     Bool remotely_deactivate(0)
     Bool contact_deactivate(0)
-    Int contact_mode(2)
+    Int contact_mode(0)
     String code("?")
     String hazard("?")
 
@@ -116,7 +116,7 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
         FillColor _ (0,0,0)
         FillOpacity text_opacity (3)
         1 / circle_opacity.a =:> text_opacity.a
-        FontSize _ (0, 12)
+        FontSize _ (0, 10)
         TextAnchor _ (1)
         Text trap_id_text (0,0, "?")
         trap_id =:> trap_id_text.text
@@ -290,7 +290,8 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
                description =:> info.description_text.text
                       code =:> info.code_text.text
                     hazard =:> info.hazard_text.text
-               //contact_mode=:> info.contact_text.text
+        "#" + toString(id) =:> info.id_text.text
+                 remotely_deactivate ? (contact_deactivate ? "Remote/Contact" : "Remote") : (contact_deactivate ? "Concact" : "...") =:> info.deactivate_text.text
 
                    /*int8 CONTACT_UNKONWN = 0
                     int8 CONTACT_AERIAL = 1

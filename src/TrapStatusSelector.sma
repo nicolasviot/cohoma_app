@@ -21,6 +21,8 @@ TrapStatusSelector (Process trap) {
             m_identified << svg.mask_identified
             m_deactivated << svg.mask_deactivated
             button_delete << svg.delete_btn
+            close_btn << svg.close_button
+            close_btn.close_mask.press -> hide
 
             FSM fsm_status{
                 State unknown{
