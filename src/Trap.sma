@@ -61,15 +61,9 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
     */
     String description("this is a trap")
     Double radius(30)
-    Bool remotely_deactivate(1)
-    Bool contact_deactivate(1)
-    Int contact_mode(0)
-    /*int8 CONTACT_UNKONWN = 0
-      int8 CONTACT_AERIAL = 1
-      int8 CONTACT_GROUND = 2
-      int8 CONTACT_GROUND_MULTIPLE = 3
-      int8 CONTACT_AERIAL_AND_GROUND = 4
-      int8 CONTACT_AERIAL_OR_GROUND = 5*/
+    Bool remotely_deactivate(0)
+    Bool contact_deactivate(0)
+    Int contact_mode(2)
     String code("?")
     String hazard("?")
 
@@ -155,7 +149,7 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
 
 
                 //add icons for active traps only
-                Switch remotely_switch (true){
+                Switch remotely_switch (false){
                     Component true{
                         Translation _ (40,-5)
                         remote_icon << remotely_icon_svg.remotely_icon
@@ -164,9 +158,10 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
 
                     }
                 }
+                remotely_deactivate =:> remotely_switch.state
     
                 //add icons for active traps only
-                Switch contact_switch (true){
+                Switch contact_switch (false){
                     Component true{
                         Translation _ (-10,-5)
                         contact_icon << contact_icon_svg.contact_icon
@@ -295,7 +290,35 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
                description =:> info.description_text.text
                       code =:> info.code_text.text
                     hazard =:> info.hazard_text.text
-               contact_mode=:> info.contact_text.text
+               //contact_mode=:> info.contact_text.text
+
+                   /*int8 CONTACT_UNKONWN = 0
+                    int8 CONTACT_AERIAL = 1
+                    int8 CONTACT_GROUND = 2
+                    int8 CONTACT_GROUND_MULTIPLE = 3
+                    int8 CONTACT_AERIAL_AND_GROUND = 4
+                    int8 CONTACT_AERIAL_OR_GROUND = 5*/
+               SwitchList contact_mode_switch (0){
+                   Component zero {
+                      "unknown" =: info.contact_text.text
+                   }
+                   Component one {
+                      "Aerial" =: info.contact_text.text
+                   }
+                   Component two {
+                      "Ground" =: info.contact_text.text
+                   }
+                   Component three {
+                      "Ground Multiple" =: info.contact_text.text
+                   }
+                   Component four {
+                       "Aerial And Ground" =:info.contact_text.text
+                   }
+                   Component five {
+                       "Aerial or Ground" =: info.contact_text.text
+                   }
+               }
+               contact_mode + 1 =:> contact_mode_switch.index
                 
             }
             idle -> visible (content.picking.enter)
