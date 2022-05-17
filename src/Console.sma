@@ -53,7 +53,7 @@ logger activation de lima
 
 
   FillColor _(White)
-  Rectangle bg (0, 0, 450, 400)
+  Rectangle bg (0, 0, 450, 550)
   FillColor _ (Black)
   
   MultilineEditor ste (5, 0, 0,  0, "", 1)
@@ -63,7 +63,7 @@ logger activation de lima
 
   /*StandAlonePushButton debug_ste_input("Clear", 200, 200)
   debug_ste_input.click -> {"Hello World \n"=:ste.string_input}
-  */StandAlonePushButton clear("Clear", 200, 250)
+  */StandAlonePushButton clear("Clear", 200, 500)
   bg.width - 60 =:> clear.x
   bg.height - 30 =:> clear.y
   clear.click -> ste.clear
