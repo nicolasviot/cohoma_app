@@ -2,6 +2,8 @@
 # ---------------------------------------
 # precompiled headers
 
+ifneq ($(nopch),1)
+
 # https://stackoverflow.com/questions/58841/precompiled-headers-with-gcc
 # https://stackoverflow.com/questions/26755219/how-to-use-pch-with-clang
 
@@ -66,3 +68,5 @@ $(objs): $(pch_dst)$(pch_ext)
 
 #$(exe) += $(pch_shared_dst)
 #$(exe): $(pch_shared_dst)
+
+endif
