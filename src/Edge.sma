@@ -11,7 +11,7 @@ Int id_dest(_id_dest)
 Double length(_length)
 Double explored(0)
 DoubleFormatter df(0, 2)
-explored =:> df.input 
+100 * explored =:> df.input 
 
 //Rarccos(sin(a)sin(b) + cos(a)cos(b)cos(c-d)) a = lata, b=lona, c =latb, d =lonb
 /*
