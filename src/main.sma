@@ -22,6 +22,7 @@ use display
 import Slider
 import Map
 import MapLayer
+import MapLayerSync
 import Animator
 import GraphNode
 import Strip
@@ -149,8 +150,9 @@ Component root {
     Component geoportail {
       Switch ctrl_visibility (visible) {
         Component hidden
-        Component visible { 
+        Component visible {
           MapLayer layer (f, map, load_geoportail_tile, "geoportail")
+          //MapLayerSync layer (f, map, load_geoportail_tile, "geoportail")
         }
       }
       opacity aka ctrl_visibility.visible.layer.opacity

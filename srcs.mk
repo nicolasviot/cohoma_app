@@ -12,7 +12,11 @@ srcs_sma ?= src/ClockComponent.sma src/Reticule.sma src/Strip.sma src/Slider.sma
             src/SafetyPilot.sma src/TaskAreaSummit.sma src/TaskArea.sma src/Lima.sma src/LimaLayer.sma src/TaskLayer.sma \
             src/Lima.sma src/LimaLayer.sma \
             src/ExclusionArea.sma src/ExclusionAreaLayer.sma src/SiteLayer.sma \
-            src/NavGraph.sma src/Itineraries.sma src/PixmapTile.sma src/MapLayer.sma src/Map.sma src/WidgetMap.sma \
+            src/NavGraph.sma src/Itineraries.sma \
+            src/PixmapTile.sma \
+            src/MapLayer.sma \
+            src/MapLayerSync.sma \
+            src/Map.sma src/WidgetMap.sma \
             src/TaskDescriptor.sma src/CandidateTaskFilter.sma \
             src/ItineraryDescriptor.sma src/ItineraryPannel.sma src/Console.sma src/RightPannel.sma src/RosManager.sma \
             src/Vehicule.sma src/UpperLeftMenu.sma src/StripContainer.sma src/main.sma
@@ -20,8 +24,11 @@ srcs_sma ?= src/ClockComponent.sma src/Reticule.sma src/Strip.sma src/Slider.sma
 #srcs_sma := $(shell find $(src_dir) -name "*.sma")
 
 # native sources
-srcs_other ?= src/cpp/coords-utils.cpp src/cpp/map_move.cpp src/cpp/tiles_manager.cpp \
-             src/ros_node.cpp\
+srcs_other ?= src/cpp/coords-utils.cpp \
+            src/cpp/tiles_manager.cpp \
+            src/ros_node.cpp
+srcs_other += src/cpp/map_move.cpp
+srcs_other += src/cpp/map_move_sync.cpp
 
 # or
 #srcs_other := $(shell find $(src_dir) -name "*.cpp")
