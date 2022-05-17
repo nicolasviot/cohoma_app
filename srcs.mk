@@ -26,7 +26,8 @@ srcs_sma ?= src/ClockComponent.sma src/Reticule.sma src/Strip.sma src/Slider.sma
 # native sources
 srcs_other ?= src/cpp/coords-utils.cpp \
             src/cpp/tiles_manager.cpp \
-            src/ros_node.cpp
+            src/ros_node.cpp \
+            src/ros_node_proxy.cpp
 srcs_other += src/cpp/map_move.cpp
 srcs_other += src/cpp/map_move_sync.cpp
 
@@ -42,8 +43,8 @@ ifeq ($(compiler),gnu)
 pch_ext ?= .gch
 endif
 
-$(build_dir)/src/ros_node.o: pch_file=src/ros_precompiled.h
-$(build_dir)/src/ros_node.o: $(build_dir)/src/ros_precompiled.h$(pch_ext)
+#$(build_dir)/src/ros_node.o: pch_file=src/ros_precompiled.h
+#$(build_dir)/src/ros_node.o: $(build_dir)/src/ros_precompiled.h$(pch_ext)
 
 
 ros_install_path := /opt/ros/galactic

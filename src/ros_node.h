@@ -27,6 +27,9 @@
 #include "icare_interfaces/msg/exploration_polygon.hpp"
 #include "icare_interfaces/msg/environment_map.hpp"
 #include "icare_interfaces/msg/trap_activation.hpp"
+
+#include "ros_node_proxy.h"
+
 #endif
 
 //Djnn-smala stuff
@@ -50,7 +53,7 @@
 
 using namespace djnn;
 
-class RosNode : public FatProcess, public ExternalSource
+class RosNode : public FatProcess, public ExternalSource, public RosNodeProxy
   {
   public:
     RosNode (ParentProcess* parent, const string& n, CoreProcess* map, CoreProcess* manager);
@@ -62,15 +65,15 @@ class RosNode : public FatProcess, public ExternalSource
     void run () override;
   	
   #ifndef NO_ROS
-    void receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg);
-    void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
-    void receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg);
-    void receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg);
-    void receive_msg_trap (const icare_interfaces::msg::TrapList msg);
-    void receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks);
-    void receive_msg_allocation(const icare_interfaces::msg::Allocation);
-    void receive_msg_site(const icare_interfaces::msg::Site);
-    void receive_msg_map(const icare_interfaces::msg::EnvironmentMap);
+    void receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg) override;
+    void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg) override;
+    void receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) override;
+    void receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) override;
+    void receive_msg_trap (const icare_interfaces::msg::TrapList msg) override;
+    void receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks) override;
+    void receive_msg_allocation(const icare_interfaces::msg::Allocation) override;
+    void receive_msg_site(const icare_interfaces::msg::Site) override;
+    void receive_msg_map(const icare_interfaces::msg::EnvironmentMap) override;
 
 
     void send_msg_planning_request();
@@ -134,31 +137,31 @@ class RosNode : public FatProcess, public ExternalSource
 
 	  std::vector<ParentProcess*> navgraph_list;
   
-#ifndef NO_ROS
-    //Ros
-    rclcpp::Node::SharedPtr _node;
-    rclcpp::QoS qos_best_effort;
-    rclcpp::QoS qos;
-    rclcpp::QoS qos_transient;
+// #ifndef NO_ROS
+//     //Ros
+//     rclcpp::Node::SharedPtr _node;
+//     rclcpp::QoS qos_best_effort;
+//     rclcpp::QoS qos;
+//     rclcpp::QoS qos_transient;
 
 
-    rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
-	  rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
-    rclcpp::Subscription<icare_interfaces::msg::GraphItineraryList>::SharedPtr sub_graph_itinerary_loop;
-    rclcpp::Subscription<icare_interfaces::msg::GraphItinerary>::SharedPtr sub_graph_itinerary_final;
-    rclcpp::Subscription<icare_interfaces::msg::Tasks>::SharedPtr sub_candidate_tasks;
-    rclcpp::Subscription<icare_interfaces::msg::Allocation>::SharedPtr sub_allocation;
-    rclcpp::Subscription<icare_interfaces::msg::TrapList>::SharedPtr sub_traps;
-    rclcpp::Subscription<icare_interfaces::msg::Site>::SharedPtr sub_site;
-    rclcpp::Subscription<icare_interfaces::msg::EnvironmentMap>::SharedPtr sub_map;
+//     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
+// 	  rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
+//     rclcpp::Subscription<icare_interfaces::msg::GraphItineraryList>::SharedPtr sub_graph_itinerary_loop;
+//     rclcpp::Subscription<icare_interfaces::msg::GraphItinerary>::SharedPtr sub_graph_itinerary_final;
+//     rclcpp::Subscription<icare_interfaces::msg::Tasks>::SharedPtr sub_candidate_tasks;
+//     rclcpp::Subscription<icare_interfaces::msg::Allocation>::SharedPtr sub_allocation;
+//     rclcpp::Subscription<icare_interfaces::msg::TrapList>::SharedPtr sub_traps;
+//     rclcpp::Subscription<icare_interfaces::msg::Site>::SharedPtr sub_site;
+//     rclcpp::Subscription<icare_interfaces::msg::EnvironmentMap>::SharedPtr sub_map;
 
-    rclcpp::Publisher<icare_interfaces::msg::PlanningRequest>::SharedPtr publisher_planning_request;
-    rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_navgraph_update;
-    rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation;
-    rclcpp::Publisher<icare_interfaces::msg::Tasks>::SharedPtr publisher_tasks;
-    rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation_tasks;
-    rclcpp::Publisher<icare_interfaces::msg::LimaCrossed>::SharedPtr publisher_lima;
-    rclcpp::Publisher<icare_interfaces::msg::TrapActivation>::SharedPtr publisher_trap_activation;
-#endif
+//     rclcpp::Publisher<icare_interfaces::msg::PlanningRequest>::SharedPtr publisher_planning_request;
+//     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_navgraph_update;
+//     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation;
+//     rclcpp::Publisher<icare_interfaces::msg::Tasks>::SharedPtr publisher_tasks;
+//     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation_tasks;
+//     rclcpp::Publisher<icare_interfaces::msg::LimaCrossed>::SharedPtr publisher_lima;
+//     rclcpp::Publisher<icare_interfaces::msg::TrapActivation>::SharedPtr publisher_trap_activation;
+// #endif
     
   };

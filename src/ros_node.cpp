@@ -40,6 +40,7 @@ using namespace djnn;
 RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* manager) :
 FatProcess (n),
 ExternalSource (n),
+RosNodeProxy(n),
   //arguments
 _map (my_map),
 _manager (manager),
@@ -64,28 +65,7 @@ _current_plan_id_vab(this, "current_plan_id", 0),
 _start_plan_vab_id(this, "start_plan_id", 0),
 _end_plan_vab_id(this, "end_plan_id", 0)
 
-  #ifndef NO_ROS
-  //ROS
-,qos_best_effort(10),
-qos(1),
-qos_transient(1)
-  #endif
-
 {
-
-  #ifndef NO_ROS
-  _node = std::make_shared<rclcpp::Node>(n);
-  // reliable ~= TCP connections => for the navgraph msgs
-  // best_effort allows to drop some pacquets => for robot_state msgs
-
-  
-  qos.reliable();
-  qos.durability_volatile();
-  qos_best_effort.best_effort();
-  qos_best_effort.durability_volatile();
-  qos_transient.reliable();
-  qos_transient.transient_local();
-  #endif
 
   finalize_construction (parent, n);
 }
@@ -94,51 +74,54 @@ void
 RosNode::impl_activate ()
 { 
 
-  #ifndef NO_ROS
-  //subscriptions
-  sub_navgraph =_node->create_subscription<icare_interfaces::msg::StringStamped>( 
-  "/navgraph", qos_transient, std::bind(&RosNode::receive_msg_navgraph, this, _1)); //Replace 10 with qosbesteffort
+
+  // #ifndef NO_ROS
+  // //subscriptions
+  // sub_navgraph =_node->create_subscription<icare_interfaces::msg::StringStamped>( 
+  // "/navgraph", qos_transient, std::bind(&RosNode::receive_msg_navgraph, this, _1)); //Replace 10 with qosbesteffort
   
-  sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>(
-    "/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
+  // sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>(
+  //   "/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
 
-  sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItineraryList>(
-    "/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary_loop, this, _1));
+  // sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItineraryList>(
+  //   "/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary_loop, this, _1));
 
-  sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItinerary>(
-    "/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, this, _1));
+  // sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItinerary>(
+  //   "/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, this, _1));
 
-  sub_candidate_tasks = _node->create_subscription<icare_interfaces::msg::Tasks>(
-    "/candidate_tasks", qos, std::bind(&RosNode::receive_msg_allocated_tasks, this, _1));
+  // sub_candidate_tasks = _node->create_subscription<icare_interfaces::msg::Tasks>(
+  //   "/candidate_tasks", qos, std::bind(&RosNode::receive_msg_allocated_tasks, this, _1));
 
-  sub_allocation = _node->create_subscription<icare_interfaces::msg::Allocation>(
-    "/allocation", qos, std::bind(&RosNode::receive_msg_allocation, this, _1));
+  // sub_allocation = _node->create_subscription<icare_interfaces::msg::Allocation>(
+  //   "/allocation", qos, std::bind(&RosNode::receive_msg_allocation, this, _1));
 
-  sub_traps = _node->create_subscription<icare_interfaces::msg::TrapList>(
-    "/traps", qos_transient, std::bind(&RosNode::receive_msg_trap, this, _1));
+  // sub_traps = _node->create_subscription<icare_interfaces::msg::TrapList>(
+  //   "/traps", qos_transient, std::bind(&RosNode::receive_msg_trap, this, _1));
 
-  sub_site = _node->create_subscription<icare_interfaces::msg::Site>(
-    "/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
+  // sub_site = _node->create_subscription<icare_interfaces::msg::Site>(
+  //   "/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
 
-  sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>(
-  "/map", qos_transient, std::bind(&RosNode::receive_msg_map, this, std::placeholders::_1));
+  // sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>(
+  // "/map", qos_transient, std::bind(&RosNode::receive_msg_map, this, std::placeholders::_1));
 
 
-  publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>(
-    "/planning_request", qos);
-  publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>(
-    "/validation", qos);
-  publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped>(
-    "/navgraph_update", qos_transient);
-  publisher_tasks = _node->create_publisher<icare_interfaces::msg::Tasks>(
-    "/tasks", qos);
-  publisher_validation_tasks = _node->create_publisher<icare_interfaces::msg::StringStamped>(
-    "/validate", qos);
-  publisher_lima = _node->create_publisher<icare_interfaces::msg::LimaCrossed>(
-    "/lima", qos);
-  publisher_trap_activation = _node->create_publisher<icare_interfaces::msg::TrapActivation>(
-    "/activation", qos);
-  #endif
+  // publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>(
+  //   "/planning_request", qos);
+  // publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>(
+  //   "/validation", qos);
+  // publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped>(
+  //   "/navgraph_update", qos_transient);
+  // publisher_tasks = _node->create_publisher<icare_interfaces::msg::Tasks>(
+  //   "/tasks", qos);
+  // publisher_validation_tasks = _node->create_publisher<icare_interfaces::msg::StringStamped>(
+  //   "/validate", qos);
+  // publisher_lima = _node->create_publisher<icare_interfaces::msg::LimaCrossed>(
+  //   "/lima", qos);
+  // publisher_trap_activation = _node->create_publisher<icare_interfaces::msg::TrapActivation>(
+  //   "/activation", qos);
+  // #endif
+
+  RosNodeProxy::impl_activate();
 
 
   //activate navgraph fields
@@ -209,12 +192,7 @@ RosNode::impl_deactivate ()
   // https://answers.ros.org/question/354792/rclcpp-how-to-unsubscribe-from-a-topic/
 
 #ifndef NO_ROS
-  sub_navgraph.reset ();
-  sub_robot_state.reset ();
-  sub_graph_itinerary_loop.reset ();
-  sub_graph_itinerary_final.reset ();
-  sub_candidate_tasks.reset ();
-  sub_allocation.reset ();
+  RosNodeProxy::impl_deactivate();
 
 #endif  
   //deactivate navgraph fields

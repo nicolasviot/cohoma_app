@@ -33,7 +33,25 @@
 
 #include "ros_node_instantiate.h" // will explicitely instantiate stuff
 
-#endif
+
+
+
+template class icare_interfaces::msg::StringStamped_<std::allocator<void>>;
+
+template class rclcpp::Subscription<icare_interfaces::msg::StringStamped>;
+template class rclcpp::Subscription<icare_interfaces::msg::RobotState>;
+template class rclcpp::Subscription<icare_interfaces::msg::GraphItineraryList>;
+template class rclcpp::Subscription<icare_interfaces::msg::GraphItinerary>;
+template class rclcpp::Subscription<icare_interfaces::msg::Tasks>;
+template class rclcpp::Subscription<icare_interfaces::msg::Allocation>;
+template class rclcpp::Subscription<icare_interfaces::msg::TrapList>;
+template class rclcpp::Subscription<icare_interfaces::msg::Site>;
+template class rclcpp::Subscription<icare_interfaces::msg::EnvironmentMap>;
+
+template class rclcpp::Publisher<icare_interfaces::msg::PlanningRequest>;
+template class rclcpp::Publisher<icare_interfaces::msg::StringStamped>;
+template class rclcpp::Publisher<icare_interfaces::msg::Tasks>;
+template class rclcpp::Publisher<icare_interfaces::msg::LimaCrossed>;
 
 /*template class icare_interfaces::msg::StringStamped_<std::allocator<void>>;
 
@@ -59,3 +77,4 @@ template class rclcpp::Publisher<icare_interfaces::msg::LimaCrossed>;
 rclcpp::Subscription<icare_interfaces::msg::StringStamped_<std::allocator<void>>>::SharedPtr
 rclcpp::Node::create_subscription<icare_interfaces::msg::StringStamped_<std::allocator<void>>, std::_Bind<void (RosNode::*(RosNode *, std::_Placeholder<1>))(std::shared_ptr<icare_interfaces::msg::StringStamped_<std::allocator<void>>>)>, std::allocator<void>, icare_interfaces::msg::StringStamped_<std::allocator<void>>, rclcpp::Subscription<icare_interfaces::msg::StringStamped_<std::allocator<void>>>, rclcpp::message_memory_strategy::MessageMemoryStrategy<icare_interfaces::msg::StringStamped_<std::allocator<void>>>>;*/
 
+#endif
