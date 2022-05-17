@@ -31,7 +31,7 @@
                 //     "name": "TSAN_OPTIONS",
                 //     "value": "report_bugs=1 halt_on_error=0 history_size=7"
                 // }
-            ]
+            ],
             
             "environment": [
                 {
