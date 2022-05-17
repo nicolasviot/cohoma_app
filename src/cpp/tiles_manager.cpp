@@ -29,8 +29,9 @@
 #include <cmath>
 #include <iostream>
 #include "exec_env/global_mutex.h"
-//#include "core/execution/graph.h"
-#include "core/core-dev.h"
+
+#include "core/utils/getset.h"
+
 #include "base/native_async_action.h"
 
 #include "cpp/coords-utils.h"
@@ -191,16 +192,20 @@ load_osm_tile (djnn::Process* src) {
   auto * native = dynamic_cast<djnn::NativeAsyncAction*> (src);
   assert(src);
   djnn::Process* data = (djnn::Process*) get_native_user_data (src);
+  //GET_CHILD_VALUE (x, djnn::Int, data, "X");
   int x = getInt (data->find_child("X"));
   int y = getInt (data->find_child("Y"));
   int z = getInt (data->find_child("Z"));
+  //GET_CHILD_VALUE (name, djnn::Text, data, "layer_name");
   std::string name = ((djnn::AbstractProperty*) (data->find_child("layer_name")))->get_string_value ();
+  
   //release_exclusive_access(DBG_REL);
   std::string new_path = "src/img/default.png";
   
   int max = pow (2, z);
   if (x < max && y < max) {
-    ((djnn::AbstractProperty*) (data->find_child("img/path")))->set_value(new_path, true);
+    //((djnn::AbstractProperty*) (data->find_child("img/path")))->set_value(new_path, true);
+    SET_CHILD_VALUE(djnn::Text, data, "img/path", new_path, true);
 
     djnn::release_exclusive_access(DBG_REL);
     int failure = load_image_from_osm (z, y, x, name);

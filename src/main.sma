@@ -57,10 +57,6 @@ _native_code_
 #include "rclcpp/rclcpp.hpp"
 #endif
 
-static Process* find_without_warning (Process* p, string path)
-{
-  return p->find_child_impl(path);
-}
 
 static void
 init_ros ()

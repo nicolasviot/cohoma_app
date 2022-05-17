@@ -8,6 +8,7 @@
 #include "core/core-dev.h"
 #include "core/tree/list.h"
 #include "gui/shape/poly.h"
+#include "core/utils/getset.h"
 
 #include <nlohmann/json.hpp>
 
@@ -341,6 +342,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     std::cerr << phase << std::endl;
     ParentProcess* node_ = Node(_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
      isPPO, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _manager);
+     //SET_CHILD_VALUE(Bool, node, "islocked", locked, true);
     ((BoolProperty*)node_->find_child("islocked"))->set_value(locked, true);
     ((IntProperty*)node_->find_child("phase"))->set_value(phase, true);
     ((BoolProperty*)node_->find_child("wpt/isMandatory"))->set_value(isPPO, true);
@@ -563,6 +565,30 @@ RosNode::test_multiple_itineraries(){
   void 
   RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
     RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
+
+#if 0
+    djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab};
+    if (msg->robot_id<1 || msg->robot_id>=sizeof(robots)) {
+      RCLCPP_INFO(_node->get_logger(), "incorrect robot_id: '%d'  '%f'", msg->robot_id);
+      return;
+    }
+    
+    djnn::Process * robot = robots[msg->robot_id];
+    assert(robot);
+
+    get_exclusive_access(DBG_GET);
+
+    SET_CHILD_VALUE (Double, robot, "lat", msg->position.latitude, true);
+    SET_CHILD_VALUE (Double, robot, "lon", msg->position.longitude, true);
+    SET_CHILD_VALUE (Double, robot, "altitude_msl", msg->position.altitude, true);
+    SET_CHILD_VALUE (Double, robot, "heading_rot", msg->compass_heading, true);
+    SET_CHILD_VALUE (Int, robot, "battery_percentage", msg->battery_percentage, true);
+    SET_CHILD_VALUE (Int, robot, "operation_mode", msg->operating_mode, true); // FIXME: operation_mode vs operating_mode
+    SET_CHILD_VALUE (Bool, robot, "emergency_stop", msg->emergency_stop, true);
+    SET_CHILD_VALUE (Bool, robot, "failsafe", msg->failsafe, true);
+
+#else
+
     get_exclusive_access(DBG_GET);
 
     if (msg->robot_id == 1){
@@ -645,7 +671,7 @@ RosNode::test_multiple_itineraries(){
       ((DoubleProperty*)_actor_ugv->find_child("lat"))->set_value(msg->position.latitude, true);
       ((DoubleProperty*)_actor_ugv->find_child("lon"))->set_value(msg->position.longitude, true);
     }
-
+#endif
 
     _latitude.set_value (msg -> position.latitude, true);
     _longitude.set_value (msg -> position.longitude, true);
@@ -657,6 +683,7 @@ RosNode::test_multiple_itineraries(){
     _failsafe.set_value (msg -> failsafe, true);
     _operation_mode.set_value (msg -> operating_mode, true);
     _altitude_msl.set_value (msg -> altitude_msl, true);
+
     GRAPH_EXEC;
     release_exclusive_access(DBG_REL);
 
