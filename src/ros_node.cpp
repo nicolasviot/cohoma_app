@@ -587,14 +587,14 @@ RosNode::test_multiple_itineraries(){
 
     get_exclusive_access(DBG_GET);
 
-    SET_CHILD_VALUE (Double, robot, "lat", msg->position.latitude, true);
-    SET_CHILD_VALUE (Double, robot, "lon", msg->position.longitude, true);
-    SET_CHILD_VALUE (Double, robot, "altitude_msl", msg->position.altitude, true);
-    SET_CHILD_VALUE (Double, robot, "heading_rot", msg->compass_heading, true);
-    SET_CHILD_VALUE (Int, robot, "battery_percentage", msg->battery_percentage, true);
-    SET_CHILD_VALUE (Int, robot, "operation_mode", msg->operating_mode, true); // FIXME: operation_mode vs operating_mode
-    SET_CHILD_VALUE (Bool, robot, "emergency_stop", msg->emergency_stop, true);
-    SET_CHILD_VALUE (Bool, robot, "failsafe", msg->failsafe, true);
+    SET_CHILD_VALUE (Double, robot, lat, msg->position.latitude, true);
+    SET_CHILD_VALUE (Double, robot, lon, msg->position.longitude, true);
+    SET_CHILD_VALUE (Double, robot, altitude_msl, msg->position.altitude, true);
+    SET_CHILD_VALUE (Double, robot, heading_rot, msg->compass_heading, true);
+    SET_CHILD_VALUE (Int, robot, battery_percentage, msg->battery_percentage, true);
+    SET_CHILD_VALUE (Int, robot, operation_mode, msg->operating_mode, true); // FIXME: operation_mode vs operating_mode
+    SET_CHILD_VALUE (Bool, robot, emergency_stop, msg->emergency_stop, true);
+    SET_CHILD_VALUE (Bool, robot, failsafe, msg->failsafe, true);
 
 #else
     std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();

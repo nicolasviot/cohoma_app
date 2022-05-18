@@ -10,7 +10,8 @@ import ros_node
 _native_code_
 %{
 #include "cpp/coords-utils.h"
-//#include "core/utils/getset.h"
+#include "core/utils/getset.h"
+
 /*unsigned long RGBToHex(int r, int g, int b)
 {   
     return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
@@ -23,14 +24,14 @@ change_activation_action (Process c)
 %{
 
     Process *data = (Process*) get_native_user_data(c);
-    //GET_CHILD(node, RosNode, data, "node");
-    //GET_CHILD(id, IntProperty, data, "id");
-    //GET_CHILD(new_activation, BoolProperty, data, "active");
+    // GET_CHILD(RosNode, data, node);
+    // GET_CHILD(IntProperty, data, id);
+    // GET_CHILD(BoolProperty, data, active);
     RosNode *node = dynamic_cast<RosNode*>(data->find_child("node"));
     IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
-    BoolProperty *new_activation = dynamic_cast<BoolProperty*>(data->find_child("active")); 
+    BoolProperty *active = dynamic_cast<BoolProperty*>(data->find_child("active")); 
     #ifndef NO_ROS
-    node ->send_msg_trap_activation(id->get_value(), new_activation->get_value()); 
+    node ->send_msg_trap_activation(id->get_value(), active->get_value()); 
     #endif
     
 %}
