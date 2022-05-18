@@ -8,6 +8,7 @@
 #include "core/core-dev.h"
 #include "core/tree/list.h"
 #include "gui/shape/poly.h"
+#include "gui/widgets/multiline_edit.h"
 #include "core/utils/getset.h"
 
 #include <nlohmann/json.hpp>
@@ -174,6 +175,7 @@ RosNode::impl_activate ()
   _actor_ugv = _parent->find_child("parent/l/map/layers/actors/sfty_pilot_ugv");
   _clock = _parent->find_child("parent/right_pannel/right_pannel/clock");
   _fw_input = _parent->find_child("parent/right_pannel/right_pannel/clock/fw/input");
+  _fw_console_input = _parent->find_child("parent/right_pannel/right_pannel/clock/fw_console/input");
   _console = _parent->find_child("parent/right_pannel/right_pannel/console");
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
   _id_curent_itenerary  = dynamic_cast<TextProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
@@ -1619,6 +1621,21 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
     //GRAPH_EXEC;
     //release_exclusive_access(DBG_REL);  
     }
+
+  void
+  RosNode::save_console(){
+    std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+    std::stringstream ss;
+    ss << timestamp + " - Console Content stored\n";
+
+    for (auto item: ((djnn::List*)_console->find_child("ste/lines"))->children()){
+          ss << ((SimpleText*)item)->get_content() << "\n";
+        }
+     ((TextProperty*)_fw_console_input)->set_value(ss.str(), true);      
+    
+
+  }
+
 
 #endif
 

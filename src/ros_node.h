@@ -80,6 +80,7 @@ class RosNode : public FatProcess, public ExternalSource
     void send_validation_tasks();
     void send_msg_lima(int);
     void send_msg_trap_activation(int, bool);
+    void save_console();
   #endif
     void test_multiple_itineraries();
     void test_draw_visibility_map();
@@ -103,7 +104,7 @@ class RosNode : public FatProcess, public ExternalSource
 
     //robot
     CoreProcess* _vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone, *_frame, *_actor, *_actor_ugv;
-    CoreProcess* _clock, *_console, *_fw_input;
+    CoreProcess* _clock, *_console, *_fw_input, *_fw_console_input;
 
     RefProperty *_current_wpt, *_entered_wpt;
     TextProperty *_id_curent_itenerary;

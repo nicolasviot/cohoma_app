@@ -312,7 +312,8 @@ Component root {
 
   show_reticule -> l.map.reticule.show_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.create
   hide_reticule -> l.map.reticule.hide_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
-
+  RosManager ros_manager(root, l.map, l.map.layers.navgraph.manager)
+  
   Component right_pannel {
     Translation t (1424, 0)
     Rectangle bg (0, 0, 700, init_height + 600)
@@ -320,7 +321,7 @@ Component root {
     Switch ctrl_tab(plan){
       Component plan{
 
-        RightPannel right_pannel (root, f)
+        RightPannel right_pannel (root, f, ros_manager.node)
 
       }
       Component supervise{
@@ -334,7 +335,6 @@ Component root {
   }
 
   // Ros node w/ all sub and pub fonctions
-  RosManager ros_manager(root, l.map, l.map.layers.navgraph.manager)
   right_pannel.right_pannel.plan_request -> ros_manager.plan_request
   right_pannel.right_pannel.validate_plan -> ros_manager.validate_plan
   right_pannel.right_pannel.update_graph -> ros_manager.update_graph

@@ -5,7 +5,7 @@ use base
 use files
 
 _define_
-ClockComponent (double _x, double _y){
+ClockComponent (double _x, double _y, Process frame){
 Translation t(_x, _y)
 
     //afficher l'heure
@@ -21,5 +21,12 @@ Translation t(_x, _y)
     FileWriter fw ("toto.log")
     "Log_" + wc.state_text =: fw.filename
     wc.state_text + " - Application start" =: fw.input
+    FileWriter fw_console("console.log")
+    "Log_console_" + wc.state_text =: fw_console.filename
+
+
+
+    "Click at (" + frame.press.x + ", " + frame.press.y + ")\n" => fw.input
+
     //wc.state_text + " - toto\n" => fw.input
 }

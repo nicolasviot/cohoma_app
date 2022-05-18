@@ -9,7 +9,7 @@ import ClockComponent
 import Console
 
 _define_
-RightPannel (Process root, Process frame){
+RightPannel (Process root, Process frame, Process node){
 
 
 Translation _ (10, 10)
@@ -114,14 +114,14 @@ Component validate_tasks_button
 	}
 }
 Translation _ (0, 70)
-ClockComponent clock(350, -25)
+ClockComponent clock(350, -25, frame)
 
 CandidateTaskFilter filter(frame)
 filter.send_selected_tasks -> send_selected_tasks
 
 //Translation _ (0, 200)
 //Image icare_logo ("res/icare-logo-2.png", 20, 200, 400, 400)
-Console console(0, 0)
+Console console(0, 0, node)
 
 
 
