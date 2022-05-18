@@ -124,7 +124,7 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
         FontSize _ (0, 10)
         TextAnchor _ (1)
         Text trap_id_text (0,0, "?")
-        trap_id =:> trap_id_text.text
+        //trap_id =:> trap_id_text.text
         c.cx =:> trap_id_text.x
         c.cy + 5 =:> trap_id_text.y
 
@@ -137,7 +137,8 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
                 240 =: red.r
                 50 =: radius //set radius to maximum possible radius
                 0.1 =: trap_out_op.a
-                1 =: global_opacity.a               
+                1 =: global_opacity.a  
+                "#" + id =:> trap_id_text.text             
             }
             Component identified
             {
@@ -147,6 +148,7 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
                 radius * 1.52 /get_resolution ($map.zoomLevel) =:> c.r
                 1 =: trap_out_op.a
 
+                trap_id =:> trap_id_text.text
                 //Translation to match the content (TODO:should have a unifed technique instead....)  
                 Translation rect_pos (0,0)
                 content.rect.x =:> rect_pos.tx
@@ -179,13 +181,14 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
 
             }
             Component deactivated
-        {    
+            {    
                 0 =: c.r //set circle radius to zero
                 0.1 =: trap_out_op.a
                 0.3 =: global_opacity.a
                 //fill in grey
                 100 =: red.r
-        }
+                "#" + id =:> trap_id_text.text
+            }
         }
         state =:> trap_state_switch.state
 
