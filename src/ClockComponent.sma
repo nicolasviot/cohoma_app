@@ -19,5 +19,7 @@ Translation t(_x, _y)
     clock_trigger.tick -> wc.state_text
 
     FileWriter fw ("toto.log")
-    wc.state_text + " - toto\n" => fw.input
+    "Log_" + wc.state_text =: fw.filename
+    wc.state_text + " - Application start" =: fw.input
+    //wc.state_text + " - toto\n" => fw.input
 }

@@ -173,6 +173,7 @@ RosNode::impl_activate ()
   _actor = _parent->find_child("parent/l/map/layers/actors/sfty_pilot_uav");
   _actor_ugv = _parent->find_child("parent/l/map/layers/actors/sfty_pilot_ugv");
   _clock = _parent->find_child("parent/right_pannel/right_pannel/clock");
+  _fw_input = _parent->find_child("parent/right_pannel/right_pannel/clock/fw/input");
   _console = _parent->find_child("parent/right_pannel/right_pannel/console");
   _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
   _id_curent_itenerary  = dynamic_cast<TextProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
@@ -243,6 +244,8 @@ void
 RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg) {
   get_exclusive_access(DBG_GET);
 
+  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+  ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received new navgraph\n", true);
   _current_wpt->set_value ((CoreProcess*)nullptr, true);
   _entered_wpt->set_value ((CoreProcess*)nullptr, true);
 
@@ -306,40 +309,39 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     }
   }
 
-
   nlohmann::json j = nlohmann::json::parse(msg->data);
   nlohmann::json j_graph;
   if (j.contains("graph"))
     j_graph = j["graph"];
   else if (j.contains("graphs")) {
     if (j.size() > 1) {
-      std::cerr << "Several graphs defined in the JSON structure! loading the first one..." << std::endl;
+      //std::cerr << "Several graphs defined in the JSON structure! loading the first one..." << std::endl;
       j_graph = j["graphs"][0];
     }
     else if (j.size() == 0) {
-      std::cerr << "No graph defined in the JSON structure!" << std::endl;
+      //std::cerr << "No graph defined in the JSON structure!" << std::endl;
       return;
     }
   }
-    //std::cerr << "about to get graph attributes" << std::endl;
+    ////std::cerr << "about to get graph attributes" << std::endl;
     // graph attributes
   if (j_graph.contains("directed") && j_graph["directed"].get<bool>()) {
-    std::cerr << "graph is said to be directed! NavGraph are only undirected: the results graph may not be what expected!" << std::endl;
+    //std::cerr << "graph is said to be directed! NavGraph are only undirected: the results graph may not be what expected!" << std::endl;
   }
-    //std::cerr << "about to parse nodes" << std::endl;
+    ////std::cerr << "about to parse nodes" << std::endl;
     // nodes
   for (int i=j_graph["nodes"].size() - 1; i >=0; i--){
     //for (auto& node: j_graph["nodes"]) {
     auto& node = j_graph["nodes"][i];
-        //std::cerr << "in from json parsing nodes" << std::endl;
+        ////std::cerr << "in from json parsing nodes" << std::endl;
     auto& m = node["metadata"];
     bool locked = m["locked"].get<bool>();
     bool isPPO = m["compulsory"].get<bool>();
     int phase = m["phase"].get<int>();
     if (isPPO){
-      std::cerr << "one more PPO imported" << std::endl;
+      //std::cerr << "one more PPO imported" << std::endl;
     }
-    std::cerr << phase << std::endl;
+    //std::cerr << phase << std::endl;
     ParentProcess* node_ = Node(_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
      isPPO, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _manager);
      //SET_CHILD_VALUE(Bool, node, "islocked", locked, true);
@@ -347,7 +349,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     ((IntProperty*)node_->find_child("phase"))->set_value(phase, true);
     ((BoolProperty*)node_->find_child("wpt/isMandatory"))->set_value(isPPO, true);
   }
-  std::cerr << "about to parse edges" << std::endl;
+  //std::cerr << "about to parse edges" << std::endl;
     // edges
   for (auto& edge: j_graph["edges"]) {
 
@@ -360,6 +362,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
       std::stoi(target) + 1,length, _nodes);
 
   }
+
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }
@@ -370,7 +373,7 @@ void
 RosNode::test_multiple_itineraries(){
   #if 0
   //debug
-  //std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
+  ////std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
 
   //debug ros_msg
   std::vector<std::pair<string,std::vector<int>>> msg = { \
@@ -382,7 +385,7 @@ RosNode::test_multiple_itineraries(){
     int unselected = 0x232323;
     int selected = 0x1E90FF;
 
-  //std::cerr << "in RosNode::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
+  ////std::cerr << "in RosNode::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
 
   //schedule delete old content
     int itineraries_list_size =  _itineraries_list->children ().size ();
@@ -398,7 +401,7 @@ RosNode::test_multiple_itineraries(){
     }
     _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
 
-  //std::cerr << "in RosNode::test_multiple_itineraries - size after "  << _itineraries_list->children ().size () <<std::endl;
+  ////std::cerr << "in RosNode::test_multiple_itineraries - size after "  << _itineraries_list->children ().size () <<std::endl;
 
   /*
     _itineraries_list {
@@ -433,14 +436,16 @@ RosNode::test_multiple_itineraries(){
 
   //debug
   //int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
-  //std::cerr << "in RosNode::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
+  ////std::cerr << "in RosNode::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
   #endif
   }
 #ifndef NO_ROS
   void 
   RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
+ 
+
  //debug
-  //std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
+  ////std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
   if (msg->itineraries.size()<1){
     return;
   }
@@ -453,7 +458,9 @@ RosNode::test_multiple_itineraries(){
 */
     if (msg->itineraries.size()<= 0)
       return;
-
+  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+  ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received " + std::to_string(msg->itineraries.size()) + " itineraries\n", true);
+ 
     for (int i = 0; i <msg->itineraries.size(); i++){
       std::string id = msg->itineraries[i].id;
   //  std::string description = msg->itineraries[i]->description;
@@ -470,7 +477,7 @@ RosNode::test_multiple_itineraries(){
     int unselected = 0x232323;
     int selected = 0x1E90FF;
 
-  //std::cerr << "in RosNode::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
+  ////std::cerr << "in RosNode::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
 
   //schedule delete old content
     int itineraries_list_size =  _itineraries_list->children ().size ();
@@ -588,7 +595,8 @@ RosNode::test_multiple_itineraries(){
     SET_CHILD_VALUE (Bool, robot, "failsafe", msg->failsafe, true);
 
 #else
-
+    std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+    
     get_exclusive_access(DBG_GET);
 
     if (msg->robot_id == 1){
@@ -601,6 +609,8 @@ RosNode::test_multiple_itineraries(){
       ((IntProperty*)_drone->find_child("operation_mode"))->set_value(msg->operating_mode, true);
       ((BoolProperty*)_drone->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
       ((BoolProperty*)_drone->find_child("failsafe"))->set_value(msg->failsafe, true);
+      ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for Drone\n", true);
+ 
     }
     if (msg->robot_id == 2){
       //Agilex 1
@@ -612,8 +622,9 @@ RosNode::test_multiple_itineraries(){
       ((IntProperty*)_agilex1->find_child("operation_mode"))->set_value(msg->operating_mode, true);
       ((BoolProperty*)_agilex1->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
       ((BoolProperty*)_agilex1->find_child("failsafe"))->set_value(msg->failsafe, true);
-
-    }
+      ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for agilex 1\n", true);
+ 
+    } 
     if (msg->robot_id == 3){
       //Agilex 2
       ((DoubleProperty*)_agilex2->find_child("lat"))->set_value(msg->position.latitude, true);
@@ -624,6 +635,7 @@ RosNode::test_multiple_itineraries(){
       ((IntProperty*)_agilex2->find_child("operation_mode"))->set_value(msg->operating_mode, true);
       ((BoolProperty*)_agilex2->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
       ((BoolProperty*)_agilex2->find_child("failsafe"))->set_value(msg->failsafe, true);
+      ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for agilex 2\n", true);
 
     }
     if (msg->robot_id == 4){
@@ -636,6 +648,7 @@ RosNode::test_multiple_itineraries(){
       ((IntProperty*)_lynx->find_child("operation_mode"))->set_value(msg->operating_mode, true);
       ((BoolProperty*)_lynx->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
       ((BoolProperty*)_lynx->find_child("failsafe"))->set_value(msg->failsafe, true);
+      ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for lynx\n", true);
 
     }
     if (msg->robot_id == 5){
@@ -648,6 +661,7 @@ RosNode::test_multiple_itineraries(){
       ((IntProperty*)_spot->find_child("operation_mode"))->set_value(msg->operating_mode, true);
       ((BoolProperty*)_spot->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
       ((BoolProperty*)_spot->find_child("failsafe"))->set_value(msg->failsafe, true);
+      ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for spot\n", true);
 
     }
     if (msg->robot_id == 6){
@@ -660,16 +674,19 @@ RosNode::test_multiple_itineraries(){
       ((IntProperty*)_vab->find_child("operation_mode"))->set_value(msg->operating_mode, true);
       ((BoolProperty*)_vab->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
       ((BoolProperty*)_vab->find_child("failsafe"))->set_value(msg->failsafe, true);
+      ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for vab\n", true);
 
     }
     if (msg->robot_id == 7){
       //Safety pilot
       ((DoubleProperty*)_actor->find_child("lat"))->set_value(msg->position.latitude,true);
       ((DoubleProperty*)_actor->find_child("lon"))->set_value(msg->position.longitude, true);
+      ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for drone safety pilot\n", true);
     }
     if (msg->robot_id == 8){
       ((DoubleProperty*)_actor_ugv->find_child("lat"))->set_value(msg->position.latitude, true);
       ((DoubleProperty*)_actor_ugv->find_child("lon"))->set_value(msg->position.longitude, true);
+      ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for ground safety pilot\n", true);
     }
 #endif
 
@@ -694,8 +711,11 @@ RosNode::test_multiple_itineraries(){
 
   void 
   RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
-    std::cerr << "received some traps to display" << std::endl;
+    ////std::cerr << "received some traps to display" << std::endl;
     get_exclusive_access(DBG_GET);
+    std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+    int new_trap = 0;
+    int update_trap = 0;
     for (int k= 0; k < msg.traps.size(); k ++){
       int index_found = -1;
 
@@ -707,8 +727,8 @@ RosNode::test_multiple_itineraries(){
         }
       }
       if (index_found == -1){
-
-        std::cerr << "new trap !" << std::endl;
+        new_trap = new_trap + 1;
+        ////std::cerr << "new trap !" << std::endl;
 /*int16 id                            # Manager trap id
 geographic_msgs/GeoPoint location   # location
 bool identified false               # whether the trap has been identified (i.e. QRCode read)
@@ -718,8 +738,8 @@ icare_interfaces/TrapIdentification info
 uint8[] detected_by                 # list of robots having detected this trap
 uint32[] local_ids                   # locals ids of the detection per robot*/
         ParentProcess *new_trap = Trap(_traps, "", _map, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id, this);
-        std::cerr << msg.traps[k].location.latitude << std::endl;
-        std::cerr << msg.traps[k].location.longitude << std::endl;
+        ////std::cerr << msg.traps[k].location.latitude << std::endl;
+        ////std::cerr << msg.traps[k].location.longitude << std::endl;
         ((BoolProperty*)new_trap->find_child("active"))->set_value(msg.traps[k].active, true);
         ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.traps[k].identified, true);
         ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.traps[k].info.id, true);
@@ -742,10 +762,9 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 
 
 
-//rajouter radius
       }
       if (index_found != -1){
-
+        update_trap = update_trap + 1;
         std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
 
         if (msg.traps[k].identified && !((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->get_value()){
@@ -754,7 +773,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
           ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp+ " - trap updated "+ msg.traps[k].info.id +"(#" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + " " + msg.traps[k].info.hazard + "\n", true);
         }
 
-        std::cerr << "old trap to update!" << std::endl;
+        ////std::cerr << "old trap to update!" << std::endl;
         ((BoolProperty*)_traps_container->children()[index_found]->find_child("active"))->set_value(msg.traps[k].active, true);
         ((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->set_value(msg.traps[k].identified, true);
         ((TextProperty*)_traps_container->children()[index_found]->find_child("trap_id"))->set_value(msg.traps[k].info.id, true);
@@ -771,6 +790,8 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 
 
     }
+    ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received " + std::to_string(msg.traps.size()) + " traps (" + std::to_string(new_trap) + " new, " + std::to_string(update_trap) + " updated)\n" , true);
+ 
     GRAPH_EXEC;
     release_exclusive_access(DBG_REL);
   }
@@ -824,6 +845,14 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
         }
       }
     }
+    int nb_uav_zone = msg.uav_zones.size();
+    int nb_ugv_edges = msg.ugv_edges.size();
+    int nb_trap_identification = msg.trap_identifications.size();  
+    int nb_trap_deactivation = msg.trap_deactivations.size();
+    int nb_total = nb_uav_zone + nb_ugv_edges + nb_trap_deactivation + nb_trap_identification;
+  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+  ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received " + std::to_string(nb_total) + " tasks ("+ std::to_string(nb_uav_zone) + " uav_zones, " + std::to_string(nb_ugv_edges) + " ugv_edges, " + std::to_string(nb_trap_identification) + " trap_identifications, " + std::to_string(nb_trap_deactivation) + " trap_deactivations)\n", true);
+
 
     for (int i=0; i < msg.uav_zones.size(); i++){
       ParentProcess* area_to_add = TaskArea(_task_areas , "", _map);
@@ -866,7 +895,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     }
     for (int i=0; i <msg.trap_identifications.size(); i++){
     //Create trap_tasks
-      std::cerr << "trying to add a trap_identification at " + std::to_string(msg.trap_identifications[i].location.latitude) << std::endl;
+      ////std::cerr << "trying to add a trap_identification at " + std::to_string(msg.trap_identifications[i].location.latitude) << std::endl;
       ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_identifications[i].id, msg.trap_identifications[i].location.latitude, msg.trap_identifications[i].location.longitude);
       ((BoolProperty*)trap_to_add->find_child("active"))->set_value(msg.trap_identifications[i].active, true);
       ((BoolProperty*)trap_to_add->find_child("identified"))->set_value(msg.trap_identifications[i].identified, true);
@@ -880,7 +909,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     }
     for (int i=0; i<msg.trap_deactivations.size(); i++){
 
-      std::cerr << "trying to add a trap_deactivation" << std::endl;
+      ////std::cerr << "trying to add a trap_deactivation" << std::endl;
       ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_deactivations[i].id, msg.trap_deactivations[i].location.latitude, msg.trap_deactivations[i].location.longitude);
       ((BoolProperty*)trap_to_add->find_child("active"))->set_value(msg.trap_deactivations[i].active, true);
       ((BoolProperty*)trap_to_add->find_child("identified"))->set_value(msg.trap_deactivations[i].identified, true);
@@ -917,41 +946,52 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 //message.id = id;
     message.id = id;
 
+    std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+    ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Validated lima " + std::to_string(id) + "\n", true);
+  
+
     publisher_lima->publish(message);
   }
 
 
   void
   RosNode::send_msg_planning_request(){
-    std::cerr << "in send planning request" << std::endl;
+    ////std::cerr << "in send planning request" << std::endl;
 
     /*get_exclusive_access(DBG_GET);
-*/
+    */
+
+
+
     icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
-    std::cerr << _parent << std::endl;
+    ////std::cerr << _parent << std::endl;
     message.id = _current_plan_id_vab.get_string_value();
     int iid;
 
     for (auto item: ((djnn::List*)_nodes)->children()){
-      std::cerr << "debug : " << ((TextProperty*)item->find_child("status"))->get_value() << std::endl;
+      ////std::cerr << "debug : " << ((TextProperty*)item->find_child("status"))->get_value() << std::endl;
       if (((TextProperty*)item->find_child("status"))->get_value() == "start"){
-        std::cerr << "start" << std::endl;
+        //std::cerr << "start" << std::endl;
         iid = dynamic_cast<IntProperty*> (item->find_child ("id"))->get_value ();
         message.start_node = std::to_string(iid - 1);
       }
       if (((TextProperty*)item->find_child("status"))->get_value() == "end"){
-        std::cerr << "end" << std::endl;
+        ////std::cerr << "end" << std::endl;
         iid = dynamic_cast<IntProperty*> (item->find_child ("id"))->get_value ();
 
         message.end_node = std::to_string(iid - 1);
 
       }
       if (((TextProperty*)item->find_child("status"))->get_value()=="forced"){
-        std::cerr << "forced" <<std::endl;
+        ////std::cerr << "forced" <<std::endl;
         iid = dynamic_cast<IntProperty*> (item->find_child("id"))->get_value();
         message.node_contraints.push_back(std::to_string(iid -1));
       }
     }
+
+    std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+    ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Asked planification between nodes "+ message.start_node + " and " + message.end_node + " \n", true);
+  
     /*GRAPH_EXEC;
     release_exclusive_access(DBG_REL);
     */message.header.stamp = _node->get_clock()->now();
@@ -967,10 +1007,12 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 */    CoreProcess* nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
     CoreProcess* edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
 
-    std::cerr << "about to generate json" << std::endl;
+    //std::cerr << "about to generate json" << std::endl;
     nlohmann::json j;
     j["graph"]["directed"] = false;
 
+    std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+    ((TextProperty*)_fw_input)->set_value(timestamp + " - Send navgraph update\n", true);
 
   //Edges
     for (auto item: ((djnn::List*)edges)->children()){
@@ -1006,7 +1048,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     int phase = dynamic_cast<IntProperty*> (item->find_child ("phase"))->get_value();
     bool compulsory = dynamic_cast<BoolProperty*> (item->find_child("wpt/isMandatory"))->get_value();   
     if (compulsory){
-      std::cerr << "one more PPO exported"<< std::endl;
+      //std::cerr << "one more PPO exported"<< std::endl;
     }
     bool locked = dynamic_cast<BoolProperty*>(item->find_child("islocked"))->get_value();
     
@@ -1028,16 +1070,16 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 
 
   //TODO: remove - only for debug
-  std::cerr << "finished generating JSON" << std::endl;
+  //std::cerr << "finished generating JSON" << std::endl;
   icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
-  std::cerr << j.dump() << std::endl;
+  //std::cerr << j.dump() << std::endl;
   message.data = j.dump();
-  std::cerr << "about to publish on publisher_navgraph_update" << std::endl;
+  //std::cerr << "about to publish on publisher_navgraph_update" << std::endl;
 
   message.header.stamp = _node->get_clock()->now();
   publisher_navgraph_update->publish(message);
   /*GRAPH_EXEC;
-  */std::cerr << "finished publishing" << std::endl;
+  *///std::cerr << "finished publishing" << std::endl;
 /*  release_exclusive_access(DBG_REL);
 */
 
@@ -1046,15 +1088,17 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
 void 
 RosNode::send_validation_plan(){
 
-  std::cerr << "in validation plan" << std::endl;
-  std::cerr << _parent << std::endl;
+  //std::cerr << "in validation plan" << std::endl;
+  //std::cerr << _parent << std::endl;
 
   icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
   message.data = _id_curent_itenerary->get_string_value();
   message.header.stamp = _node->get_clock()->now();
   publisher_validation->publish(message);
   GRAPH_EXEC;
-  
+  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+  ((TextProperty*)_fw_input)->set_value(timestamp + " - Validate plan #" + message.data + "\n" , true);
+
 }
 
 void 
@@ -1063,6 +1107,9 @@ RosNode::send_selected_tasks(){
 
  /*get_exclusive_access(DBG_GET);
 */
+  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+  ((TextProperty*)_fw_input)->set_value(timestamp + " - Send task selection\n", true);
+
  icare_interfaces::msg::Tasks message= icare_interfaces::msg::Tasks();
  for (auto trap: ((djnn::List*)_task_traps)->children()){
   if (((BoolProperty*)trap->find_child("selected"))->get_value() == true){
@@ -1150,6 +1197,10 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
 
 
   get_exclusive_access(DBG_GET);
+
+  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+  ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received site data\n", true);
+
 /*
 # Describe the mission site
 geographic_msgs/GeoPoint start_point
@@ -1189,7 +1240,7 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
   for (int i=0; i < msg.zones.size(); i++){
     ParentProcess* area_to_add = ExclusionArea(_exclusion_areas,"", _map, "unknown"); 
     ((TextProperty*)area_to_add->find_child("name"))->set_value(msg.zones[i].name, true);
-    std::cerr << std::to_string(msg.zones[i].type) << std::endl;
+    //std::cerr << std::to_string(msg.zones[i].type) << std::endl;
     if(msg.zones[i].type == 0){
       ((TextProperty*)area_to_add->find_child("status"))->set_value("unknown", true);
     }
@@ -1262,8 +1313,8 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
       
       double res_lat = above_x/below_x;
       double res_lon = above_y/below_y;
-      std::cerr << "res_latitude = " << res_lat << std::endl;
-      std::cerr << "res_longitude = " << res_lon << std::endl;
+      //std::cerr << "res_latitude = " << res_lat << std::endl;
+      //std::cerr << "res_longitude = " << res_lon << std::endl;
 
       ((DoubleProperty*)bary_summit->find_child("lat"))->set_value(above_x/ below_x, true);
       ((DoubleProperty*)bary_summit->find_child("lon"))->set_value(above_y / below_y, true);
@@ -1313,15 +1364,17 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
   void 
   RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
     
-  std::cerr << "received exploration map" << std::endl;
+  //std::cerr << "received exploration map" << std::endl;
+  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+  ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received exploration map update\n", true);
 
   float lat_center = msg.origin.latitude;
   float lon_center = msg.origin.longitude; 
-  std::cerr << lat_center << std::endl;
-  std::cerr << lon_center << std::endl;
-  std::cerr << msg.resolution << std::endl;
-  std::cerr << msg.width << std::endl;
-  std::cerr << msg.height << std::endl;
+  //std::cerr << lat_center << std::endl;
+  //std::cerr << lon_center << std::endl;
+  //std::cerr << msg.resolution << std::endl;
+  //std::cerr << msg.width << std::endl;
+  //std::cerr << msg.height << std::endl;
 
     float lat_center_map = msg.origin.latitude;
     float lon_center_map = msg.origin.longitude;
@@ -1333,7 +1386,7 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
     for (int i = 0; i < msg.ugv_camera_layer.size(); i++){
       ugv_camera_layer[i] = msg.ugv_camera_layer[i];
       if (msg.ugv_camera_layer[i] != 0){
-        std::cerr << "matrix not empty" << std::endl;
+        //std::cerr << "matrix not empty" << std::endl;
       }
     }
     int uav_camera_layer[w * h];
@@ -1342,11 +1395,11 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
     }
   */ 
 
-    if (_visibility_map)
+    /*if (_visibility_map)
       std::cerr << "debug draw_visbility map\n" << " lattiude " << lat_center_map << " longitude " << lon_center_map << " resolution " << msg.resolution << std::endl;
     else 
       std::cerr << " \n\n\n NOO _visibility_map found !! \n\n\n " << std::endl;
-    
+    */
 
     // DO NOT FORGET !!
     get_exclusive_access(DBG_GET);
@@ -1355,13 +1408,13 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
       dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lat"))->set_value (lat_center_map, true);
       dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
     }
-    else 
-      std::cerr << " \n\n\n NO _georef_visilbility found !!\n\n\n " << std::endl;
+    //else 
+      //std::cerr << " \n\n\n NO _georef_visilbility found !!\n\n\n " << std::endl;
 
   if (_visibility_map_resolution)
     _visibility_map_resolution->set_value (msg.resolution, true);
-  else 
-    std::cerr << " \n\n\n NO _visibility_map_resolution found !!\n\n\n " << std::endl;
+  //else 
+    //std::cerr << " \n\n\n NO _visibility_map_resolution found !!\n\n\n " << std::endl;
 
 
     _visibility_map->width()->set_value (w, true);
@@ -1439,48 +1492,20 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
   RosNode::send_msg_trap_activation(int id, bool new_active_state){
     icare_interfaces::msg::TrapActivation msg = icare_interfaces::msg::TrapActivation();
 
-
     msg.active = new_active_state;
     msg.id = id;
     publisher_trap_activation->publish(msg);
     std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
     if (new_active_state){
     ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap activation (#" +std::to_string(id) + ")\n", true);
+    ((TextProperty*)_fw_input)->set_value(timestamp + " - Trap activation (#" +std::to_string(id) + ")\n", true);
+
     }else if(!new_active_state){
-       ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap deactivation (#" +std::to_string(id) + ")\n", true);
-      
+      ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap deactivation (#" +std::to_string(id) + ")\n", true);
+      ((TextProperty*)_fw_input)->set_value(timestamp + " - Trap deactivation (#" +std::to_string(id) + ")\n", true);      
     }
 
   }
-
-  /*
-  //Util : 
-    void write_to_log (string _filename, string s) {
-
-      string filename(_filename);
-
-      std::fstream file_out;
-
-
-
-      file_out.open(filename, std::ios_base::app);
-
-      if (!file_out.is_open()) {
-
-        std::cout << "failed to open " << filename << '\n';
-
-      } else {
-
-        file_out << s << std::endl;
-
-      }
-      file_out.close();
-
-    }
-  */
-
-
-    
 
     void
     RosNode::test_draw_visibility_map(){
@@ -1512,11 +1537,11 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
       
     float resolution = 5; //cells are 5 meters large squares 
 
-    if (_visibility_map)
+/*    if (_visibility_map)
       std::cerr << "debug draw_visbility map\n" << " lattiude " << lat_center_map << " longitude " << lon_center_map << " resolution " << resolution << std::endl;
     else 
       std::cerr << " \n\n\n NOO _visibility_map found !! \n\n\n " << std::endl;
-    
+*/    
 
     // DO NOT FORGET !!
     //get_exclusive_access(DBG_GET);
@@ -1526,12 +1551,12 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
       dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
     }
     else 
-      std::cerr << " \n\n\n NO _georef_visilbility found !!\n\n\n " << std::endl;
+      //std::cerr << " \n\n\n NO _georef_visilbility found !!\n\n\n " << std::endl;
 
     if (_visibility_map_resolution)
       _visibility_map_resolution->set_value (resolution, true);
     else 
-      std::cerr << " \n\n\n NO _visibility_map_resolution found !!\n\n\n " << std::endl;
+      //std::cerr << " \n\n\n NO _visibility_map_resolution found !!\n\n\n " << std::endl;
 
 
     _visibility_map->width()->set_value (w, true);
