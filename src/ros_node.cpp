@@ -1245,13 +1245,14 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
     ParentProcess* area_to_add = ExclusionArea(_exclusion_areas,"", _map, "unknown"); 
     ((TextProperty*)area_to_add->find_child("name"))->set_value(msg.zones[i].name, true);
     //std::cerr << std::to_string(msg.zones[i].type) << std::endl;
-    if(msg.zones[i].type == 0){
-      ((TextProperty*)area_to_add->find_child("status"))->set_value("unknown", true);
-    }
-    if(msg.zones[i].type == 1){
+      if(msg.zones[i].type == 0){
+        ((TextProperty*)area_to_add->find_child("status"))->set_value("unknown", true);
+      }
+      if(msg.zones[i].type == 1){
 
 
-      ((TextProperty*)area_to_add->find_child("status"))->set_value("rfa", true);}
+        ((TextProperty*)area_to_add->find_child("status"))->set_value("rfa", true);
+      }
 
       if(msg.zones[i].type == 2){
 
@@ -1285,12 +1286,12 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
         auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude);
         ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.zones[i].polygon.points[j].altitude, true);
         auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
-        /*double cur_lat =  dynamic_cast<DoubleProperty*>(bary_summit->find_child("lat"))->get_value();
+        double cur_lat =  dynamic_cast<DoubleProperty*>(bary_summit->find_child("lat"))->get_value();
         double cur_lon =  dynamic_cast<DoubleProperty*>(bary_summit->find_child("lon"))->get_value();
         
         ((DoubleProperty*)bary_summit->find_child("lat"))->set_value(cur_lat + msg.zones[i].polygon.points[j].latitude / n, true);
         ((DoubleProperty*)bary_summit->find_child("lon"))->set_value(cur_lon + msg.zones[i].polygon.points[j].longitude / n, true);
-       */
+       
         ((TextProperty*)area_to_add->find_child("name"))->set_value(msg.zones[i].name, true);
         new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
 
@@ -1298,7 +1299,7 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
       }
 
       // barycenter of polygon : https://fr-academic.com/dic.nsf/frwiki/263573
-      //Compute abovex : 
+          //Compute abovex : 
       for (int j = 0; j < n -1; j++){
         above_x = above_x + (msg.zones[i].polygon.points[j].latitude + msg.zones[i].polygon.points[j+ 1].latitude) * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude);
       }
@@ -1314,18 +1315,19 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
       for (int j = 0; j < n -1; j++){
         below_y = below_y + 3 * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude); 
       }
-      
+
       double res_lat = above_x/below_x;
       double res_lon = above_y/below_y;
-      //std::cerr << "res_latitude = " << res_lat << std::endl;
-      //std::cerr << "res_longitude = " << res_lon << std::endl;
+      std::cerr << "res_latitude = " << res_lat << std::endl;
+      std::cerr << "res_longitude = " << res_lon << std::endl;
 
-      ((DoubleProperty*)bary_summit->find_child("lat"))->set_value(above_x/ below_x, true);
-      ((DoubleProperty*)bary_summit->find_child("lon"))->set_value(above_y / below_y, true);
-     
+//      ((DoubleProperty*)bary_summit->find_child("lat"))->set_value(above_x/ below_x, true);
+  //    ((DoubleProperty*)bary_summit->find_child("lon"))->set_value(above_y / below_y, true);
+
      new Connector (area_to_add, "x_bary_bind", area_to_add->find_child("bary_summit/x"), area_to_add->find_child("barycenterX"), 1);
      new Connector (area_to_add, "y_bary_bind", area_to_add->find_child("bary_summit/y"), area_to_add->find_child("barycenterY"), 1);
-        
+     //TODO (future) debug the barycenter...
+  
 
 
   }
@@ -1555,12 +1557,12 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
       dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lat"))->set_value (lat_center_map, true);
       dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
     }
-    else 
+    //else 
       //std::cerr << " \n\n\n NO _georef_visilbility found !!\n\n\n " << std::endl;
 
     if (_visibility_map_resolution)
       _visibility_map_resolution->set_value (resolution, true);
-    else 
+    //else 
       //std::cerr << " \n\n\n NO _visibility_map_resolution found !!\n\n\n " << std::endl;
 
 

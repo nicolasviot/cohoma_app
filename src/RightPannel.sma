@@ -114,7 +114,7 @@ Component validate_tasks_button
 	}
 }
 Translation _ (0, 70)
-ClockComponent clock(350, -25, frame)
+ClockComponent clock(0, -25, frame)
 
 CandidateTaskFilter filter(frame)
 filter.send_selected_tasks -> send_selected_tasks
