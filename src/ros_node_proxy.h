@@ -30,6 +30,7 @@
 #include "icare_interfaces/msg/site.hpp"
 #include "icare_interfaces/msg/exploration_polygon.hpp"
 #include "icare_interfaces/msg/environment_map.hpp"
+#include "icare_interfaces/msg/trap_activation.hpp"
 #endif
 
 
@@ -90,6 +91,7 @@ struct RosNodeProxy
     rclcpp::Publisher<icare_interfaces::msg::Tasks>::SharedPtr publisher_tasks;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation_tasks;
     rclcpp::Publisher<icare_interfaces::msg::LimaCrossed>::SharedPtr publisher_lima;
+    rclcpp::Publisher<icare_interfaces::msg::TrapActivation>::SharedPtr publisher_trap_activation;
 #endif
     
   };
