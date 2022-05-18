@@ -1,6 +1,7 @@
 #pragma once
 
 #ifndef NO_ROS
+
 //Ros Stuff
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
@@ -28,9 +29,9 @@
 #include "icare_interfaces/msg/environment_map.hpp"
 #include "icare_interfaces/msg/trap_activation.hpp"
 
-#include "ros_node_proxy.h"
-
 #endif
+
+#include "ros_node_proxy.h"
 
 //Djnn-smala stuff
 #include "core/ontology/process.h"
@@ -53,8 +54,7 @@
 
 using namespace djnn;
 
-class RosNode : public FatProcess, public ExternalSource, public RosNodeProxy
-  {
+class RosNode : public FatProcess, public ExternalSource, public RosNodeProxy {
   public:
     RosNode (ParentProcess* parent, const string& n, CoreProcess* map, CoreProcess* manager);
     ~RosNode() {}
@@ -164,4 +164,4 @@ class RosNode : public FatProcess, public ExternalSource, public RosNodeProxy
 //     rclcpp::Publisher<icare_interfaces::msg::TrapActivation>::SharedPtr publisher_trap_activation;
 // #endif
     
-  };
+};
