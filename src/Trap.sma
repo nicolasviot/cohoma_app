@@ -6,9 +6,11 @@ use animation
 import gui.animation.Animator
 import TrapStatusSelector
 import ros_node
+
 _native_code_
 %{
 #include "cpp/coords-utils.h"
+//#include "core/utils/getset.h"
 /*unsigned long RGBToHex(int r, int g, int b)
 {   
     return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
@@ -21,6 +23,9 @@ change_activation_action (Process c)
 %{
 
     Process *data = (Process*) get_native_user_data(c);
+    //GET_CHILD(node, RosNode, data, "node");
+    //GET_CHILD(id, IntProperty, data, "id");
+    //GET_CHILD(new_activation, BoolProperty, data, "active");
     RosNode *node = dynamic_cast<RosNode*>(data->find_child("node"));
     IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
     BoolProperty *new_activation = dynamic_cast<BoolProperty*>(data->find_child("active")); 

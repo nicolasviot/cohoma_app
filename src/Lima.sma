@@ -7,10 +7,11 @@ use animation
 import gui.animation.Animator
 import TaskAreaSummit
 import ros_node
+
 _native_code_
 %{
 #include "cpp/coords-utils.h"
-
+//#include "core/utils/getset.h"
 %}
 
 
@@ -19,6 +20,8 @@ validate_lima (Process c)
 %{
 
     Process *data = (Process*) get_native_user_data(c);
+    //GET_CHILD(node, RosNode, data, "node");
+    //GET_CHILD(id, IntProperty, data, "id");
     RosNode *node = dynamic_cast<RosNode*>(data->find_child("node"));
     IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
     #ifndef NO_ROS

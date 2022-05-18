@@ -30,7 +30,7 @@
 #include <iostream>
 #include "exec_env/global_mutex.h"
 
-#include "core/utils/getset.h"
+//#include "core/utils/getset.h"
 
 #include "base/native_async_action.h"
 
@@ -204,8 +204,8 @@ load_osm_tile (djnn::Process* src) {
   
   int max = pow (2, z);
   if (x < max && y < max) {
-    //((djnn::AbstractProperty*) (data->find_child("img/path")))->set_value(new_path, true);
-    SET_CHILD_VALUE(djnn::Text, data, "img/path", new_path, true);
+    //SET_CHILD_VALUE(Text, data, "img/path", new_path, true);
+    ((djnn::AbstractProperty*) (data->find_child("img/path")))->set_value(new_path, true);
 
     djnn::release_exclusive_access(DBG_REL);
     int failure = load_image_from_osm (z, y, x, name);
