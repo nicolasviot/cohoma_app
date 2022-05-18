@@ -74,9 +74,9 @@ Component NavGraph
 }
 
 
-Translation _(0, 140)
+Translation _(0, 125)
 ItineraryPannel itineraryPannel(0, 0, root.l.map.layers.itineraries.id)
-Translation _ (0, 220)
+Translation _ (0, 200)
 
 plan_request -> itineraryPannel.startWaitingAnim
 //TODO add a stop for the update animation when receiving data from ros 
@@ -113,7 +113,8 @@ Component validate_tasks_button
 		pressed -> idle (button.leave)
 	}
 }
-Translation _ (0, 80)
+Translation _ (0, 70)
+ClockComponent clock(350, -25)
 
 CandidateTaskFilter filter(frame)
 filter.send_selected_tasks -> send_selected_tasks
@@ -122,7 +123,7 @@ filter.send_selected_tasks -> send_selected_tasks
 //Image icare_logo ("res/icare-logo-2.png", 20, 200, 400, 400)
 Console console(0, 0)
 
-ClockComponent clock(170, 150)
+
 
 Component IObuttons{
 /*	Button send_plan_req (frame, " request plan ", 20, 150)

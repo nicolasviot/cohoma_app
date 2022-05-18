@@ -52,14 +52,15 @@ logger activation de lima
 */
 
 
-  FillColor _(White)
-  Rectangle bg (0, 0, 450, 550)
+  FillColor _(#FAFAFA)
+  OutlineColor _ (#FFFFFF)
+  Rectangle bg (0, 0, 424, 570)
   FillColor _ (Black)
   
   MultilineEditor ste (5, 0, 0,  0, "", 1)
   2 =: ste.spaces_for_tab
-  350 =:> ste.height
-  350 =:> ste.width
+  bg.height =:> ste.height
+  bg.width =:> ste.width
 
   /*StandAlonePushButton debug_ste_input("Clear", 200, 200)
   debug_ste_input.click -> {"Hello World \n"=:ste.string_input}
