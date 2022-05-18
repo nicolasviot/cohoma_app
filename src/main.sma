@@ -299,11 +299,11 @@ Component root {
       result,
       site,
       //mission_zones,
+      satelites,
       navgraph,
       itineraries,
       traps, 
       tasks,
-      satelites,
       actors
       //lima,
     }
