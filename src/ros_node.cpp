@@ -951,6 +951,7 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
     std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
     ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Validated lima " + std::to_string(id) + "\n", true);
   
+    message.header.stamp = _node->get_clock()->now();
 
     publisher_lima->publish(message);
   }
@@ -996,7 +997,8 @@ uint32[] local_ids                   # locals ids of the detection per robot*/
   
     /*GRAPH_EXEC;
     release_exclusive_access(DBG_REL);
-    */message.header.stamp = _node->get_clock()->now();
+    */
+    message.header.stamp = _node->get_clock()->now();
 
     publisher_planning_request->publish(message);  
     
@@ -1496,6 +1498,7 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
 
     msg.active = new_active_state;
     msg.id = id;
+    msg.header.stamp = _node->get_clock()->now();
     publisher_trap_activation->publish(msg);
     std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
     if (new_active_state){
