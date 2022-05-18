@@ -192,28 +192,28 @@ load_osm_tile (djnn::Process* src) {
   auto * native = dynamic_cast<djnn::NativeAsyncAction*> (src);
   assert(src);
   djnn::Process* data = (djnn::Process*) get_native_user_data (src);
-  //GET_CHILD_VALUE (x, djnn::Int, data, "X");
-  int x = getInt (data->find_child("X"));
-  int y = getInt (data->find_child("Y"));
-  int z = getInt (data->find_child("Z"));
-  //GET_CHILD_VALUE (name, djnn::Text, data, "layer_name");
-  std::string name = ((djnn::AbstractProperty*) (data->find_child("layer_name")))->get_string_value ();
+  //GET_CHILD_VALUE (Int, data, X);
+  int X = getInt (data->find_child("X"));
+  int Y = getInt (data->find_child("Y"));
+  int Z = getInt (data->find_child("Z"));
+  //GET_CHILD_VALUE (Text, data, layer_name);
+  const std::string & layer_name = ((djnn::AbstractProperty*) (data->find_child("layer_name")))->get_string_value ();
   
   //release_exclusive_access(DBG_REL);
   std::string new_path = "src/img/default.png";
   
-  int max = pow (2, z);
-  if (x < max && y < max) {
-    //SET_CHILD_VALUE(Text, data, "img/path", new_path, true);
+  int max = pow (2, Z);
+  if (X < max && Y < max) {
+    //SET_CHILD_VALUE(Text, data, img/path, new_path, true);
     ((djnn::AbstractProperty*) (data->find_child("img/path")))->set_value(new_path, true);
 
     djnn::release_exclusive_access(DBG_REL);
-    int failure = load_image_from_osm (z, y, x, name);
+    int failure = load_image_from_osm (Z, Y, X, layer_name);
     djnn::get_exclusive_access(DBG_GET);
 
     if (! native->should_i_stop()) {
       if (!failure) {
-        new_path = "cache/" + name + "/" + std::to_string (z) + "_" + std::to_string (x) + "_" + std::to_string (y) + ".png";
+        new_path = "cache/" + layer_name + "/" + std::to_string (Z) + "_" + std::to_string (X) + "_" + std::to_string (Y) + ".png";
         //std::cerr << new_path << std::endl;
         assert (filesystem::exists(new_path));
         assert (std::filesystem::file_size(new_path));
