@@ -251,6 +251,51 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   _current_wpt->set_value ((CoreProcess*)nullptr, true);
   _entered_wpt->set_value ((CoreProcess*)nullptr, true);
 
+    Container *_task_edge_container = dynamic_cast<Container *> (_task_edges);
+    if (_task_edge_container) {
+      int _task_edge_container_size = _task_edge_container->children ().size ();
+      for (int i = _task_edge_container_size - 1; i >= 0; i--) {
+        auto *item = _task_edge_container->children ()[i];
+        if (item) {
+          item->deactivate ();
+          if (item->get_parent ())
+            item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+          item->schedule_delete ();
+          item = nullptr;
+        }
+      }
+    }
+
+    Container *_trap_container = dynamic_cast<Container *> (_task_traps);
+    if (_trap_container) {
+      int _trap_container_size = _trap_container->children ().size ();
+      for (int i = _trap_container_size - 1; i >= 0; i--) {
+        auto *item = _trap_container->children ()[i];
+        if (item) {
+          item->deactivate ();
+          if (item->get_parent ())
+            item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+          item->schedule_delete ();
+          item = nullptr;
+        }
+      }
+    }
+
+    Container *_task_container = dynamic_cast<Container *> (_task_areas);
+    if (_task_container) {
+      int _task_container_size = _task_container->children ().size ();
+      for (int i = _task_container_size - 1; i >= 0; i--) {
+        auto *item = _task_container->children ()[i];
+        if (item) {
+          item->deactivate ();
+          if (item->get_parent ())
+            item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+          item->schedule_delete ();
+          item = nullptr;
+        }
+      }
+    }
+
     //schedule delete old content
     int itineraries_list_size =  _itineraries_list->children ().size ();
     for (int i = itineraries_list_size - 1; i >= 0; i--) {
