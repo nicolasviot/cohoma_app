@@ -14,7 +14,11 @@
 		<text id="identified" transform="matrix(1.053 0 0 1 -33.3034 -69.8483)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Code:</text>
 	
 		<text id="unknown" transform="matrix(1.053 0 0 1 -42.3034 -82.9158)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Hazard:</text>
-	
+		
+		<text id="radius" transform="matrix(1.053 0 0 1 -42.3034 -96.9158)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">Radius:</text>
+		
+		<text id="radius_text" transform="matrix(1.053 0 0 1 -5.3034 -96.9158)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">...</text>
+
 		<text id="hazard_text" transform="matrix(1.053 0 0 1 -5.4018 -82.0619)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">...</text>
 	
 		<text id="code_text" transform="matrix(1.053 0 0 1 -5.4018 -68.9945)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="9.497px">...</text>

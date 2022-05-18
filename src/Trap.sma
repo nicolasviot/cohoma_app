@@ -287,6 +287,7 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
 
 
         overlay_svg = loadFromXML ("res/svg/trap_info.svg")
+
         
         FSM info_overlay_FSM{
             State idle{
@@ -299,6 +300,7 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
                       code =:> info.code_text.text
                     hazard =:> info.hazard_text.text
         "#" + toString(id) =:> info.id_text.text
+                 radius    =:> info.radius_text.text
                  remotely_deactivate ? (contact_deactivate ? "Remote/Contact" : "Remote") : (contact_deactivate ? "Concact" : "...") =:> info.deactivate_text.text
 
                    /*int8 CONTACT_UNKONWN = 0
