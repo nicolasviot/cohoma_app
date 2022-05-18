@@ -192,12 +192,12 @@ load_osm_tile (djnn::Process* src) {
   auto * native = dynamic_cast<djnn::NativeAsyncAction*> (src);
   assert(src);
   djnn::Process* data = (djnn::Process*) get_native_user_data (src);
-  //GET_CHILD_VALUE (x, djnn::Int, data, "X");
+  //GET_CHILD_VALUE (x, Int, data, "X");
   int x = getInt (data->find_child("X"));
   int y = getInt (data->find_child("Y"));
   int z = getInt (data->find_child("Z"));
-  //GET_CHILD_VALUE (name, djnn::Text, data, "layer_name");
-  std::string name = ((djnn::AbstractProperty*) (data->find_child("layer_name")))->get_string_value ();
+  //GET_CHILD_VALUE (name, Text, data, "layer_name");
+  const std::string & name = ((djnn::AbstractProperty*) (data->find_child("layer_name")))->get_string_value ();
   
   //release_exclusive_access(DBG_REL);
   std::string new_path = "src/img/default.png";
