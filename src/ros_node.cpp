@@ -642,9 +642,10 @@ RosNode::test_multiple_itineraries(){
     SET_CHILD_VALUE (Bool, robot, failsafe, msg->failsafe, true);
 
 #else
-    std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
     
     get_exclusive_access(DBG_GET);
+
+    std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
 
     if (msg->robot_id == 1){
       //Drone
