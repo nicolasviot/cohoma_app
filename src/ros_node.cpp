@@ -621,7 +621,7 @@ RosNode::test_multiple_itineraries(){
     RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
 
 #if 0
-    djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab};
+    djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _drone_safety_pilot, _ground_safety_pilot};
     if (msg->robot_id<1 || msg->robot_id>=sizeof(robots)) {
       RCLCPP_INFO(_node->get_logger(), "incorrect robot_id: '%d'  '%f'", msg->robot_id);
       return;
@@ -632,14 +632,22 @@ RosNode::test_multiple_itineraries(){
 
     get_exclusive_access(DBG_GET);
 
+    //std::string timestamp;
+    GET_CHILD_VALUE (timestamp, Text, _clock, "wc/state_text ");
+    //GET_CHILD_VALUE (name, djnn::Text, data, "layer_name");
+
     SET_CHILD_VALUE (Double, robot, lat, msg->position.latitude, true);
     SET_CHILD_VALUE (Double, robot, lon, msg->position.longitude, true);
-    SET_CHILD_VALUE (Double, robot, altitude_msl, msg->position.altitude, true);
-    SET_CHILD_VALUE (Double, robot, heading_rot, msg->compass_heading, true);
-    SET_CHILD_VALUE (Int, robot, battery_percentage, msg->battery_percentage, true);
-    SET_CHILD_VALUE (Int, robot, operation_mode, msg->operating_mode, true); // FIXME: operation_mode vs operating_mode
-    SET_CHILD_VALUE (Bool, robot, emergency_stop, msg->emergency_stop, true);
-    SET_CHILD_VALUE (Bool, robot, failsafe, msg->failsafe, true);
+    SET_CHILD_Value (Text, _fw_input, "", timestamp + " - " + "Received robot_state for Drone\n", true);
+    if(msg->robot_id != 7 && msg->robot_id != 8 ) {
+      SET_CHILD_VALUE (Double, robot, altitude_msl, msg->position.altitude, true);
+      SET_CHILD_VALUE (Double, robot, heading_rot, msg->compass_heading, true);
+      SET_CHILD_VALUE (Int, robot, battery_percentage, msg->battery_percentage, true);
+      SET_CHILD_VALUE (Int, robot, operation_mode, msg->operating_mode, true); // FIXME: operation_mode vs operating_mode
+      SET_CHILD_VALUE (Bool, robot, emergency_stop, msg->emergency_stop, true);
+      SET_CHILD_VALUE (Bool, robot, failsafe, msg->failsafe, true);
+    }
+    
 
 #else
     
