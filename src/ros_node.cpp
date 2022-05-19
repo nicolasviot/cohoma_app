@@ -161,11 +161,27 @@ RosNode::impl_activate ()
   _start_plan_vab_id.activate();
   _end_plan_vab_id.activate();
 
+
+#if 1
+  //TODO : not sur -- remove ?
+  GET_CHILD_VAR2 (_nodes, CoreProcess, _parent, parent/l/map/layers/navgraph/nodes)
+  GET_CHILD_VAR2 (_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
+  GET_CHILD_VAR2 (_shadow_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/shadow_edges)
+  GET_CHILD_VAR2 (_task_edges, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/edges)
+  GET_CHILD_VAR2 (_task_areas, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/areas)
+
+  GET_CHILD_VAR2 (_visibility_map, DataImage, _parent, parent/l/map/layers/result/visibility_map)
+  GET_CHILD_VAR2 (_visibility_map_resolution, DoubleProperty, _parent, parent/l/map/layers/result/visibility_map_resolution)
+#else
   _nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
   _edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
   _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
   _task_edges = _parent->find_child("parent/l/map/layers/tasks/tasklayer/edges");
   _task_areas = _parent->find_child("parent/l/map/layers/tasks/tasklayer/areas");
+
+  _visibility_map = dynamic_cast<DataImage*> (_parent->find_child ("parent/l/map/layers/result/visibility_map"));
+  _visibility_map_resolution  = dynamic_cast<DoubleProperty*> (_parent->find_child ("parent/l/map/layers/result/visibility_map_resolution"));
+#endif
   _task_traps = _parent->find_child("parent/l/map/layers/tasks/tasklayer/traps");
   _traps = _parent->find_child("parent/l/map/layers/traps/traplayer/traps");
   _exclusion_areas = _parent->find_child("parent/l/map/layers/site/sitelayer/exclusion_areas");
@@ -193,8 +209,6 @@ RosNode::impl_activate ()
   _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/entered_wpt"));
 
   _georef_visibility_map = _parent->find_child ("parent/l/map/layers/result/georef_visibility_map");
-  _visibility_map = dynamic_cast<DataImage*> (_parent->find_child ("parent/l/map/layers/result/visibility_map"));
-  _visibility_map_resolution  = dynamic_cast<DoubleProperty*> (_parent->find_child ("parent/l/map/layers/result/visibility_map_resolution"));
 
   //start the thread
   ExternalSource::start ();  
@@ -248,6 +262,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
 
   std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
   ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received new navgraph\n", true);
+  
   _current_wpt->set_value ((CoreProcess*)nullptr, true);
   _entered_wpt->set_value ((CoreProcess*)nullptr, true);
 
@@ -620,26 +635,28 @@ RosNode::test_multiple_itineraries(){
   RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
     RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
 
-#if 0
+#if 1
     djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _drone_safety_pilot, _ground_safety_pilot};
+    static const string robots_name[] = {nullptr, "drone", "agilex1", "agilex2", "lynx", "spot", "vab", "drone_safety_pilot", "ground_safety_pilot"};
     if (msg->robot_id<1 || msg->robot_id>=sizeof(robots)) {
       RCLCPP_INFO(_node->get_logger(), "incorrect robot_id: '%d'  '%f'", msg->robot_id);
       return;
     }
     
     djnn::Process * robot = robots[msg->robot_id];
+    const string& robot_name = robots_name[msg->robot_id]
     assert(robot);
 
     get_exclusive_access(DBG_GET);
 
     //std::string timestamp;
-    GET_CHILD_VALUE (timestamp, Text, _clock, "wc/state_text ");
+    GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
     //GET_CHILD_VALUE (name, djnn::Text, data, "layer_name");
 
     SET_CHILD_VALUE (Double, robot, lat, msg->position.latitude, true);
     SET_CHILD_VALUE (Double, robot, lon, msg->position.longitude, true);
-    SET_CHILD_Value (Text, _fw_input, "", timestamp + " - " + "Received robot_state for Drone\n", true);
-    if(msg->robot_id != 7 && msg->robot_id != 8 ) {
+    SET_CHILD_VALUE (Text, _fw_input, "", timestamp + " - Received robot_state for " + robot_name + "\n", true);
+    if(robot != _drone_safety_pilot && robot != _ground_safety_pilot ) {
       SET_CHILD_VALUE (Double, robot, altitude_msl, msg->position.altitude, true);
       SET_CHILD_VALUE (Double, robot, heading_rot, msg->compass_heading, true);
       SET_CHILD_VALUE (Int, robot, battery_percentage, msg->battery_percentage, true);
