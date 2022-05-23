@@ -13,6 +13,8 @@
 
 #include <nlohmann/json.hpp>
 
+#include <cassert>
+
 
 #include <iostream>
 #include <algorithm>
@@ -639,13 +641,14 @@ RosNode::test_multiple_itineraries(){
     djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _drone_safety_pilot, _ground_safety_pilot};
     static const string robots_name[] = {nullptr, "drone", "agilex1", "agilex2", "lynx", "spot", "vab", "drone_safety_pilot", "ground_safety_pilot"};
     if (msg->robot_id<1 || msg->robot_id>=sizeof(robots)) {
-      RCLCPP_INFO(_node->get_logger(), "incorrect robot_id: '%d'  '%f'", msg->robot_id);
+      RCLCPP_INFO(_node->get_logger(), "incorrect robot_id: '%d'", msg->robot_id);
       return;
     }
     
     djnn::Process * robot = robots[msg->robot_id];
-    const string& robot_name = robots_name[msg->robot_id]
-    assert(robot);
+    const string& robot_name = robots_name[msg->robot_id];
+    //  assert(robot);
+    //assert (robot_name);
 
     get_exclusive_access(DBG_GET);
 

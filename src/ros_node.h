@@ -103,7 +103,7 @@ class RosNode : public FatProcess, public ExternalSource
     NativeAction* _edge_released_na;
 
     //robot
-    CoreProcess* _vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone, *_frame, *_actor, *_actor_ugv;
+    CoreProcess* _vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone, *_frame, *_actor, *_actor_ugv, *_drone_safety_pilot, *_ground_safety_pilot;
     CoreProcess* _clock, *_console, *_fw_input, *_fw_console_input;
 
     RefProperty *_current_wpt, *_entered_wpt;
