@@ -473,15 +473,12 @@ RosNode::test_multiple_itineraries(){
 void 
 RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
  
-  if (msg->itineraries.size () < 1) 
-    return;
-
-  get_exclusive_access(DBG_GET);
-  
   std::vector<std::pair<string,std::vector<int>>> msg_struct;
   
   if (msg->itineraries.size () <= 0)
     return;
+
+  get_exclusive_access(DBG_GET);
 
   std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
   ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received " + std::to_string(msg->itineraries.size()) + " itineraries\n", true);
