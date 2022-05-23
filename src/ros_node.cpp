@@ -142,10 +142,8 @@ RosNode::impl_activate ()
     "/activation", qos);
   #endif
 
-
   //activate navgraph fields
   navgraph_data.activate();
-
 
   //activate robot_state fields
   _robot_id.activate();
@@ -163,54 +161,40 @@ RosNode::impl_activate ()
   _start_plan_vab_id.activate();
   _end_plan_vab_id.activate();
 
+  GET_CHILD_VAR2 (_frame, CoreProcess, _parent, parent/f)
 
-#if 1
-  //TODO : not sur -- remove ?
   GET_CHILD_VAR2 (_nodes, CoreProcess, _parent, parent/l/map/layers/navgraph/nodes)
   GET_CHILD_VAR2 (_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
   GET_CHILD_VAR2 (_shadow_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/shadow_edges)
   GET_CHILD_VAR2 (_task_edges, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/edges)
   GET_CHILD_VAR2 (_task_areas, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/areas)
+  GET_CHILD_VAR2 (_task_traps, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/traps)
+  GET_CHILD_VAR2 (_traps, CoreProcess, _parent, parent/l/map/layers/traps/traplayer/traps)
+  GET_CHILD_VAR2 (_exclusion_areas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/exclusion_areas)
+  GET_CHILD_VAR2 (_limas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/limas)
+  GET_CHILD_VAR2 (_actor, CoreProcess, _parent, parent/l/map/layers/actors/sfty_pilot_uav)
+  GET_CHILD_VAR2 (_actor_ugv, CoreProcess, _parent, parent/l/map/layers/actors/sfty_pilot_ugv)
+  GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_pannel/right_pannel/clock)
+  GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_pannel/right_pannel/clock/fw/input)
+  GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/right_pannel/right_pannel/clock/fw_console/input)
+  GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_pannel/right_pannel/console)
+  GET_CHILD_VAR2 (_itineraries_list, Component, _parent, parent/l/map/layers/itineraries/itineraries_list)
+  GET_CHILD_VAR2 (_id_curent_itenerary, TextProperty, _parent, parent/l/map/layers/itineraries/id)
+  GET_CHILD_VAR2 (_ref_curent_itenerary, RefProperty, _parent, parent/l/map/layers/itineraries/ref_current_itinerary)
+  GET_CHILD_VAR2 (_edge_released_na, NativeAction, _parent, parent/l/map/layers/itineraries/edge_released_na)
+  GET_CHILD_VAR2 (_vab, CoreProcess, _parent, parent/l/map/layers/satelites/vab)
+  GET_CHILD_VAR2 (_agilex1, CoreProcess, _parent, parent/l/map/layers/satelites/agilex1)
+  GET_CHILD_VAR2 (_agilex2, CoreProcess, _parent, parent/l/map/layers/satelites/agilex2)
+  GET_CHILD_VAR2 (_lynx, CoreProcess, _parent, parent/l/map/layers/satelites/lynx)
+  GET_CHILD_VAR2 (_spot, CoreProcess, _parent, parent/l/map/layers/satelites/spot)
+  GET_CHILD_VAR2 (_drone, CoreProcess, _parent, parent/l/map/layers/satelites/drone)
 
+  GET_CHILD_VAR2 (_current_wpt, RefProperty, _parent, parent/l/map/layers/navgraph/manager/current_wpt)
+  GET_CHILD_VAR2 (_entered_wpt, RefProperty, _parent, parent/l/map/layers/navgraph/manager/entered_wpt)
+
+  GET_CHILD_VAR2 (_georef_visibility_map, CoreProcess, _parent, parent/l/map/layers/result/georef_visibility_map)
   GET_CHILD_VAR2 (_visibility_map, DataImage, _parent, parent/l/map/layers/result/visibility_map)
   GET_CHILD_VAR2 (_visibility_map_resolution, DoubleProperty, _parent, parent/l/map/layers/result/visibility_map_resolution)
-#else
-  _nodes = _parent->find_child ("parent/l/map/layers/navgraph/nodes");
-  _edges = _parent->find_child ("parent/l/map/layers/navgraph/edges");
-  _shadow_edges = _parent->find_child ("parent/l/map/layers/navgraph/shadow_edges");
-  _task_edges = _parent->find_child("parent/l/map/layers/tasks/tasklayer/edges");
-  _task_areas = _parent->find_child("parent/l/map/layers/tasks/tasklayer/areas");
-
-  _visibility_map = dynamic_cast<DataImage*> (_parent->find_child ("parent/l/map/layers/result/visibility_map"));
-  _visibility_map_resolution  = dynamic_cast<DoubleProperty*> (_parent->find_child ("parent/l/map/layers/result/visibility_map_resolution"));
-#endif
-  _task_traps = _parent->find_child("parent/l/map/layers/tasks/tasklayer/traps");
-  _traps = _parent->find_child("parent/l/map/layers/traps/traplayer/traps");
-  _exclusion_areas = _parent->find_child("parent/l/map/layers/site/sitelayer/exclusion_areas");
-  _limas = _parent->find_child("parent/l/map/layers/site/sitelayer/limas");
-  _frame = _parent->find_child("parent/f");
-  _actor = _parent->find_child("parent/l/map/layers/actors/sfty_pilot_uav");
-  _actor_ugv = _parent->find_child("parent/l/map/layers/actors/sfty_pilot_ugv");
-  _clock = _parent->find_child("parent/right_pannel/right_pannel/clock");
-  _fw_input = _parent->find_child("parent/right_pannel/right_pannel/clock/fw/input");
-  _fw_console_input = _parent->find_child("parent/right_pannel/right_pannel/clock/fw_console/input");
-  _console = _parent->find_child("parent/right_pannel/right_pannel/console");
-  _itineraries_list = dynamic_cast<Component*> (_parent->find_child("parent/l/map/layers/itineraries/itineraries_list"));
-  _id_curent_itenerary  = dynamic_cast<TextProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/id"));
-  _ref_curent_itenerary = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/itineraries/ref_current_itinerary"));
-  _edge_released_na = dynamic_cast<NativeAction*> (_parent->find_child ("parent/l/map/layers/itineraries/edge_released_na"));
-  //_send_lima_na = dynamic_cast<NativeAction*> (_parent->find_child("parent/ros_manager/send_lima_na"))
-  _vab = _parent->find_child("parent/l/map/layers/satelites/vab");
-  _agilex1 = _parent->find_child("parent/l/map/layers/satelites/agilex1");
-  _agilex2 = _parent->find_child("parent/l/map/layers/satelites/agilex2");
-  _lynx = _parent->find_child("parent/l/map/layers/satelites/lynx");
-  _spot = _parent->find_child("parent/l/map/layers/satelites/spot");
-  _drone = _parent->find_child("parent/l/map/layers/satelites/drone");
-
-  _current_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/current_wpt"));
-  _entered_wpt = dynamic_cast<RefProperty*> (_parent->find_child ("parent/l/map/layers/navgraph/manager/entered_wpt"));
-
-  _georef_visibility_map = _parent->find_child ("parent/l/map/layers/result/georef_visibility_map");
 
   //start the thread
   ExternalSource::start ();  
@@ -262,8 +246,8 @@ void
 RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg) {
   get_exclusive_access(DBG_GET);
 
-  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
-  ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received new navgraph\n", true);
+  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
+  SET_CHILD_VALUE (Text, _fw_input,  , timestamp + " - " + "Received new navgraph\n", true)
   
   _current_wpt->set_value ((CoreProcess*)nullptr, true);
   _entered_wpt->set_value ((CoreProcess*)nullptr, true);
@@ -378,53 +362,34 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   if (j.contains("graph"))
     j_graph = j["graph"];
   else if (j.contains("graphs")) {
-    if (j.size() > 1) {
-      //std::cerr << "Several graphs defined in the JSON structure! loading the first one..." << std::endl;
+    if (j.size() > 1)
       j_graph = j["graphs"][0];
-    }
-    else if (j.size() == 0) {
-      //std::cerr << "No graph defined in the JSON structure!" << std::endl;
+    else if (j.size() == 0)
       return;
-    }
   }
-    ////std::cerr << "about to get graph attributes" << std::endl;
-    // graph attributes
-  if (j_graph.contains("directed") && j_graph["directed"].get<bool>()) {
-    //std::cerr << "graph is said to be directed! NavGraph are only undirected: the results graph may not be what expected!" << std::endl;
-  }
-    ////std::cerr << "about to parse nodes" << std::endl;
-    // nodes
+  
+  // nodes
   for (int i=j_graph["nodes"].size() - 1; i >=0; i--){
-    //for (auto& node: j_graph["nodes"]) {
     auto& node = j_graph["nodes"][i];
-        ////std::cerr << "in from json parsing nodes" << std::endl;
     auto& m = node["metadata"];
     bool locked = m["locked"].get<bool>();
     bool isPPO = m["compulsory"].get<bool>();
     int phase = m["phase"].get<int>();
-    if (isPPO){
-      //std::cerr << "one more PPO imported" << std::endl;
-    }
-    //std::cerr << phase << std::endl;
+
     ParentProcess* node_ = Node(_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
      isPPO, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _manager);
-     //SET_CHILD_VALUE(Bool, node, "islocked", locked, true);
-    ((BoolProperty*)node_->find_child("islocked"))->set_value(locked, true);
-    ((IntProperty*)node_->find_child("phase"))->set_value(phase, true);
-    ((BoolProperty*)node_->find_child("wpt/isMandatory"))->set_value(isPPO, true);
+    SET_CHILD_VALUE(Bool, node_, islocked, locked, true);
+    //TODO: MP problème entre le nom du child et la variable
+    SET_CHILD_VALUE(Int, node_, phase, phase, true);
+    SET_CHILD_VALUE(Bool, node_, wpt/isMandatory, isPPO, true)
   }
-  //std::cerr << "about to parse edges" << std::endl;
-    // edges
+
   for (auto& edge: j_graph["edges"]) {
-
-
     std::string source = edge["source"].get<std::string>();
     std::string target = edge["target"].get<std::string>();
     auto& m = edge["metadata"];
     double length =m["length"].get<double>();
-    ParentProcess* edge_ = Edge(_edges, "", std::stoi(source) + 1, 
-      std::stoi(target) + 1,length, _nodes);
-
+    ParentProcess* edge_ = Edge(_edges, "", std::stoi(source) + 1, std::stoi(target) + 1, length, _nodes);
   }
 
   GRAPH_EXEC;
@@ -502,32 +467,27 @@ RosNode::test_multiple_itineraries(){
   //int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
   ////std::cerr << "in RosNode::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
   #endif
-  }
-#ifndef NO_ROS
-  void 
-  RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
- 
+}
 
- //debug
-  ////std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
-  if (msg->itineraries.size()<1){
+#ifndef NO_ROS
+void 
+RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
+ 
+  if (msg->itineraries.size () < 1) 
     return;
-  }
+
   get_exclusive_access(DBG_GET);
-  //debug ros_msg
-  std::vector<std::pair<string,std::vector<int>>> msg_struct; /*= { \
-    {msg->itineraries[0]->id, {}, \
-    {msg->itineraries[1]->id, {}}, \
-    {msg->itineraries[2]->id, {}}};
-*/
-    if (msg->itineraries.size()<= 0)
-      return;
+  
+  std::vector<std::pair<string,std::vector<int>>> msg_struct;
+  
+  if (msg->itineraries.size () <= 0)
+    return;
+
   std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
   ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received " + std::to_string(msg->itineraries.size()) + " itineraries\n", true);
  
     for (int i = 0; i <msg->itineraries.size(); i++){
       std::string id = msg->itineraries[i].id;
-  //  std::string description = msg->itineraries[i]->description;
       std::vector<int> nodes;
 
       for (int j = 0; j < msg->itineraries[i].nodes.size(); j++){
@@ -637,9 +597,9 @@ RosNode::test_multiple_itineraries(){
   RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
     RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
 
-#if 1
+#if 0
     djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _drone_safety_pilot, _ground_safety_pilot};
-    static const string robots_name[] = {nullptr, "drone", "agilex1", "agilex2", "lynx", "spot", "vab", "drone_safety_pilot", "ground_safety_pilot"};
+    static const string robots_name[] = {"", "drone", "agilex1", "agilex2", "lynx", "spot", "vab", "drone_safety_pilot", "ground_safety_pilot"};
     if (msg->robot_id<1 || msg->robot_id>=sizeof(robots)) {
       RCLCPP_INFO(_node->get_logger(), "incorrect robot_id: '%d'", msg->robot_id);
       return;
