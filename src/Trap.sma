@@ -146,7 +146,8 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
                 240 =: red.r
                 1 =: trap_out_op.a
                 1 =: global_opacity.a
-                radius * 1.52 /get_resolution ($map.zoomLevel) =:> c.r
+                //radius * 1.52 /get_resolution ($map.zoomLevel) =:> c.r
+                20 =: radius
                 1 =: trap_out_op.a
 
                 trap_id =:> trap_id_text.text
