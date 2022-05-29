@@ -45,3 +45,18 @@ stylized_target = "\\033[1m$@\\033[0m" (older than $?)
 endif
 #in case it doesn't work on some terminals:
 #stylized_target = $(notdir $@) \(older than $(notdir $?)\)
+
+
+# ---------------------------------------
+# generate ninja file from Makefile
+
+ninja: build.ninja
+build.ninja: make2ninja.py
+	make -nd V=max test | python3 make2ninja.py > build.ninja
+.PHONY: build.ninja ninja
+
+make2ninja.py:
+	curl -O https://raw.githubusercontent.com/conversy/make2ninja/90e939a539a081b44c9bdc2bef70e6908e7a645a/make2ninja.py
+ifeq ($(os),Darwin)
+	sed -i '' "s/\'(./\`(./" make2ninja.py
+endif
