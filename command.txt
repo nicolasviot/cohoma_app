@@ -1,0 +1,37 @@
+utiliser CTRL + SHIFT + T pour avoir plusieurs terminaux organisé par onglet, naviguer dedans avec CTRL + LEFT/RIGHT
+
+_____________________________________________________________
+terminal 1 (cohoma_app):
+
+cd /home/lii/Documents/cohoma_app
+make -j7 test
+
+_____________________________________________________________
+terminal 2 (simulation véhicules + traps): 
+
+./launch1.sh
+
+cd /home/lii/Documents/dev_ws
+source install/setup.bash
+ros2 launch icare_bringup ugvs_simulation.launch.py latitude:=48.86109526727752 longitude:=1.8933138875646296  traps:=`ros2 pkg prefix icare_bringup`/share/icare_bringup/data/traps_beynes.yaml
+
+______________________________________________________________
+terminal 3 (simulation architecture de planification + Base de donnée):
+
+./launch2.sh
+
+cd /home/lii/Documents/dev_ws
+source install/setup.bash
+ros2 launch icare_bringup decision.launch.py
+
+______________________________________________________________
+Lancer scénario
+
+1. sélection des pt de départ et arrivée
+2. double clicker sur la lima de départ
+3. Ask for planification
+
+4. click set itinerary
+5. click zone rouge pour drone volant
+6. click edge T102
+7. click edge T103
