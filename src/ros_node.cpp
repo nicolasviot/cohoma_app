@@ -1062,128 +1062,120 @@ RosNode::send_validation_plan(){
 
 }
 
+//TODO : MP check from here
 void 
 RosNode::send_selected_tasks(){
-//TODO
 
- /*get_exclusive_access(DBG_GET);
-*/
-  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
-  ((TextProperty*)_fw_input)->set_value(timestamp + " - Send task selection\n", true);
+  /*
+    int16 id                            # Manager trap id
+    geographic_msgs/GeoPoint location   # location
+    bool identified false               # whether the trap has been identified (i.e. QRCode read)
+    bool active true                    # whether the trap is active
+  
+    icare_interfaces/TrapIdentification info
+    uint8[] detected_by                 # list of robots having detected this trap
+    uint32[] local_ids                   # locals ids of the detection per robot
+  */
 
- icare_interfaces::msg::Tasks message= icare_interfaces::msg::Tasks();
- for (auto trap: ((djnn::List*)_task_traps)->children()){
-  if (((BoolProperty*)trap->find_child("selected"))->get_value() == true){
+  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Send task selection\n", true);
 
-      /*int16 id                            # Manager trap id
-geographic_msgs/GeoPoint location   # location
-bool identified false               # whether the trap has been identified (i.e. QRCode read)
-bool active true                    # whether the trap is active
+  icare_interfaces::msg::Tasks message= icare_interfaces::msg::Tasks();
+  for (auto trap: ((djnn::List*)_task_traps)->children()){
+    if (((BoolProperty*)trap->find_child("selected"))->get_value() == true){     
+      /*
+      ((BoolProperty*)new_trap->find_child("active"))->set_value(msg.active, true);
+      ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.identified, true);
+      ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.info.id, true);
+      ((TextProperty*)new_trap->find_child("description"))->set_value(msg.info.description, true);
+      ((IntProperty*)new_trap->find_child("contact_mode"))->set_value(msg.info.contact_mode, true);
+      ((TextProperty*)new_trap->find_child("code"))->set_value(msg.info.code, true);
+      ((TextProperty*)new_trap->find_child("hazard"))->set_value(msg.info.hazard, true);
+      */
 
-icare_interfaces/TrapIdentification info
-uint8[] detected_by                 # list of robots having detected this trap
-uint32[] local_ids                   # locals ids of the detection per robot
-*/
-/*
-((BoolProperty*)new_trap->find_child("active"))->set_value(msg.active, true);
-  ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.identified, true);
-    ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.info.id, true);
-    ((TextProperty*)new_trap->find_child("description"))->set_value(msg.info.description, true);
-    ((IntProperty*)new_trap->find_child("contact_mode"))->set_value(msg.info.contact_mode, true);
-    ((TextProperty*)new_trap->find_child("code"))->set_value(msg.info.code, true);
-    ((TextProperty*)new_trap->find_child("hazard"))->set_value(msg.info.hazard, true);
-
-*/
-
-    icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
-    trap_to_add.id = dynamic_cast<IntProperty*> (trap->find_child ("trap_id"))->get_value ();
-    trap_to_add.identified = dynamic_cast<BoolProperty*>(trap->find_child("identified"))->get_value();
-    trap_to_add.active = dynamic_cast<BoolProperty*>(trap->find_child("active"))->get_value();
-   /* trap_to_add.info.id = dynamic_cast<TextProperty*>(trap->find_child("trap_id"))->get_value();
-    trap_to_add.info.description = dynamic_cast<TextProperty*>(trap->find_child("description"))->get_value();
-    trap_to_add.info.contact_mode = dynamic_cast<IntProperty*>(trap->find_child("contact_mode"))->get_value();
-    trap_to_add.info.code = dynamic_cast<TextProperty*>(trap->find_child("code"))->get_value();
-    trap_to_add.info.hazard = dynamic_cast<TextProperty*>(trap->find_child("hazard"))->get_value();
-   */ 
-    trap_to_add.location.latitude = dynamic_cast<DoubleProperty*>(trap->find_child("lat"))->get_value();
-    trap_to_add.location.longitude = dynamic_cast<DoubleProperty*>(trap->find_child("lon"))->get_value();
+      icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
+      trap_to_add.id = dynamic_cast<IntProperty*> (trap->find_child ("trap_id"))->get_value ();
+      trap_to_add.identified = dynamic_cast<BoolProperty*>(trap->find_child("identified"))->get_value();
+      trap_to_add.active = dynamic_cast<BoolProperty*>(trap->find_child("active"))->get_value();
+      /* 
+      trap_to_add.info.id = dynamic_cast<TextProperty*>(trap->find_child("trap_id"))->get_value();
+      trap_to_add.info.description = dynamic_cast<TextProperty*>(trap->find_child("description"))->get_value();
+      trap_to_add.info.contact_mode = dynamic_cast<IntProperty*>(trap->find_child("contact_mode"))->get_value();
+      trap_to_add.info.code = dynamic_cast<TextProperty*>(trap->find_child("code"))->get_value();
+      trap_to_add.info.hazard = dynamic_cast<TextProperty*>(trap->find_child("hazard"))->get_value();
+      */ 
+      trap_to_add.location.latitude = dynamic_cast<DoubleProperty*>(trap->find_child("lat"))->get_value();
+      trap_to_add.location.longitude = dynamic_cast<DoubleProperty*>(trap->find_child("lon"))->get_value();
     
-    if(trap_to_add.identified){
-      message.trap_deactivations.push_back(trap_to_add);
-
-    } 
-    if(!trap_to_add.identified){
-      message.trap_identifications.push_back(trap_to_add);
+      if(trap_to_add.identified)
+        message.trap_deactivations.push_back(trap_to_add);
+      else
+        message.trap_identifications.push_back(trap_to_add);
     }
   }
 
-}
-for (auto edge: ((djnn::List*)_task_edges)->children()){
-  if (dynamic_cast<BoolProperty*> (edge->find_child ("selected"))->get_value ()){
-    icare_interfaces::msg::GraphEdge edge_to_add = icare_interfaces::msg::GraphEdge();
-    edge_to_add.source = std::to_string(dynamic_cast<IntProperty*> (edge->find_child ("id_source"))->get_value () - 1);
-
-    edge_to_add.target = std::to_string(dynamic_cast<IntProperty*> (edge->find_child ("id_dest"))->get_value () - 1);
-    edge_to_add.length = dynamic_cast<DoubleProperty*> (edge->find_child("length"))->get_value();
-    edge_to_add.explored = dynamic_cast<DoubleProperty*> (edge->find_child("explored"))->get_value();
-    message.ugv_edges.push_back(edge_to_add);
-  }
-}
-
-for (auto area: ((djnn::List*)_task_areas)->children()){
- if (dynamic_cast<BoolProperty*> (area->find_child("selected"))->get_value()){
-
-  icare_interfaces::msg::ExplorationPolygon geopolygon_to_add = icare_interfaces::msg::ExplorationPolygon();
-  geopolygon_to_add.area = dynamic_cast<DoubleProperty*>(area->find_child("area_prop"))->get_value();
-  geopolygon_to_add.explored = dynamic_cast<DoubleProperty*>(area->find_child("explored"))->get_value();
-  for (int i = 0; i < dynamic_cast<IntProperty*>(area->find_child("nb_summit"))->get_value();i++){
-    geographic_msgs::msg::GeoPoint point_to_add = geographic_msgs::msg::GeoPoint();
-    point_to_add.latitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lat")))->get_value();
-    point_to_add.longitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lon")))->get_value();
-    point_to_add.altitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/alt")))->get_value();
-    geopolygon_to_add.points.push_back(point_to_add);
+  for (auto edge: ((djnn::List*)_task_edges)->children()){
+    if (dynamic_cast<BoolProperty*> (edge->find_child ("selected"))->get_value ()){
+      icare_interfaces::msg::GraphEdge edge_to_add = icare_interfaces::msg::GraphEdge();
+      edge_to_add.source = std::to_string(dynamic_cast<IntProperty*> (edge->find_child ("id_source"))->get_value () - 1);
+      edge_to_add.target = std::to_string(dynamic_cast<IntProperty*> (edge->find_child ("id_dest"))->get_value () - 1);
+      edge_to_add.length = dynamic_cast<DoubleProperty*> (edge->find_child("length"))->get_value();
+      edge_to_add.explored = dynamic_cast<DoubleProperty*> (edge->find_child("explored"))->get_value();
+      message.ugv_edges.push_back(edge_to_add);
+    }
   }
 
+  for (auto area: ((djnn::List*)_task_areas)->children()){
+    if (dynamic_cast<BoolProperty*> (area->find_child("selected"))->get_value()){
+      icare_interfaces::msg::ExplorationPolygon geopolygon_to_add = icare_interfaces::msg::ExplorationPolygon();
+      geopolygon_to_add.area = dynamic_cast<DoubleProperty*>(area->find_child("area_prop"))->get_value();
+      geopolygon_to_add.explored = dynamic_cast<DoubleProperty*>(area->find_child("explored"))->get_value();
+      
+      for (int i = 0; i < dynamic_cast<IntProperty*>(area->find_child("nb_summit"))->get_value();i++){
+        geographic_msgs::msg::GeoPoint point_to_add = geographic_msgs::msg::GeoPoint();
+        point_to_add.latitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lat")))->get_value();
+        point_to_add.longitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lon")))->get_value();
+        point_to_add.altitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/alt")))->get_value();
+        geopolygon_to_add.points.push_back(point_to_add);
+      }
 
-  message.uav_zones.push_back(geopolygon_to_add);
+      message.uav_zones.push_back(geopolygon_to_add);
+    }
+  }
+
+  message.header.stamp = _node->get_clock()->now();
+  publisher_tasks->publish(message);
 }
-}
-message.header.stamp = _node->get_clock()->now();
-publisher_tasks->publish(message);
-/*GRAPH_EXEC;
-  release_exclusive_access(DBG_REL);
-*/}
+
 void 
 RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
 
+  /*
+    # Describe the mission site
+    geographic_msgs/GeoPoint start_point
+    icare_interfaces/GeoPolygon limits
+    icare_interfaces/RestrictedZone[] zones
+    icare_interfaces/Lima[] limas
+  */
+  /*
+    # Restricted Zones
+    icare_interfaces/GeoPolygon polygon
+    string name
+    uint8 type
+
+    uint8 TYPE_UNKNOWN    = 0 # Unknown zone type
+    uint8 TYPE_RFA        = 1 # Restricted Fire Area (deactivation only on clearance)
+    uint8 TYPE_NFA        = 2 # No Fire Area (deactivation forbidden)
+    uint8 TYPE_NFZ        = 3 # No Fly Zone
+    uint8 TYPE_FFA        = 4 # Free Fire Area (deactivation allowed)
+    uint8 TYPE_ROZ_ALL    = 5 # Restricted Operation Zone (forbidden to all vehicles)
+    uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehicles)
+  */
 
   get_exclusive_access(DBG_GET);
 
-  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
-  ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received site data\n", true);
-
-/*
-# Describe the mission site
-geographic_msgs/GeoPoint start_point
-icare_interfaces/GeoPolygon limits
-icare_interfaces/RestrictedZone[] zones
-icare_interfaces/Lima[] limas
-
-
-*/
-  /*# Restricted Zones
-icare_interfaces/GeoPolygon polygon
-string name
-uint8 type
-
-uint8 TYPE_UNKNOWN    = 0 # Unknown zone type
-uint8 TYPE_RFA        = 1 # Restricted Fire Area (deactivation only on clearance)
-uint8 TYPE_NFA        = 2 # No Fire Area (deactivation forbidden)
-uint8 TYPE_NFZ        = 3 # No Fly Zone
-uint8 TYPE_FFA        = 4 # Free Fire Area (deactivation allowed)
-uint8 TYPE_ROZ_ALL    = 5 # Restricted Operation Zone (forbidden to all vehicles)
-uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehicles)*/
-
+  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received site data\n", true);
 
   ParentProcess *limits_to_add = ExclusionArea(_exclusion_areas, "", _map, "limits");
     
@@ -1191,420 +1183,348 @@ uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehic
     auto* limit_summit = TaskAreaSummit(limits_to_add, std::string("summit_") + std::to_string(i), _map, msg.limits.points[i].latitude, msg.limits.points[i].longitude);
     ((DoubleProperty*)limit_summit->find_child("alt"))->set_value(msg.limits.points[i].altitude, true);
     auto* point = new PolyPoint(limits_to_add->find_child("area"), std::string("pt_") + std::to_string(i), 0, 0);
-
     new Connector (limits_to_add, "x_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/x")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/x")), 1);
-
     new Connector (limits_to_add, "y_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/y")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/y")), 1);
-
   }
 
   for (int i=0; i < msg.zones.size(); i++){
     ParentProcess* area_to_add = ExclusionArea(_exclusion_areas,"", _map, "unknown"); 
     ((TextProperty*)area_to_add->find_child("name"))->set_value(msg.zones[i].name, true);
-    //std::cerr << std::to_string(msg.zones[i].type) << std::endl;
-      if(msg.zones[i].type == 0){
-        ((TextProperty*)area_to_add->find_child("status"))->set_value("unknown", true);
-      }
-      if(msg.zones[i].type == 1){
-
-
-        ((TextProperty*)area_to_add->find_child("status"))->set_value("rfa", true);
-      }
-
-      if(msg.zones[i].type == 2){
-
-        ((TextProperty*)area_to_add->find_child("status"))->set_value("nfa", true);
-      }
-      if(msg.zones[i].type == 3){
-        ((TextProperty*)area_to_add->find_child("status"))->set_value("nfz", true);
-      }
-      if(msg.zones[i].type == 4){
-        ((TextProperty*)area_to_add->find_child("status"))->set_value("ffa", true);
-      }
-
-      if(msg.zones[i].type == 5){
-        ((TextProperty*)area_to_add->find_child("status"))->set_value("roz_all", true);
-      }
-
-      if(msg.zones[i].type == 6){
-        ((TextProperty*)area_to_add->find_child("status"))->set_value("roz_ground", true);
-      }
-
-
-      auto* bary_summit = TaskAreaSummit(area_to_add, "bary_summit", _map, 0, 0);
-      int n = msg.zones[i].polygon.points.size();
-      
-      double above_x = 0;
-      double below_x = 0;
-
-      double above_y = 0;
-      double below_y = 0;
-      for (int j = 0; j < n; j++){
-        auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude);
-        ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.zones[i].polygon.points[j].altitude, true);
-        auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
-        double cur_lat =  dynamic_cast<DoubleProperty*>(bary_summit->find_child("lat"))->get_value();
-        double cur_lon =  dynamic_cast<DoubleProperty*>(bary_summit->find_child("lon"))->get_value();
-        
-        ((DoubleProperty*)bary_summit->find_child("lat"))->set_value(cur_lat + msg.zones[i].polygon.points[j].latitude / n, true);
-        ((DoubleProperty*)bary_summit->find_child("lon"))->set_value(cur_lon + msg.zones[i].polygon.points[j].longitude / n, true);
-       
-        ((TextProperty*)area_to_add->find_child("name"))->set_value(msg.zones[i].name, true);
-        new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
-
-        new Connector (area_to_add, "y_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
-      }
-
-      // barycenter of polygon : https://fr-academic.com/dic.nsf/frwiki/263573
-          //Compute abovex : 
-      for (int j = 0; j < n -1; j++){
-        above_x = above_x + (msg.zones[i].polygon.points[j].latitude + msg.zones[i].polygon.points[j+ 1].latitude) * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude);
-      }
-      //Compute belowx :
-      for (int j = 0; j < n -1; j++){
-        below_x = below_x + 3 * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude); 
-      }
-      //Compute above y
-       for (int j = 0; j < n -1; j++){
-        above_y = above_y + (msg.zones[i].polygon.points[j].longitude + msg.zones[i].polygon.points[j+ 1].longitude) * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude);
-      }
-      //Compute below y
-      for (int j = 0; j < n -1; j++){
-        below_y = below_y + 3 * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude); 
-      }
-
-      double res_lat = above_x/below_x;
-      double res_lon = above_y/below_y;
-      std::cerr << "res_latitude = " << res_lat << std::endl;
-      std::cerr << "res_longitude = " << res_lon << std::endl;
-
-//      ((DoubleProperty*)bary_summit->find_child("lat"))->set_value(above_x/ below_x, true);
-  //    ((DoubleProperty*)bary_summit->find_child("lon"))->set_value(above_y / below_y, true);
-
-     new Connector (area_to_add, "x_bary_bind", area_to_add->find_child("bary_summit/x"), area_to_add->find_child("barycenterX"), 1);
-     new Connector (area_to_add, "y_bary_bind", area_to_add->find_child("bary_summit/y"), area_to_add->find_child("barycenterY"), 1);
-     //TODO (future) debug the barycenter...
-  
-
-
-  }
-    for (int i=0; i < msg.limas.size(); i++){
-      ParentProcess *lima_to_add = Lima(_limas, "", _map, this);
-      ((IntProperty*)lima_to_add->find_child("id"))->set_value(msg.limas[i].index, true);
-      ((TextProperty*)lima_to_add->find_child("name"))->set_value(msg.limas[i].name, true);
-      for (int j = 0; j < msg.limas[i].points.size(); j++){
-        auto* task_summit = TaskAreaSummit(lima_to_add, std::string("summit_") + std::to_string(j), _map, msg.limas[i].points[j].latitude, msg.limas[i].points[j].longitude);
-        ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.limas[i].points[j].altitude, true);
-        auto* point = new PolyPoint(lima_to_add->find_child("lima"), std::string("pt_") + std::to_string(j), 0, 0);
-
-        new Connector (lima_to_add, "x_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
-
-        new Connector (lima_to_add, "y_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
-       
-      /*  new NativeAction (lima_to_add, "send_lima_id_na", RosNode::send_msg_lima, msg.limas[i].index, true);
-
-        new Binding (lima_to_add, "lima_pressed", lima_to_add, "pressed", lima_to_add, "send_lima_id_na");
-      */  
-      //TODO : 
-      // binding : lima.press -> send correct lima id
-     /*   new Binding (edge, "binding_edge_released", edge, "edge/release", _edge_released_na, "");
-        new Binding (lima_to_add, "binding_edge_released", lima, "press", _lima_released_na, "");*/
-
-      }
-    }
-    GRAPH_EXEC;
-   release_exclusive_access(DBG_REL);
-  }
-  void 
-  RosNode::send_validation_tasks(){
-//TODO
-
-//  message.header.stamp = _node->get_clock()->now();
-
-  }
-
-  static string frame_data;
-  void 
-  RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
     
-  //std::cerr << "received exploration map" << std::endl;
-  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
-  ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received exploration map update\n", true);
+    //TODO: MP switch
+    if(msg.zones[i].type == 0)
+      ((TextProperty*)area_to_add->find_child("status"))->set_value("unknown", true);
+    if(msg.zones[i].type == 1)
+      ((TextProperty*)area_to_add->find_child("status"))->set_value("rfa", true);
+    if(msg.zones[i].type == 2)
+      ((TextProperty*)area_to_add->find_child("status"))->set_value("nfa", true);
+    if(msg.zones[i].type == 3)
+      ((TextProperty*)area_to_add->find_child("status"))->set_value("nfz", true);
+    if(msg.zones[i].type == 4)
+      ((TextProperty*)area_to_add->find_child("status"))->set_value("ffa", true);
+    if(msg.zones[i].type == 5)
+      ((TextProperty*)area_to_add->find_child("status"))->set_value("roz_all", true);
+    if(msg.zones[i].type == 6)
+      ((TextProperty*)area_to_add->find_child("status"))->set_value("roz_ground", true);
+
+    auto* bary_summit = TaskAreaSummit(area_to_add, "bary_summit", _map, 0, 0);
+    int n = msg.zones[i].polygon.points.size();
+      
+    double above_x = 0;
+    double below_x = 0;
+
+    double above_y = 0;
+    double below_y = 0;
+    
+    for (int j = 0; j < n; j++){
+      auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude);
+      ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.zones[i].polygon.points[j].altitude, true);
+      auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
+      double cur_lat =  dynamic_cast<DoubleProperty*>(bary_summit->find_child("lat"))->get_value();
+      double cur_lon =  dynamic_cast<DoubleProperty*>(bary_summit->find_child("lon"))->get_value();
+        
+      ((DoubleProperty*)bary_summit->find_child("lat"))->set_value(cur_lat + msg.zones[i].polygon.points[j].latitude / n, true);
+      ((DoubleProperty*)bary_summit->find_child("lon"))->set_value(cur_lon + msg.zones[i].polygon.points[j].longitude / n, true);
+       
+      ((TextProperty*)area_to_add->find_child("name"))->set_value(msg.zones[i].name, true);
+      new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
+      new Connector (area_to_add, "y_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
+    }
+
+    // barycenter of polygon : https://fr-academic.com/dic.nsf/frwiki/263573
+    //Compute abovex : 
+    for (int j = 0; j < n -1; j++){
+      above_x = above_x + (msg.zones[i].polygon.points[j].latitude + msg.zones[i].polygon.points[j+ 1].latitude) * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude);
+    }
+    //Compute belowx :
+    for (int j = 0; j < n -1; j++){
+      below_x = below_x + 3 * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude); 
+    }
+    //Compute above y
+    for (int j = 0; j < n -1; j++){
+      above_y = above_y + (msg.zones[i].polygon.points[j].longitude + msg.zones[i].polygon.points[j+ 1].longitude) * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude);
+    }
+    //Compute below y
+    for (int j = 0; j < n -1; j++){
+      below_y = below_y + 3 * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude); 
+    }
+
+    double res_lat = above_x/below_x;
+    double res_lon = above_y/below_y;
+    std::cerr << "res_latitude = " << res_lat << std::endl;
+    std::cerr << "res_longitude = " << res_lon << std::endl;
+
+    new Connector (area_to_add, "x_bary_bind", area_to_add->find_child("bary_summit/x"), area_to_add->find_child("barycenterX"), 1);
+    new Connector (area_to_add, "y_bary_bind", area_to_add->find_child("bary_summit/y"), area_to_add->find_child("barycenterY"), 1);
+  }
+
+  for (int i=0; i < msg.limas.size(); i++){
+    ParentProcess *lima_to_add = Lima(_limas, "", _map, this);
+    ((IntProperty*)lima_to_add->find_child("id"))->set_value(msg.limas[i].index, true);
+    ((TextProperty*)lima_to_add->find_child("name"))->set_value(msg.limas[i].name, true);
+  
+    for (int j = 0; j < msg.limas[i].points.size(); j++){
+      auto* task_summit = TaskAreaSummit(lima_to_add, std::string("summit_") + std::to_string(j), _map, msg.limas[i].points[j].latitude, msg.limas[i].points[j].longitude);
+      ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.limas[i].points[j].altitude, true);
+      auto* point = new PolyPoint(lima_to_add->find_child("lima"), std::string("pt_") + std::to_string(j), 0, 0);
+      new Connector (lima_to_add, "x_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
+      new Connector (lima_to_add, "y_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
+       
+      /*  
+        new NativeAction (lima_to_add, "send_lima_id_na", RosNode::send_msg_lima, msg.limas[i].index, true);
+        new Binding (lima_to_add, "lima_pressed", lima_to_add, "pressed", lima_to_add, "send_lima_id_na");
+      */
+
+      //TODO : 
+      //binding : lima.press -> send correct lima id
+      /*   
+        new Binding (edge, "binding_edge_released", edge, "edge/release", _edge_released_na, "");
+        new Binding (lima_to_add, "binding_edge_released", lima, "press", _lima_released_na, "");
+      */
+    }
+  }
+  
+  GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
+}
+  
+void 
+RosNode::send_validation_tasks(){
+
+  //TODO
+  //message.header.stamp = _node->get_clock()->now();
+
+}
+
+static string frame_data;
+void 
+RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
+  
+  get_exclusive_access(DBG_GET);
+
+  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received exploration map update\n", true);
 
   float lat_center = msg.origin.latitude;
   float lon_center = msg.origin.longitude; 
-  //std::cerr << lat_center << std::endl;
-  //std::cerr << lon_center << std::endl;
-  //std::cerr << msg.resolution << std::endl;
-  //std::cerr << msg.width << std::endl;
-  //std::cerr << msg.height << std::endl;
+  float lat_center_map = msg.origin.latitude;
+  float lon_center_map = msg.origin.longitude;
+  
+  int w = msg.width;
+  int h = msg.height;
 
-    float lat_center_map = msg.origin.latitude;
-    float lon_center_map = msg.origin.longitude;
-
-    int w = msg.width; // for debug
-    int h = msg.height; // for debug
-
-  /* int ugv_camera_layer[w * h];
-    for (int i = 0; i < msg.ugv_camera_layer.size(); i++){
-      ugv_camera_layer[i] = msg.ugv_camera_layer[i];
-      if (msg.ugv_camera_layer[i] != 0){
-        //std::cerr << "matrix not empty" << std::endl;
-      }
-    }
-    int uav_camera_layer[w * h];
-    for (int i = 0; i < msg.uav_camera_layer.size(); i++){
-      uav_camera_layer[i] = msg.uav_camera_layer[i];
-    }
-  */ 
-
-    /*if (_visibility_map)
-      std::cerr << "debug draw_visbility map\n" << " lattiude " << lat_center_map << " longitude " << lon_center_map << " resolution " << msg.resolution << std::endl;
-    else 
-      std::cerr << " \n\n\n NOO _visibility_map found !! \n\n\n " << std::endl;
-    */
-
-    // DO NOT FORGET !!
-    get_exclusive_access(DBG_GET);
-
-    if (_georef_visibility_map) {
-      dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lat"))->set_value (lat_center_map, true);
-      dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
-    }
-    //else 
-      //std::cerr << " \n\n\n NO _georef_visilbility found !!\n\n\n " << std::endl;
-
+  if (_georef_visibility_map) {
+    dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lat"))->set_value (lat_center_map, true);
+    dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
+  }
+  
   if (_visibility_map_resolution)
     _visibility_map_resolution->set_value (msg.resolution, true);
-  //else 
-    //std::cerr << " \n\n\n NO _visibility_map_resolution found !!\n\n\n " << std::endl;
 
+  _visibility_map->width()->set_value (w, true);
+  _visibility_map->height()->set_value (h, true);
+  _visibility_map->format()->set_value(5 , true);  // DO NOT Change frame is ARGB_32 , QImage::Format_ARGB32 = 5 
 
-    _visibility_map->width()->set_value (w, true);
-    _visibility_map->height()->set_value (h, true);
-    _visibility_map->format()->set_value(5 , true);  // frame is ARGB_32 , QImage::Format_ARGB32 = 5 
-
-    int octect = 4;
-    int size_map = w*h*octect;;
+  int octect = 4;
+  int size_map = w*h*octect;;
       
-    frame_data.reserve(size_map);
+  frame_data.reserve(size_map);
 
-    // link frame_data to the data_image
-    string*& data = _visibility_map->get_data_ref();
-    data = &frame_data;
+  // link frame_data to the data_image
+  string*& data = _visibility_map->get_data_ref();
+  data = &frame_data;
 
-    //ugv_camera => yellow ( #f4d03f )
-    //uav_camera => purple ( #9b59b6 )
-    //uav_camera && ugv_camera => cyan #7fb3d5
+  //color:
+  //ugv_camera => yellow ( #f4d03f )
+  //uav_camera => purple ( #9b59b6 )
+  //uav_camera && ugv_camera => cyan #7fb3d5
 
-    for (int i = 0 ;  i < w*h ; i++ ) {
-      int j0 = i*octect;
-      int j1 = j0 + 1;
-      int j2 = j0 + 2;
-      int j3 = j0 + 3;
-      if (msg.outside_area_layer[i] == 0){
-        if (msg.ugv_camera_layer[i] != 0 ) {
-          //yellow
-          frame_data[j0] = static_cast<char>(0x3F); //B
-          frame_data[j1] = static_cast<char>(0xD0); //G
-          frame_data[j2] = static_cast<char>(0xF4); //R
-          frame_data[j3] = static_cast<char>(0x6A); //A
-        }
-        if (msg.uav_camera_layer[i] != 0) {
-          //purple
-          frame_data[j0] = static_cast<char>(0x9B); //B
-          frame_data[j1] = static_cast<char>(0x59); //G
-          frame_data[j2] = static_cast<char>(0xB6); //R
-          frame_data[j3] = static_cast<char>(0x6A); //A
-        }
-        if ((msg.ugv_camera_layer[i] != 0) && (msg.uav_camera_layer[i] != 0)) {
-          //cyan
-          frame_data[j0] = static_cast<char>(0xD5); //B
-          frame_data[j1] = static_cast<char>(0xB3); //G
-          frame_data[j2] = static_cast<char>(0x7F); //R
-          frame_data[j3] = static_cast<char>(0x6A); //A
-        }
-        if ((msg.uav_camera_layer[i] == 0) && (msg.ugv_camera_layer[i] == 0)) {
-          //blank
-          /*frame_data[j0] = static_cast<char>(0x00); //B
+  for (int i = 0 ;  i < w*h ; i++ ) {
+    int j0 = i*octect;
+    int j1 = j0 + 1;
+    int j2 = j0 + 2;
+    int j3 = j0 + 3;
+    if (msg.outside_area_layer[i] == 0){
+      if (msg.ugv_camera_layer[i] != 0 ) {
+        //yellow
+        frame_data[j0] = static_cast<char>(0x3F); //B
+        frame_data[j1] = static_cast<char>(0xD0); //G
+        frame_data[j2] = static_cast<char>(0xF4); //R
+        frame_data[j3] = static_cast<char>(0x6A); //A
+      }
+      if (msg.uav_camera_layer[i] != 0) {
+        //purple
+        frame_data[j0] = static_cast<char>(0x9B); //B
+        frame_data[j1] = static_cast<char>(0x59); //G
+        frame_data[j2] = static_cast<char>(0xB6); //R
+        frame_data[j3] = static_cast<char>(0x6A); //A
+      }
+      if ((msg.ugv_camera_layer[i] != 0) && (msg.uav_camera_layer[i] != 0)) {
+        //cyan
+        frame_data[j0] = static_cast<char>(0xD5); //B
+        frame_data[j1] = static_cast<char>(0xB3); //G
+        frame_data[j2] = static_cast<char>(0x7F); //R
+        frame_data[j3] = static_cast<char>(0x6A); //A
+      }
+      if ((msg.uav_camera_layer[i] == 0) && (msg.ugv_camera_layer[i] == 0)) {
+        //blank
+        /*
+          frame_data[j0] = static_cast<char>(0x00); //B
           frame_data[j1] = static_cast<char>(0x00); //G
           frame_data[j2] = static_cast<char>(0x00); //R
           frame_data[j3] = static_cast<char>(0x00); //A
-          */
+        */
           frame_data[j0] = static_cast<char>(0xFF); //B
           frame_data[j1] = static_cast<char>(0xFF); //G
           frame_data[j2] = static_cast<char>(0xFF); //R
           frame_data[j3] = static_cast<char>(0x00); //A
         
-        }
       }
     }
-
-    // // ask for draw
-    _visibility_map->set_invalid_cache (true);
-    _visibility_map->get_frame ()->damaged ()->activate (); // ?
-      
-    // DO NOT FORGET !!
-    GRAPH_EXEC;
-    release_exclusive_access(DBG_REL);  
-
-
   }
 
-  void 
-  RosNode::send_msg_trap_activation(int id, bool new_active_state){
-    icare_interfaces::msg::TrapActivation msg = icare_interfaces::msg::TrapActivation();
+  //ask for draw
+  _visibility_map->set_invalid_cache (true);
+  _visibility_map->get_frame ()->damaged ()->activate (); // ?
+      
+  GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
+}
 
-    msg.active = new_active_state;
-    msg.id = id;
-    msg.header.stamp = _node->get_clock()->now();
-    publisher_trap_activation->publish(msg);
-    std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
-    if (new_active_state){
+void 
+RosNode::send_msg_trap_activation(int id, bool new_active_state){
+
+  icare_interfaces::msg::TrapActivation msg = icare_interfaces::msg::TrapActivation();
+
+  msg.active = new_active_state;
+  msg.id = id;
+  msg.header.stamp = _node->get_clock()->now();
+  publisher_trap_activation->publish(msg);
+  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+  if (new_active_state){
     ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap activation (#" +std::to_string(id) + ")\n", true);
     ((TextProperty*)_fw_input)->set_value(timestamp + " - Trap activation (#" +std::to_string(id) + ")\n", true);
-
-    }else if(!new_active_state){
+  }
+  else if(!new_active_state){
       ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap deactivation (#" +std::to_string(id) + ")\n", true);
       ((TextProperty*)_fw_input)->set_value(timestamp + " - Trap deactivation (#" +std::to_string(id) + ")\n", true);      
-    }
-
   }
+}
 
-    void
-    RosNode::test_draw_visibility_map(){
-    float lat_center_map = 44.27432196595285;
-    float lon_center_map = 1.729783361205679;
+void
+RosNode::test_draw_visibility_map(){
 
-    int w = 10; // for debug
-    int h = 10; // for debug
-    int ugv_camera_layer[100] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-                                  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-                                  1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
-                                  1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
-                                  1, 1, 0, 0, 1, 1, 0, 0, 1, 1, \
-                                  0, 0, 0, 0, 1, 1, 0, 0, 0, 0, \
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    int uav_camera_layer[100] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
-                                  0, 0, 0, 0, 1, 1, 0, 0, 0, 0, \
-                                  1, 1, 0, 0, 1, 1, 0, 0, 1, 1, \
-                                  1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
-                                  1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
-                                  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-                                  1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+  float lat_center_map = 44.27432196595285;
+  float lon_center_map = 1.729783361205679;
+
+  int w = 10; // for debug
+  int h = 10; // for debug
+  int ugv_camera_layer[100] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+                                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+                                1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
+                                1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
+                                1, 1, 0, 0, 1, 1, 0, 0, 1, 1, \
+                                0, 0, 0, 0, 1, 1, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  int uav_camera_layer[100] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+                                0, 0, 0, 0, 1, 1, 0, 0, 0, 0, \
+                                1, 1, 0, 0, 1, 1, 0, 0, 1, 1, \
+                                1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
+                                1, 1, 0, 0, 0, 0, 0, 0, 1, 1, \
+                                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+                                1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
       
-    float resolution = 5; //cells are 5 meters large squares 
+  float resolution = 5; //cells are 5 meters large squares 
 
-/*    if (_visibility_map)
-      std::cerr << "debug draw_visbility map\n" << " lattiude " << lat_center_map << " longitude " << lon_center_map << " resolution " << resolution << std::endl;
-    else 
-      std::cerr << " \n\n\n NOO _visibility_map found !! \n\n\n " << std::endl;
-*/    
-
-    // DO NOT FORGET !!
-    //get_exclusive_access(DBG_GET);
-
-    if (_georef_visibility_map) {
-      dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lat"))->set_value (lat_center_map, true);
-      dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
-    }
-    //else 
-      //std::cerr << " \n\n\n NO _georef_visilbility found !!\n\n\n " << std::endl;
-
-    if (_visibility_map_resolution)
+  if (_georef_visibility_map) {
+    dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lat"))->set_value (lat_center_map, true);
+    dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
+  }
+  if (_visibility_map_resolution)
       _visibility_map_resolution->set_value (resolution, true);
-    //else 
-      //std::cerr << " \n\n\n NO _visibility_map_resolution found !!\n\n\n " << std::endl;
+  
+  _visibility_map->width()->set_value (w, true);
+  _visibility_map->height()->set_value (h, true);
+  _visibility_map->format()->set_value(5 , true);  // frame is ARGB_32 , QImage::Format_ARGB32 = 5 
 
-
-    _visibility_map->width()->set_value (w, true);
-    _visibility_map->height()->set_value (h, true);
-    _visibility_map->format()->set_value(5 , true);  // frame is ARGB_32 , QImage::Format_ARGB32 = 5 
-
-    int octect = 4;
-    int size_map = w*h*octect;;
+  int octect = 4;
+  int size_map = w*h*octect;;
       
-    frame_data.reserve(size_map);
+  frame_data.reserve(size_map);
 
-    // link frame_data to the data_image
-    string*& data = _visibility_map->get_data_ref();
-    data = &frame_data;
+  // link frame_data to the data_image
+  string*& data = _visibility_map->get_data_ref();
+  data = &frame_data;
 
-    //ugv_camera => yellow ( #f4d03f )
-    //uav_camera => purple ( #9b59b6 )
-    //uav_camera && ugv_camera => cyan #7fb3d5
+  //ugv_camera => yellow ( #f4d03f )
+  //uav_camera => purple ( #9b59b6 )
+  //uav_camera && ugv_camera => cyan #7fb3d5
 
-    for (int i = 0 ;  i < w*h ; i++ ) {
-      int j0 = i*octect;
-      int j1 = j0 + 1;
-      int j2 = j0 + 2;
-      int j3 = j0 + 3;
-      if (ugv_camera_layer[i] == 1) {
-        //yellow
-        frame_data[j0] = static_cast<char>(0x3F); //B
-        frame_data[j1] = static_cast<char>(0xD0); //G
-        frame_data[j2] = static_cast<char>(0xF4); //R
-        frame_data[j3] = static_cast<char>(0xFF); //A
-      }
-      if (uav_camera_layer[i] == 1) {
-        //purple
-        frame_data[j0] = static_cast<char>(0x9B); //B
-        frame_data[j1] = static_cast<char>(0x59); //G
-        frame_data[j2] = static_cast<char>(0xB6); //R
-        frame_data[j3] = static_cast<char>(0xFF); //A
-      }
-      if ((ugv_camera_layer[i] == 1) && (uav_camera_layer[i] == 1)) {
-        //cyan
-        frame_data[j0] = static_cast<char>(0xD5); //B
-        frame_data[j1] = static_cast<char>(0xB3); //G
-        frame_data[j2] = static_cast<char>(0x7F); //R
-        frame_data[j3] = static_cast<char>(0xFF); //A
-      }
-      if ((ugv_camera_layer[i] == 0) && (uav_camera_layer[i] == 0)) {
-        //blank
-        frame_data[j0] = static_cast<char>(0x00); //B
-        frame_data[j1] = static_cast<char>(0x00); //G
-        frame_data[j2] = static_cast<char>(0x00); //R
-        frame_data[j3] = static_cast<char>(0x00); //A
-      }
+  for (int i = 0 ;  i < w*h ; i++ ) {
+    int j0 = i*octect;
+    int j1 = j0 + 1;
+    int j2 = j0 + 2;
+    int j3 = j0 + 3;
+    if (ugv_camera_layer[i] == 1) {
+      //yellow
+      frame_data[j0] = static_cast<char>(0x3F); //B
+      frame_data[j1] = static_cast<char>(0xD0); //G
+      frame_data[j2] = static_cast<char>(0xF4); //R
+      frame_data[j3] = static_cast<char>(0xFF); //A
     }
-
-    // // ask for draw
-    _visibility_map->set_invalid_cache (true);
-    _visibility_map->get_frame ()->damaged ()->activate (); // ?
-      
-    // DO NOT FORGET !!
-    //GRAPH_EXEC;
-    //release_exclusive_access(DBG_REL);  
+    if (uav_camera_layer[i] == 1) {
+      //purple
+      frame_data[j0] = static_cast<char>(0x9B); //B
+      frame_data[j1] = static_cast<char>(0x59); //G
+      frame_data[j2] = static_cast<char>(0xB6); //R
+      frame_data[j3] = static_cast<char>(0xFF); //A
     }
-
-  void
-  RosNode::save_console(){
-    std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
-    std::stringstream ss;
-    ss << timestamp + " - Console Content stored\n";
-
-    for (auto item: ((djnn::List*)_console->find_child("ste/lines"))->children()){
-          ss << ((SimpleText*)item)->get_content() << "\n";
-        }
-     ((TextProperty*)_fw_console_input)->set_value(ss.str(), true);      
-    
-
+    if ((ugv_camera_layer[i] == 1) && (uav_camera_layer[i] == 1)) {
+      //cyan
+      frame_data[j0] = static_cast<char>(0xD5); //B
+      frame_data[j1] = static_cast<char>(0xB3); //G
+      frame_data[j2] = static_cast<char>(0x7F); //R
+      frame_data[j3] = static_cast<char>(0xFF); //A
+    }
+    if ((ugv_camera_layer[i] == 0) && (uav_camera_layer[i] == 0)) {
+      //blank
+      frame_data[j0] = static_cast<char>(0x00); //B
+      frame_data[j1] = static_cast<char>(0x00); //G
+      frame_data[j2] = static_cast<char>(0x00); //R
+      frame_data[j3] = static_cast<char>(0x00); //A
+    }
   }
 
+  // ask for draw
+  _visibility_map->set_invalid_cache (true);
+  _visibility_map->get_frame ()->damaged ()->activate (); // ?
+}
+
+void
+RosNode::save_console(){
+
+  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+  std::stringstream ss;
+  ss << timestamp + " - Console Content stored\n";
+
+  for (auto item: ((djnn::List*)_console->find_child("ste/lines"))->children()){
+    ss << ((SimpleText*)item)->get_content() << "\n";
+  }
+  ((TextProperty*)_fw_console_input)->set_value(ss.str(), true);        
+}
 
 #endif
 
-  void
-  RosNode::run () {
-  #ifndef NO_ROS
-    rclcpp::spin(_node);
-    rclcpp::shutdown();
-  #endif
-  }
+void
+RosNode::run () {
+#ifndef NO_ROS
+  rclcpp::spin(_node);
+  rclcpp::shutdown();
+#endif
+}
