@@ -588,14 +588,12 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
   release_exclusive_access(DBG_REL);
 }
 
-//TODO; review the code -- mayb probleme with de _draone_safety*
 void 
 RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
   
   RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
 
-#if 0
-  djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _drone_safety_pilot, _ground_safety_pilot};
+  djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _actor, _actor_ugv};
   static const string robots_name[] = {"", "drone", "agilex1", "agilex2", "lynx", "spot", "vab", "drone_safety_pilot", "ground_safety_pilot"};
   if (msg->robot_id<1 || msg->robot_id>=sizeof(robots)) {
     RCLCPP_INFO(_node->get_logger(), "incorrect robot_id: '%d'", msg->robot_id);
@@ -614,7 +612,7 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
   SET_CHILD_VALUE (Double, robot, lat, msg->position.latitude, true);
   SET_CHILD_VALUE (Double, robot, lon, msg->position.longitude, true);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Received robot_state for " + robot_name + "\n", true);
-  if(robot != _drone_safety_pilot && robot != _ground_safety_pilot ) {
+  if(robot != _actor && robot != _actor_ugv ) {
     SET_CHILD_VALUE (Double, robot, altitude_msl, msg->position.altitude, true);
     SET_CHILD_VALUE (Double, robot, heading_rot, msg->compass_heading, true);
     SET_CHILD_VALUE (Int, robot, battery_percentage, msg->battery_percentage, true);
@@ -622,97 +620,6 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
     SET_CHILD_VALUE (Bool, robot, emergency_stop, msg->emergency_stop, true);
     SET_CHILD_VALUE (Bool, robot, failsafe, msg->failsafe, true);
   }
-#else   
-  
-  get_exclusive_access(DBG_GET);
-
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
-
-  if (msg->robot_id == 1){
-    //Drone
-    ((DoubleProperty*)_drone->find_child("lat"))->set_value(msg->position.latitude, true);
-    ((DoubleProperty*)_drone->find_child("lon"))->set_value(msg->position.longitude, true);
-    ((DoubleProperty*)_drone->find_child("altitude_msl"))->set_value(msg->position.altitude, true);
-    ((DoubleProperty*)_drone->find_child("heading_rot"))->set_value(msg->compass_heading, true);
-    ((IntProperty*)_drone->find_child("battery_percentage"))->set_value(msg->battery_percentage, true);
-    ((IntProperty*)_drone->find_child("operation_mode"))->set_value(msg->operating_mode, true);
-    ((BoolProperty*)_drone->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
-    ((BoolProperty*)_drone->find_child("failsafe"))->set_value(msg->failsafe, true);
-    ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for Drone\n", true);
-  }
-  else if (msg->robot_id == 2){
-    //Agilex 1
-    ((DoubleProperty*)_agilex1->find_child("lat"))->set_value(msg->position.latitude, true);
-    ((DoubleProperty*)_agilex1->find_child("lon"))->set_value(msg->position.longitude, true);
-    ((DoubleProperty*)_agilex1->find_child("altitude_msl"))->set_value(msg->position.altitude, true);
-    ((DoubleProperty*)_agilex1->find_child("heading_rot"))->set_value(msg->compass_heading, true);
-    ((IntProperty*)_agilex1->find_child("battery_percentage"))->set_value(msg->battery_percentage, true);
-    ((IntProperty*)_agilex1->find_child("operation_mode"))->set_value(msg->operating_mode, true);
-    ((BoolProperty*)_agilex1->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
-    ((BoolProperty*)_agilex1->find_child("failsafe"))->set_value(msg->failsafe, true);
-    ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for agilex 1\n", true);
-    } 
-  else if (msg->robot_id == 3){
-    //Agilex 2
-    ((DoubleProperty*)_agilex2->find_child("lat"))->set_value(msg->position.latitude, true);
-    ((DoubleProperty*)_agilex2->find_child("lon"))->set_value(msg->position.longitude, true);
-    ((DoubleProperty*)_agilex2->find_child("altitude_msl"))->set_value(msg->position.altitude, true);
-    ((DoubleProperty*)_agilex2->find_child("heading_rot"))->set_value(msg->compass_heading, true);
-    ((IntProperty*)_agilex2->find_child("battery_percentage"))->set_value(msg->battery_percentage, true);
-    ((IntProperty*)_agilex2->find_child("operation_mode"))->set_value(msg->operating_mode, true);
-    ((BoolProperty*)_agilex2->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
-    ((BoolProperty*)_agilex2->find_child("failsafe"))->set_value(msg->failsafe, true);
-    ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for agilex 2\n", true);
-  }
-  else if (msg->robot_id == 4){
-    //Lynx
-    ((DoubleProperty*)_lynx->find_child("lat"))->set_value(msg->position.latitude, true);
-    ((DoubleProperty*)_lynx->find_child("lon"))->set_value(msg->position.longitude, true);
-    ((DoubleProperty*)_lynx->find_child("altitude_msl"))->set_value(msg->position.altitude, true);
-    ((DoubleProperty*)_lynx->find_child("heading_rot"))->set_value(msg->compass_heading, true);
-    ((IntProperty*)_lynx->find_child("battery_percentage"))->set_value(msg->battery_percentage, true);
-    ((IntProperty*)_lynx->find_child("operation_mode"))->set_value(msg->operating_mode, true);
-    ((BoolProperty*)_lynx->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
-    ((BoolProperty*)_lynx->find_child("failsafe"))->set_value(msg->failsafe, true);
-    ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for lynx\n", true);
-    }
-  else if (msg->robot_id == 5){
-    //Spot
-    ((DoubleProperty*)_spot->find_child("lat"))->set_value(msg->position.latitude, true);
-    ((DoubleProperty*)_spot->find_child("lon"))->set_value(msg->position.longitude, true);
-    ((DoubleProperty*)_spot->find_child("altitude_msl"))->set_value(msg->position.altitude, true);
-    ((DoubleProperty*)_spot->find_child("heading_rot"))->set_value(msg->compass_heading, true);
-    ((IntProperty*)_spot->find_child("battery_percentage"))->set_value(msg->battery_percentage, true);
-    ((IntProperty*)_spot->find_child("operation_mode"))->set_value(msg->operating_mode, true);
-    ((BoolProperty*)_spot->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
-    ((BoolProperty*)_spot->find_child("failsafe"))->set_value(msg->failsafe, true);
-    ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for spot\n", true);
-    }
-  else if (msg->robot_id == 6){
-    //VAB
-    ((DoubleProperty*)_vab->find_child("lat"))->set_value(msg->position.latitude, true);
-    ((DoubleProperty*)_vab->find_child("lon"))->set_value(msg->position.longitude, true);
-    ((DoubleProperty*)_vab->find_child("altitude_msl"))->set_value(msg->position.altitude, true);
-    ((DoubleProperty*)_vab->find_child("heading_rot"))->set_value(msg->compass_heading, true);
-    ((IntProperty*)_vab->find_child("battery_percentage"))->set_value(msg->battery_percentage, true);
-    ((IntProperty*)_vab->find_child("operation_mode"))->set_value(msg->operating_mode, true);
-    ((BoolProperty*)_vab->find_child("emergency_stop"))->set_value(msg->emergency_stop, true);
-    ((BoolProperty*)_vab->find_child("failsafe"))->set_value(msg->failsafe, true);
-    ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for vab\n", true);
-  }
-  else if (msg->robot_id == 7){
-    //Safety drone pilot
-    ((DoubleProperty*)_actor->find_child("lat"))->set_value(msg->position.latitude,true);
-    ((DoubleProperty*)_actor->find_child("lon"))->set_value(msg->position.longitude, true);
-    ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for drone safety pilot\n", true);
-  }
-  else if (msg->robot_id == 8){
-    // safety ground pilot
-    ((DoubleProperty*)_actor_ugv->find_child("lat"))->set_value(msg->position.latitude, true);
-    ((DoubleProperty*)_actor_ugv->find_child("lon"))->set_value(msg->position.longitude, true);
-    ((TextProperty*)_fw_input)->set_value(timestamp + " - " + "Received robot_state for ground safety pilot\n", true);
-  }
-#endif
 
   _latitude.set_value (msg -> position.latitude, true);
   _longitude.set_value (msg -> position.longitude, true);
@@ -728,8 +635,6 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }
-
-
 
 void 
 RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
@@ -764,9 +669,6 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
   
       current_trap = new_trap;
 
-      //MP - debug
-      std::cerr << "NEW trap radius : " << std::to_string (msg.traps[k].info.radius) << " - id #" << std::to_string(msg.traps[k].id) << std::endl;
-
       SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp + " - New trap #" + std::to_string(msg.traps[k].id) + "\n", true);
       
       if (msg.traps[k].identified)
@@ -775,9 +677,6 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     else {
       
       update_trap = update_trap + 1;
-
-      //MP - debug
-      std::cerr << "UPDATE trap radius : " << std::to_string (msg.traps[k].info.radius) << " - id #" << std::to_string(msg.traps[k].id) << std::endl;
 
       if (msg.traps[k].identified && !((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->get_value())
         SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp + " - trap identified "+ msg.traps[k].info.id +"(#" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + " " + msg.traps[k].info.hazard + "\n", true)
@@ -1062,51 +961,24 @@ RosNode::send_validation_plan(){
 
 }
 
-//TODO : MP check from here
 void 
 RosNode::send_selected_tasks(){
-
-  /*
-    int16 id                            # Manager trap id
-    geographic_msgs/GeoPoint location   # location
-    bool identified false               # whether the trap has been identified (i.e. QRCode read)
-    bool active true                    # whether the trap is active
-  
-    icare_interfaces/TrapIdentification info
-    uint8[] detected_by                 # list of robots having detected this trap
-    uint32[] local_ids                   # locals ids of the detection per robot
-  */
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Send task selection\n", true);
 
-  icare_interfaces::msg::Tasks message= icare_interfaces::msg::Tasks();
-  for (auto trap: ((djnn::List*)_task_traps)->children()){
-    if (((BoolProperty*)trap->find_child("selected"))->get_value() == true){     
-      /*
-      ((BoolProperty*)new_trap->find_child("active"))->set_value(msg.active, true);
-      ((BoolProperty*)new_trap->find_child("identified"))->set_value(msg.identified, true);
-      ((TextProperty*)new_trap->find_child("trap_id"))->set_value(msg.info.id, true);
-      ((TextProperty*)new_trap->find_child("description"))->set_value(msg.info.description, true);
-      ((IntProperty*)new_trap->find_child("contact_mode"))->set_value(msg.info.contact_mode, true);
-      ((TextProperty*)new_trap->find_child("code"))->set_value(msg.info.code, true);
-      ((TextProperty*)new_trap->find_child("hazard"))->set_value(msg.info.hazard, true);
-      */
+  icare_interfaces::msg::Tasks message = icare_interfaces::msg::Tasks();
 
+  for (auto trap: ((djnn::List*)_task_traps)->children()){
+    GET_CHILD_VALUE (trap_selected, Bool, trap, selected)
+    if (trap_selected){     
       icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
-      trap_to_add.id = dynamic_cast<IntProperty*> (trap->find_child ("trap_id"))->get_value ();
-      trap_to_add.identified = dynamic_cast<BoolProperty*>(trap->find_child("identified"))->get_value();
-      trap_to_add.active = dynamic_cast<BoolProperty*>(trap->find_child("active"))->get_value();
-      /* 
-      trap_to_add.info.id = dynamic_cast<TextProperty*>(trap->find_child("trap_id"))->get_value();
-      trap_to_add.info.description = dynamic_cast<TextProperty*>(trap->find_child("description"))->get_value();
-      trap_to_add.info.contact_mode = dynamic_cast<IntProperty*>(trap->find_child("contact_mode"))->get_value();
-      trap_to_add.info.code = dynamic_cast<TextProperty*>(trap->find_child("code"))->get_value();
-      trap_to_add.info.hazard = dynamic_cast<TextProperty*>(trap->find_child("hazard"))->get_value();
-      */ 
-      trap_to_add.location.latitude = dynamic_cast<DoubleProperty*>(trap->find_child("lat"))->get_value();
-      trap_to_add.location.longitude = dynamic_cast<DoubleProperty*>(trap->find_child("lon"))->get_value();
-    
+      GET_CHILD_VALUE2 (trap_to_add.id, Int, trap, trap_id)
+      GET_CHILD_VALUE2 (trap_to_add.identified, Bool, trap, identified)
+      GET_CHILD_VALUE2 (trap_to_add.active, Bool, trap, active)
+      GET_CHILD_VALUE2 (trap_to_add.location.latitude, Double, trap, lat)
+      GET_CHILD_VALUE2 (trap_to_add.location.longitude, Double, trap, lon)
+      
       if(trap_to_add.identified)
         message.trap_deactivations.push_back(trap_to_add);
       else
@@ -1115,27 +987,33 @@ RosNode::send_selected_tasks(){
   }
 
   for (auto edge: ((djnn::List*)_task_edges)->children()){
-    if (dynamic_cast<BoolProperty*> (edge->find_child ("selected"))->get_value ()){
+    GET_CHILD_VALUE (edge_selected, Bool, edge, selected)
+    if (edge_selected){
       icare_interfaces::msg::GraphEdge edge_to_add = icare_interfaces::msg::GraphEdge();
-      edge_to_add.source = std::to_string(dynamic_cast<IntProperty*> (edge->find_child ("id_source"))->get_value () - 1);
-      edge_to_add.target = std::to_string(dynamic_cast<IntProperty*> (edge->find_child ("id_dest"))->get_value () - 1);
-      edge_to_add.length = dynamic_cast<DoubleProperty*> (edge->find_child("length"))->get_value();
-      edge_to_add.explored = dynamic_cast<DoubleProperty*> (edge->find_child("explored"))->get_value();
+      GET_CHILD_VALUE (source, Int, edge, id_source)
+      edge_to_add.source = std::to_string(source - 1);
+      GET_CHILD_VALUE (dest, Int, edge, id_dest)
+      edge_to_add.target = std::to_string(dest - 1);
+      GET_CHILD_VALUE2 (edge_to_add.length, Double, edge, length)
+      GET_CHILD_VALUE2 (edge_to_add.explored, Double, edge, explored)
       message.ugv_edges.push_back(edge_to_add);
     }
   }
 
   for (auto area: ((djnn::List*)_task_areas)->children()){
-    if (dynamic_cast<BoolProperty*> (area->find_child("selected"))->get_value()){
+    GET_CHILD_VALUE (area_selected, Bool, area, selected)
+    if (area_selected){
       icare_interfaces::msg::ExplorationPolygon geopolygon_to_add = icare_interfaces::msg::ExplorationPolygon();
-      geopolygon_to_add.area = dynamic_cast<DoubleProperty*>(area->find_child("area_prop"))->get_value();
-      geopolygon_to_add.explored = dynamic_cast<DoubleProperty*>(area->find_child("explored"))->get_value();
+      GET_CHILD_VALUE2 (geopolygon_to_add.area, Double, area, area_prop)
+      GET_CHILD_VALUE2 (geopolygon_to_add.explored, Double, area, explored)
       
-      for (int i = 0; i < dynamic_cast<IntProperty*>(area->find_child("nb_summit"))->get_value();i++){
+      GET_CHILD_VALUE (nb_summit, Int, area, nb_summit)
+      for (int i = 0; i < nb_summit; i++){
         geographic_msgs::msg::GeoPoint point_to_add = geographic_msgs::msg::GeoPoint();
-        point_to_add.latitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lat")))->get_value();
-        point_to_add.longitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/lon")))->get_value();
-        point_to_add.altitude =  dynamic_cast<DoubleProperty*>(area->find_child(std::string("summit_") + std::to_string(i) + std::string("/alt")))->get_value();
+        CoreProcess* summit = dynamic_cast<CoreProcess*>(area->find_child(std::string("summit_") + std::to_string(i)));
+        GET_CHILD_VALUE2 (point_to_add.latitude, Double, summit, lat)
+        GET_CHILD_VALUE2 (point_to_add.longitude, Double, summit, lon)
+        GET_CHILD_VALUE2 (point_to_add.altitude, Double, summit, alt)
         geopolygon_to_add.points.push_back(point_to_add);
       }
 
@@ -1147,6 +1025,7 @@ RosNode::send_selected_tasks(){
   publisher_tasks->publish(message);
 }
 
+//TODO : MP check from here
 void 
 RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
 
@@ -1368,17 +1247,10 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
       }
       if ((msg.uav_camera_layer[i] == 0) && (msg.ugv_camera_layer[i] == 0)) {
         //blank
-        /*
-          frame_data[j0] = static_cast<char>(0x00); //B
-          frame_data[j1] = static_cast<char>(0x00); //G
-          frame_data[j2] = static_cast<char>(0x00); //R
-          frame_data[j3] = static_cast<char>(0x00); //A
-        */
-          frame_data[j0] = static_cast<char>(0xFF); //B
-          frame_data[j1] = static_cast<char>(0xFF); //G
-          frame_data[j2] = static_cast<char>(0xFF); //R
-          frame_data[j3] = static_cast<char>(0x00); //A
-        
+        frame_data[j0] = static_cast<char>(0xFF); //B
+        frame_data[j1] = static_cast<char>(0xFF); //G
+        frame_data[j2] = static_cast<char>(0xFF); //R
+        frame_data[j3] = static_cast<char>(0x00); //A
       }
     }
   }
@@ -1494,9 +1366,9 @@ RosNode::test_draw_visibility_map(){
     }
     if ((ugv_camera_layer[i] == 0) && (uav_camera_layer[i] == 0)) {
       //blank
-      frame_data[j0] = static_cast<char>(0x00); //B
-      frame_data[j1] = static_cast<char>(0x00); //G
-      frame_data[j2] = static_cast<char>(0x00); //R
+      frame_data[j0] = static_cast<char>(0xFF); //B
+      frame_data[j1] = static_cast<char>(0xFF); //G
+      frame_data[j2] = static_cast<char>(0xFF); //R
       frame_data[j3] = static_cast<char>(0x00); //A
     }
   }
