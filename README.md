@@ -56,6 +56,10 @@ https://colcon.readthedocs.io/en/released/user/installation.html
 If have never used ROS before, follow the instructions here to create your first ROS workspace: 
 https://docs.ros.org/en/galactic/Tutorials/Workspace/Creating-A-Workspace.html
 
+```
+sudo apt install python3-colcon-common-extensions
+```
+
 For convenience sake, consider adding the following line to your ~/.bashrc : 
 ```
 source /opt/ros/galactic/setup.bash
