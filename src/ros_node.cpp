@@ -1025,31 +1025,8 @@ RosNode::send_selected_tasks(){
   publisher_tasks->publish(message);
 }
 
-//TODO : MP check from here
 void 
 RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
-
-  /*
-    # Describe the mission site
-    geographic_msgs/GeoPoint start_point
-    icare_interfaces/GeoPolygon limits
-    icare_interfaces/RestrictedZone[] zones
-    icare_interfaces/Lima[] limas
-  */
-  /*
-    # Restricted Zones
-    icare_interfaces/GeoPolygon polygon
-    string name
-    uint8 type
-
-    uint8 TYPE_UNKNOWN    = 0 # Unknown zone type
-    uint8 TYPE_RFA        = 1 # Restricted Fire Area (deactivation only on clearance)
-    uint8 TYPE_NFA        = 2 # No Fire Area (deactivation forbidden)
-    uint8 TYPE_NFZ        = 3 # No Fly Zone
-    uint8 TYPE_FFA        = 4 # Free Fire Area (deactivation allowed)
-    uint8 TYPE_ROZ_ALL    = 5 # Restricted Operation Zone (forbidden to all vehicles)
-    uint8 TYPE_ROZ_GROUND = 6 # Restricted Operation Zone (forbidden to ground vehicles)
-  */
 
   get_exclusive_access(DBG_GET);
 
@@ -1060,7 +1037,7 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
     
   for (int i=0; i<msg.limits.points.size(); i++){
     auto* limit_summit = TaskAreaSummit(limits_to_add, std::string("summit_") + std::to_string(i), _map, msg.limits.points[i].latitude, msg.limits.points[i].longitude);
-    ((DoubleProperty*)limit_summit->find_child("alt"))->set_value(msg.limits.points[i].altitude, true);
+    SET_CHILD_VALUE (Double, limit_summit, alt, msg.limits.points[i].altitude, true)
     auto* point = new PolyPoint(limits_to_add->find_child("area"), std::string("pt_") + std::to_string(i), 0, 0);
     new Connector (limits_to_add, "x_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/x")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/x")), 1);
     new Connector (limits_to_add, "y_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/y")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/y")), 1);
@@ -1068,23 +1045,10 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
 
   for (int i=0; i < msg.zones.size(); i++){
     ParentProcess* area_to_add = ExclusionArea(_exclusion_areas,"", _map, "unknown"); 
-    ((TextProperty*)area_to_add->find_child("name"))->set_value(msg.zones[i].name, true);
+    SET_CHILD_VALUE (Text, area_to_add, name, msg.zones[i].name, true)
     
-    //TODO: MP switch
-    if(msg.zones[i].type == 0)
-      ((TextProperty*)area_to_add->find_child("status"))->set_value("unknown", true);
-    if(msg.zones[i].type == 1)
-      ((TextProperty*)area_to_add->find_child("status"))->set_value("rfa", true);
-    if(msg.zones[i].type == 2)
-      ((TextProperty*)area_to_add->find_child("status"))->set_value("nfa", true);
-    if(msg.zones[i].type == 3)
-      ((TextProperty*)area_to_add->find_child("status"))->set_value("nfz", true);
-    if(msg.zones[i].type == 4)
-      ((TextProperty*)area_to_add->find_child("status"))->set_value("ffa", true);
-    if(msg.zones[i].type == 5)
-      ((TextProperty*)area_to_add->find_child("status"))->set_value("roz_all", true);
-    if(msg.zones[i].type == 6)
-      ((TextProperty*)area_to_add->find_child("status"))->set_value("roz_ground", true);
+    static const string area_status_name[] = {"unknown", "rfa", "nfa", "nfz", "ffa", "roz_all", "roz_ground"};
+    SET_CHILD_VALUE (Text, area_to_add, status, area_status_name[msg.zones[i].type], true)
 
     auto* bary_summit = TaskAreaSummit(area_to_add, "bary_summit", _map, 0, 0);
     int n = msg.zones[i].polygon.points.size();
@@ -1095,17 +1059,18 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
     double above_y = 0;
     double below_y = 0;
     
+    GET_CHILD (CoreProcess, area_to_add, area)
     for (int j = 0; j < n; j++){
       auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude);
-      ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.zones[i].polygon.points[j].altitude, true);
-      auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
-      double cur_lat =  dynamic_cast<DoubleProperty*>(bary_summit->find_child("lat"))->get_value();
-      double cur_lon =  dynamic_cast<DoubleProperty*>(bary_summit->find_child("lon"))->get_value();
+      
+      SET_CHILD_VALUE (Double, task_summit, alt, msg.zones[i].polygon.points[j].altitude, true)
+      auto* point = new PolyPoint(area, std::string("pt_") + std::to_string(j), 0, 0);
+      GET_CHILD_VALUE (cur_lat, Double, bary_summit, lat)
+      GET_CHILD_VALUE (cur_lon, Double, bary_summit, lon)
         
-      ((DoubleProperty*)bary_summit->find_child("lat"))->set_value(cur_lat + msg.zones[i].polygon.points[j].latitude / n, true);
-      ((DoubleProperty*)bary_summit->find_child("lon"))->set_value(cur_lon + msg.zones[i].polygon.points[j].longitude / n, true);
-       
-      ((TextProperty*)area_to_add->find_child("name"))->set_value(msg.zones[i].name, true);
+      SET_CHILD_VALUE (Double, bary_summit, lat, cur_lat + msg.zones[i].polygon.points[j].latitude / n, true)
+      SET_CHILD_VALUE (Double, bary_summit, lon, cur_lon + msg.zones[i].polygon.points[j].longitude / n, true)
+      
       new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
       new Connector (area_to_add, "y_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
     }
@@ -1139,12 +1104,12 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
 
   for (int i=0; i < msg.limas.size(); i++){
     ParentProcess *lima_to_add = Lima(_limas, "", _map, this);
-    ((IntProperty*)lima_to_add->find_child("id"))->set_value(msg.limas[i].index, true);
-    ((TextProperty*)lima_to_add->find_child("name"))->set_value(msg.limas[i].name, true);
+    SET_CHILD_VALUE (Int, lima_to_add, id, msg.limas[i].index, true)
+    SET_CHILD_VALUE (Text, lima_to_add, name, msg.limas[i].name, true)
   
     for (int j = 0; j < msg.limas[i].points.size(); j++){
       auto* task_summit = TaskAreaSummit(lima_to_add, std::string("summit_") + std::to_string(j), _map, msg.limas[i].points[j].latitude, msg.limas[i].points[j].longitude);
-      ((DoubleProperty*)task_summit->find_child("alt"))->set_value(msg.limas[i].points[j].altitude, true);
+      SET_CHILD_VALUE (Double, task_summit, alt, msg.limas[i].points[j].altitude, true)
       auto* point = new PolyPoint(lima_to_add->find_child("lima"), std::string("pt_") + std::to_string(j), 0, 0);
       new Connector (lima_to_add, "x_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
       new Connector (lima_to_add, "y_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
@@ -1181,8 +1146,8 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
   
   get_exclusive_access(DBG_GET);
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
-  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received exploration map update\n", true);
+  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
+  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received exploration map update\n", true)
 
   float lat_center = msg.origin.latitude;
   float lon_center = msg.origin.longitude; 
@@ -1193,8 +1158,8 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
   int h = msg.height;
 
   if (_georef_visibility_map) {
-    dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lat"))->set_value (lat_center_map, true);
-    dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
+    SET_CHILD_VALUE (Double, _georef_visibility_map, lat, lat_center_map, true)
+    SET_CHILD_VALUE (Double, _georef_visibility_map, lon, lon_center_map, true)
   }
   
   if (_visibility_map_resolution)
@@ -1272,14 +1237,14 @@ RosNode::send_msg_trap_activation(int id, bool new_active_state){
   msg.id = id;
   msg.header.stamp = _node->get_clock()->now();
   publisher_trap_activation->publish(msg);
-  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   if (new_active_state){
-    ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap activation (#" +std::to_string(id) + ")\n", true);
-    ((TextProperty*)_fw_input)->set_value(timestamp + " - Trap activation (#" +std::to_string(id) + ")\n", true);
+    SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp + " - Trap activation (#" +std::to_string(id) + ")\n", true)
+    SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Trap activation (#" +std::to_string(id) + ")\n", true)
   }
-  else if(!new_active_state){
-      ((TextProperty*)_console->find_child("ste/string_input"))->set_value(timestamp + " - Trap deactivation (#" +std::to_string(id) + ")\n", true);
-      ((TextProperty*)_fw_input)->set_value(timestamp + " - Trap deactivation (#" +std::to_string(id) + ")\n", true);      
+  else {
+    SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp + " - Trap deactivation (#" +std::to_string(id) + ")\n", true)
+    SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Trap deactivation (#" +std::to_string(id) + ")\n", true)
   }
 }
 
@@ -1381,14 +1346,14 @@ RosNode::test_draw_visibility_map(){
 void
 RosNode::save_console(){
 
-  std::string timestamp = ((TextProperty*)_clock->find_child("wc/state_text"))->get_value();
+  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   std::stringstream ss;
   ss << timestamp + " - Console Content stored\n";
 
   for (auto item: ((djnn::List*)_console->find_child("ste/lines"))->children()){
     ss << ((SimpleText*)item)->get_content() << "\n";
   }
-  ((TextProperty*)_fw_console_input)->set_value(ss.str(), true);        
+  SET_CHILD_VALUE (Text, _fw_console_input, , ss.str(), true);        
 }
 
 #endif

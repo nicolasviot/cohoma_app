@@ -66,6 +66,11 @@ source /opt/ros/galactic/setup.bash
 ```
 It will grant you access to every ROS2 command-line tools, which are required to build packages, whenever you start a terminal.
 
+#### Other dependencies
+```
+sudo apt install libglfw3-dev
+```
+
 #### Icare interfaces 
 clone this repo  : https://gitlab.com/cohoma-icare/icare_interfaces in the /src folder of a ros workspace.
 
