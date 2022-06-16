@@ -131,7 +131,6 @@ RosNode::impl_activate ()
   sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>(
   "/map", qos_transient, std::bind(&RosNode::receive_msg_map, this, std::placeholders::_1));
 
-
   publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>(
     "/planning_request", qos);
   publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>(
@@ -168,6 +167,7 @@ RosNode::impl_activate ()
   _end_plan_vab_id.activate();
 
   GET_CHILD_VAR2 (_frame, CoreProcess, _parent, parent/f)
+  GET_CHILD_VAR2 (_layer_filter, CoreProcess, _parent, parent/menu/ui/cb_left)
 
   GET_CHILD_VAR2 (_nodes, CoreProcess, _parent, parent/l/map/layers/navgraph/nodes)
   GET_CHILD_VAR2 (_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
@@ -175,6 +175,10 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_task_edges, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/edges)
   GET_CHILD_VAR2 (_task_areas, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/areas)
   GET_CHILD_VAR2 (_task_traps, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/traps)
+  GET_CHILD_VAR2 (_task_allocated_edges, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/edges)
+  GET_CHILD_VAR2 (_task_allocated_areas, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/areas)
+  GET_CHILD_VAR2 (_task_allocated_traps, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/traps)
+  
   GET_CHILD_VAR2 (_traps, CoreProcess, _parent, parent/l/map/layers/traps/traplayer/traps)
   GET_CHILD_VAR2 (_exclusion_areas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/exclusion_areas)
   GET_CHILD_VAR2 (_limas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/limas)
@@ -833,12 +837,183 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
 void 
 RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
     
-  //TODO
-  //get_exclusive_access(DBG_GET);
-  /* .. Traitement .. */
-  //GRAPH_EXEC;
-  //release_exclusive_access(DBG_REL);
+  get_exclusive_access(DBG_GET);
 
+  Container *_layer_filter_container = dynamic_cast<Container *> (_layer_filter);
+  if (_layer_filter_container){
+
+    int layer_size = _layer_filter_container->children ().size ();
+    for (int i = layer_size - 1; i >= 0; i--) {
+        auto *child = _layer_filter_container->children ()[i];
+        GET_CHILD_VALUE (layer_name, Text, child, name)
+        std::cerr << "found layer" << layer_name << std::endl; 
+        if (layer_name == "Tasks"){
+          std::cerr << "found task layer" << std::endl;
+          GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
+          if (activation_state == "visible"){
+            std::cerr << "tasklayer is visible" << std::endl;
+            child->find_child("cb/press")->notify_activation();
+            std::cerr << "notified activation to cb/press" << std::endl;
+          }
+        }
+
+    }
+
+  }
+
+
+
+  Container *_edge_container = dynamic_cast<Container *> (_task_allocated_edges);
+  if (_edge_container) {
+    int _edge_container_size = _edge_container->children ().size ();
+    for (int i = _edge_container_size - 1; i >= 0; i--) {
+      auto *item = _edge_container->children ()[i];
+      if (item) {
+        item->deactivate ();
+        if (item->get_parent ())
+          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+        item->schedule_delete ();
+        item = nullptr;
+      }
+    }
+  }
+
+  Container *_trap_container = dynamic_cast<Container *> (_task_allocated_traps);
+  if (_trap_container) {
+    int _trap_container_size = _trap_container->children ().size ();
+    for (int i = _trap_container_size - 1; i >= 0; i--) {
+      auto *item = _trap_container->children ()[i];
+      if (item) {
+        item->deactivate ();
+        if (item->get_parent ())
+          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+        item->schedule_delete ();
+        item = nullptr;
+      }
+    }
+  }
+
+  Container *_task_container = dynamic_cast<Container *> (_task_allocated_areas);
+  if (_task_container) {
+    int _task_container_size = _task_container->children ().size ();
+    for (int i = _task_container_size - 1; i >= 0; i--) {
+      auto *item = _task_container->children ()[i];
+      if (item) {
+        item->deactivate ();
+        if (item->get_parent ())
+          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
+        item->schedule_delete ();
+        item = nullptr;
+      }
+    }
+  }
+  //Allocation = list of Allocated tasks
+  /*
+
+
+  std_msgs/Header header
+uint8 robot_id
+uint8 task_type
+icare_interfaces/ExplorationPolygon zone
+icare_interfaces/GraphEdge edge
+icare_interfaces/Trap identification
+icare_interfaces/Trap deactivation
+
+uint8 TASK_TYPE_UNKNOWN = 0
+uint8 TASK_TYPE_ZONE = 1
+uint8 TASK_TYPE_EDGE = 2
+uint8 TASK_TYPE_IDENTIFICATION = 3
+uint8 TASK_TYPE_DEACTIVATION = 4
+
+
+
+
+
+  */
+  int nb_uav_zone = 0;
+  int nb_ugv_edges = 0;
+  int nb_trap_identification = 0;  
+  int nb_trap_deactivation = 0;
+  int nb_total = msg.tasks.size();
+  
+  /*GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
+  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received " + std::to_string(nb_total) + " tasks ("+ std::to_string(nb_uav_zone) + " uav_zones, " + std::to_string(nb_ugv_edges) + " ugv_edges, " + std::to_string(nb_trap_identification) + " trap_identifications, " + std::to_string(nb_trap_deactivation) + " trap_deactivations)\n", true)
+ */
+
+
+  /*
+  //flashy
+
+  Int droneCOL (#1ACAFF) 1
+  Int agiCOL (#0C2EE8) 2
+  Int agiCOL2 (#B500FF) 3
+  Int lynxCOL (#B3B100) 4
+  Int spotCOL (#0CE820) 5
+  Int vabCOL (#00B1E6) 6
+
+  */
+
+  int colors[7] = {0x000000, 0x1ACAFF, 0x0C2EE8, 0xB500FF, 0xB3B100, 0x0CE820, 0x00B1E6}; 
+  for (int i=0; i < nb_total; i++){
+    
+    if (msg.tasks[i].task_type == 1){
+      ParentProcess* area_to_add = TaskArea(_task_allocated_areas, "", _map);
+      for (int j=0 ;j< msg.tasks[i].zone.points.size(); j++){
+        auto* task_summit = TaskAreaSummit (area_to_add, std::string("summit_") + std::to_string(j), _map, msg.tasks[i].zone.points[j].latitude, msg.tasks[i].zone.points[j].longitude);
+        SET_CHILD_VALUE (Double, task_summit, alt, msg.tasks[i].zone.points[j].altitude, true)
+        auto* point = new PolyPoint(area_to_add->find_child("area"), std::string("pt_") + std::to_string(j), 0, 0);
+
+        new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
+        new Connector (area_to_add, "y_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
+    
+      }
+      SET_CHILD_VALUE (Int, area_to_add, nb_summit, (int) (msg.tasks[i].zone.points.size()), true)
+      SET_CHILD_VALUE (Int, area_to_add, color/value, (int) (colors[msg.tasks[i].robot_id]), true)
+    } else if (msg.tasks[i].task_type == 2){
+
+      ParentProcess* edge_to_add = TaskEdge(_task_allocated_edges, "", _map, std::stoi(msg.tasks[i].edge.source) + 1, std::stoi(msg.tasks[i].edge.target) + 1, _nodes);
+    
+      SET_CHILD_VALUE (Double, edge_to_add, length, msg.tasks[i].edge.length, true)
+      SET_CHILD_VALUE (Double, edge_to_add, explored, msg.tasks[i].edge.explored, true)
+      SET_CHILD_VALUE (Int, edge_to_add, the_edge/color/value, colors[msg.tasks[i].robot_id], true);
+
+    } else if (msg.tasks[i].task_type == 3){
+      ParentProcess* trap_to_add = TaskTrap(_task_allocated_traps, "", _map, msg.tasks[i].identification.id, msg.tasks[i].identification.location.latitude, msg.tasks[i].identification.location.longitude);
+      SET_CHILD_VALUE (Bool, trap_to_add, active, msg.tasks[i].identification.active, true)
+      SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.tasks[i].identification.identified, true)
+      SET_CHILD_VALUE (Text, trap_to_add, trap_id_str, msg.tasks[i].identification.info.id, true)
+      SET_CHILD_VALUE (Text, trap_to_add, description, msg.tasks[i].identification.info.description, true)
+      SET_CHILD_VALUE (Int, trap_to_add, contact_mode, msg.tasks[i].identification.info.contact_mode, true)
+      SET_CHILD_VALUE (Text, trap_to_add, code, msg.tasks[i].identification.info.code, true)
+      SET_CHILD_VALUE (Text, trap_to_add, hazard, msg.tasks[i].identification.info.hazard, true)
+      SET_CHILD_VALUE (Double, trap_to_add, radius, msg.tasks[i].identification.info.radius, true)
+      SET_CHILD_VALUE (Int, trap_to_add, red, colors[msg.tasks[i].robot_id], true) 
+
+
+    } else if (msg.tasks[i].task_type == 4){
+      ParentProcess* trap_to_add = TaskTrap(_task_allocated_traps, "", _map, msg.tasks[i].deactivation.id, msg.tasks[i].deactivation.location.latitude, msg.tasks[i].deactivation.location.longitude);
+      SET_CHILD_VALUE (Bool, trap_to_add, active, msg.tasks[i].deactivation.active, true)
+      SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.tasks[i].deactivation.identified, true)
+      SET_CHILD_VALUE (Text, trap_to_add, trap_id_str, msg.tasks[i].deactivation.info.id, true)
+      SET_CHILD_VALUE (Text, trap_to_add, description, msg.tasks[i].deactivation.info.description, true)
+      SET_CHILD_VALUE (Int, trap_to_add, contact_mode, msg.tasks[i].deactivation.info.contact_mode, true)
+      SET_CHILD_VALUE (Text, trap_to_add, code, msg.tasks[i].deactivation.info.code, true)
+      SET_CHILD_VALUE (Text, trap_to_add, hazard, msg.tasks[i].deactivation.info.hazard, true)
+      SET_CHILD_VALUE (Double, trap_to_add, radius, msg.tasks[i].deactivation.info.radius, true)
+      SET_CHILD_VALUE (Int, trap_to_add, red, colors[msg.tasks[i].robot_id], true)
+
+
+    }
+
+
+
+
+
+
+
+  }
+  GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
 }
 
 void

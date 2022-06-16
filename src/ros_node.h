@@ -97,7 +97,9 @@ class RosNode : public FatProcess, public ExternalSource
     TextProperty navgraph_data;
     CoreProcess *_nodes, *_edges, *_shadow_edges, *_traps;
     CoreProcess *_task_edges, *_task_areas, *_task_traps;
+    CoreProcess *_task_allocated_edges, *_task_allocated_areas, *_task_allocated_traps;
     CoreProcess *_exclusion_areas, *_limas; 
+    CoreProcess *_layer_filter;
     Component *_itineraries_list;
     RefProperty *_ref_curent_itenerary;
     NativeAction* _edge_released_na;

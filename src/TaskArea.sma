@@ -21,7 +21,7 @@ TaskArea (Process map){
     Double area_prop(0)
     Double explored(0)
     FillOpacity _ (0.5)
-    FillColor _ (140, 30, 30)
+    FillColor color (140, 30, 30)
     OutlineWidth perimeter_width(0)
     OutlineColor yellow(255, 255, 0)
     Switch ctrl_area_selected(not_select){ 

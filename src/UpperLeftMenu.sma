@@ -46,11 +46,14 @@ UpperLeftMenu (Process map, Process f)
           CheckBox cb (getString (item.name), 5, off_y)
           cb.state =:> item.ctrl_visibility.state
           width aka cb.min_width
+          String name (getString (item.name))
+
         }
         off_y += 20
         nb_items ++
       }
     }
+    dump cb_left.[1]
 
     s1.height + nb_items * 20 + t2.height + 20 =:> height
     s1.width =:> width

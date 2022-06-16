@@ -290,6 +290,16 @@ Component root {
       String name("Site")
       sitelayer aka ctrl_visibility.visible.layer
     }
+    Component allocated_tasks{
+      Switch ctrl_visibility(visible){
+        Component hidden
+        Component visible{
+          TaskLayer layer (map)
+        }
+      }
+      String name("Allocation")
+      allocated_tasks_layer aka ctrl_visibility.visible.layer
+    }
 
       
     
@@ -304,7 +314,8 @@ Component root {
       itineraries,
       traps, 
       tasks,
-      actors
+      actors,
+      allocated_tasks
       //lima,
     }
   }
