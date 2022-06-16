@@ -20,7 +20,7 @@ TaskArea (Process map){
     Bool selected(0)
     Double area_prop(0)
     Double explored(0)
-    FillOpacity _ (0.5)
+    FillOpacity _ (0.25)
     FillColor color (140, 30, 30)
     OutlineWidth perimeter_width(0)
     OutlineColor yellow(255, 255, 0)

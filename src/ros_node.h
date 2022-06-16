@@ -85,6 +85,8 @@ class RosNode : public FatProcess, public ExternalSource
     void test_multiple_itineraries();
     void test_draw_visibility_map();
     void write_to_log (string, string);
+    void deactivate_layer(string);
+    void activate_layer(string);
  
    private:
     const std::string _topic_name;

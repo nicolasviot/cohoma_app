@@ -833,10 +833,49 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
 }
 
 
+void
+RosNode::activate_layer(std::string layer_to_activate){
+
+  Container *_layer_filter_container = dynamic_cast<Container *> (_layer_filter);
+  if (_layer_filter_container){
+    int layer_size = _layer_filter_container->children ().size ();
+    for (int i = layer_size - 1; i >= 0; i--) {
+      auto *child = _layer_filter_container->children ()[i];
+      GET_CHILD_VALUE (layer_name, Text, child, name)
+      if (layer_name == layer_to_activate){
+        GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
+        if (activation_state == "hidden"){
+          child->find_child("cb/press")->activate();
+        }
+      }
+    }
+  }
+}
+
+void
+RosNode::deactivate_layer(std::string layer_to_deactivate){
+
+  Container *_layer_filter_container = dynamic_cast<Container *> (_layer_filter);
+  if (_layer_filter_container){
+    int layer_size = _layer_filter_container->children ().size ();
+    for (int i = layer_size - 1; i >= 0; i--) {
+      auto *child = _layer_filter_container->children ()[i];
+      GET_CHILD_VALUE (layer_name, Text, child, name)
+      if (layer_name == layer_to_deactivate){
+        GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
+        if (activation_state == "visible"){
+          child->find_child("cb/press")->activate();
+        }
+      }
+    }
+  }
+}
+
 
 void 
 RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
     
+
   get_exclusive_access(DBG_GET);
 
   Container *_layer_filter_container = dynamic_cast<Container *> (_layer_filter);
@@ -857,10 +896,18 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
           }
         }
 
+        if (layer_name == "Allocation"){
+          std::cerr << "found Allocation layer" << std::endl;
+          GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
+          if (activation_state == "hidden"){
+            std::cerr << "Allocation layer is hidden" << std::endl;
+            child->find_child("cb/press")->notify_activation();
+            std::cerr << "notified activation to cb/press" << std::endl;
+          }
+        }
     }
 
   }
-
 
 
   Container *_edge_container = dynamic_cast<Container *> (_task_allocated_edges);
@@ -907,9 +954,10 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
       }
     }
   }
+  GRAPH_EXEC;
   //Allocation = list of Allocated tasks
   /*
-
+  
 
   std_msgs/Header header
 uint8 robot_id
@@ -968,7 +1016,7 @@ uint8 TASK_TYPE_DEACTIVATION = 4
     
       }
       SET_CHILD_VALUE (Int, area_to_add, nb_summit, (int) (msg.tasks[i].zone.points.size()), true)
-      SET_CHILD_VALUE (Int, area_to_add, color/value, (int) (colors[msg.tasks[i].robot_id]), true)
+      SET_CHILD_VALUE (Int, area_to_add, color/value, colors[msg.tasks[i].robot_id], true)
     } else if (msg.tasks[i].task_type == 2){
 
       ParentProcess* edge_to_add = TaskEdge(_task_allocated_edges, "", _map, std::stoi(msg.tasks[i].edge.source) + 1, std::stoi(msg.tasks[i].edge.target) + 1, _nodes);
@@ -1130,6 +1178,38 @@ RosNode::send_validation_plan(){
   message.data = _id_curent_itenerary->get_string_value();
   message.header.stamp = _node->get_clock()->now();
   publisher_validation->publish(message);
+
+
+  Container *_layer_filter_container = dynamic_cast<Container *> (_layer_filter);
+  if (_layer_filter_container){
+
+    int layer_size = _layer_filter_container->children ().size ();
+    for (int i = layer_size - 1; i >= 0; i--) {
+        auto *child = _layer_filter_container->children ()[i];
+        GET_CHILD_VALUE (layer_name, Text, child, name)
+        std::cerr << "found layer" << layer_name << std::endl; 
+        if (layer_name == "Tasks"){
+          std::cerr << "found task layer" << std::endl;
+          GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
+          if (activation_state == "hidden"){
+            std::cerr << "tasklayer is hidden" << std::endl;
+            child->find_child("cb/press")->notify_activation();
+            std::cerr << "notified activation to cb/press" << std::endl;
+          }
+        }
+        if (layer_name == "Allocation"){
+          std::cerr << "found Allocation layer" << std::endl;
+          GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
+          if (activation_state == "visible"){
+            std::cerr << "Allocation layer is visible" << std::endl;
+            child->find_child("cb/press")->notify_activation();
+            std::cerr << "notified activation to cb/press" << std::endl;
+          }
+        }
+
+    }
+
+  }
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Validate plan #" + message.data + "\n" , true);
