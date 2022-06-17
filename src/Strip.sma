@@ -78,7 +78,7 @@ Strip (string _name, Process frame, Process satellite){
 
    //for status link element
    Int link_ON_color (#00E600)
-   Int link_OFF_color (#CDCCC6)
+   Int link_OFF_color (#FA3004) //#CDCCC6
 
    FSM link_status_FSM{
       State disconnected{
