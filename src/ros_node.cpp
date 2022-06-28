@@ -1611,6 +1611,28 @@ RosNode::save_console(){
   SET_CHILD_VALUE (Text, _fw_console_input, , ss.str(), true);        
 }
 
+
+
+void
+RosNode::send_msg_trap_deleted(int trap_id, bool to_delete){
+// if to_delete => delete trap with id trap_id
+
+
+  /*icare_interfaces::msg::.... msg = icare_interfaces::msg::....();
+
+  msg.id = id;
+  msg. .... = ....;
+  
+  msg.header.stamp = _node->get_clock()->now();
+  publisher_trap_activation->publish(msg);
+  */
+
+
+
+// we should then receive a msg containing all the traps (not "deleted")
+}
+
+;
 #endif
 
 void

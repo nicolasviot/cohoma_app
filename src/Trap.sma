@@ -35,7 +35,18 @@ change_activation_action (Process c)
     #endif
     
 %}
+_action_
+hide_trap_action(Process c)
+ %{
+    Process *data = (Process*) get_native_user_data(c);
 
+    RosNode *node = dynamic_cast<RosNode*>(data->find_child("node"));
+    IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
+    BoolProperty *deleted = dynamic_cast<BoolProperty*>(data->find_child("deleted"));
+    node ->send_msg_trap_deleted(id->get_value(), deleted->get_value());
+
+%}
+   
 
 
 _define_
@@ -48,6 +59,7 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
     Int id($_id)
     Bool identified(0)
     Bool active(1)
+    Bool deleted (0)
     String state ("unknown") //can be unkown, identified, deactivated
     String trap_id("?")
 
@@ -362,6 +374,7 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
     AssignmentSequence delete_assignement (1){
         //0 =: active
         //0 =: identified 
+        1 =: deleted
         0.01 =: content.global_opacity.a
    }
 
@@ -371,6 +384,8 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
     state_manually_updated -> menu.hide
     ask_delete -> menu.hide
     NativeAction update_trap_activation_state_action(change_activation_action, this, 1)
+    NativeAction hide_trap_native(hide_trap_action, this, 1)
+    delete_assignement -> hide_trap_native
     deactivated_assignement -> update_trap_activation_state_action
     identified_assignement -> update_trap_activation_state_action
     unknown_assignement -> update_trap_activation_state_action

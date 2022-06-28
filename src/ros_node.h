@@ -80,6 +80,7 @@ class RosNode : public FatProcess, public ExternalSource
     void send_validation_tasks();
     void send_msg_lima(int);
     void send_msg_trap_activation(int, bool);
+    void send_msg_trap_deleted(int, bool);
     void save_console();
   #endif
     void test_multiple_itineraries();
