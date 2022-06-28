@@ -47,7 +47,17 @@ hide_trap_action(Process c)
 
 %}
    
+_action_
+update_trap_position_action(Process c)
+%{
+    Process *data = (Process*) get_native_user_data(c);
+    RosNode *node = dynamic_cast<RosNode*>(data->find_child("node"));
+    IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
+    DoubleProperty *new_lat = dynamic_cast<DoubleProperty*>(data->find_child("lat"));
+    DoubleProperty *new_lon = dynamic_cast<DoubleProperty*>(data->find_child("lon")); 
+    node -> send_msg_update_trap_position(id->get_value(), new_lat->get_value(), new_lon->get_value());
 
+%}
 
 _define_
 Trap (Process map, double _lat, double _lon, int _id, Process _node)
@@ -385,6 +395,7 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
     ask_delete -> menu.hide
     NativeAction update_trap_activation_state_action(change_activation_action, this, 1)
     NativeAction hide_trap_native(hide_trap_action, this, 1)
+    NativeAction update_trap_position_native(update_trap_position_action, this, 1)
     delete_assignement -> hide_trap_native
     deactivated_assignement -> update_trap_activation_state_action
     identified_assignement -> update_trap_activation_state_action
@@ -423,5 +434,16 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
         idle -> animate (start_highlight_Anim)
         animate -> idle (stop_highlight_Anim)
     }  
+    Spike moved
+    lat -> moved
+    lon -> moved
+    FSM update_trap_position{
+        State idle
+        State going_to_update{
+            Timer t(5000)
+        }
 
+        idle->going_to_update(moved)
+        going_to_update->idle(update_trap_position.going_to_update.t.end, update_trap_position_native)
+    }
 }

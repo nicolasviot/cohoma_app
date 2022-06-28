@@ -1622,7 +1622,7 @@ RosNode::send_msg_trap_deleted(int trap_id, bool to_delete){
 
   msg.id = id;
   msg. .... = ....;
-  
+
   msg.header.stamp = _node->get_clock()->now();
   publisher_trap_activation->publish(msg);
   */
@@ -1630,6 +1630,17 @@ RosNode::send_msg_trap_deleted(int trap_id, bool to_delete){
 
 
 // we should then receive a msg containing all the traps (not "deleted")
+}
+
+
+void
+RosNode::send_msg_update_trap_position(int trap_id, double new_lat, double new_lon){
+//TODO
+
+  std::cerr << new_lat << " " << new_lon << std::endl;
+
+
+
 }
 
 ;
