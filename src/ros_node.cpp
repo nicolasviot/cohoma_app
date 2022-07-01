@@ -145,8 +145,8 @@ RosNode::impl_activate ()
     "/lima", qos);
   publisher_trap_activation = _node->create_publisher<icare_interfaces::msg::TrapActivation>(
     "/activation", qos);
-  publisher_hidden_traps = _node->create_publisher<icare_interfaces::msg::Trap>(
-    "/hide", qos);
+  publisher_trap_edit = _node->create_publisher<icare_interfaces::msg::Trap>(
+    "/trap_edit", qos);
   #endif
 
   //activate navgraph fields
@@ -1623,7 +1623,7 @@ RosNode::send_msg_trap_deleted(int trap_id, bool to_delete){
     icare_interfaces::msg::Trap msg = icare_interfaces::msg::Trap();
     msg.id = (int)trap_id;
     msg.hidden = true;
-    publisher_hidden_traps->publish(msg);
+    publisher_trap_edit->publish(msg);
   }
 
 
@@ -1637,7 +1637,12 @@ RosNode::send_msg_update_trap_position(int trap_id, double new_lat, double new_l
 //TODO
 
   //std::cerr << new_lat << " " << new_lon << std::endl;
-
+  icare_interfaces::msg::Trap msg = icare_interfaces::msg::Trap();
+  msg.id = (int)trap_id;
+  msg.location_fix = true;
+  msg.location_fixed.latitude = new_lat;
+  msg.location_fixed.longitude = new_lon;
+  publisher_trap_edit->publish(msg);
 
 
 }

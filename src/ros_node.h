@@ -165,7 +165,7 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation_tasks;
     rclcpp::Publisher<icare_interfaces::msg::LimaCrossed>::SharedPtr publisher_lima;
     rclcpp::Publisher<icare_interfaces::msg::TrapActivation>::SharedPtr publisher_trap_activation;
-    rclcpp::Publisher<icare_interfaces::msg::Trap>::SharedPtr publisher_hidden_traps;
+    rclcpp::Publisher<icare_interfaces::msg::Trap>::SharedPtr publisher_trap_edit;
 #endif
     
   };
