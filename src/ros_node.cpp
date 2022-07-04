@@ -145,8 +145,6 @@ RosNode::impl_activate ()
     "/lima", qos);
   publisher_trap_activation = _node->create_publisher<icare_interfaces::msg::TrapActivation>(
     "/activation", qos);
-  publisher_trap_edit = _node->create_publisher<icare_interfaces::msg::Trap>(
-    "/trap_edit", qos);
   #endif
 
   //activate navgraph fields
@@ -1050,7 +1048,7 @@ uint8 TASK_TYPE_DEACTIVATION = 4
       SET_CHILD_VALUE (Text, trap_to_add, code, msg.tasks[i].deactivation.info.code, true)
       SET_CHILD_VALUE (Text, trap_to_add, hazard, msg.tasks[i].deactivation.info.hazard, true)
       SET_CHILD_VALUE (Double, trap_to_add, radius, msg.tasks[i].deactivation.info.radius, true)
-      SET_CHILD_VALUE (Int, trap_to_add, red, colors[msg.tasks[i].robot_id], true)
+      SET_CHILD_VALUE (Int, trap_to_add, content/red, colors[msg.tasks[i].robot_id], true)
 
 
     }
@@ -1619,12 +1617,15 @@ void
 RosNode::send_msg_trap_deleted(int trap_id, bool to_delete){
 // if to_delete => delete trap with id trap_id
 
-  if(to_delete){
-    icare_interfaces::msg::Trap msg = icare_interfaces::msg::Trap();
-    msg.id = (int)trap_id;
-    msg.hidden = true;
-    publisher_trap_edit->publish(msg);
-  }
+
+  /*icare_interfaces::msg::.... msg = icare_interfaces::msg::....();
+
+  msg.id = id;
+  msg. .... = ....;
+
+  msg.header.stamp = _node->get_clock()->now();
+  publisher_trap_activation->publish(msg);
+  */
 
 
 
@@ -1636,18 +1637,12 @@ void
 RosNode::send_msg_update_trap_position(int trap_id, double new_lat, double new_lon){
 //TODO
 
-  //std::cerr << new_lat << " " << new_lon << std::endl;
-  icare_interfaces::msg::Trap msg = icare_interfaces::msg::Trap();
-  msg.id = (int)trap_id;
-  msg.location_fix = true;
-  msg.location_fixed.latitude = new_lat;
-  msg.location_fixed.longitude = new_lon;
-  publisher_trap_edit->publish(msg);
+  std::cerr << new_lat << " " << new_lon << std::endl;
+
 
 
 }
 
-;
 #endif
 
 void
