@@ -1025,7 +1025,7 @@ uint8 TASK_TYPE_DEACTIVATION = 4
       SET_CHILD_VALUE (Double, edge_to_add, explored, msg.tasks[i].edge.explored, true)
       SET_CHILD_VALUE (Int, edge_to_add, the_edge/color/value, colors[msg.tasks[i].robot_id], true);
 
-    } else if (msg.tasks[i].task_type == 3){
+    } /*else if (msg.tasks[i].task_type == 3){
       ParentProcess* trap_to_add = TaskTrap(_task_allocated_traps, "", _map, msg.tasks[i].identification.id, msg.tasks[i].identification.location.latitude, msg.tasks[i].identification.location.longitude);
       SET_CHILD_VALUE (Bool, trap_to_add, active, msg.tasks[i].identification.active, true)
       SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.tasks[i].identification.identified, true)
@@ -1035,7 +1035,7 @@ uint8 TASK_TYPE_DEACTIVATION = 4
       SET_CHILD_VALUE (Text, trap_to_add, code, msg.tasks[i].identification.info.code, true)
       SET_CHILD_VALUE (Text, trap_to_add, hazard, msg.tasks[i].identification.info.hazard, true)
       SET_CHILD_VALUE (Double, trap_to_add, radius, msg.tasks[i].identification.info.radius, true)
-      SET_CHILD_VALUE (Int, trap_to_add, red, colors[msg.tasks[i].robot_id], true) 
+      SET_CHILD_VALUE (Int, trap_to_add, content/red, colors[msg.tasks[i].robot_id], true) 
 
 
     } else if (msg.tasks[i].task_type == 4){
@@ -1052,7 +1052,7 @@ uint8 TASK_TYPE_DEACTIVATION = 4
 
 
     }
-
+*/
 
 
 
