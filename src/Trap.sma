@@ -43,8 +43,9 @@ hide_trap_action(Process c)
     RosNode *node = dynamic_cast<RosNode*>(data->find_child("node"));
     IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
     BoolProperty *deleted = dynamic_cast<BoolProperty*>(data->find_child("deleted"));
+#ifndef NO_ROS
     node ->send_msg_trap_deleted(id->get_value(), deleted->get_value());
-
+#endif
 %}
    
 _action_
@@ -55,8 +56,9 @@ update_trap_position_action(Process c)
     IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
     DoubleProperty *new_lat = dynamic_cast<DoubleProperty*>(data->find_child("lat"));
     DoubleProperty *new_lon = dynamic_cast<DoubleProperty*>(data->find_child("lon")); 
+#ifndef NO_ROS
     node -> send_msg_update_trap_position(id->get_value(), new_lat->get_value(), new_lon->get_value());
-
+#endif
 %}
 
 _define_
