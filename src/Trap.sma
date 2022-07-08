@@ -121,11 +121,11 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
         NoOutline _
 
         //Circle (linked with radius)
-        FillOpacity circle_opacity(0.3)
+        FillOpacity circle_opacity(0.1)
         Circle c (0, 0, 50)
         c.cx - rect.width/2 =:> rect.x 
         c.cy - rect.height/2 =:> rect.y
-        radius * 1.52 /get_resolution ($map.zoomLevel) =:> c.r //attention peut etre pas tout le temps
+        radius * map.scaling_factor_correction /get_resolution ($map.zoomLevel) =:> c.r //attention peut etre pas tout le temps
 
         //rotation of the rectangle to be a losange
         c.cx =:> rot.cx

@@ -50,6 +50,19 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   Double mod_x_zooom_in (0)
   Double mod_y_zooom_in (0)
 
+  Double scaling_factor_correction(0)
+  // mercator scaling correction, use pointer_lat to keep updating the correction
+  //, but we should use lat_center (not updated in this version), if we have an app that do not use the pointer
+
+  //(1 + c2*(cos(2*f) - 1)) / cos(f) where c2 = 0.00001120378
+  Double c2 (0.00001120378)
+  Cosine cos1 (0)
+  Cosine cos2 (0)
+  2 * pointer_lat * 2 * 3.14159265359 / 360=:> cos1.input
+  pointer_lat * 2 * 3.14159265359 / 360 =:> cos2.input
+  (1 + c2 * (cos1.output - 1 )) / cos2.output =:> scaling_factor_correction
+
+
   Double t0_x (0)
   Double t0_y (0)
   Int width (_width)

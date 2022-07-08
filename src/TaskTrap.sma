@@ -97,7 +97,7 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
     Circle c (0, 0, 50)
     c.cx - rect.width/2 =:> rect.x 
     c.cy - rect.height/2 =:> rect.y
-    radius * 1.52 /get_resolution ($map.zoomLevel) =:> c.r
+    radius * map.scaling_factor_correction /get_resolution ($map.zoomLevel) =:> c.r
 
     //rotation of the rectangle to be a losange
     c.cx =:> rot.cx
@@ -112,7 +112,7 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
     selected?0:1 =: selected 
    }
 
-   radius * 1.52 /get_resolution ($map.zoomLevel) =:> c.r
+   radius * map.scaling_factor_correction /get_resolution ($map.zoomLevel) =:> c.r
 
   FSM drag_fsm {
         State no_drag {

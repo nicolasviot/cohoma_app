@@ -42,7 +42,7 @@ SafetyPilot (Process map, double _lat, double _lon, int _id, string _type)
     FillColor circleFill (#A056F6)
     FillOpacity _(0.3)
     Circle c (0, 0, 50)
-    radius * 1.52 /get_resolution ($map.zoomLevel) =:> c.r
+    radius * map.scaling_factor_correction /get_resolution ($map.zoomLevel) =:> c.r
 
     FillColor _ (0,0,0)
     FillOpacity _ (3.3) //ahah sinon ça se multiplie
