@@ -395,14 +395,17 @@ Component root {
     //preview -> preview (f.release, addWptToLayer) 
   }
 
-  addWptToLayer -> (root){
-    addChildrenTo root.l.map.layers.navgraph.nodes {
+  addWptToLayer -> (root) {
+    nodes = find(root.l.map.layers.navgraph.nodes)
+    addChildrenTo nodes {
       Node new (root.l.map, root.f, $root.l.map.pointer_lat, $root.l.map.pointer_lon, 0, 0, "by_operator", 0, root.l.map.layers.navgraph.manager)
     }
-    //print (root.l.map.layers.navgraph.nodes.size)
-    root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lat = root.addNode.preview.temporary.lat
-    root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].wpt.lon = root.addNode.preview.temporary.lon
-    root.l.map.layers.navgraph.nodes[$root.l.map.layers.navgraph.nodes.size].id = root.l.map.layers.navgraph.nodes.size    
+    //print (nodes.size)
+    //node = find(nodes[$nodes.size])
+    //node.wpt.lat = root.addNode.preview.temporary.lat
+    nodes[$nodes.size].wpt.lat = root.addNode.preview.temporary.lat
+    nodes[$nodes.size].wpt.lon = root.addNode.preview.temporary.lon
+    nodes[$nodes.size].id = nodes.size    
  }
 
 
