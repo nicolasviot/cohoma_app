@@ -16,8 +16,7 @@ srcs_sma ?= src/ClockComponent.sma src/Reticule.sma src/Strip.sma src/Slider.sma
             src/PixmapTile.sma \
             src/MapLayer.sma \
             src/MapLayerSync.sma \
-            src/Map.sma src/WidgetMap.sma \
-            src/TaskDescriptor.sma src/CandidateTaskFilter.sma \
+            src/Map.sma \
             src/ItineraryDescriptor.sma src/ItineraryPannel.sma src/Console.sma src/RightPannel.sma src/RosManager.sma \
             src/Vehicule.sma src/UpperLeftMenu.sma src/StripContainer.sma src/main.sma
 # or
