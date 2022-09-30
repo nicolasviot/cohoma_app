@@ -4,7 +4,6 @@ use base
 use display
 use animation
 
-import gui.animation.Animator
 import TaskAreaSummit
 
 _native_code_

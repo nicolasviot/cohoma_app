@@ -23,7 +23,6 @@ import Slider
 import Map
 import MapLayer
 import MapLayerSync
-import Animator
 import GraphNode
 import Strip
 import NavGraph
