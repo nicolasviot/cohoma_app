@@ -53,7 +53,7 @@ UpperLeftMenu (Process map, Process f)
         nb_items ++
       }
     }
-    dump cb_left.[1]
+    //dump cb_left.[1]
 
     s1.height + nb_items * 20 + t2.height + 20 =:> height
     s1.width =:> width

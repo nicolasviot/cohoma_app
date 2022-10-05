@@ -16,7 +16,6 @@
  use base
  use gui
 
- import gui.widgets.IWidget
  import PanAndZoom
  import Reticule
 
