@@ -19,7 +19,8 @@ use gui
 use animation
 use display
 
-import model.VehiculeModel
+import CohomaContext
+import model.ModelManager
 import map.Map
 import map.MapLayer
 import map.MapLayerSync
@@ -111,28 +112,15 @@ Component root {
   Spike show_reticule
   Spike hide_reticule
 
-  //COLORS FOR VEHICULES -- blues variations
-  //Int vabCOL (#6BC0FF)
-  //Int agiCOL (#ADE2ED)
-  //Int agiCOL2 (#51D5F0)
-  //Int lynxCOL (#5C64FF)
-  //Int spotCOL (#ABBFEB)
-  //Int droneCOL (#5EFFF1)
-  
-  //flashy
-  Int vabCOL (#00B1E6)
-  Int agiCOL (#0C2EE8)
-  Int agiCOL2 (#B500FF)
-  Int lynxCOL (#B3B100)
-  Int spotCOL (#0CE820)
-  Int droneCOL (#1ACAFF)
-
   // Load only once SVG files
 	svg_vab = loadFromXML ("res/svg/vab.svg")
   svg_robot = loadFromXML ("res/svg/robot.svg")
   svg_drone = loadFromXML ("res/svg/drone.svg")
   svg_safety_pilot = loadFromXML("res/svg/safety_pilot.svg")
 
+  CohomaContext context (init_lat, init_lon, init_zoom)
+
+  ModelManager model_manager (context)
 
   //Create one layer per data.
   // from bottom to top :
@@ -167,28 +155,17 @@ Component root {
       String name ("OSM")
     }*/
 
-    Component model {
-      Component vehicules {
-        VehiculeModel vab (map, "vab", "VAB", init_lat, init_lon, $vabCOL)
-        VehiculeModel agilex1 (map, "agilex1", "AGILEX 1", init_lat + 0.0005, init_lon, $agiCOL)
-        VehiculeModel agilex2 (map, "agilex2", "AGILEX 2", init_lat + 0.001, init_lon, $agiCOL2)
-        VehiculeModel lynx (map, "lynx", "LYNX", init_lat, init_lon + 0.001, $lynxCOL)
-        VehiculeModel spot (map, "spot", "SPOT", init_lat + 0.001 , init_lon + 0.001, $spotCOL)
-        VehiculeModel drone (map, "drone", "DRONE", init_lat + 0.0015 , init_lon + 0.0015, $droneCOL)
-      }
-    }
-
     Component satelites {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible { //using Layer prevents some animations to work (TODO Stephane)
           List layers {
-            Vehicule vab (map, init_lat, init_lon, "vab", $vabCOL, svg_vab)
-            Vehicule agilex1 (map, init_lat + 0.0005, init_lon, "agilex1", $agiCOL, svg_robot)
-            Vehicule agilex2 (map, init_lat + 0.001, init_lon, "agilex2", $agiCOL2, svg_robot)
-            Vehicule lynx (map, init_lat, init_lon + 0.001, "lynx", $lynxCOL, svg_robot)
-            Vehicule spot (map, init_lat + 0.001 , init_lon + 0.001, "spot", $spotCOL, svg_robot)
-            Vehicule drone (map, init_lat + 0.0015 , init_lon + 0.0015, "drone", $droneCOL, svg_drone)
+            Vehicule vab (map, init_lat, init_lon, "vab", $context.VAB_COL, svg_vab)
+            Vehicule agilex1 (map, init_lat + 0.0005, init_lon, "agilex1", $context.AGI_1_COL, svg_robot)
+            Vehicule agilex2 (map, init_lat + 0.001, init_lon, "agilex2", $context.AGI_2_COL, svg_robot)
+            Vehicule lynx (map, init_lat, init_lon + 0.001, "lynx", $context.LYNX_COL, svg_robot)
+            Vehicule spot (map, init_lat + 0.001 , init_lon + 0.001, "spot", $context.SPOT_COL, svg_robot)
+            Vehicule drone (map, init_lat + 0.0015 , init_lon + 0.0015, "drone", $context.DRONE_COL, svg_drone)
           }
         }
       }

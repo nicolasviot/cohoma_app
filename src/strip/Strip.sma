@@ -30,16 +30,22 @@ Strip (string _name, Process frame, Process satellite, Process _svg)
 
    DoubleFormatter b_volt (0, 1)
    battery_voltage =:> b_volt.input
+
    DoubleFormatter b_volt_per (0, 1)
    battery_percentage =:> b_volt_per.input
+
    DoubleFormatter alt_msl (0, 1)
    altitude_msl =:> alt_msl.input
+
    DoubleFormatter heading(0, 1)
    heading_rot =:> heading.input
+
    String emergency_stop_str("")
-   emergency_stop?"true":"false" =:> emergency_stop_str
+   emergency_stop ? "true" : "false" =:> emergency_stop_str
+
    String failsafe_str("")
-   failsafe?"true":"false" =:> failsafe_str
+   failsafe ? "true" : "false" =:> failsafe_str
+
    String status("")
    /* OPERATING_MODE_UNKNOWN = 0            # Default value
    OPERATING_MODE_MANUAL = 1             # Operated by security pilot
@@ -110,17 +116,5 @@ Strip (string _name, Process frame, Process satellite, Process _svg)
    g.background.press -> satellite.startAnim
    g.background.release -> satellite.stopAnim
 
-
-   /*FSM drag {
-      State idle{
-
-      }
-      State dragging{
-         frame.move.x - 20 - parent_tx =:> t.tx
-         frame.move.y - 20 - parent_ty =:> t.ty
-      }
-      idle-> dragging (g.background.press)
-      dragging -> idle (g.background.release)
-   }*/
 }
 
