@@ -37,7 +37,6 @@ import SafetyPilot
 import Trap
 import Vehicule
 import TaskLayer
-import LimaLayer
 import TrapLayer
 import SiteLayer
 import EnvMapLayer
@@ -234,15 +233,7 @@ Component root {
       String name("Tasks")
       tasklayer aka ctrl_visibility.visible.layer
     }
- /*   Component lima{
-      Switch ctrl_visibility (visible){
-        Component hidden
-        Component visible {
-          LimaLayer layer (map)
-        }
-      }
-      String name("LIMA")
-    }*/
+
     Component result{
       Switch ctrl_visibility (visible){
         Component hidden
