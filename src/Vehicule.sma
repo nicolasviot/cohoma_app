@@ -62,8 +62,6 @@ Vehicule (Process map, double _lat, double _lon, string init_state, int _color, 
         State idle {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
             (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
- 
-
         }
         State zoom_in {
             Double new_cx (0)

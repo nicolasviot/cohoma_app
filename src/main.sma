@@ -132,6 +132,7 @@ Component root {
 	svg_vab = loadFromXML ("res/svg/vab.svg")
   svg_robot = loadFromXML ("res/svg/robot.svg")
   svg_drone = loadFromXML ("res/svg/drone.svg")
+  svg_safety_pilot = loadFromXML("res/svg/safety_pilot.svg")
 
 
   //Create one layer per data.
@@ -268,8 +269,8 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-            SafetyPilot sfty_pilot_uav (map, $init_lat , $init_lon- 0.005, 0, "UAV")
-            SafetyPilot sfty_pilot_ugv (map, $init_lat , $init_lon+ 0.005, 0, "UGV")
+            SafetyPilot sfty_pilot_uav (map, init_lat, init_lon - 0.005, 0, "UAV", svg_safety_pilot)
+            SafetyPilot sfty_pilot_ugv (map, init_lat, init_lon + 0.005, 0, "UGV", svg_safety_pilot)
         }
       }
       String name("Actors")

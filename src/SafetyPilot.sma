@@ -7,25 +7,21 @@ import gui.animation.Animator
 
 _native_code_
 %{
-#include "cpp/coords-utils.h"
-/*unsigned long RGBToHex(int r, int g, int b)
-{   
-    return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
-}*/
+    #include "cpp/coords-utils.h"
+
 %}
 
 _define_
-SafetyPilot (Process map, double _lat, double _lon, int _id, string _type)
+SafetyPilot (Process map, double _lat, double _lon, int _id, string _type, Process _svg)
 {
-
-
 //APP-6A
 
-    Double lat($_lat)
-    Double lon($_lon)
+    Double lat (_lat)
+    Double lon (_lon)
     Double altitude_msl(0)
     Double radius(100)
-    Int id($_id)
+    Int id (_id)
+    String type (_type)
     
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
@@ -34,21 +30,17 @@ SafetyPilot (Process map, double _lat, double _lon, int _id, string _type)
     map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
     Translation screen_translation (0, 0)
     
-
-    String type($_type)
-
-
     NoOutline _
     FillColor circleFill (#A056F6)
     FillOpacity _(0.3)
     Circle c (0, 0, 50)
     radius * map.scaling_factor_correction /get_resolution ($map.zoomLevel) =:> c.r
 
-    FillColor _ (0,0,0)
-    FillOpacity _ (3.3) //ahah sinon ça se multiplie
-    Translation icon_translation(0,0)
-    svg = loadFromXML("res/svg/safety_pilot.svg")
-    icon << svg.icon
+    FillColor _ (0, 0, 0)
+    FillOpacity _ (3.3) // 0.3 * 3.3 = 0.99 (opacity = 100%)
+    Translation icon_translation(0, 0)
+
+    icon << clone (_svg.icon)
 
     c.cx =:> icon_translation.tx
     c.cy =:> icon_translation.ty
@@ -59,21 +51,14 @@ SafetyPilot (Process map, double _lat, double _lon, int _id, string _type)
     Switch ctrl_type_operator(UAV){
         Component UAV{
             #A056F6 =: circleFill.value
-            160 =: circleFill.r
-            86 =: circleFill.g
-            246 =: circleFill.b
         }
         Component UGV{
-            112 =: circleFill.r
-            141 =: circleFill.g
-            35 =: circleFill.b    
-
+            #708d23 =: circleFill.value
         }
     }
-
     type =:> ctrl_type_operator.state
 
-  FSM drag_fsm {
+    FSM drag_fsm {
         State no_drag {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
             (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
