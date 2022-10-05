@@ -128,6 +128,11 @@ Component root {
   Int spotCOL (#0CE820)
   Int droneCOL (#1ACAFF)
 
+  // Load only once SVG files
+	svg_vab = loadFromXML ("res/svg/vab.svg")
+  svg_robot = loadFromXML ("res/svg/robot.svg")
+  svg_drone = loadFromXML ("res/svg/drone.svg")
+
 
   //Create one layer per data.
   // from bottom to top :
@@ -178,12 +183,12 @@ Component root {
         Component hidden
         Component visible { //using Layer prevents some animations to work (TODO Stephane)
           List layers {
-            Vehicule vab (map, init_lat, init_lon, "vab", $vabCOL)
-            Vehicule agilex1 (map, init_lat + 0.0005, init_lon, "agilex1", $agiCOL)
-            Vehicule agilex2 (map, init_lat + 0.001, init_lon, "agilex2", $agiCOL2)
-            Vehicule lynx (map, init_lat, init_lon + 0.001, "lynx", $lynxCOL)
-            Vehicule spot (map, init_lat + 0.001 , init_lon + 0.001, "spot", $spotCOL)
-            Vehicule drone (map, init_lat + 0.0015 , init_lon + 0.0015, "drone", $droneCOL)
+            Vehicule vab (map, init_lat, init_lon, "vab", $vabCOL, svg_vab)
+            Vehicule agilex1 (map, init_lat + 0.0005, init_lon, "agilex1", $agiCOL, svg_robot)
+            Vehicule agilex2 (map, init_lat + 0.001, init_lon, "agilex2", $agiCOL2, svg_robot)
+            Vehicule lynx (map, init_lat, init_lon + 0.001, "lynx", $lynxCOL, svg_robot)
+            Vehicule spot (map, init_lat + 0.001 , init_lon + 0.001, "spot", $spotCOL, svg_robot)
+            Vehicule drone (map, init_lat + 0.0015 , init_lon + 0.0015, "drone", $droneCOL, svg_drone)
           }
         }
       }

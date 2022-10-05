@@ -12,7 +12,7 @@ _native_code_
 %}
 
 _define_
-Vehicule (Process map, double _lat, double _lon, string init_state, int _color)
+Vehicule (Process map, double _lat, double _lon, string init_state, int _color, Process _svg)
 {
     Double lat (_lat)
     Double lon (_lon)
@@ -36,43 +36,28 @@ Vehicule (Process map, double _lat, double _lon, string init_state, int _color)
     Translation screen_translation (0, 0)
     Rotation rot (0, 0, 0)
     heading_rot =:> rot.a
-    // [insert beautiful graphics here]
 
-    Switch graphics(vab) {
-        Component vab{
-            svg = loadFromXML ("res/svg/vab.svg")
-            icon << svg.icon
-            color =: icon.shape.fill.value
+    // [insert beautiful graphics here]
+    icon << clone (_svg.icon)
+    color =: icon.shape.fill.value
+
+    /*Switch graphics (vab) {
+        Component vab {
         }
-        Component agilex1{
-            svg = loadFromXML ("res/svg/robot.svg")
-            icon << svg.icon
-            color =: icon.shape.fill.value
+        Component agilex1 {
         }
-        Component agilex2{
-            svg = loadFromXML ("res/svg/robot.svg")
-            icon << svg.icon
-            color =: icon.shape.fill.value
+        Component agilex2 {
         }
         Component lynx {
-            svg = loadFromXML ("res/svg/robot.svg")
-            icon << svg.icon
-            color =: icon.shape.fill.value
         }
         Component spot {
-            svg = loadFromXML ("res/svg/robot.svg")
-            icon << svg.icon
-            color =: icon.shape.fill.value
         }
         Component drone {
-            svg = loadFromXML ("res/svg/drone.svg")
-            icon << svg.icon
-            color =: icon.shape.fill.value
-          
         }
-    } 
-    
-    state =:> graphics.state
+    }
+    state =:> graphics.state*/
+
+
     FSM fsm {
         State idle {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
