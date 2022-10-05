@@ -3,8 +3,8 @@ use base
 use gui
 use animation
 
-import Slider
-import CheckBox
+import widgets.Slider
+import widgets.CheckBox
 import gui.animation.Animator
 
 _define_

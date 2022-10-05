@@ -2,7 +2,7 @@ use core
 use gui
 use base
 
-import Button
+import widgets.Button
 import ItineraryPannel
 import ClockComponent
 import Console
@@ -123,27 +123,26 @@ RightPannel (Process root, Process frame, Process node) {
 
 
 	Component IObuttons{
-	/*	Button send_plan_req (frame, " request plan ", 20, 150)
+		Button send_plan_req (frame, " request plan ", 20, 140)
 		send_plan_req.click -> plan_request
-	*/	/*
-		Button valid_plan (frame, " validate plan ", 100, 150)
-		valid_plan.click -> validate_plan*/
-
-	/*	Button update_graph_but (frame, "send graph", 20, 200)
-		update_graph_but.click -> update_graph
-	*/
-		/*Button test_multiple_itineraries_button (frame, "test multiple itineraries", 100, 150)
-		test_multiple_itineraries_button.click -> test_multiple_itineraries_spike
-	*/
-	/*	Button test_allocation_button(frame, "test allocation", 20, 250)
-		test_allocation_button.click -> test_allocation_spike*/
 		
-	/*	Button test_lima_button(frame, "test lima", 100, 250)
-		test_lima_button.click -> test_lima_spike*/
+		Button valid_plan (frame, " validate plan ", 20, 200)
+		valid_plan.click -> validate_plan
 
+		Button update_graph_but (frame, "send graph", 20, 260)
+		update_graph_but.click -> update_graph
+	
+		Button test_multiple_itineraries_button (frame, "test multiple itineraries", 20, 320)
+		test_multiple_itineraries_button.click -> test_multiple_itineraries_spike
+	
+		Button test_allocation_button(frame, "test allocation", 20, 380)
+		test_allocation_button.click -> test_allocation_spike
+		
+		Button test_lima_button(frame, "test lima", 20, 440)
+		test_lima_button.click -> test_lima_spike
 
-		/*Button test_visibility_map_button(frame, "test_visibility_map", 10, 500)
+		Button test_visibility_map_button(frame, "test_visibility_map", 20, 500)
 		test_visibility_map_button.click->test_visibility_map
-	*/}
+	}
 
 }

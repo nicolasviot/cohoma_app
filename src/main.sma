@@ -19,7 +19,6 @@ use gui
 use animation
 use display
 
-import Slider
 import Map
 import MapLayer
 import MapLayerSync

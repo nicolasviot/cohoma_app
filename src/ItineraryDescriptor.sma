@@ -3,7 +3,7 @@ use gui
 use display
 use base
 
-import Button
+import widgets.Button
 
 _native_code_
 %{
