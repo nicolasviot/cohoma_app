@@ -39,7 +39,6 @@ import Vehicule
 import TaskLayer
 import LimaLayer
 import TrapLayer
-import ExclusionAreaLayer
 import SiteLayer
 import EnvMapLayer
 
@@ -256,16 +255,6 @@ Component root {
       visibility_map aka ctrl_visibility.visible.layer.visibility_map
       visibility_map_resolution aka ctrl_visibility.visible.layer.visibility_map_resolution
     }
-/*    Component mission_zones{
-      Switch ctrl_visibility (visible){
-        Component hidden
-        Component visible{
-          ExclusionAreaLayer layer (map)
-        }
-      }
-      String name("Exclusion areas")
-    }
-*/
 
     Component actors{
       Switch ctrl_visibility (visible){

@@ -11,7 +11,7 @@ srcs_sma ?= src/ClockComponent.sma src/Reticule.sma src/Strip.sma src/Slider.sma
             src/ManagerId.sma \
             src/SafetyPilot.sma src/TaskAreaSummit.sma src/TaskArea.sma src/Lima.sma src/LimaLayer.sma src/TaskLayer.sma \
             src/Lima.sma src/LimaLayer.sma \
-            src/ExclusionArea.sma src/ExclusionAreaLayer.sma src/SiteLayer.sma \
+            src/ExclusionArea.sma src/SiteLayer.sma \
             src/NavGraph.sma src/Itineraries.sma \
             src/PixmapTile.sma \
             src/MapLayer.sma \
