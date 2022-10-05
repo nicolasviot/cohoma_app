@@ -3,56 +3,28 @@ use gui
 use display
 
 _define_
-Strip (string _name, Process frame, Process satellite, Process _svg)
+Strip (Process _model, Process _svg)
 {
-   
-   Double battery_voltage(24)
-   Int battery_percentage(75)
-   Double altitude_msl(0)
-   Double heading_rot(0)
-   Bool emergency_stop(0)
-   Bool failsafe(0)
-   Int operation_mode(0)
-   String name(_name)
-   Int color (#0F0F0F)
+   model aka _model
 
-
-   //link with model (vehicule component)
-   satellite.battery_voltage => battery_voltage
-   satellite.battery_percentage =:> battery_percentage
-   satellite.altitude_msl =:> altitude_msl
-   satellite.heading_rot =:> heading_rot
-   satellite.emergency_stop =:> emergency_stop
-   satellite.failsafe =:> failsafe
-   satellite.operation_mode =:> operation_mode
-   satellite.color =:> color
-   
-
+   //link with model   
    DoubleFormatter b_volt (0, 1)
-   battery_voltage =:> b_volt.input
+   model.battery_voltage =:> b_volt.input
 
    DoubleFormatter b_volt_per (0, 1)
-   battery_percentage =:> b_volt_per.input
+   model.battery_percentage =:> b_volt_per.input
 
    DoubleFormatter alt_msl (0, 1)
-   altitude_msl =:> alt_msl.input
+   model.altitude_msl =:> alt_msl.input
 
    DoubleFormatter heading(0, 1)
-   heading_rot =:> heading.input
+   model.heading_rot =:> heading.input
 
    String emergency_stop_str("")
-   emergency_stop ? "true" : "false" =:> emergency_stop_str
+   model.emergency_stop ? "true" : "false" =:> emergency_stop_str
 
    String failsafe_str("")
-   failsafe ? "true" : "false" =:> failsafe_str
-
-   String status("")
-   /* OPERATING_MODE_UNKNOWN = 0            # Default value
-   OPERATING_MODE_MANUAL = 1             # Operated by security pilot
-   OPERATING_MODE_TELEOPERATION = 2      # Operated by remote operator
-   OPERATING_MODE_AUTONOMOUS = 3 
-   */
-   (operation_mode == 1 ) ? "Manual" : ((operation_mode == 2 )? "TeleOP" : ((operation_mode == 3 )? "Auto" : "???")) =:> status
+   model.failsafe ? "true" : "false" =:> failsafe_str
 
 
    Translation t (0, 0)
@@ -66,18 +38,18 @@ Strip (string _name, Process frame, Process satellite, Process _svg)
    heading.output + "°" =:> g.central.data.heading.heading_text.text
    alt_msl.output + "m" =:> g.central.data.altitude.altitude_text.text 
    b_volt_per.output + "%" =:> g.central.battery_gauge.battery_percentage.text
-   battery_percentage * 46/100 =:> g.central.battery_gauge.battery_rect.width 
+   model.battery_percentage * 46/100 =:> g.central.battery_gauge.battery_rect.width 
    b_volt.output + "V" =:> g.left.energy.gauge.energy_text.text
-   battery_percentage * 60/100  =:> g.left.energy.gauge.energy_rect.width
-   (_name=="DRONE")?"aérien":"terrestre" =:> g.type.text
-   name =:> g.id.text
-   status =:> g.left.status.mode.mode_text.text
-   color =:> g.strip_color.fill.value
+   model.battery_percentage * 60/100  =:> g.left.energy.gauge.energy_rect.width
+   (model.type == "drone") ? "aérien" : "terrestre" =:> g.type.text
+   model.name =:> g.id.text
+   model.status =:> g.left.status.mode.mode_text.text
+   model.color =:> g.strip_color.fill.value
 
    //link status
    Spike data_in
-   battery_voltage -> data_in
-   heading_rot -> data_in
+   model.battery_voltage -> data_in
+   model.heading_rot -> data_in
    //for debugging
    //g.id.press -> data_in
 
@@ -113,8 +85,9 @@ Strip (string _name, Process frame, Process satellite, Process _svg)
       connected -> disconnected (connected.status_timer.end) 
    }
 
-   g.background.press -> satellite.startAnim
-   g.background.release -> satellite.stopAnim
+   // FIXME
+   g.background.press -> model.start_locate
+   g.background.release -> model.stop_locate
 
 }
 

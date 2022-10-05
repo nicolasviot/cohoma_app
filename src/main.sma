@@ -160,12 +160,12 @@ Component root {
         Component hidden
         Component visible { //using Layer prevents some animations to work (TODO Stephane)
           List layers {
-            Vehicule vab (map, init_lat, init_lon, "vab", $context.VAB_COL, svg_vab)
-            Vehicule agilex1 (map, init_lat + 0.0005, init_lon, "agilex1", $context.AGI_1_COL, svg_robot)
-            Vehicule agilex2 (map, init_lat + 0.001, init_lon, "agilex2", $context.AGI_2_COL, svg_robot)
-            Vehicule lynx (map, init_lat, init_lon + 0.001, "lynx", $context.LYNX_COL, svg_robot)
-            Vehicule spot (map, init_lat + 0.001 , init_lon + 0.001, "spot", $context.SPOT_COL, svg_robot)
-            Vehicule drone (map, init_lat + 0.0015 , init_lon + 0.0015, "drone", $context.DRONE_COL, svg_drone)
+            Vehicule vab (map, context, model_manager.vehicules.vab, init_lat, init_lon, svg_vab)
+            Vehicule agilex1 (map, context, model_manager.vehicules.agilex1, init_lat + 0.0005, init_lon, svg_robot)
+            Vehicule agilex2 (map, context, model_manager.vehicules.agilex2, init_lat + 0.001, init_lon, svg_robot)
+            Vehicule lynx (map, context, model_manager.vehicules.lynx, init_lat, init_lon + 0.001, svg_robot)
+            Vehicule spot (map, context, model_manager.vehicules.spot, init_lat + 0.001 , init_lon + 0.001, svg_robot)
+            Vehicule drone (map, context, model_manager.vehicules.drone, init_lat + 0.0015 , init_lon + 0.0015, svg_drone)
           }
         }
       }
@@ -330,7 +330,7 @@ Component root {
   right_pannel.right_pannel.test_visibility_map -> ros_manager.test_visibility_map
   
   // Strips container
-  StripContainer strips (f, 0, 868, l.map.layers.satelites )
+  StripContainer strips (0, 868, context, model_manager)
 
   UpperLeftMenu menu (l.map, f)
 

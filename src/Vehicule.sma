@@ -12,34 +12,29 @@ _native_code_
 %}
 
 _define_
-Vehicule (Process map, double _lat, double _lon, string init_state, int _color, Process _svg)
+Vehicule (Process map, Process _context, Process _model, double _lat, double _lon, Process _svg)
 {
+    //context aka _context
+    model aka _model
+
     Double lat (_lat)
     Double lon (_lon)
-    String state(init_state)
-    Int color (_color)
-
-    Double battery_voltage(24)
-    Int battery_percentage(75)
-    Double altitude_msl(500)
-    Double heading_rot(180)
-    Bool emergency_stop(0)
-    Bool failsafe(0)
-    Int operation_mode(0)
 
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
+
     Translation pos (0, 0)
     map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
     map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
  
     Translation screen_translation (0, 0)
+
     Rotation rot (0, 0, 0)
-    heading_rot =:> rot.a
+    model.heading_rot =:> rot.a
 
     // [insert beautiful graphics here]
     icon << clone (_svg.icon)
-    color =: icon.shape.fill.value
+    model.color =: icon.shape.fill.value
 
     /*Switch graphics (vab) {
         Component vab {
@@ -55,7 +50,7 @@ Vehicule (Process map, double _lat, double _lon, string init_state, int _color, 
         Component drone {
         }
     }
-    state =:> graphics.state*/
+    model.type =:> graphics.state*/
 
 
     FSM fsm {
@@ -106,10 +101,7 @@ Vehicule (Process map, double _lat, double _lon, string init_state, int _color, 
     }
 
 
-    //HIGHLIGHT ANIMATION ON REQUEST /////
-    Spike startAnim
-    Spike stopAnim
-
+    ///// HIGHLIGHT ANIMATION ON REQUEST /////
 
     //TODO compute radius according to the map center
     Double radius(60)
@@ -124,24 +116,19 @@ Vehicule (Process map, double _lat, double _lon, string init_state, int _color, 
 
     20 =: radius_anim.fps
     radius_anim.output =:> radius
-    startAnim -> radius_anim.start
-    stopAnim -> radius_anim.reset
-    stopAnim -> radius_anim.abort
 
-    FSM locate_FSM{
-        State idle{
+    FSM locate_FSM {
+        State idle
 
-        }
-        State animate{
-
+        State animate {
             OutlineWidth _ (4)
-            OutlineColor _ ($color)
+            OutlineColor _ ($model.color)
             Circle c (0, 0, $radius)
             radius =:> c.r
         }
-       
-        idle -> animate (startAnim)
-        animate -> idle (stopAnim)
+
+        idle -> animate (model.start_locate, radius_anim.start)
+        animate -> idle (model.stop_locate, radius_anim.abort)
     }
 
 }

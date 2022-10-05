@@ -36,4 +36,7 @@ VehiculeModel (Process _context, string _type, string _name, double _lat, double
     String status ("")
     (operation_mode == 1) ? "Manual" : ((operation_mode == 2 ) ? "TeleOP" : ((operation_mode == 3 ) ? "Auto" : "???")) =:> status
 
+
+    Spike start_locate
+    Spike stop_locate
 }

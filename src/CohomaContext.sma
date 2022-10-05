@@ -18,11 +18,11 @@ CohomaContext (double _init_lat, double _init_lon, double _init_zoom)
 
     // COLORS FOR VEHICULES -- blues variations
     //Int VAB_COL (#6BC0FF)
-    //Int agi1_COL (#ADE2ED)
-    //Int agi2_COL2 (#51D5F0)
-    //Int lynxCOL (#5C64FF)
-    //Int spotCOL (#ABBFEB)
-    //Int droneCOL (#5EFFF1)
+    //Int AGI_1_COL (#ADE2ED)
+    //Int AGI_2_COL (#51D5F0)
+    //Int LYNX_COL (#5C64FF)
+    //Int SPOT_COL (#ABBFEB)
+    //Int DRONE_COL (#5EFFF1)
     
     // flashy
     Int VAB_COL (#00B1E6)
