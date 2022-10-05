@@ -9,9 +9,10 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/model/VehiculeModel.sma \
             src/ClockComponent.sma src/Reticule.sma \
             src/Strip.sma src/StripContainer.sma \
-            src/StatusSelector.sma src/TrapStatusSelector.sma src/Trap.sma src/TaskAreaSummit.sma src/TaskArea.sma \
-            src/Edge.sma src/TaskEdge.sma src/TaskTrap.sma src/TaskLayer.sma src/TrapLayer.sma \
-            src/TaskAreaSummit.sma src/TaskArea.sma src/TaskLayer.sma \
+            src/StatusSelector.sma src/TrapStatusSelector.sma src/Trap.sma \
+            src/Edge.sma \
+            src/task/TaskAreaSummit.sma src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma src/task/TaskLayer.sma \
+            src/TrapLayer.sma \
             src/ManagerId.sma \
             src/SafetyPilot.sma \
             src/Lima.sma \

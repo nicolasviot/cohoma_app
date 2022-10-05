@@ -3,7 +3,7 @@ use gui
 use base
 use display
 
-import TaskAreaSummit
+import task.TaskAreaSummit
 
 _native_code_
 %{

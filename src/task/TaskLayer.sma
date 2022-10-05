@@ -3,9 +3,9 @@ use gui
 use base
 use display
 
-import TaskArea
-import TaskEdge
-import TaskTrap
+import task.TaskArea
+import task.TaskEdge
+import task.TaskTrap
 
 
 _define_

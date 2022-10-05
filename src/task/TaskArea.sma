@@ -4,7 +4,7 @@ use base
 use display
 use animation
 
-import TaskAreaSummit
+import task.TaskAreaSummit
 
 _native_code_
 %{
