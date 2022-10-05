@@ -6,19 +6,20 @@ exe_dir ?= .
 exe ?= cohoma
 
 srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.sma  \
-            src/ClockComponent.sma src/Reticule.sma src/Strip.sma \
-            src/PanAndZoom.sma src/StatusSelector.sma src/GraphNode.sma src/TrapStatusSelector.sma src/Trap.sma src/TaskAreaSummit.sma src/EnvMapLayer.sma src/TaskArea.sma \
-            src/Edge.sma src/TaskEdge.sma src/TaskTrap.sma src/TaskLayer.sma src/TrapLayer.sma src/Node.sma \
+            src/ClockComponent.sma src/Reticule.sma \
+            src/Strip.sma src/StripContainer.sma \
+            src/StatusSelector.sma src/TrapStatusSelector.sma src/Trap.sma src/TaskAreaSummit.sma src/TaskArea.sma \
+            src/Edge.sma src/TaskEdge.sma src/TaskTrap.sma src/TaskLayer.sma src/TrapLayer.sma \
+            src/TaskAreaSummit.sma src/TaskArea.sma src/TaskLayer.sma \
             src/ManagerId.sma \
-            src/SafetyPilot.sma src/TaskAreaSummit.sma src/TaskArea.sma src/Lima.sma src/TaskLayer.sma \
+            src/SafetyPilot.sma \
+            src/Lima.sma \
             src/ExclusionArea.sma src/SiteLayer.sma \
-            src/NavGraph.sma src/Itineraries.sma \
-            src/PixmapTile.sma \
-            src/MapLayer.sma \
-            src/MapLayerSync.sma \
-            src/Map.sma \
-            src/ItineraryDescriptor.sma src/ItineraryPannel.sma src/Console.sma src/RightPannel.sma src/RosManager.sma \
-            src/Vehicule.sma src/UpperLeftMenu.sma src/StripContainer.sma src/main.sma
+            src/GraphNode.sma src/Node.sma src/NavGraph.sma \
+            src/Itineraries.sma src/ItineraryDescriptor.sma src/ItineraryPannel.sma \
+            src/map/PanAndZoom.sma src/map/EnvMapLayer.sma src/map/PixmapTile.sma src/map/MapLayer.sma src/map/MapLayerSync.sma src/map/Map.sma \
+            src/Console.sma src/RightPannel.sma src/RosManager.sma \
+            src/Vehicule.sma src/UpperLeftMenu.sma src/main.sma
 # or
 #srcs_sma := $(shell find $(src_dir) -name "*.sma")
 

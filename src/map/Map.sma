@@ -16,7 +16,7 @@
  use base
  use gui
 
- import PanAndZoom
+ import map.PanAndZoom
  import Reticule
 
  _native_code_

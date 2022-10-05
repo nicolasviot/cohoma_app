@@ -19,9 +19,10 @@ use gui
 use animation
 use display
 
-import Map
-import MapLayer
-import MapLayerSync
+import map.Map
+import map.MapLayer
+import map.MapLayerSync
+import map.EnvMapLayer
 import GraphNode
 import Strip
 import NavGraph
@@ -38,39 +39,37 @@ import Vehicule
 import TaskLayer
 import TrapLayer
 import SiteLayer
-import EnvMapLayer
-
 
 
 _native_code_
 %{
-#include "cpp/tiles_manager.h"
-#include "cpp/coords-utils.h"
-#include <iostream>
-#include <string>
+  #include "cpp/tiles_manager.h"
+  #include "cpp/coords-utils.h"
+  #include <iostream>
+  #include <string>
 
-#ifndef NO_ROS
-#include "rclcpp/rclcpp.hpp"
-#endif
+  #ifndef NO_ROS
+  #include "rclcpp/rclcpp.hpp"
+  #endif
 
 
-static void
-init_ros ()
-{
-#ifndef NO_ROS
-  rclcpp::init(0,0); //argc, argv);
-#endif
-}
+  static void
+  init_ros ()
+  {
+  #ifndef NO_ROS
+    rclcpp::init(0,0); //argc, argv);
+  #endif
+  }
 
-int
-get_arg_double (int argc, char** argv, int n)
-{
+  int
+  get_arg_double (int argc, char** argv, int n)
+  {
     if (argc < n+1) {
       return -1;
     }
     double r = std::strtod (argv[n], nullptr);
     return r;
-}
+  }
 %}
 
 _main_
@@ -166,9 +165,9 @@ Component root {
         Component visible { //using Layer prevents some animations to work (TODO Stephane)
           List layers {
             Vehicule vab (map, $init_lat, $init_lon, "vab", vabCOL)
-            Vehicule agilex1 (map, $init_lat + 0.0005, $init_lon,  "agilex1",agiCOL)
-            Vehicule agilex2 (map, $init_lat + 0.001, $init_lon,  "agilex2",agiCOL2)
-            Vehicule lynx (map, $init_lat, $init_lon + 0.001,  "lynx", lynxCOL)
+            Vehicule agilex1 (map, $init_lat + 0.0005, $init_lon, "agilex1", agiCOL)
+            Vehicule agilex2 (map, $init_lat + 0.001, $init_lon, "agilex2", agiCOL2)
+            Vehicule lynx (map, $init_lat, $init_lon + 0.001, "lynx", lynxCOL)
             Vehicule spot (map, $init_lat+ 0.001 , $init_lon + 0.001, "spot", spotCOL)
             Vehicule drone (map, $init_lat+ 0.0015 , $init_lon + 0.0015, "drone", droneCOL)
           }
