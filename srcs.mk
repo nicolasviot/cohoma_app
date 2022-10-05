@@ -8,7 +8,7 @@ exe ?= cohoma
 srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.sma \
             src/model/VehiculeModel.sma \
             src/ClockComponent.sma src/Reticule.sma \
-            src/Strip.sma src/StripContainer.sma \
+            src/strip/Strip.sma src/strip/StripContainer.sma \
             src/Edge.sma \
             src/StatusSelector.sma \
             src/trap/TrapStatusSelector.sma src/trap/Trap.sma \

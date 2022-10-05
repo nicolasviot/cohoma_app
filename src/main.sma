@@ -25,7 +25,6 @@ import map.MapLayer
 import map.MapLayerSync
 import map.EnvMapLayer
 import GraphNode
-import Strip
 import NavGraph
 import Itineraries
 import RightPannel
@@ -33,7 +32,7 @@ import Node
 import Edge
 import RosManager
 import UpperLeftMenu
-import StripContainer
+import strip.StripContainer
 import SafetyPilot
 import Vehicule
 import task.TaskLayer

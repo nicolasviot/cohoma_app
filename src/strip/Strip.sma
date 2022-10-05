@@ -3,8 +3,8 @@ use gui
 use display
 
 _define_
-Strip (string _name, Process frame, Process satellite){
-
+Strip (string _name, Process frame, Process satellite, Process _svg)
+{
    
    Double battery_voltage(24)
    Int battery_percentage(75)
@@ -55,8 +55,7 @@ Strip (string _name, Process frame, Process satellite){
    Double parent_ty(0)
    
 
-   svg = loadFromXML ("res/svg/stripV2.svg")
-   g << svg.Strip
+   g << clone (_svg.Strip)
 
    heading.output + "°" =:> g.central.data.heading.heading_text.text
    alt_msl.output + "m" =:> g.central.data.altitude.altitude_text.text 
