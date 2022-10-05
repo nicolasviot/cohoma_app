@@ -26,7 +26,7 @@
 #include "NavGraph.h"
 #include "Edge.h"
 #include "math.h"
-#include "Trap.h"
+#include "trap/Trap.h"
 #include "task/TaskTrap.h"
 #include "task/TaskAreaSummit.h"
 #include "task/TaskArea.h"

@@ -35,10 +35,10 @@ import RosManager
 import UpperLeftMenu
 import StripContainer
 import SafetyPilot
-import Trap
 import Vehicule
 import task.TaskLayer
-import TrapLayer
+import trap.Trap
+import trap.TrapLayer
 import SiteLayer
 
 
