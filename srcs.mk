@@ -5,7 +5,8 @@ exe_dir ?= .
 
 exe ?= cohoma
 
-srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.sma  \
+srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.sma \
+            src/model/VehiculeModel.sma \
             src/ClockComponent.sma src/Reticule.sma \
             src/Strip.sma src/StripContainer.sma \
             src/StatusSelector.sma src/TrapStatusSelector.sma src/Trap.sma src/TaskAreaSummit.sma src/TaskArea.sma \

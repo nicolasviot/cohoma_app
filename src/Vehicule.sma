@@ -12,12 +12,13 @@ _native_code_
 %}
 
 _define_
-Vehicule (Process map, double _lat, double _lon, string init_state, Process _color)
+Vehicule (Process map, double _lat, double _lon, string init_state, int _color)
 {
+    Double lat (_lat)
+    Double lon (_lon)
+    String state(init_state)
+    Int color (_color)
 
-    
-    Double lat($_lat)
-    Double lon($_lon)
     Double battery_voltage(24)
     Int battery_percentage(75)
     Double altitude_msl(500)
@@ -25,9 +26,7 @@ Vehicule (Process map, double _lat, double _lon, string init_state, Process _col
     Bool emergency_stop(0)
     Bool failsafe(0)
     Int operation_mode(0)
-    Int color ($_color)
 
-    String state(init_state)
     Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
     Translation pos (0, 0)

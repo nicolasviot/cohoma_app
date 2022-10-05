@@ -19,6 +19,7 @@ use gui
 use animation
 use display
 
+import model.VehiculeModel
 import map.Map
 import map.MapLayer
 import map.MapLayerSync
@@ -127,6 +128,7 @@ Component root {
   Int spotCOL (#0CE820)
   Int droneCOL (#1ACAFF)
 
+
   //Create one layer per data.
   // from bottom to top :
   //  - geoportail tiles
@@ -149,7 +151,7 @@ Component root {
       opacity aka ctrl_visibility.visible.layer.opacity
       String name ("Geoportail")
     }
-/*    Component osm {
+    /*Component osm {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible {
@@ -159,17 +161,29 @@ Component root {
       opacity aka ctrl_visibility.visible.layer.opacity
       String name ("OSM")
     }*/
+
+    Component model {
+      Component vehicules {
+        VehiculeModel vab (map, "vab", "VAB", init_lat, init_lon, $vabCOL)
+        VehiculeModel agilex1 (map, "agilex1", "AGILEX 1", init_lat + 0.0005, init_lon, $agiCOL)
+        VehiculeModel agilex2 (map, "agilex2", "AGILEX 2", init_lat + 0.001, init_lon, $agiCOL2)
+        VehiculeModel lynx (map, "lynx", "LYNX", init_lat, init_lon + 0.001, $lynxCOL)
+        VehiculeModel spot (map, "spot", "SPOT", init_lat + 0.001 , init_lon + 0.001, $spotCOL)
+        VehiculeModel drone (map, "drone", "DRONE", init_lat + 0.0015 , init_lon + 0.0015, $droneCOL)
+      }
+    }
+
     Component satelites {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible { //using Layer prevents some animations to work (TODO Stephane)
           List layers {
-            Vehicule vab (map, $init_lat, $init_lon, "vab", vabCOL)
-            Vehicule agilex1 (map, $init_lat + 0.0005, $init_lon, "agilex1", agiCOL)
-            Vehicule agilex2 (map, $init_lat + 0.001, $init_lon, "agilex2", agiCOL2)
-            Vehicule lynx (map, $init_lat, $init_lon + 0.001, "lynx", lynxCOL)
-            Vehicule spot (map, $init_lat+ 0.001 , $init_lon + 0.001, "spot", spotCOL)
-            Vehicule drone (map, $init_lat+ 0.0015 , $init_lon + 0.0015, "drone", droneCOL)
+            Vehicule vab (map, init_lat, init_lon, "vab", $vabCOL)
+            Vehicule agilex1 (map, init_lat + 0.0005, init_lon, "agilex1", $agiCOL)
+            Vehicule agilex2 (map, init_lat + 0.001, init_lon, "agilex2", $agiCOL2)
+            Vehicule lynx (map, init_lat, init_lon + 0.001, "lynx", $lynxCOL)
+            Vehicule spot (map, init_lat + 0.001 , init_lon + 0.001, "spot", $spotCOL)
+            Vehicule drone (map, init_lat + 0.0015 , init_lon + 0.0015, "drone", $droneCOL)
           }
         }
       }
