@@ -42,7 +42,7 @@ Vehicule (Process map, Process _context, Process _model, Process _svg)
         Component drone {
         }
     }
-    model.type =:> graphics.state*/
+    model.type =:> switch_type.state*/
 
 
     FSM fsm {

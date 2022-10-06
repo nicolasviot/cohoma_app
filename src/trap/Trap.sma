@@ -92,11 +92,7 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
     String code("?")
     String hazard("?")
 
-    Scaling sc (1, 1, 0, 0)
-    map.zoom =:> sc.sx, sc.sy
-    Translation pos (0, 0)
-    map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
-    map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+
     Translation screen_translation (0, 0)
 
 
