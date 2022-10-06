@@ -16,16 +16,6 @@ Vehicule (Process map, Process _context, Process _model, double _lat, double _lo
 {
     //context aka _context
     model aka _model
-
-    Double lat (_lat)
-    Double lon (_lon)
-
-    Scaling sc (1, 1, 0, 0)
-    map.zoom =:> sc.sx, sc.sy
-
-    Translation pos (0, 0)
-    map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
-    map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
  
     Translation screen_translation (0, 0)
 
@@ -55,14 +45,14 @@ Vehicule (Process map, Process _context, Process _model, double _lat, double _lo
 
     FSM fsm {
         State idle {
-            map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
-            (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
+            map.t0_y - lat2py ($model.lat, $map.zoomLevel) =:> screen_translation.ty
+            (lon2px ($model.lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
         }
         State zoom_in {
             Double new_cx (0)
             Double new_cy (0)
-            map.new_t0_y - lat2py ($lat, $map.zoomLevel + 1) =: new_cy
-            (lon2px ($lon, $map.zoomLevel + 1) - map.new_t0_x) =: new_cx
+            map.new_t0_y - lat2py ($model.lat, $map.zoomLevel + 1) =: new_cy
+            (lon2px ($model.lon, $map.zoomLevel + 1) - map.new_t0_x) =: new_cx
             Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
             0 =: anim.inc.state, anim.gen.input
             Double dx (0)
@@ -79,8 +69,8 @@ Vehicule (Process map, Process _context, Process _model, double _lat, double _lo
         State zoom_out {
             Double new_cx (0)
             Double new_cy (0)
-            map.new_t0_y - lat2py ($lat, $map.zoomLevel - 1) =: new_cy
-            (lon2px ($lon, $map.zoomLevel - 1) - map.new_t0_x) =: new_cx
+            map.new_t0_y - lat2py ($model.lat, $map.zoomLevel - 1) =: new_cy
+            (lon2px ($model.lon, $map.zoomLevel - 1) - map.new_t0_x) =: new_cx
             Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
             0 =: anim.inc.state, anim.gen.input
             Double dx (0)

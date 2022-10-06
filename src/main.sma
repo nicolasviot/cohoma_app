@@ -133,6 +133,7 @@ Component root {
 
   Component l {
     Map map (f, 0, 0, init_width, init_height, init_lat, init_lon, init_zoom)
+
     Component geoportail {
       Switch ctrl_visibility (visible) {
         Component hidden
@@ -159,6 +160,14 @@ Component root {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible { //using Layer prevents some animations to work (TODO Stephane)
+
+          Scaling sc (1, 1, 0, 0)
+          map.zoom =:> sc.sx, sc.sy
+
+          Translation pos (0, 0)
+          map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
+          map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+
           List layers {
             Vehicule vab (map, context, model_manager.vehicules.vab, init_lat, init_lon, svg_vab)
             Vehicule agilex1 (map, context, model_manager.vehicules.agilex1, init_lat + 0.0005, init_lon, svg_robot)
@@ -178,6 +187,7 @@ Component root {
       
       String name ("Satelites")
     }
+
     Component navgraph {
       Switch ctrl_visibility (visible) {
         Component hidden
@@ -193,6 +203,7 @@ Component root {
 
       String name ("Navgraph")
     }
+
     Component itineraries {
       Switch ctrl_visibility (visible){
         Component hidden
@@ -217,6 +228,7 @@ Component root {
       String name("Traps")
       traplayer aka ctrl_visibility.visible.layer
     }
+
     Component tasks{
       Switch ctrl_visibility (visible){
         Component hidden
@@ -253,6 +265,7 @@ Component root {
       sfty_pilot_uav aka ctrl_visibility.visible.sfty_pilot_uav
       sfty_pilot_ugv aka ctrl_visibility.visible.sfty_pilot_ugv
     }
+
     Component site{
       Switch ctrl_visibility(visible){
         Component hidden
@@ -263,6 +276,7 @@ Component root {
       String name("Site")
       sitelayer aka ctrl_visibility.visible.layer
     }
+
     Component allocated_tasks{
       Switch ctrl_visibility(visible){
         Component hidden
@@ -280,8 +294,7 @@ Component root {
       geoportail,
       //osm,
       result,
-      site,
-      //mission_zones,
+      site, // exclusion areas + limas
       satelites,
       navgraph,
       itineraries,
@@ -289,13 +302,13 @@ Component root {
       tasks,
       actors,
       allocated_tasks
-      //lima,
     }
   }
 
 
   show_reticule -> l.map.reticule.show_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.create
   hide_reticule -> l.map.reticule.hide_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
+  
   RosManager ros_manager(root, l.map, l.map.layers.navgraph.manager)
   
   Component right_pannel {
@@ -304,18 +317,13 @@ Component root {
 
     Switch ctrl_tab(plan){
       Component plan{
-
         RightPannel right_pannel (root, f, ros_manager.node)
-
       }
       Component supervise{
       
       }
     }
-    right_pannel aka ctrl_tab.plan.right_pannel
-
-
-   
+    right_pannel aka ctrl_tab.plan.right_pannel   
   }
 
   // Ros node w/ all sub and pub fonctions
@@ -404,7 +412,7 @@ Component root {
   FSM addEdge {
     State idle
     State shift_on
-    State preview_on{
+    State preview_on {
       List temp_id_list 
       root.l.map.layers.navgraph.manager.selected_id -> (root){
         addChildrenTo root.addEdge.preview_on.temp_id_list{
@@ -421,7 +429,7 @@ Component root {
       }
       NoOutline _
       NoFill _
-   /*   GraphNode temporary (l.map, f, 0, 0, 50, 50, 50)
+      /*GraphNode temporary (l.map, f, 0, 0, 50, 50, 50)
       0 =: temporary.opacity
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon*/
@@ -452,8 +460,8 @@ Component root {
       f.move.x  - pos.tx =:> temp_shadow_edge.x2
       f.move.y  - pos.ty =:> temp_shadow_edge.y2
       /*temporary.screen_translation.tx =:> temp_shadow_edge.x2
-      temporary.screen_translation.ty =:> temp_shadow_edge.y2
-    */}
+      temporary.screen_translation.ty =:> temp_shadow_edge.y2*/
+    }
 
     //idle -> shift_on (shift, addEdgeSpike1)
     idle -> shift_on (shift, clear_temp_list)
@@ -499,7 +507,6 @@ Component root {
 
 
 
-/* */
   add_segment -> (root){
     for (int i = 1; i < $root.addEdge.preview_on.temp_id_list.size; i++){
       int src = $root.addEdge.preview_on.temp_id_list.[i]
