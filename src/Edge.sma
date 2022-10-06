@@ -28,10 +28,6 @@ arcos
 OutlineWidth width (5)
 OutlineColor color (234, 234, 234)
 OutlineCapStyle _ (1)
-Translation pos (0, 0)
-nodelist.[$id_src].wpt.pos.tx =:> pos.tx
-
-nodelist.[$id_src].wpt.pos.ty =:> pos.ty
 
 Line edge (0, 0, 0, 0)
 
@@ -47,6 +43,7 @@ nodelist.[$id_dest].wpt.screen_translation.ty=:> y2
 
     Spike leave
     Spike enter
+
 FSM tooltip{
     State idle
     State entered{
@@ -106,7 +103,5 @@ FSM enterLeave {
     idle -> inside (outerEdge.enter)
     inside -> idle (outerEdge.leave)
 }
-
-
 
 }

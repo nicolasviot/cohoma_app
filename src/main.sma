@@ -27,6 +27,7 @@ import map.MapLayerSync
 import map.EnvMapLayer
 import GraphNode
 import NavGraph
+import StatusSelector
 import Itineraries
 import RightPannel
 import Node
@@ -313,8 +314,27 @@ Component root {
   }
 
 
-  show_reticule -> l.map.reticule.show_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.create
-  hide_reticule -> l.map.reticule.hide_reticule, l.map.layers.navgraph.ctrl_visibility.visible.layer.edit
+  // Foreground (absolute position in frame)
+  Component foreground {
+    Spike edit
+    Spike create
+
+    FSM fsm_mode {
+      State mode_wp_edit {
+        StatusSelector selector (f, l.map.layers.navgraph.manager)
+        //f.move.x =:> selector.x
+        //f.move.y =:> selector.y
+      }
+      State mode_wp_create
+
+      mode_wp_create->mode_wp_edit (edit)
+      mode_wp_edit->mode_wp_create (create)
+    }
+  }
+
+  show_reticule -> l.map.reticule.show_reticule, foreground.create
+  hide_reticule -> l.map.reticule.hide_reticule, foreground.edit
+
   
   RosManager ros_manager(root, l.map, l.map.layers.navgraph.manager)
   
@@ -373,6 +393,13 @@ Component root {
   FSM addNode {
     State idle 
     State preview{
+      Scaling sc (1, 1, 0, 0)
+      l.map.zoom =:> sc.sx, sc.sy
+
+      Translation pos (0, 0)
+      l.map.xpan - l.map.cur_ref_x + l.map.px0 =:> pos.tx
+      l.map.ypan - l.map.cur_ref_y + l.map.py0 =:> pos.ty
+
       GraphNode temporary (l.map,f, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
@@ -413,9 +440,8 @@ Component root {
   RefProperty current_addedge_node (nullptr)
   DerefDouble ddx (current_addedge_node, "wpt/screen_translation/tx", DJNN_GET_ON_CHANGE)
   DerefDouble ddy (current_addedge_node, "wpt/screen_translation/ty", DJNN_GET_ON_CHANGE)
-  DerefDouble ddtx (current_addedge_node, "wpt/pos/tx", DJNN_GET_ON_CHANGE)
-  DerefDouble ddty (current_addedge_node, "wpt/pos/ty", DJNN_GET_ON_CHANGE)
-  
+ 
+
   FSM addEdge {
     State idle
     State shift_on
@@ -443,7 +469,13 @@ Component root {
       OutlineOpacity _ (0.5)
       OutlineWidth _ (5)
       OutlineColor _ (234, 234, 234)
+
+      Scaling sc (1, 1, 0, 0)
+      l.map.zoom =:> sc.sx, sc.sy
+
       Translation pos (0, 0)
+      l.map.xpan - l.map.cur_ref_x + l.map.px0 =:> pos.tx
+      l.map.ypan - l.map.cur_ref_y + l.map.py0 =:> pos.ty
     
       Line temp_shadow_edge (0, 0, 0, 0)
 
@@ -457,15 +489,13 @@ Component root {
 
       index -> (root){
         root.addEdge.preview_on.temp_shadow_edge.x1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.screen_translation.tx
-
         root.addEdge.preview_on.temp_shadow_edge.y1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.screen_translation.ty
       }
       ddx.value =:> temp_shadow_edge.x1
       ddy.value =:> temp_shadow_edge.y1
-      ddtx.value =:> pos.tx
-      ddty.value =:> pos.ty 
-      f.move.x  - pos.tx =:> temp_shadow_edge.x2
-      f.move.y  - pos.ty =:> temp_shadow_edge.y2
+
+      f.move.x - pos.tx =:> temp_shadow_edge.x2
+      f.move.y - pos.ty =:> temp_shadow_edge.y2
       /*temporary.screen_translation.tx =:> temp_shadow_edge.x2
       temporary.screen_translation.ty =:> temp_shadow_edge.y2*/
     }
@@ -484,7 +514,7 @@ Component root {
   clear_temp_list -> (root) {
     
     root.l.map.layers.navgraph.manager.current_wpt = &(root.null_ref)
-    root.l.map.layers.navgraph.manager.entered_wpt  =  &(root.null_ref)
+    root.l.map.layers.navgraph.manager.entered_wpt = &(root.null_ref)
     root.current_addedge_node = &(root.null_ref)
 
     delete_content root.l.map.layers.navgraph.shadow_edges
@@ -493,8 +523,8 @@ Component root {
 
   clear_all -> (root) {
 
-    root.l.map.layers.navgraph.manager.current_wpt  =  &(root.null_ref)
-    root.l.map.layers.navgraph.manager.entered_wpt  =  &(root.null_ref)
+    root.l.map.layers.navgraph.manager.current_wpt = &(root.null_ref)
+    root.l.map.layers.navgraph.manager.entered_wpt = &(root.null_ref)
     root.current_addedge_node  = &(root.null_ref)
     
     delete_content root.l.map.layers.navgraph.edges

@@ -25,12 +25,15 @@ StatusSelector (Process f, Process _manager) {
     }
 
     svg = loadFromXML ("res/svg/status_selector.svg")
+
     FSM ctrl_visibility {
         State idle
+
         State hidden {
-            f.move.x + 5 =:> x
+            f.move.x =:> x
             f.move.y =:> y
         }
+        
         State visible {
             bg << svg.bg
             m_start << svg.mask_start

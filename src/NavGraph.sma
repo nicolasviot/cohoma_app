@@ -5,36 +5,37 @@ use base
 import Node
 import Edge
 import ManagerId
-import StatusSelector
 
 _define_
-NavGraph (Process _map, Process f){
+NavGraph (Process _map, Process f)
+{
 	map aka _map
+
 	Spike create_bindings
 	Spike clear
 	Int id (0)
-	ManagerId manager(0)
 
+	ManagerId manager (0)
 
 	// LogPrinter lp("id_selected :")
 	// manager.selected_id =:> lp.input
-	
 
-	
+	Scaling sc (1, 1, 0, 0)
+	map.zoom =:> sc.sx, sc.sy
+
+	Translation pos (0, 0)
+	map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
+	map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+
 	List edges {
-
-		
-		
-		
 		
 	}
+
 	List nodes {
 
 	}
 
 	addChildrenTo nodes {
-		//Node nodefictif(map, 0, 0, 0, 0, "n_fictif", 0, manager)
-
 		
 		Node node0(map, f, 43.316021818382886, 1.4041900634765625, 0.0, 0, "n_011", 1, manager)
 		Node node1(map, f, 43.316006206187375, 1.4047694206237793, 0.0, 0, "n_010", 2, manager)
@@ -49,9 +50,10 @@ NavGraph (Process _map, Process f){
 		Node node10(map, f, 43.3155144199759, 1.4047908782958984, 0.0, 0, "n_001", 11, manager)
 		Node node11(map, f, 43.315327071800844, 1.4045333862304688, 0.0, 0, "n_000", 12, manager)	
 		
-		
 	}
+
 	addChildrenTo edges {
+
 		Edge edge1(12, 11, 22.11618714809018, nodes)
 		Edge edge2(12, 10, 22.11618714809018, nodes)
 		Edge edge3(12, 9, 22.11618714809018, nodes)
@@ -79,18 +81,9 @@ NavGraph (Process _map, Process f){
 	
 	
 	OutlineOpacity _(0.5)
+	
 	List shadow_edges{
 		
 	}
 
-	Spike edit
-	Spike create
-	FSM mode {
-		State mode_wp_edit {
-			StatusSelector selector (f, manager)
-		}
-		State mode_wp_create
-		mode_wp_create->mode_wp_edit (edit)
-		mode_wp_edit->mode_wp_create (create)
-	}
 }

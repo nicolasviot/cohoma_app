@@ -8,15 +8,13 @@ import gui.animation.Animator
 _native_code_
 %{
     #include "cpp/coords-utils.h"
-    
+
 %}
 
 _define_
 GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
 {
 
-
-//APP-6A
     String usage_status ("default")
     Int id(0)
     Int node_col (#CCCCCC)
@@ -44,13 +42,10 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
     Spike shift_r
     f.key\-pressed == DJN_Key_Shift -> shift
     f.key\-released == DJN_Key_Shift -> shift_r
-    Scaling sc (1, 1, 0, 0)
-    map.zoom =:> sc.sx, sc.sy
-    Translation pos (0, 0)
-    map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
-    map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+
 
     Translation screen_translation(0, 0)
+
     Rotation rot (0, 0, 0)
     screen_translation.tx =:> rot.cx
     screen_translation.ty =:> rot.cy
