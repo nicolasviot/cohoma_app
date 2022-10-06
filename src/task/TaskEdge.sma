@@ -4,7 +4,7 @@ use display
 use base
 use animation
 
-import Edge
+import graph.Edge
 
 _define_
 TaskEdge (Process map, int _source, int _dest, Process nodes){

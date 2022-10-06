@@ -10,19 +10,18 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/model/NodeModel.sma src/model/VehiculeModel.sma src/model/SafetyPilotModel.sma src/model/ModelManager.sma \
             src/ClockComponent.sma src/Reticule.sma \
             src/strip/Strip.sma src/strip/StripContainer.sma \
-            src/Edge.sma \
-            src/StatusSelector.sma \
+            src/graph/StatusSelector.sma src/graph/Edge.sma src/graph/GraphNode.sma src/graph/Node.sma src/graph/NavGraph.sma \
             src/trap/TrapStatusSelector.sma src/trap/Trap.sma \
             src/task/TaskAreaSummit.sma src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma \
             src/task/TaskLayer.sma src/trap/TrapLayer.sma \
-            src/SafetyPilot.sma \
             src/Lima.sma \
             src/ExclusionArea.sma src/SiteLayer.sma \
-            src/GraphNode.sma src/Node.sma src/NavGraph.sma \
-            src/Itineraries.sma src/ItineraryDescriptor.sma src/ItineraryPannel.sma \
+            src/itinerary/Itineraries.sma src/itinerary/ItineraryDescriptor.sma src/itinerary/ItineraryPannel.sma \
             src/map/PanAndZoom.sma src/map/EnvMapLayer.sma src/map/PixmapTile.sma src/map/MapLayer.sma src/map/MapLayerSync.sma src/map/Map.sma \
-            src/Console.sma src/RightPannel.sma src/RosManager.sma \
-            src/Vehicule.sma src/UpperLeftMenu.sma src/main.sma
+            src/Console.sma src/RosManager.sma \
+            src/Vehicule.sma src/SafetyPilot.sma \
+            src/menu/RightPannel.sma src/menu/UpperLeftMenu.sma \
+            src/main.sma
 # or
 #srcs_sma := $(shell find $(src_dir) -name "*.sma")
 

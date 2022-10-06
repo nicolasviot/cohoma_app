@@ -7,8 +7,8 @@ import widgets.Button
 
 _native_code_
 %{
-#include "string.h"
-#include <iostream>
+	#include "string.h"
+	#include <iostream>
 %}
 
 _define_
@@ -23,6 +23,7 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 	String legend ("Itinerary: ")
 	String itinerary_id(id)
 	description_input =:> regex.input
+	
 	LogPrinter lp ("debug regexp")
 	description_input =:> lp.input
 	regex.[1] =:> legend

@@ -2,8 +2,8 @@ use core
 use gui
 use base
 
-import Node
-import Edge
+//import graph.Node
+//import graph.Edge
 
 _native_code_
 %{
@@ -50,6 +50,7 @@ edge_released_action (Process src, Process data)
 	// and assign it to current itineraries.id(data)
 	data.id = toString (itinerary_id)
 }
+
 
 _define_
 Itineraries (Process _map, Process f){

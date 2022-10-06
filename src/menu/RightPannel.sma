@@ -3,7 +3,7 @@ use gui
 use base
 
 import widgets.Button
-import ItineraryPannel
+import itinerary.ItineraryPannel
 import ClockComponent
 import Console
 

@@ -5,10 +5,8 @@ use display
 use animation
 
 import gui.animation.Animator
-
-
-
 import ItineraryDescriptor
+
 _define_
 ItineraryPannel(double _dx, double _dy, Process _id_selected){
 	Translation t (_dx, _dy)

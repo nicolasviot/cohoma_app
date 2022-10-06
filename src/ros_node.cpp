@@ -22,10 +22,10 @@
 
 //#include <fstream>
 
-#include "Node.h"
-#include "NavGraph.h"
-#include "Edge.h"
 #include "math.h"
+#include "graph/Node.h"
+#include "graph/NavGraph.h"
+#include "graph/Edge.h"
 #include "trap/Trap.h"
 #include "task/TaskTrap.h"
 #include "task/TaskAreaSummit.h"

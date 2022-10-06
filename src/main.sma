@@ -25,15 +25,13 @@ import map.Map
 import map.MapLayer
 import map.MapLayerSync
 import map.EnvMapLayer
-import GraphNode
-import NavGraph
-import StatusSelector
-import Itineraries
-import RightPannel
-import Node
-import Edge
+import graph.Node
+import graph.GraphNode
+import graph.Edge
+import graph.NavGraph
+import graph.StatusSelector
+import itinerary.Itineraries
 import RosManager
-import UpperLeftMenu
 import strip.StripContainer
 import SafetyPilot
 import Vehicule
@@ -41,6 +39,8 @@ import task.TaskLayer
 import trap.Trap
 import trap.TrapLayer
 import SiteLayer
+import menu.UpperLeftMenu
+import menu.RightPannel
 
 
 _native_code_
@@ -458,8 +458,7 @@ Component root {
         int dest = $root.addEdge.preview_on.temp_id_list.[size]
         addChildrenTo root.l.map.layers.navgraph.shadow_edges{
           Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
-         
-          }
+        }
       }
       NoOutline _
       NoFill _
