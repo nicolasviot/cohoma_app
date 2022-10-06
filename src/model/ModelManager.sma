@@ -4,6 +4,7 @@ use base
 
 import VehiculeModel
 import SafetyPilotModel
+import NodeModel
 
 _native_code_
 %{
@@ -39,4 +40,9 @@ ModelManager (Process _context)
         SafetyPilotModel ugv (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
         //SafetyPilotModel ground_safety_pilot (_context, "ground_safety_pilot", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
     }
+
+    List nodes {
+        NodeModel node0 (_context, 1, "n_01", 43.316021818382886, 1.4041900634765625, 0.0, 0)
+        NodeModel node1 (_context, 2, "n_02", 43.316006206187375, 1.4047694206237793, 0.0, 0)
+	}
 }
