@@ -120,10 +120,14 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
     Spike leave
     Spike right_press
     Spike enter
+
+    //LogPrinter lp ("debug enter/leave (Graph Node) ")
+
 FSM tooltip{
     State idle
     State entered{
         Timer t (500)
+        //"enter in Graph Node" =: lp.input
     }
 
     State display_tooltip{

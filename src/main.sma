@@ -193,14 +193,13 @@ Component root {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible {
-          NavGraph layer (map, f)
+          NavGraph layer (map, context, f)
         }
       }
       nodes aka ctrl_visibility.visible.layer.nodes
       shadow_edges aka ctrl_visibility.visible.layer.shadow_edges
       //itinerary_edges aka ctrl_visibility.visible.layer.itinerary_edges
       edges aka ctrl_visibility.visible.layer.edges
-      manager aka ctrl_visibility.visible.layer.manager
 
       String name ("Navgraph")
     }
@@ -321,7 +320,7 @@ Component root {
 
     FSM fsm_mode {
       State mode_wp_edit {
-        StatusSelector selector (f, l.map.layers.navgraph.manager)
+        StatusSelector selector (f, context)
         //f.move.x =:> selector.x
         //f.move.y =:> selector.y
       }
@@ -336,7 +335,7 @@ Component root {
   hide_reticule -> l.map.reticule.hide_reticule, foreground.edit
 
   
-  RosManager ros_manager(root, l.map, l.map.layers.navgraph.manager)
+  RosManager ros_manager(root, l.map, context)
   
   Component right_pannel {
     Translation t (1424, 0)
@@ -413,7 +412,7 @@ Component root {
   addWptToLayer -> (root) {
     nodes = find(root.l.map.layers.navgraph.nodes)
     addChildrenTo nodes {
-      Node new (root.l.map, root.f, $root.l.map.pointer_lat, $root.l.map.pointer_lon, 0, 0, "by_operator", 0, root.l.map.layers.navgraph.manager)
+      Node new (root.l.map, root.f, $root.l.map.pointer_lat, $root.l.map.pointer_lon, 0, 0, "by_operator", 0, root.context)
     }
     //print (nodes.size)
     //node = find(nodes[$nodes.size])
@@ -425,7 +424,7 @@ Component root {
 
 
 
-  //Add Edge between GraphNode 
+  // Add Edge between GraphNode 
   Spike clear_temp_list
   Spike add_segment
   Spike add_first_wpt
@@ -435,7 +434,9 @@ Component root {
   Spike addEdgeSpike1
   Spike addEdgeSpike2
   del -> clear_all
-  //LogPrinter lp ("debug selected_id dans le main")
+  
+  //LogPrinter lp ("debug selected_id dans le main: ")
+
   Ref null_ref (0)
   RefProperty current_addedge_node (nullptr)
   DerefDouble ddx (current_addedge_node, "wpt/screen_translation/tx", DJNN_GET_ON_CHANGE)
@@ -447,10 +448,10 @@ Component root {
     State shift_on
     State preview_on {
       List temp_id_list 
-      root.l.map.layers.navgraph.manager.selected_id -> (root){
-        addChildrenTo root.addEdge.preview_on.temp_id_list{
-          Int _($root.l.map.layers.navgraph.manager.selected_id)
-          }
+      root.context.selected_id -> (root){
+        addChildrenTo root.addEdge.preview_on.temp_id_list {
+          Int _($root.context.selected_id)
+        }
 
         int size = $root.addEdge.preview_on.temp_id_list.size 
         int src = $root.addEdge.preview_on.temp_id_list.[size - 1]
@@ -483,7 +484,7 @@ Component root {
       index->(root) {
         setRef (root.current_addedge_node, root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index])
       }
-      l.map.layers.navgraph.manager.selected_id =:> index
+      context.selected_id =:> index
 
       //index =:> lp.input
 
@@ -502,7 +503,7 @@ Component root {
 
     //idle -> shift_on (shift, addEdgeSpike1)
     idle -> shift_on (shift, clear_temp_list)
-    shift_on -> preview_on (root.l.map.layers.navgraph.manager.selected_id, add_first_wpt)
+    shift_on -> preview_on (root.context.selected_id, add_first_wpt)
     preview_on -> idle (shift_r, add_segment)
     //shift_on -> idle (shift_r, addEdgeSpike2)
     shift_on -> idle (shift_r, hide_reticule)
@@ -513,8 +514,8 @@ Component root {
 
   clear_temp_list -> (root) {
     
-    root.l.map.layers.navgraph.manager.current_wpt = &(root.null_ref)
-    root.l.map.layers.navgraph.manager.entered_wpt = &(root.null_ref)
+    root.context.current_wpt = &(root.null_ref)
+    root.context.entered_wpt = &(root.null_ref)
     root.current_addedge_node = &(root.null_ref)
 
     delete_content root.l.map.layers.navgraph.shadow_edges
@@ -523,8 +524,8 @@ Component root {
 
   clear_all -> (root) {
 
-    root.l.map.layers.navgraph.manager.current_wpt = &(root.null_ref)
-    root.l.map.layers.navgraph.manager.entered_wpt = &(root.null_ref)
+    root.context.current_wpt = &(root.null_ref)
+    root.context.entered_wpt = &(root.null_ref)
     root.current_addedge_node  = &(root.null_ref)
     
     delete_content root.l.map.layers.navgraph.edges
@@ -538,7 +539,7 @@ Component root {
   add_first_wpt -> (root){
     root.current_addedge_node = &(root.null_ref)
     addChildrenTo root.addEdge.preview_on.temp_id_list{
-      Int _($root.l.map.layers.navgraph.manager.selected_id)
+      Int _($root.context.selected_id)
     }
   }
 

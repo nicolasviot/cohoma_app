@@ -15,7 +15,6 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/trap/TrapStatusSelector.sma src/trap/Trap.sma \
             src/task/TaskAreaSummit.sma src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma \
             src/task/TaskLayer.sma src/trap/TrapLayer.sma \
-            src/ManagerId.sma \
             src/SafetyPilot.sma \
             src/Lima.sma \
             src/ExclusionArea.sma src/SiteLayer.sma \

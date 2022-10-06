@@ -11,6 +11,7 @@ use base
 _define_
 CohomaContext (double _init_lat, double _init_lon, double _init_zoom)
 {
+	//LogPrinter lp ("debug in Context: ")
 
     Double init_lat (_init_lat)
     Double init_lon (_init_lon)
@@ -36,4 +37,22 @@ CohomaContext (double _init_lat, double _init_lon, double _init_zoom)
     // COLORS FOR SAFETY PILOTS
     Int UAV_COL (#A056F6)
     Int UGV_COL (#708d23)
+
+
+    Ref RFF_NULL (0)
+
+    //
+    // Dynamic properties
+    //
+
+    Int selected_id (0)
+    //selected_id =:> lp.input
+
+	//Int selected_trap_id (1)
+
+	Ref current_wpt (0)
+	Ref entered_wpt (0)
+	Ref current_trap (0)
+	Ref entered_trap (0)
+	
 }

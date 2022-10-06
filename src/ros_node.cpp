@@ -45,12 +45,12 @@ using namespace djnn;
 // check boucle for et utilisation des msg ROS2 
 
 
-RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* manager) :
+RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* context) :
 FatProcess (n),
 ExternalSource (n),
   //arguments
 _map (my_map),
-_manager (manager),
+_context (context),
 
   //navgraph fields
 navgraph_data(this, "data", ""),
@@ -199,8 +199,8 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_spot, CoreProcess, _parent, parent/l/map/layers/satelites/spot)
   GET_CHILD_VAR2 (_drone, CoreProcess, _parent, parent/l/map/layers/satelites/drone)
 
-  GET_CHILD_VAR2 (_current_wpt, RefProperty, _parent, parent/l/map/layers/navgraph/manager/current_wpt)
-  GET_CHILD_VAR2 (_entered_wpt, RefProperty, _parent, parent/l/map/layers/navgraph/manager/entered_wpt)
+  GET_CHILD_VAR2 (_current_wpt, RefProperty, _parent, parent/context/current_wpt)
+  GET_CHILD_VAR2 (_entered_wpt, RefProperty, _parent, parent/context/entered_wpt)
 
   GET_CHILD_VAR2 (_georef_visibility_map, CoreProcess, _parent, parent/l/map/layers/result/georef_visibility_map)
   GET_CHILD_VAR2 (_visibility_map, DataImage, _parent, parent/l/map/layers/result/visibility_map)
@@ -386,8 +386,8 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     bool isPPO = m["compulsory"].get<bool>();
     int phase = m["phase"].get<int>();
 
-    ParentProcess* node_ = Node(_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
-     isPPO, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _manager);
+    ParentProcess* node_ = Node (_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
+     isPPO, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _context);
     SET_CHILD_VALUE(Bool, node_, islocked, locked, true);
     //TODO: MP problème entre le nom du child et la variable
     SET_CHILD_VALUE(Int, node_, phase, phase, true);

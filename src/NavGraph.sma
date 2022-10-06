@@ -4,21 +4,16 @@ use base
 
 import Node
 import Edge
-import ManagerId
 
 _define_
-NavGraph (Process _map, Process f)
+NavGraph (Process _map, Process _context, Process f)
 {
 	map aka _map
+	context aka _context
 
 	Spike create_bindings
 	Spike clear
 	Int id (0)
-
-	ManagerId manager (0)
-
-	// LogPrinter lp("id_selected :")
-	// manager.selected_id =:> lp.input
 
 	Scaling sc (1, 1, 0, 0)
 	map.zoom =:> sc.sx, sc.sy
@@ -37,18 +32,18 @@ NavGraph (Process _map, Process f)
 
 	addChildrenTo nodes {
 		
-		Node node0(map, f, 43.316021818382886, 1.4041900634765625, 0.0, 0, "n_011", 1, manager)
-		Node node1(map, f, 43.316006206187375, 1.4047694206237793, 0.0, 0, "n_010", 2, manager)
-		Node node2(map, f, 43.3159281451497, 1.4054131507873535, 0.0, 0, "n_009", 3, manager) //end
-		Node node3(map, f, 43.31569396143501, 1.4050912857055664, 0.0, 0, "n_008", 4, manager)
-		Node node4(map, f, 43.31580324728085, 1.4047479629516602, 0.0, 0, "n_007", 5, manager)
-		Node node5(map, f, 43.31575641051384, 1.4043188095092773, 0.0, 0, "n_006", 6, manager)
-		Node node6(map, f, 43.31556906308483, 1.404104232788086, 0.0, 0, "n_005", 7, manager) // start
-		Node node7(map, f, 43.31543635830649, 1.4042115211486816, 0.0, 0, "n_004", 8, manager)
-		Node node8(map, f, 43.315420745960566, 1.404426097869873, 0.0, 0, "n_003", 9, manager)
-		Node node9(map, f, 43.31560028769644, 1.4044904708862305, 0.0, 0, "n_002", 10, manager)
-		Node node10(map, f, 43.3155144199759, 1.4047908782958984, 0.0, 0, "n_001", 11, manager)
-		Node node11(map, f, 43.315327071800844, 1.4045333862304688, 0.0, 0, "n_000", 12, manager)	
+		Node node0(map, f, 43.316021818382886, 1.4041900634765625, 0.0, 0, "n_011", 1, _context)
+		Node node1(map, f, 43.316006206187375, 1.4047694206237793, 0.0, 0, "n_010", 2, _context)
+		Node node2(map, f, 43.3159281451497, 1.4054131507873535, 0.0, 0, "n_009", 3, _context) //end
+		Node node3(map, f, 43.31569396143501, 1.4050912857055664, 0.0, 0, "n_008", 4, _context)
+		Node node4(map, f, 43.31580324728085, 1.4047479629516602, 0.0, 0, "n_007", 5, _context)
+		Node node5(map, f, 43.31575641051384, 1.4043188095092773, 0.0, 0, "n_006", 6, _context)
+		Node node6(map, f, 43.31556906308483, 1.404104232788086, 0.0, 0, "n_005", 7, _context) // start
+		Node node7(map, f, 43.31543635830649, 1.4042115211486816, 0.0, 0, "n_004", 8, _context)
+		Node node8(map, f, 43.315420745960566, 1.404426097869873, 0.0, 0, "n_003", 9, _context)
+		Node node9(map, f, 43.31560028769644, 1.4044904708862305, 0.0, 0, "n_002", 10, _context)
+		Node node10(map, f, 43.3155144199759, 1.4047908782958984, 0.0, 0, "n_001", 11, _context)
+		Node node11(map, f, 43.315327071800844, 1.4045333862304688, 0.0, 0, "n_000", 12, _context)	
 		
 	}
 

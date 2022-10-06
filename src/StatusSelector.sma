@@ -4,12 +4,13 @@ use gui
 
 
 _define_
-StatusSelector (Process f, Process _manager) {
+StatusSelector (Process f, Process _context)
+{
     Translation pos (0, 0)
     x aka pos.tx
     y aka pos.ty
 
-    cur_wpt aka _manager.entered_wpt
+    cur_wpt aka _context.entered_wpt
 
 
     DerefString wp_status (cur_wpt, "usage_status", DJNN_GET_ON_CHANGE)
