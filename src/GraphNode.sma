@@ -71,37 +71,37 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
 
     Switch status_switch (default) {
         Component default {
-             node_col =: fill_color.value
+            node_col =: fill_color.value
             white_col =: outline_color.value
 
-                3 =: outline_width.width
+            3 =: outline_width.width
             default_radius =: c.r
             0 =: isMandatory
         }
         Component start {
             active_col =: fill_color.value
-             start_col =: outline_color.value
+            start_col =: outline_color.value
             
-                     2 =: outline_width.width
-          other_radius =: c.r
+            2 =: outline_width.width
+            other_radius =: c.r
         }
         Component end {
-              active_col =: fill_color.value
-           mandatory_col =: outline_color.value
+            active_col =: fill_color.value
+            mandatory_col =: outline_color.value
             other_radius =: c.r
-                       2 =: outline_width.width
+            2 =: outline_width.width
         }
         Component forced {
             active_col =: fill_color.value
-             black_col =: outline_color.value
+            black_col =: outline_color.value
 
-             other_radius =: c.r
-                        2 =: outline_width.width
+            other_radius =: c.r
+            2 =: outline_width.width
         }
         Component mandatory {
-               active_col =: fill_color.value
+            active_col =: fill_color.value
             mandatory_col =: outline_color.value
-                        1 =: outline_width.width
+            1 =: outline_width.width
 
             NoFill _ 
             OutlineWidth _ (2)
@@ -111,48 +111,50 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
         }
     }
     usage_status => status_switch.state
+    
     FillOpacity _ (1.2)
     FillColor _ (0, 0, 0)
     FontWeight _ (75)
     FontSize _ (5, 20)
     Text label_text(-$c.r/2, -20, "")
     label =:>label_text.text
+    
     Spike leave
     Spike right_press
     Spike enter
 
     //LogPrinter lp ("debug enter/leave (Graph Node) ")
 
-FSM tooltip{
-    State idle
-    State entered{
-        Timer t (500)
-        //"enter in Graph Node" =: lp.input
+    FSM tooltip{
+        State idle
+        
+        State entered{
+            Timer t (500)
+            //"enter in Graph Node" =: lp.input
+        }
+
+        State display_tooltip{
+            Translation t(20, 0)
+
+            FillOpacity fo (0.8)
+            FillColor light_grey (204, 204, 204)
+            FontSize _ (5, 12)
+            FontWeight _ (50)
+            Rectangle bg (0, 0, 50, 20, 5, 5)
+            FillColor _ (0, 0, 0)
+            Text legend (0, 0, "Node 0")
+            legend.x =:> bg.x
+            legend.y - 12 =:> bg.y
+            legend.width =:> bg.width
+            legend.height =:> bg.height
+            "Node " + toString(id) + " (" + label + ") " + usage_status  =:> legend.text
+        }
+
+        idle -> entered (enter)
+        entered -> display_tooltip (entered.t.end)
+        entered -> idle (leave)
+        display_tooltip -> idle (leave)
     }
-
-    State display_tooltip{
-        Translation t(20, 0)
-
-        FillOpacity fo (0.8)
-        FillColor light_grey (204, 204, 204)
-        FontSize _ (5, 12)
-        FontWeight _ (50)
-        Rectangle bg (0, 0, 50, 20, 5, 5)
-        FillColor _ (0, 0, 0)
-        Text legend (0, 0, "Node 0")
-        legend.x =:> bg.x
-        legend.y - 12 =:> bg.y
-        legend.width =:> bg.width
-        legend.height =:> bg.height
-        "Node " + toString(id) + " (" + label + ") " + usage_status  =:> legend.text
-
-
-    }
-    idle -> entered (enter)
-    entered -> display_tooltip(entered.t.end)
-    entered -> idle (leave)
-    display_tooltip -> idle (leave)
-}
 
     FillOpacity _ (0)
     OutlineOpacity _(0)
@@ -164,16 +166,16 @@ FSM tooltip{
     c.cx =:> interact_mask.cx
     c.cy =:> interact_mask.cy
 
-FSM enterLeave {
-    State idle {
-        10 =: c.r
+    FSM enterLeave {
+        State idle {
+            10 =: c.r
+        }
+        State inside {
+            20 =: c.r
+        }
+        idle -> inside (interact_mask.enter)
+        inside -> idle (interact_mask.leave)
     }
-    State inside {
-        20 =: c.r
-    }
-    idle -> inside (interact_mask.enter)
-    inside -> idle (interact_mask.leave)
-}
 
       FSM drag_fsm {
             State no_drag {

@@ -40,39 +40,4 @@ Node (Process map, Process f, double _lat, double _lon, double _alt, int _isPPO,
 		wpt =: _context.entered_wpt
 	}
 
-	LogPrinter lp ("debug enter/leave (Node) ")
-
-	Switch tooltip_switch(off){
-		Component off{
-
-		}
-		Component on{
-			FSM tooltip {
-				State idle
-				State entering{
-					Timer t(1000)
-					"enter in Node" =: lp.input
-				}
-				State display_tooltip{
-					Timer t2(3000)
-
-					FillColor black(0, 0, 0)
-					Rectangle rec($wpt.screen_translation.tx, $wpt.screen_translation.ty, 50, 50)
-					wpt.screen_translation.tx =:> rec.x
-					wpt.screen_translation.ty =:> rec.y
-					NoFill _
-					FillColor text_color(130, 130, 0)
-					Text txt($wpt.screen_translation.tx, $wpt.screen_translation.ty, "test")
-					wpt.screen_translation.tx =:> txt.x
-					wpt.screen_translation.ty =:> txt.y
-				}
-				idle -> entering (wpt.c.enter)
-				entering -> display_tooltip (entering.t.end)
-				entering -> idle (wpt.c.leave)
-				display_tooltip -> idle (wpt.c.leave)
-				display_tooltip -> idle (display_tooltip.t2.end)
-			}
-		}
-	}
-
 }
