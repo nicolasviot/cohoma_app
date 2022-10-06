@@ -10,12 +10,13 @@ TrapStatusSelector (Process trap) {
     Spike hide
 
     svg = loadFromXML ("res/svg/trap_status_selector.svg")
+    
     FSM set_State_Menu{
         State hidden{
 
         }
         State visible{
-            Translation _ (35,15) //position right center from the trap
+            Translation _ (35, 15) //position right center from the trap
             bg << svg.bg
             m_unknown << svg.mask_unknown
             m_identified << svg.mask_identified
@@ -53,9 +54,9 @@ TrapStatusSelector (Process trap) {
             button_delete.rect_delete.press -> trap.delete_assignement
     
         }
-        hidden -> visible (press )
+        hidden -> visible (press)
         visible -> hidden (press)
         visible -> hidden (hide)
     } 
-    trap.state =:>  set_State_Menu.visible.fsm_status.initial 
+    trap.state =:> set_State_Menu.visible.fsm_status.initial 
 }

@@ -57,11 +57,7 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
     
     String trap_status("radius_unknown")
     
-    Scaling sc (1, 1, 0, 0)
-    map.zoom =:> sc.sx, sc.sy
-    Translation pos (0, 0)
-    map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
-    map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+    
     Translation screen_translation (0, 0)
     
     NoOutline _
@@ -90,7 +86,7 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
     }
 
    }
-   selected?"select":"not_select" => ctrl_trap_selected.state
+   selected ? "select" : "not_select" => ctrl_trap_selected.state
 
 
     FillOpacity _(0.3)
