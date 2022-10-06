@@ -7,15 +7,13 @@ import Lima
 import ExclusionArea
 
 _define_
-SiteLayer (Process map){
+SiteLayer (Process map) {
 
-
-
-	List exclusion_areas{
+	List exclusion_areas {
 
 	}
 
-	List limas{
-	
+	List limas {
+		Lima test (map, null)
 	}
 }

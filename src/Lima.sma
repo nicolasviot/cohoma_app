@@ -87,6 +87,9 @@ Lima (Process map, Process my_node){
 
 
     Polyline lima {
+        Point p1 (300, 90)
+        Point p2 (250, 190)
+        Point p3 (350, 190)
     }
     lima.press -> pressed
     lima.enter -> enter
