@@ -3,6 +3,7 @@ use gui
 use base
 
 import VehiculeModel
+import SafetyPilotModel
 
 _native_code_
 %{
@@ -27,5 +28,15 @@ ModelManager (Process _context)
         VehiculeModel lynx (_context, "lynx", "LYNX", $_context.init_lat, $_context.init_lon + 0.001, $_context.LYNX_COL)
         VehiculeModel spot (_context, "spot", "SPOT", $_context.init_lat + 0.001 , $_context.init_lon + 0.001, $_context.SPOT_COL)
         VehiculeModel drone (_context, "drone", "DRONE", $_context.init_lat + 0.0015 , $_context.init_lon + 0.0015, $_context.DRONE_COL)
+    }
+
+    Component safety_pilots {
+        // Unmanned Aerial Vehicle
+        SafetyPilotModel uav (_context, "uav", "UAV", $_context.init_lat, $_context.init_lon - 0.005, $_context.UAV_COL)
+        //SafetyPilotModel drone_safety_pilot (_context, "drone_safety_pilot", "UAV", $_context.init_lat, $_context.init_lon - 0.005, $_context.UAV_COL)
+
+        // Unmanned Ground Vehicle
+        SafetyPilotModel ugv (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
+        //SafetyPilotModel ground_safety_pilot (_context, "ground_safety_pilot", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
     }
 }

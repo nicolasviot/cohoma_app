@@ -31,4 +31,9 @@ CohomaContext (double _init_lat, double _init_lon, double _init_zoom)
     Int LYNX_COL (#B3B100)
     Int SPOT_COL (#0CE820)
     Int DRONE_COL (#1ACAFF)
+
+
+    // COLORS FOR SAFETY PILOTS
+    Int UAV_COL (#A056F6)
+    Int UGV_COL (#708d23)
 }

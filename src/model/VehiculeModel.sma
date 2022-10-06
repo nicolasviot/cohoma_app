@@ -2,11 +2,11 @@ use core
 use gui
 use base
 
-_native_code_
+/*_native_code_
 %{
     #include "cpp/coords-utils.h"
 
-%}
+%}*/
 
 _define_
 VehiculeModel (Process _context, string _type, string _name, double _lat, double _lon, int _color)

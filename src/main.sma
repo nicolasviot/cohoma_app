@@ -169,12 +169,12 @@ Component root {
           map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
 
           List layers {
-            Vehicule vab (map, context, model_manager.vehicules.vab, init_lat, init_lon, svg_vab)
-            Vehicule agilex1 (map, context, model_manager.vehicules.agilex1, init_lat + 0.0005, init_lon, svg_robot)
-            Vehicule agilex2 (map, context, model_manager.vehicules.agilex2, init_lat + 0.001, init_lon, svg_robot)
-            Vehicule lynx (map, context, model_manager.vehicules.lynx, init_lat, init_lon + 0.001, svg_robot)
-            Vehicule spot (map, context, model_manager.vehicules.spot, init_lat + 0.001 , init_lon + 0.001, svg_robot)
-            Vehicule drone (map, context, model_manager.vehicules.drone, init_lat + 0.0015 , init_lon + 0.0015, svg_drone)
+            Vehicule vab (map, context, model_manager.vehicules.vab, svg_vab)
+            Vehicule agilex1 (map, context, model_manager.vehicules.agilex1, svg_robot)
+            Vehicule agilex2 (map, context, model_manager.vehicules.agilex2, svg_robot)
+            Vehicule lynx (map, context, model_manager.vehicules.lynx, svg_robot)
+            Vehicule spot (map, context, model_manager.vehicules.spot, svg_robot)
+            Vehicule drone (map, context, model_manager.vehicules.drone, svg_drone)
           }
         }
       }
@@ -257,8 +257,15 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-            SafetyPilot sfty_pilot_uav (map, init_lat, init_lon - 0.005, 0, "UAV", svg_safety_pilot)
-            SafetyPilot sfty_pilot_ugv (map, init_lat, init_lon + 0.005, 0, "UGV", svg_safety_pilot)
+          Scaling sc (1, 1, 0, 0)
+          map.zoom =:> sc.sx, sc.sy
+
+          Translation pos (0, 0)
+          map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
+          map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+
+          SafetyPilot sfty_pilot_uav (map, context, model_manager.safety_pilots.uav, svg_safety_pilot)
+          SafetyPilot sfty_pilot_ugv (map, context, model_manager.safety_pilots.ugv, svg_safety_pilot)
         }
       }
       String name("Actors")

@@ -12,8 +12,10 @@ _native_code_
 %}
 
 _define_
-Vehicule (Process map, Process _context, Process _model, double _lat, double _lon, Process _svg)
+Vehicule (Process map, Process _context, Process _model, Process _svg)
 {
+    //APP-6A: Symbologie militaire interarmées de l'OTAN
+
     //context aka _context
     model aka _model
  
@@ -26,7 +28,7 @@ Vehicule (Process map, Process _context, Process _model, double _lat, double _lo
     icon << clone (_svg.icon)
     model.color =: icon.shape.fill.value
 
-    /*Switch graphics (vab) {
+    /*Switch switch_type  (vab) {
         Component vab {
         }
         Component agilex1 {

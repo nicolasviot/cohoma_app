@@ -12,32 +12,24 @@ _native_code_
 %}
 
 _define_
-SafetyPilot (Process map, double _lat, double _lon, int _id, string _type, Process _svg)
+SafetyPilot (Process map, Process _context, Process _model, Process _svg)
 {
-//APP-6A
+    //APP-6A: Symbologie militaire interarmées de l'OTAN
 
-    Double lat (_lat)
-    Double lon (_lon)
-    Double altitude_msl(0)
-    Double radius(100)
-    Int id (_id)
-    String type (_type)
+    //context aka _context
+    model aka _model
     
-    Scaling sc (1, 1, 0, 0)
-    map.zoom =:> sc.sx, sc.sy
-    Translation pos (0, 0)
-    map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
-    map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
     Translation screen_translation (0, 0)
     
     NoOutline _
-    FillColor circleFill (#A056F6)
-    FillOpacity _(0.3)
+    FillColor _ ($model.color)
+    FillOpacity _ (0.3)
     Circle c (0, 0, 50)
-    radius * map.scaling_factor_correction /get_resolution ($map.zoomLevel) =:> c.r
+    model.radius * map.scaling_factor_correction / get_resolution ($map.zoomLevel) =:> c.r
 
     FillColor _ (0, 0, 0)
     FillOpacity _ (3.3) // 0.3 * 3.3 = 0.99 (opacity = 100%)
+
     Translation icon_translation(0, 0)
 
     icon << clone (_svg.icon)
@@ -47,21 +39,18 @@ SafetyPilot (Process map, double _lat, double _lon, int _id, string _type, Proce
 
     picking aka icon.picking
 
-
-    Switch ctrl_type_operator(UAV){
-        Component UAV{
-            #A056F6 =: circleFill.value
+    /*Switch switch_type (uav){
+        Component uav {
         }
-        Component UGV{
-            #708d23 =: circleFill.value
+        Component ugv {
         }
     }
-    type =:> ctrl_type_operator.state
+    model.type =:> switch_type.state*/
 
     FSM drag_fsm {
         State no_drag {
-            map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
-            (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
+            map.t0_y - lat2py ($model.lat, $map.zoomLevel) =:> c.cy
+            (lon2px ($model.lon, $map.zoomLevel) - map.t0_x) =:> c.cx
         }
         State drag {
             Double init_cx (0)
@@ -74,26 +63,24 @@ SafetyPilot (Process map, double _lat, double _lon, int _id, string _type, Proce
             picking.press.y - c.cy =: offset_y
             picking.move.x - offset_x => c.cx
             picking.move.y - offset_y => c.cy
-            px2lon ($c.cx + map.t0_x, $map.zoomLevel) => lon
-            py2lat (map.t0_y - $c.cy, $map.zoomLevel) => lat 
+            px2lon ($c.cx + map.t0_x, $map.zoomLevel) => model.lon
+            py2lat (map.t0_y - $c.cy, $map.zoomLevel) => model.lat 
         }
         no_drag->drag (picking.left.press, map.reticule.show_reticule)
         drag->no_drag (picking.left.release, map.reticule.hide_reticule)
     }
     FSM fsm {
         State idle {
-            //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
-            //(lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
-            
-
+            //map.t0_y - lat2py ($model.lat, $map.zoomLevel) =:> c.cy
+            //(lon2px ($model.lon, $map.zoomLevel) - map.t0_x) =:> c.cx
         }
         State zoom_in {
             Double new_cx (0)
             Double new_cy (0)
             Double new_cr (0)
-            map.new_t0_y - lat2py ($lat, $map.zoomLevel + 1) =: new_cy
-            (lon2px ($lon, $map.zoomLevel + 1) - map.new_t0_x) =: new_cx
-            radius/get_resolution ($map.zoomLevel + 1) =: new_cr
+            map.new_t0_y - lat2py ($model.lat, $map.zoomLevel + 1) =: new_cy
+            (lon2px ($model.lon, $map.zoomLevel + 1) - map.new_t0_x) =: new_cx
+            model.radius / get_resolution ($map.zoomLevel + 1) =: new_cr
             Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
             0 =: anim.inc.state, anim.gen.input
             Double dx (0)
@@ -116,9 +103,9 @@ SafetyPilot (Process map, double _lat, double _lon, int _id, string _type, Proce
             Double new_cx (0)
             Double new_cy (0)
             Double new_cr (0)
-            radius/get_resolution ($map.zoomLevel - 1) =: new_cr
-            map.new_t0_y - lat2py ($lat, $map.zoomLevel - 1) =: new_cy
-            (lon2px ($lon, $map.zoomLevel - 1) - map.new_t0_x) =: new_cx
+            model.radius / get_resolution ($map.zoomLevel - 1) =: new_cr
+            map.new_t0_y - lat2py ($model.lat, $map.zoomLevel - 1) =: new_cy
+            (lon2px ($model.lon, $map.zoomLevel - 1) - map.new_t0_x) =: new_cx
             Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
             0 =: anim.inc.state, anim.gen.input
             Double dx (0)
