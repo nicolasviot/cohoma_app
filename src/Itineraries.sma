@@ -4,7 +4,6 @@ use base
 
 import Node
 import Edge
-import ManagerId
 
 _native_code_
 %{
@@ -59,7 +58,7 @@ Itineraries (Process _map, Process f){
 	Spike clear
 	String id ("")
 	Ref ref_current_itinerary (nullptr)
-	ManagerId manager(0)
+	
 	Component itineraries_list {}
 
 	NativeAction edge_released_na (edge_released_action, this, 1)
