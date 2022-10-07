@@ -8,14 +8,19 @@ _native_code_
 %}
 
 _define_
-Reticule (Process map, Process f) {
+Reticule (Process map, Process f)
+{
   Spike show_reticule
   Spike hide_reticule
-  Spike show_forever
-  Spike end_forever
+  Spike show_reticule2
+  Spike hide_reticule2
+
+  Double pointer_lat2 (0)
+  Double pointer_lon2 (0)
 
   Switch ui (hidden) {
     Component hidden
+
     Component visible {
       OutlineColor _(Black)
       Line l1 (0, 0, 0, 0)
@@ -24,39 +29,43 @@ Reticule (Process map, Process f) {
       f.move.y =:> l2.y1, l2.y2
       f.width =:> l2.x2
       f.height =:> l1.y2 
-      FillColor _ (White)
-      NoOutline _
-      Component rr {
+      
+      Component bg {
+        FillColor _ (White)
+        NoOutline _
         FillOpacity _ (0.5)
-        Rectangle bg2 (0, 0, 100, 30)
-        f.move.x =:> bg2.x
-        f.move.y =:> bg2.y
+        Rectangle r (0, 0, 100, 30)
+        f.move.x =:> r.x
+        f.move.y =:> r.y
       }
+      
       FillColor _(Black)
-      Text t2 (0, 0, "")
-      String ty ("")
-      String tx ("")
-      lat2tiley ($map.pointer_lat, $map.zoomLevel + 1) => ty
-      lon2tilex ($map.pointer_lon, $map.zoomLevel + 1) => tx
-      "" + map.pointer_lat + " " + map.pointer_lon =:> t2.text
-      rr.bg2.x + 10 =:> t2.x
-      rr.bg2.y + 20 =:> t2.y
+      Text label (0, 0, "")
+      //map.pointer_lat + " " + map.pointer_lon =:> label.text
 
-      //t1.width + 20 =:> rr.bg1.width
-      t2.width + 20 =:> rr.bg2.width
+      bg.r.x + 10 =:> label.x
+      bg.r.y + 20 =:> label.y
+
+      label.width + 20 =:> bg.r.width
     }
   }
 
   FSM reticule {
-    State off 
-    State on_from_wp
-    State on_from_main
+    State off {
+      "hidden" =: ui.state
+    }
+    State on_from_wp {
+      "visible" =: ui.state
+      map.pointer_lat + " " + map.pointer_lon =:> ui.visible.label.text
+    }
+    State on_from_movable_obj {
+      "visible" =: ui.state
+      pointer_lat2 + " " + pointer_lon2 =:> ui.visible.label.text
+    }
     off -> on_from_wp (show_reticule)
-    on_from_wp->off (hide_reticule)
-    off -> on_from_main (show_forever)
-    on_from_main->off (end_forever)
+    on_from_wp -> off (hide_reticule)
+    off -> on_from_movable_obj (show_reticule2)
+    on_from_movable_obj -> off (hide_reticule2)
   }
-  reticule.on_from_wp -> { "visible" =: ui.state }
-  reticule.on_from_main -> { "visible" =: ui.state }
-  reticule.off->{"hidden" =: ui.state }
+
 }

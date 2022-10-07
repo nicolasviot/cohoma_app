@@ -382,10 +382,10 @@ Component root {
   Spike shift_r
   f.key\-pressed == DJN_Key_Shift -> shift
   f.key\-released == DJN_Key_Shift -> shift_r
-  Spike space
-  Spike space_r
-  f.key\-pressed == DJN_Key_Space -> space
-  f.key\-released == DJN_Key_Space -> space_r
+  //Spike space
+  //Spike space_r
+  //f.key\-pressed == DJN_Key_Space -> space
+  //f.key\-released == DJN_Key_Space -> space_r
   Spike del
   Spike del_r
   f.key\-pressed == DJN_Key_Backspace -> del
@@ -393,8 +393,9 @@ Component root {
   // Add GraphNode FSM
   Spike addWptToLayer
   FSM addNode {
+
     State idle 
-    State preview{
+    State preview {
       Scaling sc (1, 1, 0, 0)
       l.map.zoom =:> sc.sx, sc.sy
 
@@ -405,11 +406,11 @@ Component root {
       GraphNode temporary (l.map,f, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
+
       f.release -> addWptToLayer
     }
     idle -> preview (ctrl, show_reticule)
     preview -> idle (ctrl_r, hide_reticule)
-    //preview -> preview (f.release, addWptToLayer) 
   }
 
   addWptToLayer -> (root) {
@@ -434,8 +435,7 @@ Component root {
   Spike clear_all
   Spike disable_drag
   Spike renable_drag
-  Spike addEdgeSpike1
-  Spike addEdgeSpike2
+
   del -> clear_all
   
   //LogPrinter lp ("debug selected_id dans le main: ")
@@ -448,7 +448,9 @@ Component root {
 
   FSM addEdge {
     State idle
+
     State shift_on
+
     State preview_on {
       List temp_id_list 
       root.context.selected_id -> (root){
@@ -463,12 +465,7 @@ Component root {
           Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
         }
       }
-      NoOutline _
       NoFill _
-      /*GraphNode temporary (l.map, f, 0, 0, 50, 50, 50)
-      0 =: temporary.opacity
-      l.map.pointer_lat =:> temporary.lat
-      l.map.pointer_lon =:> temporary.lon*/
       OutlineOpacity _ (0.5)
       OutlineWidth _ (5)
       OutlineColor _ (234, 234, 234)
@@ -499,23 +496,18 @@ Component root {
 
       f.move.x - pos.tx =:> temp_shadow_edge.x2
       f.move.y - pos.ty =:> temp_shadow_edge.y2
-      /*temporary.screen_translation.tx =:> temp_shadow_edge.x2
-      temporary.screen_translation.ty =:> temp_shadow_edge.y2*/
     }
 
-    //idle -> shift_on (shift, addEdgeSpike1)
-    idle -> shift_on (shift, clear_temp_list)
+    idle -> shift_on (shift, clear_temp_list) // + show_reticule
     shift_on -> preview_on (root.context.selected_id, add_first_wpt)
-    preview_on -> idle (shift_r, add_segment)
-    //shift_on -> idle (shift_r, addEdgeSpike2)
+    preview_on -> idle (shift_r, add_segment) // + hide_reticule
     shift_on -> idle (shift_r, hide_reticule)
   }
 
-  //addEdgeSpike1 -> addEdge.preview_on.temporary.disable_drag, clear_temp_list
-  //addEdgeSpike2 -> hide_reticule, addEdge.preview_on.temporary.renable_drag
+  clear_temp_list -> show_reticule
+  add_segment -> hide_reticule
 
   clear_temp_list -> (root) {
-    
     root.context.current_wpt = &(root.null_ref)
     root.context.entered_wpt = &(root.null_ref)
     root.current_addedge_node = &(root.null_ref)
@@ -525,7 +517,6 @@ Component root {
   }
 
   clear_all -> (root) {
-
     root.context.current_wpt = &(root.null_ref)
     root.context.entered_wpt = &(root.null_ref)
     root.current_addedge_node  = &(root.null_ref)
@@ -534,9 +525,6 @@ Component root {
     delete_content root.l.map.layers.navgraph.shadow_edges
     delete_content root.l.map.layers.navgraph.nodes
   }
-
-  clear_temp_list -> show_reticule
-  add_segment -> hide_reticule
 
   add_first_wpt -> (root){
     root.current_addedge_node = &(root.null_ref)

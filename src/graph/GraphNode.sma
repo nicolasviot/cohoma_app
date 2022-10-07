@@ -198,13 +198,13 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
                 interact_mask.press.y - screen_translation.ty =: offset_y
                 interact_mask.move.x - offset_x => screen_translation.tx
                 interact_mask.move.y - offset_y => screen_translation.ty
-                px2lon ($screen_translation.tx + map.t0_x, $map.zoomLevel) => lon
-                py2lat (map.t0_y - $screen_translation.ty, $map.zoomLevel) => lat 
+                px2lon ($screen_translation.tx + map.t0_x, $map.zoomLevel) => lon, map.reticule.pointer_lon2
+                py2lat (map.t0_y - $screen_translation.ty, $map.zoomLevel) => lat, map.reticule.pointer_lat2
             }
-            no_drag->drag (interact_mask.left.press, map.reticule.show_reticule)
-            no_drag->no_drag_while_drawing_edge (shift)
+            no_drag -> drag (interact_mask.left.press, map.reticule.show_reticule2)
+            no_drag -> no_drag_while_drawing_edge (shift)
             no_drag_while_drawing_edge -> no_drag (shift_r)
-            drag->no_drag (interact_mask.left.release, map.reticule.hide_reticule)
+            drag -> no_drag (interact_mask.left.release, map.reticule.hide_reticule2)
         }
 
 

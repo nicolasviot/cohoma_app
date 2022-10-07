@@ -47,6 +47,7 @@ SafetyPilot (Process map, Process _context, Process _model, Process _svg)
     }
     model.type =:> switch_type.state*/
 
+
     FSM drag_fsm {
         State no_drag {
             map.t0_y - lat2py ($model.lat, $map.zoomLevel) =:> c.cy
@@ -63,11 +64,11 @@ SafetyPilot (Process map, Process _context, Process _model, Process _svg)
             picking.press.y - c.cy =: offset_y
             picking.move.x - offset_x => c.cx
             picking.move.y - offset_y => c.cy
-            px2lon ($c.cx + map.t0_x, $map.zoomLevel) => model.lon
-            py2lat (map.t0_y - $c.cy, $map.zoomLevel) => model.lat 
+            px2lon ($c.cx + map.t0_x, $map.zoomLevel) => model.lon, map.reticule.pointer_lon2
+            py2lat (map.t0_y - $c.cy, $map.zoomLevel) => model.lat, map.reticule.pointer_lat2
         }
-        no_drag->drag (picking.left.press, map.reticule.show_reticule)
-        drag->no_drag (picking.left.release, map.reticule.hide_reticule)
+        no_drag -> drag (picking.left.press, map.reticule.show_reticule2)
+        drag -> no_drag (picking.left.release, map.reticule.hide_reticule2)
     }
     FSM fsm {
         State idle {

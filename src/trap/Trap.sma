@@ -226,11 +226,11 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
                 picking.press.y - c.cy =: offset_y
                 picking.move.x - offset_x => c.cx
                 picking.move.y - offset_y => c.cy
-                px2lon ($c.cx + map.t0_x, $map.zoomLevel) => lon
-                py2lat (map.t0_y - $c.cy, $map.zoomLevel) => lat 
+                px2lon ($c.cx + map.t0_x, $map.zoomLevel) => lon, map.reticule.pointer_lon2
+                py2lat (map.t0_y - $c.cy, $map.zoomLevel) => lat, map.reticule.pointer_lat2
             }
-            no_drag->drag (picking.left.press, map.reticule.show_reticule)
-            drag->no_drag (picking.left.release, map.reticule.hide_reticule)
+            no_drag->drag (picking.left.press, map.reticule.show_reticule2)
+            drag->no_drag (picking.left.release, map.reticule.hide_reticule2)
         }
         FSM fsm {
             State idle {
