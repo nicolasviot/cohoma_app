@@ -4,7 +4,7 @@ use gui
 
 
 _define_
-StatusSelector (Process f, Process _context)
+NodeStatusSelector (Process f, Process _context)
 {
     Translation pos (0, 0)
     x aka pos.tx
@@ -16,10 +16,9 @@ StatusSelector (Process f, Process _context)
     DerefString wp_status (cur_wpt, "usage_status", DJNN_GET_ON_CHANGE)
     Deref wp_leave (cur_wpt, "leave")
     Deref wp_press (cur_wpt, "right_press")
-    Spike show
-    Spike hide
+    //Spike show
+    //Spike hide
     String status ("default")
-    cur_wpt->show
 
     AssignmentSequence set_status (1) {
         status =: wp_status.value

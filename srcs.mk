@@ -10,7 +10,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/model/NodeModel.sma src/model/VehiculeModel.sma src/model/SafetyPilotModel.sma src/model/TrapModel.sma src/model/ModelManager.sma \
             src/ClockComponent.sma src/Reticule.sma \
             src/strip/Strip.sma src/strip/StripContainer.sma \
-            src/graph/StatusSelector.sma src/graph/Edge.sma src/graph/GraphNode.sma src/graph/Node.sma src/graph/NavGraph.sma \
+            src/graph/NodeStatusSelector.sma src/graph/Edge.sma src/graph/GraphNode.sma src/graph/Node.sma src/graph/NavGraph.sma \
             src/trap/TrapStatusSelector.sma src/trap/Trap.sma \
             src/task/TaskAreaSummit.sma src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma \
             src/task/TaskLayer.sma src/trap/TrapLayer.sma \

@@ -29,7 +29,7 @@ import graph.Node
 import graph.GraphNode
 import graph.Edge
 import graph.NavGraph
-import graph.StatusSelector
+import graph.NodeStatusSelector
 import itinerary.Itineraries
 import RosManager
 import strip.StripContainer
@@ -320,15 +320,18 @@ Component root {
 
     FSM fsm_mode {
       State mode_wp_edit {
-        StatusSelector selector (f, context)
-        //f.move.x =:> selector.x
-        //f.move.y =:> selector.y
+        NodeStatusSelector node_menu (f, context)
+        //f.move.x =:> node_menu.x
+        //f.move.y =:> node_menu.y
       }
       State mode_wp_create
 
       mode_wp_create->mode_wp_edit (edit)
       mode_wp_edit->mode_wp_create (create)
     }
+
+    // FIXME: only 1 TrapStatusSelector
+    //TrapStatusSelector trap_menu (f, context)
   }
 
   show_reticule -> l.map.reticule.show_reticule, foreground.create
