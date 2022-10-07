@@ -5,6 +5,7 @@ use base
 import VehiculeModel
 import SafetyPilotModel
 import NodeModel
+import TrapModel
 
 _native_code_
 %{
@@ -45,4 +46,8 @@ ModelManager (Process _context)
         NodeModel node0 (_context, 1, "n_01", 43.316021818382886, 1.4041900634765625, 0.0, 0)
         NodeModel node1 (_context, 2, "n_02", 43.316006206187375, 1.4047694206237793, 0.0, 0)
 	}
+
+    Component traps {
+        TrapModel trap (_context, 23, 43.315893, 1.403865)
+    }
 }
