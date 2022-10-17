@@ -613,16 +613,16 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
 
-  SET_CHILD_VALUE (Double, robot, lat, msg->position.latitude, true);
-  SET_CHILD_VALUE (Double, robot, lon, msg->position.longitude, true);
+  SET_CHILD_VALUE (Double, robot, model/lat, msg->position.latitude, true);
+  SET_CHILD_VALUE (Double, robot, model/lon, msg->position.longitude, true);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Received robot_state for " + robot_name + "\n", true);
   if(robot != _actor && robot != _actor_ugv ) {
-    SET_CHILD_VALUE (Double, robot, altitude_msl, msg->position.altitude, true);
-    SET_CHILD_VALUE (Double, robot, heading_rot, msg->compass_heading, true);
-    SET_CHILD_VALUE (Int, robot, battery_percentage, msg->battery_percentage, true);
-    SET_CHILD_VALUE (Int, robot, operation_mode, msg->operating_mode, true); // FIXME: operation_mode vs operating_mode
-    SET_CHILD_VALUE (Bool, robot, emergency_stop, msg->emergency_stop, true);
-    SET_CHILD_VALUE (Bool, robot, failsafe, msg->failsafe, true);
+    SET_CHILD_VALUE (Double, robot, model/altitude_msl, msg->position.altitude, true);
+    SET_CHILD_VALUE (Double, robot, model/heading_rot, msg->compass_heading, true);
+    SET_CHILD_VALUE (Int, robot, model/battery_percentage, msg->battery_percentage, true);
+    SET_CHILD_VALUE (Int, robot, model/operation_mode, msg->operating_mode, true); // FIXME: operation_mode vs operating_mode
+    SET_CHILD_VALUE (Bool, robot, model/emergency_stop, msg->emergency_stop, true);
+    SET_CHILD_VALUE (Bool, robot, model/failsafe, msg->failsafe, true);
   }
 
   _latitude.set_value (msg -> position.latitude, true);
