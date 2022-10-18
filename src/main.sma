@@ -83,20 +83,20 @@ Component root {
   double init_lat = get_arg_double (argc, argv, 1)
   if (init_lat == -1) {
     //Esperces data
-    init_lat = 43.315313261816485
+    //init_lat = 43.315313261816485
     //Caylus data 
     //init_lat = 44.27432196595285
     //Beynes data
-    //init_lat = 48.86109526727752
+    init_lat = 48.86109526727752
   }
   double init_lon = get_arg_double (argc, argv, 2)
   if (init_lon == -1){
     //Esperces data
-    init_lon = 1.404974527891014
+    //init_lon = 1.404974527891014
     //Caylus data
     //init_lon = 1.729783361205679
     //Baynes data
-    //init_lon = 1.8933138875646296
+    init_lon = 1.8933138875646296
   }
   //maximum lvl of zoom of 19
   int init_zoom = 19

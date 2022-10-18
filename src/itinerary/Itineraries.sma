@@ -61,6 +61,13 @@ Itineraries (Process _map)
 	String id ("")
 	Ref ref_current_itinerary (nullptr)
 	
+	Scaling sc (1, 1, 0, 0)
+	map.zoom =:> sc.sx, sc.sy
+
+	Translation pos (0, 0)
+	map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
+	map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+
 	Component itineraries_list
 
 	NativeAction edge_released_na (edge_released_action, this, 1)

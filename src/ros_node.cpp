@@ -36,6 +36,7 @@
 using std::placeholders::_1;
 
 using namespace djnn;
+using namespace std;
 
 //TODO : MP
 // remove - find_child
@@ -46,38 +47,38 @@ using namespace djnn;
 
 
 RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* context) :
-FatProcess (n),
-ExternalSource (n),
-  //arguments
-_map (my_map),
-_context (context),
+  FatProcess (n),
+  ExternalSource (n),
+    //arguments
+  _map (my_map),
+  _context (context),
 
-  //navgraph fields
-navgraph_data(this, "data", ""),
+    //navgraph fields
+  navgraph_data(this, "data", ""),
 
-  //robot_state fields
-_robot_id(this, "robot_id", 0),
-_battery_percentage(this, "battery_percentage", 0),
-_battery_voltage(this, "battery_voltage", 0),
-_latitude(this, "latitude", 0),
-_longitude(this, "longitude", 0),
-_altitude_msl(this, "altitude_msl", 0),
-_compass_heading(this, "compass_heading", 0),
-_emergency_stop(this, "emergency_stop", 0),
-_failsafe(this, "failsafe", 0),
-_operation_mode(this, "operation_mode", 0),
+    //robot_state fields
+  _robot_id(this, "robot_id", 0),
+  _battery_percentage(this, "battery_percentage", 0),
+  _battery_voltage(this, "battery_voltage", 0),
+  _latitude(this, "latitude", 0),
+  _longitude(this, "longitude", 0),
+  _altitude_msl(this, "altitude_msl", 0),
+  _compass_heading(this, "compass_heading", 0),
+  _emergency_stop(this, "emergency_stop", 0),
+  _failsafe(this, "failsafe", 0),
+  _operation_mode(this, "operation_mode", 0),
 
-  //Planif VAB
-_current_plan_id_vab(this, "current_plan_id", 0),
-_start_plan_vab_id(this, "start_plan_id", 0),
-_end_plan_vab_id(this, "end_plan_id", 0)
+    //Planif VAB
+  _current_plan_id_vab(this, "current_plan_id", 0),
+  _start_plan_vab_id(this, "start_plan_id", 0),
+  _end_plan_vab_id(this, "end_plan_id", 0)
 
-  #ifndef NO_ROS
-  //ROS
-,qos_best_effort(10),
-qos(1),
-qos_transient(1)
-  #endif
+    #ifndef NO_ROS
+    //ROS
+  ,qos_best_effort(10),
+  qos(1),
+  qos_transient(1)
+    #endif
 
 {
 

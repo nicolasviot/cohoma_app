@@ -15,10 +15,6 @@ TaskLayer (Process map)
 	List areas{
 		//TaskArea _(map)
 	}
-
-	List edges{
-		//TaskEdge _(map, 1, 2, nodes)
-	}
 	
 	Scaling sc (1, 1, 0, 0)
     map.zoom =:> sc.sx, sc.sy
@@ -27,9 +23,13 @@ TaskLayer (Process map)
     map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
     map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
 
+	List edges{
+		//TaskEdge _(map, 1, 2, nodes)
+	}
+
 	List traps{
 		//TaskTrap _(map, 1, 44.27432196595285, 1.729783361205679)
-		TaskTrap test (map, 23, 43.315893, 1.403865)
+		//TaskTrap test (map, 23, 43.315893, 1.403865)
 	}
 	
 
