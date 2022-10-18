@@ -53,14 +53,15 @@ edge_released_action (Process src, Process data)
 
 
 _define_
-Itineraries (Process _map, Process f){
+Itineraries (Process _map)
+{
 	map aka _map
 	Spike create_bindings
 	Spike clear
 	String id ("")
 	Ref ref_current_itinerary (nullptr)
 	
-	Component itineraries_list {}
+	Component itineraries_list
 
 	NativeAction edge_released_na (edge_released_action, this, 1)
 	NativeAction id_changed_na (id_changed_action, this, 1)

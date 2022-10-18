@@ -74,13 +74,13 @@ RightPannel (Process root, Process frame, Process node) {
 
 	Translation _(0, 125)
 	ItineraryPannel itineraryPannel(0, 0, root.l.map.layers.itineraries.id)
-	Translation _ (0, 200)
 
 	plan_request -> itineraryPannel.startWaitingAnim
 	//TODO add a stop for the update animation when receiving data from ros 
 	// trigger   itineraryPannel.stopWaitingAnim
 	//itineraryPannel.first.sw.unselected.bg.press ->  itineraryPannel.stopWaitingAnim
 
+	Translation _ (0, 200)
 	Component validate_tasks_button
 	{
 		validate_tasks_button_svg = loadFromXML ("res/svg/RightPanel_button.svg")
@@ -111,6 +111,7 @@ RightPannel (Process root, Process frame, Process node) {
 			pressed -> idle (button.leave)
 		}
 	}
+
 	Translation _ (0, 70)
 	ClockComponent clock(0, -25, frame)
 
@@ -119,8 +120,6 @@ RightPannel (Process root, Process frame, Process node) {
 	//Image icare_logo ("res/icare-logo-2.png", 20, 200, 400, 400)
 
 	Console console(0, 0, node)
-
-
 
 	Component IObuttons{
 		Button send_plan_req (frame, " request plan ", 20, 140)

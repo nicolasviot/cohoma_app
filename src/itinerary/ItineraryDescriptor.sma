@@ -24,7 +24,7 @@ ItineraryDescriptor(double dx, double dy, string start_state, string id){
 	String itinerary_id(id)
 	description_input =:> regex.input
 	
-	LogPrinter lp ("debug regexp")
+	LogPrinter lp ("Itinerary regexp (debug): ")
 	description_input =:> lp.input
 	regex.[1] =:> legend
   	regex.[2] =:> cost

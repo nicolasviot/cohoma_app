@@ -107,7 +107,7 @@ ExclusionArea (Process map, string _status){
 
 
     }
-    LogPrinter lp ( "debug" )
+    LogPrinter lp ( "Excelusion area (debug): " )
 
     status =:> lp.input
     status =:> type.state

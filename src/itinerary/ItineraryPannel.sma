@@ -8,7 +8,8 @@ import gui.animation.Animator
 import ItineraryDescriptor
 
 _define_
-ItineraryPannel(double _dx, double _dy, Process _id_selected){
+ItineraryPannel(double _dx, double _dy, Process _id_selected)
+{
 	Translation t (_dx, _dy)
 
 	id_selected aka _id_selected
@@ -84,7 +85,4 @@ ItineraryPannel(double _dx, double _dy, Process _id_selected){
         animate -> idle (stopWaitingAnim)
     }
 
-	//debug
-	// LogPrinter lp ("state: ")
-	// fsm_select.state =:> lp.input	
 }
