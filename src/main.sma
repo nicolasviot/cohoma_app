@@ -405,7 +405,8 @@ Component root {
       l.map.xpan - l.map.cur_ref_x + l.map.px0 =:> pos.tx
       l.map.ypan - l.map.cur_ref_y + l.map.py0 =:> pos.ty
 
-      GraphNode temporary (l.map, context, 0, 0, 50, 50, 50)
+      // Init Temporary with an id to -1
+      GraphNode temporary (l.map, context, -1, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
 
@@ -453,17 +454,18 @@ Component root {
     State shift_on
 
     State preview_on {
-      List temp_id_list 
-      root.context.selected_id -> (root){
+      List temp_id_list
+
+      root.context.selected_node_id -> (root){
         addChildrenTo root.addEdge.preview_on.temp_id_list {
-          Int _($root.context.selected_id)
+          Int _ ($root.context.selected_node_id)
         }
 
         int size = $root.addEdge.preview_on.temp_id_list.size 
         int src = $root.addEdge.preview_on.temp_id_list.[size - 1]
         int dest = $root.addEdge.preview_on.temp_id_list.[size]
         addChildrenTo root.l.map.layers.navgraph.shadow_edges{
-          Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
+          Edge _ (src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
         }
       }
       NoFill _
@@ -484,7 +486,7 @@ Component root {
       index->(root) {
         setRef (root.current_addedge_node, root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index])
       }
-      context.selected_id =:> index
+      context.selected_node_id =:> index
 
       //index =:> lp.input
 
@@ -500,7 +502,7 @@ Component root {
     }
 
     idle -> shift_on (context.shift, clear_temp_list) // + show_reticule
-    shift_on -> preview_on (root.context.selected_id, add_first_wpt)
+    shift_on -> preview_on (root.context.selected_node_id, add_first_wpt)
     preview_on -> idle (context.shift_r, add_segment) // + hide_reticule
     shift_on -> idle (context.shift_r, hide_reticule)
   }
@@ -528,7 +530,7 @@ Component root {
   add_first_wpt -> (root){
     root.current_addedge_node = &(root.null_ref)
     addChildrenTo root.addEdge.preview_on.temp_id_list{
-      Int _($root.context.selected_id)
+      Int _($root.context.selected_node_id)
     }
   }
 

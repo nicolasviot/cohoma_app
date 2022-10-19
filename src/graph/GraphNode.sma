@@ -12,12 +12,11 @@ _native_code_
 %}
 
 _define_
-GraphNode (Process map, Process _context, double _lat, double _lon, int r, int g, int b)
+GraphNode (Process map, Process _context, int _id, double _lat, double _lon, int r, int g, int b)
 {
     //context aka _context
 
-    String usage_status ("default")
-    Int id(0)
+    Int id (_id)
     Int node_col (#CCCCCC)
     Int white_col (#FFFFFF)
     Int black_col (#000000)
@@ -29,15 +28,22 @@ GraphNode (Process map, Process _context, double _lat, double _lon, int r, int g
     Int default_radius (10)
     Int other_radius (10)
     String label("")
-
     Double lat($_lat)
     Double lon($_lon)
     Double altitude_msl(0)
     Double battery_voltage(0)
     Double heading_rot(0)
+    String usage_status ("default")
+    
+    Int id_in_tooltip (_id - 1)
+    id - 1 => id_in_tooltip
 
     Spike disable_drag
     Spike renable_drag
+    Spike leave
+    //Spike left_press
+    Spike right_press
+    Spike enter
 
 
     Translation screen_translation(0, 0)
@@ -115,9 +121,6 @@ GraphNode (Process map, Process _context, double _lat, double _lon, int r, int g
     Text label_text(-$c.r/2, -20, "")
     label =:>label_text.text
     
-    Spike leave
-    Spike right_press
-    Spike enter
 
     //LogPrinter lp ("debug enter/leave (Graph Node) ")
 
@@ -130,7 +133,7 @@ GraphNode (Process map, Process _context, double _lat, double _lon, int r, int g
         }
 
         State display_tooltip{
-            Translation t(20, 0)
+            Translation t (20, 0)
 
             FillOpacity fo (0.8)
             FillColor light_grey (204, 204, 204)
@@ -143,7 +146,7 @@ GraphNode (Process map, Process _context, double _lat, double _lon, int r, int g
             legend.y - 12 =:> bg.y
             legend.width =:> bg.width
             legend.height =:> bg.height
-            "Node " + toString(id) + " (" + label + ") " + usage_status  =:> legend.text
+            "Node " + toString(id_in_tooltip) + " (" + label + ") " + usage_status =:> legend.text
         }
 
         idle -> entered (enter)
@@ -156,9 +159,19 @@ GraphNode (Process map, Process _context, double _lat, double _lon, int r, int g
     OutlineOpacity _(0)
     Circle interact_mask (0, 0, 30)
 
-    interact_mask.leave -> leave
-    interact_mask.right.press -> right_press
     interact_mask.enter -> enter
+    interact_mask.leave -> leave
+    //interact_mask.left.press -> left_press
+    interact_mask.right.press -> right_press
+
+    interact_mask.enter -> {
+		this =: _context.entered_wpt
+	}
+    interact_mask.press -> {
+        id =: _context.selected_node_id
+    }
+    
+
     c.cx =:> interact_mask.cx
     c.cy =:> interact_mask.cy
 

@@ -20,23 +20,16 @@ Node (Process map, Process _context, double _lat, double _lon, double _alt, int 
 	Int phase(0)
 
 
-	GraphNode wpt (map, _context,  $lat, $lon, 80, 80, 80)
+	GraphNode wpt (map, _context, _id, _lat, _lon, 80, 80, 80)
+	id =:> wpt.id
 
 	isPPO ? "mandatory" : "default" =: wpt.usage_status
+	wpt.usage_status => status
 
 	islocked =:> wpt.islocked
-	id - 1 =:> wpt.id
-	wpt.usage_status => status
+	
 	lat =:> wpt.lat
 	lon =:> wpt.lon
 	label =:> wpt.label
-
-	AssignmentSequence export_id (1) {
-		id =: _context.selected_id
-	} 
-	wpt.interact_mask.press -> export_id
-	wpt.interact_mask.enter -> {
-		wpt =: _context.entered_wpt
-	}
 
 }

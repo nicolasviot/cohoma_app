@@ -13,7 +13,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
 {
     //frame aka _frame
 
-	//LogPrinter lp ("debug in Context: ")
+	//LogPrinter lp ("Context (debug): ")
 
     Double init_lat (_init_lat)
     Double init_lon (_init_lon)
@@ -70,8 +70,8 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     // Dynamic properties
     //
 
-    Int selected_id (0)
-    //selected_id =:> lp.input
+    Int selected_node_id (0)
+    //selected_node_id =:> lp.input
 
 	//Int selected_trap_id (1)
 
