@@ -31,20 +31,23 @@ validate_lima (Process c)
 
 
 _define_
-Lima (Process map, Process my_node){
+Lima (Process map, Process _node)
+{
+    node aka _node
 
     Int id(0)
     String name("")
+
     Spike pressed
     Spike enter
     Spike leave
-    node aka my_node
+    
     FillOpacity fo (0.8)
-    //FillColor fill_color(20, 20, 190)
     NoFill _
     OutlineWidth outline_width(15)
     OutlineColor outline_color(20, 20, 250)
-    OutlineCapStyle _ (1) 
+    OutlineCapStyle _ (1)
+
     FSM hovered_lima{
         State not_hovered{
             220 =: outline_color.b
@@ -57,36 +60,10 @@ Lima (Process map, Process my_node){
         not_hovered -> hovered(enter)
         hovered -> not_hovered(leave)
     }
-/*    FSM tooltip{
-        State idle
-        State entered{
-            Timer t (500)
-        }
-        State display_tooltip{
-            Translation t(20, 0)
-
-            FillOpacity fo (0.8)
-            FillColor light_grey (204, 204, 204)
-            
-            Rectangle bg (0, 0, 50, 20, 5, 5)
-            FillColor _ (0, 0, 0)
-            Text legend (0, 0, "Node 0")
-            legend.x =:> bg.x
-            legend.y - 12 =:> bg.y
-            legend.width =:> bg.width
-            legend.height =:> bg.height
-            "Node " + toString(id) + " " + usage_status =:> legend.text
-
-
-        }
-        idle -> entered (enter)
-        entered -> display_tooltip(entered.t.end)
-        entered -> idle (leave)
-        display_tooltip -> idle (leave)
-}*/
 
 
     Polyline lima {
+        // IS_DEBUG
         //Point p1 (300, 90)
         //Point p2 (250, 190)
         //Point p3 (350, 190)
@@ -96,7 +73,7 @@ Lima (Process map, Process my_node){
     lima.leave -> leave
 
     Spike send_msg_lima
-    FSM lima_selection{
+    FSM lima_selection {
         State no_click{
             190 =: outline_color.b
             20 =: outline_color.g
