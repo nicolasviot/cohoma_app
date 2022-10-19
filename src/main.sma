@@ -78,8 +78,14 @@ _main_
 Component root {
 
   init_ros ()
+  
+  // Use static data model for debug
+  int is_debug = 0
+
   int init_width = 1424
   int init_height = 868
+
+
   double init_lat = get_arg_double (argc, argv, 1)
   if (init_lat == -1) {
     //Esperces data
@@ -121,7 +127,7 @@ Component root {
 
   CohomaContext context (init_lat, init_lon, init_zoom)
 
-  ModelManager model_manager (context)
+  ModelManager model_manager (context, is_debug)
 
   //Create one layer per data.
   // from bottom to top :
@@ -193,7 +199,7 @@ Component root {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible {
-          NavGraph layer (map, context, f)
+          NavGraph layer (map, context, f, model_manager)
         }
       }
       nodes aka ctrl_visibility.visible.layer.nodes
@@ -222,7 +228,7 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-          TrapLayer layer (map)
+          TrapLayer layer (map, context)
         }
       }
       String name("Traps")

@@ -8,7 +8,7 @@ import ClockComponent
 import Console
 
 _define_
-RightPannel (Process root, Process frame, Process node) {
+RightPannel (Process root, Process frame, Process _ros_node) {
 
 	Translation _ (10, 10)
 	Spike plan_request 
@@ -20,8 +20,8 @@ RightPannel (Process root, Process frame, Process node) {
 	Spike send_selected_tasks
 	Spike test_visibility_map
 
-		//legend for NavGraph
-	Component NavGraph
+	// Legend for Nav Graph
+	Component nav_graph_legend
 	{
 		nav_svg = loadFromXML ("res/svg/GraphNav_legend.svg")
 		nav << nav_svg.GraphNav
@@ -119,7 +119,7 @@ RightPannel (Process root, Process frame, Process node) {
 	//Translation _ (0, 200)
 	//Image icare_logo ("res/icare-logo-2.png", 20, 200, 400, 400)
 
-	Console console(0, 0, node)
+	Console console(0, 0, _ros_node)
 
 	Component IObuttons{
 		Button send_plan_req (frame, " request plan ", 20, 140)
