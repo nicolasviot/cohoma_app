@@ -418,7 +418,7 @@ Component root {
   addWptToLayer -> (root) {
     nodes = find(root.l.map.layers.navgraph.nodes)
     addChildrenTo nodes {
-      Node new (root.l.map, root.f, $root.l.map.pointer_lat, $root.l.map.pointer_lon, 0, 0, "by_operator", 0, root.context)
+      Node new (root.l.map, root.context, $root.l.map.pointer_lat, $root.l.map.pointer_lon, 0, 0, "by_operator", 0)
     }
     //print (nodes.size)
     //node = find(nodes[$nodes.size])

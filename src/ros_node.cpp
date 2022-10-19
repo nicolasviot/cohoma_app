@@ -381,15 +381,15 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   }
   
   // nodes
-  for (int i=j_graph["nodes"].size() - 1; i >=0; i--){
+  for (int i=j_graph["nodes"].size() - 1; i >=0; i--)
+  {
     auto& node = j_graph["nodes"][i];
     auto& m = node["metadata"];
     bool locked = m["locked"].get<bool>();
     bool isPPO = m["compulsory"].get<bool>();
     int phase = m["phase"].get<int>();
 
-    ParentProcess* node_ = Node (_nodes, "", _map , _frame, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(),
-     isPPO, node["label"], std::stoi(node["id"].get<std::string>()) + 1, _context);
+    ParentProcess* node_ = Node (_nodes, "", _map, _context, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(), isPPO, node["label"], std::stoi(node["id"].get<std::string>()) + 1);
     SET_CHILD_VALUE(Bool, node_, islocked, locked, true);
     //TODO: MP problème entre le nom du child et la variable
     SET_CHILD_VALUE(Int, node_, phase, phase, true);

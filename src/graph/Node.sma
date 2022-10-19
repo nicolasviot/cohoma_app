@@ -4,7 +4,7 @@ use base
 import GraphNode
 
 _define_
-Node (Process map, Process f, double _lat, double _lon, double _alt, int _isPPO, string _label, int _id, Process _context)
+Node (Process map, Process _context, double _lat, double _lon, double _alt, int _isPPO, string _label, int _id)
 {
 	//context aka _context
 
