@@ -201,7 +201,6 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_spot, CoreProcess, _parent, parent/l/map/layers/satelites/spot)
   GET_CHILD_VAR2 (_drone, CoreProcess, _parent, parent/l/map/layers/satelites/drone)
 
-  GET_CHILD_VAR2 (_current_wpt, RefProperty, _parent, parent/context/current_wpt)
   GET_CHILD_VAR2 (_entered_wpt, RefProperty, _parent, parent/context/entered_wpt)
 
   GET_CHILD_VAR2 (_georef_visibility_map, CoreProcess, _parent, parent/l/map/layers/result/georef_visibility_map)
@@ -261,7 +260,6 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received new navgraph\n", true)
   
-  _current_wpt->set_value ((CoreProcess*)nullptr, true);
   _entered_wpt->set_value ((CoreProcess*)nullptr, true);
 
     Container *_task_edge_container = dynamic_cast<Container *> (_task_edges);

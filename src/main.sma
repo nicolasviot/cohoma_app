@@ -509,7 +509,6 @@ Component root {
   add_segment -> hide_reticule
 
   clear_temp_list -> (root) {
-    root.context.current_wpt = &(root.null_ref)
     root.context.entered_wpt = &(root.null_ref)
     root.current_addedge_node = &(root.null_ref)
 
@@ -518,7 +517,6 @@ Component root {
   }
 
   clear_all -> (root) {
-    root.context.current_wpt = &(root.null_ref)
     root.context.entered_wpt = &(root.null_ref)
     root.current_addedge_node  = &(root.null_ref)
     

@@ -112,7 +112,7 @@ class RosNode : public FatProcess, public ExternalSource
     CoreProcess* _vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone, *_frame, *_actor, *_actor_ugv;
     CoreProcess* _clock, *_console, *_fw_input, *_fw_console_input;
 
-    RefProperty *_current_wpt, *_entered_wpt;
+    RefProperty *_entered_wpt;
     TextProperty *_id_curent_itenerary;
     
     //robot_state fields

@@ -33,7 +33,6 @@ Node (Process map, Process _context, double _lat, double _lon, double _alt, int 
 
 	AssignmentSequence export_id (1) {
 		id =: _context.selected_id
-		this =: _context.current_wpt
 	} 
 	wpt.interact_mask.press -> export_id
 	wpt.interact_mask.enter -> {

@@ -75,8 +75,8 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
 
 	//Int selected_trap_id (1)
 
-	Ref current_wpt (0)
 	Ref entered_wpt (0)
+
 	Ref current_trap (0)
 	Ref entered_trap (0)
 	
