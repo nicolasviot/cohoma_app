@@ -9,8 +9,10 @@ use base
 %}*/
 
 _define_
-CohomaContext (double _init_lat, double _init_lon, double _init_zoom)
+CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_zoom)
 {
+    //frame aka _frame
+
 	//LogPrinter lp ("debug in Context: ")
 
     Double init_lat (_init_lat)
@@ -40,6 +42,29 @@ CohomaContext (double _init_lat, double _init_lon, double _init_zoom)
 
 
     Ref RFF_NULL (0)
+
+
+    // Keyboard inputs 
+    // FIXME: Does not work on some keyboards
+    Spike ctrl
+    Spike ctrl_r
+    _frame.key\-pressed == DJN_Key_Control -> ctrl
+    _frame.key\-released == DJN_Key_Control -> ctrl_r
+
+    Spike shift
+    Spike shift_r
+    _frame.key\-pressed == DJN_Key_Shift -> shift
+    _frame.key\-released == DJN_Key_Shift -> shift_r
+
+    //Spike space
+    //Spike space_r
+    //_frame.key\-pressed == DJN_Key_Space -> space
+    //_frame.key\-released == DJN_Key_Space -> space_r
+
+    Spike del
+    Spike del_r
+    _frame.key\-pressed == DJN_Key_Backspace -> del
+
 
     //
     // Dynamic properties

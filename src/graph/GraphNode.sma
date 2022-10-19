@@ -12,8 +12,9 @@ _native_code_
 %}
 
 _define_
-GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
+GraphNode (Process map, Process _context, double _lat, double _lon, int r, int g, int b)
 {
+    //context aka _context
 
     String usage_status ("default")
     Int id(0)
@@ -37,11 +38,6 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
 
     Spike disable_drag
     Spike renable_drag
-
-    Spike shift
-    Spike shift_r
-    f.key\-pressed == DJN_Key_Shift -> shift
-    f.key\-released == DJN_Key_Shift -> shift_r
 
 
     Translation screen_translation(0, 0)
@@ -185,7 +181,6 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
             State no_drag_while_drawing_edge{
                 map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
                 (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
-          
             }
             State drag {
                 Double init_cx (0)
@@ -202,8 +197,8 @@ GraphNode(Process map, Process f, double _lat, double _lon, int r, int g, int b)
                 py2lat (map.t0_y - $screen_translation.ty, $map.zoomLevel) => lat, map.reticule.pointer_lat2
             }
             no_drag -> drag (interact_mask.left.press, map.reticule.show_reticule2)
-            no_drag -> no_drag_while_drawing_edge (shift)
-            no_drag_while_drawing_edge -> no_drag (shift_r)
+            no_drag -> no_drag_while_drawing_edge (_context.shift)
+            no_drag_while_drawing_edge -> no_drag (_context.shift_r)
             drag -> no_drag (interact_mask.left.release, map.reticule.hide_reticule2)
         }
 

@@ -20,7 +20,7 @@ Node (Process map, Process f, double _lat, double _lon, double _alt, int _isPPO,
 	Int phase(0)
 
 
-	GraphNode wpt (map, f,  $lat, $lon, 80, 80, 80)
+	GraphNode wpt (map, _context,  $lat, $lon, 80, 80, 80)
 
 	isPPO ? "mandatory" : "default" =: wpt.usage_status
 

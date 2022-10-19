@@ -116,6 +116,8 @@ Component root {
   f.background_color.g = 50
   f.background_color.b = 50
 
+  LogPrinter lp ("Main (debug): ")
+
   Spike show_reticule
   Spike hide_reticule
 
@@ -125,7 +127,19 @@ Component root {
   svg_drone = loadFromXML ("res/svg/drone.svg")
   svg_safety_pilot = loadFromXML("res/svg/safety_pilot.svg")
 
-  CohomaContext context (init_lat, init_lon, init_zoom)
+  CohomaContext context (f, init_lat, init_lon, init_zoom)
+  /*context.ctrl -> {
+    "key CONTROL" =: lp.input
+  }
+  context.shift -> {
+    "key SHIFT" =: lp.input
+  }
+  //context.space -> {
+  //  "key SPACE" =: lp.input
+  //}
+  context.del -> {
+    "key DEL" =: lp.input
+  }*/
 
   ModelManager model_manager (context, is_debug)
 
@@ -378,25 +392,7 @@ Component root {
   UpperLeftMenu menu (l.map, f)
 
 
-  // Keyboard inputs 
-  // Does not work on some keyboards
-  Spike ctrl
-  Spike ctrl_r
-  f.key\-pressed == DJN_Key_Control -> ctrl
-  f.key\-released == DJN_Key_Control -> ctrl_r
-  Spike shift
-  Spike shift_r
-  f.key\-pressed == DJN_Key_Shift -> shift
-  f.key\-released == DJN_Key_Shift -> shift_r
-  //Spike space
-  //Spike space_r
-  //f.key\-pressed == DJN_Key_Space -> space
-  //f.key\-released == DJN_Key_Space -> space_r
-  Spike del
-  Spike del_r
-  f.key\-pressed == DJN_Key_Backspace -> del
-
-  // Add GraphNode FSM
+  // Add Graph Node FSM
   Spike addWptToLayer
   FSM addNode {
 
@@ -409,14 +405,14 @@ Component root {
       l.map.xpan - l.map.cur_ref_x + l.map.px0 =:> pos.tx
       l.map.ypan - l.map.cur_ref_y + l.map.py0 =:> pos.ty
 
-      GraphNode temporary (l.map,f, 0, 0, 50, 50, 50)
+      GraphNode temporary (l.map, context, 0, 0, 50, 50, 50)
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
 
       f.release -> addWptToLayer
     }
-    idle -> preview (ctrl, show_reticule)
-    preview -> idle (ctrl_r, hide_reticule)
+    idle -> preview (context.ctrl, show_reticule)
+    preview -> idle (context.ctrl_r, hide_reticule)
   }
 
   addWptToLayer -> (root) {
@@ -442,9 +438,8 @@ Component root {
   Spike disable_drag
   Spike renable_drag
 
-  del -> clear_all
+  context.del -> clear_all
   
-  //LogPrinter lp ("debug selected_id dans le main: ")
 
   Ref null_ref (0)
   RefProperty current_addedge_node (nullptr)
@@ -504,10 +499,10 @@ Component root {
       f.move.y - pos.ty =:> temp_shadow_edge.y2
     }
 
-    idle -> shift_on (shift, clear_temp_list) // + show_reticule
+    idle -> shift_on (context.shift, clear_temp_list) // + show_reticule
     shift_on -> preview_on (root.context.selected_id, add_first_wpt)
-    preview_on -> idle (shift_r, add_segment) // + hide_reticule
-    shift_on -> idle (shift_r, hide_reticule)
+    preview_on -> idle (context.shift_r, add_segment) // + hide_reticule
+    shift_on -> idle (context.shift_r, hide_reticule)
   }
 
   clear_temp_list -> show_reticule
