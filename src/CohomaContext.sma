@@ -19,7 +19,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Double init_lon (_init_lon)
     Double init_zoom (_init_zoom)
 
-    // COLORS FOR VEHICULES -- blues variations
+    // COLORS for VEHICULES -- blues variations
     //Int VAB_COL (#6BC0FF)
     //Int AGI_1_COL (#ADE2ED)
     //Int AGI_2_COL (#51D5F0)
@@ -36,12 +36,21 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int DRONE_COL (#1ACAFF)
 
 
-    // COLORS FOR SAFETY PILOTS
+    // COLORS for SAFETY PILOTS
     Int UAV_COL (#A056F6)
     Int UGV_COL (#708d23)
 
+    // COLORS for node states
+    Int NODE_COL (#CCCCCC)
+    Int WHITE_COL (#FFFFFF)
+    Int BLACK_COL (#000000)
+    Int ACTIVE_COL (#29ABE2)
+    Int START_COL (#70EE49)
+    Int MANDATORY_COL (#FF30FF)
 
-    Ref RFF_NULL (0)
+
+
+    //Ref REF_NULL (0)
 
 
     // Keyboard inputs 

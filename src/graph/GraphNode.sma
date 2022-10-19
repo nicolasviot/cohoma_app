@@ -12,24 +12,19 @@ _native_code_
 %}
 
 _define_
-GraphNode (Process map, Process _context, int _id, double _lat, double _lon, int r, int g, int b)
+GraphNode (Process map, Process _context, int _id, double _lat, double _lon)
 {
     //context aka _context
 
     Int id (_id)
-    Int node_col (#CCCCCC)
-    Int white_col (#FFFFFF)
-    Int black_col (#000000)
-    Int active_col (#29ABE2)
-    Int start_col (#70EE49)
-    Int mandatory_col (#FF30FF)
+    Double lat (_lat)
+    Double lon (_lon)
+
     Bool islocked(0)
     Bool isMandatory(0)
     Int default_radius (10)
     Int other_radius (10)
     String label("")
-    Double lat($_lat)
-    Double lon($_lon)
     Double altitude_msl(0)
     Double battery_voltage(0)
     Double heading_rot(0)
@@ -61,54 +56,53 @@ GraphNode (Process map, Process _context, int _id, double _lat, double _lon, int
     opacity aka fill_opacity.a
 
 
-    FillColor fill_color (r, g, b)
-
-    OutlineColor outline_color (r, g, b)
+    FillColor fill_color (0)
+    OutlineColor outline_color (0)
     OutlineWidth outline_width (1)
     OutlineOpacity outline_opacity(0.5)
     Circle c (0, 0, 8)
 
-  
-
 
     Switch status_switch (default) {
         Component default {
-            node_col =: fill_color.value
-            white_col =: outline_color.value
+            _context.NODE_COL =: fill_color.value
+            _context.WHITE_COL =: outline_color.value
 
             3 =: outline_width.width
             default_radius =: c.r
             0 =: isMandatory
         }
         Component start {
-            active_col =: fill_color.value
-            start_col =: outline_color.value
+            _context.ACTIVE_COL =: fill_color.value
+            _context.START_COL =: outline_color.value
             
             2 =: outline_width.width
             other_radius =: c.r
         }
         Component end {
-            active_col =: fill_color.value
-            mandatory_col =: outline_color.value
+            _context.ACTIVE_COL =: fill_color.value
+            _context.MANDATORY_COL =: outline_color.value
+
             other_radius =: c.r
             2 =: outline_width.width
         }
         Component forced {
-            active_col =: fill_color.value
-            black_col =: outline_color.value
+            _context.ACTIVE_COL =: fill_color.value
+            _context.BLACK_COL =: outline_color.value
 
             other_radius =: c.r
             2 =: outline_width.width
         }
         Component mandatory {
-            active_col =: fill_color.value
-            mandatory_col =: outline_color.value
+            _context.ACTIVE_COL =: fill_color.value
+            _context.MANDATORY_COL =: outline_color.value
+
             1 =: outline_width.width
 
             NoFill _ 
             OutlineWidth _ (2)
             OutlineOpacity _ (1.5)
-            Circle outer_circler (0, 0, 15)
+            Circle outer_circle (0, 0, 15)
             1 =: isMandatory
         }
     }

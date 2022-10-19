@@ -406,7 +406,7 @@ Component root {
       l.map.ypan - l.map.cur_ref_y + l.map.py0 =:> pos.ty
 
       // Init Temporary with an id to -1
-      GraphNode temporary (l.map, context, -1, 0, 0, 50, 50, 50)
+      GraphNode temporary (l.map, context, -1, 0, 0)
       l.map.pointer_lat =:> temporary.lat
       l.map.pointer_lon =:> temporary.lon
 
