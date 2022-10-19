@@ -14,6 +14,6 @@ SiteLayer (Process map) {
 	}
 
 	List limas {
-		Lima debug (map, null)
+		Lima debug_lima (map, null)
 	}
 }

@@ -46,12 +46,13 @@ using namespace std;
 // check boucle for et utilisation des msg ROS2 
 
 
-RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* context) :
+RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* context, CoreProcess* model_manager) :
   FatProcess (n),
   ExternalSource (n),
     //arguments
   _map (my_map),
   _context (context),
+  _model_manager (model_manager),
 
     //navgraph fields
   navgraph_data(this, "data", ""),

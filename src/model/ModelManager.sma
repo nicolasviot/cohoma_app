@@ -160,7 +160,11 @@ ModelManager (Process _context, int _is_debug)
         }
     }*/
 
-    Component traps {
+    List edges {
+		
+	}
+
+    List traps {
         TrapModel trap (_context, 23, $_context.init_lat, $_context.init_lon - 0.0015)
     }
 }

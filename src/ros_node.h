@@ -53,7 +53,7 @@ using namespace djnn;
 class RosNode : public FatProcess, public ExternalSource
   {
   public:
-    RosNode (ParentProcess* parent, const string& n, CoreProcess* map, CoreProcess* context);
+    RosNode (ParentProcess* parent, const string& n, CoreProcess* map, CoreProcess* context, CoreProcess* model_manager);
     ~RosNode() {}
 
     void impl_activate () override;
@@ -94,7 +94,7 @@ class RosNode : public FatProcess, public ExternalSource
     const std::string _topic_name;
 
     //Arguments
-	  CoreProcess *_map, *_context;
+	  CoreProcess *_map, *_context, *_model_manager;
 	
 
     //navgraph fields

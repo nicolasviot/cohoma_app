@@ -80,7 +80,7 @@ Component root {
   init_ros ()
   
   // Use static data model for debug
-  int is_debug = 0
+  int is_debug = 1
 
   int init_width = 1424
   int init_height = 868
@@ -344,7 +344,7 @@ Component root {
   hide_reticule -> l.map.reticule.hide_reticule, foreground.edit
 
   
-  RosManager ros_manager(root, l.map, context)
+  RosManager ros_manager(root, l.map, context, model_manager)
   
   Component right_pannel {
     Translation t (1424, 0)

@@ -101,11 +101,12 @@ test_visibility_map_native (Process c)
 
 
 _define_
-RosManager (Process _parent, Process _map, Process _context){
-
+RosManager (Process _parent, Process _map, Process _context, Process _model_manager)
+{
 	parent aka _parent
 	map aka _map
 	context aka _context
+	model_manager aka _model_manager
 
 	Spike update_graph
 	Spike plan_request
@@ -116,7 +117,7 @@ RosManager (Process _parent, Process _map, Process _context){
 	Spike send_selected_tasks
 	Spike test_visibility_map
 
-	RosNode node (map, context)
+	RosNode node (map, context, model_manager)
 
   	NativeAction validate_plan_action (validate_plan_fun, node, 1)
   	validate_plan -> validate_plan_action

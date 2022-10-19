@@ -20,6 +20,6 @@ TrapLayer (Process _map, Process _context)
     _map.ypan - _map.cur_ref_y + _map.py0 =:> pos.ty
 
 	List traps {
-		Trap debug (_map, $_context.init_lat, $_context.init_lon - 0.0015, 200, null)
+		Trap debug_trap (_map, $_context.init_lat, $_context.init_lon - 0.0015, 200, null)
 	}
 }
