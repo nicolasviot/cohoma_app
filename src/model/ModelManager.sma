@@ -44,13 +44,12 @@ ModelManager (Process _context, int _is_debug)
     }
 
     List nodes {
-        NodeModel node0 (_context, 1, "n_01", 43.316021818382886, 1.4041900634765625, 0.0, 0)
-        NodeModel node1 (_context, 2, "n_02", 43.316006206187375, 1.4047694206237793, 0.0, 0)
+
 	}
 
-    /*if (_is_debug) {
+    if (_is_debug) {
         addChildrenTo nodes {
-            NodeModel node1 (_context, 48.866366, 1.885056, 0.0, 0, "", 1)
+            NodeModel node1 (_context, 48.866366, 1.885056, 0.0, 0, "FIRST", 1)
             NodeModel node2 (_context, 48.866246, 1.885335, 0.0, 0, "", 2)
             NodeModel node3 (_context, 48.866733, 1.886022, 0.0, 0, "", 3)
             NodeModel node4 (_context, 48.865385, 1.886623, 0.0, 0, "", 4)
@@ -158,7 +157,7 @@ ModelManager (Process _context, int _is_debug)
             NodeModel node106 (_context, 48.866211, 1.884520, 0.0, 0, "", 106)
             NodeModel node107 (_context, 48.866119, 1.884906, 0.0, 0, "", 107)
         }
-    }*/
+    }
 
     List edges {
 		

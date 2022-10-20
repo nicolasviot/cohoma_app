@@ -50,7 +50,7 @@ NavGraph (Process _map, Process _context, Process f, Process _model_manager)
 			Node node11(_map, _context, 43.315327071800844, 1.4045333862304688, 0.0, 0, "n_000", 12)*/
 
 			//Baynes data
-			Node node1 (_map, _context, 48.866366, 1.885056, 0.0, 0, "", 1)
+			Node node1 (_map, _context, 48.866366, 1.885056, 0.0, 0, "FIRST", 1)
 			Node node2 (_map, _context, 48.866246, 1.885335, 0.0, 0, "", 2)
 			Node node3 (_map, _context, 48.866733, 1.886022, 0.0, 0, "", 3)
 			Node node4 (_map, _context, 48.865385, 1.886623, 0.0, 0, "", 4)

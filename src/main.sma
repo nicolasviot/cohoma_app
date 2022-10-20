@@ -394,9 +394,10 @@ Component root {
 
   // Add Graph Node FSM
   Spike addWptToLayer
-  FSM addNode {
 
+  FSM addNode {
     State idle 
+
     State preview {
       Scaling sc (1, 1, 0, 0)
       l.map.zoom =:> sc.sx, sc.sy
@@ -426,9 +427,8 @@ Component root {
     //node.wpt.lat = root.addNode.preview.temporary.lat
     nodes[$nodes.size].wpt.lat = root.addNode.preview.temporary.lat
     nodes[$nodes.size].wpt.lon = root.addNode.preview.temporary.lon
-    nodes[$nodes.size].id = nodes.size    
+    nodes[$nodes.size].id = nodes.size   
  }
-
 
 
   // Add Edge between GraphNode 
@@ -520,7 +520,7 @@ Component root {
 
   clear_all -> (root) {
     root.context.entered_wpt = &(root.null_ref)
-    root.current_addedge_node  = &(root.null_ref)
+    root.current_addedge_node = &(root.null_ref)
     
     delete_content root.l.map.layers.navgraph.edges
     delete_content root.l.map.layers.navgraph.shadow_edges
