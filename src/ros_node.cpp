@@ -658,11 +658,10 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
   
   int new_trap = 0;
   int update_trap = 0;
-  CoreProcess *svg_trap_info;
+  CoreProcess *svg_info;
   CoreProcess *current_trap;
   
-  //#define GET_CHILD_VAR2(varname, type, parent, name) varname = dynamic_cast<djnn::type*>(parent->find_child(#name));
-  GET_CHILD_VAR2 (svg_trap_info, CoreProcess, _trap_layer, parent/svg_trap_info)
+  GET_CHILD_VAR2 (svg_info, CoreProcess, _trap_layer, svg_trap_info)
 
   for (int k = 0; k < msg.traps.size(); k ++){
 
@@ -682,7 +681,7 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     if (index_found == -1) {
       new_trap = new_trap + 1;
       
-      ParentProcess *new_trap = Trap (_traps, "", _map, svg_trap_info, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id, this);
+      ParentProcess *new_trap = Trap (_traps, "", _map, svg_info, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id, this);
   
       current_trap = new_trap;
 
