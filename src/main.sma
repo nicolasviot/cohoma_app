@@ -242,7 +242,7 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-          TrapLayer layer (map, context)
+          TrapLayer layer (map, context, model_manager)
         }
       }
       String name("Traps")

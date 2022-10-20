@@ -121,7 +121,7 @@ RightPannel (Process root, Process frame, Process _ros_node) {
 
 	Console console(0, 0, _ros_node)
 
-	Component IObuttons{
+	/*Component IObuttons{
 		Button send_plan_req (frame, " request plan ", 20, 140)
 		send_plan_req.click -> plan_request
 		
@@ -142,6 +142,6 @@ RightPannel (Process root, Process frame, Process _ros_node) {
 
 		Button test_visibility_map_button(frame, "test_visibility_map", 20, 500)
 		test_visibility_map_button.click->test_visibility_map
-	}
+	}*/
 
 }

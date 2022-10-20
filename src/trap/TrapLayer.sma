@@ -10,8 +10,12 @@ import Trap
 
 
 _define_
-TrapLayer (Process _map, Process _context)
+TrapLayer (Process _map, Process _context, Process _model_manager)
 {
+	//map aka _map
+	//context aka _context
+	//model_manager aka _model_manager
+
 	Scaling sc (1, 1, 0, 0)
     _map.zoom =:> sc.sx, sc.sy
 
@@ -20,6 +24,13 @@ TrapLayer (Process _map, Process _context)
     _map.ypan - _map.cur_ref_y + _map.py0 =:> pos.ty
 
 	List traps {
-		Trap debug_trap (_map, $_context.init_lat, $_context.init_lon - 0.0015, 200, null)
+		
+	}
+
+	if (_model_manager.IS_DEBUG)
+	{
+		addChildrenTo traps {
+			Trap debug_trap (_map, $_context.init_lat, $_context.init_lon - 0.0015, 200, null)
+		}
 	}
 }
