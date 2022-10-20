@@ -16,9 +16,7 @@ Node (Process map, Process _context, double _lat, double _lon, double _alt, int 
 	String label(_label)
 	String status ("")
 	Int id(_id)
-	Spike pressed
 	Int phase(0)
-
 
 	GraphNode wpt (map, _context, _id, _lat, _lon)
 	id =:> wpt.id

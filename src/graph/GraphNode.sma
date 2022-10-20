@@ -22,12 +22,10 @@ GraphNode (Process map, Process _context, int _id, double _lat, double _lon)
 
     Bool islocked(0)
     Bool isMandatory(0)
-    Int default_radius (10)
-    Int other_radius (10)
+
     String label("")
     Double altitude_msl(0)
-    Double battery_voltage(0)
-    Double heading_rot(0)
+
     String usage_status ("default")
     
     Int id_in_tooltip (_id - 1)
@@ -40,18 +38,13 @@ GraphNode (Process map, Process _context, int _id, double _lat, double _lon)
     Spike right_press
     Spike enter
 
+    Int default_radius (10)
+    Int other_radius (10)
 
     Translation screen_translation(0, 0)
-
-    Rotation rot (0, 0, 0)
-    screen_translation.tx =:> rot.cx
-    screen_translation.ty =:> rot.cy
-    heading_rot =:> rot.a
-
-
     
   
-    //graphical variables to be updated in different status
+    // Graphical variables to be updated in different status
     FillOpacity fill_opacity (0.6)
     opacity aka fill_opacity.a
 
