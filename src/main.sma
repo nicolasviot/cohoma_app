@@ -191,22 +191,15 @@ Component root {
           map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
 
           List layers {
-            Vehicule vab (map, context, model_manager.vehicules.vab, svg_vab)
-            Vehicule agilex1 (map, context, model_manager.vehicules.agilex1, svg_robot)
-            Vehicule agilex2 (map, context, model_manager.vehicules.agilex2, svg_robot)
-            Vehicule lynx (map, context, model_manager.vehicules.lynx, svg_robot)
-            Vehicule spot (map, context, model_manager.vehicules.spot, svg_robot)
-            Vehicule drone (map, context, model_manager.vehicules.drone, svg_drone)
+            Vehicule vab (map, context, model_manager.vehicles.vab, svg_vab)
+            Vehicule agilex1 (map, context, model_manager.vehicles.agilex1, svg_robot)
+            Vehicule agilex2 (map, context, model_manager.vehicles.agilex2, svg_robot)
+            Vehicule lynx (map, context, model_manager.vehicles.lynx, svg_robot)
+            Vehicule spot (map, context, model_manager.vehicles.spot, svg_robot)
+            Vehicule drone (map, context, model_manager.vehicles.drone, svg_drone)
           }
         }
       }
-      vab aka ctrl_visibility.visible.layers.[1]
-      agilex1 aka ctrl_visibility.visible.layers.[2]
-      agilex2 aka ctrl_visibility.visible.layers.[3]
-      lynx aka ctrl_visibility.visible.layers.[4]
-      spot aka ctrl_visibility.visible.layers.[5]
-      drone aka ctrl_visibility.visible.layers.[6]
-      
       String name ("Satelites")
     }
 
@@ -285,13 +278,11 @@ Component root {
           map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
           map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
 
-          SafetyPilot sfty_pilot_uav (map, context, model_manager.safety_pilots.uav, svg_safety_pilot)
-          SafetyPilot sfty_pilot_ugv (map, context, model_manager.safety_pilots.ugv, svg_safety_pilot)
+          SafetyPilot drone_safety_pilot (map, context, model_manager.safety_pilots.drone_safety_pilot, svg_safety_pilot)
+          SafetyPilot ground_safety_pilot (map, context, model_manager.safety_pilots.ground_safety_pilot, svg_safety_pilot)
         }
       }
       String name("Actors")
-      sfty_pilot_uav aka ctrl_visibility.visible.sfty_pilot_uav
-      sfty_pilot_ugv aka ctrl_visibility.visible.sfty_pilot_ugv
     }
 
     Component site{

@@ -95,7 +95,7 @@ class RosNode : public FatProcess, public ExternalSource
 
     //Arguments
 	  CoreProcess *_map, *_context, *_model_manager;
-	
+	  CoreProcess *_frame;
 
     //navgraph fields
     TextProperty navgraph_data;
@@ -109,9 +109,11 @@ class RosNode : public FatProcess, public ExternalSource
     RefProperty *_ref_curent_itenerary;
     NativeAction* _edge_released_na;
 
-    //robot
-    CoreProcess* _vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone, *_frame, *_actor, *_actor_ugv;
-    CoreProcess* _clock, *_console, *_fw_input, *_fw_console_input;
+    // Models of vehicles, safety pilots
+    CoreProcess *_vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone;
+    CoreProcess *_drone_safety_pilot, *_ground_safety_pilot;
+
+    CoreProcess *_clock, *_console, *_fw_input, *_fw_console_input;
 
     RefProperty *_entered_wpt;
     TextProperty *_id_curent_itenerary;

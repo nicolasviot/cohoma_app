@@ -187,8 +187,6 @@ RosNode::impl_activate ()
 
   GET_CHILD_VAR2 (_exclusion_areas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/exclusion_areas)
   GET_CHILD_VAR2 (_limas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/limas)
-  GET_CHILD_VAR2 (_actor, CoreProcess, _parent, parent/l/map/layers/actors/sfty_pilot_uav)
-  GET_CHILD_VAR2 (_actor_ugv, CoreProcess, _parent, parent/l/map/layers/actors/sfty_pilot_ugv)
   GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_pannel/right_pannel/clock)
   GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_pannel/right_pannel/clock/fw/input)
   GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/right_pannel/right_pannel/clock/fw_console/input)
@@ -198,13 +196,15 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_ref_curent_itenerary, RefProperty, _parent, parent/l/map/layers/itineraries/ref_current_itinerary)
   GET_CHILD_VAR2 (_edge_released_na, NativeAction, _parent, parent/l/map/layers/itineraries/edge_released_na)
   
-  // FIXME: use model directly
-  GET_CHILD_VAR2 (_vab, CoreProcess, _parent, parent/l/map/layers/satelites/vab)
-  GET_CHILD_VAR2 (_agilex1, CoreProcess, _parent, parent/l/map/layers/satelites/agilex1)
-  GET_CHILD_VAR2 (_agilex2, CoreProcess, _parent, parent/l/map/layers/satelites/agilex2)
-  GET_CHILD_VAR2 (_lynx, CoreProcess, _parent, parent/l/map/layers/satelites/lynx)
-  GET_CHILD_VAR2 (_spot, CoreProcess, _parent, parent/l/map/layers/satelites/spot)
-  GET_CHILD_VAR2 (_drone, CoreProcess, _parent, parent/l/map/layers/satelites/drone)
+  GET_CHILD_VAR2 (_vab, CoreProcess, _model_manager, vehicles/vab)
+  GET_CHILD_VAR2 (_agilex1, CoreProcess, _model_manager, vehicles/agilex1)
+  GET_CHILD_VAR2 (_agilex2, CoreProcess, _model_manager, vehicles/agilex2)
+  GET_CHILD_VAR2 (_lynx, CoreProcess, _model_manager, vehicles/lynx)
+  GET_CHILD_VAR2 (_spot, CoreProcess, _model_manager, vehicles/spot)
+  GET_CHILD_VAR2 (_drone, CoreProcess, _model_manager, vehicles/drone)
+
+  GET_CHILD_VAR2 (_drone_safety_pilot, CoreProcess, _model_manager, safety_pilots/drone_safety_pilot)
+  GET_CHILD_VAR2 (_ground_safety_pilot, CoreProcess, _model_manager, safety_pilots/ground_safety_pilot)
 
   GET_CHILD_VAR2 (_entered_wpt, RefProperty, _parent, parent/context/entered_wpt)
 
@@ -602,9 +602,9 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
   
   RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
 
-  djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _actor, _actor_ugv};
+  djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _drone_safety_pilot, _ground_safety_pilot};
   static const string robots_name[] = {"", "drone", "agilex1", "agilex2", "lynx", "spot", "vab", "drone_safety_pilot", "ground_safety_pilot"};
-  if (msg->robot_id<1 || msg->robot_id>=sizeof(robots)) {
+  if ((msg->robot_id < 1) || (msg->robot_id >= sizeof(robots))) {
     RCLCPP_INFO(_node->get_logger(), "incorrect robot_id: '%d'", msg->robot_id);
     return;
   }
@@ -618,22 +618,25 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
 
-  SET_CHILD_VALUE (Double, robot, model/lat, msg->position.latitude, true);
-  SET_CHILD_VALUE (Double, robot, model/lon, msg->position.longitude, true);
-  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Received robot_state for " + robot_name + "\n", true);
-  if(robot != _actor && robot != _actor_ugv ) {
-    SET_CHILD_VALUE (Double, robot, model/altitude_msl, msg->position.altitude, true);
-    SET_CHILD_VALUE (Double, robot, model/heading_rot, msg->compass_heading, true);
-    SET_CHILD_VALUE (Int, robot, model/battery_percentage, msg->battery_percentage, true);
-    SET_CHILD_VALUE (Int, robot, model/operation_mode, msg->operating_mode, true); // FIXME: operation_mode vs operating_mode
-    SET_CHILD_VALUE (Bool, robot, model/emergency_stop, msg->emergency_stop, true);
-    SET_CHILD_VALUE (Bool, robot, model/failsafe, msg->failsafe, true);
+  SET_CHILD_VALUE (Double, robot, lat, msg->position.latitude, true);
+  SET_CHILD_VALUE (Double, robot, lon, msg->position.longitude, true);
+  //SET_CHILD_VALUE (Double, robot, altitude_msl, msg->position.altitude, true);
+
+  SET_CHILD_VALUE (Text, _fw_input, timestamp + " - Received robot_state for " + robot_name + "\n", true);
+  
+  if ((robot != _drone_safety_pilot) && (robot != _ground_safety_pilot)) {
+    SET_CHILD_VALUE (Double, robot, altitude_msl, msg->position.altitude, true);
+    SET_CHILD_VALUE (Double, robot, heading_rot, msg->compass_heading, true);
+    SET_CHILD_VALUE (Int, robot, battery_percentage, msg->battery_percentage, true);
+    SET_CHILD_VALUE (Int, robot, operation_mode, msg->operating_mode, true); // FIXME: operation_mode vs operating_mode
+    SET_CHILD_VALUE (Bool, robot, emergency_stop, msg->emergency_stop, true);
+    SET_CHILD_VALUE (Bool, robot, failsafe, msg->failsafe, true);
   }
 
   _latitude.set_value (msg -> position.latitude, true);
   _longitude.set_value (msg -> position.longitude, true);
   _robot_id.set_value (msg -> robot_id, true);
-  _battery_percentage.set_value ( msg -> battery_percentage, true);
+  _battery_percentage.set_value (msg -> battery_percentage, true);
   _battery_voltage.set_value (msg -> battery_voltage, true);
   _compass_heading.set_value (msg -> compass_heading, true);
   _emergency_stop.set_value (msg -> emergency_stop, true);
