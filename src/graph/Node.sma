@@ -1,7 +1,13 @@
 use core
 use gui
 use base
+
 import GraphNode
+
+_native_code_
+%{
+    #include <iostream>
+%}
 
 _define_
 Node (Process map, Process _context, double _lat, double _lon, double _alt, int _isPPO, string _label, int _id)
@@ -20,6 +26,8 @@ Node (Process map, Process _context, double _lat, double _lon, double _alt, int 
 
 	GraphNode wpt (map, _context, _id, _lat, _lon)
 	id =:> wpt.id
+    
+	//print ("Node node" + id + " (map, f, " + lat + ", " + lon + ", 0.0, 0, \"" + label + "\", " + id + ", _context)\n")
 
 	isPPO ? "mandatory" : "default" =: wpt.usage_status
 	wpt.usage_status => status

@@ -30,7 +30,7 @@ Edge (int _id_src, int _id_dest, double _length, Process nodelist)
     arcos
     */
 
-    //print ("Edge: " + id_src + " --> " + id_dest + "\n")
+    //print ("Edge edge_" + id_src + "_" + id_dest + " (" + id_src + ", " + id_dest + ", " + length + ", nodes)\n")
 
     OutlineWidth width (5)
     OutlineColor color (234, 234, 234)
