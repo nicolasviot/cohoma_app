@@ -56,8 +56,9 @@ update_trap_position_action(Process c)
 #endif
 %}
 
+
 _define_
-Trap (Process map, double _lat, double _lon, int _id, Process _node)
+Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Process _node)
 {
 
     Double lat($_lat)
@@ -301,57 +302,52 @@ Trap (Process map, double _lat, double _lon, int _id, Process _node)
     content.rect.y =:> rect_pos.ty
 
     ///////TRAP INFO OVERLAY ON HOVER //////
-
-
-        overlay_svg = loadFromXML ("res/svg/trap_info.svg")
-
         
-        FSM info_overlay_FSM{
-            State idle{
+    FSM info_overlay_FSM {
+        State idle
 
-            }
-            State visible{
-                Translation _ (15,0)
-                info << overlay_svg.trap_info
-               description =:> info.description_text.text
-                      code =:> info.code_text.text
-                    hazard =:> info.hazard_text.text
-        "#" + toString(id) =:> info.id_text.text
-                 radius    =:> info.radius_text.text
-                 remotely_deactivate ? (contact_deactivate ? "Remote/Contact" : "Remote") : (contact_deactivate ? "Concact" : "...") =:> info.deactivate_text.text
+        State visible{
+            Translation _ (15,0)
+            info << clone (svg_trap_info.trap_info)
+            description =:> info.description_text.text
+            code =:> info.code_text.text
+            hazard =:> info.hazard_text.text
+            "#" + toString(id) =:> info.id_text.text
+            radius =:> info.radius_text.text
+            remotely_deactivate ? (contact_deactivate ? "Remote/Contact" : "Remote") : (contact_deactivate ? "Concact" : "...") =:> info.deactivate_text.text
 
-                   /*int8 CONTACT_UNKONWN = 0
-                    int8 CONTACT_AERIAL = 1
-                    int8 CONTACT_GROUND = 2
-                    int8 CONTACT_GROUND_MULTIPLE = 3
-                    int8 CONTACT_AERIAL_AND_GROUND = 4
-                    int8 CONTACT_AERIAL_OR_GROUND = 5*/
-               SwitchList contact_mode_switch (0){
-                   Component zero {
-                      "unknown" =: info.contact_text.text
-                   }
-                   Component one {
-                      "Aerial" =: info.contact_text.text
-                   }
-                   Component two {
-                      "Ground" =: info.contact_text.text
-                   }
-                   Component three {
-                      "Ground Multiple" =: info.contact_text.text
-                   }
-                   Component four {
-                       "Aerial And Ground" =:info.contact_text.text
-                   }
-                   Component five {
-                       "Aerial or Ground" =: info.contact_text.text
-                   }
-               }
-               contact_mode + 1 =:> contact_mode_switch.index
-                
+                /*int8 CONTACT_UNKONWN = 0
+                int8 CONTACT_AERIAL = 1
+                int8 CONTACT_GROUND = 2
+                int8 CONTACT_GROUND_MULTIPLE = 3
+                int8 CONTACT_AERIAL_AND_GROUND = 4
+                int8 CONTACT_AERIAL_OR_GROUND = 5*/
+            SwitchList contact_mode_switch (0){
+                Component zero {
+                    "unknown" =: info.contact_text.text
+                }
+                Component one {
+                    "Aerial" =: info.contact_text.text
+                }
+                Component two {
+                    "Ground" =: info.contact_text.text
+                }
+                Component three {
+                    "Ground Multiple" =: info.contact_text.text
+                }
+                Component four {
+                    "Aerial And Ground" =:info.contact_text.text
+                }
+                Component five {
+                    "Aerial or Ground" =: info.contact_text.text
+                }
             }
-            idle -> visible (content.picking.enter)
-            visible -> idle (content.picking.leave)
+            contact_mode + 1 =:> contact_mode_switch.index
+            
         }
+        idle -> visible (content.picking.enter)
+        visible -> idle (content.picking.leave)
+    }
 
 
 

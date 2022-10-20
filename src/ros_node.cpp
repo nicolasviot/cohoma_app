@@ -49,15 +49,16 @@ using namespace std;
 RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* context, CoreProcess* model_manager) :
   FatProcess (n),
   ExternalSource (n),
-    //arguments
+  //arguments
   _map (my_map),
   _context (context),
   _model_manager (model_manager),
 
-    //navgraph fields
+  //navgraph fields
   navgraph_data(this, "data", ""),
 
-    //robot_state fields
+  // FIXME: several robots, so why only one property ?
+  //robot_state fields
   _robot_id(this, "robot_id", 0),
   _battery_percentage(this, "battery_percentage", 0),
   _battery_voltage(this, "battery_voltage", 0),
@@ -69,7 +70,7 @@ RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, C
   _failsafe(this, "failsafe", 0),
   _operation_mode(this, "operation_mode", 0),
 
-    //Planif VAB
+  //Planif VAB
   _current_plan_id_vab(this, "current_plan_id", 0),
   _start_plan_vab_id(this, "start_plan_id", 0),
   _end_plan_vab_id(this, "end_plan_id", 0)
@@ -181,7 +182,9 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_task_allocated_areas, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/areas)
   GET_CHILD_VAR2 (_task_allocated_traps, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/traps)
   
+  GET_CHILD_VAR2 (_trap_layer, CoreProcess, _parent, parent/l/map/layers/traps/traplayer)
   GET_CHILD_VAR2 (_traps, CoreProcess, _parent, parent/l/map/layers/traps/traplayer/traps)
+
   GET_CHILD_VAR2 (_exclusion_areas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/exclusion_areas)
   GET_CHILD_VAR2 (_limas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/limas)
   GET_CHILD_VAR2 (_actor, CoreProcess, _parent, parent/l/map/layers/actors/sfty_pilot_uav)
@@ -194,6 +197,8 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_id_curent_itenerary, TextProperty, _parent, parent/l/map/layers/itineraries/id)
   GET_CHILD_VAR2 (_ref_curent_itenerary, RefProperty, _parent, parent/l/map/layers/itineraries/ref_current_itinerary)
   GET_CHILD_VAR2 (_edge_released_na, NativeAction, _parent, parent/l/map/layers/itineraries/edge_released_na)
+  
+  // FIXME: use model directly
   GET_CHILD_VAR2 (_vab, CoreProcess, _parent, parent/l/map/layers/satelites/vab)
   GET_CHILD_VAR2 (_agilex1, CoreProcess, _parent, parent/l/map/layers/satelites/agilex1)
   GET_CHILD_VAR2 (_agilex2, CoreProcess, _parent, parent/l/map/layers/satelites/agilex2)
@@ -640,6 +645,10 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
   release_exclusive_access(DBG_REL);
 }
 
+
+// ------------------------------------------------------------------------------
+//    TRAP
+// ------------------------------------------------------------------------------
 void 
 RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     
@@ -649,9 +658,13 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
   
   int new_trap = 0;
   int update_trap = 0;
+  CoreProcess *svg_trap_info;
   CoreProcess *current_trap;
   
-  for (int k= 0; k < msg.traps.size(); k ++){
+  //#define GET_CHILD_VAR2(varname, type, parent, name) varname = dynamic_cast<djnn::type*>(parent->find_child(#name));
+  GET_CHILD_VAR2 (svg_trap_info, CoreProcess, _trap_layer, parent/svg_trap_info)
+
+  for (int k = 0; k < msg.traps.size(); k ++){
 
     int index_found = -1;
     current_trap = nullptr;
@@ -669,7 +682,7 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     if (index_found == -1) {
       new_trap = new_trap + 1;
       
-      ParentProcess *new_trap = Trap(_traps, "", _map, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id, this);
+      ParentProcess *new_trap = Trap (_traps, "", _map, svg_trap_info, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id, this);
   
       current_trap = new_trap;
 
