@@ -10,8 +10,17 @@ import Console
 _define_
 RightPannel (Process _context, Process _model_manager, Process _frame, Process _ros_node, Process _itineraries)
 {
+	//context aka _context
+
 	Translation tr (0, 0)
 	_frame.width - _context.RIGHT_PANEL_WIDTH =:> tr.tx
+
+	//FillOpacity _ (0.5)
+  	FillColor _ ($_context.DRAK_GRAY)
+  	//OutlineColor _ (#FF0000)
+  	//OutlineWidth _ (2)
+  	Rectangle bg (0, 0, $_context.RIGHT_PANEL_WIDTH, 0, 0, 0)
+	_frame.height =:> bg.height
 
 	Spike plan_request 
 	Spike validate_plan  
@@ -74,9 +83,9 @@ RightPannel (Process _context, Process _model_manager, Process _frame, Process _
 	}
 
 
-	Translation _(0, 125)
+	Translation _ (0, 125)
 	
-	//ItineraryPannel itineraryPannel(0, 0, root.l.map.layers.itineraries.id)
+	// Panel with the 3 itineraries
 	ItineraryPannel itineraryPannel(0, 0, _itineraries.id)
 
 	plan_request -> itineraryPannel.startWaitingAnim
@@ -117,7 +126,8 @@ RightPannel (Process _context, Process _model_manager, Process _frame, Process _
 	}
 
 	Translation _ (0, 70)
-	ClockComponent clock(0, -25, _frame)
+	
+	ClockComponent clock (_frame)
 
 
 	//Translation _ (0, 200)

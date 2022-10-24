@@ -24,6 +24,8 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int STRIP_WIDTH (225)
     Int STRIP_HEIGHT (125)
 
+    Int DRAK_GRAY (#323232) // R = G = B = 50
+
     // COLORS for VEHICULES -- blues variations
     //Int VAB_COL (#6BC0FF)
     //Int AGI_1_COL (#ADE2ED)
