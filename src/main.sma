@@ -83,9 +83,6 @@ Component root {
   int is_debug = 0
   // Use "#ifndef NO_ROS" instead
 
-  int init_map_width = 1424
-  int init_map_height = 868
-
 
   double init_lat = get_arg_double (argc, argv, 1)
   if (init_lat == -1) {
@@ -109,7 +106,12 @@ Component root {
   int init_zoom = 19
 
 
-  Frame f ("CoHoMa", 0, 0, init_map_width + 600, init_map_height + 600)
+  // Width: 1424 + 600 = 2024 why ?
+  int init_frame_width = 2048
+  // Hieght: 868 + 600 = 1468 why ?
+  int init_frame_height = 1280
+
+  Frame f ("CoHoMa", 0, 0, init_frame_width, init_frame_height)
   mouseTracking = 1
   f.background_color.r = 50
   f.background_color.g = 50
@@ -155,7 +157,12 @@ Component root {
   //  - Zones  TODO
 
   Component l {
-    Map map (f, 0, 0, init_map_width, init_map_height, init_lat, init_lon, init_zoom)
+    Map map (f, 0, 0, init_frame_width - $context.RIGHT_PANEL_WIDTH, init_frame_height - $context.STRIP_HEIGHT, init_lat, init_lon, init_zoom)
+    // FIXME: map crash if I add dynamic width/height:
+    //f.width - context.RIGHT_PANEL_WIDTH =:> map.width
+    //f.height - context.STRIP_HEIGHT =:> map.height
+    init_frame_width - context.RIGHT_PANEL_WIDTH =: map.width
+    init_frame_height - context.STRIP_HEIGHT =: map.height
 
     Component geoportail {
       Switch ctrl_visibility (visible) {

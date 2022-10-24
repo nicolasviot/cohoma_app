@@ -71,7 +71,7 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
 
   Int nbCols (ceil(_width/256) + 4)
   Int nbRows (ceil(_height/256) + 4)
-  ceil(width/256) + 4  =:> nbCols
+  ceil(width/256) + 4 =:> nbCols
   ceil(height/256) + 4 =:> nbRows
 
   Spike move_left
@@ -110,8 +110,8 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
 
   double _dx = center_px - corner_px
   double _dy = center_py - corner_py
-  double init_cx = width/2 - _dx
-  double init_cy = height/2 - _dy
+  //double init_cx = width/2 - _dx
+  //double init_cy = height/2 - _dy
 
   //compute how many tiles before the central one
   int even_rows = $nbRows%2 == 0
