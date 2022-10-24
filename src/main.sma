@@ -322,8 +322,8 @@ Component root {
       //osm,
       result,
       site, // exclusion areas + limas
-      satelites,
       navgraph,
+      satelites,
       itineraries,
       traps, 
       tasks,
