@@ -13,12 +13,15 @@ Edge (int _id_src, int _id_dest, double _length, Process nodelist)
 {
     Int id_src(_id_src)
     Int id_dest(_id_dest)
-    Double length(_length)
+    Double length (_length)
+
     Double explored(0)
     DoubleFormatter df(0, 2)
-    DoubleFormatter dm(0, 2)
     100 * explored =:> df.input 
+
+    DoubleFormatter dm(0, 2)
     length =:> dm.input
+
     //Rarccos(sin(a)sin(b) + cos(a)cos(b)cos(c-d)) a = lata, b=lona, c =latb, d =lonb
     /*
     Double R(6171000)
@@ -32,8 +35,8 @@ Edge (int _id_src, int _id_dest, double _length, Process nodelist)
 
     //print ("Edge edge_" + id_src + "_" + id_dest + " (" + id_src + ", " + id_dest + ", " + length + ", nodes)\n")
 
-    OutlineWidth width (5)
-    OutlineColor color (234, 234, 234)
+    OutlineWidth outline_width (5)
+    OutlineColor outline_color (234, 234, 234)
     OutlineCapStyle _ (1)
 
     Line edge (0, 0, 0, 0)
@@ -43,16 +46,12 @@ Edge (int _id_src, int _id_dest, double _length, Process nodelist)
     y1 aka edge.y1
     y2 aka edge.y2
 
-    nodelist.[$id_src].wpt.screen_translation.tx =:> x1
-    nodelist.[$id_src].wpt.screen_translation.ty =:> y1
-    nodelist.[$id_dest].wpt.screen_translation.tx=:> x2
-    nodelist.[$id_dest].wpt.screen_translation.ty=:> y2
-
     Spike leave
     Spike enter
 
     FSM tooltip{
         State idle
+
         State entered{
             Timer t (500)
         }
@@ -73,8 +72,6 @@ Edge (int _id_src, int _id_dest, double _length, Process nodelist)
             legend.width =:> bg.width
             legend.height =:> bg.height
             "Length : " + dm.output + "m, explored : " + df.output + "%" =:> legend.text
-
-
         }
         idle -> entered (enter)
         entered -> display_tooltip(entered.t.end)
@@ -83,32 +80,31 @@ Edge (int _id_src, int _id_dest, double _length, Process nodelist)
     }
 
 
-    OutlineOpacity _(0)
-    //OutlineColor _(255, 0, 0)
-    OutlineWidth outer_width (20)
-    Line outerEdge (0, 0, 0, 0)
-    outerEdge.enter -> enter
-    outerEdge.leave -> leave
-    outer_x1 aka outerEdge.x1
-    outer_x2 aka outerEdge.x2
-    outer_y1 aka outerEdge.y1
-    outer_y2 aka outerEdge.y2
+    // Transparent, only to detect enter/leave with 20 as outline width
+    OutlineOpacity _ (0.0)
+    //OutlineColor _ (255, 0, 0)
+    OutlineWidth _ (20)
 
-    nodelist.[$id_src].wpt.screen_translation.tx =:> outer_x1
-    nodelist.[$id_src].wpt.screen_translation.ty =:> outer_y1
-    nodelist.[$id_dest].wpt.screen_translation.tx=:> outer_x2
-    nodelist.[$id_dest].wpt.screen_translation.ty=:> outer_y2
+    Line mask_edge (0, 0, 0, 0)
+
+    mask_edge.enter -> enter
+    mask_edge.leave -> leave
+
+    nodelist.[$id_src].wpt.screen_translation.tx =:> x1, mask_edge.x1
+    nodelist.[$id_src].wpt.screen_translation.ty =:> y1, mask_edge.y1
+    nodelist.[$id_dest].wpt.screen_translation.tx=:> x2, mask_edge.x2
+    nodelist.[$id_dest].wpt.screen_translation.ty=:> y2, mask_edge.y2
 
 
-    FSM enterLeave {
+    FSM fsm_mask {
         State idle {
-            10 =: width.width
+            10 =: outline_width.width
         }
         State inside {
-            20 =: width.width
+            20 =: outline_width.width
         }
-        idle -> inside (outerEdge.enter)
-        inside -> idle (outerEdge.leave)
+        idle -> inside (mask_edge.enter)
+        inside -> idle (mask_edge.leave)
     }
 
 }

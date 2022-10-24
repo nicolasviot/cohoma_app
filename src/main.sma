@@ -421,7 +421,7 @@ Component root {
 
   // Add Edge between GraphNode 
   Spike clear_temp_list
-  Spike add_segment
+  Spike add_edges
   Spike add_first_wpt
   Spike clear_all
   Spike disable_drag
@@ -452,10 +452,11 @@ Component root {
         int size = $root.addEdge.preview_on.temp_id_list.size 
         int src = $root.addEdge.preview_on.temp_id_list.[size - 1]
         int dest = $root.addEdge.preview_on.temp_id_list.[size]
-        addChildrenTo root.l.map.layers.navgraph.shadow_edges{
+        addChildrenTo root.l.map.layers.navgraph.shadow_edges {
           Edge _ (src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
         }
       }
+      
       NoFill _
       OutlineOpacity _ (0.5)
       OutlineWidth _ (5)
@@ -489,14 +490,12 @@ Component root {
       f.move.y - pos.ty =:> temp_shadow_edge.y2
     }
 
-    idle -> shift_on (context.shift, clear_temp_list) // + show_reticule
-    shift_on -> preview_on (root.context.selected_node_id, add_first_wpt)
-    preview_on -> idle (context.shift_r, add_segment) // + hide_reticule
+    idle -> shift_on (context.shift, show_reticule)
     shift_on -> idle (context.shift_r, hide_reticule)
+    shift_on -> preview_on (root.context.selected_node_id, add_first_wpt)
+    preview_on -> idle (context.shift_r, add_edges) // + hide_reticule
   }
-
-  clear_temp_list -> show_reticule
-  add_segment -> hide_reticule
+  add_edges -> hide_reticule
 
   clear_temp_list -> (root) {
     root.context.entered_wpt = &(root.null_ref)
@@ -523,17 +522,19 @@ Component root {
   }
 
 
-
-  add_segment -> (root){
-    for (int i = 1; i < $root.addEdge.preview_on.temp_id_list.size; i++){
+  add_edges -> na_add_edges:(root){
+    //print ("add_edges: " + root.addEdge.preview_on.temp_id_list.size + "\n")
+    for (int i = 1; i < $root.addEdge.preview_on.temp_id_list.size; i++) {
       int src = $root.addEdge.preview_on.temp_id_list.[i]
       int dest = $root.addEdge.preview_on.temp_id_list.[i+1]
-      print (root.addEdge.preview_on.temp_id_list.[i])
+      //print ("Add edge\n")
       addChildrenTo root.l.map.layers.navgraph.edges {
         Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
      }
     }
   }
+  na_add_edges -> clear_temp_list
+
 }
 
 
