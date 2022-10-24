@@ -2,10 +2,19 @@ use core
 use gui
 use display
 
+/*_native_code_
+%{
+   #include <iostream>
+%}*/
+
+
 _define_
-Strip (Process _model, Process _svg)
+Strip (Process _context, Process _model, Process _svg, int _index)
 {
+   //context aka _context
    model aka _model
+
+   Translation tr (_index * $_context.STRIP_WIDTH, 0)
 
    //link with model   
    DoubleFormatter b_volt (0, 1)
@@ -25,13 +34,6 @@ Strip (Process _model, Process _svg)
 
    String failsafe_str("")
    model.failsafe ? "true" : "false" =:> failsafe_str
-
-
-   Translation t (0, 0)
-
-   Double parent_tx(0)
-   Double parent_ty(0)
-   
 
    g << clone (_svg.Strip)
 

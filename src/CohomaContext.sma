@@ -2,11 +2,11 @@ use core
 use gui
 use base
 
-/*_native_code_
+_native_code_
 %{
-    #include "cpp/coords-utils.h"
+   #include <iostream>
+%}
 
-%}*/
 
 _define_
 CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_zoom)
@@ -18,6 +18,10 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Double init_lat (_init_lat)
     Double init_lon (_init_lon)
     Double init_zoom (_init_zoom)
+
+    // CONST
+    Int STRIP_WIDTH (225)
+    Int STRIP_HEIGHT (125)
 
     // COLORS for VEHICULES -- blues variations
     //Int VAB_COL (#6BC0FF)

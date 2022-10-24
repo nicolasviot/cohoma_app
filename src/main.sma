@@ -83,8 +83,8 @@ Component root {
   int is_debug = 0
   // Use "#ifndef NO_ROS" instead
 
-  int init_width = 1424
-  int init_height = 868
+  int init_map_width = 1424
+  int init_map_height = 868
 
 
   double init_lat = get_arg_double (argc, argv, 1)
@@ -109,13 +109,14 @@ Component root {
   int init_zoom = 19
 
 
-  Frame f ("CoHoMa", 0, 0, init_width + 600, init_height + 600)
-  Exit quit (0, 1)
-  f.close->quit
+  Frame f ("CoHoMa", 0, 0, init_map_width + 600, init_map_height + 600)
   mouseTracking = 1
   f.background_color.r = 50
   f.background_color.g = 50
   f.background_color.b = 50
+
+  Exit quit (0, 1)
+  f.close->quit
 
   LogPrinter lp ("Main (debug): ")
 
@@ -154,7 +155,7 @@ Component root {
   //  - Zones  TODO
 
   Component l {
-    Map map (f, 0, 0, init_width, init_height, init_lat, init_lon, init_zoom)
+    Map map (f, 0, 0, init_map_width, init_map_height, init_lat, init_lon, init_zoom)
 
     Component geoportail {
       Switch ctrl_visibility (visible) {
@@ -354,7 +355,7 @@ Component root {
   
   Component right_pannel {
     Translation t (1424, 0)
-    Rectangle bg (0, 0, 700, init_height + 600)
+    Rectangle bg (0, 0, 700, init_map_height + 600)
 
     Switch ctrl_tab(plan){
       Component plan{
@@ -379,7 +380,7 @@ Component root {
   right_pannel.right_pannel.test_visibility_map -> ros_manager.test_visibility_map
   
   // Strips container
-  StripContainer strips (0, 868, context, model_manager)
+  StripContainer strips (context, model_manager, f)
 
   UpperLeftMenu menu (l.map, f)
 
