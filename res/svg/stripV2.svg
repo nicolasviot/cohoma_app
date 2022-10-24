@@ -109,7 +109,6 @@
 			</g>
 		</g>
 	</g>
-	<line fill="none" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" x1="285.91" y1="4.51" x2="285.91" y2="23.98"/>
 	<text id="type" transform="matrix(1 0 0 1 105.3198 17.9701)" font-family="'Segoe'" font-size="13px">Agilex</text>
 	<text id="id" transform="matrix(1 0 0 1 10.3969 19.5009)" fill="#FFFFFF" font-family="'Helvetica'" font-size="13px">UAV_2</text>
 	<path id="border" fill="none" stroke="#000000" stroke-miterlimit="10" d="M224.61,115.99c0,4.7-2.36,8.5-5.27,8.5H6.59
