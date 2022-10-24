@@ -57,19 +57,6 @@ RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, C
   //navgraph fields
   navgraph_data(this, "data", ""),
 
-  // FIXME: several robots, so why only one property ?
-  //robot_state fields
-  _robot_id(this, "robot_id", 0),
-  _battery_percentage(this, "battery_percentage", 0),
-  _battery_voltage(this, "battery_voltage", 0),
-  _latitude(this, "latitude", 0),
-  _longitude(this, "longitude", 0),
-  _altitude_msl(this, "altitude_msl", 0),
-  _compass_heading(this, "compass_heading", 0),
-  _emergency_stop(this, "emergency_stop", 0),
-  _failsafe(this, "failsafe", 0),
-  _operation_mode(this, "operation_mode", 0),
-
   //Planif VAB
   _current_plan_id_vab(this, "current_plan_id", 0),
   _start_plan_vab_id(this, "start_plan_id", 0),
@@ -153,18 +140,6 @@ RosNode::impl_activate ()
   //activate navgraph fields
   navgraph_data.activate();
 
-  //activate robot_state fields
-  _robot_id.activate();
-  _battery_percentage.activate();
-  _battery_voltage.activate();
-  _latitude.activate();
-  _longitude.activate();
-  _altitude_msl.activate();
-  _compass_heading.activate();
-  _emergency_stop.activate();
-  _failsafe.activate();
-  _operation_mode.activate();
-
   _current_plan_id_vab.activate();
   _start_plan_vab_id.activate();
   _end_plan_vab_id.activate();
@@ -235,18 +210,6 @@ RosNode::impl_deactivate ()
 #endif  
   //deactivate navgraph fields
   navgraph_data.deactivate();
-
-  //deactivate robot_state fields
-  _robot_id.deactivate();
-  _battery_percentage.deactivate();
-  _battery_voltage.deactivate();
-  _latitude.deactivate();
-  _longitude.deactivate();
-  _altitude_msl.deactivate();
-  _compass_heading.deactivate();
-  _emergency_stop.deactivate();
-  _failsafe.deactivate();
-  _operation_mode.deactivate();
 
   _current_plan_id_vab.deactivate();
   _start_plan_vab_id.deactivate();
@@ -622,7 +585,7 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
   SET_CHILD_VALUE (Double, robot, lon, msg->position.longitude, true);
   //SET_CHILD_VALUE (Double, robot, altitude_msl, msg->position.altitude, true);
 
-  SET_CHILD_VALUE (Text, _fw_input, timestamp + " - Received robot_state for " + robot_name + "\n", true);
+  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Received robot_state for " + robot_name + "\n", true);
   
   if ((robot != _drone_safety_pilot) && (robot != _ground_safety_pilot)) {
     SET_CHILD_VALUE (Double, robot, altitude_msl, msg->position.altitude, true);
@@ -632,17 +595,6 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
     SET_CHILD_VALUE (Bool, robot, emergency_stop, msg->emergency_stop, true);
     SET_CHILD_VALUE (Bool, robot, failsafe, msg->failsafe, true);
   }
-
-  _latitude.set_value (msg -> position.latitude, true);
-  _longitude.set_value (msg -> position.longitude, true);
-  _robot_id.set_value (msg -> robot_id, true);
-  _battery_percentage.set_value (msg -> battery_percentage, true);
-  _battery_voltage.set_value (msg -> battery_voltage, true);
-  _compass_heading.set_value (msg -> compass_heading, true);
-  _emergency_stop.set_value (msg -> emergency_stop, true);
-  _failsafe.set_value (msg -> failsafe, true);
-  _operation_mode.set_value (msg -> operating_mode, true);
-  _altitude_msl.set_value (msg -> altitude_msl, true);
 
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);

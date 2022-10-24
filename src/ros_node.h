@@ -118,18 +118,6 @@ class RosNode : public FatProcess, public ExternalSource
 
     RefProperty *_entered_wpt;
     TextProperty *_id_curent_itenerary;
-    
-    //robot_state fields
-    IntProperty _robot_id;
-    DoubleProperty _latitude;
-    DoubleProperty _longitude;
-    IntProperty _battery_percentage;
-    DoubleProperty _battery_voltage;
-    DoubleProperty _altitude_msl;
-    DoubleProperty _compass_heading;
-    BoolProperty _emergency_stop;
-    BoolProperty _failsafe;
-    IntProperty _operation_mode;
 
     //Planif VAB
     IntProperty _current_plan_id_vab;
