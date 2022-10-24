@@ -20,6 +20,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Double init_zoom (_init_zoom)
 
     // CONST
+    Int RIGHT_PANEL_WIDTH (425)
     Int STRIP_WIDTH (225)
     Int STRIP_HEIGHT (125)
 

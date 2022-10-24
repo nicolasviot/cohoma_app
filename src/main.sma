@@ -350,34 +350,22 @@ Component root {
   show_reticule -> l.map.reticule.show_reticule, foreground.create
   hide_reticule -> l.map.reticule.hide_reticule, foreground.edit
 
-  
+  // ROS manager
   RosManager ros_manager(root, l.map, context, model_manager)
   
-  Component right_pannel {
-    Translation t (1424, 0)
-    Rectangle bg (0, 0, 700, init_map_height + 600)
-
-    Switch ctrl_tab(plan){
-      Component plan{
-        RightPannel right_pannel (root, f, ros_manager.node)
-      }
-      Component supervise{
-      
-      }
-    }
-    right_pannel aka ctrl_tab.plan.right_pannel   
-  }
+  // Right panel
+  RightPannel right_pannel (context, model_manager, f, ros_manager.node, root.l.map.layers.itineraries)
 
   // Ros node w/ all sub and pub fonctions
-  right_pannel.right_pannel.plan_request -> ros_manager.plan_request
-  right_pannel.right_pannel.validate_plan -> ros_manager.validate_plan
-  right_pannel.right_pannel.update_graph -> ros_manager.update_graph
-  right_pannel.right_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
-  right_pannel.right_pannel.test_allocation_spike -> ros_manager.test_allocation_spike
-  right_pannel.right_pannel.itineraryPannel.plan_set ->ros_manager.validate_plan
-  right_pannel.right_pannel.test_lima_spike -> ros_manager.test_lima_spike
-  right_pannel.right_pannel.send_selected_tasks -> ros_manager.send_selected_tasks
-  right_pannel.right_pannel.test_visibility_map -> ros_manager.test_visibility_map
+  right_pannel.plan_request -> ros_manager.plan_request
+  right_pannel.validate_plan -> ros_manager.validate_plan
+  right_pannel.update_graph -> ros_manager.update_graph
+  right_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
+  right_pannel.test_allocation_spike -> ros_manager.test_allocation_spike
+  right_pannel.itineraryPannel.plan_set ->ros_manager.validate_plan
+  right_pannel.test_lima_spike -> ros_manager.test_lima_spike
+  right_pannel.send_selected_tasks -> ros_manager.send_selected_tasks
+  right_pannel.test_visibility_map -> ros_manager.test_visibility_map
   
   // Strips container
   StripContainer strips (context, model_manager, f)

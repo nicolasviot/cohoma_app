@@ -113,6 +113,7 @@ class RosNode : public FatProcess, public ExternalSource
     CoreProcess *_vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone;
     CoreProcess *_drone_safety_pilot, *_ground_safety_pilot;
 
+    // fw = file writer
     CoreProcess *_clock, *_console, *_fw_input, *_fw_console_input;
 
     RefProperty *_entered_wpt;

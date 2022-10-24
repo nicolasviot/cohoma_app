@@ -187,10 +187,10 @@ RosNode::impl_activate ()
 
   GET_CHILD_VAR2 (_exclusion_areas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/exclusion_areas)
   GET_CHILD_VAR2 (_limas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/limas)
-  GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_pannel/right_pannel/clock)
-  GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_pannel/right_pannel/clock/fw/input)
-  GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/right_pannel/right_pannel/clock/fw_console/input)
-  GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_pannel/right_pannel/console)
+  GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_pannel/clock)
+  GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_pannel/clock/fw/input)
+  GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/right_pannel/clock/fw_console/input)
+  GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_pannel/console)
   GET_CHILD_VAR2 (_itineraries_list, Component, _parent, parent/l/map/layers/itineraries/itineraries_list)
   GET_CHILD_VAR2 (_id_curent_itenerary, TextProperty, _parent, parent/l/map/layers/itineraries/id)
   GET_CHILD_VAR2 (_ref_curent_itenerary, RefProperty, _parent, parent/l/map/layers/itineraries/ref_current_itinerary)
@@ -547,12 +547,12 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
     }
   }
   SET_CHILD_VALUE (Text, _id_curent_itenerary, , first_id, true)
-  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/right_pannel/itineraryPannel/first/description_input, msg->itineraries[0].description, true)
-  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/right_pannel/itineraryPannel/second/description_input, msg->itineraries[1].description, true)
-  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/right_pannel/itineraryPannel/third/description_input, msg->itineraries[2].description, true)
-  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/right_pannel/itineraryPannel/first/itinerary_id, msg->itineraries[0].id, true)
-  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/right_pannel/itineraryPannel/second/itinerary_id,msg->itineraries[1].id, true )
-  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/right_pannel/itineraryPannel/third/itinerary_id, msg->itineraries[2].id, true)
+  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/first/description_input, msg->itineraries[0].description, true)
+  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/second/description_input, msg->itineraries[1].description, true)
+  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/third/description_input, msg->itineraries[2].description, true)
+  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/first/itinerary_id, msg->itineraries[0].id, true)
+  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/second/itinerary_id,msg->itineraries[1].id, true )
+  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/third/itinerary_id, msg->itineraries[2].id, true)
   
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);

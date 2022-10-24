@@ -8,9 +8,11 @@ import ClockComponent
 import Console
 
 _define_
-RightPannel (Process root, Process frame, Process _ros_node) {
+RightPannel (Process _context, Process _model_manager, Process _frame, Process _ros_node, Process _itineraries)
+{
+	Translation tr (0, 0)
+	_frame.width - _context.RIGHT_PANEL_WIDTH =:> tr.tx
 
-	Translation _ (10, 10)
 	Spike plan_request 
 	Spike validate_plan  
 	Spike update_graph
@@ -73,7 +75,9 @@ RightPannel (Process root, Process frame, Process _ros_node) {
 
 
 	Translation _(0, 125)
-	ItineraryPannel itineraryPannel(0, 0, root.l.map.layers.itineraries.id)
+	
+	//ItineraryPannel itineraryPannel(0, 0, root.l.map.layers.itineraries.id)
+	ItineraryPannel itineraryPannel(0, 0, _itineraries.id)
 
 	plan_request -> itineraryPannel.startWaitingAnim
 	//TODO add a stop for the update animation when receiving data from ros 
@@ -113,7 +117,7 @@ RightPannel (Process root, Process frame, Process _ros_node) {
 	}
 
 	Translation _ (0, 70)
-	ClockComponent clock(0, -25, frame)
+	ClockComponent clock(0, -25, _frame)
 
 
 	//Translation _ (0, 200)
