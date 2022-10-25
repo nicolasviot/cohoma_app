@@ -3,6 +3,7 @@ use gui
 use base
 use animation
 
+import behavior.DraggableItem
 import gui.animation.Animator
 import TrapStatusSelector
 import ros_node
@@ -28,8 +29,8 @@ change_activation_action (Process c)
     #ifndef NO_ROS
     node ->send_msg_trap_activation(id->get_value(), active->get_value()); 
     #endif
-    
 %}
+
 _action_
 hide_trap_action(Process c)
  %{
@@ -93,38 +94,29 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
     String code("?")
     String hazard("?")
 
-  
+    Translation screen_translation (0, 0)
+
     //encapsulating content to prevent opacities interferences with menu and localization
     Component content {
-
-        Translation screen_translation (0, 0)
     
         //Rectangle
         OutlineOpacity trap_out_op (0)
-        OutlineColor _ (0,0,0)
+        OutlineColor _ (0, 0, 0)
         OutlineWidth _ (2)
         FillOpacity global_opacity (1)
-        FillColor red(240, 0, 0)
+        FillColor red (240, 0, 0)
         Component losange {
             Rotation rot (45, 0, 0)
-            Rectangle rect (0, 0, 30, 30)
+            Rectangle rect (-15, -15, 30, 30)
         }
+        // for drag interaction
+        picking aka losange.rect
 
         NoOutline _
 
-        //Circle (linked with radius)
+        // Circle (linked with radius)
         FillOpacity circle_opacity(0.1)
         Circle c (0, 0, 50)
-        c.cx - losange.rect.width/2 =:> losange.rect.x
-        c.cy - losange.rect.height/2 =:> losange.rect.y
-        radius * map.scaling_factor_correction /get_resolution ($map.zoomLevel) =:> c.r //attention peut etre pas tout le temps
-
-        //rotation of the rectangle to be a losange
-        c.cx =:> losange.rot.cx
-        c.cy =:> losange.rot.cy
-
-        //for drag interaction
-        picking aka losange.rect
 
         //always visible data : ID and deactivation mode 
         remotely_icon_svg = loadFromXML ("res/svg/trap_remote_icon.svg")
@@ -134,16 +126,14 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
         FillColor _ (0,0,0)
         FillOpacity text_opacity (3)
         1 / circle_opacity.a =:> text_opacity.a
+
         FontSize _ (0, 10)
-        TextAnchor _ (1)
-        Text trap_id_text (0,0, "?")
-        //trap_id =:> trap_id_text.text
-        c.cx =:> trap_id_text.x
-        c.cy + 5 =:> trap_id_text.y
+        TextAnchor _ (DJN_MIDDLE_ANCHOR)
+        Text label_trap_id (0, 5, "?")
 
          
         // state switch
-        Switch trap_state_switch(unknown){
+        Switch trap_state_switch (unknown) {
             Component unknown
             {   
                 //fill in red
@@ -151,8 +141,9 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
                 50 =: radius //set radius to maximum possible radius
                 0.1 =: trap_out_op.a
                 1 =: global_opacity.a  
-                "#" + id =:> trap_id_text.text             
+                "#" + id =:> label_trap_id.text             
             }
+
             Component identified
             {
                 240 =: red.r
@@ -162,38 +153,29 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
                 20 =: radius
                 1 =: trap_out_op.a
 
-                trap_id =:> trap_id_text.text
-                //Translation to match the content (TODO:should have a unifed technique instead....)  
-                Translation rect_pos (0,0)
-                content.losange.rect.x =:> rect_pos.tx
-                content.losange.rect.y =:> rect_pos.ty
-
+                trap_id =:> label_trap_id.text
 
                 //add icons for active traps only
-                Switch remotely_switch (false){
-                    Component true{
-                        Translation _ (40,-5)
+                Switch remotely_switch (false) {
+                    Component true {
+                        Translation _ (40, -5)
                         remote_icon << remotely_icon_svg.remotely_icon
                     }
-                    Component false{
-
-                    }
+                    Component false
                 }
                 remotely_deactivate =:> remotely_switch.state
     
                 //add icons for active traps only
-                Switch contact_switch (false){
-                    Component true{
-                        Translation _ (-10,-5)
+                Switch contact_switch (false) {
+                    Component true {
+                        Translation _ (-10, -5)
                         contact_icon << contact_icon_svg.contact_icon
                     }
-                    Component false{
-
-                    }
+                    Component false
                 }
                 contact_deactivate =:> contact_switch.state
-
             }
+
             Component deactivated
             {    
                 0 =: c.r //set circle radius to zero
@@ -201,7 +183,7 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
                 0.3 =: global_opacity.a
                 //fill in grey
                 100 =: red.r
-                "#" + id =:> trap_id_text.text
+                "#" + id =:> label_trap_id.text
             }
         }
         state =:> trap_state_switch.state
@@ -209,97 +191,10 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
 
         // Update the position via "screen_translation" in function of lat/lon and current zoom level
         // Allow to drag via "picking"
-        //DraggableItem draggable_item (map, model.lat, model.lon, model.radius, screen_translation.tx, screen_translation.ty, picking, c.r)
-
-        FSM drag_fsm {
-            State no_drag {
-                map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
-                (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
-            }
-            State drag {
-                Double init_cx (0)
-                Double init_cy (0)
-                Double offset_x (0)
-                Double offset_y (0)
-                c.cx =: init_cx
-                c.cy =: init_cy
-                picking.press.x - c.cx =: offset_x
-                picking.press.y - c.cy =: offset_y
-                picking.move.x - offset_x => c.cx
-                picking.move.y - offset_y => c.cy
-                px2lon ($c.cx + map.t0_x, $map.zoomLevel) => lon, map.reticule.pointer_lon2
-                py2lat (map.t0_y - $c.cy, $map.zoomLevel) => lat, map.reticule.pointer_lat2
-            }
-            no_drag->drag (picking.left.press, map.reticule.show_reticule2)
-            drag->no_drag (picking.left.release, map.reticule.hide_reticule2)
-        }
-        FSM fsm {
-            State idle {
-                //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
-                //(lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
-            }
-            State zoom_in {
-                Double new_cx (0)
-                Double new_cy (0)
-                Double new_cr (0)
-                map.new_t0_y - lat2py ($lat, $map.zoomLevel + 1) =: new_cy
-                (lon2px ($lon, $map.zoomLevel + 1) - map.new_t0_x) =: new_cx
-                radius/get_resolution ($map.zoomLevel + 1) =: new_cr
-                Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
-                0 =: anim.inc.state, anim.gen.input
-                Double dx (0)
-                Double dr (0)
-                Double init_cx (0)
-                Double init_cr (0)
-                c.cx =: init_cx
-                c.r =: init_cr
-                new_cx - init_cx =: dx
-                Double dy (0)
-                Double init_cy(0)
-                c.cy =: init_cy
-                new_cy - init_cy =: dy
-                new_cr - init_cr =: dr
-                anim.output * (dx + map.new_dx) + init_cx =:> c.cx
-                anim.output * (dy + map.new_dy) + init_cy =:> c.cy
-                anim.output * dr + init_cr =:> c.r
-            }
-            State zoom_out {
-                Double new_cx (0)
-                Double new_cy (0)
-                Double new_cr (0)
-                radius/get_resolution ($map.zoomLevel - 1) =: new_cr
-                map.new_t0_y - lat2py ($lat, $map.zoomLevel - 1) =: new_cy
-                (lon2px ($lon, $map.zoomLevel - 1) - map.new_t0_x) =: new_cx
-                Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
-                0 =: anim.inc.state, anim.gen.input
-                Double dx (0)
-                Double dr (0)
-                Double init_cx (0)
-                Double init_cr (0)
-                c.cx =: init_cx
-                c.r =: init_cr
-                new_cx - c.cx =: dx
-                Double dy (0)
-                Double init_cy(0)
-                new_cy - c.cy =: dy
-                c.cy =: init_cy
-                new_cr - init_cr =: dr
-                anim.output * (dx + map.new_dx) + init_cx =:> c.cx
-                anim.output * (dy + map.new_dy) + init_cy =:> c.cy
-                anim.output * dr + init_cr =:> c.r
-            }
-            idle->zoom_in (map.prepare_zoom_in)
-            zoom_in->idle (zoom_in.anim.end)
-            idle->zoom_out (map.prepare_zoom_out)
-            zoom_out -> idle (zoom_out.anim.end)
-        }
+        DraggableItem draggable_item (map, lat, lon, radius, screen_translation.tx, screen_translation.ty, picking, c.r)
 
     }  
 
-    //Translation to match the content (TODO:should have a unified technique instead....)  
-    Translation rect_pos (0,0)
-    content.losange.rect.x =:> rect_pos.tx
-    content.losange.rect.y =:> rect_pos.ty
 
     ///////TRAP INFO OVERLAY ON HOVER //////
         
@@ -307,7 +202,7 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
         State idle
 
         State visible{
-            Translation _ (15, 0)
+            Translation _ (0, -15)
             info << clone (svg_trap_info.trap_info)
             description =:> info.description_text.text
             code =:> info.code_text.text
@@ -316,12 +211,12 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
             radius =:> info.radius_text.text
             remotely_deactivate ? (contact_deactivate ? "Remote/Contact" : "Remote") : (contact_deactivate ? "Concact" : "...") =:> info.deactivate_text.text
 
-                /*int8 CONTACT_UNKONWN = 0
-                int8 CONTACT_AERIAL = 1
-                int8 CONTACT_GROUND = 2
-                int8 CONTACT_GROUND_MULTIPLE = 3
-                int8 CONTACT_AERIAL_AND_GROUND = 4
-                int8 CONTACT_AERIAL_OR_GROUND = 5*/
+            /*int8 CONTACT_UNKONWN = 0
+            int8 CONTACT_AERIAL = 1
+            int8 CONTACT_GROUND = 2
+            int8 CONTACT_GROUND_MULTIPLE = 3
+            int8 CONTACT_AERIAL_AND_GROUND = 4
+            int8 CONTACT_AERIAL_OR_GROUND = 5*/
             SwitchList contact_mode_switch (0){
                 Component zero {
                     "unknown" =: info.contact_text.text
@@ -348,7 +243,6 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
         idle -> visible (content.picking.enter)
         visible -> idle (content.picking.leave)
     }
-
 
 
     //menu to manually set the state
@@ -392,7 +286,7 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
     unknown_assignement -> update_trap_activation_state_action
 
 
-     //HIGHLIGHT ANIMATION ON REQUEST /////
+    /*///// HIGHLIGHT ANIMATION ON REQUEST /////
     Spike start_highlight_anim
     Spike stop_highlight_anim
 
@@ -423,7 +317,7 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
        
         idle -> animate (start_highlight_anim)
         animate -> idle (stop_highlight_anim)
-    }  
+    }*/ 
 
     Spike moved
     lat -> moved
