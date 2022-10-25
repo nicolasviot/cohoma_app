@@ -14,8 +14,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/trap/TrapStatusSelector.sma src/trap/Trap.sma \
             src/task/TaskAreaSummit.sma src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma \
             src/task/TaskLayer.sma src/trap/TrapLayer.sma \
-            src/Lima.sma \
-            src/ExclusionArea.sma src/SiteLayer.sma \
+            src/site/Lima.sma src/site/ExclusionArea.sma src/site/SiteLayer.sma \
             src/itinerary/Itineraries.sma src/itinerary/ItineraryDescriptor.sma src/itinerary/ItineraryPannel.sma \
             src/map/PanAndZoom.sma src/map/EnvMapLayer.sma src/map/PixmapTile.sma src/map/MapLayer.sma src/map/MapLayerSync.sma src/map/Map.sma \
             src/Console.sma src/RosManager.sma \

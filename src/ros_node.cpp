@@ -31,8 +31,8 @@
 #include "task/TaskAreaSummit.h"
 #include "task/TaskArea.h"
 #include "task/TaskEdge.h"
-#include "ExclusionArea.h"
-#include "Lima.h"
+#include "site/ExclusionArea.h"
+#include "site/Lima.h"
 using std::placeholders::_1;
 
 using namespace djnn;

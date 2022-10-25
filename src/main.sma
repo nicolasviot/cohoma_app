@@ -38,7 +38,7 @@ import Vehicule
 import task.TaskLayer
 import trap.Trap
 import trap.TrapLayer
-import SiteLayer
+import site.SiteLayer
 import menu.UpperLeftMenu
 import menu.RightPannel
 
@@ -297,7 +297,7 @@ Component root {
       Switch ctrl_visibility(visible){
         Component hidden
         Component visible {
-          SiteLayer layer (map)
+          SiteLayer layer (map, context, model_manager)
         }
       }
       String name("Site")
