@@ -4,6 +4,7 @@ use base
 use animation
 
 import gui.animation.Animator
+import behavior.DraggableItem
 
 _native_code_
 %{
@@ -55,7 +56,6 @@ GraphNode (Process map, Process _context, int _id, double _lat, double _lon)
     OutlineOpacity outline_opacity(0.5)
     Circle c (0, 0, 8)
 
-
     Switch status_switch (default) {
         Component default {
             _context.NODE_COL =: fill_color.value
@@ -106,7 +106,7 @@ GraphNode (Process map, Process _context, int _id, double _lat, double _lon)
     FontWeight _ (75)
     FontSize _ (5, 20)
     Text label_text(-$c.r/2, -20, "")
-    label =:>label_text.text
+    label =:> label_text.text
     
 
     //LogPrinter lp ("debug enter/leave (Graph Node) ")
@@ -159,10 +159,7 @@ GraphNode (Process map, Process _context, int _id, double _lat, double _lon)
     }
     
 
-    c.cx =:> interact_mask.cx
-    c.cy =:> interact_mask.cy
-
-    FSM enterLeave {
+    FSM fsm_mask {
         State idle {
             10 =: c.r
         }
@@ -173,85 +170,8 @@ GraphNode (Process map, Process _context, int _id, double _lat, double _lon)
         inside -> idle (interact_mask.leave)
     }
 
-      FSM drag_fsm {
-            State no_drag {
-                map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
-                (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
-            }
-            State no_drag_while_drawing_edge{
-                map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
-                (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
-            }
-            State drag {
-                Double init_cx (0)
-                Double init_cy (0)
-                Double offset_x (0)
-                Double offset_y (0)
-                screen_translation.tx =: init_cx
-                screen_translation.ty =: init_cy
-                interact_mask.press.x - screen_translation.tx =: offset_x
-                interact_mask.press.y - screen_translation.ty =: offset_y
-                interact_mask.move.x - offset_x => screen_translation.tx
-                interact_mask.move.y - offset_y => screen_translation.ty
-                px2lon ($screen_translation.tx + map.t0_x, $map.zoomLevel) => lon, map.reticule.pointer_lon2
-                py2lat (map.t0_y - $screen_translation.ty, $map.zoomLevel) => lat, map.reticule.pointer_lat2
-            }
-            no_drag -> drag (interact_mask.left.press, map.reticule.show_reticule2)
-            no_drag -> no_drag_while_drawing_edge (_context.shift)
-            no_drag_while_drawing_edge -> no_drag (_context.shift_r)
-            drag -> no_drag (interact_mask.left.release, map.reticule.hide_reticule2)
-        }
-
-
-
-
-    FSM fsm {
-        State idle {
-            //map.t0_y - lat2py ($lat, $map.zoomLevel) =:> screen_translation.ty
-            //(lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> screen_translation.tx
-            
-
-        }
-        State zoom_in {
-            Double new_cx (0)
-            Double new_cy (0)
-            map.new_t0_y - lat2py ($lat, $map.zoomLevel + 1) =: new_cy
-            (lon2px ($lon, $map.zoomLevel + 1) - map.new_t0_x) =: new_cx
-            Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
-            0 =: anim.inc.state, anim.gen.input
-            Double dx (0)
-            Double init_cx (0)
-            screen_translation.tx =: init_cx
-            new_cx - init_cx =: dx
-            Double dy (0)
-            Double init_cy(0)
-            screen_translation.ty =: init_cy
-            new_cy - init_cy =: dy
-            anim.output * (dx + map.new_dx) + init_cx =:> screen_translation.tx
-            anim.output * (dy + map.new_dy) + init_cy =:> screen_translation.ty
-        }
-        State zoom_out {
-            Double new_cx (0)
-            Double new_cy (0)
-            map.new_t0_y - lat2py ($lat, $map.zoomLevel - 1) =: new_cy
-            (lon2px ($lon, $map.zoomLevel - 1) - map.new_t0_x) =: new_cx
-            Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
-            0 =: anim.inc.state, anim.gen.input
-            Double dx (0)
-            Double init_cx (0)
-            screen_translation.tx =: init_cx
-            new_cx - screen_translation.tx =: dx
-            Double dy (0)
-            Double init_cy(0)
-            new_cy - screen_translation.ty =: dy
-            screen_translation.ty =: init_cy
-            anim.output * (dx + map.new_dx) + init_cx =:> screen_translation.tx
-            anim.output * (dy + map.new_dy) + init_cy =:> screen_translation.ty
-        }
-        idle->zoom_in (map.prepare_zoom_in)
-        zoom_in->idle (zoom_in.anim.end)
-        idle->zoom_out (map.prepare_zoom_out)
-        zoom_out -> idle (zoom_out.anim.end)
-    }
+    // Update the position via "screen_translation" in function of lat/lon and current zoom level
+    // Allow to drag via "picking"
+    DraggableItem draggable_item (map, _context, lat, lon, screen_translation.tx, screen_translation.ty, interact_mask)
 
 }

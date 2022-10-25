@@ -3,7 +3,7 @@ use gui
 use base
 use animation
 
-import behavior.DraggableItem
+import behavior.DraggableItemWithRadius
 import gui.animation.Animator
 import TrapStatusSelector
 import ros_node
@@ -84,7 +84,6 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
     int8 contact_mode                   # which type of satellite can deactivate; see enum
     string code                        # code to deactivate the trap
     string hazard                       # description of an hazardous situation to take into account
-
     */
     String description("..")
     Double radius(30)
@@ -191,7 +190,7 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
 
         // Update the position via "screen_translation" in function of lat/lon and current zoom level
         // Allow to drag via "picking"
-        DraggableItem draggable_item (map, lat, lon, radius, screen_translation.tx, screen_translation.ty, picking, c.r)
+        DraggableItemWithRadius draggable_item (map, lat, lon, radius, screen_translation.tx, screen_translation.ty, picking, c.r)
 
     }  
 
