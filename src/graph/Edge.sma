@@ -66,7 +66,7 @@ Edge (int _id_src, int _id_dest, double _length, Process nodelist)
             
             Rectangle bg (0, 0, 50, 20, 5, 5)
             FillColor _ (0, 0, 0)
-            Text legend (0, 0, "lenght :  ")
+            Text legend (0, 0, "length :  ")
             legend.x =:> bg.x
             legend.y - 12 =:> bg.y
             legend.width =:> bg.width
