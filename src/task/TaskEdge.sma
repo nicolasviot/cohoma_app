@@ -51,13 +51,13 @@ TaskEdge (Process map, int _source, int _dest, Process nodes)
     }
 
     Edge the_edge($id_source, $id_dest, 20, nodes)
-    the_edge.outerEdge.press -> press
+    the_edge.mask_edge.press -> press
     length =:> the_edge.length
     explored =:> the_edge.explored
 
-    220 =: the_edge.color.r
-    20 =: the_edge.color.g
-    20 =: the_edge.color.b
+    220 =: the_edge.outline_color.r
+    20 =: the_edge.outline_color.g
+    20 =: the_edge.outline_color.b
 
     the_edge.edge.x1 =:> x1
     the_edge.edge.x2 =:> x2

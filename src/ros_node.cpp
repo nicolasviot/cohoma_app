@@ -434,8 +434,8 @@ RosNode::test_multiple_itineraries(){
       if ( ite_edges_size > 0) {
         for (int i = 1; i < ite_edges_size; i++) {
           ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
-          ((AbstractProperty*) edge->find_child("color/value"))->set_value (unselected, true);
-          new Binding (edge, "binding_edge_released", edge, "outerEdge/release", _edge_released_na, "");
+          ((AbstractProperty*) edge->find_child("outline_color/value"))->set_value (unselected, true);
+          new Binding (edge, "binding_edge_released", edge, "mask_edge/release", _edge_released_na, "");
         }
       }
     }
@@ -504,12 +504,13 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
     if ( ite_edges_size > 0) {
       for (int i = 1; i < ite_edges_size; i++) {
         ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
-        SET_CHILD_VALUE (Int, edge, color/value, unselected, true)
-        new Binding (edge, "binding_edge_released", edge, "outerEdge/release", _edge_released_na, "");
+        SET_CHILD_VALUE (Int, edge, outline_color/value, unselected, true)
+        new Binding (edge, "binding_edge_released", edge, "mask_edge/release", _edge_released_na, "");
       }
     }
   }
   SET_CHILD_VALUE (Text, _id_curent_itenerary, , first_id, true)
+
   SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/first/description_input, msg->itineraries[0].description, true)
   SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/second/description_input, msg->itineraries[1].description, true)
   SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/third/description_input, msg->itineraries[2].description, true)
@@ -551,7 +552,7 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
   if ( ite_edges_size > 0) {
     for (int i = 1; i < ite_edges_size; i++) {
       ParentProcess* edge = Edge( new_ite_edges, "", std::stoi(msg->nodes[i-1]) + 1,std::stoi(msg->nodes[i]) + 1, 20, _nodes);
-      SET_CHILD_VALUE (Int, edge, color/value, selected, true)
+      SET_CHILD_VALUE (Int, edge, outline_color/value, selected, true)
       //new Binding (edge, "binding_edge_released", edge, "edge/release", _edge_released_na, "");
     }
   }
@@ -990,7 +991,7 @@ uint8 TASK_TYPE_DEACTIVATION = 4
     
       SET_CHILD_VALUE (Double, edge_to_add, length, msg.tasks[i].edge.length, true)
       SET_CHILD_VALUE (Double, edge_to_add, explored, msg.tasks[i].edge.explored, true)
-      SET_CHILD_VALUE (Int, edge_to_add, the_edge/color/value, colors[msg.tasks[i].robot_id], true);
+      SET_CHILD_VALUE (Int, edge_to_add, the_edge/outline_color/value, colors[msg.tasks[i].robot_id], true);
 
     } /*else if (msg.tasks[i].task_type == 3){
       ParentProcess* trap_to_add = TaskTrap(_task_allocated_traps, "", _map, msg.tasks[i].identification.id, msg.tasks[i].identification.location.latitude, msg.tasks[i].identification.location.longitude);

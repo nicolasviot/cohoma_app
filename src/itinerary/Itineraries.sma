@@ -22,7 +22,7 @@ id_changed_action (Process src, Process itineraries)
 	itinerary_to_reset = getRef (itineraries.ref_current_itinerary)
 	if (&itinerary_to_reset != null) {
 	  	for (int i = 1; i <= $itinerary_to_reset.edges.size; i++) {
-			color_value = find (itinerary_to_reset, "edges/" + to_string(i) + "/color/value")
+			color_value = find (itinerary_to_reset, "edges/" + to_string(i) + "/outline_color/value")
 			color_value = 0x232323
       	}
    	}
@@ -30,7 +30,7 @@ id_changed_action (Process src, Process itineraries)
 	itinerary_to_move = find ( &itineraries, "itineraries_list/" + toString(itineraries.id))
 	if (&itinerary_to_move != null) {
 		for (int i = 1; i <= $itinerary_to_move.edges.size; i++) {
-			color_value = find (itinerary_to_move, "edges/" + to_string(i) + "/color/value")
+			color_value = find (itinerary_to_move, "edges/" + to_string(i) + "/outline_color/value")
 			color_value = 0x1E90FF
       	}
 		itineraries.ref_current_itinerary = &itinerary_to_move
