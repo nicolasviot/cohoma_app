@@ -323,8 +323,8 @@ Component root {
       result,
       site, // exclusion areas + limas
       navgraph,
-      satelites,
       itineraries,
+      satelites,
       traps, 
       tasks,
       actors,
