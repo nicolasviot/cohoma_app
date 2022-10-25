@@ -62,29 +62,33 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
     
     NoOutline _
     FillColor red(240, 0, 0)
+    // FIXME: use "Rotation rot" inside "Component losange". Prevent to manage a "Rotation un_rot"
+    /*Component losange {
+        Rotation rot (45, 0, 0)
+        Rectangle rect (0, 0, 30, 30)
+    }*/
     Rotation rot (45, 0, 0)
     Rectangle rect (0, 0, 20, 20)
     Rotation un_rot (-45, 0, 0)
 
     OutlineWidth circle_perimeter_width(0)
     OutlineColor yellow(255, 255, 0)
-    Spike toogleselect
-    Switch ctrl_trap_selected(not_select){ 
+    Spike toggle_select
+
+    Switch ctrl_trap_selected(not_select) {
     
-    Component select { 
-        5 =: circle_perimeter_width.width
-        255 =: yellow.r
-        255 =: yellow.g
-        0 =: yellow.b
-    }
-    Component not_select{
-        0 =: circle_perimeter_width.width
-        0 =: yellow.r
-        0 =: yellow.g
-        0 =: yellow.b
-
-    }
-
+        Component select { 
+            5 =: circle_perimeter_width.width
+            255 =: yellow.r
+            255 =: yellow.g
+            0 =: yellow.b
+        }
+        Component not_select{
+            0 =: circle_perimeter_width.width
+            0 =: yellow.r
+            0 =: yellow.g
+            0 =: yellow.b
+        }
    }
    selected ? "select" : "not_select" => ctrl_trap_selected.state
 
@@ -101,16 +105,18 @@ TaskTrap (Process map, int _trap_id, double _lat, double _lon){
     rot.cx =:> un_rot.cx
     rot.cy =:> un_rot.cy
 
-      rect.press -> toogleselect
-   0 =: c.pickable 
-   c.press -> toogleselect
-   toogleselect ->{
-    selected?0:1 =: selected 
-   }
+    rect.press -> toggle_select
+    
+    0 =: c.pickable
+    c.press -> toggle_select
+    
+    toggle_select ->{
+        selected ? 0 : 1 =: selected
+    }
 
    radius * map.scaling_factor_correction /get_resolution ($map.zoomLevel) =:> c.r
 
-  FSM drag_fsm {
+    FSM drag_fsm {
         State no_drag {
             map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
             (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx

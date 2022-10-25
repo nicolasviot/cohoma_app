@@ -93,14 +93,11 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
     String code("?")
     String hazard("?")
 
-
-    Translation screen_translation (0, 0)
-
-
   
     //encapsulating content to prevent opacities interferences with menu and localization
-    Component content{
+    Component content {
 
+        Translation screen_translation (0, 0)
     
         //Rectangle
         OutlineOpacity trap_out_op (0)
@@ -108,27 +105,26 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
         OutlineWidth _ (2)
         FillOpacity global_opacity (1)
         FillColor red(240, 0, 0)
-        Rotation rot (45, 0, 0)
-        Rectangle rect (0, 0, 30, 30)
-        Rotation un_rot (-45, 0, 0)
+        Component losange {
+            Rotation rot (45, 0, 0)
+            Rectangle rect (0, 0, 30, 30)
+        }
 
         NoOutline _
 
         //Circle (linked with radius)
         FillOpacity circle_opacity(0.1)
         Circle c (0, 0, 50)
-        c.cx - rect.width/2 =:> rect.x 
-        c.cy - rect.height/2 =:> rect.y
+        c.cx - losange.rect.width/2 =:> losange.rect.x
+        c.cy - losange.rect.height/2 =:> losange.rect.y
         radius * map.scaling_factor_correction /get_resolution ($map.zoomLevel) =:> c.r //attention peut etre pas tout le temps
 
         //rotation of the rectangle to be a losange
-        c.cx =:> rot.cx
-        c.cy =:> rot.cy
-        rot.cx =:> un_rot.cx
-        rot.cy =:> un_rot.cy
+        c.cx =:> losange.rot.cx
+        c.cy =:> losange.rot.cy
 
         //for drag interaction
-        picking aka rect
+        picking aka losange.rect
 
         //always visible data : ID and deactivation mode 
         remotely_icon_svg = loadFromXML ("res/svg/trap_remote_icon.svg")
@@ -169,8 +165,8 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
                 trap_id =:> trap_id_text.text
                 //Translation to match the content (TODO:should have a unifed technique instead....)  
                 Translation rect_pos (0,0)
-                content.rect.x =:> rect_pos.tx
-                content.rect.y =:> rect_pos.ty
+                content.losange.rect.x =:> rect_pos.tx
+                content.losange.rect.y =:> rect_pos.ty
 
 
                 //add icons for active traps only
@@ -211,7 +207,11 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
         state =:> trap_state_switch.state
 
 
-    FSM drag_fsm {
+        // Update the position via "screen_translation" in function of lat/lon and current zoom level
+        // Allow to drag via "picking"
+        //DraggableItem draggable_item (map, model.lat, model.lon, model.radius, screen_translation.tx, screen_translation.ty, picking, c.r)
+
+        FSM drag_fsm {
             State no_drag {
                 map.t0_y - lat2py ($lat, $map.zoomLevel) =:> c.cy
                 (lon2px ($lon, $map.zoomLevel) - map.t0_x) =:> c.cx
@@ -296,10 +296,10 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
 
     }  
 
-    //Translation to match the content (TODO:should have a unifed technique instead....)  
+    //Translation to match the content (TODO:should have a unified technique instead....)  
     Translation rect_pos (0,0)
-    content.rect.x =:> rect_pos.tx
-    content.rect.y =:> rect_pos.ty
+    content.losange.rect.x =:> rect_pos.tx
+    content.losange.rect.y =:> rect_pos.ty
 
     ///////TRAP INFO OVERLAY ON HOVER //////
         
@@ -307,7 +307,7 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
         State idle
 
         State visible{
-            Translation _ (15,0)
+            Translation _ (15, 0)
             info << clone (svg_trap_info.trap_info)
             description =:> info.description_text.text
             code =:> info.code_text.text
@@ -382,6 +382,7 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
     content.picking.right.press -> menu.press
     state_manually_updated -> menu.hide
     ask_delete -> menu.hide
+
     NativeAction update_trap_activation_state_action(change_activation_action, this, 1)
     NativeAction hide_trap_native(hide_trap_action, this, 1)
     NativeAction update_trap_position_native(update_trap_position_action, this, 1)
@@ -390,14 +391,14 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
     identified_assignement -> update_trap_activation_state_action
     unknown_assignement -> update_trap_activation_state_action
 
- //HIGHLIGHT ANIMATION ON REQUEST /////
-    Spike start_highlight_Anim
-    Spike stop_highlight_Anim
 
-    FSM locate_FSM{
-        State idle{
+     //HIGHLIGHT ANIMATION ON REQUEST /////
+    Spike start_highlight_anim
+    Spike stop_highlight_anim
 
-        }
+    FSM locate_FSM {
+        State idle
+
         State animate{
             Double radius(60)
             OutlineWidth _ (4)
@@ -420,19 +421,21 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
             (radius <= 5) -> reset_radius
         }
        
-        idle -> animate (start_highlight_Anim)
-        animate -> idle (stop_highlight_Anim)
+        idle -> animate (start_highlight_anim)
+        animate -> idle (stop_highlight_anim)
     }  
+
     Spike moved
     lat -> moved
     lon -> moved
-    FSM update_trap_position{
+
+    FSM update_trap_position {
         State idle
-        State going_to_update{
+
+        State going_to_update {
             Timer t(5000)
         }
-
-        idle->going_to_update(moved)
-        going_to_update->idle(update_trap_position.going_to_update.t.end, update_trap_position_native)
+        idle -> going_to_update (moved)
+        going_to_update -> idle (update_trap_position.going_to_update.t.end, update_trap_position_native)
     }
 }
