@@ -12,11 +12,10 @@ TrapStatusSelector (Process trap) {
     svg = loadFromXML ("res/svg/trap_status_selector.svg")
     
     FSM set_State_Menu{
-        State hidden{
+        State hidden
 
-        }
-        State visible{
-            Translation _ (35, 15) //position right center from the trap
+        State visible {
+            Translation _ (16, 3) //position right center from the trap
             bg << svg.bg
             m_unknown << svg.mask_unknown
             m_identified << svg.mask_identified

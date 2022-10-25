@@ -201,7 +201,7 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
     FSM info_overlay_FSM {
         State idle
 
-        State visible{
+        State visible {
             Translation _ (0, -15)
             info << clone (svg_trap_info.trap_info)
             description =:> info.description_text.text
@@ -245,7 +245,7 @@ Trap (Process map, Process svg_trap_info, double _lat, double _lon, int _id, Pro
     }
 
 
-    //menu to manually set the state
+    // menu to manually set the state
     Spike state_manually_updated //utiliser ce spike pour mettre à jour les booléen via ros.
     Spike ask_delete //utiliser pour supprimer le trap
 
