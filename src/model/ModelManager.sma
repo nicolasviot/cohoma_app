@@ -20,8 +20,8 @@ _native_code_
 _define_
 ModelManager (Process _context, int _is_debug)
 {
+    context aka _context
 
-    //context aka _context
     Bool IS_DEBUG (_is_debug)
 
     Component vehicles {
@@ -164,6 +164,27 @@ ModelManager (Process _context, int _is_debug)
 	}
 
     List traps {
-        TrapModel trap (_context, 23, $_context.init_lat, $_context.init_lon - 0.0015)
+
+    }
+
+    if (_is_debug) {
+        /*addChildrenTo traps {
+            TrapModel debug_trap1 (_context, 199, $_context.init_lat, $_context.init_lon - 0.0015)
+            TrapModel debug_trap2 (_context, 223, $_context.init_lat + 0.0005, $_context.init_lon - 0.003)
+        }*/
+
+        Spike add_trap1
+        Spike add_trap2
+
+        add_trap1 -> (this) {
+            addChildrenTo this.traps {
+                TrapModel debug_trap1 (this.context, 199, $this.context.init_lat, $this.context.init_lon - 0.0015)
+            }
+        }
+        add_trap2 -> (this) {
+            addChildrenTo this.traps {
+                TrapModel debug_trap2 (this.context, 223, $this.context.init_lat + 0.0005, $this.context.init_lon - 0.003)
+            }
+        }
     }
 }

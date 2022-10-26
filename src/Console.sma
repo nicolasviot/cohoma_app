@@ -19,50 +19,50 @@ save_console (Process c)
 %}
 
 _define_
-Console(double _dx, double _dy, Process _node){
+Console (double _dx, double _dy, Process _node)
+{
+  node aka _node
+  //compte rendu spec :
 
-node aka _node
-//compte rendu spec :
+  /*
 
-/*
-
-sur evenement (initiative opérateur)
-(divers)
-
-
-pour les pièges : 
-2quipe Icare, nous sommes sur [Position du VAB]
-piège identifié ici : 
+  sur evenement (initiative opérateur)
+  (divers)
 
 
-demande de déplacement du VAB (non)
+  pour les pièges : 
+  2quipe Icare, nous sommes sur [Position du VAB]
+  piège identifié ici : 
 
 
-log à chaque changement de piège
+  demande de déplacement du VAB (non)
 
 
-point de situation
-position équipe vab
-état de tous les pièges (identifié / désactivés)
-
-impondérable subis notes à cotés
-
-listes 
+  log à chaque changement de piège
 
 
+  point de situation
+  position équipe vab
+  état de tous les pièges (identifié / désactivés)
 
+  impondérable subis notes à cotés
 
-logger activation de lima
-
-*/
+  listes 
 
 
 
-/*	Translation t (_dx, _dy)
-	
-	ite_svg = loadFromXML ("res/svg/CompteRendu.svg")
-	ite_gfx << ite_svg.itinerary_panel
-*/
+
+  logger activation de lima
+
+  */
+
+
+
+  /*	Translation t (_dx, _dy)
+    
+    ite_svg = loadFromXML ("res/svg/CompteRendu.svg")
+    ite_gfx << ite_svg.itinerary_panel
+  */
 
 
   FillColor _(#FAFAFA)
@@ -88,14 +88,7 @@ logger activation de lima
 
 
 
-
-
   NativeAction save_console_action (save_console, this, 1)
   save.click -> save_console_action
-    
-
-
-
-
 
 }

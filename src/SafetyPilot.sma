@@ -6,11 +6,10 @@ use animation
 import gui.animation.Animator
 import behavior.DraggableItemWithRadius
 
-_native_code_
+/*_native_code_
 %{
     #include "cpp/coords-utils.h"
-
-%}
+%}*/
 
 _define_
 SafetyPilot (Process map, Process _context, Process _model, Process _svg)

@@ -3,6 +3,7 @@ use gui
 use base
 
 import widgets.Button
+import gui.widgets.StandAlonePushButton
 import itinerary.ItineraryPannel
 import ClockComponent
 import Console
@@ -168,5 +169,14 @@ RightPannel (Process _context, Process _model_manager, Process _frame, Process _
 		Button test_visibility_map_button(frame, "test_visibility_map", 20, 500)
 		test_visibility_map_button.click->test_visibility_map
 	}*/
+
+	if (_model_manager.IS_DEBUG)
+	{
+		StandAlonePushButton btn_add_trap1 ("add trap 1", 20, 40)
+		btn_add_trap1.click -> _model_manager.add_trap1
+
+		StandAlonePushButton btn_add_trap2 ("add trap 2", 150, 40)
+		btn_add_trap2.click -> _model_manager.add_trap2
+	}
 
 }
