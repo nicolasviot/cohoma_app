@@ -127,7 +127,35 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
     String hazard ("?")
 
     NativeAction na_update_trap_activation (change_activation_action, this, 1)
+    
+    AssignmentSequence unknown_assignement (1){
+        1 =: active
+        0 =: identified 
+    }
+    unknown_assignement -> na_update_trap_activation
+
+    AssignmentSequence identified_assignement (1){
+        1 =: active
+        1 =: identified 
+    }
+    identified_assignement -> na_update_trap_activation     
+
+    AssignmentSequence deactivated_assignement (1){
+        0 =: active
+        1 =: identified 
+    }
+    deactivated_assignement -> na_update_trap_activation
+
+
     NativeAction na_hide_trap (hide_trap_action, this, 1)
+
+    AssignmentSequence delete_assignement (1){
+        //0 =: active
+        //0 =: identified 
+        1 =: deleted
+    }
+    delete_assignement -> na_hide_trap
+
 
     NativeAction na_update_trap_position (update_trap_position_action, this, 1)
 

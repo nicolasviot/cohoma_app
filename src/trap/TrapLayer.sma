@@ -46,7 +46,7 @@ TrapLayer (Process _map, Process _context, Process _model_manager)
 		print ("New model of trap added to list " + this.model_manager.traps.size + "\n")
 		model = getRef (&this.model_manager.traps.$added)
     	addChildrenTo this.traps {
-			Trap trap (this.map, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon, null)
+			Trap trap (this.map, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon)
 		}
 	}
 

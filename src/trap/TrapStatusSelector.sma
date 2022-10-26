@@ -6,7 +6,7 @@ use gui
 _define_
 TrapStatusSelector (Process trap) {
 
-    Spike press 
+    Spike toggle_show_hide 
     Spike hide
 
     // FIXME: load only once for whole app
@@ -22,23 +22,24 @@ TrapStatusSelector (Process trap) {
             m_identified << svg.mask_identified
             m_deactivated << svg.mask_deactivated
             button_delete << svg.delete_btn
+            
             close_btn << svg.close_button
             close_btn.close_mask.press -> hide
 
             FSM fsm_status{
-                State unknown{
+                State unknown {
                     r_unknown << svg.rect_unknown
-                    r_unknown.press -> trap.unknown_assignement
+                    r_unknown.press -> trap.model.unknown_assignement
                     r_unknown.press -> hide
                 }
-                State identified{
+                State identified {
                     r_identified << svg.rect_identified
-                    r_identified.press -> trap.identified_assignement
+                    r_identified.press -> trap.model.identified_assignement
                     r_identified.press -> hide
                 }
-                State deactivated{
+                State deactivated {
                     r_deactivated << svg.rect_deactivated
-                    r_deactivated.press -> trap.deactivated_assignement
+                    r_deactivated.press -> trap.model.deactivated_assignement
                     r_deactivated.press -> hide
                 }
                 {unknown,  identified} -> deactivated (m_deactivated.enter)
@@ -50,12 +51,11 @@ TrapStatusSelector (Process trap) {
             t_identified << svg.identified
             t_deactivated << svg.deactivated
 
-            button_delete.rect_delete.press -> trap.ask_delete
-            button_delete.rect_delete.press -> trap.delete_assignement
-    
+            button_delete.rect_delete.press -> trap.model.delete_assignement
+            button_delete.rect_delete.press -> hide
         }
-        hidden -> visible (press)
-        visible -> hidden (press)
+        hidden -> visible (toggle_show_hide)
+        visible -> hidden (toggle_show_hide)
         visible -> hidden (hide)
     } 
     trap.model.state =:> fsm.visible.fsm_status.initial

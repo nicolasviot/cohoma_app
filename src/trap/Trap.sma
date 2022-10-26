@@ -14,55 +14,11 @@ _native_code_
 %}
 
 
-/*_action_
-change_activation_action (Process c)
-%{
-
-    Process *data = (Process*) get_native_user_data(c);
-
-    RosNode *node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
-    IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("model/id"));
-    BoolProperty *active = dynamic_cast<BoolProperty*>(data->find_child("model/active")); 
-    #ifndef NO_ROS
-    node ->send_msg_trap_activation(id->get_value(), active->get_value()); 
-    #endif
-%}
-
-_action_
-hide_trap_action(Process c)
- %{
-    Process *data = (Process*) get_native_user_data(c);
-
-    RosNode *node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
-    IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("model/id"));
-    BoolProperty *deleted = dynamic_cast<BoolProperty*>(data->find_child("model/deleted"));
-#ifndef NO_ROS
-    node ->send_msg_trap_deleted(id->get_value(), deleted->get_value());
-#endif
-%}
-   
-_action_
-update_trap_position_action(Process c)
-%{
-    Process *data = (Process*) get_native_user_data(c);
-
-    RosNode *node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
-    IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("model/id"));
-    DoubleProperty *new_lat = dynamic_cast<DoubleProperty*>(data->find_child("model/lat"));
-    DoubleProperty *new_lon = dynamic_cast<DoubleProperty*>(data->find_child("model/lon")); 
-#ifndef NO_ROS
-    node -> send_msg_update_trap_position(id->get_value(), new_lat->get_value(), new_lon->get_value());
-#endif
-%}*/
-
-
 _define_
-//Trap (Process _map, Process _svg_info, double _lat, double _lon, int _id, Process _node)
-Trap (Process _map, Process _model, Process _svg_info, Process _svg_remotely_icon, Process _svg_contact_icon, Process _ros_node)
+Trap (Process _map, Process _model, Process _svg_info, Process _svg_remotely_icon, Process _svg_contact_icon)
 {
     //map aka _map
     model aka _model
-    //ros_node aka _ros_node
 
     Translation screen_translation (0, 0)
 
@@ -72,7 +28,13 @@ Trap (Process _map, Process _model, Process _svg_info, Process _svg_remotely_ico
         OutlineOpacity trap_out_op (0)
         OutlineColor _ (0, 0, 0)
         OutlineWidth _ (2)
+
         FillOpacity global_opacity (1)
+        // FIXME: use a switch to really deactivate it. Or remove from djnn tree
+        _model.deleted.true -> {
+            0.01 =: global_opacity.a
+        }
+        
         FillColor red (240, 0, 0)
 
         Component losange {
@@ -184,39 +146,8 @@ Trap (Process _map, Process _model, Process _svg_info, Process _svg_remotely_ico
 
 
     // menu to manually set the state
-    Spike ask_delete // utiliser pour supprimer le trap
-
-    AssignmentSequence unknown_assignement (1){
-        1 =: _model.active
-        0 =: _model.identified 
-    }
-    unknown_assignement -> _model.na_update_trap_activation
-
-    AssignmentSequence identified_assignement (1){
-        1 =: _model.active
-        1 =: _model.identified 
-    }
-    identified_assignement -> _model.na_update_trap_activation     
-
-    AssignmentSequence deactivated_assignement (1){
-        0 =: _model.active
-        1 =: _model.identified 
-    }
-    deactivated_assignement -> _model.na_update_trap_activation
-
-    AssignmentSequence delete_assignement (1){
-        //0 =: _model.active
-        //0 =: _model.identified 
-        1 =: _model.deleted
-        0.01 =: content.global_opacity.a
-    }
-    delete_assignement -> _model.na_hide_trap
-
-
     // FIXME: only once for whole app
     TrapStatusSelector menu (this)
-    content.picking.right.press -> menu.press
-
-    ask_delete -> menu.hide
+    content.picking.right.press -> menu.toggle_show_hide
     
 }

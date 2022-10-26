@@ -641,7 +641,6 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     if (index_found == -1) {
       new_trap = new_trap + 1;
       
-      //ParentProcess *new_trap = Trap (_traps, "", _map, svg_info, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id, this);
       ParentProcess *new_trap = TrapModel (trap_list, "", msg.traps[k].id, msg.traps[k].location.latitude, msg.traps[k].location.longitude, this);
   
       current_trap = new_trap;
