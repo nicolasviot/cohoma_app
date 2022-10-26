@@ -147,36 +147,36 @@ RightPannel (Process _context, Process _model_manager, Process _frame, Process _
 
 	Console console(0, 0, _ros_node)
 
-	/*Component IObuttons{
-		Button send_plan_req (frame, " request plan ", 20, 140)
+	Component debug {
+		/*StandAlonePushButton send_plan_req ("request plan", 20, 40)
 		send_plan_req.click -> plan_request
 		
-		Button valid_plan (frame, " validate plan ", 20, 200)
+		StandAlonePushButton valid_plan ("validate plan", 20, 70)
 		valid_plan.click -> validate_plan
 
-		Button update_graph_but (frame, "send graph", 20, 260)
+		StandAlonePushButton update_graph_but ("send graph", 20, 100)
 		update_graph_but.click -> update_graph
 	
-		Button test_multiple_itineraries_button (frame, "test multiple itineraries", 20, 320)
+		StandAlonePushButton test_multiple_itineraries_button ("test multiple itineraries", 20, 130)
 		test_multiple_itineraries_button.click -> test_multiple_itineraries_spike
 	
-		Button test_allocation_button(frame, "test allocation", 20, 380)
+		StandAlonePushButton test_allocation_button("test allocation", 20, 160)
 		test_allocation_button.click -> test_allocation_spike
 		
-		Button test_lima_button(frame, "test lima", 20, 440)
+		StandAlonePushButton test_lima_button("test lima", 20, 190)
 		test_lima_button.click -> test_lima_spike
 
-		Button test_visibility_map_button(frame, "test_visibility_map", 20, 500)
-		test_visibility_map_button.click->test_visibility_map
-	}*/
+		StandAlonePushButton test_visibility_map_button("test_visibility_map", 20, 220)
+		test_visibility_map_button.click->test_visibility_map*/
 
-	if (_model_manager.IS_DEBUG)
-	{
-		StandAlonePushButton btn_add_trap1 ("add trap 1", 20, 40)
-		btn_add_trap1.click -> _model_manager.add_trap1
+		if (_model_manager.IS_DEBUG)
+		{
+			StandAlonePushButton btn_add_trap1 ("add trap 1", 20, 10)
+			btn_add_trap1.click -> _model_manager.add_trap1
 
-		StandAlonePushButton btn_add_trap2 ("add trap 2", 150, 40)
-		btn_add_trap2.click -> _model_manager.add_trap2
+			StandAlonePushButton btn_add_trap2 ("add trap 2", 150, 10)
+			btn_add_trap2.click -> _model_manager.add_trap2
+		}
 	}
 
 }

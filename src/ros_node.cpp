@@ -42,7 +42,7 @@ using namespace std;
 // remove - find_child
 // remove set_value
 // remove get_value
-// check : exclussive access and release access - RETURN
+// check : exclusive access and release access - RETURN
 // check boucle for et utilisation des msg ROS2 
 
 
@@ -661,7 +661,7 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
 
     SET_CHILD_VALUE (Bool, current_trap, active, msg.traps[k].active, true)
     SET_CHILD_VALUE (Bool, current_trap, identified, msg.traps[k].identified, true)
-    SET_CHILD_VALUE (Text, current_trap, trap_id, msg.traps[k].info.id, true)
+    SET_CHILD_VALUE (Text, current_trap, str_id, msg.traps[k].info.id, true)
     SET_CHILD_VALUE (Text, current_trap, description, msg.traps[k].info.description, true)
     SET_CHILD_VALUE (Int, current_trap, contact_mode, msg.traps[k].info.contact_mode, true)
     SET_CHILD_VALUE (Text, current_trap, code, msg.traps[k].info.code, true)

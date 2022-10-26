@@ -17,7 +17,7 @@ _native_code_
 _define_
 TrapLayer (Process _map, Process _context, Process _model_manager)
 {
-	//map aka _map
+	map aka _map
 	//context aka _context
 	model_manager aka _model_manager
 
@@ -46,5 +46,14 @@ TrapLayer (Process _map, Process _context, Process _model_manager)
 
 	_model_manager.traps.$added -> na_trap_added:(this) {
 		print ("New model of trap added to list " + this.model_manager.traps.size + "\n")
+		model = getRef (&this.model_manager.traps.$added)
+    	addChildrenTo this.traps {
+			Trap trap (this.map, model, this.svg_trap_info, null)
+		}
+	}
+
+	_model_manager.traps.$removed -> na_trap_removed:(this) {
+		print ("Model of trap removed from list " + this.model_manager.traps.size + "\n")
+		//model = getRef (&this.model_manager.traps.$removed)
 	}
 }

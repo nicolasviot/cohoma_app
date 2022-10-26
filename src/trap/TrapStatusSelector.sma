@@ -9,9 +9,10 @@ TrapStatusSelector (Process trap) {
     Spike press 
     Spike hide
 
+    // FIXME: load only once for whole app
     svg = loadFromXML ("res/svg/trap_status_selector.svg")
     
-    FSM set_State_Menu{
+    FSM fsm {
         State hidden
 
         State visible {
@@ -57,5 +58,5 @@ TrapStatusSelector (Process trap) {
         visible -> hidden (press)
         visible -> hidden (hide)
     } 
-    trap.state =:> set_State_Menu.visible.fsm_status.initial 
+    trap.model.state =:> fsm.visible.fsm_status.initial
 }

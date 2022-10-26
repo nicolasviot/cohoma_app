@@ -4,13 +4,12 @@ use base
 use display
 use animation
 
-import task.TaskAreaSummit
+//import task.TaskAreaSummit
 import ros_node
 
 _native_code_
 %{
-#include "cpp/coords-utils.h"
-#include "core/utils/getset.h"
+    #include "cpp/coords-utils.h"
 %}
 
 
@@ -19,21 +18,19 @@ validate_lima (Process c)
 %{
 
     Process *data = (Process*) get_native_user_data(c);
-    // GET_CHILD(RosNode, data, node);
-    // GET_CHILD(djnn::IntProperty, data, id);
-    RosNode *node = dynamic_cast<RosNode*>(data->find_child("node"));
+
+    RosNode *ros_node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
     IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
     #ifndef NO_ROS
-    node ->send_msg_lima(id->get_value()); 
+    ros_node ->send_msg_lima(id->get_value()); 
     #endif
-    
 %}
 
 
 _define_
-Lima (Process map, Process _node)
+Lima (Process map, Process _ros_node)
 {
-    node aka _node
+    ros_node aka _ros_node
 
     Int id(0)
     String name("")

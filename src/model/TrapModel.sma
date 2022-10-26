@@ -11,25 +11,22 @@ use base
 /*_action_
 change_activation_action (Process c)
 %{
-
     Process *data = (Process*) get_native_user_data(c);
-    // GET_CHILD(RosNode, data, node);
-    // GET_CHILD(IntProperty, data, id);
-    // GET_CHILD(BoolProperty, data, active);
-    RosNode *node = dynamic_cast<RosNode*>(data->find_child("node"));
+
+    RosNode *node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
     IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
     BoolProperty *active = dynamic_cast<BoolProperty*>(data->find_child("active")); 
     #ifndef NO_ROS
     node ->send_msg_trap_activation(id->get_value(), active->get_value()); 
     #endif
-    
 %}
+
 _action_
 hide_trap_action(Process c)
  %{
     Process *data = (Process*) get_native_user_data(c);
 
-    RosNode *node = dynamic_cast<RosNode*>(data->find_child("node"));
+    RosNode *node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
     IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
     BoolProperty *deleted = dynamic_cast<BoolProperty*>(data->find_child("deleted"));
 #ifndef NO_ROS
@@ -41,7 +38,7 @@ _action_
 update_trap_position_action(Process c)
 %{
     Process *data = (Process*) get_native_user_data(c);
-    RosNode *node = dynamic_cast<RosNode*>(data->find_child("node"));
+    RosNode *node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
     IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
     DoubleProperty *new_lat = dynamic_cast<DoubleProperty*>(data->find_child("lat"));
     DoubleProperty *new_lon = dynamic_cast<DoubleProperty*>(data->find_child("lon")); 
@@ -82,7 +79,7 @@ TrapModel (Process _context, int _id, double _lat, double _lon) //, Process _ros
     */
     String description ("..")
     
-    Double radius (30)
+    Double radius (50) // Maximum possible radius
 
     Bool remotely_deactivate (0)
     Bool contact_deactivate (0)
