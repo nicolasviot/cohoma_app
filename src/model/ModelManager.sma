@@ -171,6 +171,8 @@ ModelManager (Process _context, int _is_debug)
 
         Spike add_trap1
         Spike add_trap2
+        Spike set_trap1
+        Spike set_trap2
 
         add_trap1 -> (this) {
             addChildrenTo this.traps {
@@ -180,6 +182,21 @@ ModelManager (Process _context, int _is_debug)
         add_trap2 -> (this) {
             addChildrenTo this.traps {
                 TrapModel debug_trap2 (this.context, 223, $this.context.init_lat + 0.0005, $this.context.init_lon - 0.003, null)
+            }
+        }
+
+        set_trap1 -> (this) {
+            if (this.traps.size > 0) {
+                this.traps.[1].description = "Ceci est le trap 1"
+                this.traps.[1].contact_mode = 1
+                this.traps.[1].remotely_deactivate = 1
+            }
+        }
+        set_trap2 -> (this) {
+            if (this.traps.size > 1) {
+                this.traps.[2].description = "Ceci est le trap 2"
+                this.traps.[2].contact_mode = 2
+                this.traps.[2].contact_deactivate = 1
             }
         }
     }

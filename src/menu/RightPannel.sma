@@ -176,6 +176,12 @@ RightPannel (Process _context, Process _model_manager, Process _frame, Process _
 
 			StandAlonePushButton btn_add_trap2 ("add trap 2", 150, 10)
 			btn_add_trap2.click -> _model_manager.add_trap2
+
+			StandAlonePushButton btn_set_trap1 ("set trap 1", 20, 40)
+			btn_set_trap1.click -> _model_manager.set_trap1
+
+			StandAlonePushButton btn_set_trap2 ("set trap 2", 150, 40)
+			btn_set_trap2.click -> _model_manager.set_trap2
 		}
 	}
 
