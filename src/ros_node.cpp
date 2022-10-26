@@ -764,6 +764,7 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     SET_CHILD_VALUE (Double, edge_to_add, explored, msg.ugv_edges[i].explored, true)
   }
   
+  // Pièges à identifier. On doit envoyer un robot pour aller les identifier (lire le QR code)
   for (int i=0; i <msg.trap_identifications.size(); i++){
     
     //debug
@@ -780,6 +781,7 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     SET_CHILD_VALUE (Double, trap_to_add, radius, msg.trap_identifications[i].info.radius, true)
   }
   
+  // Pièges déjà identifiés et qui nécessitent une désactivation au contact
   for (int i=0; i<msg.trap_deactivations.size(); i++){
     
     //debug
@@ -972,7 +974,8 @@ uint8 TASK_TYPE_DEACTIVATION = 4
   int colors[7] = {0x000000, 0x1ACAFF, 0x0C2EE8, 0xB500FF, 0xB3B100, 0x0CE820, 0x00B1E6}; 
   for (int i=0; i < nb_total; i++){
     
-    if (msg.tasks[i].task_type == 1){
+    if (msg.tasks[i].task_type == 1)
+    {
       ParentProcess* area_to_add = TaskArea(_task_allocated_areas, "", _map);
       for (int j=0 ;j< msg.tasks[i].zone.points.size(); j++){
         auto* task_summit = TaskAreaSummit (area_to_add, std::string("summit_") + std::to_string(j), _map, msg.tasks[i].zone.points[j].latitude, msg.tasks[i].zone.points[j].longitude);
@@ -985,15 +988,17 @@ uint8 TASK_TYPE_DEACTIVATION = 4
       }
       SET_CHILD_VALUE (Int, area_to_add, nb_summit, (int) (msg.tasks[i].zone.points.size()), true)
       SET_CHILD_VALUE (Int, area_to_add, color/value, colors[msg.tasks[i].robot_id], true)
-    } else if (msg.tasks[i].task_type == 2){
-
+    }
+    else if (msg.tasks[i].task_type == 2)
+    {
       ParentProcess* edge_to_add = TaskEdge(_task_allocated_edges, "", _map, std::stoi(msg.tasks[i].edge.source) + 1, std::stoi(msg.tasks[i].edge.target) + 1, _nodes);
     
       SET_CHILD_VALUE (Double, edge_to_add, length, msg.tasks[i].edge.length, true)
       SET_CHILD_VALUE (Double, edge_to_add, explored, msg.tasks[i].edge.explored, true)
       SET_CHILD_VALUE (Int, edge_to_add, the_edge/outline_color/value, colors[msg.tasks[i].robot_id], true);
-
-    } /*else if (msg.tasks[i].task_type == 3){
+    }
+    /*else if (msg.tasks[i].task_type == 3)
+    {
       ParentProcess* trap_to_add = TaskTrap(_task_allocated_traps, "", _map, msg.tasks[i].identification.id, msg.tasks[i].identification.location.latitude, msg.tasks[i].identification.location.longitude);
       SET_CHILD_VALUE (Bool, trap_to_add, active, msg.tasks[i].identification.active, true)
       SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.tasks[i].identification.identified, true)
@@ -1004,9 +1009,9 @@ uint8 TASK_TYPE_DEACTIVATION = 4
       SET_CHILD_VALUE (Text, trap_to_add, hazard, msg.tasks[i].identification.info.hazard, true)
       SET_CHILD_VALUE (Double, trap_to_add, radius, msg.tasks[i].identification.info.radius, true)
       SET_CHILD_VALUE (Int, trap_to_add, content/red, colors[msg.tasks[i].robot_id], true) 
-
-
-    } else if (msg.tasks[i].task_type == 4){
+    }
+    else if (msg.tasks[i].task_type == 4)
+    {
       ParentProcess* trap_to_add = TaskTrap(_task_allocated_traps, "", _map, msg.tasks[i].deactivation.id, msg.tasks[i].deactivation.location.latitude, msg.tasks[i].deactivation.location.longitude);
       SET_CHILD_VALUE (Bool, trap_to_add, active, msg.tasks[i].deactivation.active, true)
       SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.tasks[i].deactivation.identified, true)
