@@ -57,8 +57,8 @@ update_trap_position_action(Process c)
 
 
 _define_
-//Trap (Process _map, Process svg_trap_info, double _lat, double _lon, int _id, Process _node)
-Trap (Process _map, Process _model, Process svg_trap_info, Process _ros_node)
+//Trap (Process _map, Process _svg_info, double _lat, double _lon, int _id, Process _node)
+Trap (Process _map, Process _model, Process _svg_info, Process _svg_remotely_icon, Process _svg_contact_icon, Process _ros_node)
 {
     //map aka _map
     model aka _model
@@ -88,12 +88,9 @@ Trap (Process _map, Process _model, Process svg_trap_info, Process _ros_node)
         FillOpacity circle_opacity(0.1)
         Circle c (0, 0, 50)
 
-        // FIXME: Load only once SVG
         // always visible data : ID and deactivation mode 
-        remotely_icon_svg = loadFromXML ("res/svg/trap_remote_icon.svg")
-        contact_icon_svg = loadFromXML ("res/svg/trap_contact_icon.svg")
         
-        //text for identification and information
+        // Text for identification and information
         FillColor _ (0,0,0)
         FillOpacity text_opacity (3)
         1 / circle_opacity.a =:> text_opacity.a
@@ -105,8 +102,7 @@ Trap (Process _map, Process _model, Process svg_trap_info, Process _ros_node)
 
         // state switch
         Switch trap_state_switch (unknown) {
-            Component unknown
-            {   
+            Component unknown {
                 //fill in red
                 240 =: red.r
                 50 =: _model.radius //set radius to maximum possible radius
@@ -115,8 +111,7 @@ Trap (Process _map, Process _model, Process svg_trap_info, Process _ros_node)
                 "#" + _model.id =:> label_trap_id.text             
             }
 
-            Component identified
-            {
+            Component identified {
                 240 =: red.r
                 1 =: trap_out_op.a
                 1 =: global_opacity.a
@@ -130,7 +125,7 @@ Trap (Process _map, Process _model, Process svg_trap_info, Process _ros_node)
                 Switch remotely_switch (false) {
                     Component true {
                         Translation _ (40, -5)
-                        remote_icon << remotely_icon_svg.remotely_icon
+                        remote_icon << clone (_svg_remotely_icon.remotely_icon)
                     }
                     Component false
                 }
@@ -140,15 +135,14 @@ Trap (Process _map, Process _model, Process svg_trap_info, Process _ros_node)
                 Switch contact_switch (false) {
                     Component true {
                         Translation _ (-10, -5)
-                        contact_icon << contact_icon_svg.contact_icon
+                        contact_icon << clone (_svg_contact_icon.contact_icon)
                     }
                     Component false
                 }
                 _model.contact_deactivate =:> contact_switch.state
             }
 
-            Component deactivated
-            {    
+            Component deactivated {
                 0 =: c.r //set circle radius to zero
                 0.1 =: trap_out_op.a
                 0.3 =: global_opacity.a
@@ -174,7 +168,8 @@ Trap (Process _map, Process _model, Process svg_trap_info, Process _ros_node)
 
         State visible {
             Translation _ (0, -15)
-            info << clone (svg_trap_info.trap_info)
+            info << clone (_svg_info.trap_info)
+
             _model.description =:> info.description_text.text
             _model.code =:> info.code_text.text
             _model.hazard =:> info.hazard_text.text

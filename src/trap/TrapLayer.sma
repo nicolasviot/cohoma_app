@@ -22,8 +22,14 @@ TrapLayer (Process _map, Process _context, Process _model_manager)
 	model_manager aka _model_manager
 
 	// Load only once SVG file
-	svg_info = loadFromXML ("res/svg/trap_info.svg")
-	svg_trap_info aka svg_info // To be accessible with a "find_child"
+	svg_trap_info = loadFromXML ("res/svg/trap_info.svg")
+	svg_info aka svg_trap_info // To be accessible with a "find_child"
+
+	svg_trap_remotely_icon = loadFromXML ("res/svg/trap_remote_icon.svg")
+	svg_remotely_icon aka svg_trap_remotely_icon // To be accessible with a "find_child"
+
+    svg_trap_contact_icon = loadFromXML ("res/svg/trap_contact_icon.svg")
+	svg_contact_icon aka svg_trap_contact_icon // To be accessible with a "find_child"
 
 	Scaling sc (1, 1, 0, 0)
     _map.zoom =:> sc.sx, sc.sy
@@ -48,7 +54,7 @@ TrapLayer (Process _map, Process _context, Process _model_manager)
 		print ("New model of trap added to list " + this.model_manager.traps.size + "\n")
 		model = getRef (&this.model_manager.traps.$added)
     	addChildrenTo this.traps {
-			Trap trap (this.map, model, this.svg_trap_info, null)
+			Trap trap (this.map, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon, null)
 		}
 	}
 
