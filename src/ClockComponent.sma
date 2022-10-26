@@ -13,7 +13,7 @@ ClockComponent (Process _frame)
 
     FillColor white (#FFFFFF)
     //FontWeight _ (75)
-    FontSize _ (5, 14)
+    FontSize _ (5, 14) // 5 = pixel
     Text text_clock (10, -5, "default")
     wc.state_text =:> text_clock.text
     

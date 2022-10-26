@@ -129,6 +129,17 @@ RightPannel (Process _context, Process _model_manager, Process _frame, Process _
 	
 	ClockComponent clock (_frame)
 
+	Component ms_per_frame {
+		FillColor white (#FFFFFF)
+		
+		FontSize _ (5, 12) // 5 = pixel
+		Text label_mspf (315, -5, "mspf: ")
+		
+		FontSize _ (5, 14) // 5 = pixel
+		Text mspf (350, -5, "0")
+		_frame.mspf => mspf.text
+	}
+
 
 	//Translation _ (0, 200)
 	//Image icare_logo ("res/icare-logo-2.png", 20, 200, 400, 400)
