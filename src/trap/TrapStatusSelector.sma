@@ -29,17 +29,17 @@ TrapStatusSelector (Process trap) {
                 State unknown{
                     r_unknown << svg.rect_unknown
                     r_unknown.press -> trap.unknown_assignement
-                    r_unknown.press -> trap.state_manually_updated
+                    r_unknown.press -> hide
                 }
                 State identified{
                     r_identified << svg.rect_identified
                     r_identified.press -> trap.identified_assignement
-                    r_identified.press -> trap.state_manually_updated
+                    r_identified.press -> hide
                 }
                 State deactivated{
                     r_deactivated << svg.rect_deactivated
                     r_deactivated.press -> trap.deactivated_assignement
-                    r_deactivated.press -> trap.state_manually_updated
+                    r_deactivated.press -> hide
                 }
                 {unknown,  identified} -> deactivated (m_deactivated.enter)
                 {identified, deactivated} -> unknown (m_unknown.enter)

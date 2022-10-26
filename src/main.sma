@@ -36,7 +36,6 @@ import strip.StripContainer
 import SafetyPilot
 import Vehicule
 import task.TaskLayer
-import trap.Trap
 import trap.TrapLayer
 import site.SiteLayer
 import menu.UpperLeftMenu
@@ -536,8 +535,3 @@ Component root {
   na_add_edges -> clear_temp_list
 
 }
-
-
-
-//TODO : use inheritance for graphNode, Trap, Vehicule
-//TODO : tester le constructeur C++

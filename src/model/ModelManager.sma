@@ -168,22 +168,18 @@ ModelManager (Process _context, int _is_debug)
     }
 
     if (_is_debug) {
-        /*addChildrenTo traps {
-            TrapModel debug_trap1 (_context, 199, $_context.init_lat, $_context.init_lon - 0.0015)
-            TrapModel debug_trap2 (_context, 223, $_context.init_lat + 0.0005, $_context.init_lon - 0.003)
-        }*/
 
         Spike add_trap1
         Spike add_trap2
 
         add_trap1 -> (this) {
             addChildrenTo this.traps {
-                TrapModel debug_trap1 (this.context, 199, $this.context.init_lat, $this.context.init_lon - 0.0015)
+                TrapModel debug_trap1 (this.context, 199, $this.context.init_lat, $this.context.init_lon - 0.0015, null)
             }
         }
         add_trap2 -> (this) {
             addChildrenTo this.traps {
-                TrapModel debug_trap2 (this.context, 223, $this.context.init_lat + 0.0005, $this.context.init_lon - 0.003)
+                TrapModel debug_trap2 (this.context, 223, $this.context.init_lat + 0.0005, $this.context.init_lon - 0.003, null)
             }
         }
     }

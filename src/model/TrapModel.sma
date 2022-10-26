@@ -2,13 +2,15 @@ use core
 use gui
 use base
 
-/*_native_code_
+import ros_node
+
+_native_code_
 %{
-    #include "cpp/coords-utils.h"
-%}*/
+    #include <iostream>
+%}
 
 
-/*_action_
+_action_
 change_activation_action (Process c)
 %{
     Process *data = (Process*) get_native_user_data(c);
@@ -38,6 +40,7 @@ _action_
 update_trap_position_action(Process c)
 %{
     Process *data = (Process*) get_native_user_data(c);
+
     RosNode *node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
     IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
     DoubleProperty *new_lat = dynamic_cast<DoubleProperty*>(data->find_child("lat"));
@@ -45,13 +48,13 @@ update_trap_position_action(Process c)
 #ifndef NO_ROS
     node -> send_msg_update_trap_position(id->get_value(), new_lat->get_value(), new_lon->get_value());
 #endif
-%}*/
+%}
 
 
 _define_
-TrapModel (Process _context, int _id, double _lat, double _lon) //, Process _ros_node)
+TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_node)
 {
-    //ros_node aka _ros_node
+    ros_node aka _ros_node
 
     Int id (_id)
     String str_id ("?")
@@ -123,4 +126,19 @@ TrapModel (Process _context, int _id, double _lat, double _lon) //, Process _ros
     
     String hazard ("?")
 
+    NativeAction na_update_trap_activation (change_activation_action, this, 1)
+    NativeAction na_hide_trap (hide_trap_action, this, 1)
+
+    NativeAction na_update_trap_position (update_trap_position_action, this, 1)
+
+    FSM fsm_update_position {
+        State idle
+
+        State going_to_update {
+            Timer t (5000)
+        }
+        idle -> going_to_update (lat)
+        idle -> going_to_update (lon)
+        going_to_update -> idle (fsm_update_position.going_to_update.t.end, na_update_trap_position)
+    }
 }

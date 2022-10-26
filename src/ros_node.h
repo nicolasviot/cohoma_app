@@ -100,7 +100,9 @@ class RosNode : public FatProcess, public ExternalSource
     //navgraph fields
     TextProperty navgraph_data;
     CoreProcess *_nodes, *_edges, *_shadow_edges;
-    CoreProcess *_trap_layer, *_traps;
+    //CoreProcess *_trap_layer, *_traps;
+    CoreProcess *_trap_models;
+
     CoreProcess *_task_edges, *_task_areas, *_task_traps;
     CoreProcess *_task_allocated_edges, *_task_allocated_areas, *_task_allocated_traps;
     CoreProcess *_exclusion_areas, *_limas; 

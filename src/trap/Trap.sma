@@ -4,17 +4,17 @@ use base
 use animation
 
 import behavior.DraggableItemWithRadius
-import gui.animation.Animator
+//import gui.animation.Animator
 import TrapStatusSelector
 import ros_node
 
 _native_code_
 %{
-    #include "cpp/coords-utils.h"
+    #include <iostream>
 %}
 
 
-_action_
+/*_action_
 change_activation_action (Process c)
 %{
 
@@ -53,7 +53,7 @@ update_trap_position_action(Process c)
 #ifndef NO_ROS
     node -> send_msg_update_trap_position(id->get_value(), new_lat->get_value(), new_lon->get_value());
 #endif
-%}
+%}*/
 
 
 _define_
@@ -184,23 +184,25 @@ Trap (Process _map, Process _model, Process _svg_info, Process _svg_remotely_ico
 
 
     // menu to manually set the state
-    Spike state_manually_updated //utiliser ce spike pour mettre à jour les booléen via ros.
-    Spike ask_delete //utiliser pour supprimer le trap
+    Spike ask_delete // utiliser pour supprimer le trap
 
     AssignmentSequence unknown_assignement (1){
         1 =: _model.active
         0 =: _model.identified 
     }
+    unknown_assignement -> _model.na_update_trap_activation
 
     AssignmentSequence identified_assignement (1){
         1 =: _model.active
         1 =: _model.identified 
-    }        
+    }
+    identified_assignement -> _model.na_update_trap_activation     
 
     AssignmentSequence deactivated_assignement (1){
         0 =: _model.active
         1 =: _model.identified 
     }
+    deactivated_assignement -> _model.na_update_trap_activation
 
     AssignmentSequence delete_assignement (1){
         //0 =: _model.active
@@ -208,34 +210,13 @@ Trap (Process _map, Process _model, Process _svg_info, Process _svg_remotely_ico
         1 =: _model.deleted
         0.01 =: content.global_opacity.a
     }
+    delete_assignement -> _model.na_hide_trap
+
 
     // FIXME: only once for whole app
     TrapStatusSelector menu (this)
     content.picking.right.press -> menu.press
 
-    state_manually_updated -> menu.hide
     ask_delete -> menu.hide
-
-    NativeAction update_trap_activation_state_action(change_activation_action, this, 1)
-    NativeAction hide_trap_native(hide_trap_action, this, 1)
-    NativeAction update_trap_position_native(update_trap_position_action, this, 1)
-    delete_assignement -> hide_trap_native
-    deactivated_assignement -> update_trap_activation_state_action
-    identified_assignement -> update_trap_activation_state_action
-    unknown_assignement -> update_trap_activation_state_action
-
-
-    Spike moved
-    _model.lat -> moved
-    _model.lon -> moved
-
-    FSM update_trap_position {
-        State idle
-
-        State going_to_update {
-            Timer t(5000)
-        }
-        idle -> going_to_update (moved)
-        going_to_update -> idle (update_trap_position.going_to_update.t.end, update_trap_position_native)
-    }
+    
 }

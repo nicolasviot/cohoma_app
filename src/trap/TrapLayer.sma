@@ -42,14 +42,6 @@ TrapLayer (Process _map, Process _context, Process _model_manager)
 		
 	}
 
-	/*if (_model_manager.IS_DEBUG)
-	{
-		addChildrenTo traps {
-			Trap debug_trap1 (_map, svg_info, $_context.init_lat, $_context.init_lon - 0.0015, 200, null)
-			Trap debug_trap2 (_map, svg_info, $_context.init_lat + 0.0005, $_context.init_lon - 0.003, 223, null)
-		}
-	}*/
-
 	_model_manager.traps.$added -> na_trap_added:(this) {
 		print ("New model of trap added to list " + this.model_manager.traps.size + "\n")
 		model = getRef (&this.model_manager.traps.$added)

@@ -26,7 +26,8 @@
 #include "graph/Node.h"
 #include "graph/NavGraph.h"
 #include "graph/Edge.h"
-#include "trap/Trap.h"
+//#include "trap/Trap.h"
+#include "model/TrapModel.h"
 #include "task/TaskTrap.h"
 #include "task/TaskAreaSummit.h"
 #include "task/TaskArea.h"
@@ -150,15 +151,17 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_nodes, CoreProcess, _parent, parent/l/map/layers/navgraph/nodes)
   GET_CHILD_VAR2 (_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
   GET_CHILD_VAR2 (_shadow_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/shadow_edges)
+
+  //GET_CHILD_VAR2 (_trap_layer, CoreProcess, _parent, parent/l/map/layers/traps/traplayer)
+  //GET_CHILD_VAR2 (_traps, CoreProcess, _parent, parent/l/map/layers/traps/traplayer/traps)
+  GET_CHILD_VAR2 (_trap_models, CoreProcess, _model_manager, traps)
+
   GET_CHILD_VAR2 (_task_edges, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/edges)
   GET_CHILD_VAR2 (_task_areas, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/areas)
   GET_CHILD_VAR2 (_task_traps, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/traps)
   GET_CHILD_VAR2 (_task_allocated_edges, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/edges)
   GET_CHILD_VAR2 (_task_allocated_areas, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/areas)
   GET_CHILD_VAR2 (_task_allocated_traps, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/traps)
-  
-  GET_CHILD_VAR2 (_trap_layer, CoreProcess, _parent, parent/l/map/layers/traps/traplayer)
-  GET_CHILD_VAR2 (_traps, CoreProcess, _parent, parent/l/map/layers/traps/traplayer/traps)
 
   GET_CHILD_VAR2 (_exclusion_areas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/exclusion_areas)
   GET_CHILD_VAR2 (_limas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/limas)
@@ -617,18 +620,19 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
   CoreProcess *svg_info;
   CoreProcess *current_trap;
   
-  GET_CHILD_VAR2 (svg_info, CoreProcess, _trap_layer, svg_trap_info)
+  //GET_CHILD_VAR2 (svg_info, CoreProcess, _trap_layer, svg_trap_info)
+  //Container *_traps_container = dynamic_cast<Container *> (_traps);
+  Container *trap_list = dynamic_cast<Container*> (_trap_models);
 
   for (int k = 0; k < msg.traps.size(); k ++){
 
     int index_found = -1;
-    current_trap = nullptr;
+    current_trap = nullptr;  
 
-    Container *_traps_container = dynamic_cast<Container *> (_traps);
-
-    for (int i = 0; i < _traps_container->children().size(); i++){
-      GET_CHILD_VALUE (id, Int, _traps_container->children()[i], id)
-      if (id == msg.traps[k].id){
+    for (int i = 0; i < trap_list->children().size(); i++)
+    {
+      GET_CHILD_VALUE (id, Int, trap_list->children()[i], id)
+      if (id == msg.traps[k].id) {
         index_found = i;
         break;
       }
@@ -637,7 +641,8 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     if (index_found == -1) {
       new_trap = new_trap + 1;
       
-      ParentProcess *new_trap = Trap (_traps, "", _map, svg_info, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id, this);
+      //ParentProcess *new_trap = Trap (_traps, "", _map, svg_info, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id, this);
+      ParentProcess *new_trap = TrapModel (trap_list, "", msg.traps[k].id, msg.traps[k].location.latitude, msg.traps[k].location.longitude, this);
   
       current_trap = new_trap;
 
@@ -650,13 +655,12 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
       
       update_trap = update_trap + 1;
 
-      if (msg.traps[k].identified && !((BoolProperty*)_traps_container->children()[index_found]->find_child("identified"))->get_value())
-        SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp + " - trap identified "+ msg.traps[k].info.id +"(#" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + " " + msg.traps[k].info.hazard + "\n", true)
-      else if(msg.traps[k].identified)
-        SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp+ " - trap updated "+ msg.traps[k].info.id +"(#" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + " " + msg.traps[k].info.hazard + "\n", true)
-      
-      current_trap = _traps_container->children()[index_found];
+      current_trap = trap_list->children()[index_found];
 
+      if ( msg.traps[k].identified && !((BoolProperty*)current_trap->find_child("identified"))->get_value() )
+        SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp + " - trap identified "+ msg.traps[k].info.id +"(#" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + " " + msg.traps[k].info.hazard + "\n", true)
+      else if ( msg.traps[k].identified )
+        SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp+ " - trap updated "+ msg.traps[k].info.id +"(#" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + " " + msg.traps[k].info.hazard + "\n", true)
     }
 
     SET_CHILD_VALUE (Bool, current_trap, active, msg.traps[k].active, true)
@@ -666,7 +670,6 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     SET_CHILD_VALUE (Int, current_trap, contact_mode, msg.traps[k].info.contact_mode, true)
     SET_CHILD_VALUE (Text, current_trap, code, msg.traps[k].info.code, true)
     SET_CHILD_VALUE (Text, current_trap, hazard, msg.traps[k].info.hazard, true)
-    //Todo: MP - remove-  give radius control by trap_sw_state 
     //SET_CHILD_VALUE (Double, current_trap, radius, msg.traps[k].info.radius, true) 
     SET_CHILD_VALUE (Bool, current_trap, remotely_deactivate, msg.traps[k].info.remotely_deactivate, true)
     SET_CHILD_VALUE (Bool, current_trap, contact_deactivate, msg.traps[k].info.contact_deactivate, true)
