@@ -52,9 +52,9 @@ update_trap_position_action(Process c)
 
 
 _define_
-TrapModel (Process _context, int _id, double _lat, double _lon) //, Process _node)
+TrapModel (Process _context, int _id, double _lat, double _lon) //, Process _ros_node)
 {
-    //node aka _node
+    //ros_node aka _ros_node
 
     Int id (_id)
     String str_id ("?")
@@ -81,11 +81,49 @@ TrapModel (Process _context, int _id, double _lat, double _lon) //, Process _nod
     string hazard                       # description of an hazardous situation to take into account
     */
     String description ("..")
+    
     Double radius (30)
+
     Bool remotely_deactivate (0)
     Bool contact_deactivate (0)
+
+    /*
+    int8 CONTACT_UNKONWN = 0
+    int8 CONTACT_AERIAL = 1
+    int8 CONTACT_GROUND = 2
+    int8 CONTACT_GROUND_MULTIPLE = 3
+    int8 CONTACT_AERIAL_AND_GROUND = 4
+    int8 CONTACT_AERIAL_OR_GROUND = 5
+    */
     Int contact_mode (0)
+
+    String contact_text ("")
+
+    SwitchList switch_contact_mode (0) {
+        Component zero {
+            "unknown" =: contact_text
+        }
+        Component one {
+            "Aerial" =: contact_text
+        }
+        Component two {
+            "Ground" =: contact_text
+        }
+        Component three {
+            "Ground Multiple" =: contact_text
+        }
+        Component four {
+            "Aerial and Ground" =:contact_text
+        }
+        Component five {
+            "Aerial or Ground" =: contact_text
+        }
+    }
+    contact_mode + 1 =:> switch_contact_mode.index
+
+
     String code ("?")
+    
     String hazard ("?")
 
 }
