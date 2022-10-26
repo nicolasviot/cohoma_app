@@ -152,8 +152,6 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
   GET_CHILD_VAR2 (_shadow_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/shadow_edges)
 
-  //GET_CHILD_VAR2 (_trap_layer, CoreProcess, _parent, parent/l/map/layers/traps/traplayer)
-  //GET_CHILD_VAR2 (_traps, CoreProcess, _parent, parent/l/map/layers/traps/traplayer/traps)
   GET_CHILD_VAR2 (_trap_models, CoreProcess, _model_manager, traps)
 
   GET_CHILD_VAR2 (_task_edges, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/edges)
@@ -620,8 +618,6 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
   CoreProcess *svg_info;
   CoreProcess *current_trap;
   
-  //GET_CHILD_VAR2 (svg_info, CoreProcess, _trap_layer, svg_trap_info)
-  //Container *_traps_container = dynamic_cast<Container *> (_traps);
   Container *trap_list = dynamic_cast<Container*> (_trap_models);
 
   for (int k = 0; k < msg.traps.size(); k ++){
@@ -641,7 +637,7 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     if (index_found == -1) {
       new_trap = new_trap + 1;
       
-      ParentProcess *new_trap = TrapModel (trap_list, "", msg.traps[k].id, msg.traps[k].location.latitude, msg.traps[k].location.longitude, this);
+      ParentProcess *new_trap = TrapModel (trap_list, "", _context, msg.traps[k].id, msg.traps[k].location.latitude, msg.traps[k].location.longitude, this);
   
       current_trap = new_trap;
 
