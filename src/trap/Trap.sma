@@ -5,7 +5,7 @@ use animation
 
 import behavior.DraggableItemWithRadius
 //import gui.animation.Animator
-import ros_node
+//import ros_node
 
 _native_code_
 %{
@@ -43,7 +43,7 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
             Rotation rot (45, 0, 0)
             Rectangle rect (-15, -15, 30, 30)
         }
-        // for drag interaction
+        // for interactions
         picking aka losange.rect
 
         NoOutline _

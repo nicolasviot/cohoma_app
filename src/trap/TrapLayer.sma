@@ -3,9 +3,6 @@ use gui
 use base
 use display
 
-//import task.TaskArea
-//import task.TaskEdge
-//import task.TaskTrap
 import Trap
 
 _native_code_
@@ -32,11 +29,11 @@ TrapLayer (Process _map, Process _context, Process _model_manager)
 	svg_contact_icon aka svg_trap_contact_icon // To be accessible with a "find_child"
 
 	Scaling sc (1, 1, 0, 0)
-    _map.zoom =:> sc.sx, sc.sy
+    _context.map_scale =:> sc.sx, sc.sy
 
     Translation pos (0, 0)
-    _map.xpan - _map.cur_ref_x + _map.px0 =:> pos.tx
-    _map.ypan - _map.cur_ref_y + _map.py0 =:> pos.ty
+	_context.map_translation_x =:> pos.tx
+	_context.map_translation_y =:> pos.ty
 
 	List traps {
 		

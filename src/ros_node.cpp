@@ -615,19 +615,18 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
   
   int new_trap = 0;
   int update_trap = 0;
-  CoreProcess *svg_info;
-  CoreProcess *current_trap;
-  
-  Container *trap_list = dynamic_cast<Container*> (_trap_models);
+  int index_found = -1;
+  CoreProcess *current_trap_model;
+  Container *trap_models = dynamic_cast<Container*> (_trap_models);
 
-  for (int k = 0; k < msg.traps.size(); k ++){
+  for (int k = 0; k < msg.traps.size(); k ++)
+  {
+    index_found = -1;
+    current_trap_model = nullptr;
 
-    int index_found = -1;
-    current_trap = nullptr;  
-
-    for (int i = 0; i < trap_list->children().size(); i++)
+    for (int i = 0; i < trap_models->children().size(); i++)
     {
-      GET_CHILD_VALUE (id, Int, trap_list->children()[i], id)
+      GET_CHILD_VALUE (id, Int, trap_models->children()[i], id)
       if (id == msg.traps[k].id) {
         index_found = i;
         break;
@@ -637,9 +636,9 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     if (index_found == -1) {
       new_trap = new_trap + 1;
       
-      ParentProcess *new_trap = TrapModel (trap_list, "", _context, msg.traps[k].id, msg.traps[k].location.latitude, msg.traps[k].location.longitude, this);
+      ParentProcess *new_trap = TrapModel (trap_models, "", _context, msg.traps[k].id, msg.traps[k].location.latitude, msg.traps[k].location.longitude, this);
   
-      current_trap = new_trap;
+      current_trap_model = new_trap;
 
       SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp + " - New trap #" + std::to_string(msg.traps[k].id) + "\n", true);
       
@@ -650,24 +649,24 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
       
       update_trap = update_trap + 1;
 
-      current_trap = trap_list->children()[index_found];
+      current_trap_model = trap_models->children()[index_found];
 
-      if ( msg.traps[k].identified && !((BoolProperty*)current_trap->find_child("identified"))->get_value() )
+      if ( msg.traps[k].identified && !((BoolProperty*)current_trap_model->find_child("identified"))->get_value() )
         SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp + " - trap identified "+ msg.traps[k].info.id +"(#" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + " " + msg.traps[k].info.hazard + "\n", true)
       else if ( msg.traps[k].identified )
         SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp+ " - trap updated "+ msg.traps[k].info.id +"(#" +std::to_string(msg.traps[k].id) + ")" +  " " + msg.traps[k].info.code  + " " + msg.traps[k].info.hazard + "\n", true)
     }
 
-    SET_CHILD_VALUE (Bool, current_trap, active, msg.traps[k].active, true)
-    SET_CHILD_VALUE (Bool, current_trap, identified, msg.traps[k].identified, true)
-    SET_CHILD_VALUE (Text, current_trap, str_id, msg.traps[k].info.id, true)
-    SET_CHILD_VALUE (Text, current_trap, description, msg.traps[k].info.description, true)
-    SET_CHILD_VALUE (Int, current_trap, contact_mode, msg.traps[k].info.contact_mode, true)
-    SET_CHILD_VALUE (Text, current_trap, code, msg.traps[k].info.code, true)
-    SET_CHILD_VALUE (Text, current_trap, hazard, msg.traps[k].info.hazard, true)
-    //SET_CHILD_VALUE (Double, current_trap, radius, msg.traps[k].info.radius, true) 
-    SET_CHILD_VALUE (Bool, current_trap, remotely_deactivate, msg.traps[k].info.remotely_deactivate, true)
-    SET_CHILD_VALUE (Bool, current_trap, contact_deactivate, msg.traps[k].info.contact_deactivate, true)
+    SET_CHILD_VALUE (Bool, current_trap_model, active, msg.traps[k].active, true)
+    SET_CHILD_VALUE (Bool, current_trap_model, identified, msg.traps[k].identified, true)
+    SET_CHILD_VALUE (Text, current_trap_model, str_id, msg.traps[k].info.id, true)
+    SET_CHILD_VALUE (Text, current_trap_model, description, msg.traps[k].info.description, true)
+    SET_CHILD_VALUE (Int, current_trap_model, contact_mode, msg.traps[k].info.contact_mode, true)
+    SET_CHILD_VALUE (Text, current_trap_model, code, msg.traps[k].info.code, true)
+    SET_CHILD_VALUE (Text, current_trap_model, hazard, msg.traps[k].info.hazard, true)
+    //SET_CHILD_VALUE (Double, current_trap_model, radius, msg.traps[k].info.radius, true) 
+    SET_CHILD_VALUE (Bool, current_trap_model, remotely_deactivate, msg.traps[k].info.remotely_deactivate, true)
+    SET_CHILD_VALUE (Bool, current_trap_model, contact_deactivate, msg.traps[k].info.contact_deactivate, true)
 
     GRAPH_EXEC;
   }
@@ -762,13 +761,39 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     SET_CHILD_VALUE (Double, edge_to_add, explored, msg.ugv_edges[i].explored, true)
   }
   
+  CoreProcess* trap_model = nullptr;
+  Container* trap_models = dynamic_cast<Container*> (_trap_models);
+
   // Pièges à identifier. On doit envoyer un robot pour aller les identifier (lire le QR code)
-  for (int i=0; i <msg.trap_identifications.size(); i++){
-    
+  for (int i = 0; i < msg.trap_identifications.size(); i++)
+  {
+    trap_model = nullptr;
+
     //debug
-    //std::cerr << "trying to add a trap_identification at " + std::to_string(msg.trap_identifications[i].location.latitude) << std::endl;
+    std::cout << "Trying to add a task to identify trap " << std::to_string(msg.trap_identifications[i].id) << std::endl;
+
+    // Try to get the existing model with this id
+    for (int j = 0; j < trap_models->children().size(); i++)
+    {
+      GET_CHILD_VALUE (id, Int, trap_models->children()[j], id)
+
+      if (id == msg.trap_identifications[i].id) {
+        trap_model = trap_models->children()[j];
+        break;
+      }
+    }
+
+    if (trap_model != nullptr)
+    {
+      // Create a task with this trap model
+      ParentProcess* task_trap = TaskTrap (_task_traps, "", _map, _context, trap_model);
+      // FIXME: Need to update something in the model ?
+    }
+    else {
+      std::cerr << "There is NO model for trap id " << std::to_string(msg.trap_identifications[i].id) << ". Can't create the task to identify trap." << std::endl;
+    }
     
-    ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_identifications[i].id, msg.trap_identifications[i].location.latitude, msg.trap_identifications[i].location.longitude);
+    /*ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_identifications[i].id, msg.trap_identifications[i].location.latitude, msg.trap_identifications[i].location.longitude);
     SET_CHILD_VALUE (Bool, trap_to_add, active, msg.trap_identifications[i].active, true)
     SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.trap_identifications[i].identified, true)
     SET_CHILD_VALUE (Text, trap_to_add, trap_id_str, msg.trap_identifications[i].info.id, true)
@@ -776,16 +801,39 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     SET_CHILD_VALUE (Int, trap_to_add, contact_mode, msg.trap_identifications[i].info.contact_mode, true)
     SET_CHILD_VALUE (Text, trap_to_add, code, msg.trap_identifications[i].info.code, true)
     SET_CHILD_VALUE (Text, trap_to_add, hazard, msg.trap_identifications[i].info.hazard, true)
-    SET_CHILD_VALUE (Double, trap_to_add, radius, msg.trap_identifications[i].info.radius, true)
+    SET_CHILD_VALUE (Double, trap_to_add, radius, msg.trap_identifications[i].info.radius, true)*/
   }
   
   // Pièges déjà identifiés et qui nécessitent une désactivation au contact
-  for (int i=0; i<msg.trap_deactivations.size(); i++){
-    
-    //debug
-    //std::cerr << "trying to add a trap_deactivation" << std::endl;
+  for (int i = 0; i < msg.trap_deactivations.size(); i++)
+  {  
+    trap_model = nullptr;
 
-    ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_deactivations[i].id, msg.trap_deactivations[i].location.latitude, msg.trap_deactivations[i].location.longitude);
+    //debug
+    std::cout << "Trying to add a task to deactivate trap " + std::to_string(msg.trap_deactivations[i].id) << std::endl;
+
+    // Try to get the existing model with this id
+    for (int j = 0; j < trap_models->children().size(); i++)
+    {
+      GET_CHILD_VALUE (id, Int, trap_models->children()[j], id)
+
+      if (id == msg.trap_deactivations[i].id) {
+        trap_model = trap_models->children()[j];
+        break;
+      }
+    }
+
+    if (trap_model != nullptr)
+    {
+      // Create a task with this trap model
+      ParentProcess* task_trap = TaskTrap (_task_traps, "", _map, _context, trap_model);
+      // FIXME: Need to update something in the model ?
+    }
+    else {
+      std::cerr << "There is NO model for trap id " << std::to_string(msg.trap_deactivations[i].id) << ". Can't create the task to deactivate trap." << std::endl;
+    }
+
+    /*ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_deactivations[i].id, msg.trap_deactivations[i].location.latitude, msg.trap_deactivations[i].location.longitude);
     SET_CHILD_VALUE (Bool, trap_to_add, active, msg.trap_deactivations[i].active, true)
     SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.trap_deactivations[i].identified, true)
     SET_CHILD_VALUE (Text, trap_to_add, trap_id_str, msg.trap_deactivations[i].info.id, true)
@@ -793,7 +841,7 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     SET_CHILD_VALUE (Int, trap_to_add, contact_mode, msg.trap_deactivations[i].info.contact_mode, true)
     SET_CHILD_VALUE (Text, trap_to_add, code, msg.trap_deactivations[i].info.code, true)
     SET_CHILD_VALUE (Text, trap_to_add, hazard, msg.trap_deactivations[i].info.hazard, true)
-    SET_CHILD_VALUE (Double, trap_to_add, radius, msg.trap_deactivations[i].info.radius, true)
+    SET_CHILD_VALUE (Double, trap_to_add, radius, msg.trap_deactivations[i].info.radius, true)*/
   }
 
   GRAPH_EXEC;

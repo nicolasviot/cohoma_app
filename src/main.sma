@@ -148,16 +148,11 @@ Component root {
 
   ModelManager model_manager (context, is_debug)
 
-  //Create one layer per data.
-  // from bottom to top :
-  //  - geoportail tiles
-  //  - OSM tiles
-  //  - GraphNode + Navigation graphs 
-  //  - Vehicules TODO
-  //  - Traps  TODO
-  //  - Zones  TODO
-
+  // Create one layer per data, from bottom to top:
   Component l {
+
+    // ----------------------------------------------------
+    //  MAP
     Map map (f, 0, 0, init_frame_width - $context.RIGHT_PANEL_WIDTH, init_frame_height - $context.STRIP_HEIGHT, init_lat, init_lon, init_zoom)
     // FIXME: map crash if I add dynamic width/height:
     //f.width - context.RIGHT_PANEL_WIDTH =:> map.width
@@ -170,6 +165,7 @@ Component root {
     map.xpan - map.cur_ref_x + map.px0 =:> context.map_translation_x
     map.ypan - map.cur_ref_y + map.py0 =:> context.map_translation_y
 
+    // Geoportail tiles
     Component geoportail {
       Switch ctrl_visibility (visible) {
         Component hidden
@@ -181,6 +177,8 @@ Component root {
       opacity aka ctrl_visibility.visible.layer.opacity
       String name ("Geoportail")
     }
+
+    // OSM tiles
     /*Component osm {
       Switch ctrl_visibility (visible) {
         Component hidden
@@ -192,6 +190,9 @@ Component root {
       String name ("OSM")
     }*/
 
+
+    // ----------------------------------------------------
+    //  SATELITE = VEHICLE = VAB + UGV + UAV
     Component satelites {
       Switch ctrl_visibility (visible) {
         Component hidden
@@ -217,6 +218,9 @@ Component root {
       String name ("Satelites")
     }
 
+
+    // ----------------------------------------------------
+    //  Navigation GRAPH
     Component navgraph {
       Switch ctrl_visibility (visible) {
         Component hidden
@@ -232,6 +236,9 @@ Component root {
       String name ("Navgraph")
     }
 
+
+    // ----------------------------------------------------
+    //  ITINERARY
     Component itineraries {
       Switch ctrl_visibility (visible){
         Component hidden
@@ -246,6 +253,9 @@ Component root {
       String name ("Itineraries")
     }
 
+
+    // ----------------------------------------------------
+    //  TRAP
     Component traps{
       Switch ctrl_visibility (visible){
         Component hidden
@@ -257,17 +267,23 @@ Component root {
       traplayer aka ctrl_visibility.visible.layer
     }
 
+
+    // ----------------------------------------------------
+    //  TASK
     Component tasks{
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-          TaskLayer layer (map, context)
+          TaskLayer layer (map, context, model_manager)
         }
       }
       String name("Tasks")
       tasklayer aka ctrl_visibility.visible.layer
     }
 
+
+    // ----------------------------------------------------
+    //  ???
     Component result{
       Switch ctrl_visibility (visible){
         Component hidden
@@ -281,6 +297,9 @@ Component root {
       visibility_map_resolution aka ctrl_visibility.visible.layer.visibility_map_resolution
     }
 
+
+    // ----------------------------------------------------
+    //  ACTOR = Safety Pilot
     Component actors{
       Switch ctrl_visibility (visible){
         Component hidden
@@ -299,6 +318,9 @@ Component root {
       String name("Actors")
     }
 
+
+    // ----------------------------------------------------
+    //  SITE = exclusion areas + limas
     Component site{
       Switch ctrl_visibility(visible){
         Component hidden
@@ -310,23 +332,27 @@ Component root {
       sitelayer aka ctrl_visibility.visible.layer
     }
 
+
+    // ----------------------------------------------------
+    //  Allocated TASK
     Component allocated_tasks{
       Switch ctrl_visibility(visible){
         Component hidden
         Component visible{
-          TaskLayer layer (map, context)
+          TaskLayer layer (map, context, model_manager)
         }
       }
       String name("Allocation")
       allocated_tasks_layer aka ctrl_visibility.visible.layer
     }
-     
     
+    
+    // Add layers, from bottom to top:
     addChildrenTo map.layers {
       geoportail,
       //osm,
       result,
-      site, // exclusion areas + limas
+      site,
       navgraph,
       itineraries,
       satelites,
