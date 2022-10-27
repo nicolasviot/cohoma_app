@@ -116,6 +116,17 @@ Component validate_tasks_button
 Translation _ (0, 70)
 ClockComponent clock(0, -25, frame)
 
+Component ms_per_frame {
+	FillColor white (#FFFFFF)
+	
+	FontSize _ (5, 12) // 5 = pixel
+	Text label_mspf (315, -5, "mspf: ")
+	
+	FontSize _ (5, 14) // 5 = pixel
+	Text mspf (350, -5, "0")
+	frame.mspf => mspf.text
+}
+
 CandidateTaskFilter filter(frame)
 filter.send_selected_tasks -> send_selected_tasks
 
