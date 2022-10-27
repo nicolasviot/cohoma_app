@@ -6,6 +6,7 @@ import VehiculeModel
 import SafetyPilotModel
 import NodeModel
 import TrapModel
+import ItineraryModel
 
 _native_code_
 %{
@@ -41,6 +42,12 @@ ModelManager (Process _context, int _is_debug)
         // Unmanned Ground Vehicle
         //SafetyPilotModel ugv (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
         SafetyPilotModel ground_safety_pilot (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
+    }
+
+    Component itineraries {
+        ItineraryModel shortest (_context, "shortest")
+        ItineraryModel safest (_context, "safest")
+        ItineraryModel tradeoff (_context, "tradeoff")
     }
 
     List nodes {
