@@ -53,20 +53,21 @@ edge_released_action (Process src, Process data)
 
 
 _define_
-Itineraries (Process _map)
+Itineraries (Process _map, Process _context)
 {
 	map aka _map
+
 	Spike create_bindings
 	Spike clear
 	String id ("")
 	Ref ref_current_itinerary (nullptr)
 	
 	Scaling sc (1, 1, 0, 0)
-	map.zoom =:> sc.sx, sc.sy
+	_context.map_scale =:> sc.sx, sc.sy
 
 	Translation pos (0, 0)
-	map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
-	map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+	_context.map_translation_x =:> pos.tx
+	_context.map_translation_y =:> pos.ty
 
 	Component itineraries_list
 

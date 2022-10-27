@@ -31,7 +31,8 @@ ItineraryPannel(double _dx, double _dy, Process _id_selected)
 	(toString(id_selected) == toString(third.itinerary_id)) ? "selected" : "unselected" =:> third.sw.state
 
 	FSM fsm_select{
-		State idle {}
+		State idle
+		
 		State first_selected{
 			first.itinerary_id =?: id_selected
 		}

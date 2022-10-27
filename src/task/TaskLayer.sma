@@ -9,7 +9,7 @@ import task.TaskTrap
 
 
 _define_
-TaskLayer (Process map)
+TaskLayer (Process _map, Process _context)
 {
 
 	List areas{
@@ -17,11 +17,11 @@ TaskLayer (Process map)
 	}
 	
 	Scaling sc (1, 1, 0, 0)
-    map.zoom =:> sc.sx, sc.sy
+    _context.map_scale =:> sc.sx, sc.sy
 
     Translation pos (0, 0)
-    map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
-    map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+    _context.map_translation_x =:> pos.tx
+    _context.map_translation_y =:> pos.ty
 
 	List edges{
 		//TaskEdge _(map, 1, 2, nodes)

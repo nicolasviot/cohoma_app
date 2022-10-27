@@ -198,11 +198,11 @@ Component root {
         Component visible { //using Layer prevents some animations to work (TODO Stephane)
 
           Scaling sc (1, 1, 0, 0)
-          map.zoom =:> sc.sx, sc.sy
+          context.map_scale =:> sc.sx, sc.sy
 
           Translation pos (0, 0)
-          map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
-          map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+          context.map_translation_x =:> pos.tx
+          context.map_translation_y =:> pos.ty
 
           List layers {
             Vehicule vab (map, context, model_manager.vehicles.vab, svg_vab)
@@ -221,7 +221,7 @@ Component root {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible {
-          NavGraph layer (map, context, f, model_manager)
+          NavGraph layer (map, context, model_manager)
         }
       }
       nodes aka ctrl_visibility.visible.layer.nodes
@@ -236,7 +236,7 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible{
-          Itineraries layer (map)
+          Itineraries layer (map, context)
         }
       }
       itineraries_list aka ctrl_visibility.visible.layer.itineraries_list
@@ -261,7 +261,7 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-          TaskLayer layer (map)
+          TaskLayer layer (map, context)
         }
       }
       String name("Tasks")
@@ -286,11 +286,11 @@ Component root {
         Component hidden
         Component visible {
           Scaling sc (1, 1, 0, 0)
-          map.zoom =:> sc.sx, sc.sy
+          context.map_scale =:> sc.sx, sc.sy
 
           Translation pos (0, 0)
-          map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
-          map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+          context.map_translation_x =:> pos.tx
+          context.map_translation_y =:> pos.ty
 
           SafetyPilot drone_safety_pilot (map, context, model_manager.safety_pilots.drone_safety_pilot, svg_safety_pilot)
           SafetyPilot ground_safety_pilot (map, context, model_manager.safety_pilots.ground_safety_pilot, svg_safety_pilot)
@@ -314,7 +314,7 @@ Component root {
       Switch ctrl_visibility(visible){
         Component hidden
         Component visible{
-          TaskLayer layer (map)
+          TaskLayer layer (map, context)
         }
       }
       String name("Allocation")
@@ -393,11 +393,11 @@ Component root {
 
     State preview {
       Scaling sc (1, 1, 0, 0)
-      l.map.zoom =:> sc.sx, sc.sy
+      context.map_scale =:> sc.sx, sc.sy
 
       Translation pos (0, 0)
-      l.map.xpan - l.map.cur_ref_x + l.map.px0 =:> pos.tx
-      l.map.ypan - l.map.cur_ref_y + l.map.py0 =:> pos.ty
+      context.map_translation_x =:> pos.tx
+      context.map_translation_y =:> pos.ty
 
       // Init Temporary with an id to -1
       GraphNode temporary (l.map, context, -1, 0, 0)
@@ -468,11 +468,11 @@ Component root {
       OutlineColor _ (234, 234, 234)
 
       Scaling sc (1, 1, 0, 0)
-      l.map.zoom =:> sc.sx, sc.sy
+      context.map_scale =:> sc.sx, sc.sy
 
       Translation pos (0, 0)
-      l.map.xpan - l.map.cur_ref_x + l.map.px0 =:> pos.tx
-      l.map.ypan - l.map.cur_ref_y + l.map.py0 =:> pos.ty
+      context.map_translation_x =:> pos.tx
+      context.map_translation_y =:> pos.ty
     
       Line temp_shadow_edge (0, 0, 0, 0)
 

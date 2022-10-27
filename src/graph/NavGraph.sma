@@ -6,7 +6,7 @@ import Node
 import Edge
 
 _define_
-NavGraph (Process _map, Process _context, Process f, Process _model_manager)
+NavGraph (Process _map, Process _context, Process _model_manager)
 {
 	map aka _map
 	context aka _context
@@ -17,11 +17,11 @@ NavGraph (Process _map, Process _context, Process f, Process _model_manager)
 	Int id (0)
 
 	Scaling sc (1, 1, 0, 0)
-	map.zoom =:> sc.sx, sc.sy
+	_context.map_scale =:> sc.sx, sc.sy
 
 	Translation pos (0, 0)
-	map.xpan - map.cur_ref_x + map.px0 =:> pos.tx
-	map.ypan - map.cur_ref_y + map.py0 =:> pos.ty
+	_context.map_translation_x =:> pos.tx
+	_context.map_translation_y =:> pos.ty
 
 	List edges {
 		
