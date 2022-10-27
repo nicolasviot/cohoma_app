@@ -18,7 +18,7 @@ _define_
 TrapLayer (Process _map, Process _context, Process _model_manager)
 {
 	map aka _map
-	//context aka _context
+	context aka _context
 	model_manager aka _model_manager
 
 	// Load only once SVG file
@@ -46,7 +46,7 @@ TrapLayer (Process _map, Process _context, Process _model_manager)
 		print ("New model of trap added to list " + this.model_manager.traps.size + "\n")
 		model = getRef (&this.model_manager.traps.$added)
     	addChildrenTo this.traps {
-			Trap trap (this.map, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon)
+			Trap trap (this.map, this.context, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon)
 		}
 	}
 
@@ -54,4 +54,5 @@ TrapLayer (Process _map, Process _context, Process _model_manager)
 		print ("Model of trap removed from list " + this.model_manager.traps.size + "\n")
 		//model = getRef (&this.model_manager.traps.$removed)
 	}
+
 }

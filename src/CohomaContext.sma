@@ -13,11 +13,17 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
 {
     //frame aka _frame
 
-	//LogPrinter lp ("Context (debug): ")
+	LogPrinter lp ("Context (debug): ")
+    TextPrinter tp
 
     Double init_lat (_init_lat)
     Double init_lon (_init_lon)
     Double init_zoom (_init_zoom)
+
+    // scale and translation applied to the map
+    Double map_scale (1.0)
+    Double map_translation_x (0.0)
+    Double map_translation_y (0.0)
 
     // CONST
     Int RIGHT_PANEL_WIDTH (425)
@@ -57,7 +63,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
 
 
 
-    //Ref REF_NULL (0)
+    Ref REF_NULL (0)
 
 
     // Keyboard inputs 
@@ -89,11 +95,18 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int selected_node_id (0)
     //selected_node_id =:> lp.input
 
-	//Int selected_trap_id (1)
-
 	Ref entered_wpt (0)
 
-	Ref current_trap (0)
-	Ref entered_trap (0)
+    Bool is_null_current_trap (1)
+    Ref ref_current_trap (0)
+	//Ref ref_current_trap_model (0)
+
+    // 0 = not lazy (updated on first activation)
+    AssignmentSequence set_current_trap_to_null (0) {
+        REF_NULL =: ref_current_trap
+    }
+
+    ref_current_trap == REF_NULL ? 1 : 0 =:> is_null_current_trap
+    //"is_null_current_trap ? " + is_null_current_trap =:> tp.input
 	
 }

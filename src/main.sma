@@ -37,6 +37,7 @@ import SafetyPilot
 import Vehicule
 import task.TaskLayer
 import trap.TrapLayer
+import trap.TrapStatusSelector
 import site.SiteLayer
 import menu.UpperLeftMenu
 import menu.RightPannel
@@ -79,7 +80,7 @@ Component root {
   init_ros ()
   
   // Use static data model for debug
-  int is_debug = 0
+  int is_debug = 1
   // Use "#ifndef NO_ROS" instead
 
 
@@ -121,6 +122,7 @@ Component root {
 
   LogPrinter lp ("Main (debug): ")
 
+  Spike press_on_background
   Spike show_reticule
   Spike hide_reticule
 
@@ -162,6 +164,11 @@ Component root {
     //f.height - context.STRIP_HEIGHT =:> map.height
     init_frame_width - context.RIGHT_PANEL_WIDTH =: map.width
     init_frame_height - context.STRIP_HEIGHT =: map.height
+
+    map.g_map.pz.press_trigger -> press_on_background
+    map.zoom =:> context.map_scale
+    map.xpan - map.cur_ref_x + map.px0 =:> context.map_translation_x
+    map.ypan - map.cur_ref_y + map.py0 =:> context.map_translation_y
 
     Component geoportail {
       Switch ctrl_visibility (visible) {
@@ -313,8 +320,7 @@ Component root {
       String name("Allocation")
       allocated_tasks_layer aka ctrl_visibility.visible.layer
     }
-
-      
+     
     
     addChildrenTo map.layers {
       geoportail,
@@ -349,8 +355,8 @@ Component root {
       mode_wp_edit->mode_wp_create (create)
     }
 
-    // FIXME: only 1 TrapStatusSelector
-    //TrapStatusSelector trap_menu (f, context)
+    TrapStatusSelector trap_menu (f, context)
+    press_on_background -> trap_menu.close
   }
 
   show_reticule -> l.map.reticule.show_reticule, foreground.create

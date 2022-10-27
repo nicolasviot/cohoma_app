@@ -5,7 +5,6 @@ use animation
 
 import behavior.DraggableItemWithRadius
 //import gui.animation.Animator
-import TrapStatusSelector
 import ros_node
 
 _native_code_
@@ -15,10 +14,13 @@ _native_code_
 
 
 _define_
-Trap (Process _map, Process _model, Process _svg_info, Process _svg_remotely_icon, Process _svg_contact_icon)
+Trap (Process _map, Process _context, Process _model, Process _svg_info, Process _svg_remotely_icon, Process _svg_contact_icon)
 {
     //map aka _map
+    context aka _context
     model aka _model
+
+    //TextPrinter tp
 
     Translation screen_translation (0, 0)
 
@@ -120,7 +122,7 @@ Trap (Process _map, Process _model, Process _svg_info, Process _svg_remotely_ico
         // Allow to drag via "picking"
         DraggableItemWithRadius draggable_item (_map, _model.lat, _model.lon, _model.radius, screen_translation.tx, screen_translation.ty, picking, c.r)
 
-    }  
+    }
 
 
     ///////TRAP INFO OVERLAY ON HOVER //////
@@ -145,9 +147,9 @@ Trap (Process _map, Process _model, Process _svg_info, Process _svg_remotely_ico
     }
 
 
-    // menu to manually set the state
-    // FIXME: only once for whole app
-    TrapStatusSelector menu (this)
-    content.picking.right.press -> menu.toggle_show_hide
+    content.picking.right.press -> {
+        this =: _context.ref_current_trap
+        //_model =: _context.ref_current_trap_model
+    }
     
 }
