@@ -35,8 +35,6 @@ GraphNode (Process map, Process _context, int _id, double _lat, double _lon)
     Spike disable_drag
     Spike renable_drag
     Spike leave
-    //Spike left_press
-    Spike right_press
     Spike enter
 
     Int default_radius (10)
@@ -148,13 +146,12 @@ GraphNode (Process map, Process _context, int _id, double _lat, double _lon)
 
     interact_mask.enter -> enter
     interact_mask.leave -> leave
-    //interact_mask.left.press -> left_press
-    interact_mask.right.press -> right_press
 
-    interact_mask.enter -> {
-		this =: _context.entered_wpt
-	}
-    interact_mask.press -> {
+    interact_mask.right.press -> {
+        this =: _context.ref_current_node
+    }
+
+    interact_mask.left.press -> {
         id =: _context.selected_node_id
     }
     

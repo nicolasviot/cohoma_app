@@ -62,8 +62,8 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int MANDATORY_COL (#FF30FF)
 
 
-
-    Ref REF_NULL (0)
+    // CONST: always null
+    Ref REF_NULL (nullptr)
 
 
     // Keyboard inputs 
@@ -95,11 +95,25 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int selected_node_id (0)
     //selected_node_id =:> lp.input
 
-	Ref entered_wpt (0)
 
+    // Node currently being edited in the status menu
+    Bool is_null_current_node (1)
+    Ref ref_current_node (nullptr)
+
+    // 0 = not lazy (updated on first activation)
+    AssignmentSequence set_current_node_to_null (0) {
+        REF_NULL =: ref_current_node
+    }
+
+    ref_current_node == REF_NULL ? 1 : 0 =:> is_null_current_node
+    // Djnn C++
+    // is_null_current_node->set_value(get_property_value (ref_current_node) == get_property_value (REF_NULL) ? 1 : 0, 1);
+    //"is NULL current node ? " + is_null_current_node =:> tp.input
+
+
+    // Trap currently being edited in the status menu
     Bool is_null_current_trap (1)
-    Ref ref_current_trap (0)
-	//Ref ref_current_trap_model (0)
+    Ref ref_current_trap (nullptr)
 
     // 0 = not lazy (updated on first activation)
     AssignmentSequence set_current_trap_to_null (0) {
@@ -107,6 +121,8 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     }
 
     ref_current_trap == REF_NULL ? 1 : 0 =:> is_null_current_trap
-    //"is_null_current_trap ? " + is_null_current_trap =:> tp.input
+    // Djnn C++
+    //is_null_current_trap->set_value(get_property_value (ref_current_trap) == get_property_value (REF_NULL) ? 1 : 0, 1);
+    //"is NULL current trap ? " + is_null_current_trap =:> tp.input
 	
 }

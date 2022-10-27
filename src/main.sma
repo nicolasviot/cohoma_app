@@ -364,16 +364,23 @@ Component root {
   }
 
 
+  // ----------------------------------------------------
   // Foreground (absolute position in frame)
   Component foreground {
     Spike edit
     Spike create
 
+    Scaling sc (1, 1, 0, 0)
+    context.map_scale =:> sc.sx, sc.sy
+
+    Translation pos (0, 0)
+    context.map_translation_x =:> pos.tx
+    context.map_translation_y =:> pos.ty
+
     FSM fsm_mode {
       State mode_wp_edit {
         NodeStatusSelector node_menu (f, context)
-        //f.move.x =:> node_menu.x
-        //f.move.y =:> node_menu.y
+        press_on_background -> context.set_current_node_to_null
       }
       State mode_wp_create
 
@@ -382,7 +389,7 @@ Component root {
     }
 
     TrapStatusSelector trap_menu (f, context)
-    press_on_background -> trap_menu.close
+    press_on_background -> context.set_current_trap_to_null
   }
 
   show_reticule -> l.map.reticule.show_reticule, foreground.create
@@ -458,10 +465,10 @@ Component root {
   Spike disable_drag
   Spike renable_drag
 
+  context.del -> context.set_current_node_to_null
   context.del -> clear_all
   
 
-  Ref null_ref (0)
   RefProperty current_addedge_node (nullptr)
   DerefDouble ddx (current_addedge_node, "wpt/screen_translation/tx", DJNN_GET_ON_CHANGE)
   DerefDouble ddy (current_addedge_node, "wpt/screen_translation/ty", DJNN_GET_ON_CHANGE)
@@ -529,16 +536,14 @@ Component root {
   add_edges -> hide_reticule
 
   clear_temp_list -> (root) {
-    root.context.entered_wpt = &(root.null_ref)
-    root.current_addedge_node = &(root.null_ref)
+    root.current_addedge_node = &root.context.REF_NULL
 
     delete_content root.l.map.layers.navgraph.shadow_edges
     delete_content root.addEdge.preview_on.temp_id_list
   }
 
   clear_all -> (root) {
-    root.context.entered_wpt = &(root.null_ref)
-    root.current_addedge_node = &(root.null_ref)
+    root.current_addedge_node = &root.context.REF_NULL
     
     delete_content root.l.map.layers.navgraph.edges
     delete_content root.l.map.layers.navgraph.shadow_edges
@@ -546,7 +551,8 @@ Component root {
   }
 
   add_first_wpt -> (root){
-    root.current_addedge_node = &(root.null_ref)
+    root.current_addedge_node = &root.context.REF_NULL
+
     addChildrenTo root.addEdge.preview_on.temp_id_list{
       Int _($root.context.selected_node_id)
     }

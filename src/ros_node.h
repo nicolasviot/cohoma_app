@@ -117,7 +117,10 @@ class RosNode : public FatProcess, public ExternalSource
     // fw = file writer
     CoreProcess *_clock, *_console, *_fw_input, *_fw_console_input;
 
-    RefProperty *_entered_wpt;
+    // In context
+    RefProperty* _ref_NULL;
+    RefProperty* _ref_current_node;
+    RefProperty* _ref_current_trap;
     TextProperty *_id_curent_itenerary;
 
     //Planif VAB

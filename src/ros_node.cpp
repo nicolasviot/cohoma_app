@@ -182,7 +182,10 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_drone_safety_pilot, CoreProcess, _model_manager, safety_pilots/drone_safety_pilot)
   GET_CHILD_VAR2 (_ground_safety_pilot, CoreProcess, _model_manager, safety_pilots/ground_safety_pilot)
 
-  GET_CHILD_VAR2 (_entered_wpt, RefProperty, _parent, parent/context/entered_wpt)
+  // Context
+  GET_CHILD_VAR2 (_ref_NULL, RefProperty, _context, REF_NULL)
+  GET_CHILD_VAR2 (_ref_current_node, RefProperty, _context, ref_current_node)
+  GET_CHILD_VAR2 (_ref_current_trap, RefProperty, _context, ref_current_trap)
 
   GET_CHILD_VAR2 (_georef_visibility_map, CoreProcess, _parent, parent/l/map/layers/result/georef_visibility_map)
   GET_CHILD_VAR2 (_visibility_map, DataImage, _parent, parent/l/map/layers/result/visibility_map)
@@ -229,7 +232,10 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received new navgraph\n", true)
   
-  _entered_wpt->set_value ((CoreProcess*)nullptr, true);
+  // Reset "_ref_current_node" in case it contains a pointer on a node that will be removed
+  //_ref_current_node->set_value ((CoreProcess*)nullptr, true);
+  _ref_current_node->set_value (_ref_NULL, true);
+
 
     Container *_task_edge_container = dynamic_cast<Container *> (_task_edges);
     if (_task_edge_container) {

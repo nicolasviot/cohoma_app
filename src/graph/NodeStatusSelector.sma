@@ -4,35 +4,37 @@ use gui
 
 
 _define_
-NodeStatusSelector (Process f, Process _context)
+NodeStatusSelector (Process _frame, Process _context)
 {
-    Translation pos (0, 0)
-    x aka pos.tx
-    y aka pos.ty
+    TextPrinter tp
 
-    cur_wpt aka _context.entered_wpt
+    String selected_status ("default")
+
+    DerefDouble tx (_context.ref_current_node, "screen_translation/tx", DJNN_GET_ON_CHANGE)
+    DerefDouble ty (_context.ref_current_node, "screen_translation/ty", DJNN_GET_ON_CHANGE)
+
+    Translation tr (0, 0)
+    tx.value + 3 => tr.tx
+    ty.value => tr.ty
+
+    // FIXME: replace by model when GraphNode will be linked to its model
+    //DerefInt model_id (_context.ref_current_node, "model/id", DJNN_GET_ON_CHANGE)
+    DerefInt model_id (_context.ref_current_node, "id", DJNN_GET_ON_CHANGE)
+    //DerefString model_status (_context.ref_current_node, "model/status", DJNN_GET_ON_CHANGE)
+    DerefString model_status (_context.ref_current_node, "usage_status", DJNN_GET_ON_CHANGE)
+    //"id: " + model_id.value + " -- status: " + model_status.value =:> tp.input
 
 
-    DerefString wp_status (cur_wpt, "usage_status", DJNN_GET_ON_CHANGE)
-    Deref wp_leave (cur_wpt, "leave")
-    Deref wp_press (cur_wpt, "right_press")
-    //Spike show
-    //Spike hide
-    String status ("default")
-
-    AssignmentSequence set_status (1) {
-        status =: wp_status.value
+    AssignmentSequence set_status_to_model (1) {
+        selected_status =: model_status.value
     }
+    set_status_to_model -> _context.set_current_node_to_null
+
 
     svg = loadFromXML ("res/svg/status_selector.svg")
 
-    FSM ctrl_visibility {
-        State idle
-
-        State hidden {
-            f.move.x =:> x
-            f.move.y =:> y
-        }
+    FSM fsm {
+        State hidden
         
         State visible {
             bg << svg.bg
@@ -41,38 +43,40 @@ NodeStatusSelector (Process f, Process _context)
             m_mandatory << svg.mask_mandatory
             m_forced << svg.mask_forced
             m_default << svg.mask_default
+            
             Spike press
+            
             FSM fsm_status {
                 State default {
                     r_default << svg.rect_default
-                    "default" =: status
-                    r_default.press->press
+                    "default" =: selected_status
+                    r_default.press -> set_status_to_model
                 }
                 State start {
                     r_start << svg.rect_start
-                    "start" =: status
-                    r_start.press->press
+                    "start" =: selected_status
+                    r_start.press -> set_status_to_model
                 }
                 State end {
                     r_end << svg.rect_end
-                    "end" =: status
-                    r_end.press->press
+                    "end" =: selected_status
+                    r_end.press -> set_status_to_model
                 }
                 State mandatory {
                     r_mandatory << svg.rect_mandatory
-                    "mandatory" =: status
-                    r_mandatory.press->press
+                    "mandatory" =: selected_status
+                    r_mandatory.press -> set_status_to_model
                 }
                 State forced {
                     r_forced << svg.rect_forced
-                    "forced" =: status
-                    r_forced.press->press
+                    "forced" =: selected_status
+                    r_forced.press -> set_status_to_model
                 }
-                {start, mandatory, forced, end}->default (m_default.enter)
-                {default, start, end, forced}->mandatory (m_mandatory.enter)
-                {default, start, end, mandatory}->forced (m_forced.enter)
-                {default, end, mandatory, forced}->start (m_start.enter)
-                {default, start, mandatory, forced}->end (m_end.enter)
+                {start, mandatory, forced, end} -> default (m_default.enter)
+                {default, start, end, forced} -> mandatory (m_mandatory.enter)
+                {default, start, end, mandatory} -> forced (m_forced.enter)
+                {default, end, mandatory, forced} -> start (m_start.enter)
+                {default, start, mandatory, forced} -> end (m_end.enter)
                 
             }
             t_start << svg.start
@@ -81,11 +85,9 @@ NodeStatusSelector (Process f, Process _context)
             t_forced << svg.forced
             t_default << svg.default
         }
-        idle->hidden (cur_wpt)
-        hidden->idle (wp_leave.activation)
-        hidden->visible (wp_press.activation)
-        visible->hidden (visible.press, set_status)
-        visible->hidden (f.press)
+        hidden -> visible (_context.is_null_current_node.false)
+        visible -> hidden (_context.is_null_current_node.true)
     }
-    wp_status.value =:> ctrl_visibility.visible.fsm_status.initial 
+    // FIXME: works only if menu is closed, then opened again
+    model_status.value =:> fsm.visible.fsm_status.initial 
 }

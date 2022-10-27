@@ -149,7 +149,6 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
 
     content.picking.right.press -> {
         this =: _context.ref_current_trap
-        //_model =: _context.ref_current_trap_model
     }
     
 }
