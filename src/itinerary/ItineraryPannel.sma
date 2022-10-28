@@ -19,9 +19,9 @@ ItineraryPannel(Process _context, Process _model_manager, Process _id_selected)
 	gfx_itineraries << svg_itineraries.itinerary_panel
 
 	Spike plan_set
-	ItineraryDescriptor first (0, 44, "selected", "Shorter")
-	ItineraryDescriptor second (0, 96, "unselected", "Safer")
-	ItineraryDescriptor third (0, 148, "unselected", "Mix")
+	ItineraryDescriptor first (_context, _model_manager.itineraries.shortest, "Shorter", 44)
+	ItineraryDescriptor second (_context, _model_manager.itineraries.safest, "Safer", 96)
+	ItineraryDescriptor third (_context, _model_manager.itineraries.tradeoff, "Mix", 148)
 	
 	first.plan_set -> plan_set
 	second.plan_set -> plan_set

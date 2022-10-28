@@ -21,11 +21,14 @@ ItineraryModel (Process _context, string _type)
 	Regex regex (".* Planning (\\S*) .* cost (\\S*)")
 
 	String legend ("")
-	String cost ("")
+	String cost ("0.0")
 	
 	description_input =:> regex.input
-	regex.[1] =:> legend
-  	regex.[2] =:> cost
+	//regex.[1] =:> legend
+  	//regex.[2] =:> cost
+
+	// FIXME
+	"Itinerary: " + type =: legend
 	
 	LogPrinter lp ("Itinerary regexp (debug): ")
 	description_input =:> lp.input
