@@ -7,12 +7,12 @@ import widgets.Button
 
 _native_code_
 %{
-	#include "string.h"
+	//#include "string.h"
 	#include <iostream>
 %}
 
 _define_
-ItineraryDescriptor(Process _context, Process _model, string id, double dy)
+ItineraryStrip(Process _context, Process _model, string id, double dy)
 {
 	//context aka _context
 	//model aka _model

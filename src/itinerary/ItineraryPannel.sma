@@ -5,7 +5,7 @@ use display
 use animation
 
 import gui.animation.Animator
-import ItineraryDescriptor
+import ItineraryStrip
 
 _define_
 ItineraryPannel(Process _context, Process _model_manager, Process _id_selected)
@@ -19,9 +19,9 @@ ItineraryPannel(Process _context, Process _model_manager, Process _id_selected)
 	gfx_itineraries << svg_itineraries.itinerary_panel
 
 	Spike plan_set
-	ItineraryDescriptor first (_context, _model_manager.itineraries.shortest, "Shorter", 44)
-	ItineraryDescriptor second (_context, _model_manager.itineraries.safest, "Safer", 96)
-	ItineraryDescriptor third (_context, _model_manager.itineraries.tradeoff, "Mix", 148)
+	ItineraryStrip first (_context, _model_manager.itineraries.shortest, "Shorter", 44)
+	ItineraryStrip second (_context, _model_manager.itineraries.safest, "Safer", 96)
+	ItineraryStrip third (_context, _model_manager.itineraries.tradeoff, "Mix", 148)
 	
 	first.plan_set -> plan_set
 	second.plan_set -> plan_set
