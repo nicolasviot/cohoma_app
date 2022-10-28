@@ -161,15 +161,23 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_task_allocated_areas, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/areas)
   GET_CHILD_VAR2 (_task_allocated_traps, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/traps)
 
+  // Site
   GET_CHILD_VAR2 (_exclusion_areas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/exclusion_areas)
   GET_CHILD_VAR2 (_limas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/limas)
+
   GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_pannel/clock)
   GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_pannel/clock/fw/input)
   GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/right_pannel/clock/fw_console/input)
   GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_pannel/console)
+
+  // Itineraries
+  GET_CHILD_VAR2 (_shortest_itinerary, CoreProcess, _model_manager, itineraries/shortest)
+  GET_CHILD_VAR2 (_safest_itinerary, CoreProcess, _model_manager, itineraries/safest)
+  GET_CHILD_VAR2 (_tradeoff_itinerary, CoreProcess, _model_manager, itineraries/tradeoff)
+
   GET_CHILD_VAR2 (_itineraries_list, Component, _parent, parent/l/map/layers/itineraries/itineraries_list)
-  GET_CHILD_VAR2 (_id_curent_itenerary, TextProperty, _parent, parent/l/map/layers/itineraries/id)
-  GET_CHILD_VAR2 (_ref_curent_itenerary, RefProperty, _parent, parent/l/map/layers/itineraries/ref_current_itinerary)
+  GET_CHILD_VAR2 (_id_curent_itinerary, TextProperty, _parent, parent/l/map/layers/itineraries/id)
+  GET_CHILD_VAR2 (_ref_curent_itinerary, RefProperty, _parent, parent/l/map/layers/itineraries/ref_current_itinerary)
   GET_CHILD_VAR2 (_edge_released_na, NativeAction, _parent, parent/l/map/layers/itineraries/edge_released_na)
   
   GET_CHILD_VAR2 (_vab, CoreProcess, _model_manager, vehicles/vab)
@@ -294,7 +302,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
         child = nullptr;
       }
     }
-    _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
+    _ref_curent_itinerary->set_value ((CoreProcess*)nullptr, true);
     
 
   Container *_edge_container = dynamic_cast<Container *> (_edges);
@@ -413,7 +421,7 @@ RosNode::test_multiple_itineraries(){
         child = nullptr;
       }
     }
-    _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
+    _ref_curent_itinerary->set_value ((CoreProcess*)nullptr, true);
 
   ////std::cerr << "in RosNode::test_multiple_itineraries - size after "  << _itineraries_list->children ().size () <<std::endl;
 
@@ -446,7 +454,7 @@ RosNode::test_multiple_itineraries(){
         }
       }
     }
-    _id_curent_itenerary->set_value (first_id, true);
+    _id_curent_itinerary->set_value (first_id, true);
 
   //debug
   //int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
@@ -496,7 +504,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       child = nullptr;
     }
   }
-  _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
+  _ref_curent_itinerary->set_value ((CoreProcess*)nullptr, true);
 
 
   string first_id = "";
@@ -516,7 +524,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       }
     }
   }
-  SET_CHILD_VALUE (Text, _id_curent_itenerary, , first_id, true)
+  SET_CHILD_VALUE (Text, _id_curent_itinerary, , first_id, true)
 
   SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/first/description_input, msg->itineraries[0].description, true)
   SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/second/description_input, msg->itineraries[1].description, true)
@@ -524,6 +532,13 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
   SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/first/itinerary_id, msg->itineraries[0].id, true)
   SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/second/itinerary_id,msg->itineraries[1].id, true )
   SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/third/itinerary_id, msg->itineraries[2].id, true)
+
+  SET_CHILD_VALUE (Text, _shortest_itinerary, type, msg->itineraries[0].id, true)
+  SET_CHILD_VALUE (Text, _shortest_itinerary, description_input, msg->itineraries[0].description, true)
+  SET_CHILD_VALUE (Text, _safest_itinerary, type, msg->itineraries[1].id, true)
+  SET_CHILD_VALUE (Text, _safest_itinerary, description_input, msg->itineraries[1].description, true)
+  SET_CHILD_VALUE (Text, _tradeoff_itinerary, type, msg->itineraries[2].id, true)
+  SET_CHILD_VALUE (Text, _tradeoff_itinerary, description_input, msg->itineraries[2].description, true)
   
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
@@ -546,7 +561,7 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
       child = nullptr;
     }
   }
-  _ref_curent_itenerary->set_value ((CoreProcess*)nullptr, true);
+  _ref_curent_itinerary->set_value ((CoreProcess*)nullptr, true);
 
   //Color:
   int unselected = 0x232323;
@@ -1198,7 +1213,7 @@ void
 RosNode::send_validation_plan(){
 
   icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
-  message.data = _id_curent_itenerary->get_string_value();
+  message.data = _id_curent_itinerary->get_string_value();
   message.header.stamp = _node->get_clock()->now();
   publisher_validation->publish(message);
 

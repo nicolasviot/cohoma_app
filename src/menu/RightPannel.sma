@@ -87,12 +87,12 @@ RightPannel (Process _context, Process _model_manager, Process _frame, Process _
 	Translation _ (0, 125)
 	
 	// Panel with the 3 itineraries
-	ItineraryPannel itineraryPannel(0, 0, _itineraries.id)
+	ItineraryPannel itineraryPannel(_context, _model_manager, _itineraries.id)
 
-	plan_request -> itineraryPannel.startWaitingAnim
+	plan_request -> itineraryPannel.start_waiting_anim
 	//TODO add a stop for the update animation when receiving data from ros 
-	// trigger   itineraryPannel.stopWaitingAnim
-	//itineraryPannel.first.sw.unselected.bg.press ->  itineraryPannel.stopWaitingAnim
+	// trigger   itineraryPannel.stop_waiting_anim
+	//itineraryPannel.first.sw.unselected.bg.press ->  itineraryPannel.stop_waiting_anim
 
 	Translation _ (0, 200)
 	Component validate_tasks_button

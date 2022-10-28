@@ -8,14 +8,15 @@ import gui.animation.Animator
 import ItineraryDescriptor
 
 _define_
-ItineraryPannel(double _dx, double _dy, Process _id_selected)
+ItineraryPannel(Process _context, Process _model_manager, Process _id_selected)
 {
-	Translation t (_dx, _dy)
+	//context aka _context
+	//model_manager aka _model_manager
 
 	id_selected aka _id_selected
 
-	ite_svg = loadFromXML ("res/svg/Itinerary_Panel.svg")
-	ite_gfx << ite_svg.itinerary_panel
+	svg_itineraries = loadFromXML ("res/svg/Itinerary_Panel.svg")
+	gfx_itineraries << svg_itineraries.itinerary_panel
 
 	Spike plan_set
 	ItineraryDescriptor first (0, 44, "selected", "Shorter")
@@ -54,36 +55,34 @@ ItineraryPannel(double _dx, double _dy, Process _id_selected)
 	}
 
 
-	//waiting feedback
+	///// WAITING FEEDBACK /////
+    Spike start_waiting_anim
+    Spike stop_waiting_anim
 
-	//HIGHLIGHT ANIMATION ON REQUEST /////
-    Spike startWaitingAnim
-    Spike stopWaitingAnim
-    id_selected -> stopWaitingAnim
-    Animator radius_anim (800, 0, 360, DJN_IN_OUT_SINE, 1, 0)
+    id_selected -> stop_waiting_anim
+    Animator anim_rotation (800, 0, 360, DJN_IN_OUT_SINE, 1, 0)
+    20 =: anim_rotation.fps
 
-    20 =: radius_anim.fps
-    startWaitingAnim -> radius_anim.start
-    stopWaitingAnim -> radius_anim.reset
-    stopWaitingAnim -> radius_anim.abort
-
+    start_waiting_anim -> anim_rotation.start
+    stop_waiting_anim -> anim_rotation.reset
+    stop_waiting_anim -> anim_rotation.abort
 	
-    FSM locate_FSM{
-        State idle{
+    FSM fsm_waiting {
+        State idle
 
-        }
-        State animate{
-			Translation _ (100,15)
-			FillColor _ (200,200,200)
+        State animate {
+			Translation _ (100, 15)
+			FillColor _ (200, 200, 200)
 			Text _ (30, 12, "computing itinerary")
+			
 			Rotation rot (0, 10, 5)
 			FillColor _ (100,250,100)
 			Rectangle _ (0, 0, 20, 10, 5,5)
-			radius_anim.output =:> rot.a
+			anim_rotation.output =:> rot.a
         }
        
-        idle -> animate (startWaitingAnim)
-        animate -> idle (stopWaitingAnim)
+        idle -> animate (start_waiting_anim)
+        animate -> idle (stop_waiting_anim)
     }
 
 }

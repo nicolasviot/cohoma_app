@@ -60,8 +60,8 @@ Console (double _dx, double _dy, Process _node)
 
   /*	Translation t (_dx, _dy)
     
-    ite_svg = loadFromXML ("res/svg/CompteRendu.svg")
-    ite_gfx << ite_svg.itinerary_panel
+    svg = loadFromXML ("res/svg/CompteRendu.svg")
+    gfx << svg. ...
   */
 
 
