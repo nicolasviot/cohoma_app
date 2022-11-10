@@ -176,7 +176,7 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_tradeoff_itinerary, CoreProcess, _model_manager, itineraries/tradeoff)
 
   GET_CHILD_VAR2 (_itineraries_list, Component, _parent, parent/l/map/layers/itineraries/itineraries_list)
-  GET_CHILD_VAR2 (_id_curent_itinerary, TextProperty, _parent, parent/l/map/layers/itineraries/id)
+  GET_CHILD_VAR2 (_id_curent_itinerary, TextProperty, _parent, parent/l/map/layers/itineraries/fixme_id)
   GET_CHILD_VAR2 (_ref_curent_itinerary, RefProperty, _parent, parent/l/map/layers/itineraries/ref_current_itinerary)
   GET_CHILD_VAR2 (_edge_released_na, NativeAction, _parent, parent/l/map/layers/itineraries/edge_released_na)
   
@@ -377,6 +377,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     SET_CHILD_VALUE(Bool, node_, wpt/isMandatory, isPPO, true)
   }
 
+  cout << "receive_msg_navgraph" << endl;
   for (auto& edge: j_graph["edges"]) {
     std::string source = edge["source"].get<std::string>();
     std::string target = edge["target"].get<std::string>();
@@ -464,9 +465,10 @@ RosNode::test_multiple_itineraries(){
 
 #ifndef NO_ROS
 void 
-RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg) {
- 
-  std::vector<std::pair<string,std::vector<int>>> msg_struct;
+RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg)
+{
+  cout << "receive_msg_graph_itinerary_loop" << endl; 
+  std::vector<std::pair<string, std::vector<int>>> msg_struct;
   
   if (msg->itineraries.size () <= 0)
     return;
@@ -478,10 +480,11 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received " + std::to_string(msg->itineraries.size()) + " itineraries\n", true);
  
-  for (int i = 0; i <msg->itineraries.size(); i++){
+  for (int i = 0; i < msg->itineraries.size(); i++) {
     std::string id = msg->itineraries[i].id;
     std::vector<int> nodes;
 
+    cout << "Iti " << i << " with " << msg->itineraries[i].nodes.size() << " nodes" << endl;
     for (int j = 0; j < msg->itineraries[i].nodes.size(); j++){
       nodes.push_back(std::stoi(msg->itineraries[i].nodes[j]));
     }
@@ -509,10 +512,12 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
 
   string first_id = "";
   for (auto ros_itinerary : msg_struct) {
-  // get first id
+    // set first id
     if (first_id == "")
       first_id = ros_itinerary.first;
-    Component *new_itinerary = new Component ( _itineraries_list, ros_itinerary.first );
+    
+    cout << "New child of _itineraries_list with id " << ros_itinerary.first << endl;
+    Component *new_itinerary = new Component (_itineraries_list, ros_itinerary.first);
     new TextProperty (new_itinerary, "id", ros_itinerary.first);
     List* new_ite_edges = new List (new_itinerary, "edges");
     int ite_edges_size = ros_itinerary.second.size ();
@@ -526,18 +531,19 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
   }
   SET_CHILD_VALUE (Text, _id_curent_itinerary, , first_id, true)
 
-  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/first/description_input, msg->itineraries[0].description, true)
-  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/second/description_input, msg->itineraries[1].description, true)
-  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/third/description_input, msg->itineraries[2].description, true)
-  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/first/itinerary_id, msg->itineraries[0].id, true)
-  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/second/itinerary_id,msg->itineraries[1].id, true )
-  SET_CHILD_VALUE (Text, _parent, parent/right_pannel/itineraryPannel/third/itinerary_id, msg->itineraries[2].id, true)
-
-  SET_CHILD_VALUE (Text, _shortest_itinerary, type, msg->itineraries[0].id, true)
+  cout << "Update model of iti 0: '" << msg->itineraries[0].id << "' -- description: " << msg->itineraries[0].description << endl;
+  SET_CHILD_VALUE (Text, _shortest_itinerary, uid, msg->itineraries[0].id, true)
+  //SET_CHILD_VALUE (Text, _shortest_itinerary, type, msg->itineraries[0].id, true)
   SET_CHILD_VALUE (Text, _shortest_itinerary, description_input, msg->itineraries[0].description, true)
-  SET_CHILD_VALUE (Text, _safest_itinerary, type, msg->itineraries[1].id, true)
+  
+  cout << "Update model of iti 1: '" << msg->itineraries[1].id << "' -- description: " << msg->itineraries[1].description << endl;
+  SET_CHILD_VALUE (Text, _safest_itinerary, uid, msg->itineraries[1].id, true)
+  //SET_CHILD_VALUE (Text, _safest_itinerary, type, msg->itineraries[1].id, true)
   SET_CHILD_VALUE (Text, _safest_itinerary, description_input, msg->itineraries[1].description, true)
-  SET_CHILD_VALUE (Text, _tradeoff_itinerary, type, msg->itineraries[2].id, true)
+  
+  cout << "Update model of iti 2: '" << msg->itineraries[2].id << "' -- description: " << msg->itineraries[2].description << endl;
+  SET_CHILD_VALUE (Text, _tradeoff_itinerary, uid, msg->itineraries[2].id, true)
+  //SET_CHILD_VALUE (Text, _tradeoff_itinerary, type, msg->itineraries[2].id, true)
   SET_CHILD_VALUE (Text, _tradeoff_itinerary, description_input, msg->itineraries[2].description, true)
   
   GRAPH_EXEC;
@@ -910,9 +916,9 @@ RosNode::deactivate_layer(std::string layer_to_deactivate){
 
 
 void 
-RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg){
-    
-
+RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
+{
+  cout << "receive_msg_allocation" << endl;
   get_exclusive_access(DBG_GET);
 
   Container *_layer_filter_container = dynamic_cast<Container *> (_layer_filter);

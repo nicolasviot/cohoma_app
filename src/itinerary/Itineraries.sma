@@ -27,7 +27,7 @@ id_changed_action (Process src, Process itineraries)
       	}
    	}
    
-	itinerary_to_move = find ( &itineraries, "itineraries_list/" + toString(itineraries.id))
+	itinerary_to_move = find ( &itineraries, "itineraries_list/" + toString(itineraries.fixme_id))
 	if (&itinerary_to_move != null) {
 		for (int i = 1; i <= $itinerary_to_move.edges.size; i++) {
 			color_value = find (itinerary_to_move, "edges/" + to_string(i) + "/outline_color/value")
@@ -42,13 +42,14 @@ id_changed_action (Process src, Process itineraries)
 _action_
 edge_released_action (Process src, Process data)
 {   
-
+	print ("edge_released_action\n")
 	//note:
 	// find the id of the itinerary that has been clicked.
 	// release(src)->line(edge)->component(edge)->list(edges)->component(itinerary)
 	itinerary_id = find (&src, "../../../../id")
+
 	// and assign it to current itineraries.id(data)
-	data.id = toString (itinerary_id)
+	data.fixme_id = toString (itinerary_id)
 }
 
 
@@ -59,7 +60,7 @@ Itineraries (Process _map, Process _context)
 
 	Spike create_bindings
 	Spike clear
-	String id ("")
+	String fixme_id ("")
 	Ref ref_current_itinerary (nullptr)
 	
 	Scaling sc (1, 1, 0, 0)
@@ -73,9 +74,9 @@ Itineraries (Process _map, Process _context)
 
 	NativeAction edge_released_na (edge_released_action, this, 1)
 	NativeAction id_changed_na (id_changed_action, this, 1)
-	id -> id_changed_na
+	fixme_id -> id_changed_na
 
 	//debug
-	// LogPrinter debug_itineraries("debug itineraries : ")
-	// id =:> debug_itineraries.input
+	LogPrinter debug_itineraries("Itineraries (debug) : ")
+	fixme_id =:> debug_itineraries.input
 }

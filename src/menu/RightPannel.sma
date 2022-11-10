@@ -87,7 +87,7 @@ RightPannel (Process _context, Process _model_manager, Process _frame, Process _
 	Translation _ (0, 125)
 	
 	// Panel with the 3 itineraries
-	ItineraryPannel itineraryPannel(_context, _model_manager, _itineraries.id)
+	ItineraryPannel itineraryPannel(_context, _model_manager, _itineraries.fixme_id)
 
 	plan_request -> itineraryPannel.start_waiting_anim
 	//TODO add a stop for the update animation when receiving data from ros 

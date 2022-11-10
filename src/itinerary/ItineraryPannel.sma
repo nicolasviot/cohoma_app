@@ -19,29 +19,29 @@ ItineraryPannel(Process _context, Process _model_manager, Process _id_selected)
 	gfx_itineraries << svg_itineraries.itinerary_panel
 
 	Spike plan_set
-	ItineraryStrip first (_context, _model_manager.itineraries.shortest, "Shorter", 44)
-	ItineraryStrip second (_context, _model_manager.itineraries.safest, "Safer", 96)
-	ItineraryStrip third (_context, _model_manager.itineraries.tradeoff, "Mix", 148)
+	ItineraryStrip first (_context, _model_manager.itineraries.shortest, 44)
+	ItineraryStrip second (_context, _model_manager.itineraries.safest, 96)
+	ItineraryStrip third (_context, _model_manager.itineraries.tradeoff, 148)
 	
 	first.plan_set -> plan_set
 	second.plan_set -> plan_set
 	third.plan_set -> plan_set
 
-	(toString(id_selected) == toString(first.itinerary_id)) ? "selected" : "unselected" =:> first.sw.state
-	(toString(id_selected) == toString(second.itinerary_id)) ? "selected" : "unselected" =:> second.sw.state
-	(toString(id_selected) == toString(third.itinerary_id)) ? "selected" : "unselected" =:> third.sw.state
+	(toString(id_selected) == toString(first.model.uid)) ? "selected" : "unselected" =:> first.sw.state
+	(toString(id_selected) == toString(second.model.uid)) ? "selected" : "unselected" =:> second.sw.state
+	(toString(id_selected) == toString(third.model.uid)) ? "selected" : "unselected" =:> third.sw.state
 
 	FSM fsm_select{
 		State idle
 		
-		State first_selected{
-			first.itinerary_id =?: id_selected
+		State first_selected {
+			first.model.uid =?: id_selected
 		}
-		State second_selected{
-			second.itinerary_id =?: id_selected
+		State second_selected {
+			second.model.uid =?: id_selected
 		}
-		State third_selected{
-			third.itinerary_id =?: id_selected
+		State third_selected {
+			third.model.uid =?: id_selected
 		}
 		idle -> first_selected (first.select)
 		idle -> second_selected (second.select)

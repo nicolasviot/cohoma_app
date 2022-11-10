@@ -12,26 +12,12 @@ _native_code_
 %}
 
 _define_
-ItineraryStrip(Process _context, Process _model, string id, double dy)
+ItineraryStrip(Process _context, Process _model, double dy)
 {
 	//context aka _context
-	//model aka _model
+	model aka _model
 
 	Translation t (0, dy)
-
-	// ex msg : "b39409be39-39090 Planning shortest|safest|tradeoff OK a path including PPO ... with cost 286.458"
-	//String description_input ("")
-	//Regex regex (".*Planning (\\S*) .* cost (\\S*)")
-	//String cost ("..")
-	//String legend ("Itinerary: ")
-	//description_input =:> regex.input
-
-	String itinerary_id (id)
-	
-	//LogPrinter lp ("Itinerary regexp (debug): ")
-	//description_input =:> lp.input
-	//regex.[1] =:> legend
-  	//regex.[2] =:> cost
 
 	FontFamily _ ("Helvetica")
     //FontWeight _ (50)

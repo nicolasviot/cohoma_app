@@ -249,7 +249,7 @@ Component root {
       itineraries_list aka ctrl_visibility.visible.layer.itineraries_list
       ref_current_itinerary aka ctrl_visibility.visible.layer.ref_current_itinerary
       edge_released_na aka  ctrl_visibility.visible.layer.edge_released_na
-      id aka ctrl_visibility.visible.layer.id
+      fixme_id aka ctrl_visibility.visible.layer.fixme_id
       String name ("Itineraries")
     }
 

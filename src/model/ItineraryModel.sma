@@ -13,26 +13,31 @@ ItineraryModel (Process _context, string _type)
 {
 	//context aka _context
 
+	// Const
 	String type (_type)
 
-	// ex msg : "b39409be39-39090 Planning shortest|safest|tradeoff OK a path including PPO ... with cost 286.458"
-	String description_input ("")
-	
-	Regex regex (".* Planning (\\S*) .* cost (\\S*)")
-
-	String legend ("")
-	String cost ("0.0")
-	
-	description_input =:> regex.input
-	//regex.[1] =:> legend
-  	//regex.[2] =:> cost
-
-	// FIXME
-	"Itinerary: " + type =: legend
-	
-	LogPrinter lp ("Itinerary regexp (debug): ")
-	description_input =:> lp.input
+	// Can be modified
+	String uid ("")
 
 	print ("Model of itinerary '" + type + "'\n")
 
+	// 'e5bd15ed-d7c3-4ddd-b80a-a1a8121f9e7e' -- 'Planning shortest OK: a path including PPOs was found with cost 501.248'
+	// 'b5ac3bb1-593c-4dff-b1bd-9dcca5c39ab2' -- 'Planning safest OK: a path including PPOs was found with cost 501.248'
+	// '4e5aa5e6-0ed4-430f-9094-d0e8295594e7' -- 'Planning tradeoff OK: a path including PPOs was found with cost 501.248'
+	String description_input ("")
+	
+	Regex regex ("^Planning (\\S*) .* cost (\\S*)$")
+
+	String legend ("???")
+	String cost ("0.0")
+	
+	description_input =:> regex.input
+	regex.[1] =:> legend
+  	regex.[2] =:> cost
+
+	// FIXME
+	//"Itinerary: " + type =: legend
+	
+	LogPrinter lp ("Itinerary regexp (debug): ")
+	type + " (" + uid + "): " + description_input =:> lp.input
 }
