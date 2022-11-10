@@ -26,7 +26,7 @@ TaskTrap (Process _map, Process _context, Process _model)
     builtin_interfaces/Time stamp       # identification stamp
     uint8 robot_id                      # Robot ID, see RobotState.msg
     geographic_msgs/GeoPoint location   # location
-string id                               # 4 digits
+    string id                           # 4 digits
     string description                  # text describing the kind of trap
     float32 radius                      # action radius [m]
     bool remotely_deactivate            # whether the trap can be deactivated remotely

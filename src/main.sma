@@ -469,7 +469,7 @@ Component root {
   context.del -> clear_all
   
 
-  RefProperty current_addedge_node (nullptr)
+  Ref current_addedge_node (nullptr)
   DerefDouble ddx (current_addedge_node, "wpt/screen_translation/tx", DJNN_GET_ON_CHANGE)
   DerefDouble ddy (current_addedge_node, "wpt/screen_translation/ty", DJNN_GET_ON_CHANGE)
  
