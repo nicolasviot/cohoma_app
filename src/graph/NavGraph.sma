@@ -12,9 +12,10 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 	context aka _context
 	model_manager aka _model_manager
 
-	Spike create_bindings
-	Spike clear
 	Int id (0)
+
+	//Spike create_bindings
+	//Spike clear
 
 	Scaling sc (1, 1, 0, 0)
 	_context.map_scale =:> sc.sx, sc.sy

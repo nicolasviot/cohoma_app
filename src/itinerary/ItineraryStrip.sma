@@ -69,6 +69,6 @@ ItineraryStrip (Process _context, Process _model, double dy)
 	}
 	compare_selected_uid.output =:> switch.state
 
-	//switch.selected -> select
+	//switch.true -> select
 
 }

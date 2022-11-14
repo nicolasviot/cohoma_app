@@ -45,12 +45,11 @@ edge_released_action (Process src, Process self)
 {   
 	print ("edge_released_action\n")
 	
-	//note:
 	// find the id of the itinerary that has been clicked.
 	// release(src)->line(edge)->component(edge)->list(edges)->component(itinerary)
 	itinerary_id = find (&src, "../../../../id")
 
-	// and assign it to current itineraries.id(self)
+	// and assign it to "selected_itinerary_id" in the context
 	self.context.selected_itinerary_id = toString (itinerary_id)
 }
 
@@ -61,10 +60,9 @@ Itineraries (Process _map, Process _context)
 	map aka _map
 	context aka _context
 
-	Spike create_bindings
-	Spike clear
-
 	Ref ref_current_itinerary (nullptr)
+
+	//Spike clear
 	
 	Scaling sc (1, 1, 0, 0)
 	_context.map_scale =:> sc.sx, sc.sy
@@ -73,6 +71,7 @@ Itineraries (Process _map, Process _context)
 	_context.map_translation_x =:> pos.tx
 	_context.map_translation_y =:> pos.ty
 
+	// Parent for itineraries
 	Component itineraries_list
 
 	NativeAction edge_released_na (edge_released_action, this, 1)
