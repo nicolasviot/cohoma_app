@@ -25,7 +25,7 @@ action_select_strip (Process src, Process self)
 
 
 _define_
-ItineraryPannel (Process _context, Process _model_manager)
+ItineraryPanel (Process _context, Process _model_manager)
 {
 	context aka _context
 	//model_manager aka _model_manager

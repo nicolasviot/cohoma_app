@@ -165,10 +165,10 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_exclusion_areas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/exclusion_areas)
   GET_CHILD_VAR2 (_limas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/limas)
 
-  GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_pannel/clock)
-  GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_pannel/clock/fw/input)
-  GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/right_pannel/clock/fw_console/input)
-  GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_pannel/console)
+  GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_panel/clock)
+  GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_panel/clock/fw/input)
+  GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/right_panel/clock/fw_console/input)
+  GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_panel/console)
 
   // Itineraries
   GET_CHILD_VAR2 (_shortest_itinerary, CoreProcess, _model_manager, itineraries/shortest)

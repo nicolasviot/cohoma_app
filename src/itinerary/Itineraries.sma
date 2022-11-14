@@ -2,9 +2,6 @@ use core
 use gui
 use base
 
-//import graph.Node
-//import graph.Edge
-
 _native_code_
 %{
 #include <iostream>

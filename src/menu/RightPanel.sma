@@ -4,12 +4,12 @@ use base
 
 import widgets.Button
 import gui.widgets.StandAlonePushButton
-import itinerary.ItineraryPannel
+import itinerary.ItineraryPanel
 import ClockComponent
 import Console
 
 _define_
-RightPannel (Process _context, Process _model_manager, Process _frame, Process _ros_node)
+RightPanel (Process _context, Process _model_manager, Process _frame, Process _ros_node)
 {
 	//context aka _context
 
@@ -86,13 +86,12 @@ RightPannel (Process _context, Process _model_manager, Process _frame, Process _
 
 	Translation _ (0, 125)
 	
-	// Panel with the 3 itineraries
-	ItineraryPannel itineraryPannel(_context, _model_manager)
+	// Panel with the 3 strips corresponding to 3 itineraries
+	ItineraryPanel itinerary_panel(_context, _model_manager)
 
-	plan_request -> itineraryPannel.start_waiting_anim
-	//TODO add a stop for the update animation when receiving data from ros 
-	// trigger   itineraryPannel.stop_waiting_anim
-	//itineraryPannel.first.sw.unselected.bg.press ->  itineraryPannel.stop_waiting_anim
+	plan_request -> itinerary_panel.start_waiting_anim
+	// TODO add a stop for the update animation when receiving data from ROS
+	// trigger itinerary_panel.stop_waiting_anim
 
 	Translation _ (0, 200)
 	Component validate_tasks_button

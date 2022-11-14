@@ -1,17 +1,16 @@
 /*
- *	Smala Map component
+ *	COHOMA (Collaboration Homme Machine) application
  *
  *	The copyright holders for the contents of this file are:
- *		Ecole Nationale de l'Aviation Civile, France (2021)
+ *	Ecole Nationale de l'Aviation Civile, France (2021-2022)
  *	See file "license.terms" for the rights and conditions
  *	defined by copyright holders.
  *
- *
  *	Contributors:
  *		Mathieu Magnaudet <mathieu.magnaudet@enac.fr>
+ *    Vincent Peyruqueou <vincent.peyruqueou@enac.fr>
  *
  */
-
 
 use core
 use base
@@ -40,7 +39,7 @@ import trap.TrapLayer
 import trap.TrapStatusSelector
 import site.SiteLayer
 import menu.UpperLeftMenu
-import menu.RightPannel
+import menu.RightPanel
 
 
 _native_code_
@@ -398,18 +397,18 @@ Component root {
   RosManager ros_manager(root, l.map, context, model_manager)
   
   // Right panel
-  RightPannel right_pannel (context, model_manager, f, ros_manager.node)
+  RightPanel right_panel (context, model_manager, f, ros_manager.node)
 
   // Ros node w/ all sub and pub fonctions
-  right_pannel.plan_request -> ros_manager.plan_request
-  right_pannel.validate_plan -> ros_manager.validate_plan
-  right_pannel.update_graph -> ros_manager.update_graph
-  right_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
-  right_pannel.test_allocation_spike -> ros_manager.test_allocation_spike
-  right_pannel.itineraryPannel.plan_set -> ros_manager.validate_plan
-  right_pannel.test_lima_spike -> ros_manager.test_lima_spike
-  right_pannel.send_selected_tasks -> ros_manager.send_selected_tasks
-  right_pannel.test_visibility_map -> ros_manager.test_visibility_map
+  right_panel.plan_request -> ros_manager.plan_request
+  right_panel.validate_plan -> ros_manager.validate_plan
+  right_panel.update_graph -> ros_manager.update_graph
+  right_panel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
+  right_panel.test_allocation_spike -> ros_manager.test_allocation_spike
+  right_panel.itinerary_panel.plan_set -> ros_manager.validate_plan
+  right_panel.test_lima_spike -> ros_manager.test_lima_spike
+  right_panel.send_selected_tasks -> ros_manager.send_selected_tasks
+  right_panel.test_visibility_map -> ros_manager.test_visibility_map
   
 
   // Strips container
