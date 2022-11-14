@@ -176,8 +176,6 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_tradeoff_itinerary, CoreProcess, _model_manager, itineraries/tradeoff)
 
   GET_CHILD_VAR2 (_itineraries_list, Component, _parent, parent/l/map/layers/itineraries/itineraries_list)
-  GET_CHILD_VAR2 (_id_curent_itinerary, TextProperty, _parent, parent/l/map/layers/itineraries/fixme_id)
-  GET_CHILD_VAR2 (_ref_curent_itinerary, RefProperty, _parent, parent/l/map/layers/itineraries/ref_current_itinerary)
   GET_CHILD_VAR2 (_edge_released_na, NativeAction, _parent, parent/l/map/layers/itineraries/edge_released_na)
   
   GET_CHILD_VAR2 (_vab, CoreProcess, _model_manager, vehicles/vab)
@@ -194,6 +192,9 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_ref_NULL, RefProperty, _context, REF_NULL)
   GET_CHILD_VAR2 (_ref_current_node, RefProperty, _context, ref_current_node)
   GET_CHILD_VAR2 (_ref_current_trap, RefProperty, _context, ref_current_trap)
+
+  GET_CHILD_VAR2 (_id_curent_itinerary, TextProperty, _context, selected_itinerary_id)
+  GET_CHILD_VAR2 (_ref_curent_itinerary, RefProperty, _parent, parent/l/map/layers/itineraries/ref_current_itinerary)
 
   GET_CHILD_VAR2 (_georef_visibility_map, CoreProcess, _parent, parent/l/map/layers/result/georef_visibility_map)
   GET_CHILD_VAR2 (_visibility_map, DataImage, _parent, parent/l/map/layers/result/visibility_map)

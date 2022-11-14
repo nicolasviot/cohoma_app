@@ -13,13 +13,13 @@ _native_code_
 
  
 _action_
-id_changed_action (Process src, Process itineraries)
+id_changed_action (Process src, Process self)
 {
 	//color
 	// unselected = 0x232323;
 	// selected = 0x1E90FF;
 
-	itinerary_to_reset = getRef (itineraries.ref_current_itinerary)
+	itinerary_to_reset = getRef (self.ref_current_itinerary)
 	if (&itinerary_to_reset != null) {
 	  	for (int i = 1; i <= $itinerary_to_reset.edges.size; i++) {
 			color_value = find (itinerary_to_reset, "edges/" + to_string(i) + "/outline_color/value")
@@ -27,29 +27,31 @@ id_changed_action (Process src, Process itineraries)
       	}
    	}
    
-	itinerary_to_move = find ( &itineraries, "itineraries_list/" + toString(itineraries.fixme_id))
+	itinerary_to_move = find ( &self, "itineraries_list/" + toString(self.context.selected_itinerary_id))
 	if (&itinerary_to_move != null) {
 		for (int i = 1; i <= $itinerary_to_move.edges.size; i++) {
 			color_value = find (itinerary_to_move, "edges/" + to_string(i) + "/outline_color/value")
 			color_value = 0x1E90FF
       	}
-		itineraries.ref_current_itinerary = &itinerary_to_move
+		self.ref_current_itinerary = &itinerary_to_move
+
 		// move selected itinerary above
 		moveChild itinerary_to_move >>
 	} 
 }
 
 _action_
-edge_released_action (Process src, Process data)
+edge_released_action (Process src, Process self)
 {   
 	print ("edge_released_action\n")
+	
 	//note:
 	// find the id of the itinerary that has been clicked.
 	// release(src)->line(edge)->component(edge)->list(edges)->component(itinerary)
 	itinerary_id = find (&src, "../../../../id")
 
-	// and assign it to current itineraries.id(data)
-	data.fixme_id = toString (itinerary_id)
+	// and assign it to current itineraries.id(self)
+	self.context.selected_itinerary_id = toString (itinerary_id)
 }
 
 
@@ -57,10 +59,11 @@ _define_
 Itineraries (Process _map, Process _context)
 {
 	map aka _map
+	context aka _context
 
 	Spike create_bindings
 	Spike clear
-	String fixme_id ("")
+
 	Ref ref_current_itinerary (nullptr)
 	
 	Scaling sc (1, 1, 0, 0)
@@ -73,10 +76,8 @@ Itineraries (Process _map, Process _context)
 	Component itineraries_list
 
 	NativeAction edge_released_na (edge_released_action, this, 1)
-	NativeAction id_changed_na (id_changed_action, this, 1)
-	fixme_id -> id_changed_na
 
-	//debug
-	LogPrinter debug_itineraries("Itineraries (debug) : ")
-	fixme_id =:> debug_itineraries.input
+	NativeAction id_changed_na (id_changed_action, this, 1)
+	_context.selected_itinerary_id -> id_changed_na
+
 }

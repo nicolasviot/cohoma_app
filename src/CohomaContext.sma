@@ -125,4 +125,9 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     //is_null_current_trap->set_value(get_property_value (ref_current_trap) == get_property_value (REF_NULL) ? 1 : 0, 1);
     //"is NULL current trap ? " + is_null_current_trap =:> tp.input
 	
+
+    // Don't use empty string
+    String selected_itinerary_id ("-1")
+	Ref ref_selected_itinerary (nullptr)
+    selected_itinerary_id =:> lp.input
 }

@@ -7,19 +7,64 @@ use animation
 import gui.animation.Animator
 import ItineraryStrip
 
-_define_
-ItineraryPannel(Process _context, Process _model_manager, Process _id_selected)
-{
-	//context aka _context
-	//model_manager aka _model_manager
+_native_code_
+%{
+    #include <iostream>
+%}
 
-	id_selected aka _id_selected
+
+/*_action_
+action_select_strip (Process src, Process self)
+{
+	strip = find(&src, "..")
+
+	print ("action_select_strip " + strip.model.type + " (" + strip.model.uid + ")\n")
+	
+	self.context.selected_itinerary_id = toString(strip.model.uid)
+}*/
+
+
+_define_
+ItineraryPannel (Process _context, Process _model_manager)
+{
+	context aka _context
+	//model_manager aka _model_manager
 
 	svg_itineraries = loadFromXML ("res/svg/Itinerary_Panel.svg")
 	gfx_itineraries << svg_itineraries.itinerary_panel
 
 	Spike plan_set
-	ItineraryStrip first (_context, _model_manager.itineraries.shortest, 44)
+	Spike start_waiting_anim
+    Spike stop_waiting_anim
+
+	List strips
+
+	int dy = 42
+
+	// Create a strip for each model of itinerary
+	for model : _model_manager.itineraries {
+		addChildrenTo strips {
+			ItineraryStrip strip (_context, model, dy)
+		}
+
+		dy += 52
+	}
+
+	//NativeAction na_select_strip (action_select_strip, this, 1)
+	//na_select_strip -> stop_waiting_anim
+
+	for strip : strips {
+		//strip.select -> na_select_strip
+		strip.select -> {
+			toString(strip.model.uid) =: _context.selected_itinerary_id
+		}
+		strip.select -> stop_waiting_anim
+
+		strip.plan_set -> plan_set
+	}
+
+	
+	/*ItineraryStrip first (_context, _model_manager.itineraries.shortest, 44)
 	ItineraryStrip second (_context, _model_manager.itineraries.safest, 96)
 	ItineraryStrip third (_context, _model_manager.itineraries.tradeoff, 148)
 	
@@ -52,14 +97,11 @@ ItineraryPannel(Process _context, Process _model_manager, Process _id_selected)
 		second_selected -> third_selected (third.select)
 		third_selected -> first_selected (first.select)
 		third_selected -> second_selected (second.select)
-	}
+	}*/
 
 
 	///// WAITING FEEDBACK /////
-    Spike start_waiting_anim
-    Spike stop_waiting_anim
 
-    id_selected -> stop_waiting_anim
     Animator anim_rotation (800, 0, 360, DJN_IN_OUT_SINE, 1, 0)
     20 =: anim_rotation.fps
 

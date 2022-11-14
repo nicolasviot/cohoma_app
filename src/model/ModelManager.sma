@@ -50,6 +50,17 @@ ModelManager (Process _context, int _is_debug)
         ItineraryModel tradeoff (_context, "tradeoff")
     }
 
+    if (_is_debug) {
+        "e5bd15ed-d7c3-4ddd-b80a-a1a8121f9e7e" =: itineraries.shortest.uid
+        "Planning shortest OK: a path including PPOs was found with cost 341.001" =: itineraries.shortest.description_input
+
+        "b5ac3bb1-593c-4dff-b1bd-9dcca5c39ab2" =: itineraries.safest.uid
+         "Planning safest OK: a path including PPOs was found with cost 501.248" =: itineraries.safest.description_input
+
+        "4e5aa5e6-0ed4-430f-9094-d0e8295594e7" =: itineraries.tradeoff.uid
+        "Planning tradeoff OK: a path including PPOs was found with cost 450.050" =: itineraries.tradeoff.description_input
+    }
+
     List nodes {
 
 	}

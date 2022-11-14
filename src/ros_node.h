@@ -112,7 +112,6 @@ class RosNode : public FatProcess, public ExternalSource
     Component *_itineraries_list;
     RefProperty *_ref_curent_itinerary;
     NativeAction* _edge_released_na;
-    TextProperty *_id_curent_itinerary;
 
     // Models of vehicles, safety pilots
     CoreProcess *_vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone;
@@ -125,6 +124,7 @@ class RosNode : public FatProcess, public ExternalSource
     RefProperty* _ref_NULL;
     RefProperty* _ref_current_node;
     RefProperty* _ref_current_trap;
+    TextProperty* _id_curent_itinerary;
 
     //Planif VAB
     IntProperty _current_plan_id_vab;

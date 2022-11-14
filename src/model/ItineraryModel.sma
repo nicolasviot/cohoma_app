@@ -34,9 +34,6 @@ ItineraryModel (Process _context, string _type)
 	description_input =:> regex.input
 	regex.[1] =:> legend
   	regex.[2] =:> cost
-
-	// FIXME
-	//"Itinerary: " + type =: legend
 	
 	LogPrinter lp ("Itinerary regexp (debug): ")
 	type + " (" + uid + "): " + description_input =:> lp.input

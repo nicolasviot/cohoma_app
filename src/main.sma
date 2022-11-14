@@ -249,7 +249,6 @@ Component root {
       itineraries_list aka ctrl_visibility.visible.layer.itineraries_list
       ref_current_itinerary aka ctrl_visibility.visible.layer.ref_current_itinerary
       edge_released_na aka  ctrl_visibility.visible.layer.edge_released_na
-      fixme_id aka ctrl_visibility.visible.layer.fixme_id
       String name ("Itineraries")
     }
 
@@ -399,7 +398,7 @@ Component root {
   RosManager ros_manager(root, l.map, context, model_manager)
   
   // Right panel
-  RightPannel right_pannel (context, model_manager, f, ros_manager.node, root.l.map.layers.itineraries)
+  RightPannel right_pannel (context, model_manager, f, ros_manager.node)
 
   // Ros node w/ all sub and pub fonctions
   right_pannel.plan_request -> ros_manager.plan_request
@@ -407,11 +406,12 @@ Component root {
   right_pannel.update_graph -> ros_manager.update_graph
   right_pannel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
   right_pannel.test_allocation_spike -> ros_manager.test_allocation_spike
-  right_pannel.itineraryPannel.plan_set ->ros_manager.validate_plan
+  right_pannel.itineraryPannel.plan_set -> ros_manager.validate_plan
   right_pannel.test_lima_spike -> ros_manager.test_lima_spike
   right_pannel.send_selected_tasks -> ros_manager.send_selected_tasks
   right_pannel.test_visibility_map -> ros_manager.test_visibility_map
   
+
   // Strips container
   StripContainer strips (context, model_manager, f)
 

@@ -7,15 +7,19 @@ import widgets.Button
 
 _native_code_
 %{
-	//#include "string.h"
 	#include <iostream>
 %}
 
+
 _define_
-ItineraryStrip(Process _context, Process _model, double dy)
+ItineraryStrip (Process _context, Process _model, double dy)
 {
 	//context aka _context
 	model aka _model
+
+	TextComparator compare_selected_uid ("", "")
+	_model.uid =:> compare_selected_uid.left
+	toString(_context.selected_itinerary_id) =:> compare_selected_uid.right
 
 	Translation t (0, dy)
 
@@ -24,11 +28,10 @@ ItineraryStrip(Process _context, Process _model, double dy)
 	FontSize _ (5, 12)
 
     Spike select
-    Spike unselect
     Spike plan_set
 
-	Switch sw (unselected){
-		Component unselected{
+	Switch switch (false) {
+		Component false{
 			Translation _ (30, 0)
 
 			FillColor grey(128, 128, 128)
@@ -42,12 +45,11 @@ ItineraryStrip(Process _context, Process _model, double dy)
 			Text cost_label (150, 28, "...") 
 			_model.cost =:> cost_label.text
 		}
-		Component selected {
+		Component true {
 			Translation _ (8, 0)
 
 			FillColor blue(53, 178, 255)
 			Rectangle bg (0, 0, 390, 50, 10, 10)
-			bg.press -> unselect
 
 			FillColor _ (#FFFFFF)
 			Text legend_label (10, 28, "...")
@@ -65,8 +67,8 @@ ItineraryStrip(Process _context, Process _model, double dy)
 			set_plan.click -> plan_set
 		}
 	}
+	compare_selected_uid.output =:> switch.state
 
-	sw.unselected -> unselect
-	sw.selected -> select
+	//switch.selected -> select
 
 }
