@@ -109,6 +109,7 @@ class RosNode : public FatProcess, public ExternalSource
 
     // Models of itineraries
     CoreProcess *_shortest_itinerary, *_safest_itinerary, *_tradeoff_itinerary;
+    std::vector<CoreProcess*> _itineraries;
     Component *_itineraries_list;
     RefProperty *_ref_curent_itinerary;
     NativeAction* _edge_released_na;
@@ -124,7 +125,7 @@ class RosNode : public FatProcess, public ExternalSource
     RefProperty* _ref_NULL;
     RefProperty* _ref_current_node;
     RefProperty* _ref_current_trap;
-    TextProperty* _id_curent_itinerary;
+    TextProperty* _selected_itinerary_id;
 
     //Planif VAB
     IntProperty _current_plan_id_vab;

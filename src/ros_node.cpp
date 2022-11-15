@@ -174,6 +174,9 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_shortest_itinerary, CoreProcess, _model_manager, itineraries/shortest)
   GET_CHILD_VAR2 (_safest_itinerary, CoreProcess, _model_manager, itineraries/safest)
   GET_CHILD_VAR2 (_tradeoff_itinerary, CoreProcess, _model_manager, itineraries/tradeoff)
+  _itineraries.push_back(_shortest_itinerary);
+  _itineraries.push_back(_safest_itinerary);
+  _itineraries.push_back(_tradeoff_itinerary);
 
   GET_CHILD_VAR2 (_itineraries_list, Component, _parent, parent/l/map/layers/itineraries/itineraries_list)
   GET_CHILD_VAR2 (_edge_released_na, NativeAction, _parent, parent/l/map/layers/itineraries/edge_released_na)
@@ -193,7 +196,7 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_ref_current_node, RefProperty, _context, ref_current_node)
   GET_CHILD_VAR2 (_ref_current_trap, RefProperty, _context, ref_current_trap)
 
-  GET_CHILD_VAR2 (_id_curent_itinerary, TextProperty, _context, selected_itinerary_id)
+  GET_CHILD_VAR2 (_selected_itinerary_id, TextProperty, _context, selected_itinerary_id)
   GET_CHILD_VAR2 (_ref_curent_itinerary, RefProperty, _parent, parent/l/map/layers/itineraries/ref_current_itinerary)
 
   GET_CHILD_VAR2 (_georef_visibility_map, CoreProcess, _parent, parent/l/map/layers/result/georef_visibility_map)
@@ -456,7 +459,7 @@ RosNode::test_multiple_itineraries(){
         }
       }
     }
-    _id_curent_itinerary->set_value (first_id, true);
+    _selected_itinerary_id->set_value (first_id, true);
 
   //debug
   //int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
@@ -481,11 +484,34 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received " + std::to_string(msg->itineraries.size()) + " itineraries\n", true);
  
+  if (msg->itineraries.size() == _itineraries.size())
+  {
+    CoreProcess* model = nullptr;
+    CoreProcess* list_nodes_ids = nullptr;
+
+    for (int i = 0; i < msg->itineraries.size(); i++)
+    {
+      cout << "Iti " << i << " with " << msg->itineraries[i].nodes.size() << " nodes" << endl;
+
+      model = _itineraries[i];
+      SET_CHILD_VALUE (Text, model, uid, msg->itineraries[i].id, true)
+      SET_CHILD_VALUE (Text, model, description_input, msg->itineraries[i].description, true)
+      
+      GET_CHILD_VAR2 (list_nodes_ids, CoreProcess, model, nodes_ids)
+
+      for (int j = 0; j < msg->itineraries[i].nodes.size(); j++) {
+        new IntProperty (list_nodes_ids, "", std::stoi(msg->itineraries[i].nodes[j]));
+      }
+    }   
+  }
+  else
+    cerr << "Different size about itineraries between 'msg_graph_itinerary_loop' and models of itineraries" << endl;
+
   for (int i = 0; i < msg->itineraries.size(); i++) {
     std::string id = msg->itineraries[i].id;
     std::vector<int> nodes;
 
-    cout << "Iti " << i << " with " << msg->itineraries[i].nodes.size() << " nodes" << endl;
+    //cout << "Iti " << i << " with " << msg->itineraries[i].nodes.size() << " nodes" << endl;
     for (int j = 0; j < msg->itineraries[i].nodes.size(); j++){
       nodes.push_back(std::stoi(msg->itineraries[i].nodes[j]));
     }
@@ -496,7 +522,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
   int unselected = 0x232323;
   int selected = 0x1E90FF;
 
-  //schedule delete for old content
+  //schedule delete old content
   int itineraries_list_size =  _itineraries_list->children ().size ();
   for (int i = itineraries_list_size - 1; i >= 0; i--) {
     auto *child = _itineraries_list->children ()[i];
@@ -517,7 +543,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
     if (first_id == "")
       first_id = ros_itinerary.first;
     
-    cout << "New child of _itineraries_list with id " << ros_itinerary.first << endl;
+    //cout << "New child of _itineraries_list with id " << ros_itinerary.first << endl;
     Component *new_itinerary = new Component (_itineraries_list, ros_itinerary.first);
     new TextProperty (new_itinerary, "id", ros_itinerary.first);
     List* new_ite_edges = new List (new_itinerary, "edges");
@@ -530,26 +556,24 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       }
     }
   }
-  SET_CHILD_VALUE (Text, _id_curent_itinerary, , first_id, true)
+  SET_CHILD_VALUE (Text, _selected_itinerary_id, , first_id, true)
 
-  cout << "Update model of iti 0: '" << msg->itineraries[0].id << "' -- description: " << msg->itineraries[0].description << endl;
-  SET_CHILD_VALUE (Text, _shortest_itinerary, uid, msg->itineraries[0].id, true)
-  //SET_CHILD_VALUE (Text, _shortest_itinerary, type, msg->itineraries[0].id, true)
-  SET_CHILD_VALUE (Text, _shortest_itinerary, description_input, msg->itineraries[0].description, true)
+  //cout << "Update model of iti 0: '" << msg->itineraries[0].id << "' -- description: " << msg->itineraries[0].description << endl;
+  //SET_CHILD_VALUE (Text, _shortest_itinerary, uid, msg->itineraries[0].id, true)
+  //SET_CHILD_VALUE (Text, _shortest_itinerary, description_input, msg->itineraries[0].description, true)
   
-  cout << "Update model of iti 1: '" << msg->itineraries[1].id << "' -- description: " << msg->itineraries[1].description << endl;
-  SET_CHILD_VALUE (Text, _safest_itinerary, uid, msg->itineraries[1].id, true)
-  //SET_CHILD_VALUE (Text, _safest_itinerary, type, msg->itineraries[1].id, true)
-  SET_CHILD_VALUE (Text, _safest_itinerary, description_input, msg->itineraries[1].description, true)
+  //cout << "Update model of iti 1: '" << msg->itineraries[1].id << "' -- description: " << msg->itineraries[1].description << endl;
+  //SET_CHILD_VALUE (Text, _safest_itinerary, uid, msg->itineraries[1].id, true)
+  //SET_CHILD_VALUE (Text, _safest_itinerary, description_input, msg->itineraries[1].description, true)
   
-  cout << "Update model of iti 2: '" << msg->itineraries[2].id << "' -- description: " << msg->itineraries[2].description << endl;
-  SET_CHILD_VALUE (Text, _tradeoff_itinerary, uid, msg->itineraries[2].id, true)
-  //SET_CHILD_VALUE (Text, _tradeoff_itinerary, type, msg->itineraries[2].id, true)
-  SET_CHILD_VALUE (Text, _tradeoff_itinerary, description_input, msg->itineraries[2].description, true)
+  //cout << "Update model of iti 2: '" << msg->itineraries[2].id << "' -- description: " << msg->itineraries[2].description << endl;
+  //SET_CHILD_VALUE (Text, _tradeoff_itinerary, uid, msg->itineraries[2].id, true)
+  //SET_CHILD_VALUE (Text, _tradeoff_itinerary, description_input, msg->itineraries[2].description, true)
   
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }
+
 
 void 
 RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
@@ -1151,6 +1175,7 @@ RosNode::send_msg_planning_request(){
   publisher_planning_request->publish(message);  
 }
 
+
 void 
 RosNode::send_msg_navgraph_update(){
 
@@ -1216,24 +1241,26 @@ RosNode::send_msg_navgraph_update(){
   publisher_navgraph_update->publish(message);
 }
 
-void 
-RosNode::send_validation_plan(){
 
+void 
+RosNode::send_validation_plan()
+{
   icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
-  message.data = _id_curent_itinerary->get_string_value();
+  message.data = _selected_itinerary_id->get_string_value();
   message.header.stamp = _node->get_clock()->now();
   publisher_validation->publish(message);
 
-
   Container *_layer_filter_container = dynamic_cast<Container *> (_layer_filter);
-  if (_layer_filter_container){
-
+  if (_layer_filter_container)
+  {
     int layer_size = _layer_filter_container->children ().size ();
     for (int i = layer_size - 1; i >= 0; i--) {
         auto *child = _layer_filter_container->children ()[i];
         GET_CHILD_VALUE (layer_name, Text, child, name)
-        std::cerr << "found layer" << layer_name << std::endl; 
-        if (layer_name == "Tasks"){
+        std::cerr << "found layer" << layer_name << std::endl;
+
+        if (layer_name == "Tasks")
+        {
           std::cerr << "found task layer" << std::endl;
           GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
           if (activation_state == "hidden"){
@@ -1242,7 +1269,8 @@ RosNode::send_validation_plan(){
             std::cerr << "notified activation to cb/press" << std::endl;
           }
         }
-        if (layer_name == "Allocation"){
+        if (layer_name == "Allocation")
+        {
           std::cerr << "found Allocation layer" << std::endl;
           GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
           if (activation_state == "visible"){
@@ -1258,8 +1286,8 @@ RosNode::send_validation_plan(){
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Validate plan #" + message.data + "\n" , true);
-
 }
+
 
 void 
 RosNode::send_selected_tasks(){

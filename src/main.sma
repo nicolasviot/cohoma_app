@@ -79,7 +79,7 @@ Component root {
   init_ros ()
   
   // Use static data model for debug
-  int is_debug = 1
+  int is_debug = 0
   // Use "#ifndef NO_ROS" instead
 
 

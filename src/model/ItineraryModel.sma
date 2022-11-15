@@ -35,6 +35,9 @@ ItineraryModel (Process _context, string _type)
 	regex.[1] =:> legend
   	regex.[2] =:> cost
 	
+	List nodes_ids
+
 	LogPrinter lp ("Itinerary regexp (debug): ")
-	type + " (" + uid + "): " + description_input =:> lp.input
+	//type + " (" + uid + "): " + description_input =:> lp.input
+	type + " (" + uid + "): " + nodes_ids.size =:> lp.input
 }

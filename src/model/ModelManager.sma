@@ -45,6 +45,7 @@ ModelManager (Process _context, int _is_debug)
     }
 
     Component itineraries {
+    //List itineraries {
         ItineraryModel shortest (_context, "shortest")
         ItineraryModel safest (_context, "safest")
         ItineraryModel tradeoff (_context, "tradeoff")
