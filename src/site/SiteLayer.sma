@@ -13,13 +13,9 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 	//context aka _context
 	//model_manager aka _model_manager
 
-	List exclusion_areas {
+	List exclusion_areas
 
-	}
-
-	List limas {
-		
-	}
+	List limas
 
 	if (_model_manager.IS_DEBUG)
 	{

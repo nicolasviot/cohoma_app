@@ -344,6 +344,7 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 		}
 	}
 	
+	// FIXME: useless ?
 	List itineraries {
 	
 	}
