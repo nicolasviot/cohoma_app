@@ -801,7 +801,7 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     std::cout << "Trying to add a task to identify trap " << std::to_string(msg.trap_identifications[i].id) << std::endl;
 
     // Try to get the existing model with this id
-    for (int j = 0; j < trap_models->children().size(); i++)
+    for (int j = 0; j < trap_models->children().size(); j++)
     {
       GET_CHILD_VALUE (id, Int, trap_models->children()[j], id)
 
@@ -841,7 +841,7 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     std::cout << "Trying to add a task to deactivate trap " + std::to_string(msg.trap_deactivations[i].id) << std::endl;
 
     // Try to get the existing model with this id
-    for (int j = 0; j < trap_models->children().size(); i++)
+    for (int j = 0; j < trap_models->children().size(); j++)
     {
       GET_CHILD_VALUE (id, Int, trap_models->children()[j], id)
 
