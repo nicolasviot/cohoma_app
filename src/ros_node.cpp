@@ -1273,12 +1273,12 @@ RosNode::send_selected_tasks(){
     GET_CHILD_VALUE (trap_selected, Bool, trap, selected)
     if (trap_selected){     
       icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
-      GET_CHILD_VALUE2 (trap_to_add.id, Int, trap, trap_id)
-      GET_CHILD_VALUE2 (trap_to_add.identified, Bool, trap, identified)
-      GET_CHILD_VALUE2 (trap_to_add.active, Bool, trap, active)
-      GET_CHILD_VALUE2 (trap_to_add.location.latitude, Double, trap, lat)
-      GET_CHILD_VALUE2 (trap_to_add.location.longitude, Double, trap, lon)
-      
+      GET_CHILD_VALUE2 (trap_to_add.id, Int, trap, model/id)
+      GET_CHILD_VALUE2 (trap_to_add.identified, Bool, trap, model/identified)
+      GET_CHILD_VALUE2 (trap_to_add.active, Bool, trap, model/active)
+      GET_CHILD_VALUE2 (trap_to_add.location.latitude, Double, trap, model/lat)
+      GET_CHILD_VALUE2 (trap_to_add.location.longitude, Double, trap, model/lon)
+
       if(trap_to_add.identified)
         message.trap_deactivations.push_back(trap_to_add);
       else
