@@ -596,8 +596,8 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
 
 
 void 
-RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg) {
-
+RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg)
+{
   get_exclusive_access(DBG_GET);
   
   //schedule delete old content
@@ -617,6 +617,8 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
   //Color:
   int unselected = 0x232323;
   int selected = 0x1E90FF;
+
+  cout << "receive_msg_graph_itinerary_final" << msg->id << endl;
 
   Component *new_itinerary = new Component ( _itineraries_list, msg->id );
   new TextProperty (new_itinerary, "id", msg->id);

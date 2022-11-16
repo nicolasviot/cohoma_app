@@ -44,8 +44,6 @@ NodeStatusSelector (Process _frame, Process _context)
             m_forced << svg.mask_forced
             m_default << svg.mask_default
             
-            Spike press
-            
             FSM fsm_status {
                 State default {
                     r_default << svg.rect_default

@@ -22,17 +22,6 @@ Edge (int _id_src, int _id_dest, double _length, Process nodelist)
     DoubleFormatter dm(0, 2)
     length =:> dm.input
 
-    //Rarccos(sin(a)sin(b) + cos(a)cos(b)cos(c-d)) a = lata, b=lona, c =latb, d =lonb
-    /*
-    Double R(6171000)
-    a aka nodelist.[$id_src].wpt.latinput
-    b aka nodelist.[$id_src].wpt.lon
-    c aka nodelist.[$id_src].wpt.lat
-    d aka nodelist.[$id_src].wpt.lon
-
-    arcos
-    */
-
     //print ("Edge edge_" + id_src + "_" + id_dest + " (" + id_src + ", " + id_dest + ", " + length + ", nodes)\n")
 
     OutlineWidth outline_width (5)
