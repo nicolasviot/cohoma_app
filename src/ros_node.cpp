@@ -618,7 +618,7 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
   int unselected = 0x232323;
   int selected = 0x1E90FF;
 
-  cout << "receive_msg_graph_itinerary_final" << msg->id << endl;
+  cout << "receive_msg_graph final itinerary = " << msg->id << endl;
 
   Component *new_itinerary = new Component ( _itineraries_list, msg->id );
   new TextProperty (new_itinerary, "id", msg->id);
