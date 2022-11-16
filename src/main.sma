@@ -281,7 +281,7 @@ Component root {
 
 
     // ----------------------------------------------------
-    //  ???
+    //  Result of the map exploration by drones and robots
     Component result{
       Switch ctrl_visibility (visible){
         Component hidden
