@@ -28,6 +28,6 @@ NodeModel (Process _context, double _lat, double _lon, double _alt, int _isPPO, 
 
 	Int phase (0) // FIXME: not used
 
-	print ("Node model " + id + "\n")
+	print ("Model of node (" + id + ") " + label + "\n")
 
 }

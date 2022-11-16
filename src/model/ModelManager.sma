@@ -25,6 +25,8 @@ ModelManager (Process _context, int _is_debug)
 
     Bool IS_DEBUG (_is_debug)
 
+    Spike itineraries_updated
+
     Component vehicles {
         VehiculeModel vab (_context, "vab", "VAB", $_context.init_lat, $_context.init_lon, $_context.VAB_COL)
         VehiculeModel agilex1 (_context, "agilex1", "AGILEX 1", $_context.init_lat + 0.0005, $_context.init_lon, $_context.AGI_1_COL)
@@ -44,22 +46,36 @@ ModelManager (Process _context, int _is_debug)
         SafetyPilotModel ground_safety_pilot (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
     }
 
-    Component itineraries {
-    //List itineraries {
-        ItineraryModel shortest (_context, "shortest")
-        ItineraryModel safest (_context, "safest")
-        ItineraryModel tradeoff (_context, "tradeoff")
+    // FIXME: use a list
+    //Component itineraries {
+    List itineraries {
+        //ItineraryModel shortest (_context, "shortest")
+        ItineraryModel itinerary1 (_context, "shortest")
+        //ItineraryModel safest (_context, "safest")
+        ItineraryModel itinerary2 (_context, "safest")
+        //ItineraryModel tradeoff (_context, "tradeoff")
+        ItineraryModel itinerary3 (_context, "tradeoff")
     }
+    // FIXME: use aka
+    shortest_itinerary aka itineraries.[1]
+    safest_itinerary aka itineraries.[2]
+    tradeoff_itinerary aka itineraries.[3]
 
     if (_is_debug) {
-        "e5bd15ed-d7c3-4ddd-b80a-a1a8121f9e7e" =: itineraries.shortest.uid
-        "Planning shortest OK: a path including PPOs was found with cost 341.001" =: itineraries.shortest.description_input
+        //"e5bd15ed-d7c3-4ddd-b80a-a1a8121f9e7e" =: itineraries.shortest.uid
+        //"Planning shortest OK: a path including PPOs was found with cost 341.001" =: itineraries.shortest.description_input
+        "e5bd15ed-d7c3-4ddd-b80a-a1a8121f9e7e" =: shortest_itinerary.uid
+        "Planning shortest OK: a path including PPOs was found with cost 341.001" =: shortest_itinerary.description_input
 
-        "b5ac3bb1-593c-4dff-b1bd-9dcca5c39ab2" =: itineraries.safest.uid
-         "Planning safest OK: a path including PPOs was found with cost 501.248" =: itineraries.safest.description_input
+        //"b5ac3bb1-593c-4dff-b1bd-9dcca5c39ab2" =: itineraries.safest.uid
+        //"Planning safest OK: a path including PPOs was found with cost 501.248" =: itineraries.safest.description_input
+        "b5ac3bb1-593c-4dff-b1bd-9dcca5c39ab2" =: safest_itinerary.uid
+        "Planning safest OK: a path including PPOs was found with cost 501.248" =: safest_itinerary.description_input
 
-        "4e5aa5e6-0ed4-430f-9094-d0e8295594e7" =: itineraries.tradeoff.uid
-        "Planning tradeoff OK: a path including PPOs was found with cost 450.050" =: itineraries.tradeoff.description_input
+        //"4e5aa5e6-0ed4-430f-9094-d0e8295594e7" =: itineraries.tradeoff.uid
+        //"Planning tradeoff OK: a path including PPOs was found with cost 450.050" =: itineraries.tradeoff.description_input
+        "4e5aa5e6-0ed4-430f-9094-d0e8295594e7" =: tradeoff_itinerary.uid
+        "Planning tradeoff OK: a path including PPOs was found with cost 450.050" =: tradeoff_itinerary.description_input
     }
 
     List nodes {

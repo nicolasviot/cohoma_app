@@ -26,7 +26,7 @@
 #include "graph/Node.h"
 #include "graph/NavGraph.h"
 #include "graph/Edge.h"
-//#include "trap/Trap.h"
+#include "model/NodeModel.h"
 #include "model/TrapModel.h"
 #include "task/TaskTrap.h"
 #include "task/TaskAreaSummit.h"
@@ -152,6 +152,7 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
   GET_CHILD_VAR2 (_shadow_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/shadow_edges)
 
+  GET_CHILD_VAR2 (_node_models, CoreProcess, _model_manager, nodes)
   GET_CHILD_VAR2 (_trap_models, CoreProcess, _model_manager, traps)
 
   GET_CHILD_VAR2 (_task_edges, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/edges)
@@ -171,14 +172,18 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_panel/console)
 
   // Itineraries
-  GET_CHILD_VAR2 (_shortest_itinerary, CoreProcess, _model_manager, itineraries/shortest)
-  GET_CHILD_VAR2 (_safest_itinerary, CoreProcess, _model_manager, itineraries/safest)
-  GET_CHILD_VAR2 (_tradeoff_itinerary, CoreProcess, _model_manager, itineraries/tradeoff)
+  //GET_CHILD_VAR2 (_shortest_itinerary, CoreProcess, _model_manager, itineraries/shortest)
+  //GET_CHILD_VAR2 (_safest_itinerary, CoreProcess, _model_manager, itineraries/safest)
+  //GET_CHILD_VAR2 (_tradeoff_itinerary, CoreProcess, _model_manager, itineraries/tradeoff)
+  GET_CHILD_VAR2 (_shortest_itinerary, CoreProcess, _model_manager, shortest_itinerary)
+  GET_CHILD_VAR2 (_safest_itinerary, CoreProcess, _model_manager, safest_itinerary)
+  GET_CHILD_VAR2 (_tradeoff_itinerary, CoreProcess, _model_manager, tradeoff_itinerary)
   _itineraries.push_back(_shortest_itinerary);
   _itineraries.push_back(_safest_itinerary);
   _itineraries.push_back(_tradeoff_itinerary);
 
-  GET_CHILD_VAR2 (_itineraries_list, Component, _parent, parent/l/map/layers/itineraries/itineraries_list)
+  //GET_CHILD_VAR2 (_itineraries_list, Component, _parent, parent/l/map/layers/itineraries/itineraries_list)
+  GET_CHILD_VAR2 (_itineraries_list, CoreProcess, _parent, parent/l/map/layers/itineraries/itineraries_list)
   GET_CHILD_VAR2 (_edge_released_na, NativeAction, _parent, parent/l/map/layers/itineraries/edge_released_na)
   
   GET_CHILD_VAR2 (_vab, CoreProcess, _model_manager, vehicles/vab)
@@ -366,19 +371,29 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   }
   
   // nodes
-  for (int i=j_graph["nodes"].size() - 1; i >=0; i--)
+  for (int i = j_graph["nodes"].size() - 1; i >= 0; i--)
   {
-    auto& node = j_graph["nodes"][i];
-    auto& m = node["metadata"];
+    auto& json_node = j_graph["nodes"][i];
+    const string& node_id = json_node["id"].get<std::string>();
+    const string& label = json_node["label"].get<std::string>();
+    //const string& node_id = json_node["id"];
+    //const string& label = json_node["label"];
+    auto& m = json_node["metadata"];
     bool locked = m["locked"].get<bool>();
     bool isPPO = m["compulsory"].get<bool>();
     int phase = m["phase"].get<int>();
+    double latitude = m["latitude"].get<double>();
+    double longitude = m["longitude"].get<double>();
+    double altitude = m["altitude"].get<double>();
 
-    ParentProcess* node_ = Node (_nodes, "", _map, _context, m["latitude"].get<double>(), m["longitude"].get<double>(), m["altitude"].get<double>(), isPPO, node["label"], std::stoi(node["id"].get<std::string>()) + 1);
+    ParentProcess* node_ = Node (_nodes, "", _map, _context, latitude, longitude, altitude, isPPO, label, std::stoi(node_id) + 1);
     SET_CHILD_VALUE(Bool, node_, islocked, locked, true);
     //TODO: MP problème entre le nom du child et la variable
     SET_CHILD_VALUE(Int, node_, phase, phase, true);
     SET_CHILD_VALUE(Bool, node_, wpt/isMandatory, isPPO, true)
+
+    ParentProcess* node = NodeModel (_node_models, "", _context, latitude, longitude, altitude, isPPO, label, std::stoi(node_id) + 1);
+
   }
 
   cout << "receive_msg_navgraph" << endl;
@@ -471,7 +486,8 @@ RosNode::test_multiple_itineraries(){
 void 
 RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg)
 {
-  cout << "receive_msg_graph_itinerary_loop" << endl; 
+  cout << "receive_msg_graph_itinerary_loop" << endl;
+
   std::vector<std::pair<string, std::vector<int>>> msg_struct;
   
   if (msg->itineraries.size () <= 0)
@@ -570,6 +586,8 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
   //SET_CHILD_VALUE (Text, _tradeoff_itinerary, uid, msg->itineraries[2].id, true)
   //SET_CHILD_VALUE (Text, _tradeoff_itinerary, description_input, msg->itineraries[2].description, true)
   
+  _model_manager->find_child("itineraries_updated")->notify_activation();
+
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }

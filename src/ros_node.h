@@ -100,7 +100,7 @@ class RosNode : public FatProcess, public ExternalSource
     //navgraph fields
     TextProperty navgraph_data;
     CoreProcess *_nodes, *_edges, *_shadow_edges;
-    CoreProcess *_trap_models;
+    CoreProcess *_trap_models, *_node_models;
 
     CoreProcess *_task_edges, *_task_areas, *_task_traps;
     CoreProcess *_task_allocated_edges, *_task_allocated_areas, *_task_allocated_traps;
@@ -110,7 +110,8 @@ class RosNode : public FatProcess, public ExternalSource
     // Models of itineraries
     CoreProcess *_shortest_itinerary, *_safest_itinerary, *_tradeoff_itinerary;
     std::vector<CoreProcess*> _itineraries;
-    Component *_itineraries_list;
+    //Component *_itineraries_list;
+    CoreProcess *_itineraries_list;
     RefProperty *_ref_curent_itinerary;
     NativeAction* _edge_released_na;
 

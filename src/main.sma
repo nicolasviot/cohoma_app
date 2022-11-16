@@ -242,7 +242,7 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible{
-          Itineraries layer (map, context)
+          Itineraries layer (map, context, model_manager)
         }
       }
       itineraries_list aka ctrl_visibility.visible.layer.itineraries_list

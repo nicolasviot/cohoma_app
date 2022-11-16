@@ -2,10 +2,12 @@ use core
 use gui
 use base
 
+import ItineraryOnMap
+
 _native_code_
 %{
-#include <iostream>
-#include "core/tree/list.h"
+	#include <iostream>
+	#include "core/tree/list.h"
 %}
 
  
@@ -52,10 +54,11 @@ edge_released_action (Process src, Process self)
 
 
 _define_
-Itineraries (Process _map, Process _context)
+Itineraries (Process _map, Process _context, Process _model_manager)
 {
 	map aka _map
 	context aka _context
+	//model_manager aka _model_manager
 
 	Ref ref_current_itinerary (nullptr)
 
@@ -69,7 +72,15 @@ Itineraries (Process _map, Process _context)
 	_context.map_translation_y =:> pos.ty
 
 	// Parent for itineraries
-	Component itineraries_list
+	//Component itineraries_list
+	List itineraries_list
+
+	// Create a view for each model of itinerary
+	for model : _model_manager.itineraries {
+		addChildrenTo itineraries_list {
+			ItineraryOnMap itinerary (_context, model)
+		}
+	}
 
 	NativeAction edge_released_na (edge_released_action, this, 1)
 

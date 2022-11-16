@@ -68,7 +68,7 @@ ItineraryPanel (Process _context, Process _model_manager)
     Animator anim_rotation (800, 0, 360, DJN_IN_OUT_SINE, 1, 0)
     20 =: anim_rotation.fps
 
-    start_waiting_anim -> anim_rotation.start
+	start_waiting_anim -> anim_rotation.start
     stop_waiting_anim -> anim_rotation.reset
     stop_waiting_anim -> anim_rotation.abort
 	
