@@ -393,7 +393,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     SET_CHILD_VALUE(Int, node_, phase, phase, true);
     SET_CHILD_VALUE(Bool, node_, wpt/isMandatory, isPPO, true)
 
-    ParentProcess* node = NodeModel (_node_models, "", _context, latitude, longitude, altitude, isPPO, label, std::stoi(node_id) + 1);
+    //ParentProcess* node = NodeModel (_node_models, "", _context, latitude, longitude, altitude, isPPO, label, std::stoi(node_id) + 1);
 
   }
 
@@ -413,74 +413,8 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
 #endif
 
 void
-RosNode::test_multiple_itineraries(){
-  #if 0
-  //debug
-  ////std::cerr << "in RosNode::test_multiple_itineraries - pointers  " << _itineraries_list  <<std::endl;
-
-  //debug ros_msg
-  std::vector<std::pair<string,std::vector<int>>> msg = { \
-    {"toto", {2, 1, 0, 5, 6}}, \
-    {"titi", {2, 10, 8, 6}}, \
-    {"tata", {0, 1, 4, 7}}};
-
-  //Color:
-    int unselected = 0x232323;
-    int selected = 0x1E90FF;
-
-  ////std::cerr << "in RosNode::test_multiple_itineraries - size before "  << _itineraries_list->children ().size () << " - ref  " << _edge_released_na  <<std::endl;
-
-  //schedule delete old content
-    int itineraries_list_size =  _itineraries_list->children ().size ();
-    for (int i = itineraries_list_size - 1; i >= 0; i--) {
-      auto *child = _itineraries_list->children ()[i];
-      if (child) {
-        child->deactivate ();
-        if (child->get_parent ())
-          child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
-        child->schedule_delete ();
-        child = nullptr;
-      }
-    }
-    _ref_curent_itinerary->set_value ((CoreProcess*)nullptr, true);
-
-  ////std::cerr << "in RosNode::test_multiple_itineraries - size after "  << _itineraries_list->children ().size () <<std::endl;
-
-  /*
-    _itineraries_list {
-      id { id;
-          edges: liste of edges}
-      id { id;
-          edges: liste of edges}
-      id { id;
-           edges: liste of edges}
-      ...
-    }
-  */
-
-    string first_id = "";
-    for (auto ros_itinerary : msg) {
-    // get first id
-      if (first_id == "")
-        first_id = ros_itinerary.first;
-      Component *new_itinerary = new Component ( _itineraries_list, ros_itinerary.first );
-      new TextProperty (new_itinerary, "id", ros_itinerary.first);
-      List* new_ite_edges = new List (new_itinerary, "edges");
-      int ite_edges_size = ros_itinerary.second.size ();
-      if ( ite_edges_size > 0) {
-        for (int i = 1; i < ite_edges_size; i++) {
-          ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
-          ((AbstractProperty*) edge->find_child("outline_color/value"))->set_value (unselected, true);
-          new Binding (edge, "binding_edge_released", edge, "mask_edge/release", _edge_released_na, "");
-        }
-      }
-    }
-    _selected_itinerary_id->set_value (first_id, true);
-
-  //debug
-  //int itinerary_edges_size = dynamic_cast<IntProperty*> (_itinerary_edges->find_child ("size"))->get_value ();
-  ////std::cerr << "in RosNode::test_multiple_itineraries " <<  _itinerary_edges  << " - " << itinerary_edges_size <<std::endl;
-  #endif
+RosNode::test_multiple_itineraries()
+{
 }
 
 #ifndef NO_ROS
@@ -514,13 +448,13 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       SET_CHILD_VALUE (Text, model, uid, msg->itineraries[i].id, true)
       SET_CHILD_VALUE (Text, model, description_input, msg->itineraries[i].description, true)
       
-      GET_CHILD_VAR2 (list_nodes_ids, CoreProcess, model, nodes_ids)
+      /*GET_CHILD_VAR2 (list_nodes_ids, CoreProcess, model, nodes_ids)
 
       for (int j = 0; j < msg->itineraries[i].nodes.size(); j++) {
         //cout << "New IntProperty " << msg->itineraries[i].nodes[j] << " in " << i << endl;
         new IntProperty (list_nodes_ids, "", std::stoi(msg->itineraries[i].nodes[j]));
-      }
-    }   
+      }*/
+    }
   }
   else
     cerr << "Different size about itineraries between 'msg_graph_itinerary_loop' and models of itineraries" << endl;

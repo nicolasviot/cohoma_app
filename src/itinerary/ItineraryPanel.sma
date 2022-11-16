@@ -58,8 +58,6 @@ ItineraryPanel (Process _context, Process _model_manager)
 		strip.select -> {
 			toString(strip.model.uid) =: _context.selected_itinerary_id
 		}
-		strip.select -> stop_waiting_anim
-
 		strip.plan_set -> plan_set
 	}
 
