@@ -173,15 +173,13 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_panel/console)
 
   // Itineraries
-  //GET_CHILD_VAR2 (_shortest_itinerary, CoreProcess, _model_manager, itineraries/shortest)
-  //GET_CHILD_VAR2 (_safest_itinerary, CoreProcess, _model_manager, itineraries/safest)
-  //GET_CHILD_VAR2 (_tradeoff_itinerary, CoreProcess, _model_manager, itineraries/tradeoff)
-  GET_CHILD_VAR2 (_shortest_itinerary, CoreProcess, _model_manager, shortest_itinerary)
-  GET_CHILD_VAR2 (_safest_itinerary, CoreProcess, _model_manager, safest_itinerary)
-  GET_CHILD_VAR2 (_tradeoff_itinerary, CoreProcess, _model_manager, tradeoff_itinerary)
-  _itineraries.push_back(_shortest_itinerary);
-  _itineraries.push_back(_safest_itinerary);
-  _itineraries.push_back(_tradeoff_itinerary);
+  CoreProcess *shortest, *safest, *tradeoff;
+  GET_CHILD_VAR2 (shortest, CoreProcess, _model_manager, shortest_itinerary)
+  GET_CHILD_VAR2 (safest, CoreProcess, _model_manager, safest_itinerary)
+  GET_CHILD_VAR2 (tradeoff, CoreProcess, _model_manager, tradeoff_itinerary)
+  _itineraries.push_back(shortest);
+  _itineraries.push_back(safest);
+  _itineraries.push_back(tradeoff);
 
   GET_CHILD_VAR2 (_itineraries_list, Component, _parent, parent/l/map/layers/itineraries/itineraries_list)
   //GET_CHILD_VAR2 (_itineraries_list, CoreProcess, _parent, parent/l/map/layers/itineraries/itineraries_list)
@@ -387,11 +385,10 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     double longitude = m["longitude"].get<double>();
     double altitude = m["altitude"].get<double>();
 
-    ParentProcess* node_ = Node (_nodes, "", _map, _context, latitude, longitude, altitude, isPPO, label, std::stoi(node_id) + 1);
-    SET_CHILD_VALUE(Bool, node_, islocked, locked, true);
-    //TODO: MP problème entre le nom du child et la variable
-    SET_CHILD_VALUE(Int, node_, phase, phase, true);
-    SET_CHILD_VALUE(Bool, node_, wpt/isMandatory, isPPO, true)
+    ParentProcess* node_v = Node (_nodes, "", _map, _context, latitude, longitude, altitude, isPPO, label, std::stoi(node_id) + 1);
+    SET_CHILD_VALUE(Bool, node_v, islocked, locked, true);
+    SET_CHILD_VALUE(Int, node_v, phase, phase, true);
+    SET_CHILD_VALUE(Bool, node_v, wpt/isMandatory, isPPO, true)
 
     //ParentProcess* node = NodeModel (_node_models, "", _context, latitude, longitude, altitude, isPPO, label, std::stoi(node_id) + 1);
 
@@ -448,12 +445,12 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       SET_CHILD_VALUE (Text, model, uid, msg->itineraries[i].id, true)
       SET_CHILD_VALUE (Text, model, description_input, msg->itineraries[i].description, true)
       
-      /*GET_CHILD_VAR2 (list_nodes_ids, CoreProcess, model, nodes_ids)
+      GET_CHILD_VAR2 (list_nodes_ids, CoreProcess, model, nodes_ids)
 
       for (int j = 0; j < msg->itineraries[i].nodes.size(); j++) {
         //cout << "New IntProperty " << msg->itineraries[i].nodes[j] << " in " << i << endl;
         new IntProperty (list_nodes_ids, "", std::stoi(msg->itineraries[i].nodes[j]));
-      }*/
+      }
     }
   }
   else

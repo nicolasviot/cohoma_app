@@ -9,8 +9,10 @@ _native_code_
 
 
 _define_
-//NodeModel (Process _context, int _id, string _label, double _lat, double _lon, double _alt, int _isPPO)
-NodeModel (Process _context, double _lat, double _lon, double _alt, int _isPPO, string _label, int _id)
+//NodeModel (Process _context, double _lat, double _lon, double _alt, int _isPPO, string _label, int _id)
+NodeModel (Process _context, int _id, string _label, double _lat, double _lon, double _alt)
+//NodeModel (Process _context, int _id, string _label, double _lat, double _lon, double _alt, int _is_PPO)
+//NodeModel (Process _context, int _id, string _label, double _lat, double _lon, double _alt, int _is_PPO, int _phase)
 {
 	//context aka _context
 
@@ -20,14 +22,16 @@ NodeModel (Process _context, double _lat, double _lon, double _alt, int _isPPO, 
 	Double lon (_lon)
 	Double alt (_alt)
 
-	Bool isPPO (_isPPO) // Point de Passage Obligatoire
+	//Bool is_PPO (_is_PPO) // Point de Passage Obligatoire
+	Bool is_mandatory (0)
 
-	Bool islocked (0) // FIXME: not used
-	
+	//Bool is_locked (0) // FIXME: not used
+	//Int phase (_phase) // FIXME: not used
+
 	String status ("")
-
-	Int phase (0) // FIXME: not used
 
 	print ("Model of node (" + id + ") " + label + "\n")
 
+	Double dx_map (0)
+	Double dy_map (0)
 }

@@ -72,16 +72,16 @@ Itineraries (Process _map, Process _context, Process _model_manager)
 	_context.map_translation_y =:> pos.ty
 
 	// Parent for itineraries
-	Component itineraries_list
+	//Component itineraries_list
 
-	/*List itineraries
+	List itineraries_on_map
 
 	// Create a view for each model of itinerary
 	for model : _model_manager.itineraries {
-		addChildrenTo itineraries {
+		addChildrenTo itineraries_on_map {
 			ItineraryOnMap itinerary (_context, model)
 		}
-	}*/
+	}
 
 	NativeAction edge_released_na (edge_released_action, this, 1)
 
