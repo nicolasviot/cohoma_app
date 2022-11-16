@@ -152,6 +152,7 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
   GET_CHILD_VAR2 (_shadow_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/shadow_edges)
 
+  // Model
   GET_CHILD_VAR2 (_node_models, CoreProcess, _model_manager, nodes)
   GET_CHILD_VAR2 (_trap_models, CoreProcess, _model_manager, traps)
 
@@ -182,8 +183,8 @@ RosNode::impl_activate ()
   _itineraries.push_back(_safest_itinerary);
   _itineraries.push_back(_tradeoff_itinerary);
 
-  //GET_CHILD_VAR2 (_itineraries_list, Component, _parent, parent/l/map/layers/itineraries/itineraries_list)
-  GET_CHILD_VAR2 (_itineraries_list, CoreProcess, _parent, parent/l/map/layers/itineraries/itineraries_list)
+  GET_CHILD_VAR2 (_itineraries_list, Component, _parent, parent/l/map/layers/itineraries/itineraries_list)
+  //GET_CHILD_VAR2 (_itineraries_list, CoreProcess, _parent, parent/l/map/layers/itineraries/itineraries_list)
   GET_CHILD_VAR2 (_edge_released_na, NativeAction, _parent, parent/l/map/layers/itineraries/edge_released_na)
   
   GET_CHILD_VAR2 (_vab, CoreProcess, _model_manager, vehicles/vab)
@@ -516,6 +517,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       GET_CHILD_VAR2 (list_nodes_ids, CoreProcess, model, nodes_ids)
 
       for (int j = 0; j < msg->itineraries[i].nodes.size(); j++) {
+        //cout << "New IntProperty " << msg->itineraries[i].nodes[j] << " in " << i << endl;
         new IntProperty (list_nodes_ids, "", std::stoi(msg->itineraries[i].nodes[j]));
       }
     }   
@@ -1441,8 +1443,7 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
 
     double res_lat = above_x/below_x;
     double res_lon = above_y/below_y;
-    std::cerr << "res_latitude = " << res_lat << std::endl;
-    std::cerr << "res_longitude = " << res_lon << std::endl;
+    std::cout << "res latitude = " << res_lat << " -- longitude = " << res_lon << std::endl;
 
     new Connector (area_to_add, "x_bary_bind", area_to_add->find_child("bary_summit/x"), area_to_add->find_child("barycenterX"), 1);
     new Connector (area_to_add, "y_bary_bind", area_to_add->find_child("bary_summit/y"), area_to_add->find_child("barycenterY"), 1);

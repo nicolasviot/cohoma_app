@@ -63,7 +63,7 @@ Itineraries (Process _map, Process _context, Process _model_manager)
 	Ref ref_current_itinerary (nullptr)
 
 	//Spike clear
-	
+
 	Scaling sc (1, 1, 0, 0)
 	_context.map_scale =:> sc.sx, sc.sy
 
@@ -72,12 +72,13 @@ Itineraries (Process _map, Process _context, Process _model_manager)
 	_context.map_translation_y =:> pos.ty
 
 	// Parent for itineraries
-	//Component itineraries_list
-	List itineraries_list
+	Component itineraries_list
+
+	List itineraries
 
 	// Create a view for each model of itinerary
 	for model : _model_manager.itineraries {
-		addChildrenTo itineraries_list {
+		addChildrenTo itineraries {
 			ItineraryOnMap itinerary (_context, model)
 		}
 	}

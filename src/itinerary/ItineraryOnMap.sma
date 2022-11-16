@@ -61,21 +61,26 @@ ItineraryOnMap (Process _context, Process _model)
 	compare_selected_uid.output =:> switch.state*/
 
 	FillColor fill (#FF0000)
+	//Rectangle r (200, 200, 100, 100, 0, 0)
 
 	List edges
 
 	print ("Itinerary on Map " + _model.type + "\n")
+
+	_model.nodes_ids.size -> na_size:(this) {
+		print ("Node ID size changed to itinerary " + this.model.type + ": " + this.model.nodes_ids.size + "\n")
+	}
 
 	_model.nodes_ids.$added -> na_node_id_added:(this) {
 		if (this.model.nodes_ids.size > 0)
 		{
 			print ("Node ID added to itinerary " + this.model.type + ": " + this.model.nodes_ids.size + "\n")
 
-			for node_id : this.model.nodes_ids {
+			/*for node_id : this.model.nodes_ids {
 				print ("Node " + node_id + "\n")
-			}
+			}*/
 			for (int i = 1; i < this.model.nodes_ids.size; i++) {
-				print ("New edge from " + this.nodes_ids.[i] + " to " + this.model.nodes_ids.[i+1] + "\n")
+				print ("New edge from " + this.model.nodes_ids.[i] + " to " + this.model.nodes_ids.[i+1] + "\n")
 				//addChildrenTo this.edges {
 				//	Edge edge (this.map, this.context, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon)
 			}
