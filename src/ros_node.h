@@ -84,7 +84,6 @@ class RosNode : public FatProcess, public ExternalSource
     void send_msg_update_trap_position(int, double, double);
     void save_console();
   #endif
-    void test_multiple_itineraries();
     void test_draw_visibility_map();
     void write_to_log (string, string);
     void deactivate_layer(string);
@@ -110,7 +109,7 @@ class RosNode : public FatProcess, public ExternalSource
     // Models of itineraries
     //CoreProcess *_shortest_itinerary, *_safest_itinerary, *_tradeoff_itinerary;
     std::vector<CoreProcess*> _itineraries;
-    
+
     Component *_itineraries_list;
     //CoreProcess *_itineraries_list;
     RefProperty *_ref_curent_itinerary;

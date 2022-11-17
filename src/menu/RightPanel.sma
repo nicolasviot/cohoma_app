@@ -26,7 +26,7 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 	Spike plan_request 
 	Spike validate_plan  
 	Spike update_graph
-	Spike test_multiple_itineraries_spike
+
 	Spike test_allocation_spike
 	Spike test_lima_spike
 	Spike send_selected_tasks
@@ -155,9 +155,6 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 
 		StandAlonePushButton update_graph_but ("send graph", 20, 100)
 		update_graph_but.click -> update_graph
-	
-		StandAlonePushButton test_multiple_itineraries_button ("test multiple itineraries", 20, 130)
-		test_multiple_itineraries_button.click -> test_multiple_itineraries_spike
 	
 		StandAlonePushButton test_allocation_button("test allocation", 20, 160)
 		test_allocation_button.click -> test_allocation_spike

@@ -409,10 +409,6 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
 
 #endif
 
-void
-RosNode::test_multiple_itineraries()
-{
-}
 
 #ifndef NO_ROS
 void 

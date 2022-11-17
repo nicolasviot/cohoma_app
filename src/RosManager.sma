@@ -49,21 +49,11 @@ send_selected_allocation_fun (Process c)
  	RosNode *node = dynamic_cast<RosNode*>(data);
   	
   	#ifndef NO_ROS
-  if (node)
- 	 node->send_selected_tasks(); 
+  	if (node)
+ 		node->send_selected_tasks(); 
  	#endif
 %}
 
-
-_action_
-test_multiple_itineraries (Process c)
-%{
-
-	Process *data = (Process*) get_native_user_data(c);
- 	RosNode *node = dynamic_cast<RosNode*>(data);
-  	node ->test_multiple_itineraries(); 
-  	
-%}
 
 _action_
 test_lima (Process c)
@@ -111,7 +101,7 @@ RosManager (Process _parent, Process _map, Process _context, Process _model_mana
 	Spike update_graph
 	Spike plan_request
 	Spike validate_plan
-	Spike test_multiple_itineraries_spike
+
 	Spike test_allocation_spike
 	Spike test_lima_spike
 	Spike send_selected_tasks
@@ -128,8 +118,6 @@ RosManager (Process _parent, Process _map, Process _context, Process _model_mana
   	NativeAction plan_request_action (plan_request_fun, node, 1)
   	plan_request -> plan_request_action
 
-  	NativeAction test_multiple_itineraries_action(test_multiple_itineraries, node, 1)
-  	test_multiple_itineraries_spike -> test_multiple_itineraries_action
   	NativeAction test_send_allocated_action (send_selected_allocation_fun, node, 1)
   	test_allocation_spike -> test_send_allocated_action
   	NativeAction test_lima_action (test_lima, node, 1)

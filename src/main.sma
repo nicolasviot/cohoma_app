@@ -403,7 +403,7 @@ Component root {
   right_panel.plan_request -> ros_manager.plan_request
   right_panel.validate_plan -> ros_manager.validate_plan
   right_panel.update_graph -> ros_manager.update_graph
-  right_panel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
+
   right_panel.test_allocation_spike -> ros_manager.test_allocation_spike
   right_panel.itinerary_panel.plan_set -> ros_manager.validate_plan
   right_panel.test_lima_spike -> ros_manager.test_lima_spike
