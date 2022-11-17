@@ -11,7 +11,7 @@ _native_code_
 %}
 
  
-_action_
+/*_action_
 id_changed_action (Process src, Process self)
 {
 	//color
@@ -37,9 +37,9 @@ id_changed_action (Process src, Process self)
 		// move selected itinerary above
 		moveChild itinerary_to_move >>
 	} 
-}
+}*/
 
-_action_
+/*_action_
 edge_released_action (Process src, Process self)
 {   
 	print ("edge_released_action\n")
@@ -50,7 +50,7 @@ edge_released_action (Process src, Process self)
 
 	// and assign it to "selected_itinerary_id" in the context
 	self.context.selected_itinerary_id = toString (itinerary_id)
-}
+}*/
 
 
 _define_
@@ -83,9 +83,9 @@ Itineraries (Process _map, Process _context, Process _model_manager)
 		}
 	}
 
-	NativeAction edge_released_na (edge_released_action, this, 1)
+	//NativeAction edge_released_na (edge_released_action, this, 1)
 
-	NativeAction id_changed_na (id_changed_action, this, 1)
-	_context.selected_itinerary_id -> id_changed_na
+	//NativeAction id_changed_na (id_changed_action, this, 1)
+	//_context.selected_itinerary_id -> id_changed_na
 
 }

@@ -245,9 +245,9 @@ Component root {
           Itineraries layer (map, context, model_manager)
         }
       }
-      itineraries_list aka ctrl_visibility.visible.layer.itineraries_list
+      //itineraries_list aka ctrl_visibility.visible.layer.itineraries_list
       ref_current_itinerary aka ctrl_visibility.visible.layer.ref_current_itinerary
-      edge_released_na aka  ctrl_visibility.visible.layer.edge_released_na
+      //edge_released_na aka  ctrl_visibility.visible.layer.edge_released_na
       String name ("Itineraries")
     }
 
