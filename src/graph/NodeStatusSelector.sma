@@ -17,11 +17,8 @@ NodeStatusSelector (Process _frame, Process _context)
     tx.value + 3 => tr.tx
     ty.value => tr.ty
 
-    // FIXME: replace by model when GraphNode will be linked to its model
-    //DerefInt model_id (_context.ref_current_node, "model/id", DJNN_GET_ON_CHANGE)
-    DerefInt model_id (_context.ref_current_node, "id", DJNN_GET_ON_CHANGE)
-    //DerefString model_status (_context.ref_current_node, "model/status", DJNN_GET_ON_CHANGE)
-    DerefString model_status (_context.ref_current_node, "usage_status", DJNN_GET_ON_CHANGE)
+    DerefInt model_id (_context.ref_current_node, "model/id", DJNN_GET_ON_CHANGE)
+    DerefString model_status (_context.ref_current_node, "model/status", DJNN_GET_ON_CHANGE)
     //"id: " + model_id.value + " -- status: " + model_status.value =:> tp.input
 
 

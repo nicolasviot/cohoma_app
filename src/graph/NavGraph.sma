@@ -5,6 +5,12 @@ use base
 import Node
 import Edge
 
+_native_code_
+%{
+    #include <iostream>
+%}
+
+
 _define_
 NavGraph (Process _map, Process _context, Process _model_manager)
 {
@@ -32,9 +38,28 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 
 	}
 
-	if (model_manager.IS_DEBUG)
-	{
-		addChildrenTo nodes {
+	_model_manager.nodes.$added -> na_node_added:(this) {
+		print ("New model of node added to list " + this.model_manager.nodes.size + "\n")
+		/*model = getRef (&this.model_manager.nodes.$added)
+    	addChildrenTo this.nodes {
+			Node node (this.map, this.context, model)
+		}*/
+	}
+
+	_model_manager.nodes.$removed -> na_node_removed:(this) {
+		print ("Model of node removed from list " + this.model_manager.nodes.size + "\n")
+		//model = getRef (&this.model_manager.nodes.$removed)
+	}
+
+	for model : _model_manager.nodes {
+		addChildrenTo this.nodes {
+			Node node (this.map, this.context, model)
+		}
+	}
+
+	//if (model_manager.IS_DEBUG)
+	//{
+	//	addChildrenTo nodes {
 			
 			//Esperces data
 			/*Node node0(_map, _context, 43.316021818382886, 1.4041900634765625, 0.0, 0, "n_011", 1)
@@ -51,7 +76,7 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 			Node node11(_map, _context, 43.315327071800844, 1.4045333862304688, 0.0, 0, "n_000", 12)*/
 
 			//Baynes data
-			Node node1 (_map, _context, 48.866366, 1.885056, 0.0, 0, "FIRST", 1)
+			/*Node node1 (_map, _context, 48.866366, 1.885056, 0.0, 0, "FIRST", 1)
 			Node node2 (_map, _context, 48.866246, 1.885335, 0.0, 0, "", 2)
 			Node node3 (_map, _context, 48.866733, 1.886022, 0.0, 0, "", 3)
 			Node node4 (_map, _context, 48.865385, 1.886623, 0.0, 0, "", 4)
@@ -159,9 +184,9 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 			Node node106 (_map, _context, 48.866211, 1.884520, 0.0, 0, "", 106)
 			Node node107 (_map, _context, 48.866119, 1.884906, 0.0, 0, "", 107)
 			
-		}
+		}*/
 
-		addChildrenTo edges {
+		//addChildrenTo edges {
 
 			//Esperces data
 			/*Edge edge1(12, 11, 22.11618714809018, nodes)
@@ -184,7 +209,7 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 			Edge edge18(2, 1, 22.11618714809018, nodes)*/
 		
 			//Baynes data
-			Edge edge_107_66 (107, 66, 36.151847, nodes)
+			/*Edge edge_107_66 (107, 66, 36.151847, nodes)
 			Edge edge_107_1 (107, 1, 29.598092, nodes)
 			Edge edge_107_74 (107, 74, 19.472073, nodes)
 			Edge edge_106_27 (106, 27, 47.470229, nodes)
@@ -341,8 +366,8 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 			Edge edge_2_1 (2, 1, 24.431021, nodes)
 			Edge edge_1_76 (1, 76, 78.194969, nodes)
 
-		}
-	}
+		}*/
+	//}
 	
 	OutlineOpacity _(0.5)
 	

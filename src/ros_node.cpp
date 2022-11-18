@@ -242,7 +242,10 @@ RosNode::impl_deactivate ()
 
 // callback for navgraph msg (contains the navigation graph)
 void 
-RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg) {
+RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg)
+{
+  cout << "receive_msg_navgraph" << endl;
+
   get_exclusive_access(DBG_GET);
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
@@ -394,13 +397,13 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     ParentProcess* node = NodeModel (_node_models, "", _context, std::stoi(node_id) + 1, phase, label, latitude, longitude, altitude, mandatory);
   }
 
-  cout << "receive_msg_navgraph" << endl;
-  for (auto& edge: j_graph["edges"]) {
-    std::string source = edge["source"].get<std::string>();
-    std::string target = edge["target"].get<std::string>();
-    auto& m = edge["metadata"];
+  for (auto& j_edge: j_graph["edges"])
+  {
+    std::string source = j_edge["source"].get<std::string>();
+    std::string target = j_edge["target"].get<std::string>();
+    auto& m = j_edge["metadata"];
     double length = m["length"].get<double>();
-    ParentProcess* edge_ = Edge(_edges, "", std::stoi(source) + 1, std::stoi(target) + 1, length, _nodes);
+    ParentProcess* edge = Edge(_edges, "", std::stoi(source) + 1, std::stoi(target) + 1, length, _nodes);
   }
 
   GRAPH_EXEC;
@@ -1091,10 +1094,10 @@ RosNode::send_msg_planning_request(){
   icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
   message.id = _current_plan_id_vab.get_string_value();
 
-  for (auto item: ((djnn::List*)_nodes)->children()){
-
+  for (auto item : ((djnn::List*)_nodes)->children())
+  {
     GET_CHILD_VALUE (status, Text, item, status)
-    GET_CHILD_VALUE (iid, Int, item, id)
+    GET_CHILD_VALUE (iid, Int, item, id) // FIXME iid
 
     if (status == "start" )
       message.start_node = std::to_string(iid - 1);
@@ -1126,7 +1129,7 @@ RosNode::send_msg_navgraph_update(){
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Send navgraph update\n", true);
 
-  //Edges
+  // Edges
   for (auto item: ((djnn::List*)edges)->children()){
 
     GET_CHILD_VALUE (ssource_id, Int, item, id_src)
@@ -1143,9 +1146,10 @@ RosNode::send_msg_navgraph_update(){
     j["graph"]["edges"].push_back(jn); 
   }
 
-  //Nodes
-  for (auto item: ((djnn::List*)nodes)->children()){
-
+  // FIXME: use models instead of views
+  // Nodes
+  for (auto item: ((djnn::List*)nodes)->children())
+  {
     GET_CHILD_VALUE (iid, Int, item, id)
     GET_CHILD_VALUE (slabel, Text, item, label)
     GET_CHILD_VALUE (dlat, Double, item, wpt/lat)

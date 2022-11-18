@@ -24,16 +24,21 @@ NodeModel (Process _context, int _id, int _phase, string _label, double _lat, do
 	Double lon (_lon)
 	Double alt (_alt)
 
-	Bool is_mandatory (0)
+	Bool is_mandatory (_is_mandatory)
 
 	//Bool is_PPO (_is_PPO) // Point de Passage Oblige
 	//Bool is_POS (_is_POS) // (Point de) Passage Oblige pour Satellites
 
-	//Bool is_locked (0) // FIXME: not used
+	// FIXME: not used
+	// FIXME: equal to forced ?
+	//Bool is_locked (0)
 
+	// { default, start, end, forced, mandatory }
 	String status ("")
 
-	print ("Model of node (" + id + ") '" + label + "': phase = " + phase + "\n")
+    is_mandatory ? "mandatory" : "default" =: status
+
+	//print ("Model of node (" + id + ") '" + label + "': phase = " + phase + "\n")
 
 	Double dx_map (0)
 	Double dy_map (0)
