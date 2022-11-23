@@ -41,6 +41,6 @@ NodeModel (Process _context, int _id, int _phase, string _label, double _lat, do
 
 	//print ("Model of node (" + id + ") '" + label + "': phase = " + phase + "\n")
 
-	Double dx_map (0)
-	Double dy_map (0)
+	Double dx_in_map (0)
+	Double dy_in_map (0)
 }

@@ -25,8 +25,8 @@ Node (Process _map, Process _context, Process _model)
 	Int mask_radius (30)
 
     Translation screen_translation (0, 0)
-	screen_translation.tx =:> _model.dx_map
-	screen_translation.ty =:> _model.dy_map
+	_model.dx_in_map =:> screen_translation.tx
+	_model.dy_in_map =:> screen_translation.ty
     
   
 	Component bg {
@@ -146,6 +146,6 @@ Node (Process _map, Process _context, Process _model)
 
     // Update the position via "screen_translation" in function of lat/lon and current zoom level
     // Allow to drag via "picking"
-    DraggableItem draggable_item (_map, _context, _model.lat, _model.lon, screen_translation.tx, screen_translation.ty, bg.mask)
+    DraggableItem draggable_item (_map, _context, _model.lat, _model.lon, _model.dx_in_map, _model.dy_in_map, bg.mask)
 
 }

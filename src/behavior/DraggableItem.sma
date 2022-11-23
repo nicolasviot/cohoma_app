@@ -12,7 +12,7 @@ _native_code_
 
 
 _define_
-DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Process _tx, Process _ty, Process _picking)
+DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Process _dx, Process _dy, Process _picking)
 {
     //TextPrinter tp
 
@@ -20,8 +20,8 @@ DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Proce
     FSM zoom_fsm {
 
         State idle {
-            //(lon2px ($_lon, $_map.zoomLevel) - _map.t0_x) =:> _tx
-            //_map.t0_y - lat2py ($_lat, $_map.zoomLevel) =:> _ty
+            //(lon2px ($_lon, $_map.zoomLevel) - _map.t0_x) =:> _dx
+            //_map.t0_y - lat2py ($_lat, $_map.zoomLevel) =:> _dy
         }
 
         State zoom_in {
@@ -36,16 +36,16 @@ DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Proce
 
             Double init_x (0)
             Double init_y (0)
-            _tx =: init_x
-            _ty =: init_y
+            _dx =: init_x
+            _dy =: init_y
 
             Double dx (0)
             Double dy (0)
             new_x - init_x =: dx
             new_y - init_y =: dy
 
-            anim.output * (dx + _map.new_dx) + init_x =:> _tx
-            anim.output * (dy + _map.new_dy) + init_y =:> _ty
+            anim.output * (dx + _map.new_dx) + init_x =:> _dx
+            anim.output * (dy + _map.new_dy) + init_y =:> _dy
         }
 
         State zoom_out {
@@ -60,16 +60,16 @@ DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Proce
 
             Double init_x (0)
             Double init_y (0)
-            _tx =: init_x
-            _ty =: init_y
+            _dx =: init_x
+            _dy =: init_y
             
             Double dx (0)
             Double dy (0)
             new_x - init_x =: dx
             new_y - init_y =: dy
 
-            anim.output * (dx + _map.new_dx) + init_x =:> _tx
-            anim.output * (dy + _map.new_dy) + init_y =:> _ty
+            anim.output * (dx + _map.new_dx) + init_x =:> _dx
+            anim.output * (dy + _map.new_dy) + init_y =:> _dy
         }
 
         idle -> zoom_in (_map.prepare_zoom_in)
@@ -83,26 +83,26 @@ DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Proce
     FSM drag_fsm {
 
         State no_drag {
-            (lon2px ($_lon, $_map.zoomLevel) - _map.t0_x) =:> _tx
-            _map.t0_y - lat2py ($_lat, $_map.zoomLevel) =:> _ty
+            (lon2px ($_lon, $_map.zoomLevel) - _map.t0_x) =:> _dx
+            _map.t0_y - lat2py ($_lat, $_map.zoomLevel) =:> _dy
         }
 
         State no_drag_while_shift_key {
-            (lon2px ($_lon, $_map.zoomLevel) - _map.t0_x) =:> _tx
-            _map.t0_y - lat2py ($_lat, $_map.zoomLevel) =:> _ty
+            (lon2px ($_lon, $_map.zoomLevel) - _map.t0_x) =:> _dx
+            _map.t0_y - lat2py ($_lat, $_map.zoomLevel) =:> _dy
         }
 
         State drag {
             Double offset_x (0)
             Double offset_y (0)
             
-            _picking.press.x - _tx =: offset_x
-            _picking.press.y - _ty =: offset_y
-            _picking.move.x - offset_x => _tx
-            _picking.move.y - offset_y => _ty
+            _picking.press.x - _dx =: offset_x
+            _picking.press.y - _dy =: offset_y
+            _picking.move.x - offset_x => _dx
+            _picking.move.y - offset_y => _dy
 
-            px2lon ($_tx + _map.t0_x, $_map.zoomLevel) => _lon, _map.reticule.pointer_lon2
-            py2lat (_map.t0_y - $_ty, $_map.zoomLevel) => _lat, _map.reticule.pointer_lat2
+            px2lon ($_dx + _map.t0_x, $_map.zoomLevel) => _lon, _map.reticule.pointer_lon2
+            py2lat (_map.t0_y - $_dy, $_map.zoomLevel) => _lat, _map.reticule.pointer_lat2
         }
         
         no_drag -> drag (_picking.left.press, _map.reticule.show_reticule2)

@@ -18,6 +18,10 @@ Edge (Process _context, Process _model)
     //DoubleFormatter df(0, 2)
     //100 * explored =:> df.input 
 
+    Int default_width (8)
+	Int inside_width (16)
+	Int mask_width (16)
+
     DoubleFormatter format (0, 2)
     _model.length =:> format.input
 
@@ -26,15 +30,15 @@ Edge (Process _context, Process _model)
     OutlineCapStyle _ (1)
 
     Component bg {
-        // "Transparent", only to detect enter/leave with 20 as outline width
+        // "Transparent", only to detect enter/leave with 15 as outline width
         NoOutline _
         PickOutline _
-        OutlineWidth _ (20)
+        OutlineWidth _ ($mask_width)
 
         Line mask (0, 0, 0, 0)
     }
 
-    OutlineWidth outline_width (10)
+    OutlineWidth outline_width ($default_width)
     OutlineColor outline_color ($_context.EDGE_COLOR)
 
     Line edge (0, 0, 0, 0)
@@ -42,12 +46,12 @@ Edge (Process _context, Process _model)
 
     FSM fsm {
         State idle {
-            10 =: outline_width.width
+            default_width =: outline_width.width
         }
 
         State entered {
             Timer t (500)
-            20 =: outline_width.width
+            inside_width =: outline_width.width
         }
 
         State display_tooltip {
@@ -79,10 +83,10 @@ Edge (Process _context, Process _model)
     }
 
 
-    _model.node1.dx_map =:> edge.x1, bg.mask.x1
-    _model.node1.dy_map =:> edge.y1, bg.mask.y1
+    _model.node1.dx_in_map =:> edge.x1, bg.mask.x1
+    _model.node1.dy_in_map =:> edge.y1, bg.mask.y1
 
-    _model.node2.dx_map=:> edge.x2, bg.mask.x2
-    _model.node2.dy_map=:> edge.y2, bg.mask.y2
+    _model.node2.dx_in_map=:> edge.x2, bg.mask.x2
+    _model.node2.dy_in_map=:> edge.y2, bg.mask.y2
 
 }
