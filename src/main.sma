@@ -25,8 +25,8 @@ import map.MapLayer
 import map.MapLayerSync
 import map.EnvMapLayer
 import graph.OldNode
+import graph.OldEdge
 import graph.GraphNode
-import graph.Edge
 import graph.NavGraph
 import graph.NodeStatusSelector
 import itinerary.Itineraries
@@ -79,7 +79,7 @@ Component root {
   init_ros ()
   
   // Use static data model for debug
-  int is_debug = 0
+  int is_debug = 1
   // Use "#ifndef NO_ROS" instead
 
 
@@ -490,7 +490,7 @@ Component root {
         int src = $root.addEdge.preview_on.temp_id_list.[size - 1]
         int dest = $root.addEdge.preview_on.temp_id_list.[size]
         addChildrenTo root.l.map.layers.navgraph.shadow_edges {
-          Edge _ (src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
+          OldEdge _ (src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
         }
       }
       
@@ -565,7 +565,7 @@ Component root {
       int dest = $root.addEdge.preview_on.temp_id_list.[i+1]
       //print ("Add edge\n")
       addChildrenTo root.l.map.layers.navgraph.edges {
-        Edge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
+        OldEdge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
      }
     }
   }

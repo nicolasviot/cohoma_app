@@ -14,8 +14,8 @@ _native_code_
 _define_
 Node (Process _map, Process _context, Process _model)
 {
+	 //context aka _context
 	model aka _model
-    //context aka _context
     
     //Int id_in_tooltip (_model.id - 1)
     //_model.id - 1 => id_in_tooltip
@@ -30,6 +30,8 @@ Node (Process _map, Process _context, Process _model)
 	Int mask_radius (30)
 
     Translation screen_translation (0, 0)
+	screen_translation.tx =:> _model.dx_map
+	screen_translation.ty =:> _model.dy_map
     
   
     // Graphical variables to be updated in different status
@@ -97,9 +99,8 @@ Node (Process _map, Process _context, Process _model)
     FSM tooltip {
         State idle
         
-        State entered{
+        State entered {
             Timer t (500)
-            //"enter in Graph Node" =: lp.input
         }
 
         State display_tooltip {
@@ -110,7 +111,7 @@ Node (Process _map, Process _context, Process _model)
             FontWeight _ (50)
             Rectangle bg (20, -10, 50, 20, 5, 5)
 
-            FillColor _ (#000000)
+            FillColor black (#000000)
 			Text legend (23, 4, "Node 0")
             legend.width + 6 =:> bg.width
             //legend.height + 2 =:> bg.height

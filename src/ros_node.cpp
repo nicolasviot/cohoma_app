@@ -1345,11 +1345,11 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
     }
 
     // barycenter of polygon : https://fr-academic.com/dic.nsf/frwiki/263573
-    //Compute abovex : 
+    //Compute above x : 
     for (int j = 0; j < n -1; j++){
       above_x = above_x + (msg.zones[i].polygon.points[j].latitude + msg.zones[i].polygon.points[j+ 1].latitude) * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude);
     }
-    //Compute belowx :
+    //Compute below x :
     for (int j = 0; j < n -1; j++){
       below_x = below_x + 3 * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude); 
     }

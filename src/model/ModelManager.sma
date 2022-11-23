@@ -5,6 +5,7 @@ use base
 import VehiculeModel
 import SafetyPilotModel
 import NodeModel
+import EdgeModel
 import TrapModel
 import ItineraryModel
 
@@ -188,6 +189,14 @@ ModelManager (Process _context, int _is_debug)
     List edges {
 		
 	}
+
+    if (_is_debug) {
+        addChildrenTo edges {
+            EdgeModel edge_28_22 (nodes.[29], nodes.[23], 46.2805)
+            EdgeModel edge_27_28 (nodes.[28], nodes.[29], 48.5232)
+            EdgeModel edge_22_29 (nodes[23], nodes[30], 122.646)
+        }
+    }
 
     List traps {
 

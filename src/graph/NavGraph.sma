@@ -57,6 +57,12 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 		}
 	}
 
+	for model : _model_manager.edges {
+		addChildrenTo this.edges {
+			Edge node (this.context, model)
+		}
+	}
+
 	//if (model_manager.IS_DEBUG)
 	//{
 	//	addChildrenTo nodes {

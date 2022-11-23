@@ -4,7 +4,7 @@ use display
 use base
 use animation
 
-import graph.Edge
+import graph.OldEdge
 
 _define_
 TaskEdge (Process map, int _source, int _dest, Process nodes)
@@ -28,7 +28,7 @@ TaskEdge (Process map, int _source, int _dest, Process nodes)
             0 =: selected
         }
         State select { 
-            /*Edge the_surrounding_edge($id_source, $id_dest, 20, nodes)
+            /*OldEdge the_surrounding_edge($id_source, $id_dest, 20, nodes)
             255 =: the_surrounding_edge.color.r
             255 =: the_surrounding_edge.color.g
             0 =: the_surrounding_edge.color.b
@@ -50,7 +50,7 @@ TaskEdge (Process map, int _source, int _dest, Process nodes)
 
     }
 
-    Edge the_edge($id_source, $id_dest, 20, nodes)
+    OldEdge the_edge($id_source, $id_dest, 20, nodes)
     the_edge.mask_edge.press -> press
     length =:> the_edge.length
     explored =:> the_edge.explored
