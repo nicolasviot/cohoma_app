@@ -40,7 +40,7 @@ Edge (Process _context, Process _model)
     Line edge (0, 0, 0, 0)
 
 
-    FSM tooltip {
+    FSM fsm {
         State idle {
             10 =: outline_width.width
         }
@@ -57,13 +57,15 @@ Edge (Process _context, Process _model)
             (edge.x1 + edge.x2) / 2 =:> t.tx
             (edge.y1 + edge.y2) / 2 =:> t.ty
 
+            OutlineWidth _ (1)
+            OutlineColor _ (#777777)
             FillOpacity fo (0.8)
             FillColor light_grey (204, 204, 204)
-            OutlineColor _ ($_context.EDGE_COLOR)
-            OutlineWidth _ (1)
             Rectangle bg (0, 0, 50, 20, 5, 5)
             
             FillColor black (#000000)
+            FontSize _ (5, 12)
+            FontWeight _ (DJN_NORMAL)
             Text legend (3, 15, "0 m")
             legend.width + 6 =:> bg.width
             //legend.height + 2 =:> bg.height

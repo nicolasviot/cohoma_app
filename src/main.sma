@@ -461,8 +461,6 @@ Component root {
   Spike add_edges
   Spike add_first_wpt
   Spike clear_all
-  Spike disable_drag
-  Spike renable_drag
 
   context.del -> context.set_current_node_to_null
   context.del -> clear_all

@@ -32,8 +32,6 @@ GraphNode (Process map, Process _context, int _id, double _lat, double _lon)
     Int id_in_tooltip (_id - 1)
     id - 1 => id_in_tooltip
 
-    Spike disable_drag
-    Spike renable_drag
     Spike leave
     Spike enter
 
