@@ -20,6 +20,7 @@ use display
 
 import CohomaContext
 import model.ModelManager
+import model.NoRosModelManager
 import map.Map
 import map.MapLayer
 import map.MapLayerSync
@@ -145,7 +146,14 @@ Component root {
     "key DEL" =: lp.input
   }*/
 
-  ModelManager model_manager (context, is_debug)
+  if (is_debug) {
+    NoRosModelManager model (context, is_debug)
+  }
+  else {
+    ModelManager model (context, is_debug)
+  }
+  model_manager = find(root.model)
+  
 
   // Create one layer per data, from bottom to top:
   Component l {
