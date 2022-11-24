@@ -66,7 +66,7 @@ ros_x86_libs := $(shell ls $(ros_lib_path)/x86_64-linux-gnu/lib*.so 2>/dev/null 
 # ros_libs := $(filter -l%,$(ros_libs))
 
 
-PATH_TO_WORKSPACE = /home/lii/Documents/dev_ws
+PATH_TO_WORKSPACE = /home/lii/Documents/ihmdrone_ws
 icare_interfaces_libs_install_path := $(PATH_TO_WORKSPACE)/install/icare_interfaces/lib
 icare_libs := $(shell ls $(icare_interfaces_libs_install_path)/lib*.so 2>/dev/null | xargs echo)
 icare_libs := $(patsubst $(icare_interfaces_libs_install_path)/lib%.so, -l%, $(icare_libs))

@@ -46,8 +46,6 @@
 
 //C++ stuff
 
-
-
 using namespace djnn;
 
 class RosNode : public FatProcess, public ExternalSource

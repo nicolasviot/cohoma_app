@@ -13,10 +13,10 @@ Translation t(_x, _y)
     wc.format = "%H:%M:%S"  // exemple=  "%H:%M:%S", "%Hh%Mm%Ss" 
     FillColor white (255, 255, 255)
     Text text_clock (20, 20, "default")
-    wc.state_text =:> text_clock.text
+    //wc.state_text =:> text_clock.text
     // il faut une source trigger
     Clock clock_trigger (100)
-    clock_trigger.tick -> wc.state_text
+    //clock_trigger.tick -> wc.state_text
 
     FileWriter fw ("toto.log")
     "Log_" + wc.state_text =: fw.filename

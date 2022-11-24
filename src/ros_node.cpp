@@ -14,13 +14,16 @@
 #include <nlohmann/json.hpp>
 
 #include <cassert>
-
-
+//#include <experimental/chrono>
+#include <time.h>
 #include <iostream>
 #include <algorithm>
 #include <iterator>
 
 //#include <fstream>
+
+
+#include "boost/date_time/posix_time/posix_time.hpp"
 
 #include "Node.h"
 #include "NavGraph.h"
@@ -595,7 +598,7 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
 void 
 RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
   
-  RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
+  //RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
 
   djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _actor, _actor_ugv};
   static const string robots_name[] = {"", "drone", "agilex1", "agilex2", "lynx", "spot", "vab", "drone_safety_pilot", "ground_safety_pilot"};
@@ -612,6 +615,20 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
   get_exclusive_access(DBG_GET);
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+
+  //std::cerr << msg->header.stamp.sec << std::endl;
+  //std::cerr << msg->header.stamp.sec << std::endl;
+  //std::cerr << chrono::sys_seconds{chrono::seconds(msg->header.stamp.sec)} << std::endl;;
+  
+  if(msg->robot_id == 1){
+    time_t a = ((int)msg->header.stamp.sec);
+    std::cerr << ctime(&a);
+    std::string str = std::string(ctime(&a));
+    std::string str2 = str.erase(0,11);
+    std::string str3 = str2.erase(8,10);
+
+    SET_CHILD_VALUE (Text, _clock, text_clock/text, str3, true);
+  }
 
   SET_CHILD_VALUE (Double, robot, lat, msg->position.latitude, true);
   SET_CHILD_VALUE (Double, robot, lon, msg->position.longitude, true);
@@ -669,10 +686,10 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     if (index_found == -1) {
       new_trap = new_trap + 1;
       
-      ParentProcess *new_trap = Trap(_traps, "", _map, msg.traps[k].location.latitude, msg.traps[k].location.longitude, msg.traps[k].id, this);
+      ParentProcess *new_trap = Trap(_traps, "", _map,  msg.traps[k].location.latitude, msg.traps[k].location.longitude , msg.traps[k].id, this);
   
       current_trap = new_trap;
-
+      std::cerr << "New trap discovered at " << msg.traps[k].location.latitude << " , " << msg.traps[k].location.longitude << std::endl;
       SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp + " - New trap #" + std::to_string(msg.traps[k].id) + "\n", true);
       
       if (msg.traps[k].identified)
@@ -1072,7 +1089,7 @@ RosNode::send_msg_lima(int id){
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Validated lima " + std::to_string(id) + "\n", true);
   
   message.header.stamp = _node->get_clock()->now();
-
+  //std::cerr << message.header.stamp.now().toSec() << std::endl;
   publisher_lima->publish(message);
 }
 
