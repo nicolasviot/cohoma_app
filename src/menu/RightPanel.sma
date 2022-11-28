@@ -178,6 +178,16 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 
 			StandAlonePushButton btn_set_trap2 ("set trap 2", 150, 40)
 			btn_set_trap2.click -> _model_manager.set_trap2
+
+
+			StandAlonePushButton btn_set_shortest ("set shortest", 20, 70)
+			btn_set_shortest.click -> _model_manager.set_shortest_itinerary
+
+			StandAlonePushButton btn_set_safest ("set safest", 150, 70)
+			btn_set_safest.click -> _model_manager.set_safest_itinerary
+
+			StandAlonePushButton btn_set_tradeoff ("set tradeoff", 280, 70)
+			btn_set_tradeoff.click -> _model_manager.set_tradeoff_itinerary
 		}
 	}
 

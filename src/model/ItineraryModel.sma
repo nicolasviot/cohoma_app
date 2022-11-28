@@ -2,16 +2,21 @@ use core
 use gui
 use base
 
+//import EdgeModel
+
 _native_code_
 %{
     #include <iostream>
+
+	extern Process* get_edge_model (Process* self, int index_1, int index_2);
 %}
 
 
 _define_
-ItineraryModel (Process _context, string _type)
+ItineraryModel (Process _context, Process _model_manager, string _type)
 {
 	//context aka _context
+	model_manager aka _model_manager
 
 	// Const
 	String type (_type)
@@ -35,9 +40,37 @@ ItineraryModel (Process _context, string _type)
 	regex.[1] =:> legend
   	regex.[2] =:> cost
 	
-	List nodes_ids
+	List node_ids
+	List node_indexes
+
+	node_ids.$added -> na_node_id_added:(this) {
+		if (this.node_ids.size > 0)
+		{
+			print ("Node ID added to itinerary " + this.type + ": " + this.node_ids.size + "\n")
+
+			for (int i = 1; i < this.node_ids.size; i++) {
+				print ("New edge from " + this.node_ids.[i] + " to " + this.node_ids.[i+1] + "\n")
+				edge_model = get_edge_model (this.model_manager, $this.node_ids.[i], $this.node_ids.[i+1])
+				if (&edge_model != null) {
+					print ("edge_model " + edge_model.length + "\n")
+					//addChildrenTo this.edges {
+					//	Edge edge (this.map, this.context, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon)
+				}
+				else {
+					print ("ERROR: NO model of edge from " + this.node_ids.[i] + " to " + this.node_ids.[i+1] + "\n")
+				}
+			}
+		}
+		else {
+			print ("NONE node ID added to itinerary " + this.type + " --> empty itinerary !\n")
+		}
+	}
+
+	node_ids.$removed -> na_node_id_removed:(this) {
+		print ("Node ID removed from itinerary " + this.type + ": " + this.node_ids.size + "\n")
+	}
 
 	LogPrinter lp ("Itinerary regexp (debug): ")
 	//type + " (" + uid + "): " + description_input =:> lp.input
-	type + " (" + uid + "): " + nodes_ids.size =:> lp.input
+	type + " (" + uid + "): " + node_ids.size =:> lp.input
 }

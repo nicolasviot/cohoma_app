@@ -38,20 +38,17 @@ ItineraryOnMap (Process _context, Process _model)
 
 	print ("Itinerary on Map " + _model.type + "\n")
 
-	_model.nodes_ids.size -> na_size:(this) {
-		print ("Node ID size changed to itinerary " + this.model.type + ": " + this.model.nodes_ids.size + "\n")
+	/*_model.node_ids.size -> na_size:(this) {
+		print ("Node ID size changed to itinerary " + this.model.type + ": " + this.model.node_ids.size + "\n")
 	}
 
-	_model.nodes_ids.$added -> na_node_id_added:(this) {
-		if (this.model.nodes_ids.size > 0)
+	_model.node_ids.$added -> na_node_id_added:(this) {
+		if (this.model.node_ids.size > 0)
 		{
-			print ("Node ID added to itinerary " + this.model.type + ": " + this.model.nodes_ids.size + "\n")
+			print ("Node ID added to itinerary " + this.model.type + ": " + this.model.node_ids.size + "\n")
 
-			/*for node_id : this.model.nodes_ids {
-				print ("Node " + node_id + "\n")
-			}*/
-			for (int i = 1; i < this.model.nodes_ids.size; i++) {
-				print ("New edge from " + this.model.nodes_ids.[i] + " to " + this.model.nodes_ids.[i+1] + "\n")
+			for (int i = 1; i < this.model.node_ids.size; i++) {
+				print ("New edge from " + this.model.node_ids.[i] + " to " + this.model.node_ids.[i+1] + "\n")
 				//addChildrenTo this.edges {
 				//	Edge edge (this.map, this.context, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon)
 			}
@@ -61,10 +58,10 @@ ItineraryOnMap (Process _context, Process _model)
 		}
 	}
 
-	_model.nodes_ids.$removed -> na_node_id_removed:(this) {
-		print ("Node ID removed from itinerary " + this.model.type + ": " + this.model.nodes_ids.size + "\n")
+	_model.node_ids.$removed -> na_node_id_removed:(this) {
+		print ("Node ID removed from itinerary " + this.model.type + ": " + this.model.node_ids.size + "\n")
 		//model = getRef (&this.model_manager.traps.$removed)
-	}
+	}*/
 
 
 	/*for (int i = 1; i < ite_edges_size; i++) {

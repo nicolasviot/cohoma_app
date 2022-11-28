@@ -434,7 +434,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
   if (msg->itineraries.size() == _itineraries.size())
   {
     CoreProcess* model = nullptr;
-    CoreProcess* list_nodes_ids = nullptr;
+    CoreProcess* list_node_ids = nullptr;
 
     for (int i = 0; i < msg->itineraries.size(); i++)
     {
@@ -444,11 +444,13 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       SET_CHILD_VALUE (Text, model, uid, msg->itineraries[i].id, true)
       SET_CHILD_VALUE (Text, model, description_input, msg->itineraries[i].description, true)
       
-      GET_CHILD_VAR2 (list_nodes_ids, CoreProcess, model, nodes_ids)
+      GET_CHILD_VAR2 (list_node_ids, CoreProcess, model, node_ids)
+      //GET_CHILD_VAR2 (list_node_indexes, CoreProcess, model, node_indexes)
 
       for (int j = 0; j < msg->itineraries[i].nodes.size(); j++) {
         //cout << "New IntProperty " << msg->itineraries[i].nodes[j] << " in " << i << endl;
-        new IntProperty (list_nodes_ids, "", std::stoi(msg->itineraries[i].nodes[j]));
+        new IntProperty (list_node_ids, "", std::stoi(msg->itineraries[i].nodes[j]));
+        //new IntProperty (list_node_indexes, "", std::stoi(msg->itineraries[i].nodes[j]));
       }
     }
   }

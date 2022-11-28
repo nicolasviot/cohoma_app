@@ -12,13 +12,47 @@ import ItineraryModel
 _native_code_
 %{
     #include <iostream>
+    using namespace std;
 
     //#include "core/property/text_property.h"
     //#include "core/property/double_property.h"
     //#include "core/property/int_property.h"
     //#include "core/property/bool_property.h"
     //#include "core/property/ref_property.h"
+
+    Process* get_edge_model (Process* self, int index_1, int index_2)
+	{
+		Process* edge_model = nullptr;
+        
+        cout << "get edge model " << index_1 << " -- " << index_2 << endl;
+
+        Process* nodes = self->find_child("nodes");
+        int nodes_size = static_cast<IntProperty*>(nodes->find_child("size"))->get_value();
+
+        Process* edges = self->find_child("edges");
+        int edges_size = static_cast<IntProperty*>(edges->find_child("size"))->get_value();
+
+        //if ( (index_1 < nodes_size) && (index_2 << nodes_size) )
+        
+        Process* node_1 = nodes->find_child(to_string(index_1));
+        Process* node_2 = nodes->find_child(to_string(index_2));
+
+		for (int i = 1; i <= edges_size; i++)
+    	{
+			Process *edge = edges->find_child(to_string(i));
+			
+            if ( ( (node_1 == edge->find_child("node1")) || (node_1 == edge->find_child("node2")) )
+              && ( (node_2 == edge->find_child("node1")) || (node_2 == edge->find_child("node2")) ) )
+              {
+                cout << "edge model " << index_1 << " -- " << index_2 << " FOUND !!!" << endl;
+                edge_model = edge;
+                break;
+            }
+		}
+		return edge_model;
+	}
 %}
+
 
 _define_
 ModelManager (Process _context, int _is_debug)
@@ -50,22 +84,21 @@ ModelManager (Process _context, int _is_debug)
         SafetyPilotModel ground_safety_pilot (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
     }
 
-    List itineraries {
-        ItineraryModel itinerary1 (_context, "shortest")
-        ItineraryModel itinerary2 (_context, "safest")
-        ItineraryModel itinerary3 (_context, "tradeoff")
-    }
-    // FIXME: use aka
-    shortest_itinerary aka itineraries.[1]
-    safest_itinerary aka itineraries.[2]
-    tradeoff_itinerary aka itineraries.[3]
-
-
     // NODES
     List nodes
 
     // EDGES
     List edges
+
+    List itineraries {
+        ItineraryModel itinerary1 (_context, this, "shortest")
+        ItineraryModel itinerary2 (_context, this, "safest")
+        ItineraryModel itinerary3 (_context, this, "tradeoff")
+    }
+    // FIXME: use aka
+    shortest_itinerary aka itineraries.[1]
+    safest_itinerary aka itineraries.[2]
+    tradeoff_itinerary aka itineraries.[3]
 
     // TRAPS
     List traps
