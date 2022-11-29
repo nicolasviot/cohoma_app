@@ -43,18 +43,20 @@ ItineraryModel (Process _context, Process _model_manager, string _type)
 	List node_ids
 	List node_indexes
 
+	List edges
+
 	node_ids.$added -> na_node_id_added:(this) {
 		if (this.node_ids.size > 0)
 		{
-			print ("Node ID added to itinerary " + this.type + ": " + this.node_ids.size + "\n")
+			print ("Node ID added to itinerary " + this.type + ": " + this.node_ids.size + " nodes\n")
 
 			for (int i = 1; i < this.node_ids.size; i++) {
 				print ("New edge from " + this.node_ids.[i] + " to " + this.node_ids.[i+1] + "\n")
 				edge_model = get_edge_model (this.model_manager, $this.node_ids.[i], $this.node_ids.[i+1])
 				if (&edge_model != null) {
-					print ("edge_model " + edge_model.length + "\n")
-					//addChildrenTo this.edges {
-					//	Edge edge (this.map, this.context, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon)
+					addChildrenTo this.edges {
+						edge_model
+					}
 				}
 				else {
 					print ("ERROR: NO model of edge from " + this.node_ids.[i] + " to " + this.node_ids.[i+1] + "\n")

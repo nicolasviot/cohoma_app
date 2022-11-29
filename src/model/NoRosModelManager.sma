@@ -44,8 +44,11 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
         addChildrenTo this.shortest_itinerary.node_ids {
             Int _ (27)
             Int _ (28)
+            Int _ (22)
             Int _ (29)
             Int _ (30)
+            Int _ (21)
+            Int _ (23)
         }
     }
 
@@ -58,6 +61,7 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
             Int _ (27)
             Int _ (28)
             Int _ (29)
+            Int _ (30)
         }
     }
 
@@ -69,6 +73,9 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
         addChildrenTo this.tradeoff_itinerary.node_ids {
             Int _ (27)
             Int _ (28)
+            Int _ (21)
+            Int _ (22)
+            Int _ (23)
         }
     }
 

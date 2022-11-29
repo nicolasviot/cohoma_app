@@ -3,6 +3,8 @@ use gui
 use display
 use base
 
+import ItineraryEdge
+
 _native_code_
 %{
 	#include <iostream>
@@ -12,7 +14,7 @@ _native_code_
 _define_
 ItineraryOnMap (Process _context, Process _model)
 {
-	//context aka _context
+	context aka _context
 	model aka _model
 
 	TextComparator compare_selected_uid ("", "")
@@ -20,7 +22,6 @@ ItineraryOnMap (Process _context, Process _model)
 	toString(_context.selected_itinerary_id) =:> compare_selected_uid.right
 
 	
-
 	/*Switch switch (false) {
 		Component false{
 
@@ -31,8 +32,6 @@ ItineraryOnMap (Process _context, Process _model)
 	}
 	compare_selected_uid.output =:> switch.state*/
 
-	FillColor fill (#FF0000)
-	//Rectangle r (200, 200, 100, 100, 0, 0)
 
 	List edges
 
@@ -63,6 +62,23 @@ ItineraryOnMap (Process _context, Process _model)
 		//model = getRef (&this.model_manager.traps.$removed)
 	}*/
 
+	_model.edges.$added -> na_edges_added:(this) {
+		if (this.model.edges.size > 0)
+		{
+			print ("Edges added to itinerary " + this.model.type + ": " + this.model.edges.size + " edges\n")
+
+			for (int i = 1; i < this.model.edges.size; i++) {
+				print ("New edge " + this.model.edges.[i].length + " m\n")
+				
+				addChildrenTo this.edges {
+					ItineraryEdge edge (this.context, this.model.edges.[i])
+				}
+			}
+		}
+		else {
+			print ("NONE edge(s) added to itinerary " + this.model.type + " --> empty itinerary !\n")
+		}
+	}
 
 	/*for (int i = 1; i < ite_edges_size; i++) {
 	ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
