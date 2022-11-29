@@ -17,8 +17,6 @@ ItineraryEdge (Process _context, Process _model) inherits Edge (_context, _model
     //DoubleFormatter df(0, 2)
     //100 * explored =:> df.input 
 
-    //print ("View of edge: " + _model.node1.id + " -- " + _model.node2.id + " (" + _model.length + " m)\n")
-
-    _context.SELECTED_ITINERARY_COL =: this.outline_color.value
+    print ("View of itinerary edge: " + _model.node1.id + " -- " + _model.node2.id + " (" + _model.length + " m)\n")
 
 }

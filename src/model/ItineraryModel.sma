@@ -2,21 +2,16 @@ use core
 use gui
 use base
 
-//import EdgeModel
-
 _native_code_
 %{
     #include <iostream>
-
-	extern Process* get_edge_model (Process* self, int index_1, int index_2);
 %}
 
 
 _define_
-ItineraryModel (Process _context, Process _model_manager, string _type)
+ItineraryModel (Process _context, string _type)
 {
 	//context aka _context
-	model_manager aka _model_manager
 
 	// Const
 	String type (_type)
@@ -40,39 +35,18 @@ ItineraryModel (Process _context, Process _model_manager, string _type)
 	regex.[1] =:> legend
   	regex.[2] =:> cost
 	
+	TextComparator compare_selected_uid ("", "")
+	uid =:> compare_selected_uid.left
+	toString(_context.selected_itinerary_id) =:> compare_selected_uid.right
+	is_selected aka compare_selected_uid.output
+
+	
+	// FIXME
 	List node_ids
-	List node_indexes
+	//List node_indexes
 
-	List edges
 
-	node_ids.$added -> na_node_id_added:(this) {
-		if (this.node_ids.size > 0)
-		{
-			print ("Node ID added to itinerary " + this.type + ": " + this.node_ids.size + " nodes\n")
-
-			for (int i = 1; i < this.node_ids.size; i++) {
-				print ("New edge from " + this.node_ids.[i] + " to " + this.node_ids.[i+1] + "\n")
-				edge_model = get_edge_model (this.model_manager, $this.node_ids.[i], $this.node_ids.[i+1])
-				if (&edge_model != null) {
-					addChildrenTo this.edges {
-						edge_model
-					}
-				}
-				else {
-					print ("ERROR: NO model of edge from " + this.node_ids.[i] + " to " + this.node_ids.[i+1] + "\n")
-				}
-			}
-		}
-		else {
-			print ("NONE node ID added to itinerary " + this.type + " --> empty itinerary !\n")
-		}
-	}
-
-	node_ids.$removed -> na_node_id_removed:(this) {
-		print ("Node ID removed from itinerary " + this.type + ": " + this.node_ids.size + "\n")
-	}
-
-	LogPrinter lp ("Itinerary regexp (debug): ")
+	LogPrinter lp ("Itinerary model (debug): ")
 	//type + " (" + uid + "): " + description_input =:> lp.input
-	type + " (" + uid + "): " + node_ids.size =:> lp.input
+	type + " (" + uid + "): " + node_ids.size + " node ids" =:> lp.input
 }

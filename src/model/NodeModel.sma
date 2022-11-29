@@ -9,11 +9,8 @@ _native_code_
 
 
 _define_
-NodeModel (Process _context, int _id, int _phase, string _label, double _lat, double _lon, double _alt, int _is_mandatory)
-//NodeModel (int _id, int _phase, string _label, double _lat, double _lon, double _alt, int _is_mandatory)
+NodeModel (int _id, int _phase, string _label, double _lat, double _lon, double _alt, int _is_mandatory)
 {
-	//context aka _context
-
 	Int id (_id)
 	
 	// Cross a LIMA --> change the phase

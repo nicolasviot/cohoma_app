@@ -31,7 +31,11 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 	_context.map_translation_y =:> pos.ty
 
 	// EDGES
-	List edges
+	Component edges {
+		OutlineColor outline_color ($_context.EDGE_COLOR)
+
+		List lst
+	}
 
 	// NODES
 	List nodes
@@ -56,7 +60,7 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 	}
 
 	for model : _model_manager.edges {
-		addChildrenTo this.edges {
+		addChildrenTo this.edges.lst {
 			Edge edge (this.context, model)
 		}
 	}

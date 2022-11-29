@@ -9,10 +9,8 @@ _native_code_
 
 
 _define_
-//EdgeModel (Process _context, Process _node1, Process _node2, double _length)
 EdgeModel (Process _node1, Process _node2, double _length)
 {
-	//context aka _context
 	node1 aka _node1
 	node2 aka _node2
 

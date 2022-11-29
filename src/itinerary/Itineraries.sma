@@ -79,7 +79,7 @@ Itineraries (Process _map, Process _context, Process _model_manager)
 	// Create a view for each model of itinerary
 	for model : _model_manager.itineraries {
 		addChildrenTo itineraries_on_map {
-			ItineraryOnMap itinerary (_context, model)
+			ItineraryOnMap itinerary (_context, _model_manager, model)
 		}
 	}
 

@@ -17,10 +17,6 @@ ItineraryStrip (Process _context, Process _model, double dy)
 	//context aka _context
 	model aka _model
 
-	TextComparator compare_selected_uid ("", "")
-	_model.uid =:> compare_selected_uid.left
-	toString(_context.selected_itinerary_id) =:> compare_selected_uid.right
-
 	Translation t (0, dy)
 
 	FontFamily _ ("Helvetica")
@@ -67,7 +63,7 @@ ItineraryStrip (Process _context, Process _model, double dy)
 			set_plan.click -> plan_set
 		}
 	}
-	compare_selected_uid.output =:> switch.state
+	_model.is_selected =:> switch.state
 
 	//switch.true -> select
 

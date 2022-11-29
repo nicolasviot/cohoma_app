@@ -94,9 +94,9 @@ ModelManager (Process _context, int _is_debug)
     List edges
 
     List itineraries {
-        ItineraryModel itinerary1 (_context, this, "shortest")
-        ItineraryModel itinerary2 (_context, this, "safest")
-        ItineraryModel itinerary3 (_context, this, "tradeoff")
+        ItineraryModel itinerary1 (_context, "shortest")
+        ItineraryModel itinerary2 (_context, "safest")
+        ItineraryModel itinerary3 (_context, "tradeoff")
     }
     // FIXME: use aka
     shortest_itinerary aka itineraries.[1]

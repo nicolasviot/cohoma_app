@@ -14,10 +14,6 @@ Edge (Process _context, Process _model)
     //context aka _context
     model aka _model
 
-    //Double explored(0)
-    //DoubleFormatter df(0, 2)
-    //100 * explored =:> df.input 
-
     Int default_width (8)
 	Int inside_width (16)
 	Int mask_width (16)
@@ -39,7 +35,7 @@ Edge (Process _context, Process _model)
     }
 
     OutlineWidth outline_width ($default_width)
-    OutlineColor outline_color ($_context.EDGE_COLOR)
+    //OutlineColor outline_color ($_context.EDGE_COLOR)
 
     Line edge (0, 0, 0, 0)
 
