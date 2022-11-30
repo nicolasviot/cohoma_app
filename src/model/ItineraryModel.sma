@@ -40,7 +40,13 @@ ItineraryModel (Process _context, string _type)
 	toString(_context.selected_itinerary_id) =:> compare_selected_uid.right
 	is_selected aka compare_selected_uid.output
 
-	
+
+	AssignmentSequence select (1) {
+		toString(uid) =: _context.selected_itinerary_id
+		//toString(type) =: _context.selected_itinerary_type
+    }
+
+
 	// FIXME
 	List node_ids
 	//List node_indexes

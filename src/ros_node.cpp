@@ -180,10 +180,6 @@ RosNode::impl_activate ()
   _itineraries.push_back(shortest);
   _itineraries.push_back(safest);
   _itineraries.push_back(tradeoff);
-
-  //GET_CHILD_VAR2 (_itineraries_list, Component, _parent, parent/l/map/layers/itineraries/itineraries_list)
-  //GET_CHILD_VAR2 (_itineraries_list, CoreProcess, _parent, parent/l/map/layers/itineraries/itineraries_list)
-  //GET_CHILD_VAR2 (_edge_released_na, NativeAction, _parent, parent/l/map/layers/itineraries/edge_released_na)
   
   GET_CHILD_VAR2 (_vab, CoreProcess, _model_manager, vehicles/vab)
   GET_CHILD_VAR2 (_agilex1, CoreProcess, _model_manager, vehicles/agilex1)
@@ -201,7 +197,6 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_ref_current_trap, RefProperty, _context, ref_current_trap)
 
   GET_CHILD_VAR2 (_selected_itinerary_id, TextProperty, _context, selected_itinerary_id)
-  GET_CHILD_VAR2 (_ref_curent_itinerary, RefProperty, _parent, parent/l/map/layers/itineraries/ref_current_itinerary)
 
   GET_CHILD_VAR2 (_georef_visibility_map, CoreProcess, _parent, parent/l/map/layers/result/georef_visibility_map)
   GET_CHILD_VAR2 (_visibility_map, DataImage, _parent, parent/l/map/layers/result/visibility_map)
@@ -301,20 +296,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
       }
     }
 
-    /*//schedule delete old content
-    int itineraries_list_size =  _itineraries_list->children ().size ();
-    for (int i = itineraries_list_size - 1; i >= 0; i--) {
-      auto *child = _itineraries_list->children ()[i];
-      if (child) {
-        child->deactivate ();
-        if (child->get_parent ())
-          child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
-        child->schedule_delete ();
-        child = nullptr;
-      }
-    }
-    _ref_curent_itinerary->set_value ((CoreProcess*)nullptr, true);*/
-    
+    // schedule delete old itineraries
 
   Container *_edge_container = dynamic_cast<Container *> (_edges);
   if (_edge_container) {
@@ -419,14 +401,12 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
 {
   cout << "receive_msg_graph_itinerary_loop" << endl;
 
-  std::vector<std::pair<string, std::vector<int>>> msg_struct;
+  //std::vector<std::pair<string, std::vector<int>>> msg_struct;
   
   if (msg->itineraries.size () <= 0)
     return;
 
   get_exclusive_access(DBG_GET);
-
-  //TODO: MP - better algo - pourquoi garer msg_struct ??
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received " + std::to_string(msg->itineraries.size()) + " itineraries\n", true);
@@ -457,7 +437,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
   else
     cerr << "Different size about itineraries between 'msg_graph_itinerary_loop' and models of itineraries" << endl;
 
-  for (int i = 0; i < msg->itineraries.size(); i++) {
+  /*for (int i = 0; i < msg->itineraries.size(); i++) {
     std::string id = msg->itineraries[i].id;
     std::vector<int> nodes;
 
@@ -466,26 +446,13 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       nodes.push_back(std::stoi(msg->itineraries[i].nodes[j]));
     }
     msg_struct.push_back(std::pair<string, std::vector<int>>(id, nodes));
-  }
+  }*/
 
   //Color:
-  int unselected = 0x232323;
-  int selected = 0x1E90FF;
+  //int unselected = 0x232323;
+  //int selected = 0x1E90FF;
 
-  /*//schedule delete old content
-  int itineraries_list_size =  _itineraries_list->children ().size ();
-  for (int i = itineraries_list_size - 1; i >= 0; i--) {
-    auto *child = _itineraries_list->children ()[i];
-    if (child) {
-      child->deactivate ();
-      if (child->get_parent ())
-        child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
-      child->schedule_delete ();
-      child = nullptr;
-    }
-  }
-  _ref_curent_itinerary->set_value ((CoreProcess*)nullptr, true);*/
-
+  // schedule delete old itineraries
 
   /*string first_id = "";
   for (auto ros_itinerary : msg_struct) {
@@ -493,7 +460,6 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
     if (first_id == "")
       first_id = ros_itinerary.first;
     
-    //cout << "New child of _itineraries_list with id " << ros_itinerary.first << endl;
     Component *new_itinerary = new Component (_itineraries_list, ros_itinerary.first);
     new TextProperty (new_itinerary, "id", ros_itinerary.first);
     List* new_ite_edges = new List (new_itinerary, "edges");
@@ -502,7 +468,6 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       for (int i = 1; i < ite_edges_size; i++) {
         ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
         SET_CHILD_VALUE (Int, edge, outline_color/value, unselected, true)
-        new Binding (edge, "binding_edge_released", edge, "mask_edge/release", _edge_released_na, "");
       }
     }
   }
@@ -520,23 +485,11 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
 {
   get_exclusive_access(DBG_GET);
   
-  /*//schedule delete old content
-  int itineraries_list_size =  _itineraries_list->children ().size ();
-  for (int i = itineraries_list_size - 1; i >= 0; i--) {
-    auto *child = _itineraries_list->children ()[i];
-    if (child) {
-      child->deactivate ();
-      if (child->get_parent ())
-        child->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(child));
-      child->schedule_delete ();
-      child = nullptr;
-    }
-  }
-  _ref_curent_itinerary->set_value ((CoreProcess*)nullptr, true);*/
+  // schedule delete old itineraries
 
   //Color:
-  int unselected = 0x232323;
-  int selected = 0x1E90FF;
+  //int unselected = 0x232323;
+  //int selected = 0x1E90FF;
 
   cout << "receive_msg_graph final itinerary = " << msg->id << endl;
 
@@ -548,7 +501,6 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
     for (int i = 1; i < ite_edges_size; i++) {
       ParentProcess* edge = Edge( new_ite_edges, "", std::stoi(msg->nodes[i-1]) + 1,std::stoi(msg->nodes[i]) + 1, 20, _nodes);
       SET_CHILD_VALUE (Int, edge, outline_color/value, selected, true)
-      //new Binding (edge, "binding_edge_released", edge, "edge/release", _edge_released_na, "");
     }
   }*/
 
@@ -1392,7 +1344,6 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
       //TODO : 
       //binding : lima.press -> send correct lima id
       /*   
-        new Binding (edge, "binding_edge_released", edge, "edge/release", _edge_released_na, "");
         new Binding (lima_to_add, "binding_edge_released", lima, "press", _lima_released_na, "");
       */
     }

@@ -23,8 +23,8 @@ ItineraryStrip (Process _context, Process _model, double dy)
     //FontWeight _ (50)
 	FontSize _ (5, 12)
 
-    Spike select
     Spike plan_set
+
 
 	Switch switch (false) {
 		Component false{
@@ -32,7 +32,8 @@ ItineraryStrip (Process _context, Process _model, double dy)
 
 			FillColor grey(128, 128, 128)
 			Rectangle bg (0, 0, 390, 50, 10, 10)
-			bg.press -> select
+
+			bg.press -> _model.select
 
 			FillColor _ (#FFFFFF)
 			Text legend_label (10, 28, "...")
@@ -64,7 +65,5 @@ ItineraryStrip (Process _context, Process _model, double dy)
 		}
 	}
 	_model.is_selected =:> switch.state
-
-	//switch.true -> select
 
 }

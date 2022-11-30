@@ -136,10 +136,6 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     String selected_itinerary_id ("-1")
     selected_itinerary_id =:> lp.input
 
-	Ref ref_selected_itinerary (nullptr)
+    //String selected_itinerary_type ("")
 
-    /*// 0 = not lazy (updated on first activation)
-    AssignmentSequence set_selected_itinerary_to_null (0) {
-        REF_NULL =: ref_selected_itinerary
-    }*/
 }

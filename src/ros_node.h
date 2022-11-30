@@ -107,13 +107,7 @@ class RosNode : public FatProcess, public ExternalSource
     CoreProcess *_layer_filter;
 
     // Models of itineraries
-    //CoreProcess *_shortest_itinerary, *_safest_itinerary, *_tradeoff_itinerary;
     std::vector<CoreProcess*> _itineraries;
-
-    //Component *_itineraries_list;
-    //CoreProcess *_itineraries_list;
-    RefProperty *_ref_curent_itinerary;
-    //NativeAction* _edge_released_na;
 
     // Models of vehicles, safety pilots
     CoreProcess *_vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone;

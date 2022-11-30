@@ -23,21 +23,16 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 	OutlineColor outline_color (0)
 	_model.is_selected ? _context.SELECTED_ITINERARY_COL : _context.UNSELECTED_ITINERARY_COL =:> outline_color.value
 
-	// EDGES
-	List edges
+	// Sub views
+	Component itinerary_edges
 
 	print ("Itinerary on Map " + _model.type + "\n")
 
 	/*Switch switch (false) {
-		Component false {
-
-		}
-		Component true {
-
-		}
+		Component false 
+		Component true 
 	}
 	_model.is_selected =:> switch.state*/
-
 
 
 	_model.node_ids.$added -> na_node_id_added:(this) {
@@ -49,13 +44,14 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 				//print ("New edge from " + this.model.node_ids.[i] + " to " + this.model.node_ids.[i+1] + "\n")
 
 				edge_model = get_edge_model (this.model_manager, $this.model.node_ids.[i], $this.model.node_ids.[i+1])
-				if (&edge_model != null) {
-
-					addChildrenTo this.edges {
-						ItineraryEdge edge (this.context, edge_model)
+				if (&edge_model != null)
+				{
+					addChildrenTo this.itinerary_edges {
+						Component _ {
+							ItineraryEdge edge (this.context, edge_model)
+							edge.click -> this.model.select
+						}
 					}
-
-					//edge.click -> 
 				}
 			}
 		}
@@ -67,10 +63,4 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 	_model.node_ids.$removed -> na_node_id_removed:(this) {
 		print ("Node IDs removed from itinerary " + this.model.type + ": " + this.model.node_ids.size + " nodes\n")
 	}
-
-
-	/*for (int i = 1; i < ite_edges_size; i++) {
-	ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
-	SET_CHILD_VALUE (Int, edge, outline_color/value, unselected, true)
-	new Binding (edge, "binding_edge_released", edge, "mask_edge/release", _edge_released_na, "");*/
 }

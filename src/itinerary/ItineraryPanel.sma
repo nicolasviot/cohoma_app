@@ -13,17 +13,6 @@ _native_code_
 %}
 
 
-/*_action_
-action_select_strip (Process src, Process self)
-{
-	strip = find(&src, "..")
-
-	print ("action_select_strip " + strip.model.type + " (" + strip.model.uid + ")\n")
-	
-	self.context.selected_itinerary_id = toString(strip.model.uid)
-}*/
-
-
 _define_
 ItineraryPanel (Process _context, Process _model_manager)
 {
@@ -37,6 +26,7 @@ ItineraryPanel (Process _context, Process _model_manager)
 	Spike start_waiting_anim
     Spike stop_waiting_anim
 
+	// List of strips
 	List strips
 
 	int dy = 42
@@ -50,14 +40,7 @@ ItineraryPanel (Process _context, Process _model_manager)
 		dy += 52
 	}
 
-	//NativeAction na_select_strip (action_select_strip, this, 1)
-	//na_select_strip -> stop_waiting_anim
-
 	for strip : strips {
-		//strip.select -> na_select_strip
-		strip.select -> {
-			toString(strip.model.uid) =: _context.selected_itinerary_id
-		}
 		strip.plan_set -> plan_set
 	}
 
