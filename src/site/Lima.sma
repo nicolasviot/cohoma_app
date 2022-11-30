@@ -7,11 +7,11 @@ import ros_node
 
 _native_code_
 %{
-    #include "cpp/coords-utils.h"
+    #include <iostream>
 %}
 
 
-_action_
+/*_action_
 validate_lima (Process c)
 %{
     Process *data = (Process*) get_native_user_data(c);
@@ -21,17 +21,18 @@ validate_lima (Process c)
     #ifndef NO_ROS
     ros_node ->send_msg_lima(id->get_value()); 
     #endif
-%}
+%}*/
 
 
 _define_
-Lima (Process _map, Process _ros_node)
+Lima (Process _map, Process _context, Process _model) //, Process _ros_node)
 {
     //map aka _map
-    ros_node aka _ros_node
+    //context aka _context
+    //model aka _model
+    //ros_node aka _ros_node
 
-    Int id(0)
-    String name("")
+    print ("New view of Lima " + _model.label + "\n")
 
     Spike send_msg_lima
     
@@ -76,17 +77,17 @@ Lima (Process _map, Process _ros_node)
             FillColor _ (0, 0, 0)
             FontWeight _ (50)
             FontSize _ (5, 24)
-            Text legend(0, 0, "")
+            Text legend (0, 0, toString(_model.label))
             lima.press.x =: legend.x
             lima.press.y =: legend.y
-            name =: legend.text
+            //_model.name =: legend.text
         }
         idle -> first_click (lima.press)
         first_click -> idle (first_click.t.end)
         first_click -> idle (lima.press, send_msg_lima)
     }
 
-    NativeAction na_validate_lima (validate_lima, this, 1)
-    send_msg_lima -> na_validate_lima
+    //NativeAction na_validate_lima (validate_lima, this, 1)
+    //send_msg_lima -> na_validate_lima
 
 }

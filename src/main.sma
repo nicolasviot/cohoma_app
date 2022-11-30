@@ -399,7 +399,7 @@ Component root {
   hide_reticule -> l.map.reticule.hide_reticule, foreground.edit
 
   // ROS manager
-  RosManager ros_manager(root, l.map, context, model_manager)
+  RosManager ros_manager (root, l.map, context, model_manager)
   
   // Right panel
   RightPanel right_panel (context, model_manager, f, ros_manager.node)

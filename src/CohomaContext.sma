@@ -16,6 +16,9 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
 	LogPrinter lp ("Context (debug): ")
     TextPrinter tp
 
+    // FIXME: RosNode here to give access ?
+    //RosNode node (map, context, model_manager)
+
     Double init_lat (_init_lat)
     Double init_lon (_init_lon)
     Double init_zoom (_init_zoom)

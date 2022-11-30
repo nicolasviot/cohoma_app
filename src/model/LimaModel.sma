@@ -9,7 +9,7 @@ _native_code_
 
 
 _define_
-LimaModel (int _id, string _label) // int _phase
+LimaModel (int _id, string _label) // int _phase)
 {
 	Int id (_id)
 	String label (_label)

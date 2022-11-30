@@ -55,20 +55,18 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 
 	for model : _model_manager.nodes {
 		addChildrenTo this.nodes {
-			Node node (this.map, this.context, model)
+			Node node (_map, _context, model)
 		}
 	}
 
 	for model : _model_manager.edges {
 		addChildrenTo this.edges.lst {
-			Edge edge (this.context, model)
+			Edge edge (_context, model)
 		}
 	}
 	
 	OutlineOpacity _(0.5)
 	
-	List shadow_edges{
-		
-	}
+	List shadow_edges
 
 }

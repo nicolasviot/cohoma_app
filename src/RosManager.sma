@@ -120,10 +120,13 @@ RosManager (Process _parent, Process _map, Process _context, Process _model_mana
 
   	NativeAction test_send_allocated_action (send_selected_allocation_fun, node, 1)
   	test_allocation_spike -> test_send_allocated_action
+
   	NativeAction test_lima_action (test_lima, node, 1)
   	test_lima_spike -> test_lima_action
+
   	NativeAction send_selected_tasks_action(send_selected_tasks_native, node, 1)
   	send_selected_tasks -> send_selected_tasks_action
+	
   	NativeAction test_visibility_map_action(test_visibility_map_native, node, 1)
   	test_visibility_map -> test_visibility_map_action
 }
