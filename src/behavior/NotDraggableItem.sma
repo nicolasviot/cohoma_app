@@ -14,8 +14,6 @@ _native_code_
 _define_
 NotDraggableItem (Process _map, Process _lat, Process _lon, Process _tx, Process _ty)
 {
-    //TextPrinter tp
-
     // FSM to manage zoom in/out
     FSM fsm {
         State idle {

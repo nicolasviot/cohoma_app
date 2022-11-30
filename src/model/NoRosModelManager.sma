@@ -2,6 +2,8 @@ use core
 use gui
 use base
 
+import PointModel
+import LimaModel
 import VehiculeModel
 import SafetyPilotModel
 import NodeModel
@@ -76,6 +78,32 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
             Int _ (21)
             Int _ (23)
         }
+    }
+
+
+    // **************************************************************************************************
+    //
+    //  LIMAS
+    //
+    // **************************************************************************************************
+
+    addChildrenTo this.limas {
+        LimaModel ld (1, "LD")
+        LimaModel l1 (2, "L1")
+        LimaModel l2 (3, "L2")
+        LimaModel l3 (4, "L3")
+        LimaModel l4 (5, "L4")
+    }
+
+    addChildrenTo this.limas.[1].points {
+        PointModel _ (48.8608, 1.89324, 0.0)
+        PointModel _ (48.8613, 1.89324, 0.0)
+    }
+    addChildrenTo this.limas.[2].points {
+        PointModel _ (48.8605, 1.88479, 0.0)
+        PointModel _ (48.8609, 1.8883, 0.0)
+        PointModel _ (48.8609, 1.8891, 0.0)
+        PointModel _ (48.8614, 1.89173, 0.0)
     }
 
 

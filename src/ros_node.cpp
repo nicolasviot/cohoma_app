@@ -1335,17 +1335,6 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
       auto* point = new PolyPoint(lima_to_add->find_child("lima"), std::string("pt_") + std::to_string(j), 0, 0);
       new Connector (lima_to_add, "x_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
       new Connector (lima_to_add, "y_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
-       
-      /*  
-        new NativeAction (lima_to_add, "send_lima_id_na", RosNode::send_msg_lima, msg.limas[i].index, true);
-        new Binding (lima_to_add, "lima_pressed", lima_to_add, "pressed", lima_to_add, "send_lima_id_na");
-      */
-
-      //TODO : 
-      //binding : lima.press -> send correct lima id
-      /*   
-        new Binding (lima_to_add, "binding_edge_released", lima, "press", _lima_released_na, "");
-      */
     }
   }
   

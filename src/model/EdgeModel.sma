@@ -16,6 +16,6 @@ EdgeModel (Process _node1, Process _node2, double _length)
 
 	Double length (_length)
 
-	print ("Model of edge: " + _node1.id + " -- " + _node2.id + " (" + length + " m)\n")
+	//print ("Model of edge: " + _node1.id + " -- " + _node2.id + " (" + length + " m)\n")
 
 }

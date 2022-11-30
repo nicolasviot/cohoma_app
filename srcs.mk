@@ -7,6 +7,7 @@ exe ?= cohoma
 
 srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.sma \
             src/CohomaContext.sma \
+            src/model/PointModel.sma src/model/LimaModel.sma \
             src/model/NodeModel.sma src/model/EdgeModel.sma src/model/ItineraryModel.sma \
             src/model/VehiculeModel.sma src/model/SafetyPilotModel.sma src/model/TrapModel.sma \
             src/model/ModelManager.sma src/model/NoRosModelManager.sma \

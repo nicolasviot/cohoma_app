@@ -2,6 +2,8 @@ use core
 use gui
 use base
 
+import PointModel
+import LimaModel
 import VehiculeModel
 import SafetyPilotModel
 import NodeModel
@@ -86,6 +88,9 @@ ModelManager (Process _context, int _is_debug)
         //SafetyPilotModel ugv (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
         SafetyPilotModel ground_safety_pilot (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
     }
+
+    // LIMAS
+    List limas
 
     // NODES
     List nodes
