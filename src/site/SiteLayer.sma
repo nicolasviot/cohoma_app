@@ -29,6 +29,8 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 	// Exclusion areas
 	List exclusion_areas
 
+	OutlineCapStyle _ (1)
+
 	// Limas
 	List limas
 

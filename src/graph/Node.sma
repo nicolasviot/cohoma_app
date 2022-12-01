@@ -101,7 +101,7 @@ Node (Process _map, Process _context, Process _model)
     
     //FillOpacity _ (1.2)
     FillColor _ (0, 0, 0)
-    FontWeight _ (75)
+    FontWeight _ (DJN_BOLD)
     FontSize _ (5, 20)
     Text txt_label (-$ui.c.r / 2, -20, "")
     _model.label =:> txt_label.text

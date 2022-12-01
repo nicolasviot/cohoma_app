@@ -105,7 +105,22 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
         PointModel _ (48.8609, 1.8891, 0.0)
         PointModel _ (48.8614, 1.89173, 0.0)
     }
-
+    addChildrenTo this.limas.[3].points {
+        PointModel _ (48.8619, 1.88443, 0.0)
+        PointModel _ (48.8624, 1.88604, 0.0)
+        PointModel _ (48.8626, 1.88776, 0.0)
+        PointModel _ (48.8628, 1.88824, 0.0)
+        PointModel _ (48.8636, 1.8905, 0.0)
+    }
+    addChildrenTo this.limas.[4].points {
+        PointModel _ (48.8639, 1.88383, 0.0)
+        PointModel _ (48.8653, 1.8885, 0.0)
+    }
+    addChildrenTo this.limas.[5].points {
+        PointModel _ (48.8663, 1.8831, 0.0)
+        PointModel _ (48.867, 1.88442, 0.0)
+        PointModel _ (48.8677, 1.88549, 0.0)
+    }
 
     // **************************************************************************************************
     //

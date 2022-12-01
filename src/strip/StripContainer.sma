@@ -9,8 +9,8 @@ StripContainer (Process _context, Process _model_manager, Process _frame)
   // Load only once SVG file
   svg_strip = loadFromXML ("res/svg/stripV2.svg")
 
-  Translation t (0, 0)
-  _frame.height - _context.STRIP_HEIGHT =:> t.ty
+  Translation tr (0, 0)
+  _frame.height - _context.STRIP_HEIGHT =:> tr.ty
 
   Strip strip_vab (_context, _model_manager.vehicles.vab, svg_strip, 0)
 

@@ -38,7 +38,7 @@ CheckBox (string _label, double x_, double y_) {
   Rectangle _ (0, 0, 22, 22, 2, 2)
 
   FillColor text_color (#ffffff)
-  FontWeight fw  (50)
+  FontWeight fw  (DJN_NORMAL)
   Text thisLabel (26, 17, _label)
   thisLabel.width + 22 =:> mask.width
 

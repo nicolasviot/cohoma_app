@@ -53,15 +53,15 @@ Edge (Process _context, Process _model)
         State display_tooltip {
             //20 =: outline_width.width
 
-            Translation t (0, 0)
-            (edge.x1 + edge.x2) / 2 =:> t.tx
-            (edge.y1 + edge.y2) / 2 =:> t.ty
+            Translation tr (0, 0)
+            (edge.x1 + edge.x2) / 2 =:> tr.tx
+            (edge.y1 + edge.y2) / 2 =:> tr.ty
 
             OutlineWidth _ (1)
             OutlineColor _ (#777777)
             FillOpacity fo (0.8)
             FillColor light_grey (204, 204, 204)
-            Rectangle bg (0, 0, 50, 20, 5, 5)
+            Rectangle bg (0, 0, 1, 20, 5, 5)
             
             FillColor black (#000000)
             FontSize _ (5, 12)

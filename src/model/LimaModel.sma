@@ -20,5 +20,5 @@ LimaModel (int _id, string _label) // int _phase)
 	List points
 	
 	//print ("Model of Lima (" + id + ") '" + label + "': phase = " + phase + "\n")
-	print ("Model of Lima (" + id + ") '" + label + "'\n")
+	//print ("Model of Lima (" + id + ") '" + label + "'\n")
 }

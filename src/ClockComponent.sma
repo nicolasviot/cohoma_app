@@ -12,7 +12,8 @@ ClockComponent (Process _frame)
     "%H:%M:%S" =: wc.format   // exemple=  "%H:%M:%S", "%Hh%Mm%Ss"
 
     FillColor white (#FFFFFF)
-    //FontWeight _ (75)
+    //FontWeight _ (DJN_BOLD)
+    //FontWeight _ (DJN_NORMAL)
     FontSize _ (5, 14) // 5 = pixel
     Text text_clock (10, -5, "default")
     wc.state_text =:> text_clock.text

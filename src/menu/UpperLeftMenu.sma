@@ -19,7 +19,7 @@ UpperLeftMenu (Process map, Process f)
 
     /* Title 1 */
     FontFamily _ ("B612")
-    FontWeight _ (75)
+    FontWeight _ (DJN_BOLD)
     FontSize _ (0, 12)
     FillColor _ (White)
     Text t (6, 17, "OSM opacity")
@@ -35,7 +35,7 @@ UpperLeftMenu (Process map, Process f)
   
     /* Checkboxes */
     Translation pos2 (0, 0)
-    FontWeight _ (50)
+    FontWeight _ (DJN_NORMAL)
     TextAnchor _ (0)
     s1.y + s1.height + t2.height + 10 =:> pos2.ty
     int off_y = 0

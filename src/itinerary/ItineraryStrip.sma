@@ -17,10 +17,10 @@ ItineraryStrip (Process _context, Process _model, double dy)
 	//context aka _context
 	model aka _model
 
-	Translation t (0, dy)
+	Translation tr (0, dy)
 
 	FontFamily _ ("Helvetica")
-    //FontWeight _ (50)
+    //FontWeight _ (DJN_NORMAL)
 	FontSize _ (5, 12)
 
     Spike plan_set
@@ -45,7 +45,7 @@ ItineraryStrip (Process _context, Process _model, double dy)
 		Component true {
 			Translation _ (8, 0)
 
-			FillColor blue(53, 178, 255)
+			FillColor blue (53, 178, 255)
 			Rectangle bg (0, 0, 390, 50, 10, 10)
 
 			FillColor _ (#FFFFFF)
