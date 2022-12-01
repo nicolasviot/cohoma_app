@@ -26,6 +26,8 @@
 #include "graph/Node.h"
 #include "graph/NavGraph.h"
 #include "graph/Edge.h"
+#include "model/LimaModel.h"
+#include "model/PointModel.h"
 #include "model/NodeModel.h"
 #include "model/TrapModel.h"
 #include "task/TaskTrap.h"
@@ -153,7 +155,9 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_shadow_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/shadow_edges)
 
   // Model
+  //GET_CHILD_VAR2 (_lima_models, CoreProcess, _model_manager, limas)
   GET_CHILD_VAR2 (_node_models, CoreProcess, _model_manager, nodes)
+  //GET_CHILD_VAR2 (_edge_models, CoreProcess, _model_manager, edges)
   GET_CHILD_VAR2 (_trap_models, CoreProcess, _model_manager, traps)
 
   GET_CHILD_VAR2 (_task_edges, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/edges)
@@ -165,7 +169,7 @@ RosNode::impl_activate ()
 
   // Site
   GET_CHILD_VAR2 (_exclusion_areas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/exclusion_areas)
-  GET_CHILD_VAR2 (_limas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/limas)
+  //GET_CHILD_VAR2 (_limas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/limas)
 
   GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_panel/clock)
   GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_panel/clock/fw/input)
@@ -1324,17 +1328,27 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
     new Connector (area_to_add, "y_bary_bind", area_to_add->find_child("bary_summit/y"), area_to_add->find_child("barycenterY"), 1);
   }
 
-  for (int i=0; i < msg.limas.size(); i++){
-    ParentProcess *lima_to_add = Lima(_limas, "", _map, this);
-    SET_CHILD_VALUE (Int, lima_to_add, id, msg.limas[i].index, true)
-    SET_CHILD_VALUE (Text, lima_to_add, name, msg.limas[i].name, true)
+  // LIMAS
+  for (int i = 0; i < msg.limas.size(); i++)
+  {
+    int index = msg.limas[i].index;
+    ParentProcess* lima = LimaModel (_lima_models, std::to_string(index), index, msg.limas[i].name);
+    
+    //ParentProcess *lima_to_add = Lima(_limas, "", _map, this);
+    //SET_CHILD_VALUE (Int, lima_to_add, id, msg.limas[i].index, true)
+    //SET_CHILD_VALUE (Text, lima_to_add, name, msg.limas[i].name, true)
   
-    for (int j = 0; j < msg.limas[i].points.size(); j++){
-      auto* task_summit = TaskAreaSummit(lima_to_add, std::string("summit_") + std::to_string(j), _map, msg.limas[i].points[j].latitude, msg.limas[i].points[j].longitude);
+    CoreProcess* points_list = lima->find_child("points");
+
+    for (int j = 0; j < msg.limas[i].points.size(); j++)
+    {
+      PointModel (points_list, "", msg.limas[i].points[j].latitude, msg.limas[i].points[j].longitude, msg.limas[i].points[j].altitude);
+
+      /*auto* task_summit = TaskAreaSummit(lima_to_add, std::string("summit_") + std::to_string(j), _map, msg.limas[i].points[j].latitude, msg.limas[i].points[j].longitude);
       SET_CHILD_VALUE (Double, task_summit, alt, msg.limas[i].points[j].altitude, true)
       auto* point = new PolyPoint(lima_to_add->find_child("lima"), std::string("pt_") + std::to_string(j), 0, 0);
       new Connector (lima_to_add, "x_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
-      new Connector (lima_to_add, "y_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
+      new Connector (lima_to_add, "y_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);*/
     }
   }
   
