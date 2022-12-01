@@ -35,7 +35,7 @@
 #include "task/TaskArea.h"
 #include "task/TaskEdge.h"
 #include "site/ExclusionArea.h"
-#include "site/Lima.h"
+
 using std::placeholders::_1;
 
 using namespace djnn;
@@ -155,7 +155,7 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_shadow_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/shadow_edges)
 
   // Model
-  //GET_CHILD_VAR2 (_lima_models, CoreProcess, _model_manager, limas)
+  GET_CHILD_VAR2 (_lima_models, CoreProcess, _model_manager, limas)
   GET_CHILD_VAR2 (_node_models, CoreProcess, _model_manager, nodes)
   //GET_CHILD_VAR2 (_edge_models, CoreProcess, _model_manager, edges)
   GET_CHILD_VAR2 (_trap_models, CoreProcess, _model_manager, traps)
@@ -169,7 +169,6 @@ RosNode::impl_activate ()
 
   // Site
   GET_CHILD_VAR2 (_exclusion_areas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/exclusion_areas)
-  //GET_CHILD_VAR2 (_limas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/limas)
 
   GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_panel/clock)
   GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_panel/clock/fw/input)
@@ -375,12 +374,12 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     bool mandatory = m["compulsory"].get<bool>();
     //bool locked = m["locked"].get<bool>();
 
-    ParentProcess* node_v = Node (_nodes, "", _map, _context, latitude, longitude, altitude, mandatory, label, std::stoi(node_id) + 1);
-    SET_CHILD_VALUE(Int, node_v, phase, phase, true);
-    SET_CHILD_VALUE(Bool, node_v, wpt/isMandatory, mandatory, true)
+    //ParentProcess* node_v = Node (_nodes, "", _map, _context, latitude, longitude, altitude, mandatory, label, std::stoi(node_id) + 1);
+    //SET_CHILD_VALUE(Int, node_v, phase, phase, true);
+    //SET_CHILD_VALUE(Bool, node_v, wpt/isMandatory, mandatory, true)
     //SET_CHILD_VALUE(Bool, node_v, islocked, locked, true);
 
-    ParentProcess* node = NodeModel (_node_models, "", _context, std::stoi(node_id) + 1, phase, label, latitude, longitude, altitude, mandatory);
+    ParentProcess* node = NodeModel (_node_models, "", std::stoi(node_id) + 1, phase, label, latitude, longitude, altitude, mandatory);
   }
 
   for (auto& j_edge: j_graph["edges"])
@@ -389,7 +388,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     std::string target = j_edge["target"].get<std::string>();
     auto& m = j_edge["metadata"];
     double length = m["length"].get<double>();
-    ParentProcess* edge = Edge(_edges, "", std::stoi(source) + 1, std::stoi(target) + 1, length, _nodes);
+    //ParentProcess* edge = Edge(_edges, "", std::stoi(source) + 1, std::stoi(target) + 1, length, _nodes);
   }
 
   GRAPH_EXEC;
@@ -1333,22 +1332,12 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
   {
     int index = msg.limas[i].index;
     ParentProcess* lima = LimaModel (_lima_models, std::to_string(index), index, msg.limas[i].name);
-    
-    //ParentProcess *lima_to_add = Lima(_limas, "", _map, this);
-    //SET_CHILD_VALUE (Int, lima_to_add, id, msg.limas[i].index, true)
-    //SET_CHILD_VALUE (Text, lima_to_add, name, msg.limas[i].name, true)
-  
+      
     CoreProcess* points_list = lima->find_child("points");
 
     for (int j = 0; j < msg.limas[i].points.size(); j++)
     {
       PointModel (points_list, "", msg.limas[i].points[j].latitude, msg.limas[i].points[j].longitude, msg.limas[i].points[j].altitude);
-
-      /*auto* task_summit = TaskAreaSummit(lima_to_add, std::string("summit_") + std::to_string(j), _map, msg.limas[i].points[j].latitude, msg.limas[i].points[j].longitude);
-      SET_CHILD_VALUE (Double, task_summit, alt, msg.limas[i].points[j].altitude, true)
-      auto* point = new PolyPoint(lima_to_add->find_child("lima"), std::string("pt_") + std::to_string(j), 0, 0);
-      new Connector (lima_to_add, "x_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
-      new Connector (lima_to_add, "y_bind", lima_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), lima_to_add->find_child(std::string("lima/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);*/
     }
   }
   
