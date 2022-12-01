@@ -61,6 +61,22 @@ endif
 
 CC := $(cross_prefix)cc
 CXX := $(cross_prefix)++
+CXXLD ?= $(CXX)
+
+
+linker ?= $(compiler)
+
+ifeq ($(linker),mold)
+ifeq ($(os),Darwin)
+CXXLD := ld64.mold
+LDFLAGS += -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/
+else
+CXXLD := mold
+endif
+LDFLAGS += -dylib -lc++ -lc
+endif
+
+
 ifneq ($(pkg),)
 #$1_lib_pkgpath = $$(subst $$() $$(),:,$$(lib_pkgpath))
 CXXFLAGS += $(shell env PKG_CONFIG_PATH=$(PKG_CONFIG_PATH):$(pkg_path) pkg-config --cflags $(pkg))
