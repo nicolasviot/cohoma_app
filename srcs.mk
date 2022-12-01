@@ -81,9 +81,12 @@ CXXFLAGS += -I$(PATH_TO_WORKSPACE)/install/icare_interfaces/include \
 
 pkg += libcurl
 
+ifeq ($(no_ros),1)
+CXXFLAGS += -DNO_ROS -DNO_LEMON
+else
 LIBS += -L$(ros_lib_path) $(ros_libs) -L$(ros_lib_path)/x86_64-linux-gnu $(ros_x86_libs)
 LIBS += -L$(icare_interfaces_libs_install_path) $(icare_libs) 
-
+endif
 
 ld_library_path+=$(ros_lib_path):$(ros_lib_path)/x86_64-linux-gnu:$(icare_interfaces_libs_install_path)
 
