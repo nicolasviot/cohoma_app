@@ -78,8 +78,9 @@ CXXFLAGS += -I$(ros_include_path)
 CXXFLAGS += -I$(PATH_TO_WORKSPACE)/install/icare_interfaces/include \
             -I$(PATH_TO_WORKSPACE)/install/lemon/include
 
-#LDFLAGS += 
-LIBS += -lcurl
+
+pkg += libcurl
+
 LIBS += -L$(ros_lib_path) $(ros_libs) -L$(ros_lib_path)/x86_64-linux-gnu $(ros_x86_libs)
 LIBS += -L$(icare_interfaces_libs_install_path) $(icare_libs) 
 

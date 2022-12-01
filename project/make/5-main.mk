@@ -61,6 +61,12 @@ endif
 
 CC := $(cross_prefix)cc
 CXX := $(cross_prefix)++
+ifneq ($(pkg),)
+#$1_lib_pkgpath = $$(subst $$() $$(),:,$$(lib_pkgpath))
+CXXFLAGS += $(shell env PKG_CONFIG_PATH=$(PKG_CONFIG_PATH):$(pkg_path) pkg-config --cflags $(pkg))
+LIBS += $(shell env PKG_CONFIG_PATH=$(PKG_CONFIG_PATH):$(pkg_path) pkg-config --libs $(pkg))
+endif
+
 
 ifeq ($(cross_prefix),em)
 os := em
