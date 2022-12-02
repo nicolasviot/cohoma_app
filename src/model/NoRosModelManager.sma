@@ -3,6 +3,7 @@ use gui
 use base
 
 import PointModel
+import ExclusionZoneModel
 import LimaModel
 import VehiculeModel
 import SafetyPilotModel
@@ -83,6 +84,48 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
 
     // **************************************************************************************************
     //
+    //  EXCLUSION ZONES
+    //
+    // **************************************************************************************************
+
+    addChildrenTo this.zones {
+        ExclusionZoneModel za (5, "ZA")
+        ExclusionZoneModel zb (3, "ZB")
+        ExclusionZoneModel zc (2, "ZC")
+        ExclusionZoneModel zd (5, "ZD") // FIXME: 6 ROZ_GROUND instead of 5 ROZ_ALL ?
+    }
+
+    addChildrenTo this.zones.[1].points {
+        PointModel _ (48.86069712046944, 1.8865327868841357, 0.0)
+        PointModel _ (48.860405947808886, 1.8843305027102233, 0.0)
+        PointModel _ (48.8582831729342, 1.8852911394666538, 0.0)
+        PointModel _ (48.85851523079417, 1.8869629318702104, 0.0)
+    }
+    addChildrenTo this.zones.[2].points {
+        PointModel _ (48.86356725631027, 1.8875053752135988, 0.0)
+        PointModel _ (48.86317427647312, 1.887800420838259, 0.0)
+        PointModel _ (48.86278463517772, 1.887509088628924, 0.0)
+        PointModel _ (48.862777134716374, 1.8867320676825863, 0.0)
+        PointModel _ (48.863170111801466, 1.8864370161260662, 0.0)
+        PointModel _ (48.86355062996941, 1.8867149095144675, 0.0)
+    }
+    addChildrenTo this.zones.[3].points {
+        PointModel _ (48.86699109672875, 1.8843340963798363, 0.0)
+        PointModel _ (48.866331640733726, 1.883121533155845, 0.0)
+        PointModel _ (48.8653626531049, 1.8833885394899847, 0.0)
+        PointModel _ (48.86577870856293, 1.8854791766182561, 0.0)
+        PointModel _ (48.86677840361167, 1.8846660880707284, 0.0)
+    }
+    addChildrenTo this.zones.[4].points {
+        PointModel _ (48.86770397770758, 1.8854909599023824, 0.0)
+        PointModel _ (48.86700035469283, 1.8843611625703838, 0.0)
+        PointModel _ (48.86653819975485, 1.8849441446593271, 0.0)
+        PointModel _ (48.867295781830215, 1.886072742014048, 0.0)
+    }
+
+
+    // **************************************************************************************************
+    //
     //  LIMAS
     //
     // **************************************************************************************************
@@ -121,6 +164,7 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
         PointModel _ (48.867, 1.88442, 0.0)
         PointModel _ (48.8677, 1.88549, 0.0)
     }
+
 
     // **************************************************************************************************
     //

@@ -3,6 +3,7 @@ use gui
 use base
 
 import PointModel
+import ExclusionZoneModel
 import LimaModel
 import VehiculeModel
 import SafetyPilotModel
@@ -88,6 +89,9 @@ ModelManager (Process _context, int _is_debug)
         //SafetyPilotModel ugv (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
         SafetyPilotModel ground_safety_pilot (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
     }
+
+    // EXCLUSION ZONES
+    List zones
 
     // LIMAS
     List limas

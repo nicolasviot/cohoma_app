@@ -1,9 +1,8 @@
 use core
 use gui
 use base
-//use display
 
-import ros_node
+//import ros_node
 import behavior.NotDraggableItem
 
 _native_code_
@@ -33,7 +32,7 @@ Lima (Process _map, Process _context, Process _model) //, Process _ros_node)
     //model aka _model
     //ros_node aka _ros_node
 
-    //print ("New view of Lima " + _model.label + "\n")
+    //print ("New view of Lima " + _model.name + "\n")
 
     Spike send_msg_lima
     
@@ -97,7 +96,7 @@ Lima (Process _map, Process _context, Process _model) //, Process _ros_node)
             FontWeight _ (DJN_NORMAL)
             FontSize _ (5, 24)
             TextAnchor _ (DJN_MIDDLE_ANCHOR)
-            Text legend (0, 6, toString(_model.label))
+            Text legend (0, 6, toString(_model.name))
             legend.width + 10 =:> bg.width
             - bg.width / 2 =:> bg.x
             //poly_line.press.x =: legend.x

@@ -26,12 +26,15 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 	_context.map_translation_x =:> pos.tx
 	_context.map_translation_y =:> pos.ty
 
-	// Exclusion areas
-	List exclusion_areas
-
 	OutlineCapStyle _ (1)
 
-	// Limas
+	// LIMITS
+	List limits
+
+	// EXCLUSION ZONES
+	List zones
+
+	// LIMAS
 	List limas
 
 
@@ -49,6 +52,13 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 		print ("Model of Lima removed from list " + this.model_manager.limas.size + "\n")
 	}
 
+
+	// DEBUG
+	for model : _model_manager.zones {
+		addChildrenTo this.zones {
+			ExclusionArea zone (_map, _context, model)
+		}
+	}
 
 	// DEBUG
 	for model : _model_manager.limas {

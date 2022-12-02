@@ -104,7 +104,6 @@ class RosNode : public FatProcess, public ExternalSource
 
     CoreProcess *_task_edges, *_task_areas, *_task_traps;
     CoreProcess *_task_allocated_edges, *_task_allocated_areas, *_task_allocated_traps;
-    CoreProcess *_exclusion_areas;
     CoreProcess *_layer_filter;
 
     // Models of itineraries

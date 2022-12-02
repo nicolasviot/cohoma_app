@@ -167,8 +167,6 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_task_allocated_areas, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/areas)
   GET_CHILD_VAR2 (_task_allocated_traps, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/traps)
 
-  // Site
-  GET_CHILD_VAR2 (_exclusion_areas, CoreProcess, _parent, parent/l/map/layers/site/sitelayer/exclusion_areas)
 
   GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_panel/clock)
   GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_panel/clock/fw/input)
@@ -1259,8 +1257,10 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received site data\n", true);
 
-  ParentProcess *limits_to_add = ExclusionArea(_exclusion_areas, "", _map, "limits");
-    
+  // FIXME
+  /*ParentProcess *limits_to_add = ExclusionArea(_exclusion_areas, "", _map, "limits");
+  
+  // LIMITS
   for (int i=0; i<msg.limits.points.size(); i++){
     auto* limit_summit = TaskAreaSummit(limits_to_add, std::string("summit_") + std::to_string(i), _map, msg.limits.points[i].latitude, msg.limits.points[i].longitude);
     SET_CHILD_VALUE (Double, limit_summit, alt, msg.limits.points[i].altitude, true)
@@ -1269,6 +1269,7 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
     new Connector (limits_to_add, "y_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/y")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/y")), 1);
   }
 
+  // ZONES
   for (int i=0; i < msg.zones.size(); i++){
     ParentProcess* area_to_add = ExclusionArea(_exclusion_areas,"", _map, "unknown"); 
     SET_CHILD_VALUE (Text, area_to_add, name, msg.zones[i].name, true)
@@ -1325,7 +1326,7 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
 
     new Connector (area_to_add, "x_bary_bind", area_to_add->find_child("bary_summit/x"), area_to_add->find_child("barycenterX"), 1);
     new Connector (area_to_add, "y_bary_bind", area_to_add->find_child("bary_summit/y"), area_to_add->find_child("barycenterY"), 1);
-  }
+  }*/
 
   // LIMAS
   for (int i = 0; i < msg.limas.size(); i++)
