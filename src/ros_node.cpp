@@ -526,6 +526,10 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
 
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
+  //auto_preview : validate automatically the first itninerary received
+  send_validation_plan();
+
+
 }
 
 
