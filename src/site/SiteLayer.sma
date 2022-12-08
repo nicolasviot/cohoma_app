@@ -3,8 +3,9 @@ use gui
 use base
 use display
 
-import Lima
+import behavior.NotDraggableItem
 import ExclusionArea
+import Lima
 
 _native_code_
 %{
@@ -29,15 +30,45 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 	OutlineCapStyle _ (1)
 
 	// LIMITS
-	List limits
+	Component limits {
+		NoFill _
+		OutlineWidth outline_width (6)
+		OutlineColor outline_color (#14BE14)
+		
+		Polyline poly_line
+
+		Component behaviors
+
+		//print ("Limits: " + _model_manager.limits.size + " points\n")
+
+		// FIXME: TO TEST with ROS
+		_model_manager.limits.$added -> na_limits_added:(this) {
+			print ("New model of point added to the limits: " + this.model_manager.limits.size + "\n")
+		
+			for (int i = 1; i <= this.model_manager.limits.size; i++) {
+				//print ("View of point: lat = " + this.model_manager.limits.[i].lat + " -- lon = " + this.model_manager.limits.[i].lon + "\n")
+				
+				addChildrenTo this.limits.poly_line.points {
+					PolyPoint _ (0, 0)
+				}
+
+				addChildrenTo this.limits.behaviors {
+					NotDraggableItem _ (this.map, this.model_manager.limits.[i].lat, this.model_manager.limits.[i].lon, this.limits.poly_line.points.[i].x, this.limits.poly_line.points.[i].y)
+				}
+			}
+		}
+	}
+
 
 	// EXCLUSION ZONES
 	List zones
+
 
 	// LIMAS
 	List limas
 
 
+	// FIXME: TO TEST with ROS
 	_model_manager.limas.$added -> na_node_added:(this) {
 		print ("New model of Lima added to list " + this.model_manager.limas.size + "\n")
 		
@@ -48,22 +79,33 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 		}
 	}
 
-	_model_manager.limas.$removed -> na_node_removed:(this) {
-		print ("Model of Lima removed from list " + this.model_manager.limas.size + "\n")
-	}
-
 
 	// DEBUG
-	for model : _model_manager.zones {
-		addChildrenTo this.zones {
-			ExclusionArea zone (_map, _context, model)
+	if (_model_manager.IS_DEBUG)
+	{
+		// LIMITS
+		for (int i = 1; i <= _model_manager.limits.size; i++) {
+			addChildrenTo limits.poly_line.points {
+				PolyPoint _ (0, 0)
+			}
+
+			addChildrenTo limits.behaviors {
+				NotDraggableItem _ (_map, _model_manager.limits.[i].lat, _model_manager.limits.[i].lon, limits.poly_line.points.[i].x, limits.poly_line.points.[i].y)
+			}
 		}
-	}
 
-	// DEBUG
-	for model : _model_manager.limas {
-		addChildrenTo this.limas {
-			Lima lima (_map, _context, model) //, null)
+		// EXCLUSION ZONES
+		for model : _model_manager.zones {
+			addChildrenTo this.zones {
+				ExclusionArea zone (_map, _context, model)
+			}
+		}
+
+		// LIMAS
+		for model : _model_manager.limas {
+			addChildrenTo this.limas {
+				Lima lima (_map, _context, model) //, null)
+			}
 		}
 	}
 }

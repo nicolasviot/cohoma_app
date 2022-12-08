@@ -40,6 +40,7 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 	}
 	
 
+	// FIXME: DEBUG
 	if (_model_manager.IS_DEBUG)
 	{
 		_model_manager.traps.$added -> na_trap_added:(this) {

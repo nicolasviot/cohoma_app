@@ -90,6 +90,9 @@ ModelManager (Process _context, int _is_debug)
         SafetyPilotModel ground_safety_pilot (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
     }
 
+    // LIMITS (list of points)
+    List limits
+
     // EXCLUSION ZONES
     List zones
 
