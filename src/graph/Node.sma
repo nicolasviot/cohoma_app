@@ -23,6 +23,7 @@ Node (Process map, Process _context, double _lat, double _lon, double _alt, int 
 	String status ("")
 	Int id(_id)
 	Int phase(0)
+	status -> _context.plan_request
 
 	GraphNode wpt (map, _context, _id, _lat, _lon)
 	id =:> wpt.id

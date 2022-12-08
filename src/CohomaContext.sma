@@ -136,4 +136,8 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     AssignmentSequence set_selected_itinerary_to_null (0) {
         REF_NULL =: ref_selected_itinerary
     }*/
+
+
+    //auto-preview : request plan when a node becomes forced
+    Spike plan_request
 }

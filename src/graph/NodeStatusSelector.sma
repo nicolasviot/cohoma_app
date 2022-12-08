@@ -31,8 +31,6 @@ NodeStatusSelector (Process _frame, Process _context)
         selected_status =: model_status.value
     }
     set_status_to_model -> _context.set_current_node_to_null
-    model_status.value -> plan_request
-
     svg = loadFromXML ("res/svg/status_selector.svg")
 
     FSM fsm {
