@@ -9,6 +9,8 @@ NodeStatusSelector (Process _frame, Process _context)
     TextPrinter tp
 
     String selected_status ("default")
+    //auto-preview : request plan when a node becomes forced
+    Spike plan_request
 
     DerefDouble tx (_context.ref_current_node, "screen_translation/tx", DJNN_GET_ON_CHANGE)
     DerefDouble ty (_context.ref_current_node, "screen_translation/ty", DJNN_GET_ON_CHANGE)
@@ -29,7 +31,7 @@ NodeStatusSelector (Process _frame, Process _context)
         selected_status =: model_status.value
     }
     set_status_to_model -> _context.set_current_node_to_null
-
+    model_status.value -> plan_request
 
     svg = loadFromXML ("res/svg/status_selector.svg")
 

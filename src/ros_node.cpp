@@ -577,7 +577,7 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
 void 
 RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
   
-  RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
+  //RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
 
   djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _drone_safety_pilot, _ground_safety_pilot};
   static const string robots_name[] = {"", "drone", "agilex1", "agilex2", "lynx", "spot", "vab", "drone_safety_pilot", "ground_safety_pilot"};
@@ -1113,6 +1113,8 @@ RosNode::send_msg_planning_request(){
     
   icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
   message.id = _current_plan_id_vab.get_string_value();
+  message.start_node = "-1";
+  message.end_node = "-1";
 
   for (auto item: ((djnn::List*)_nodes)->children()){
 
@@ -1131,9 +1133,10 @@ RosNode::send_msg_planning_request(){
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Asked planification between nodes "+ message.start_node + " and " + message.end_node + " \n", true);
 
   message.header.stamp = _node->get_clock()->now();
-
-  publisher_planning_request->publish(message);  
-}
+  if (message.start_node != "-1" && message.end_node != "-1"){
+    publisher_planning_request->publish(message);  
+  }
+  }
 
 
 void 
