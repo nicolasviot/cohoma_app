@@ -199,7 +199,7 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
     // **************************************************************************************************
 
     addChildrenTo this.nodes {
-        //NodeModel (Process _context, int _id, int _phase, string _label, double _lat, double _lon, double _alt, int _is_mandatory)
+        //NodeModel (int _id, int _phase, string _label, double _lat, double _lon, double _alt, int _is_mandatory)
         NodeModel node_0 (0, 4, "", 48.8664, 1.88506, 0, 0)
         NodeModel node_1 (1, 4, "", 48.8662, 1.88534, 0, 0)
         NodeModel node_2 (2, 4, "", 48.8667, 1.88602, 0, 0)

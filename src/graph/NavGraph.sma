@@ -42,31 +42,36 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 
 	_model_manager.nodes.$added -> na_node_added:(this) {
 		print ("New model of node added to list " + this.model_manager.nodes.size + "\n")
-		/*model = getRef (&this.model_manager.nodes.$added)
+		
+		model = getRef (&this.model_manager.nodes.$added)
     	addChildrenTo this.nodes {
 			Node node (this.map, this.context, model)
-		}*/
+		}
 	}
 
 	_model_manager.nodes.$removed -> na_node_removed:(this) {
 		print ("Model of node removed from list " + this.model_manager.nodes.size + "\n")
 		//model = getRef (&this.model_manager.nodes.$removed)
 	}
-
-	for model : _model_manager.nodes {
-		addChildrenTo this.nodes {
-			Node node (_map, _context, model)
-		}
-	}
-
-	for model : _model_manager.edges {
-		addChildrenTo this.edges.lst {
-			Edge edge (_context, model)
-		}
-	}
 	
 	OutlineOpacity _(0.5)
 	
 	List shadow_edges
 
+
+	// DEBUG
+	if (_model_manager.IS_DEBUG)
+	{
+		for model : _model_manager.nodes {
+			addChildrenTo this.nodes {
+				Node node (_map, _context, model)
+			}
+		}
+
+		for model : _model_manager.edges {
+			addChildrenTo this.edges.lst {
+				Edge edge (_context, model)
+			}
+		}
+	}
 }

@@ -25,9 +25,8 @@ import map.Map
 import map.MapLayer
 import map.MapLayerSync
 import map.EnvMapLayer
-import graph.OldNode
+import graph.Node
 import graph.OldEdge
-import graph.GraphNode
 import graph.NavGraph
 import graph.NodeStatusSelector
 import itinerary.Itineraries
@@ -237,7 +236,6 @@ Component root {
       }
       nodes aka ctrl_visibility.visible.layer.nodes
       shadow_edges aka ctrl_visibility.visible.layer.shadow_edges
-      //itinerary_edges aka ctrl_visibility.visible.layer.itinerary_edges
       edges aka ctrl_visibility.visible.layer.edges
 
       String name ("Navgraph")
@@ -332,7 +330,6 @@ Component root {
         }
       }
       String name("Site")
-      sitelayer aka ctrl_visibility.visible.layer
     }
 
 
@@ -419,13 +416,12 @@ Component root {
   // Strips container
   StripContainer strips (context, model_manager, f)
 
+  // Menu to show/hide layers
   UpperLeftMenu menu (l.map, f)
 
 
-  // Add Graph Node FSM
-  Spike addWptToLayer
-
-  FSM addNode {
+  // FSM to manage the addition of node in the graph
+  FSM fsm_add_node {
     State idle 
 
     State preview {
@@ -436,32 +432,21 @@ Component root {
       context.map_translation_x =:> pos.tx
       context.map_translation_y =:> pos.ty
 
-      // Init Temporary with an id to -1
-      GraphNode temporary (l.map, context, -1, 0, 0)
-      l.map.pointer_lat =:> temporary.lat
-      l.map.pointer_lon =:> temporary.lon
+      // Temporary view uses temporary model
+      Node temporary (l.map, context, model_manager.temp_node)
 
-      f.release -> addWptToLayer
+      // Update model
+      l.map.pointer_lat =:> model_manager.temp_node.lat
+      l.map.pointer_lon =:> model_manager.temp_node.lon
+
+      f.release -> model_manager.create_node_from_temp
     }
     idle -> preview (context.ctrl, show_reticule)
     preview -> idle (context.ctrl_r, hide_reticule)
   }
 
-  addWptToLayer -> (root) {
-    nodes = find(root.l.map.layers.navgraph.nodes)
-    addChildrenTo nodes {
-      OldNode new (root.l.map, root.context, $root.l.map.pointer_lat, $root.l.map.pointer_lon, 0, 0, "by_operator", 0)
-    }
-    //print (nodes.size)
-    //node = find(nodes[$nodes.size])
-    //node.wpt.lat = root.addNode.preview.temporary.lat
-    nodes[$nodes.size].wpt.lat = root.addNode.preview.temporary.lat
-    nodes[$nodes.size].wpt.lon = root.addNode.preview.temporary.lon
-    nodes[$nodes.size].id = nodes.size   
- }
 
-
-  // Add Edge between GraphNode 
+  // Spikes
   Spike clear_temp_list
   Spike add_edges
   Spike add_first_wpt

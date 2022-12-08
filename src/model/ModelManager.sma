@@ -18,7 +18,7 @@ _native_code_
     using namespace std;
 
     //#include "core/property/text_property.h"
-    //#include "core/property/double_property.h"
+    #include "core/property/double_property.h"
     //#include "core/property/int_property.h"
     //#include "core/property/bool_property.h"
     //#include "core/property/ref_property.h"
@@ -99,8 +99,19 @@ ModelManager (Process _context, int _is_debug)
     // LIMAS
     List limas
 
+    // Model of the temporary node during edition 
+    NodeModel temp_node (-1, -1, "", 0.0, 0.0, 0, 0)
+
     // NODES
     List nodes
+
+    Spike create_node_from_temp
+
+    create_node_from_temp -> na_create_node_from_temp:(this) {
+        addChildrenTo this.nodes {
+            NodeModel _ (getInt(this.nodes.size), -1, "by operator", getDouble(this.temp_node.lat), getDouble(this.temp_node.lon), 0, 0)
+        }
+    }
 
     // EDGES
     List edges
