@@ -37,6 +37,16 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 		List lst
 	}
 
+	/*_model_manager.edges.$added -> na_edges_added:(this) {
+		print ("New model of edge added to list " + this.model_manager.edges.size + "\n")
+		
+		model = getRef (&this.model_manager.edges.$added)
+    	addChildrenTo this.edges.lst {
+			Edge edge (this.context, model)
+		}
+	}*/
+
+
 	// NODES
 	List nodes
 
@@ -56,7 +66,23 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 	
 	OutlineOpacity _(0.5)
 	
-	List shadow_edges
+
+	// Temporary EDGES during graph edition
+	Component temp_edges {
+		//OutlineColor outline_color ($_context.EDGE_COLOR)
+		OutlineColor outline_color (#FFFF00)
+
+		List lst
+	}
+
+	_model_manager.temp_edges.$added -> na_temp_edges_added:(this) {
+		print ("New model of edge added to temporary list " + this.model_manager.temp_edges.size + "\n")
+		
+		model = getRef (&this.model_manager.temp_edges.$added)
+    	addChildrenTo this.temp_edges.lst {
+			Edge edge (this.context, model)
+		}
+	}
 
 
 	// DEBUG

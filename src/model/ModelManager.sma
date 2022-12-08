@@ -71,6 +71,11 @@ ModelManager (Process _context, int _is_debug)
 
     Spike itineraries_updated
 
+    // **************************************************************************************************
+    //
+    //  VEHICLES
+    //
+    // **************************************************************************************************
     Component vehicles {
         VehiculeModel vab (_context, "vab", "VAB", $_context.init_lat, $_context.init_lon, $_context.VAB_COL)
         VehiculeModel agilex1 (_context, "agilex1", "AGILEX 1", $_context.init_lat + 0.0005, $_context.init_lon, $_context.AGI_1_COL)
@@ -80,6 +85,12 @@ ModelManager (Process _context, int _is_debug)
         VehiculeModel drone (_context, "drone", "DRONE", $_context.init_lat + 0.0015 , $_context.init_lon + 0.0015, $_context.DRONE_COL)
     }
 
+
+    // **************************************************************************************************
+    //
+    //  SAFETY PILOTS
+    //
+    // **************************************************************************************************
     Component safety_pilots {
         // Unmanned Aerial Vehicle
         //SafetyPilotModel uav (_context, "uav", "UAV", $_context.init_lat, $_context.init_lon - 0.005, $_context.UAV_COL)
@@ -90,6 +101,12 @@ ModelManager (Process _context, int _is_debug)
         SafetyPilotModel ground_safety_pilot (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
     }
 
+
+    // **************************************************************************************************
+    //
+    //  SITE
+    //
+    // **************************************************************************************************
     // LIMITS (list of points)
     List limits
 
@@ -99,23 +116,42 @@ ModelManager (Process _context, int _is_debug)
     // LIMAS
     List limas
 
+
+    // **************************************************************************************************
+    //
+    //  NODES
+    //
+    // **************************************************************************************************
+    List nodes
+
     // Model of the temporary node during edition 
     NodeModel temp_node (-1, -1, "", 0.0, 0.0, 0, 0)
-
-    // NODES
-    List nodes
 
     Spike create_node_from_temp
 
     create_node_from_temp -> na_create_node_from_temp:(this) {
         addChildrenTo this.nodes {
-            NodeModel _ (getInt(this.nodes.size), -1, "by operator", getDouble(this.temp_node.lat), getDouble(this.temp_node.lon), 0, 0)
+            NodeModel _ ($this.nodes.size, -1, "by operator", $this.temp_node.lat, $this.temp_node.lon, 0, 0)
         }
     }
 
-    // EDGES
+
+    // **************************************************************************************************
+    //
+    //  EDGES
+    //
+    // **************************************************************************************************
     List edges
 
+    // Temporary EDGES during graph edition
+    List temp_edges
+
+
+    // **************************************************************************************************
+    //
+    //  ITINERARIES
+    //
+    // **************************************************************************************************
     List itineraries {
         ItineraryModel itinerary1 (_context, "shortest")
         ItineraryModel itinerary2 (_context, "safest")
@@ -126,7 +162,12 @@ ModelManager (Process _context, int _is_debug)
     safest_itinerary aka itineraries.[2]
     tradeoff_itinerary aka itineraries.[3]
 
-    // TRAPS
+
+    // **************************************************************************************************
+    //
+    //  TRAPS
+    //
+    // **************************************************************************************************
     List traps
 
 }

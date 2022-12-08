@@ -152,7 +152,7 @@ RosNode::impl_activate ()
 
   GET_CHILD_VAR2 (_nodes, CoreProcess, _parent, parent/l/map/layers/navgraph/nodes)
   GET_CHILD_VAR2 (_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
-  GET_CHILD_VAR2 (_shadow_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/shadow_edges)
+  GET_CHILD_VAR2 (_shadow_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/temp_edges)
 
   // Model
   GET_CHILD_VAR2 (_lima_models, CoreProcess, _model_manager, limas)

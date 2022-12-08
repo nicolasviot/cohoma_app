@@ -21,6 +21,8 @@ use display
 import CohomaContext
 import model.ModelManager
 import model.NoRosModelManager
+import model.EdgeModel
+
 import map.Map
 import map.MapLayer
 import map.MapLayerSync
@@ -235,7 +237,7 @@ Component root {
         }
       }
       nodes aka ctrl_visibility.visible.layer.nodes
-      shadow_edges aka ctrl_visibility.visible.layer.shadow_edges
+      temp_edges aka ctrl_visibility.visible.layer.temp_edges
       edges aka ctrl_visibility.visible.layer.edges
 
       String name ("Navgraph")
@@ -378,14 +380,14 @@ Component root {
     context.map_translation_y =:> pos.ty
 
     FSM fsm_mode {
-      State mode_wp_edit {
+      State mode_edit_node {
         NodeStatusSelector node_menu (f, context)
         press_on_background -> context.set_current_node_to_null
       }
-      State mode_wp_create
+      State mode_create_node
 
-      mode_wp_create->mode_wp_edit (edit)
-      mode_wp_edit->mode_wp_create (create)
+      mode_create_node -> mode_edit_node (edit)
+      mode_edit_node -> mode_create_node (create)
     }
 
     TrapStatusSelector trap_menu (f, context)
@@ -456,12 +458,13 @@ Component root {
   context.del -> clear_all
   
 
-  Ref current_addedge_node (nullptr)
-  DerefDouble ddx (current_addedge_node, "wpt/screen_translation/tx", DJNN_GET_ON_CHANGE)
-  DerefDouble ddy (current_addedge_node, "wpt/screen_translation/ty", DJNN_GET_ON_CHANGE)
+  Ref edit_current_node_model (nullptr)
+  DerefDouble ddx (edit_current_node_model, "dx_in_map", DJNN_GET_ON_CHANGE)
+  DerefDouble ddy (edit_current_node_model, "dy_in_map", DJNN_GET_ON_CHANGE)
  
 
-  FSM addEdge {
+  // FSM to manage the addition of edges in the graph
+  FSM fsm_add_edge {
     State idle
 
     State shift_on
@@ -469,23 +472,27 @@ Component root {
     State preview_on {
       List temp_id_list
 
-      root.context.selected_node_id -> (root){
-        addChildrenTo root.addEdge.preview_on.temp_id_list {
+      root.context.selected_node_id -> (root) {
+        print ("AV preview_on . selected_node_id " + root.fsm_add_edge.preview_on.temp_id_list.size + "\n")
+        addChildrenTo root.fsm_add_edge.preview_on.temp_id_list {
           Int _ ($root.context.selected_node_id)
         }
+        print ("AP preview_on . selected_node_id " + root.fsm_add_edge.preview_on.temp_id_list.size + "\n")
 
-        int size = $root.addEdge.preview_on.temp_id_list.size 
-        int src = $root.addEdge.preview_on.temp_id_list.[size - 1]
-        int dest = $root.addEdge.preview_on.temp_id_list.[size]
-        addChildrenTo root.l.map.layers.navgraph.shadow_edges {
-          OldEdge _ (src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
+        int size = $root.fsm_add_edge.preview_on.temp_id_list.size 
+        int src = $root.fsm_add_edge.preview_on.temp_id_list.[size - 1] + 1
+        int dest = $root.fsm_add_edge.preview_on.temp_id_list.[size] + 1
+
+        addChildrenTo root.model.temp_edges {
+          EdgeModel _ (root.model.nodes[src], root.model.nodes[dest], 0.0)
         }
       }
       
       NoFill _
       OutlineOpacity _ (0.5)
       OutlineWidth _ (5)
-      OutlineColor _ (234, 234, 234)
+      //OutlineColor _ ($context.EDGE_COLOR)
+      OutlineColor _ (#FFFF00)
 
       Scaling sc (1, 1, 0, 0)
       context.map_scale =:> sc.sx, sc.sy
@@ -497,16 +504,18 @@ Component root {
       Line temp_shadow_edge (0, 0, 0, 0)
 
       Int index (1)
-      index->(root) {
-        setRef (root.current_addedge_node, root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index])
+      index -> (root) {
+        print ("preview_on . index\n")
+        setRef (root.edit_current_node_model, root.model.nodes.[root.fsm_add_edge.preview_on.index])
       }
-      context.selected_node_id =:> index
+      context.selected_node_id + 1 =:> index
 
-      //index =:> lp.input
+      index =:> lp.input
 
-      index -> (root){
-        root.addEdge.preview_on.temp_shadow_edge.x1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.screen_translation.tx
-        root.addEdge.preview_on.temp_shadow_edge.y1 = root.l.map.layers.navgraph.nodes.[root.addEdge.preview_on.index].wpt.screen_translation.ty
+      // Useless ?
+      index -> (root) {
+        root.fsm_add_edge.preview_on.temp_shadow_edge.x1 = root.l.map.layers.navgraph.nodes.[root.fsm_add_edge.preview_on.index].model.dx_in_map
+        root.fsm_add_edge.preview_on.temp_shadow_edge.y1 = root.l.map.layers.navgraph.nodes.[root.fsm_add_edge.preview_on.index].model.dy_in_map
       }
       ddx.value =:> temp_shadow_edge.x1
       ddy.value =:> temp_shadow_edge.y1
@@ -523,38 +532,46 @@ Component root {
   add_edges -> hide_reticule
 
   clear_temp_list -> (root) {
-    root.current_addedge_node = &root.context.REF_NULL
+    root.edit_current_node_model = &root.context.REF_NULL
 
-    delete_content root.l.map.layers.navgraph.shadow_edges
-    delete_content root.addEdge.preview_on.temp_id_list
+    //delete_content root.l.map.layers.navgraph.temp_edges
+    delete_content root.model.temp_edges
+    delete_content root.fsm_add_edge.preview_on.temp_id_list
   }
 
   clear_all -> (root) {
-    root.current_addedge_node = &root.context.REF_NULL
+    root.edit_current_node_model = &root.context.REF_NULL
     
-    delete_content root.l.map.layers.navgraph.edges
-    delete_content root.l.map.layers.navgraph.shadow_edges
-    delete_content root.l.map.layers.navgraph.nodes
+    //delete_content root.l.map.layers.navgraph.edges
+    delete_content root.model.edges
+    //delete_content root.l.map.layers.navgraph.temp_edges
+    delete_content root.model.temp_edges
+    //delete_content root.l.map.layers.navgraph.nodes
+    delete_content root.model.nodes
   }
 
-  add_first_wpt -> (root){
-    root.current_addedge_node = &root.context.REF_NULL
+  add_first_wpt -> (root) {
+    print ("add first node\n")
+    root.edit_current_node_model = &root.context.REF_NULL
 
-    addChildrenTo root.addEdge.preview_on.temp_id_list{
+    addChildrenTo root.fsm_add_edge.preview_on.temp_id_list{
       Int _($root.context.selected_node_id)
     }
   }
 
 
-  add_edges -> na_add_edges:(root){
-    //print ("add_edges: " + root.addEdge.preview_on.temp_id_list.size + "\n")
-    for (int i = 1; i < $root.addEdge.preview_on.temp_id_list.size; i++) {
-      int src = $root.addEdge.preview_on.temp_id_list.[i]
-      int dest = $root.addEdge.preview_on.temp_id_list.[i+1]
+  add_edges -> na_add_edges:(root) {
+    //print ("add_edges: " + root.fsm_add_edge.preview_on.temp_id_list.size + "\n")
+    for (int i = 1; i < $root.fsm_add_edge.preview_on.temp_id_list.size; i++) {
+      int src = $root.fsm_add_edge.preview_on.temp_id_list.[i]
+      int dest = $root.fsm_add_edge.preview_on.temp_id_list.[i+1]
       //print ("Add edge\n")
-      addChildrenTo root.l.map.layers.navgraph.edges {
+      /*addChildrenTo root.l.map.layers.navgraph.edges {
         OldEdge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
-     }
+      }*/
+      addChildrenTo root.model.edges {
+          EdgeModel _ (root.model.nodes[src], root.model.nodes[dest], 0.0)
+      }
     }
   }
   na_add_edges -> clear_temp_list
