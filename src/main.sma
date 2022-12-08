@@ -401,7 +401,11 @@ Component root {
   LogPrinter debug ("plan_request from node_menu change")
   // Ros node w/ all sub and pub fonctions
   right_panel.plan_request -> ros_manager.plan_request
+  //Use context to automate the planning algorithms calls + animation
   context.plan_request -> ros_manager.plan_request
+  context.plan_request -> right_panel.itinerary_panel.start_waiting_anim
+  model_manager.itineraries_updated -> right_panel.itinerary_panel.stop_waiting_anim
+  
   right_panel.validate_plan -> ros_manager.validate_plan
   right_panel.update_graph -> ros_manager.update_graph
   right_panel.test_multiple_itineraries_spike -> ros_manager.test_multiple_itineraries_spike
