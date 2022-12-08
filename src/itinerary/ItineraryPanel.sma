@@ -58,6 +58,7 @@ ItineraryPanel (Process _context, Process _model_manager)
 		strip.select -> {
 			toString(strip.model.uid) =: _context.selected_itinerary_id
 		}
+		//auto-preview
 		strip.select -> plan_set
 		strip.plan_set -> plan_set
 	}
