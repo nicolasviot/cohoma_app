@@ -28,7 +28,6 @@ import map.MapLayer
 import map.MapLayerSync
 import map.EnvMapLayer
 import graph.Node
-import graph.OldEdge
 import graph.NavGraph
 import graph.NodeStatusSelector
 import itinerary.Itineraries

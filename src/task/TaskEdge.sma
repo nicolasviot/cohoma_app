@@ -15,7 +15,7 @@ TaskEdge (Process map, int _source, int _dest, Process nodes)
     Double explored(0)
 
     Double x1(0)
-    Double x2 (0)
+    Double x2(0)
     Double y1(0)
     Double y2(0)
    
