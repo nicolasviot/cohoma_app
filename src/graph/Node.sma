@@ -36,12 +36,11 @@ Node (Process _map, Process _context, Process _model)
 		PickFill _
     	Circle mask (0, 0, $mask_radius)
 
-		mask.right.press -> {
-    	    this =: _context.ref_current_node
-    	}
-
     	mask.left.press -> {
-        	_model.id =: _context.selected_node_id
+			_model =: _context.ref_node_graph_edition
+    	}
+		mask.right.press -> {
+    	    _model =: _context.ref_node_status_edition
     	}
 	}
 

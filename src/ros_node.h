@@ -118,7 +118,7 @@ class RosNode : public FatProcess, public ExternalSource
 
     // In context
     RefProperty* _ref_NULL;
-    RefProperty* _ref_current_node;
+    RefProperty *_ref_node_graph_edition, *_ref_node_status_edition;
     RefProperty* _ref_current_trap;
     TextProperty* _selected_itinerary_id;
 

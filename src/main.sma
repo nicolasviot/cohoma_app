@@ -381,7 +381,7 @@ Component root {
     FSM fsm_mode {
       State mode_edit_node {
         NodeStatusSelector node_menu (f, context)
-        press_on_background -> context.set_current_node_to_null
+        press_on_background -> context.set_node_status_edition_to_null
       }
       State mode_create_node
 
@@ -452,14 +452,10 @@ Component root {
   Spike stop_create_edges
   Spike clear_all
 
-  context.del -> context.set_current_node_to_null
+  context.del -> context.set_node_graph_edition_to_null
+  context.del -> context.set_node_status_edition_to_null
   context.del -> clear_all
   
-
-  Ref edit_current_node_model (nullptr)
-  DerefDouble ddx (edit_current_node_model, "dx_in_map", DJNN_GET_ON_CHANGE)
-  DerefDouble ddy (edit_current_node_model, "dy_in_map", DJNN_GET_ON_CHANGE)
- 
 
   // FSM to manage the addition of edges in the graph
   FSM fsm_add_edge {
@@ -470,12 +466,10 @@ Component root {
     State preview_on {
       List temp_id_list
 
-      root.context.selected_node_id -> (root) {
-        print ("AV preview_on . selected_node_id " + root.fsm_add_edge.preview_on.temp_id_list.size + "\n")
+      root.context.id_node_graph_edition.value -> (root) {
         addChildrenTo root.fsm_add_edge.preview_on.temp_id_list {
-          Int _ ($root.context.selected_node_id)
+          Int _ ($root.context.id_node_graph_edition.value)
         }
-        print ("AP preview_on . selected_node_id " + root.fsm_add_edge.preview_on.temp_id_list.size + "\n")
 
         int size = $root.fsm_add_edge.preview_on.temp_id_list.size 
         int src = $root.fsm_add_edge.preview_on.temp_id_list.[size - 1] + 1
@@ -486,37 +480,25 @@ Component root {
         }
       }
       
-      NoFill _
-      OutlineOpacity _ (0.5)
-      OutlineWidth _ (5)
-      //OutlineColor _ ($context.EDGE_COLOR)
-      OutlineColor _ (#FFFF00)
-
       Scaling sc (1, 1, 0, 0)
       context.map_scale =:> sc.sx, sc.sy
 
       Translation pos (0, 0)
       context.map_translation_x =:> pos.tx
       context.map_translation_y =:> pos.ty
+
+      // UI of temporary edge
+      NoFill _
+      OutlineOpacity _ (0.5)
+      OutlineWidth _ (5)
+      //OutlineColor _ ($context.EDGE_COLOR)
+      OutlineColor _ (#FFFF00)
     
       Line temp_shadow_edge (0, 0, 0, 0)
 
-      Int index (1)
-      index -> (root) {
-        print ("preview_on . index\n")
-        setRef (root.edit_current_node_model, root.model.nodes.[root.fsm_add_edge.preview_on.index])
-      }
-      context.selected_node_id + 1 =:> index
 
-      index =:> lp.input
-
-      // Useless ?
-      index -> (root) {
-        root.fsm_add_edge.preview_on.temp_shadow_edge.x1 = root.l.map.layers.navgraph.nodes.[root.fsm_add_edge.preview_on.index].model.dx_in_map
-        root.fsm_add_edge.preview_on.temp_shadow_edge.y1 = root.l.map.layers.navgraph.nodes.[root.fsm_add_edge.preview_on.index].model.dy_in_map
-      }
-      ddx.value =:> temp_shadow_edge.x1
-      ddy.value =:> temp_shadow_edge.y1
+      context.dx_node_graph_edition.value =:> temp_shadow_edge.x1
+      context.dy_node_graph_edition.value =:> temp_shadow_edge.y1
 
       f.move.x - pos.tx =:> temp_shadow_edge.x2
       f.move.y - pos.ty =:> temp_shadow_edge.y2
@@ -524,14 +506,14 @@ Component root {
 
     idle -> shift_on (context.shift, show_reticule)
     shift_on -> idle (context.shift_r, hide_reticule)
-    shift_on -> preview_on (root.context.selected_node_id, start_create_edges)
+    shift_on -> preview_on (root.context.id_node_graph_edition.value, start_create_edges)
     preview_on -> idle (context.shift_r, stop_create_edges) // + hide_reticule
   }
   stop_create_edges -> hide_reticule
 
+
   clear_all -> (root) {
-    print ("clear_all\n")
-    root.edit_current_node_model = &root.context.REF_NULL
+    print ("Clear all\n")
     
     delete_content root.fsm_add_edge.preview_on.temp_id_list
     
@@ -543,20 +525,13 @@ Component root {
   }
 
   start_create_edges -> (root) {
-    print ("add first node\n")
-    root.edit_current_node_model = &root.context.REF_NULL
-
+    // Add the id of the first selected node
     addChildrenTo root.fsm_add_edge.preview_on.temp_id_list{
-      Int _($root.context.selected_node_id)
+      Int _ ($root.context.id_node_graph_edition.value)
     }
   }
 
-
   stop_create_edges -> na_stop_create_edges:(root) {
-    print ("stop_create_edges: " + root.fsm_add_edge.preview_on.temp_id_list.size + "\n")
-
-    root.edit_current_node_model = &root.context.REF_NULL
-
     delete_content root.fsm_add_edge.preview_on.temp_id_list
   }
 

@@ -193,7 +193,8 @@ RosNode::impl_activate ()
 
   // Context
   GET_CHILD_VAR2 (_ref_NULL, RefProperty, _context, REF_NULL)
-  GET_CHILD_VAR2 (_ref_current_node, RefProperty, _context, ref_current_node)
+  GET_CHILD_VAR2 (_ref_node_graph_edition, RefProperty, _context, ref_node_graph_edition)
+  GET_CHILD_VAR2 (_ref_node_status_edition, RefProperty, _context, ref_node_status_edition)
   GET_CHILD_VAR2 (_ref_current_trap, RefProperty, _context, ref_current_trap)
 
   GET_CHILD_VAR2 (_selected_itinerary_id, TextProperty, _context, selected_itinerary_id)
@@ -246,9 +247,11 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received new navgraph\n", true)
   
-  // Reset "_ref_current_node" in case it contains a pointer on a node that will be removed
-  //_ref_current_node->set_value ((CoreProcess*)nullptr, true);
-  _ref_current_node->set_value (_ref_NULL, true);
+  // Reset "nodes" in case it contains a pointer on a node that will be removed
+  //_ref_node_graph_edition->set_value ((CoreProcess*)nullptr, true);
+  _ref_node_graph_edition->set_value (_ref_NULL, true);
+    //_ref_node_status_edition->set_value ((CoreProcess*)nullptr, true);
+  _ref_node_status_edition->set_value (_ref_NULL, true);
 
 
     Container *_task_edge_container = dynamic_cast<Container *> (_task_edges);

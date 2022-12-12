@@ -101,28 +101,38 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     // Dynamic properties
     //
 
-    Int selected_node_id (0)
-    //selected_node_id =:> lp.input
+    // Model of the node currently selected during graph edition (left click)
+    Ref ref_node_graph_edition (nullptr)
+    //Bool is_null_node_graph_edition (1)
 
-
-    // Node currently being edited in the status menu
-    Bool is_null_current_node (1)
-    Ref ref_current_node (nullptr)
+    DerefInt id_node_graph_edition (ref_node_graph_edition, "id", DJNN_GET_ON_CHANGE)
+    DerefDouble dx_node_graph_edition (ref_node_graph_edition, "dx_in_map", DJNN_GET_ON_CHANGE)
+    DerefDouble dy_node_graph_edition (ref_node_graph_edition, "dy_in_map", DJNN_GET_ON_CHANGE)
 
     // 0 = not lazy (updated on first activation)
-    AssignmentSequence set_current_node_to_null (0) {
-        REF_NULL =: ref_current_node
+    AssignmentSequence set_node_graph_edition_to_null (0) {
+        REF_NULL =: ref_node_graph_edition
     }
 
-    ref_current_node == REF_NULL ? 1 : 0 =:> is_null_current_node
+
+    // Model of the node currently edited in the status menu (right click)
+    Ref ref_node_status_edition (nullptr)
+    Bool is_null_node_status_edition (1)
+
+    // 0 = not lazy (updated on first activation)
+    AssignmentSequence set_node_status_edition_to_null (0) {
+        REF_NULL =: ref_node_status_edition
+    }
+
+    ref_node_status_edition == REF_NULL ? 1 : 0 =:> is_null_node_status_edition
     // Djnn C++
-    // is_null_current_node->set_value(get_property_value (ref_current_node) == get_property_value (REF_NULL) ? 1 : 0, 1);
-    //"is NULL current node ? " + is_null_current_node =:> tp.input
+    // is_null_node_status_edition->set_value(get_property_value (ref_node_status_edition) == get_property_value (REF_NULL) ? 1 : 0, 1);
+    //"is NULL current node ? " + is_null_node_status_edition =:> tp.input
 
 
-    // Trap currently being edited in the status menu
-    Bool is_null_current_trap (1)
+    // Trap currently being edited in the status menu (right click)
     Ref ref_current_trap (nullptr)
+    Bool is_null_current_trap (1)
 
     // 0 = not lazy (updated on first activation)
     AssignmentSequence set_current_trap_to_null (0) {

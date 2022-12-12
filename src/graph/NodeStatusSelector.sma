@@ -10,22 +10,20 @@ NodeStatusSelector (Process _frame, Process _context)
 
     String selected_status ("default")
 
-    DerefDouble tx (_context.ref_current_node, "screen_translation/tx", DJNN_GET_ON_CHANGE)
-    DerefDouble ty (_context.ref_current_node, "screen_translation/ty", DJNN_GET_ON_CHANGE)
-
-    Translation tr (0, 0)
-    tx.value + 3 => tr.tx
-    ty.value => tr.ty
-
-    DerefInt model_id (_context.ref_current_node, "model/id", DJNN_GET_ON_CHANGE)
-    DerefString model_status (_context.ref_current_node, "model/status", DJNN_GET_ON_CHANGE)
+    DerefInt model_id (_context.ref_node_status_edition, "id", DJNN_GET_ON_CHANGE)
+    DerefString model_status (_context.ref_node_status_edition, "status", DJNN_GET_ON_CHANGE)
+    DerefDouble model_dx_in_map (_context.ref_node_status_edition, "dx_in_map", DJNN_GET_ON_CHANGE)
+    DerefDouble model_dy_in_map (_context.ref_node_status_edition, "dy_in_map", DJNN_GET_ON_CHANGE)
     //"id: " + model_id.value + " -- status: " + model_status.value =:> tp.input
 
+    Translation tr (0, 0)
+    model_dx_in_map.value + 3 => tr.tx
+    model_dy_in_map.value => tr.ty
 
     AssignmentSequence set_status_to_model (1) {
         selected_status =: model_status.value
     }
-    set_status_to_model -> _context.set_current_node_to_null
+    set_status_to_model -> _context.set_node_status_edition_to_null
 
 
     svg = loadFromXML ("res/svg/status_selector.svg")
@@ -80,8 +78,8 @@ NodeStatusSelector (Process _frame, Process _context)
             t_forced << svg.forced
             t_default << svg.default
         }
-        hidden -> visible (_context.is_null_current_node.false)
-        visible -> hidden (_context.is_null_current_node.true)
+        hidden -> visible (_context.is_null_node_status_edition.false)
+        visible -> hidden (_context.is_null_node_status_edition.true)
     }
     // FIXME: works only if menu is closed, then opened again
     model_status.value =:> fsm.visible.fsm_status.initial 
