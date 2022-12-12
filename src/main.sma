@@ -237,7 +237,6 @@ Component root {
         }
       }
       nodes aka ctrl_visibility.visible.layer.nodes
-      temp_edges aka ctrl_visibility.visible.layer.temp_edges
       edges aka ctrl_visibility.visible.layer.edges
 
       String name ("Navgraph")
@@ -449,9 +448,8 @@ Component root {
 
 
   // Spikes
-  Spike clear_temp_list
-  Spike add_edges
-  Spike add_first_wpt
+  Spike start_create_edges
+  Spike stop_create_edges
   Spike clear_all
 
   context.del -> context.set_current_node_to_null
@@ -483,7 +481,7 @@ Component root {
         int src = $root.fsm_add_edge.preview_on.temp_id_list.[size - 1] + 1
         int dest = $root.fsm_add_edge.preview_on.temp_id_list.[size] + 1
 
-        addChildrenTo root.model.temp_edges {
+        addChildrenTo root.model.edges {
           EdgeModel _ (root.model.nodes[src], root.model.nodes[dest], 0.0)
         }
       }
@@ -526,31 +524,25 @@ Component root {
 
     idle -> shift_on (context.shift, show_reticule)
     shift_on -> idle (context.shift_r, hide_reticule)
-    shift_on -> preview_on (root.context.selected_node_id, add_first_wpt)
-    preview_on -> idle (context.shift_r, add_edges) // + hide_reticule
+    shift_on -> preview_on (root.context.selected_node_id, start_create_edges)
+    preview_on -> idle (context.shift_r, stop_create_edges) // + hide_reticule
   }
-  add_edges -> hide_reticule
-
-  clear_temp_list -> (root) {
-    root.edit_current_node_model = &root.context.REF_NULL
-
-    //delete_content root.l.map.layers.navgraph.temp_edges
-    delete_content root.model.temp_edges
-    delete_content root.fsm_add_edge.preview_on.temp_id_list
-  }
+  stop_create_edges -> hide_reticule
 
   clear_all -> (root) {
+    print ("clear_all\n")
     root.edit_current_node_model = &root.context.REF_NULL
+    
+    delete_content root.fsm_add_edge.preview_on.temp_id_list
     
     //delete_content root.l.map.layers.navgraph.edges
     delete_content root.model.edges
-    //delete_content root.l.map.layers.navgraph.temp_edges
-    delete_content root.model.temp_edges
+
     //delete_content root.l.map.layers.navgraph.nodes
     delete_content root.model.nodes
   }
 
-  add_first_wpt -> (root) {
+  start_create_edges -> (root) {
     print ("add first node\n")
     root.edit_current_node_model = &root.context.REF_NULL
 
@@ -560,20 +552,12 @@ Component root {
   }
 
 
-  add_edges -> na_add_edges:(root) {
-    //print ("add_edges: " + root.fsm_add_edge.preview_on.temp_id_list.size + "\n")
-    for (int i = 1; i < $root.fsm_add_edge.preview_on.temp_id_list.size; i++) {
-      int src = $root.fsm_add_edge.preview_on.temp_id_list.[i]
-      int dest = $root.fsm_add_edge.preview_on.temp_id_list.[i+1]
-      //print ("Add edge\n")
-      /*addChildrenTo root.l.map.layers.navgraph.edges {
-        OldEdge _(src, dest, 22.11618714809018, root.l.map.layers.navgraph.nodes)
-      }*/
-      addChildrenTo root.model.edges {
-          EdgeModel _ (root.model.nodes[src], root.model.nodes[dest], 0.0)
-      }
-    }
+  stop_create_edges -> na_stop_create_edges:(root) {
+    print ("stop_create_edges: " + root.fsm_add_edge.preview_on.temp_id_list.size + "\n")
+
+    root.edit_current_node_model = &root.context.REF_NULL
+
+    delete_content root.fsm_add_edge.preview_on.temp_id_list
   }
-  na_add_edges -> clear_temp_list
 
 }

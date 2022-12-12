@@ -152,7 +152,6 @@ RosNode::impl_activate ()
 
   GET_CHILD_VAR2 (_nodes, CoreProcess, _parent, parent/l/map/layers/navgraph/nodes)
   GET_CHILD_VAR2 (_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
-  GET_CHILD_VAR2 (_shadow_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/temp_edges)
 
   // Model
   GET_CHILD_VAR2 (_lima_models, CoreProcess, _model_manager, limas)
@@ -304,21 +303,6 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     int _edge_container_size = _edge_container->children ().size ();
     for (int i = _edge_container_size - 1; i >= 0; i--) {
       auto *item = _edge_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
-      }
-    }
-  }
-
-  Container *_shadow_edges_container = dynamic_cast<Container *>( _shadow_edges);
-  if (_shadow_edges_container) {
-    int _shadow_edges_container_size = _shadow_edges_container->children ().size ();
-    for (int i = _shadow_edges_container_size - 1; i >= 0; i--) {
-      auto *item = _shadow_edges_container->children ()[i];
       if (item) {
         item->deactivate ();
         if (item->get_parent ())

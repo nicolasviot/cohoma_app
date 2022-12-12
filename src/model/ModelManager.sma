@@ -143,8 +143,8 @@ ModelManager (Process _context, int _is_debug)
     // **************************************************************************************************
     List edges
 
-    // Temporary EDGES during graph edition
-    List temp_edges
+    // Temporary edge during graph edition
+    //EdgeModel temp_edge (this.nodes[..], this.nodes[..], 0.0)
 
 
     // **************************************************************************************************
