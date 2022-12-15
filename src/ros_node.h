@@ -92,20 +92,28 @@ class RosNode : public FatProcess, public ExternalSource
    private:
     const std::string _topic_name;
 
-    //Arguments
+    // Arguments
 	  CoreProcess *_map, *_context, *_model_manager;
 	  CoreProcess *_frame;
+    CoreProcess *_layer_filter;
 
     //navgraph fields
     TextProperty navgraph_data;
-    CoreProcess *_nodes, *_edges;
+    CoreProcess *_nodes, *_edges; // FIXME
+
+    // ---------------------------
+    // MODEL
+
+    // SITE
     CoreProcess *_limit_models, *_zone_models, *_lima_models;
-    CoreProcess *_trap_models, *_node_models, *_edge_models;
+    CoreProcess *_node_models, *_edge_models;
+
+    // TRAPS
+    CoreProcess *_trap_models;
 
     CoreProcess *_task_edges, *_task_areas, *_task_traps;
     CoreProcess *_task_allocated_edges, *_task_allocated_areas, *_task_allocated_traps;
-    CoreProcess *_layer_filter;
-
+    
     // Models of itineraries
     std::vector<CoreProcess*> _itineraries;
 

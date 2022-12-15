@@ -23,14 +23,16 @@
 //#include <fstream>
 
 #include "math.h"
-#include "graph/Node.h"
-#include "graph/NavGraph.h"
-#include "graph/Edge.h"
 #include "model/LimaModel.h"
 #include "model/PointModel.h"
 #include "model/ExclusionZoneModel.h"
 #include "model/NodeModel.h"
+#include "model/EdgeModel.h"
 #include "model/TrapModel.h"
+
+#include "graph/Node.h"
+#include "graph/NavGraph.h"
+#include "graph/Edge.h"
 
 #include "task/TaskTrap.h"
 #include "task/TaskAreaSummit.h"
@@ -250,6 +252,12 @@ RosNode::impl_deactivate ()
 
 #ifndef NO_ROS
 
+
+// **************************************************************************************************
+//
+//  Navigation Graph
+//
+// **************************************************************************************************
 // callback for navgraph msg (contains the navigation graph)
 void 
 RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg)
@@ -315,7 +323,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
 
     // schedule delete old itineraries
 
-  Container *_edge_container = dynamic_cast<Container *> (_edges);
+  /*Container *_edge_container = dynamic_cast<Container *> (_edges);
   if (_edge_container) {
     int _edge_container_size = _edge_container->children ().size ();
     for (int i = _edge_container_size - 1; i >= 0; i--) {
@@ -328,9 +336,9 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
         item = nullptr;
       }
     }
-  }
+  }*/
 
-  Container *_nodes_container = dynamic_cast<Container *> (_nodes);
+  /*Container *_nodes_container = dynamic_cast<Container *> (_nodes);
   if (_nodes_container) {
     int _nodes_container_size = _nodes_container->children ().size ();
     for (int i = _nodes_container_size - 1; i >= 0; i--) {
@@ -343,7 +351,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
         item = nullptr;
       }
     }
-  }
+  }*/
 
   nlohmann::json j = nlohmann::json::parse(msg->data);
   nlohmann::json j_graph;
@@ -356,12 +364,12 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
       return;
   }
   
-  // nodes
+  // NODES
   for (int i = j_graph["nodes"].size() - 1; i >= 0; i--)
   {
     auto& json_node = j_graph["nodes"][i];
-    const string& node_id = json_node["id"].get<std::string>();
-    const string& label = json_node["label"].get<std::string>();
+    const string& node_id = json_node["id"].get<string>();
+    const string& label = json_node["label"].get<string>();
     //const string& node_id = json_node["id"];
     //const string& label = json_node["label"];
     
@@ -373,21 +381,25 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     bool mandatory = m["compulsory"].get<bool>();
     //bool locked = m["locked"].get<bool>();
 
-    //ParentProcess* node_v = Node (_nodes, "", _map, _context, latitude, longitude, altitude, mandatory, label, std::stoi(node_id) + 1);
-    //SET_CHILD_VALUE(Int, node_v, phase, phase, true);
-    //SET_CHILD_VALUE(Bool, node_v, wpt/isMandatory, mandatory, true)
-    //SET_CHILD_VALUE(Bool, node_v, islocked, locked, true);
-
-    ParentProcess* node = NodeModel (_node_models, "", std::stoi(node_id) + 1, phase, label, latitude, longitude, altitude, mandatory);
+    NodeModel (_node_models, "", std::stoi(node_id) + 1, phase, label, latitude, longitude, altitude, mandatory);
   }
 
-  for (auto& j_edge: j_graph["edges"])
+  // EDGES
+  for (auto& j_edge : j_graph["edges"])
   {
-    std::string source = j_edge["source"].get<std::string>();
-    std::string target = j_edge["target"].get<std::string>();
+    const string& str_source = j_edge["source"].get<string>();
+    const string& str_target = j_edge["target"].get<string>();
+    int n_source = stoi(str_source) + 1;
+    int n_target = stoi(str_target) + 1;
+
     auto& m = j_edge["metadata"];
     double length = m["length"].get<double>();
-    //ParentProcess* edge = Edge(_edges, "", std::stoi(source) + 1, std::stoi(target) + 1, length, _nodes);
+    
+    //cout << n_source << "-->" << n_target << endl;
+
+    Process* source = _node_models->find_child (to_string (n_source));
+    Process* target = _node_models->find_child (to_string (n_target));
+    EdgeModel (_edge_models, "", source, target, length);
   }
 
   GRAPH_EXEC;

@@ -40,9 +40,15 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 	_model_manager.edges.$added -> na_edges_added:(this) {
 		print ("New model of edge added dynamically to list " + this.model_manager.edges.size + "\n")
 		
-		model = getRef (&this.model_manager.edges.$added)
-    	addChildrenTo this.edges.lst {
-			Edge edge (this.context, model)
+		//model = getRef (&this.model_manager.edges.$added)
+    	//addChildrenTo this.edges.lst {
+		//	Edge edge (this.context, model)
+		//}
+
+		for model : this.model_manager.edges {
+			addChildrenTo this.edges.lst {
+				Edge edge (this.context, model)
+			}
 		}
 	}
 
@@ -57,9 +63,15 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 	_model_manager.nodes.$added -> na_node_added:(this) {
 		print ("New model of node added dynamically to list " + this.model_manager.nodes.size + "\n")
 		
-		model = getRef (&this.model_manager.nodes.$added)
-    	addChildrenTo this.nodes {
-			Node node (this.map, this.context, model)
+		//model = getRef (&this.model_manager.nodes.$added)
+    	//addChildrenTo this.nodes {
+		//	Node node (this.map, this.context, model)
+		//}
+
+		for model : this.model_manager.nodes {
+			addChildrenTo this.nodes {
+				Node node (this.map, this.context, model)
+			}
 		}
 	}
 
