@@ -28,8 +28,10 @@
 #include "graph/Edge.h"
 #include "model/LimaModel.h"
 #include "model/PointModel.h"
+#include "model/ExclusionZoneModel.h"
 #include "model/NodeModel.h"
 #include "model/TrapModel.h"
+
 #include "task/TaskTrap.h"
 #include "task/TaskAreaSummit.h"
 #include "task/TaskArea.h"
@@ -150,27 +152,15 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_frame, CoreProcess, _parent, parent/f)
   GET_CHILD_VAR2 (_layer_filter, CoreProcess, _parent, parent/menu/ui/cb_left)
 
-  GET_CHILD_VAR2 (_nodes, CoreProcess, _parent, parent/l/map/layers/navgraph/nodes)
-  GET_CHILD_VAR2 (_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
+  // ---------------------------
+  // MODEL
 
-  // Model
+  // SITE
+  GET_CHILD_VAR2 (_limit_models, CoreProcess, _model_manager, limits)
+  GET_CHILD_VAR2 (_zone_models, CoreProcess, _model_manager, zones)
   GET_CHILD_VAR2 (_lima_models, CoreProcess, _model_manager, limas)
   GET_CHILD_VAR2 (_node_models, CoreProcess, _model_manager, nodes)
-  //GET_CHILD_VAR2 (_edge_models, CoreProcess, _model_manager, edges)
-  GET_CHILD_VAR2 (_trap_models, CoreProcess, _model_manager, traps)
-
-  GET_CHILD_VAR2 (_task_edges, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/edges)
-  GET_CHILD_VAR2 (_task_areas, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/areas)
-  GET_CHILD_VAR2 (_task_traps, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/traps)
-  GET_CHILD_VAR2 (_task_allocated_edges, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/edges)
-  GET_CHILD_VAR2 (_task_allocated_areas, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/areas)
-  GET_CHILD_VAR2 (_task_allocated_traps, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/traps)
-
-
-  GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_panel/clock)
-  GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_panel/clock/fw/input)
-  GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/right_panel/clock/fw_console/input)
-  GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_panel/console)
+  GET_CHILD_VAR2 (_edge_models, CoreProcess, _model_manager, edges)
 
   // Itineraries
   CoreProcess *shortest, *safest, *tradeoff;
@@ -181,6 +171,7 @@ RosNode::impl_activate ()
   _itineraries.push_back(safest);
   _itineraries.push_back(tradeoff);
   
+  // Vehicles
   GET_CHILD_VAR2 (_vab, CoreProcess, _model_manager, vehicles/vab)
   GET_CHILD_VAR2 (_agilex1, CoreProcess, _model_manager, vehicles/agilex1)
   GET_CHILD_VAR2 (_agilex2, CoreProcess, _model_manager, vehicles/agilex2)
@@ -188,6 +179,7 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_spot, CoreProcess, _model_manager, vehicles/spot)
   GET_CHILD_VAR2 (_drone, CoreProcess, _model_manager, vehicles/drone)
 
+  // Safety pilots
   GET_CHILD_VAR2 (_drone_safety_pilot, CoreProcess, _model_manager, safety_pilots/drone_safety_pilot)
   GET_CHILD_VAR2 (_ground_safety_pilot, CoreProcess, _model_manager, safety_pilots/ground_safety_pilot)
 
@@ -198,6 +190,28 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_ref_current_trap, RefProperty, _context, ref_current_trap)
 
   GET_CHILD_VAR2 (_selected_itinerary_id, TextProperty, _context, selected_itinerary_id)
+
+  // TRAPS
+  GET_CHILD_VAR2 (_trap_models, CoreProcess, _model_manager, traps)
+
+
+  // ---------------------------
+  // VIEW
+  
+  GET_CHILD_VAR2 (_nodes, CoreProcess, _parent, parent/l/map/layers/navgraph/nodes)
+  GET_CHILD_VAR2 (_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
+
+  GET_CHILD_VAR2 (_task_edges, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/edges)
+  GET_CHILD_VAR2 (_task_areas, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/areas)
+  GET_CHILD_VAR2 (_task_traps, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/traps)
+  GET_CHILD_VAR2 (_task_allocated_edges, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/edges)
+  GET_CHILD_VAR2 (_task_allocated_areas, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/areas)
+  GET_CHILD_VAR2 (_task_allocated_traps, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/traps)
+
+  GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_panel/clock)
+  GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_panel/clock/fw/input)
+  GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/right_panel/clock/fw_console/input)
+  GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_panel/console)
 
   GET_CHILD_VAR2 (_georef_visibility_map, CoreProcess, _parent, parent/l/map/layers/result/georef_visibility_map)
   GET_CHILD_VAR2 (_visibility_map, DataImage, _parent, parent/l/map/layers/result/visibility_map)
@@ -499,7 +513,7 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
 void 
 RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::SharedPtr msg) {
   
-  RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
+  //RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
 
   djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _drone_safety_pilot, _ground_safety_pilot};
   static const string robots_name[] = {"", "drone", "agilex1", "agilex2", "lynx", "spot", "vab", "drone_safety_pilot", "ground_safety_pilot"};
@@ -1236,28 +1250,41 @@ RosNode::send_selected_tasks(){
   publisher_tasks->publish(message);
 }
 
-void 
-RosNode::receive_msg_site(const icare_interfaces::msg::Site msg){
 
+// **************************************************************************************************
+//
+//  SITE
+//
+// **************************************************************************************************
+void 
+RosNode::receive_msg_site(const icare_interfaces::msg::Site msg)
+{
   get_exclusive_access(DBG_GET);
+
+  cout << "receive_msg_site" << endl;
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received site data\n", true);
 
-  // FIXME
-  /*ParentProcess *limits_to_add = ExclusionArea(_exclusion_areas, "", _map, "limits");
-  
   // LIMITS
-  for (int i=0; i<msg.limits.points.size(); i++){
-    auto* limit_summit = TaskAreaSummit(limits_to_add, std::string("summit_") + std::to_string(i), _map, msg.limits.points[i].latitude, msg.limits.points[i].longitude);
-    SET_CHILD_VALUE (Double, limit_summit, alt, msg.limits.points[i].altitude, true)
-    auto* point = new PolyPoint(limits_to_add->find_child("area"), std::string("pt_") + std::to_string(i), 0, 0);
-    new Connector (limits_to_add, "x_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/x")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/x")), 1);
-    new Connector (limits_to_add, "y_bind", limits_to_add->find_child(std::string("summit_") + std::to_string(i) + std::string("/y")), limits_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(i) + std::string("/y")), 1);
+  for (int i = 0; i < msg.limits.points.size(); i++)
+  {
+    PointModel (_limit_models, "", msg.limits.points[i].latitude, msg.limits.points[i].longitude, msg.limits.points[i].altitude);
   }
 
-  // ZONES
-  for (int i=0; i < msg.zones.size(); i++){
+  // EXCLUSION ZONES
+  for (int i = 0; i < msg.zones.size(); i++)
+  {
+    ParentProcess* zone = ExclusionZoneModel (_zone_models, "", msg.zones[i].type, msg.zones[i].name);
+    ParentProcess* points = zone->find_child ("points");
+    for (int j = 0; j < msg.zones[i].polygon.points.size(); j++)
+    {
+      PointModel (points, "", msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude, msg.zones[i].polygon.points[j].altitude);
+    }
+  }
+
+
+  /*for (int i=0; i < msg.zones.size(); i++){
     ParentProcess* area_to_add = ExclusionArea(_exclusion_areas,"", _map, "unknown"); 
     SET_CHILD_VALUE (Text, area_to_add, name, msg.zones[i].name, true)
     

@@ -41,7 +41,6 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 
 		//print ("Limits: " + _model_manager.limits.size + " points\n")
 
-		// FIXME: TO TEST with ROS
 		_model_manager.limits.$added -> na_limits_added:(this) {
 			print ("New model of point added to the limits: " + this.model_manager.limits.size + "\n")
 		
@@ -63,13 +62,21 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 	// EXCLUSION ZONES
 	List zones
 
+	_model_manager.zones.$added -> na_zone_added:(this) {
+		print ("New model of zone added to list " + this.model_manager.zones.size + "\n")
+
+		for model : this.model_manager.zones {
+			addChildrenTo this.zones {
+				ExclusionArea zone (this.map, this.context, model)
+			}
+		}
+	}
+
 
 	// LIMAS
 	List limas
 
-
-	// FIXME: TO TEST with ROS
-	_model_manager.limas.$added -> na_node_added:(this) {
+	_model_manager.limas.$added -> na_lima_added:(this) {
 		print ("New model of Lima added to list " + this.model_manager.limas.size + "\n")
 		
 		for model : this.model_manager.limas {

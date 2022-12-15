@@ -45,39 +45,42 @@ ExclusionArea (Process _map, Process _context, Process _model)
         Switch switch (UNKNOWN) {
             Component UNKNOWN
 
-            Component RFA
+            // Restricted Fire Area (deactivation only on clearance)
+            Component RFA {
 
-            Component NFA
+            }
 
+            // No Fire Area (deactivation forbidden)
+            Component NFA {
+                0.3 =: fo.a
+                #14B4B4 =: fill_color.value
+                #14B4B4 =: outline_color.value
+            }
+
+            // No Fly Zone
             Component NFZ {
                 0.3 =: fo.a
                 #FAFA32 =: fill_color.value
                 #FAFA32 =: outline_color.value
             }
 
+            // Free Fire Area (deactivation allowed)
             Component FFA {
-                0.3 =: fo.a
-                #14B4B4 =: fill_color.value
-                #14B4B4 =: outline_color.value
             }
 
+            // Restricted Operation Zone / forbidden to all vehicles
             Component ROZ_ALL {
                 0.7 =: fo.a
                 #FF0000 =: fill_color.value
                 #FF0000 =: outline_color.value
             }
 
+            // Restricted Operation Zone / forbidden to ground vehicles
             Component ROZ_GROUND {
                 0.3 =: fo.a
-                #14B4B4 =: fill_color.value
-                #14B4B4 =: outline_color.value
+                #FFA500 =: fill_color.value
+                #FFA500 =: outline_color.value
             }
-
-            Component LIMITS { // FIXME
-                0 =: fo.a
-                #14BE14 =: outline_color.value
-            }
-            
         }
         _model.type =:> switch.state
     }
