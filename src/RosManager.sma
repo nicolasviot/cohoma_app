@@ -9,7 +9,6 @@ validate_plan_fun (Process c)
 %{
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
- 	
   	#ifndef NO_ROS
   if (node)
  	 node->send_validation_plan(); 
@@ -21,7 +20,6 @@ update_graph_fun (Process c)
 %{
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
-  
   	#ifndef NO_ROS
   if (node)
  	 node->send_msg_navgraph_update();  
@@ -31,10 +29,8 @@ update_graph_fun (Process c)
 _action_
 plan_request_fun (Process c)
 %{
-
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
-  	
   	#ifndef NO_ROS
   if (node)
  	 node->send_msg_planning_request(); 
@@ -47,7 +43,6 @@ send_selected_allocation_fun (Process c)
 
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
-  	
   	#ifndef NO_ROS
   	if (node)
  		node->send_selected_tasks(); 
@@ -58,7 +53,6 @@ send_selected_allocation_fun (Process c)
 _action_
 test_lima (Process c)
 %{
-
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
 	#ifndef NO_ROS

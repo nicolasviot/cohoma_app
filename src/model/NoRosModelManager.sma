@@ -157,11 +157,11 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
     // **************************************************************************************************
 
     addChildrenTo this.limas {
-        LimaModel ld (1, "LD")
-        LimaModel l1 (2, "L1")
-        LimaModel l2 (3, "L2")
-        LimaModel l3 (4, "L3")
-        LimaModel l4 (5, "L4")
+        LimaModel ld (1, "LD", null)
+        LimaModel l1 (2, "L1", null)
+        LimaModel l2 (3, "L2", null)
+        LimaModel l3 (4, "L3", null)
+        LimaModel l4 (5, "L4", null)
     }
 
     addChildrenTo this.limas.[1].points {

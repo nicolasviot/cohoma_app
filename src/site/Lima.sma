@@ -2,7 +2,6 @@ use core
 use gui
 use base
 
-//import ros_node
 import behavior.NotDraggableItem
 
 _native_code_
@@ -11,30 +10,17 @@ _native_code_
 %}
 
 
-/*_action_
-validate_lima (Process c)
-%{
-    Process *data = (Process*) get_native_user_data(c);
-
-    RosNode *ros_node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
-    IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
-    #ifndef NO_ROS
-    ros_node ->send_msg_lima(id->get_value()); 
-    #endif
-%}*/
-
-
 _define_
-Lima (Process _map, Process _context, Process _model) //, Process _ros_node)
+Lima (Process _map, Process _context, Process _model)
 {
     //map aka _map
     //context aka _context
     //model aka _model
-    //ros_node aka _ros_node
 
     //print ("New view of Lima " + _model.name + "\n")
 
-    Spike send_msg_lima
+    Spike double_click
+    double_click -> _model.na_validate_lima
     
     //FillOpacity fo (0.8)
     NoFill _
@@ -104,10 +90,7 @@ Lima (Process _map, Process _context, Process _model) //, Process _ros_node)
         }
         idle -> first_click (poly_line.press)
         first_click -> idle (first_click.t.end)
-        first_click -> idle (poly_line.press, send_msg_lima)
+        first_click -> idle (poly_line.press, double_click)
     }
-
-    //NativeAction na_validate_lima (validate_lima, this, 1)
-    //send_msg_lima -> na_validate_lima
 
 }

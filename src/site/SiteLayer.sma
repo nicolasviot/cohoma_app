@@ -10,6 +10,7 @@ import Lima
 _native_code_
 %{
     #include <iostream>
+	using namespace std;
 %}
 
 
@@ -81,7 +82,7 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 		
 		for model : this.model_manager.limas {
 			addChildrenTo this.limas {
-				Lima lima (this.map, this.context, model) //, null)
+				Lima lima (this.map, this.context, model)
 			}
 		}
 	}

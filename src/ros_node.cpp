@@ -1031,21 +1031,17 @@ uint8 TASK_TYPE_DEACTIVATION = 4
     }
 */
 
-
-
-
-
-
   }
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }
 
 void
-RosNode::send_msg_lima(int id){
-
+RosNode::send_msg_lima(int id)
+{
   icare_interfaces::msg::LimaCrossed message = icare_interfaces::msg::LimaCrossed();
   message.id = id;
+  //cout << "send_msg_lima " << id << endl;
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Validated lima " + std::to_string(id) + "\n", true);
@@ -1057,22 +1053,23 @@ RosNode::send_msg_lima(int id){
 
 
 void
-RosNode::send_msg_planning_request(){
-    
+RosNode::send_msg_planning_request()
+{    
   icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
   message.id = _current_plan_id_vab.get_string_value();
+  //cout << "send_msg_planning_request " << _current_plan_id_vab.get_string_value() << endl;
 
-  for (auto item : ((djnn::List*)_nodes)->children())
+  for (auto item : ((djnn::List*)_node_models)->children())
   {
-    GET_CHILD_VALUE (status, Text, item, status)
-    GET_CHILD_VALUE (iid, Int, item, id) // FIXME iid
+    GET_CHILD_VALUE (str_status, Text, item, status)
+    GET_CHILD_VALUE (n_id, Int, item, id)
 
-    if (status == "start" )
-      message.start_node = std::to_string(iid - 1);
-    else if ( status == "end")
-      message.end_node = std::to_string(iid - 1);
-    else if (status == "forced")
-        message.node_contraints.push_back(std::to_string(iid -1));
+    if (str_status == "start")
+      message.start_node = to_string(n_id - 1);
+    else if ( str_status == "end")
+      message.end_node = to_string(n_id - 1);
+    else if (str_status == "forced")
+        message.node_contraints.push_back(to_string(n_id -1));
   }
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
@@ -1358,7 +1355,7 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg)
   for (int i = 0; i < msg.limas.size(); i++)
   {
     int index = msg.limas[i].index;
-    ParentProcess* lima = LimaModel (_lima_models, std::to_string(index), index, msg.limas[i].name);
+    ParentProcess* lima = LimaModel (_lima_models, std::to_string(index), index, msg.limas[i].name, this);
       
     CoreProcess* points_list = lima->find_child("points");
 
