@@ -5,6 +5,7 @@ use base
 _native_code_
 %{
     #include <iostream>
+	#include <math.h>
 %}
 
 
@@ -16,6 +17,11 @@ EdgeModel (Process _node1, Process _node2, double _length)
 
 	Double length (_length)
 
-	//print ("Model of edge: " + _node1.id + " -- " + _node2.id + " (" + length + " m)\n")
+	DoubleFormatter df_length (_length, 2)
+
+	String length_meters ("")
+	df_length.output + " m" =: length_meters
+
+	//print ("Model of edge: " + _node1.id + " -- " + _node2.id + " (" + length + " --> " + length_meters + ")\n")
 
 }

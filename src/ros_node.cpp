@@ -1168,7 +1168,9 @@ RosNode::send_selected_tasks(){
 
   icare_interfaces::msg::Tasks message = icare_interfaces::msg::Tasks();
 
-  for (auto trap: ((djnn::List*)_task_traps)->children()){
+  // TRAPS
+  for (auto trap: ((djnn::List*)_task_traps)->children())
+  {
     GET_CHILD_VALUE (trap_selected, Bool, trap, selected)
     if (trap_selected){     
       icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
@@ -1185,13 +1187,16 @@ RosNode::send_selected_tasks(){
     }
   }
 
-  for (auto edge: ((djnn::List*)_task_edges)->children()){
-    GET_CHILD_VALUE (edge_selected, Bool, edge, selected)
-    if (edge_selected){
+  // EDGES
+  for (auto edge : ((djnn::List*)_task_edge_models)->children())
+  {
+    GET_CHILD_VALUE (edge_is_selected, Bool, edge, is_selected)
+    if (edge_is_selected)
+    {
       icare_interfaces::msg::GraphEdge edge_to_add = icare_interfaces::msg::GraphEdge();
-      GET_CHILD_VALUE (source, Int, edge, id_source)
+      GET_CHILD_VALUE (source, Int, edge, node1/id)
       edge_to_add.source = std::to_string(source - 1);
-      GET_CHILD_VALUE (dest, Int, edge, id_dest)
+      GET_CHILD_VALUE (dest, Int, edge, node2/id)
       edge_to_add.target = std::to_string(dest - 1);
       GET_CHILD_VALUE2 (edge_to_add.length, Double, edge, length)
       GET_CHILD_VALUE2 (edge_to_add.explored, Double, edge, explored)
@@ -1199,7 +1204,9 @@ RosNode::send_selected_tasks(){
     }
   }
 
-  for (auto area: ((djnn::List*)_task_areas)->children()){
+  // AREAS
+  for (auto area: ((djnn::List*)_task_areas)->children())
+  {
     GET_CHILD_VALUE (area_selected, Bool, area, selected)
     if (area_selected){
       icare_interfaces::msg::ExplorationPolygon geopolygon_to_add = icare_interfaces::msg::ExplorationPolygon();

@@ -15,7 +15,13 @@ TaskEdgeModel (Process _node1, Process _node2, double _length, double _explored)
 {
 	Double explored (_explored)
 
+	DoubleFormatter df_explored (100 * _explored, 2)
+	100 * explored => df_explored.input
+
+	String explored_percent ("")
+	df_explored.output + " %" =:> explored_percent
+
 	Bool is_selected (0)
 
-	print ("Model of task edge: " + _node1.id + " -- " + _node2.id + " (" + this.length + " m) explored = " + explored + "\n")
+	print ("Model of task edge: " + _node1.id + " -- " + _node2.id + " (" + this.length_meters + ") explored = " + explored_percent + "\n")
 }
