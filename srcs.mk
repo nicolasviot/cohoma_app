@@ -10,13 +10,14 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/model/PointModel.sma src/model/ExclusionZoneModel.sma src/model/LimaModel.sma \
             src/model/NodeModel.sma src/model/EdgeModel.sma src/model/ItineraryModel.sma \
             src/model/VehiculeModel.sma src/model/SafetyPilotModel.sma src/model/TrapModel.sma \
+            src/model/TaskEdgeModel.sma \
             src/model/ModelManager.sma src/model/NoRosModelManager.sma \
             src/behavior/NotDraggableItem.sma src/behavior/DraggableItem.sma src/behavior/DraggableItemWithRadius.sma \
             src/ClockComponent.sma src/Reticule.sma \
             src/strip/Strip.sma src/strip/StripContainer.sma \
             src/graph/NodeStatusSelector.sma src/graph/OldEdge.sma src/graph/Edge.sma src/graph/Node.sma src/graph/NavGraph.sma \
             src/trap/TrapStatusSelector.sma src/trap/Trap.sma \
-            src/task/TaskAreaSummit.sma src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma \
+            src/task/TaskAreaSummit.sma src/task/TaskArea.sma src/task/OldTaskEdge.sma  src/task/TaskEdge.sma src/task/TaskTrap.sma \
             src/task/TaskLayer.sma src/trap/TrapLayer.sma \
             src/site/ExclusionArea.sma src/site/Lima.sma src/site/SiteLayer.sma \
             src/itinerary/ItineraryEdge.sma src/itinerary/ItineraryOnMap.sma src/itinerary/Itineraries.sma src/itinerary/ItineraryStrip.sma src/itinerary/ItineraryPanel.sma \
@@ -71,7 +72,9 @@ ros_x86_libs := $(shell ls $(ros_lib_path)/x86_64-linux-gnu/lib*.so 2>/dev/null 
 # ros_libs := $(filter -l%,$(ros_libs))
 
 
-PATH_TO_WORKSPACE = /home/lii/Documents/dev_ws
+#PATH_TO_WORKSPACE = /home/lii/Documents/dev_ws
+PATH_TO_WORKSPACE = /home/achil/dev/COHOMA
+
 icare_interfaces_libs_install_path := $(PATH_TO_WORKSPACE)/install/icare_interfaces/lib
 icare_libs := $(shell ls $(icare_interfaces_libs_install_path)/lib*.so 2>/dev/null | xargs echo)
 icare_libs := $(patsubst $(icare_interfaces_libs_install_path)/lib%.so, -l%, $(icare_libs))

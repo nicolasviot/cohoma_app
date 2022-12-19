@@ -67,7 +67,7 @@ class RosNode : public FatProcess, public ExternalSource
     void receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg);
     void receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg);
     void receive_msg_trap (const icare_interfaces::msg::TrapList msg);
-    void receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks);
+    void receive_msg_candidate_tasks (const icare_interfaces::msg::Tasks);
     void receive_msg_allocation(const icare_interfaces::msg::Allocation);
     void receive_msg_site(const icare_interfaces::msg::Site);
     void receive_msg_map(const icare_interfaces::msg::EnvironmentMap);
@@ -107,6 +107,9 @@ class RosNode : public FatProcess, public ExternalSource
     // SITE
     CoreProcess *_limit_models, *_zone_models, *_lima_models;
     CoreProcess *_node_models, *_edge_models;
+
+    // TASKS
+    CoreProcess *_task_edge_models;
 
     // TRAPS
     CoreProcess *_trap_models;

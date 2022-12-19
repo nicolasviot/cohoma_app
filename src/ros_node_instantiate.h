@@ -11,7 +11,7 @@ struct ros_node_instantiate {
     void receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg);
     void receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg);
     void receive_msg_trap (const icare_interfaces::msg::TrapList msg);
-    void receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks);
+    void receive_msg_candidate_tasks (const icare_interfaces::msg::Tasks);
     void receive_msg_allocation(const icare_interfaces::msg::Allocation);
     void receive_msg_site(const icare_interfaces::msg::Site);
     void receive_msg_map(const icare_interfaces::msg::EnvironmentMap);
@@ -67,7 +67,7 @@ struct ros_node_instantiate {
 		    "/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, rosnode, _1));
 
 		  sub_candidate_tasks = _node->create_subscription<icare_interfaces::msg::Tasks>(
-		    "/candidate_tasks", qos, std::bind(&RosNode::receive_msg_allocated_tasks, rosnode, _1));
+		    "/candidate_tasks", qos, std::bind(&RosNode::receive_msg_candidate_tasks, rosnode, _1));
 
 		  sub_allocation = _node->create_subscription<icare_interfaces::msg::Allocation>(
 		    "/allocation", qos, std::bind(&RosNode::receive_msg_allocation, rosnode, _1));

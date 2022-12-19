@@ -20,6 +20,7 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 	context aka _context
 	model_manager aka _model_manager
 
+	// AREAS
 	List areas {
 		//TaskArea _(map)
 	}
@@ -31,12 +32,36 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
     _context.map_translation_x =:> pos.tx
     _context.map_translation_y =:> pos.ty
 
-	List edges {
-		//TaskEdge _(map, 1, 2, nodes)
+	// EDGES
+	Component edges {
+		OutlineColor outline_color ($_context.TASK_EDGE_COLOR)
+
+		List lst
 	}
 
+
+	// TRAPS
 	List traps {
 
+	}
+
+
+	_model_manager.task_edges.$added -> na_task_edges_added:(this) {
+		print ("New model of task edge(s) added to list " + this.model_manager.task_edges.size + "\n")
+		//model = getRef (&this.model_manager.task_edges.$added)
+    	//addChildrenTo this.edges {
+		//	TaskEdge task (this.map, this.context, model)
+		//}
+
+		for model : this.model_manager.task_edges {
+			addChildrenTo this.edges.lst {
+				TaskEdge task_edge (this.context, model)
+			}
+		}
+	}
+
+	_model_manager.task_edges.$removed -> na_task_edges_removed:(this) {
+		print ("Model of task edge(s) removed from list " + this.model_manager.task_edges.size + "\n")
 	}
 	
 

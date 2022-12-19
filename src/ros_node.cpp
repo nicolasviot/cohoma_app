@@ -29,6 +29,7 @@
 #include "model/NodeModel.h"
 #include "model/EdgeModel.h"
 #include "model/TrapModel.h"
+#include "model/TaskEdgeModel.h"
 
 #include "graph/Node.h"
 #include "graph/NavGraph.h"
@@ -37,7 +38,7 @@
 #include "task/TaskTrap.h"
 #include "task/TaskAreaSummit.h"
 #include "task/TaskArea.h"
-#include "task/TaskEdge.h"
+#include "task/OldTaskEdge.h"
 #include "site/ExclusionArea.h"
 
 using std::placeholders::_1;
@@ -114,7 +115,7 @@ RosNode::impl_activate ()
     "/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, this, _1));
 
   sub_candidate_tasks = _node->create_subscription<icare_interfaces::msg::Tasks>(
-    "/candidate_tasks", qos, std::bind(&RosNode::receive_msg_allocated_tasks, this, _1));
+    "/candidate_tasks", qos, std::bind(&RosNode::receive_msg_candidate_tasks, this, _1));
 
   sub_allocation = _node->create_subscription<icare_interfaces::msg::Allocation>(
     "/allocation", qos, std::bind(&RosNode::receive_msg_allocation, this, _1));
@@ -192,6 +193,10 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_ref_current_trap, RefProperty, _context, ref_current_trap)
 
   GET_CHILD_VAR2 (_selected_itinerary_id, TextProperty, _context, selected_itinerary_id)
+
+  // TASKS
+  GET_CHILD_VAR2 (_task_edge_models, CoreProcess, _model_manager, task_edges)
+
 
   // TRAPS
   GET_CHILD_VAR2 (_trap_models, CoreProcess, _model_manager, traps)
@@ -276,7 +281,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   _ref_node_status_edition->set_value (_ref_NULL, true);
 
 
-    Container *_task_edge_container = dynamic_cast<Container *> (_task_edges);
+    /*Container *_task_edge_container = dynamic_cast<Container *> (_task_edges);
     if (_task_edge_container) {
       int _task_edge_container_size = _task_edge_container->children ().size ();
       for (int i = _task_edge_container_size - 1; i >= 0; i--) {
@@ -289,7 +294,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
           item = nullptr;
         }
       }
-    }
+    }*/
 
     Container *_trap_container = dynamic_cast<Container *> (_task_traps);
     if (_trap_container) {
@@ -306,11 +311,11 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
       }
     }
 
-    Container *_task_container = dynamic_cast<Container *> (_task_areas);
-    if (_task_container) {
-      int _task_container_size = _task_container->children ().size ();
+    Container *_task_areas_container = dynamic_cast<Container *> (_task_areas);
+    if (_task_areas_container) {
+      int _task_container_size = _task_areas_container->children ().size ();
       for (int i = _task_container_size - 1; i >= 0; i--) {
-        auto *item = _task_container->children ()[i];
+        auto *item = _task_areas_container->children ()[i];
         if (item) {
           item->deactivate ();
           if (item->get_parent ())
@@ -322,36 +327,8 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     }
 
     // schedule delete old itineraries
-
-  /*Container *_edge_container = dynamic_cast<Container *> (_edges);
-  if (_edge_container) {
-    int _edge_container_size = _edge_container->children ().size ();
-    for (int i = _edge_container_size - 1; i >= 0; i--) {
-      auto *item = _edge_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
-      }
-    }
-  }*/
-
-  /*Container *_nodes_container = dynamic_cast<Container *> (_nodes);
-  if (_nodes_container) {
-    int _nodes_container_size = _nodes_container->children ().size ();
-    for (int i = _nodes_container_size - 1; i >= 0; i--) {
-      auto *item = _nodes_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
-      }
-    }
-  }*/
+    // schedule delete old edges
+    // schedule delete old nodes
 
   nlohmann::json j = nlohmann::json::parse(msg->data);
   nlohmann::json j_graph;
@@ -414,8 +391,6 @@ void
 RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg)
 {
   cout << "receive_msg_graph_itinerary_loop" << endl;
-
-  //std::vector<std::pair<string, std::vector<int>>> msg_struct;
   
   if (msg->itineraries.size () <= 0)
     return;
@@ -451,40 +426,12 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
   else
     cerr << "Different size about itineraries between 'msg_graph_itinerary_loop' and models of itineraries" << endl;
 
-  /*for (int i = 0; i < msg->itineraries.size(); i++) {
-    std::string id = msg->itineraries[i].id;
-    std::vector<int> nodes;
-
-    //cout << "Iti " << i << " with " << msg->itineraries[i].nodes.size() << " nodes" << endl;
-    for (int j = 0; j < msg->itineraries[i].nodes.size(); j++){
-      nodes.push_back(std::stoi(msg->itineraries[i].nodes[j]));
-    }
-    msg_struct.push_back(std::pair<string, std::vector<int>>(id, nodes));
-  }*/
-
-  //Color:
-  //int unselected = 0x232323;
-  //int selected = 0x1E90FF;
-
-  // schedule delete old itineraries
-
   /*string first_id = "";
   for (auto ros_itinerary : msg_struct) {
     // set first id
     if (first_id == "")
       first_id = ros_itinerary.first;
     
-    Component *new_itinerary = new Component (_itineraries_list, ros_itinerary.first);
-    new TextProperty (new_itinerary, "id", ros_itinerary.first);
-    List* new_ite_edges = new List (new_itinerary, "edges");
-    int ite_edges_size = ros_itinerary.second.size ();
-    if ( ite_edges_size > 0) {
-      for (int i = 1; i < ite_edges_size; i++) {
-        ParentProcess* edge = Edge( new_ite_edges, "", ros_itinerary.second[i-1] + 1, ros_itinerary.second[i] + 1, 20, _nodes);
-        SET_CHILD_VALUE (Int, edge, outline_color/value, unselected, true)
-      }
-    }
-  }
   SET_CHILD_VALUE (Text, _selected_itinerary_id, , first_id, true)*/
   
   _model_manager->find_child("itineraries_updated")->notify_activation();
@@ -498,12 +445,10 @@ void
 RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg)
 {
   get_exclusive_access(DBG_GET);
-  
-  // schedule delete old itineraries
 
-  //Color:
-  //int unselected = 0x232323;
-  //int selected = 0x1E90FF;
+
+
+  // schedule delete old itineraries
 
   cout << "receive_msg_graph final itinerary = " << msg->id << endl;
 
@@ -563,9 +508,11 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
 }
 
 
-// ------------------------------------------------------------------------------
-//    TRAP
-// ------------------------------------------------------------------------------
+// **************************************************************************************************
+//
+//  TRAP
+//
+// **************************************************************************************************
 void 
 RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
     
@@ -637,12 +584,20 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
   release_exclusive_access(DBG_REL);
 }
 
-void 
-RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
 
+// **************************************************************************************************
+//
+//  TASK
+//
+// **************************************************************************************************
+void 
+RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
+{
   get_exclusive_access(DBG_GET);
 
-  Container *_edge_container = dynamic_cast<Container *> (_task_edges);
+  cout << "receive_msg_candidate_tasks" << endl;
+
+  /*Container *_edge_container = dynamic_cast<Container *> (_task_edges);
   if (_edge_container) {
     int _edge_container_size = _edge_container->children ().size ();
     for (int i = _edge_container_size - 1; i >= 0; i--) {
@@ -655,7 +610,7 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
         item = nullptr;
       }
     }
-  }
+  }*/
 
   Container *_trap_container = dynamic_cast<Container *> (_task_traps);
   if (_trap_container) {
@@ -672,11 +627,11 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     }
   }
 
-  Container *_task_container = dynamic_cast<Container *> (_task_areas);
-  if (_task_container) {
-    int _task_container_size = _task_container->children ().size ();
+  Container *_task_areas_container = dynamic_cast<Container *> (_task_areas);
+  if (_task_areas_container) {
+    int _task_container_size = _task_areas_container->children ().size ();
     for (int i = _task_container_size - 1; i >= 0; i--) {
-      auto *item = _task_container->children ()[i];
+      auto *item = _task_areas_container->children ()[i];
       if (item) {
         item->deactivate ();
         if (item->get_parent ())
@@ -687,7 +642,9 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     }
   }
   
+  // Aerial
   int nb_uav_zone = msg.uav_zones.size();
+  // Ground
   int nb_ugv_edges = msg.ugv_edges.size();
   int nb_trap_identification = msg.trap_identifications.size();  
   int nb_trap_deactivation = msg.trap_deactivations.size();
@@ -696,8 +653,9 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received " + std::to_string(nb_total) + " tasks ("+ std::to_string(nb_uav_zone) + " uav_zones, " + std::to_string(nb_ugv_edges) + " ugv_edges, " + std::to_string(nb_trap_identification) + " trap_identifications, " + std::to_string(nb_trap_deactivation) + " trap_deactivations)\n", true)
  
-
-  for (int i=0; i < msg.uav_zones.size(); i++){
+  // Aerial
+  for (int i=0; i < msg.uav_zones.size(); i++)
+  {
     ParentProcess* area_to_add = TaskArea(_task_areas , "", _map);
     SET_CHILD_VALUE (Double, area_to_add, area_prop, msg.uav_zones[i].area, true)
     SET_CHILD_VALUE (Double, area_to_add, explored, msg.uav_zones[i].explored, true)
@@ -713,14 +671,21 @@ RosNode::receive_msg_allocated_tasks(const icare_interfaces::msg::Tasks msg){
     SET_CHILD_VALUE (Int, area_to_add, nb_summit, (int) (msg.uav_zones[i].points.size()), true)
   }
 
-  for (int i=0; i < msg.ugv_edges.size(); i++){
-    //Create ugv_edges
-    ParentProcess* edge_to_add = TaskEdge(_task_edges, "", _map, std::stoi(msg.ugv_edges[i].source) + 1, std::stoi(msg.ugv_edges[i].target) + 1, _nodes);
-    
-    SET_CHILD_VALUE (Double, edge_to_add, length, msg.ugv_edges[i].length, true)
-    SET_CHILD_VALUE (Double, edge_to_add, explored, msg.ugv_edges[i].explored, true)
+  // Ground
+  for (int i=0; i < msg.ugv_edges.size(); i++)
+  {
+    int n_source = stoi(msg.ugv_edges[i].source) + 1;
+    int n_target = stoi(msg.ugv_edges[i].target) + 1;
+    double length = msg.ugv_edges[i].length;
+    double explored = msg.ugv_edges[i].explored;
+    //cout << n_source << "-->" << n_target << "(" << length << "m) explored = " << explored << endl;
+
+    Process* source = _node_models->find_child (to_string (n_source));
+    Process* target = _node_models->find_child (to_string (n_target));
+    TaskEdgeModel (_task_edge_models, "", source, target, length, explored);
   }
   
+
   CoreProcess* trap_model = nullptr;
   Container* trap_models = dynamic_cast<Container*> (_trap_models);
 
@@ -916,11 +881,11 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
     }
   }
 
-  Container *_task_container = dynamic_cast<Container *> (_task_allocated_areas);
-  if (_task_container) {
-    int _task_container_size = _task_container->children ().size ();
+  Container *_task_areas_container = dynamic_cast<Container *> (_task_allocated_areas);
+  if (_task_areas_container) {
+    int _task_container_size = _task_areas_container->children ().size ();
     for (int i = _task_container_size - 1; i >= 0; i--) {
-      auto *item = _task_container->children ()[i];
+      auto *item = _task_areas_container->children ()[i];
       if (item) {
         item->deactivate ();
         if (item->get_parent ())
@@ -997,7 +962,7 @@ uint8 TASK_TYPE_DEACTIVATION = 4
     }
     else if (msg.tasks[i].task_type == 2)
     {
-      ParentProcess* edge_to_add = TaskEdge(_task_allocated_edges, "", _map, std::stoi(msg.tasks[i].edge.source) + 1, std::stoi(msg.tasks[i].edge.target) + 1, _nodes);
+      ParentProcess* edge_to_add = OldTaskEdge(_task_allocated_edges, "", _map, std::stoi(msg.tasks[i].edge.source) + 1, std::stoi(msg.tasks[i].edge.target) + 1, _nodes);
     
       SET_CHILD_VALUE (Double, edge_to_add, length, msg.tasks[i].edge.length, true)
       SET_CHILD_VALUE (Double, edge_to_add, explored, msg.tasks[i].edge.explored, true)

@@ -33,6 +33,7 @@ Edge (Process _context, Process _model)
 
         Line mask (0, 0, 0, 0)
     }
+    mask_release aka bg.mask.release
 
     OutlineWidth outline_width ($default_width)
     //OutlineColor outline_color ($_context.EDGE_COLOR)

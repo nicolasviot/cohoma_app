@@ -15,11 +15,7 @@ ItineraryEdge (Process _context, Process _model) inherits Edge (_context, _model
 {
     Spike click
 
-    //Double explored(0)
-    //DoubleFormatter df(0, 2)
-    //100 * explored =:> df.input 
-
     print ("View of itinerary edge: " + _model.node1.id + " -- " + _model.node2.id + " (" + _model.length + " m)\n")
 
-    this.bg.mask.release -> click
+    this.mask_release -> click
 }
