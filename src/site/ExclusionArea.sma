@@ -3,7 +3,6 @@ use gui
 use base
 use display
 
-//import ros_node
 import behavior.NotDraggableItem
 
 _native_code_
@@ -20,10 +19,10 @@ ExclusionArea (Process _map, Process _context, Process _model)
     //model aka _model
 
     Component bg {
-        FillOpacity fo (0.2)
-        FillColor fill_color (0)
+        FillOpacity fill_op (0.2)
+        FillColor fill_col (0)
         OutlineWidth _ (6)
-        OutlineColor outline_color (0)
+        OutlineColor outline_col (0)
         OutlineCapStyle _ (1)
     
         Polygon poly_gon
@@ -31,7 +30,7 @@ ExclusionArea (Process _map, Process _context, Process _model)
         Component behaviors
 
         for (int i = 1; i <= _model.points.size; i++) {
-            //print ("View of point: lat = " + _model.points.[i].lat + " -- lon = " + _model.points.[i].lon + "\n")
+            //print ("Exclusion Area: View of point: lat = " + _model.points.[i].lat + " -- lon = " + _model.points.[i].lon + "\n")
             
             addChildrenTo poly_gon.points {
                 PolyPoint _ (0, 0)
@@ -52,16 +51,16 @@ ExclusionArea (Process _map, Process _context, Process _model)
 
             // No Fire Area (deactivation forbidden)
             Component NFA {
-                0.3 =: fo.a
-                #14B4B4 =: fill_color.value
-                #14B4B4 =: outline_color.value
+                0.3 =: fill_op.a
+                #14B4B4 =: fill_col.value
+                #14B4B4 =: outline_col.value
             }
 
             // No Fly Zone
             Component NFZ {
-                0.3 =: fo.a
-                #FAFA32 =: fill_color.value
-                #FAFA32 =: outline_color.value
+                0.3 =: fill_op.a
+                #FAFA32 =: fill_col.value
+                #FAFA32 =: outline_col.value
             }
 
             // Free Fire Area (deactivation allowed)
@@ -70,16 +69,16 @@ ExclusionArea (Process _map, Process _context, Process _model)
 
             // Restricted Operation Zone / forbidden to all vehicles
             Component ROZ_ALL {
-                0.7 =: fo.a
-                #FF0000 =: fill_color.value
-                #FF0000 =: outline_color.value
+                0.7 =: fill_op.a
+                #FF0000 =: fill_col.value
+                #FF0000 =: outline_col.value
             }
 
             // Restricted Operation Zone / forbidden to ground vehicles
             Component ROZ_GROUND {
-                0.3 =: fo.a
-                #FFA500 =: fill_color.value
-                #FFA500 =: outline_color.value
+                0.3 =: fill_op.a
+                #FFA500 =: fill_col.value
+                #FFA500 =: outline_col.value
             }
         }
         _model.type =:> switch.state

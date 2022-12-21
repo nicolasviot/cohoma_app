@@ -12,17 +12,12 @@
 #include "core/utils/getset.h"
 
 #include <nlohmann/json.hpp>
-
 #include <cassert>
-
-
 #include <iostream>
 #include <algorithm>
 #include <iterator>
-
-//#include <fstream>
-
 #include "math.h"
+
 #include "model/LimaModel.h"
 #include "model/PointModel.h"
 #include "model/ExclusionZoneModel.h"
@@ -33,15 +28,14 @@
 #include "model/task/TaskEdgeModel.h"
 #include "model/task/TaskAreaModel.h"
 
-#include "graph/Node.h"
-#include "graph/NavGraph.h"
-#include "graph/Edge.h"
+//#include "graph/Node.h"
+//#include "graph/Edge.h"
 
 #include "task/TaskTrap.h"
 #include "task/TaskAreaSummit.h"
-#include "task/TaskArea.h"
+#include "task/OldTaskArea.h"
 #include "task/OldTaskEdge.h"
-#include "site/ExclusionArea.h"
+
 
 using std::placeholders::_1;
 
@@ -64,13 +58,13 @@ RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, C
   _context (context),
   _model_manager (model_manager),
 
-  //navgraph fields
-  navgraph_data(this, "data", ""),
+  // Nav Graph fields
+  navgraph_data (this, "data", ""),
 
-  //Planif VAB
-  _current_plan_id_vab(this, "current_plan_id", 0),
-  _start_plan_vab_id(this, "start_plan_id", 0),
-  _end_plan_vab_id(this, "end_plan_id", 0)
+  // Planif VAB
+  _current_plan_id_vab (this, "current_plan_id", 0),
+  _start_plan_vab_id (this, "start_plan_id", 0),
+  _end_plan_vab_id (this, "end_plan_id", 0)
 
     #ifndef NO_ROS
     //ROS
@@ -197,6 +191,7 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_selected_itinerary_id, TextProperty, _context, selected_itinerary_id)
 
   // TASKS
+  GET_CHILD_VAR2 (_task_area_models, CoreProcess, _model_manager, task_areas)
   GET_CHILD_VAR2 (_task_edge_models, CoreProcess, _model_manager, task_edges)
 
 
@@ -629,7 +624,7 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
     }
   }
 
-  Container *_task_areas_container = dynamic_cast<Container *> (_task_areas);
+  /*Container *_task_areas_container = dynamic_cast<Container *> (_task_areas);
   if (_task_areas_container) {
     int _task_container_size = _task_areas_container->children ().size ();
     for (int i = _task_container_size - 1; i >= 0; i--) {
@@ -642,7 +637,7 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
         item = nullptr;
       }
     }
-  }
+  }*/
   
   // Aerial
   int nb_uav_zone = msg.uav_zones.size();
@@ -656,9 +651,19 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received " + std::to_string(nb_total) + " tasks ("+ std::to_string(nb_uav_zone) + " uav_zones, " + std::to_string(nb_ugv_edges) + " ugv_edges, " + std::to_string(nb_trap_identification) + " trap_identifications, " + std::to_string(nb_trap_deactivation) + " trap_deactivations)\n", true)
  
   // Aerial
-  for (int i=0; i < msg.uav_zones.size(); i++)
+  for (int i=0; i < nb_uav_zone; i++)
   {
-    ParentProcess* area_to_add = TaskArea(_task_areas , "", _map);
+    double area = msg.uav_zones[i].area;
+    double explored = msg.uav_zones[i].explored;
+
+    TaskAreaModel task = TaskAreaModel (_task_area_models, "", area, explored)
+    ParentProcess* points = task->find_child ("points");
+    for (int j = 0; j < msg.uav_zones[i].points.size(); j++)
+    {
+      PointModel (points, "", msg.uav_zones[i].points[j].latitude, msg.uav_zones[i].points[j].longitude, msg.uav_zones[i].points[j].altitude);
+    }
+
+    /*ParentProcess* area_to_add = OldTaskArea(_task_areas , "", _map);
     SET_CHILD_VALUE (Double, area_to_add, area_prop, msg.uav_zones[i].area, true)
     SET_CHILD_VALUE (Double, area_to_add, explored, msg.uav_zones[i].explored, true)
     
@@ -670,11 +675,11 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
       new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
       new Connector (area_to_add, "y_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
     }
-    SET_CHILD_VALUE (Int, area_to_add, nb_summit, (int) (msg.uav_zones[i].points.size()), true)
+    SET_CHILD_VALUE (Int, area_to_add, nb_summit, (int) (msg.uav_zones[i].points.size()), true)*/
   }
 
   // Ground
-  for (int i=0; i < msg.ugv_edges.size(); i++)
+  for (int i=0; i < nb_ugv_edges; i++)
   {
     int n_source = stoi(msg.ugv_edges[i].source) + 1;
     int n_target = stoi(msg.ugv_edges[i].target) + 1;
@@ -949,7 +954,7 @@ uint8 TASK_TYPE_DEACTIVATION = 4
     
     if (msg.tasks[i].task_type == 1)
     {
-      ParentProcess* area_to_add = TaskArea(_task_allocated_areas, "", _map);
+      ParentProcess* area_to_add = OldTaskArea(_task_allocated_areas, "", _map);
       for (int j=0 ;j< msg.tasks[i].zone.points.size(); j++){
         auto* task_summit = TaskAreaSummit (area_to_add, std::string("summit_") + std::to_string(j), _map, msg.tasks[i].zone.points[j].latitude, msg.tasks[i].zone.points[j].longitude);
         SET_CHILD_VALUE (Double, task_summit, alt, msg.tasks[i].zone.points[j].altitude, true)

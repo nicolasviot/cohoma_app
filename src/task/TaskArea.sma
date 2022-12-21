@@ -2,49 +2,59 @@ use core
 use gui
 use base
 use display
-use animation
 
-import task.TaskAreaSummit
+import behavior.NotDraggableItem
 
 _native_code_
 %{
-    #include "cpp/coords-utils.h"
+    #include <iostream>
 %}
 
 
 _define_
-TaskArea (Process map) {
+TaskArea (Process _map, Process _context, Process _model)
+{
+    //map aka _map
+    //context aka _context
+    //model aka _model
 
-    Int nb_summit(0)
-    Bool selected(0)
-    Double area_prop(0)
-    Double explored(0)
+    FillOpacity fill_op (0.25)
+    FillColor fill_col (#8C1E1E)
+    OutlineWidth outline_w (0)
+    OutlineColor outline_col (#000000)
 
-    FillOpacity _ (0.25)
-    FillColor color (140, 30, 30)
-    OutlineWidth perimeter_width(0)
-    OutlineColor yellow(255, 255, 0)
+    Polygon poly_gon
 
-    Switch ctrl_area_selected (not_select) { 
+    Component behaviors
+
+    for (int i = 1; i <= _model.points.size; i++) {
+        print ("Task Area: View of point: lat = " + _model.points.[i].lat + " -- lon = " + _model.points.[i].lon + "\n")
+        
+        addChildrenTo poly_gon.points {
+            PolyPoint _ (0, 0)
+        }
+
+        addChildrenTo behaviors {
+            NotDraggableItem _ (_map, _model.points.[i].lat, _model.points.[i].lon, poly_gon.points.[i].x, poly_gon.points.[i].y)
+        }
+    }
+
+    FSM fsm_selection { 
     
-        Component select { 
-            5 =: perimeter_width.width
-            255 =: yellow.r
-            255 =: yellow.g
-            0 =: yellow.b
-        }
-        Component not_select{
-            0 =: perimeter_width.width
-            0 =: yellow.r
-            0 =: yellow.g
-            0 =: yellow.b
-        }
-   }
-   selected ? "select" : "not_select" => ctrl_area_selected.state
+        State not_selected {
+            0 =: _model.is_selected
 
-    Polygon area {
-        area.release -> {
-            selected ? 0 : 1 =: selected
+            0 =: outline_w.width
+            #000000 =: outline_col.value
         }
+
+        State selected {
+            1 =: _model.is_selected
+
+            5 =: outline_w.width
+            _context.TASK_SELECTION_COLOR =: outline_col.value
+        }
+        selected -> not_selected (poly_gon.release)
+        not_selected -> selected (poly_gon.release)
     }
 }

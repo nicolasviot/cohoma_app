@@ -9,9 +9,10 @@ _native_code_
 
 
 _define_
-TaskAreaModel (double _area_prop, double _explored)
+TaskAreaModel (double _area, double _explored)
 {
-	Double area_prop (_area_prop) // FIXME ???
+	Double area (_area) // FIXME ???
+
 	Double explored (_explored)
 
 	DoubleFormatter df_explored (100 * _explored, 2)
@@ -24,5 +25,5 @@ TaskAreaModel (double _area_prop, double _explored)
 
 	Bool is_selected (0)
 
-	print ("Model of task area: (" + area_prop + ") explored = " + explored_percent + "\n")
+	print ("Model of task area: (" + area + ") explored = " + explored_percent + "\n")
 }
