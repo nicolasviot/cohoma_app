@@ -29,7 +29,9 @@
 #include "model/NodeModel.h"
 #include "model/EdgeModel.h"
 #include "model/TrapModel.h"
-#include "model/TaskEdgeModel.h"
+
+#include "model/task/TaskEdgeModel.h"
+#include "model/task/TaskAreaModel.h"
 
 #include "graph/Node.h"
 #include "graph/NavGraph.h"

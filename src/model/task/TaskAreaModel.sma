@@ -2,8 +2,6 @@ use core
 use gui
 use base
 
-import EdgeModel
-
 _native_code_
 %{
     #include <iostream>
@@ -11,8 +9,9 @@ _native_code_
 
 
 _define_
-TaskEdgeModel (Process _node1, Process _node2, double _length, double _explored) inherits EdgeModel (_node1, _node2, _length)
+TaskAreaModel (double _area_prop, double _explored)
 {
+	Double area_prop (_area_prop) // FIXME ???
 	Double explored (_explored)
 
 	DoubleFormatter df_explored (100 * _explored, 2)
@@ -21,7 +20,9 @@ TaskEdgeModel (Process _node1, Process _node2, double _length, double _explored)
 	String explored_percent ("")
 	df_explored.output + " %" =:> explored_percent
 
+	List points
+
 	Bool is_selected (0)
 
-	print ("Model of task edge: " + _node1.id + " -- " + _node2.id + " (" + this.length_meters + ") explored = " + explored_percent + "\n")
+	print ("Model of task area: (" + area_prop + ") explored = " + explored_percent + "\n")
 }
