@@ -25,5 +25,5 @@ TaskAreaModel (double _area, double _explored)
 
 	Bool is_selected (0)
 
-	print ("Model of task area: (" + area + ") explored = " + explored_percent + "\n")
+	print ("Model of task for area: (" + area + ") explored = " + explored_percent + "\n")
 }

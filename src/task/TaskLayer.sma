@@ -38,7 +38,7 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 	}
 
 	_model_manager.task_areas.$added -> na_task_areas_added:(this) {
-		print ("New model of task area(s) added to list " + this.model_manager.task_areas.size + "\n")
+		print ("New model of task for area(s) added to list " + this.model_manager.task_areas.size + "\n")
 
 		for model : this.model_manager.task_areas {
 			addChildrenTo this.areas {
@@ -48,7 +48,7 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 	}
 
 	_model_manager.task_areas.$removed -> na_task_areas_removed:(this) {
-		print ("Model of task area(s) removed from list " + this.model_manager.task_areas.size + "\n")
+		print ("Model of task for area(s) removed from list " + this.model_manager.task_areas.size + "\n")
 	}
 
 
@@ -64,7 +64,7 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 	}
 
 	_model_manager.task_edges.$added -> na_task_edges_added:(this) {
-		print ("New model of task edge(s) added to list " + this.model_manager.task_edges.size + "\n")
+		print ("New model of task for edge(s) added to list " + this.model_manager.task_edges.size + "\n")
 		//model = getRef (&this.model_manager.task_edges.$added)
     	//addChildrenTo this.edges {
 		//	TaskEdge task (this.map, this.context, model)
@@ -78,7 +78,7 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 	}
 
 	_model_manager.task_edges.$removed -> na_task_edges_removed:(this) {
-		print ("Model of task edge(s) removed from list " + this.model_manager.task_edges.size + "\n")
+		print ("Model of task for edge(s) removed from list " + this.model_manager.task_edges.size + "\n")
 	}
 
 
@@ -100,17 +100,17 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 	if (_model_manager.IS_DEBUG)
 	{
 		// TRAPS
-		_model_manager.traps.$added -> na_trap_added:(this) {
-			print ("TASK: new model of trap added to list " + this.model_manager.traps.size + "\n")
-			model = getRef (&this.model_manager.traps.$added)
+		_model_manager.task_traps.$added -> na_task_trap_added:(this) {
+			print ("New model of task for trap added to list " + this.model_manager.task_traps.size + "\n")
+
+			model = getRef (&this.model_manager.task_traps.$added)
 			addChildrenTo this.traps {
 				TaskTrap task (this.map, this.context, model)
 			}
 		}
 
-		_model_manager.traps.$removed -> na_trap_removed:(this) {
-			print ("TASK: model of trap removed from list " + this.model_manager.traps.size + "\n")
-			//model = getRef (&this.model_manager.traps.$removed)
+		_model_manager.task_traps.$removed -> na_task_trap_removed:(this) {
+			print ("Model of task for trap removed from list " + this.model_manager.task_traps.size + "\n")
 		}
 	}
 }

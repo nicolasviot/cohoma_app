@@ -27,8 +27,8 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
     // Encapsulates content to prevent opacities interferences with menu and localization
     Component content {
     
-        OutlineOpacity trap_out_op (0)
-        OutlineColor _ (0, 0, 0)
+        OutlineOpacity outline_op (0)
+        OutlineColor _ (#000000)
         OutlineWidth _ (2)
 
         FillOpacity global_opacity (1)
@@ -37,7 +37,7 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
             0.01 =: global_opacity.a
         }
         
-        FillColor red (240, 0, 0)
+        FillColor fill_col ($_context.TRAP_COLOR)
 
         Component losange {
             Rotation rot (45, 0, 0)
@@ -55,7 +55,7 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
         // always visible data : ID and deactivation mode 
         
         // Text for identification and information
-        FillColor _ (0,0,0)
+        FillColor _ (#000000)
         FillOpacity text_opacity (3)
         1 / circle_opacity.a =:> text_opacity.a
 
@@ -67,21 +67,25 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
         // state switch
         Switch trap_state_switch (unknown) {
             Component unknown {
-                //fill in red
-                240 =: red.r
-                50 =: _model.radius //set radius to maximum possible radius
-                0.1 =: trap_out_op.a
-                1 =: global_opacity.a  
+                // set radius to maximum possible radius
+                50 =: _model.radius
+
+                // fill in red
+                240 =: fill_col.r
+                0.1 =: outline_op.a
+                1 =: global_opacity.a
+
                 "#" + _model.id =:> label_trap_id.text             
             }
 
             Component identified {
-                240 =: red.r
-                1 =: trap_out_op.a
-                1 =: global_opacity.a
-
+                // set circle radius to 20
                 20 =: _model.radius
-                1 =: trap_out_op.a
+
+                // fill in red
+                240 =: fill_col.r
+                1.0 =: outline_op.a
+                1 =: global_opacity.a
 
                 _model.str_id =:> label_trap_id.text
 
@@ -107,11 +111,14 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
             }
 
             Component deactivated {
-                0 =: c.r //set circle radius to zero
-                0.1 =: trap_out_op.a
-                0.3 =: global_opacity.a
+                // set circle radius to zero
+                0 =: c.r
+
                 //fill in grey
-                100 =: red.r
+                100 =: fill_col.r
+                0.1 =: outline_op.a
+                0.3 =: global_opacity.a
+                
                 "#" + _model.id =:> label_trap_id.text
             }
         }

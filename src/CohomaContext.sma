@@ -37,6 +37,8 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     
     Int EDGE_COLOR (#EAEAEA) // R = G = B = 234
 
+    Int TRAP_COLOR (#F00000) // R = 240 - G = B = 0
+
     Int TASK_EDGE_COLOR (#DC1414) // R = 220 - G = B = 20    
     
     Int TASK_SELECTION_COLOR (#FFFF00) // R = G = 255 - B = 0

@@ -23,5 +23,5 @@ TaskEdgeModel (Process _node1, Process _node2, double _length, double _explored)
 
 	Bool is_selected (0)
 
-	print ("Model of task edge: " + _node1.id + " -- " + _node2.id + " (" + this.length_meters + ") explored = " + explored_percent + "\n")
+	print ("Model of task for edge: " + _node1.id + " -- " + _node2.id + " (" + this.length_meters + ") explored = " + explored_percent + "\n")
 }

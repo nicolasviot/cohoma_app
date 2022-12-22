@@ -1,7 +1,21 @@
+/*
+ *	COHOMA (Collaboration Homme Machine) application
+ *
+ *	The copyright holders for the contents of this file are:
+ *	Ecole Nationale de l'Aviation Civile, France (2021-2022)
+ *	See file "license.terms" for the rights and conditions
+ *	defined by copyright holders.
+ *
+ *	Contributors:
+ *      Vincent Peyruqueou <vincent.peyruqueou@enac.fr>
+ *
+ */
+
 use core
 use gui
 use base
 
+import ModelManager
 import PointModel
 import ExclusionZoneModel
 import LimaModel
@@ -9,9 +23,9 @@ import VehiculeModel
 import SafetyPilotModel
 import NodeModel
 import EdgeModel
-import TrapModel
 import ItineraryModel
-import ModelManager
+import TrapModel
+import task.TaskTrapModel
 
 _native_code_
 %{
@@ -504,6 +518,10 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
             this.traps.[1].description = "Ceci est le trap 1"
             this.traps.[1].contact_mode = 1
             this.traps.[1].remotely_deactivate = 1
+
+            addChildrenTo this.task_traps {
+                TaskTrapModel debug_task_trap1 (this.traps.[1])
+            }
         }
     }
     set_trap2 -> (this) {
@@ -511,6 +529,10 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
             this.traps.[2].description = "Ceci est le trap 2"
             this.traps.[2].contact_mode = 2
             this.traps.[2].contact_deactivate = 1
+
+            addChildrenTo this.task_traps {
+                TaskTrapModel debug_task_trap2 (this.traps.[2])
+            }
         }
     }
 
