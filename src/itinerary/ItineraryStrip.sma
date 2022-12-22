@@ -55,7 +55,7 @@ ItineraryStrip (Process _context, Process _model, double dy)
 			Text cost_label (150, 28, "...") 
 			_model.cost =:> cost_label.text
 			
-			Button set_plan (bg, "set itinerary", 299, 3)
+			Button set_plan (bg, "set plan", 299, 3)
 
 			44 =: set_plan.r.height
 			88 =: set_plan.r.width
