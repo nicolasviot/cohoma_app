@@ -509,6 +509,7 @@ Component root {
     preview_on -> idle (context.shift_r, stop_create_edges) // + hide_reticule
   }
   stop_create_edges -> hide_reticule
+  stop_create_edges -> context.set_node_graph_edition_to_null
 
 
   clear_all -> (root) {
@@ -524,6 +525,8 @@ Component root {
   }
 
   start_create_edges -> (root) {
+    //print ("Start create edges\n")
+
     // Add the id of the first selected node
     addChildrenTo root.fsm_add_edge.preview_on.temp_id_list{
       Int _ ($root.context.id_node_graph_edition.value)

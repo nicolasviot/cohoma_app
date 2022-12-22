@@ -20,7 +20,7 @@ Edge (Process _context, Process _model)
 
     String text_tooltip (toString(_model.length_meters))
 
-    print ("View of edge: " + _model.node1.id + " -- " + _model.node2.id + " (" + _model.length_meters + ")\n")
+    //print ("View of edge: " + _model.node1.id + " -- " + _model.node2.id + " (" + _model.length_meters + ")\n")
 
     OutlineCapStyle _ (1)
 
