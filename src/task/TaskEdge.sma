@@ -12,14 +12,14 @@ _native_code_
 
 
 _define_
-TaskEdge (Process _context, Process _model) inherits Edge (_context, _model)
+TaskEdge (Process _context, Process _model) inherits Edge (_context, _model.edge)
 {
     //context aka _context
     //model aka _model
    
     //print ("View of task edge: " + _model.node1.id + " -- " + _model.node2.id + " (" + _model.length_meters + ") explored " + _model.explored_percent + "\n")
 
-    _model.length_meters + ". " + _model.explored_percent =:> this.text_tooltip
+    _model.edge.length_meters + ". " + _model.explored_percent =:> this.text_tooltip
 
     FSM fsm_selection { 
     
@@ -37,11 +37,11 @@ TaskEdge (Process _context, Process _model) inherits Edge (_context, _model)
 
             Line selection (0, 0, 0, 0)
 
-            _model.node1.dx_in_map =:> selection.x1
-            _model.node1.dy_in_map =:> selection.y1
+            _model.edge.node1.dx_in_map =:> selection.x1
+            _model.edge.node1.dy_in_map =:> selection.y1
 
-            _model.node2.dx_in_map =:> selection.x2
-            _model.node2.dy_in_map =:> selection.y2
+            _model.edge.node2.dx_in_map =:> selection.x2
+            _model.edge.node2.dy_in_map =:> selection.y2
 
             1 =: _model.is_selected
 
