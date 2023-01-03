@@ -61,7 +61,7 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
 
     Double lat (_lat)
     Double lon (_lon)
-    Double altitude_msl(0)
+    Double altitude_msl (0)
     
     Bool active (1)
     Bool identified (0)

@@ -20,7 +20,9 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
     context aka _context
     model aka _model
 
-    //TextPrinter tp
+    TextPrinter tp
+
+    "Trap (" + _model.id + ") " + _model.str_id + " (" + _model.description + ")" =:> tp.input
 
     Translation screen_translation (0, 0)
 

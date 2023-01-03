@@ -18,6 +18,8 @@ TaskTrap (Process _map, Process _context, Process _model)
     context aka _context
     model aka _model
 
+    print ("View of task for trap (" + _model.trap.id + ") " + _model.trap.str_id + " (" + _model.trap.description + ")\n")
+
     Translation screen_translation (0, 0)
     
     NoOutline _

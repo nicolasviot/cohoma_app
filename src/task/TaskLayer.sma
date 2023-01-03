@@ -90,6 +90,20 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 	List traps {
 
 	}
+
+	_model_manager.task_traps.$added -> na_task_traps_added:(this) {
+		print ("New model of task for trap(s) added to list " + this.model_manager.task_traps.size + "\n")
+
+		for model : this.model_manager.task_traps {
+			addChildrenTo this.traps {
+				TaskTrap task (this.map, this.context, model)
+			}
+		}
+	}
+
+	_model_manager.task_traps.$removed -> na_task_traps_removed:(this) {
+		print ("Model of task for trap(s) removed from list " + this.model_manager.task_traps.size + "\n")
+	}
 	
 
 	// **************************************************************************************************
@@ -97,10 +111,10 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
     //  DEBUG
     //
     // **************************************************************************************************
-	if (_model_manager.IS_DEBUG)
+	/*if (_model_manager.IS_DEBUG)
 	{
 		// TRAPS
-		_model_manager.task_traps.$added -> na_task_trap_added:(this) {
+		_model_manager.task_traps.$added -> na_task_traps_added:(this) {
 			print ("New model of task for trap added to list " + this.model_manager.task_traps.size + "\n")
 
 			model = getRef (&this.model_manager.task_traps.$added)
@@ -109,8 +123,8 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 			}
 		}
 
-		_model_manager.task_traps.$removed -> na_task_trap_removed:(this) {
+		_model_manager.task_traps.$removed -> na_task_traps_removed:(this) {
 			print ("Model of task for trap removed from list " + this.model_manager.task_traps.size + "\n")
 		}
-	}
+	}*/
 }
