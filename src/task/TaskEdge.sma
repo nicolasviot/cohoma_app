@@ -53,6 +53,6 @@ TaskEdge (Process _context, Process _model) inherits Edge (_context, _model)
 
     //_context.TASK_SELECTION_COLOR =: this.bg.color.value
 
-    // Set fg in background, behind tooltip
+    // Set fg in background, behind the tooltip
     moveChild fsm_selection <<
 }

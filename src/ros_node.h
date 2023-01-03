@@ -61,6 +61,9 @@ class RosNode : public FatProcess, public ExternalSource
 
     void run () override;
   	
+    void activate_layer(const string& string);
+    void deactivate_layer(const string& string);
+
   #ifndef NO_ROS
     void receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg);
     void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
@@ -86,8 +89,6 @@ class RosNode : public FatProcess, public ExternalSource
   #endif
     void test_draw_visibility_map();
     void write_to_log (string, string);
-    void deactivate_layer(string);
-    void activate_layer(string);
  
    private:
     const std::string _topic_name;

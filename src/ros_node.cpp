@@ -71,7 +71,6 @@ RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, C
   qos(1),
   qos_transient(1)
     #endif
-
 {
 
   #ifndef NO_ROS
@@ -91,10 +90,10 @@ RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, C
   finalize_construction (parent, n);
 }
 
+
 void
 RosNode::impl_activate ()
 { 
-
   #ifndef NO_ROS
   // SUBSCRIBE
   //Replace 10 with qosbesteffort
@@ -201,6 +200,7 @@ RosNode::impl_activate ()
   ExternalSource::start ();  
 }
 
+
 void
 RosNode::impl_deactivate ()
 {
@@ -228,7 +228,14 @@ RosNode::impl_deactivate ()
   ExternalSource::please_stop ();
 }
 
+
+void
+RosNode::run () {
 #ifndef NO_ROS
+  rclcpp::spin(_node);
+  rclcpp::shutdown();
+#endif
+}
 
 
 void
@@ -275,6 +282,8 @@ RosNode::deactivate_layer (const string& layer_to_deactivate)
   }
 }
 
+
+#ifndef NO_ROS
 
 // **************************************************************************************************
 //
@@ -612,6 +621,8 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg){
 //  TASK
 //
 // **************************************************************************************************
+
+// Candidate tasks
 void 
 RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
 {
@@ -681,7 +692,7 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
     double area = msg.uav_zones[i].area;
     double explored = msg.uav_zones[i].explored;
 
-    TaskAreaModel task = TaskAreaModel (_task_area_models, "", area, explored)
+    ParentProcess* task = TaskAreaModel (_task_area_models, "", area, explored);
     ParentProcess* points = task->find_child ("points");
     for (int j = 0; j < msg.uav_zones[i].points.size(); j++)
     {
@@ -726,19 +737,19 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
   {
     trap_model = nullptr;
     // FIXME: TEST id & trap_id
-    string id = msg.trap_identifications[i].id;
-    string trap_id = msg.trap_identifications[i].info.id
-    std::cout << "Trying to add a task to IDENTIFY trap " << id << std::endl;
+    int id = msg.trap_identifications[i].id;
+    string trap_id = msg.trap_identifications[i].info.id;
+    std::cout << "Trying to add a task to IDENTIFY trap: id " << id << " or trap id " << trap_id << std::endl;
 
     // Try to get the existing model with this id
     for (int j = 0; j < trap_models->children().size(); j++)
     {
       GET_CHILD_VALUE (tmp_id, Int, trap_models->children()[j], id)
 
-      if (tmp_id == id) {
+      /*if (tmp_id == id) {
         trap_model = trap_models->children()[j];
         break;
-      }
+      }*/
     }
 
     if (trap_model != nullptr)
@@ -757,7 +768,7 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
       // Create a task with this trap model
       //ParentProcess* task_trap = TaskTrap (_task_traps, "", _map, _context, trap_model);
 
-      TaskTrapModel (_task_trap_models, id, trap_model)
+      TaskTrapModel (_task_trap_models, "", trap_model);
     }
     else {
       std::cerr << "There is NO model for trap id " << id << ". Can't create the task to identify trap." << std::endl;
@@ -769,19 +780,19 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
   {  
     trap_model = nullptr;
     // FIXME: TEST id & trap_id
-    string id = msg.trap_deactivations[i].id;
-    string trap_id = msg.trap_deactivations[i].info.id
-    std::cout << "Trying to add a task to DE-ACTIVATE trap " + id << std::endl;
+    int id = msg.trap_deactivations[i].id;
+    string trap_id = msg.trap_deactivations[i].info.id;
+    std::cout << "Trying to add a task to DE-ACTIVATE trap: id " << id << " or trap id " << trap_id << std::endl;
 
     // Try to get the existing model with this id
     for (int j = 0; j < trap_models->children().size(); j++)
     {
       GET_CHILD_VALUE (tmp_id, Int, trap_models->children()[j], id)
 
-      if (tmp_id == id) {
+      /*if (tmp_id == id) {
         trap_model = trap_models->children()[j];
         break;
-      }
+      }*/
     }
 
     if (trap_model != nullptr)
@@ -800,7 +811,7 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
       // Create a task with this trap model
       //ParentProcess* task_trap = TaskTrap (_task_traps, "", _map, _context, trap_model);
 
-      TaskTrapModel (_task_trap_models, id, trap_model)
+      TaskTrapModel (_task_trap_models, "", trap_model);
     }
     else {
       std::cerr << "There is NO model for trap id " << id << ". Can't create the task to deactivate trap." << std::endl;
@@ -1108,6 +1119,7 @@ RosNode::send_msg_navgraph_update(){
 }
 
 
+// Send Validation PLAN
 void 
 RosNode::send_validation_plan()
 {
@@ -1157,6 +1169,7 @@ RosNode::send_validation_plan()
 }
 
 
+// Send Selected Tasks
 void 
 RosNode::send_selected_tasks(){
 
@@ -1169,7 +1182,8 @@ RosNode::send_selected_tasks(){
   for (auto trap: ((djnn::List*)_task_traps)->children())
   {
     GET_CHILD_VALUE (trap_selected, Bool, trap, selected)
-    if (trap_selected){     
+    if (trap_selected)
+    {     
       icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
       GET_CHILD_VALUE2 (trap_to_add.id, Int, trap, model/id)
       GET_CHILD_VALUE2 (trap_to_add.identified, Bool, trap, model/identified)
@@ -1202,24 +1216,30 @@ RosNode::send_selected_tasks(){
   }
 
   // AREAS
-  for (auto area: ((djnn::List*)_task_areas)->children())
+  for (auto task_area : ((djnn::List*)_task_area_models)->children())
   {
-    GET_CHILD_VALUE (area_selected, Bool, area, selected)
-    if (area_selected){
+    GET_CHILD_VALUE (area_is_selected, Bool, task_area, is_selected)
+    if (area_is_selected)
+    {
       icare_interfaces::msg::ExplorationPolygon geopolygon_to_add = icare_interfaces::msg::ExplorationPolygon();
-      GET_CHILD_VALUE2 (geopolygon_to_add.area, Double, area, area_prop)
-      GET_CHILD_VALUE2 (geopolygon_to_add.explored, Double, area, explored)
+      GET_CHILD_VALUE2 (geopolygon_to_add.area, Double, task_area, area)
+      GET_CHILD_VALUE2 (geopolygon_to_add.explored, Double, task_area, explored)
       
-      GET_CHILD_VALUE (nb_summit, Int, area, nb_summit)
-      for (int i = 0; i < nb_summit; i++){
-        geographic_msgs::msg::GeoPoint point_to_add = geographic_msgs::msg::GeoPoint();
-        CoreProcess* summit = dynamic_cast<CoreProcess*>(area->find_child(std::string("summit_") + std::to_string(i)));
-        GET_CHILD_VALUE2 (point_to_add.latitude, Double, summit, lat)
-        GET_CHILD_VALUE2 (point_to_add.longitude, Double, summit, lon)
-        GET_CHILD_VALUE2 (point_to_add.altitude, Double, summit, alt)
-        geopolygon_to_add.points.push_back(point_to_add);
+      GET_CHILD_VALUE (nb_points, Int, task_area, points/size)
+      for (int i = 0; i < nb_points; i++)
+      {
+        CoreProcess* point = dynamic_cast<CoreProcess*>(task_area->find_child("points/" + std::to_string(i + 1)));
+        if (point != nullptr)
+        {
+          geographic_msgs::msg::GeoPoint point_to_add = geographic_msgs::msg::GeoPoint();
+          GET_CHILD_VALUE2 (point_to_add.latitude, Double, point, lat)
+          GET_CHILD_VALUE2 (point_to_add.longitude, Double, point, lon)
+          GET_CHILD_VALUE2 (point_to_add.altitude, Double, point, alt)
+          geopolygon_to_add.points.push_back(point_to_add);
+        }
+        else
+          cerr << "Point doesn't exist at index " << i << " for task area " << geopolygon_to_add.area << endl;
       }
-
       message.uav_zones.push_back(geopolygon_to_add);
     }
   }
@@ -1590,10 +1610,3 @@ RosNode::send_msg_update_trap_position(int trap_id, double new_lat, double new_l
 
 #endif
 
-void
-RosNode::run () {
-#ifndef NO_ROS
-  rclcpp::spin(_node);
-  rclcpp::shutdown();
-#endif
-}

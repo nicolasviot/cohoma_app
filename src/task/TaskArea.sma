@@ -18,6 +18,8 @@ TaskArea (Process _map, Process _context, Process _model)
     //context aka _context
     //model aka _model
 
+    print ("View of task for area: (" + _model.area + ") explored = " + _model.explored_percent + "\n")
+
     FillOpacity fill_op (0.25)
     FillColor fill_col (#8C1E1E)
     OutlineWidth outline_w (0)
@@ -28,7 +30,7 @@ TaskArea (Process _map, Process _context, Process _model)
     Component behaviors
 
     for (int i = 1; i <= _model.points.size; i++) {
-        print ("Task Area: View of point: lat = " + _model.points.[i].lat + " -- lon = " + _model.points.[i].lon + "\n")
+        //print ("Task Area: View of point: lat = " + _model.points.[i].lat + " -- lon = " + _model.points.[i].lon + "\n")
         
         addChildrenTo poly_gon.points {
             PolyPoint _ (0, 0)
