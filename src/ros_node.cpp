@@ -1185,20 +1185,19 @@ RosNode::send_selected_tasks()
   icare_interfaces::msg::Tasks message = icare_interfaces::msg::Tasks();
 
   // TRAPS
-  // FIXME TODO
-  for (auto trap: ((djnn::List*)_task_traps)->children())
+  for (auto model : ((djnn::List*)_task_trap_models)->children())
   {
-    GET_CHILD_VALUE (trap_selected, Bool, trap, selected)
-    if (trap_selected)
+    GET_CHILD_VALUE (trap_is_selected, Bool, model, is_selected)
+    if (trap_is_selected)
     {     
       icare_interfaces::msg::Trap trap_to_add = icare_interfaces::msg::Trap();
-      GET_CHILD_VALUE2 (trap_to_add.id, Int, trap, model/id)
-      GET_CHILD_VALUE2 (trap_to_add.identified, Bool, trap, model/identified)
-      GET_CHILD_VALUE2 (trap_to_add.active, Bool, trap, model/active)
-      GET_CHILD_VALUE2 (trap_to_add.location.latitude, Double, trap, model/lat)
-      GET_CHILD_VALUE2 (trap_to_add.location.longitude, Double, trap, model/lon)
+      GET_CHILD_VALUE2 (trap_to_add.id, Int, model, trap/id)
+      GET_CHILD_VALUE2 (trap_to_add.identified, Bool, model, trap/identified)
+      GET_CHILD_VALUE2 (trap_to_add.active, Bool, model, trap/active)
+      GET_CHILD_VALUE2 (trap_to_add.location.latitude, Double, model, trap/lat)
+      GET_CHILD_VALUE2 (trap_to_add.location.longitude, Double, model, trap/lon)
 
-      if(trap_to_add.identified)
+      if (trap_to_add.identified)
         message.trap_deactivations.push_back(trap_to_add);
       else
         message.trap_identifications.push_back(trap_to_add);
