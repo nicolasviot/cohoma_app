@@ -235,9 +235,6 @@ Component root {
           NavGraph layer (map, context, model_manager)
         }
       }
-      nodes aka ctrl_visibility.visible.layer.nodes
-      edges aka ctrl_visibility.visible.layer.edges
-
       String name ("Navgraph")
     }
 
@@ -265,7 +262,6 @@ Component root {
         }
       }
       String name("Traps")
-      traplayer aka ctrl_visibility.visible.layer
     }
 
 
@@ -279,7 +275,6 @@ Component root {
         }
       }
       String name("Tasks")
-      tasklayer aka ctrl_visibility.visible.layer
     }
 
 
@@ -343,7 +338,6 @@ Component root {
         }
       }
       String name("Allocation")
-      allocated_tasks_layer aka ctrl_visibility.visible.layer
     }
     
     
