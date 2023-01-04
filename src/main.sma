@@ -24,7 +24,6 @@ import model.NoRosModelManager
 import model.EdgeModel
 
 import map.Map
-import map.MapLayer
 import map.MapLayerSync
 import map.EnvMapLayer
 import graph.Node

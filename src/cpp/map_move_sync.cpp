@@ -4,16 +4,19 @@
 #include "core/execution/graph.h"
 
 #include "cpp/coords-utils.h"
-#include "cpp/map_move.h"
+#include "cpp/map_move_sync.h"
 #include "core/core.h"
 
-extern
-  void fill4tiles (djnn::CoreProcess* tiles, int nbRows, int nbCols, int row, int col, int x, int y, int z);
-  #if 0
-  {
-    djnn::CoreProcess* tile = tiles->find_child (row)->find_child(col);
+  void fill4tiles (djnn::CoreProcess* tiles, int nbRows, int nbCols, int row, int col, int x, int y, int z) {
+    auto * tile = tiles->find_child (row)->find_child(col);
+    //GET_CHILD_VALUE(Double, tile, updated); 
+    //if (updated)
     if (((djnn::AbstractProperty*)tile->find_child ("updated"))->get_double_value() == 1)
       return;
+    // SET_CHILD_VALUE(Int, tile, Z, z, true);
+    // SET_CHILD_VALUE(Bool, tile, updated, true, true);
+    // SET_CHILD_VALUE(Int, tile, X, x, true);
+    // SET_CHILD_VALUE(Int, tile, Y, y, true);
     ((djnn::AbstractProperty*)tile->find_child( "Z"))->set_value (z, true);
     ((djnn::AbstractProperty*)tile->find_child ("updated"))->set_value(1, true);
     ((djnn::AbstractProperty*)tile->find_child( "X"))->set_value (x, true);
@@ -36,7 +39,6 @@ extern
       fill4tiles (tiles, nbRows, nbCols, row, col-1, x-1, y, z);
     }
   }
-  #endif
 
   void
   fn_zoom_in_sync (djnn::CoreProcess *src)

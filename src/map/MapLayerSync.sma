@@ -7,7 +7,6 @@ _native_code_
 %{
 #include "cpp/coords-utils.h"
 #include "cpp/tiles_manager.h"
-#include "cpp/map_move.h"
 #include "cpp/map_move_sync.h"
 #include "core/control/native_action.h"
 #include <cmath>

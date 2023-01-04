@@ -21,7 +21,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/task/TasksLayer.sma src/trap/TrapsLayer.sma \
             src/site/ExclusionArea.sma src/site/Lima.sma src/site/SiteLayer.sma \
             src/itinerary/ItineraryEdge.sma src/itinerary/ItineraryOnMap.sma src/itinerary/Itineraries.sma src/itinerary/ItineraryStrip.sma src/itinerary/ItineraryPanel.sma \
-            src/map/PanAndZoom.sma src/map/EnvMapLayer.sma src/map/PixmapTile.sma src/map/MapLayer.sma src/map/MapLayerSync.sma src/map/Map.sma \
+            src/map/PanAndZoom.sma src/map/EnvMapLayer.sma src/map/PixmapTile.sma src/map/MapLayerSync.sma src/map/Map.sma \
             src/Console.sma src/RosManager.sma \
             src/Vehicule.sma src/SafetyPilot.sma \
             src/menu/RightPanel.sma src/menu/UpperLeftMenu.sma \
@@ -33,7 +33,6 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
 srcs_other ?= src/cpp/coords-utils.cpp \
             src/cpp/tiles_manager.cpp \
             src/ros_node.cpp
-srcs_other += src/cpp/map_move.cpp
 srcs_other += src/cpp/map_move_sync.cpp
 
 # or
