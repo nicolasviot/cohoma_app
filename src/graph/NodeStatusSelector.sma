@@ -26,7 +26,7 @@ NodeStatusSelector (Process _frame, Process _context)
     set_status_to_model -> _context.set_node_status_edition_to_null
 
 
-    svg = loadFromXML ("res/svg/status_selector.svg")
+    svg = load_from_XML ("res/svg/status_selector.svg")
 
     FSM fsm {
         State hidden

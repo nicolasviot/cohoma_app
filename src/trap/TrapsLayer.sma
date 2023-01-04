@@ -19,13 +19,13 @@ TrapsLayer (Process _map, Process _context, Process _model_manager)
 	model_manager aka _model_manager
 
 	// Load only once SVG file
-	svg_trap_info = loadFromXML ("res/svg/trap_info.svg")
+	svg_trap_info = load_from_XML ("res/svg/trap_info.svg")
 	svg_info aka svg_trap_info // To be accessible with a "find_child"
 
-	svg_trap_remotely_icon = loadFromXML ("res/svg/trap_remote_icon.svg")
+	svg_trap_remotely_icon = load_from_XML ("res/svg/trap_remote_icon.svg")
 	svg_remotely_icon aka svg_trap_remotely_icon // To be accessible with a "find_child"
 
-    svg_trap_contact_icon = loadFromXML ("res/svg/trap_contact_icon.svg")
+    svg_trap_contact_icon = load_from_XML ("res/svg/trap_contact_icon.svg")
 	svg_contact_icon aka svg_trap_contact_icon // To be accessible with a "find_child"
 
 	Scaling sc (1, 1, 0, 0)

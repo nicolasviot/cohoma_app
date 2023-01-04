@@ -25,7 +25,7 @@ TrapStatusSelector (Process _frame, Process _context)
     Deref delete_assignement (_context.ref_current_trap, "model/delete_assignement")
 
 
-    svg = loadFromXML ("res/svg/trap_status_selector.svg")
+    svg = load_from_XML ("res/svg/trap_status_selector.svg")
     
     FSM fsm {
         State hidden

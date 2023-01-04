@@ -31,7 +31,7 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 	// Legend for Nav Graph
 	Component nav_graph_legend
 	{
-		nav_svg = loadFromXML ("res/svg/GraphNav_legend.svg")
+		nav_svg = load_from_XML ("res/svg/GraphNav_legend.svg")
 		nav << nav_svg.GraphNav
 
 		button aka nav.update_button.update_bg
@@ -92,8 +92,9 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 
 	Translation _ (0, 200)
 
-	Component validate_tasks_button {
-		validate_tasks_button_svg = loadFromXML ("res/svg/RightPanel_button.svg")
+	Component validate_tasks_button
+	{
+		validate_tasks_button_svg = load_from_XML ("res/svg/RightPanel_button.svg")
 		task_button << validate_tasks_button_svg.button
 
 		button aka task_button.bg

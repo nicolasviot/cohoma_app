@@ -19,7 +19,7 @@ ItineraryPanel (Process _context, Process _model_manager)
 	context aka _context
 	//model_manager aka _model_manager
 
-	svg_itineraries = loadFromXML ("res/svg/Itinerary_Panel.svg")
+	svg_itineraries = load_from_XML ("res/svg/Itinerary_Panel.svg")
 	gfx_itineraries << svg_itineraries.itinerary_panel
 
 	Spike set_plan

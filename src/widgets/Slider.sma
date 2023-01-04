@@ -14,7 +14,7 @@ Slider (Process f, int _x, int _y, int _lower, int _upper, double _init_val)
   output aka bv.result
   Double value (_init_val)
 
-  svg = loadFromXML ("res/svg/slider.svg")
+  svg = load_from_XML ("res/svg/slider.svg")
 
   main_bg << svg.bg
   bg << svg.bg_line

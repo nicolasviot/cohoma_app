@@ -127,10 +127,10 @@ Component root {
   Spike hide_reticule
 
   // Load only once SVG files
-	svg_vab = loadFromXML ("res/svg/vab.svg")
-  svg_robot = loadFromXML ("res/svg/robot.svg")
-  svg_drone = loadFromXML ("res/svg/drone.svg")
-  svg_safety_pilot = loadFromXML("res/svg/safety_pilot.svg")
+	svg_vab = load_from_XML_once ("res/svg/vab.svg")
+  svg_robot = load_from_XML_once ("res/svg/robot.svg")
+  svg_drone = load_from_XML_once ("res/svg/drone.svg")
+  svg_safety_pilot = load_from_XML_once("res/svg/safety_pilot.svg")
 
   CohomaContext context (f, init_lat, init_lon, init_zoom)
   /*context.ctrl -> {

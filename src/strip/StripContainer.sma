@@ -1,6 +1,7 @@
 use core
 use gui
 use base
+use gui
   
 import Strip
 
@@ -8,7 +9,7 @@ _define_
 StripContainer (Process _context, Process _model_manager, Process _frame)
 {  
   // Load only once SVG file
-  svg_strip = loadFromXML ("res/svg/stripV2.svg")
+  svg_strip = load_from_XML ("res/svg/stripV2.svg")
 
   Translation tr (0, 0)
   _frame.height - _context.STRIP_HEIGHT =:> tr.ty

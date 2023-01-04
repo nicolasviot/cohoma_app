@@ -60,7 +60,7 @@ Console (double _dx, double _dy, Process _node)
 
   /*	Translation t (_dx, _dy)
     
-    svg = loadFromXML ("res/svg/CompteRendu.svg")
+    svg = load_from_XML ("res/svg/CompteRendu.svg")
     gfx << svg. ...
   */
 

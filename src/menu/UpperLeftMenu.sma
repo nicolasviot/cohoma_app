@@ -10,7 +10,7 @@ import gui.animation.Animator
 _define_
 UpperLeftMenu (Process map, Process f)
 {
- svg = loadFromXML ("res/svg/icon_menu.svg")
+ svg = load_from_XML ("res/svg/icon_menu.svg")
  main_bg << svg.layer1.main_bg
 
   Component ui {
