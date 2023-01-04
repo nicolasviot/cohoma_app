@@ -10,7 +10,7 @@ _native_code_
 %}
 
 _define_
-PixmapTile (int _x, int _y, int _zoomLevel, int row_m, int col_m, NativeCode loader, string name, Process opacity)
+PixmapTile (int _x, int _y, int _zoomLevel, int row_m, int col_m, NativeCode loader, string name, string _proxy, Process opacity)
 {
   Int Z (_zoomLevel)
   Int X (col_m)
@@ -18,6 +18,7 @@ PixmapTile (int _x, int _y, int _zoomLevel, int row_m, int col_m, NativeCode loa
   Double lat0 (tiley2lat (row_m, _zoomLevel))
   Double lon0 (tilex2lon (col_m, _zoomLevel))
   String layer_name (name)
+  String proxy (_proxy)
   tiley2lat ($Y, $Z) => lat0
   tilex2lon ($X, $Z) => lon0
   Bool updated (0)

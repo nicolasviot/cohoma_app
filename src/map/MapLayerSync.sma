@@ -21,7 +21,7 @@ import PixmapTile
 import gui.animation.Animator
 
 _define_
-MapLayerSync (Process f, Process map, NativeCode loader, string name)
+MapLayerSync (Process f, Process map, NativeCode loader, string name, string proxy)
 {
   check_and_build_dir ("cache/" + name)
 
@@ -90,7 +90,7 @@ MapLayerSync (Process f, Process map, NativeCode loader, string name)
         for (int i = 0; i < $nbRows; i++) {
           List row {
             for (int j = 0; j < $nbCols; j++) {
-              PixmapTile _ (j*256, i*256, $zoomLevel, cur_row, cur_col, loader, name, opacity)
+              PixmapTile _ (j*256, i*256, $zoomLevel, cur_row, cur_col, loader, name, proxy, opacity)
               cur_col++
             }
           }
@@ -110,7 +110,7 @@ MapLayerSync (Process f, Process map, NativeCode loader, string name)
         for (int i = 0; i < $nbRows; i++) {
           List row {
             for (int j = 0; j < $nbCols; j++) {
-              PixmapTile _ (j*256, i*256, $zoomLevel, cur_row, cur_col, loader, name, opacity)
+              PixmapTile _ (j*256, i*256, $zoomLevel, cur_row, cur_col, loader, name, proxy, opacity)
               cur_col++
             }
           }
