@@ -22,14 +22,14 @@ NodeModel (int _id, int _phase, string _label, double _lat, double _lon, double 
 	Double lon (_lon)
 	Double alt (_alt)
 
+	//Bool is_PPO (_is_PPO) // Point de Passage Oblige pour le VAB
+	//Bool is_POS (_is_POS) // (Point de) Passage Oblige pour tous les satellites terrestres
+	
+	// "Mandatory" (= "Compulsory" in ROS msg)
 	Bool is_mandatory (_is_mandatory)
 
-	//Bool is_PPO (_is_PPO) // Point de Passage Oblige
-	//Bool is_POS (_is_POS) // (Point de) Passage Oblige pour Satellites
-
-	// FIXME: not used
-	// FIXME: equal to forced ?
-	//Bool is_locked (0)
+	// "Forced" (= "Locked" in ROS msg)
+	Bool is_forced (0)
 
 	// { default, start, end, forced, mandatory }
 	String status ("")

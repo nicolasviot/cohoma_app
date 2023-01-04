@@ -76,7 +76,7 @@ Node (Process _map, Process _context, Process _model)
 				2 =: outline_width.width
 			}
 
-			Component forced { // equal to locked ?
+			Component forced {
 				_context.ACTIVE_COL =: fill_color.value
 				_context.BLACK_COL =: outline_color.value
 

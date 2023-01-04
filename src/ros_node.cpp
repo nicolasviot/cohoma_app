@@ -301,6 +301,8 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
       return;
   }
   
+  //cout << "Receive msg Navigation Graph:\n" << j_graph << endl;
+
   // NODES
   for (int i = j_graph["nodes"].size() - 1; i >= 0; i--)
   {
@@ -316,7 +318,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     double longitude = m["longitude"].get<double>();
     double altitude = m["altitude"].get<double>();
     bool mandatory = m["compulsory"].get<bool>();
-    //bool locked = m["locked"].get<bool>();
+    //bool forced = m["locked"].get<bool>();
 
     NodeModel (_node_models, "", std::stoi(node_id) + 1, phase, label, latitude, longitude, altitude, mandatory);
   }
@@ -905,13 +907,12 @@ RosNode::send_msg_planning_request()
 }
 
 
+// Send msg Update Navigation Graph 
 void 
-RosNode::send_msg_navgraph_update(){
+RosNode::send_msg_navgraph_update()
+{
+  cout << "Send msg Update Navigation Graph " << endl;
 
-  GET_CHILD_VAR (nodes, CoreProcess, _parent, parent/l/map/layers/navgraph/nodes)
-  GET_CHILD_VAR (edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
-
-  //std::cerr << "about to generate json" << std::endl;
   nlohmann::json j;
   j["graph"]["directed"] = false;
 
@@ -919,46 +920,44 @@ RosNode::send_msg_navgraph_update(){
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Send navgraph update\n", true);
 
   // Edges
-  for (auto item: ((djnn::List*)edges)->children()){
-
-    GET_CHILD_VALUE (ssource_id, Int, item, id_src)
-    GET_CHILD_VALUE (starget_id, Int, item, id_dest)
-    GET_CHILD_VALUE (dlength, Double, item, length)
+  for (auto edge : ((djnn::List*)_edge_models)->children())
+  {
+    GET_CHILD_VALUE (source_id, Int, edge, node1/id)
+    GET_CHILD_VALUE (target_id, Int, edge, node2/id)
+    GET_CHILD_VALUE (d_length, Double, edge, length)
 
     nlohmann::json jn = {
-      {"source", std::to_string(ssource_id - 1)},
-      {"target", std::to_string(starget_id - 1)},
+      {"source", std::to_string(source_id - 1)},
+      {"target", std::to_string(target_id - 1)},
       {"metadata", { 
-       // {"length", dlength}
+       // {"length", d_length}
       }}
     };                
     j["graph"]["edges"].push_back(jn); 
   }
 
-  // FIXME: use models instead of views
   // Nodes
-  for (auto item: ((djnn::List*)nodes)->children())
+  for (auto node : ((djnn::List*)_node_models)->children())
   {
-    GET_CHILD_VALUE (iid, Int, item, id)
-    GET_CHILD_VALUE (slabel, Text, item, label)
-    GET_CHILD_VALUE (dlat, Double, item, wpt/lat)
-    GET_CHILD_VALUE (dlon, Double, item, wpt/lon)
-    GET_CHILD_VALUE (dalt, Double, item, alt)
-    GET_CHILD_VALUE (scompulsory, Text, item, wpt/usage_status)
-    GET_CHILD_VALUE (phase, Int, item, phase)
-    GET_CHILD_VALUE (compulsory, Bool, item, wpt/isMandatory)
-    GET_CHILD_VALUE (locked, Bool, item, islocked)
+    GET_CHILD_VALUE (n_id, Int, node, id)
+    GET_CHILD_VALUE (s_label, Text, node, label)
+    GET_CHILD_VALUE (d_lat, Double, node, lat)
+    GET_CHILD_VALUE (d_lon, Double, node, lon)
+    GET_CHILD_VALUE (d_alt, Double, node, alt)
+    GET_CHILD_VALUE (n_phase, Int, node, phase)
+    GET_CHILD_VALUE (b_mandatory, Bool, node, is_mandatory) // = compulsory
+    GET_CHILD_VALUE (b_forced, Bool, node, is_forced) // = locked
     
     nlohmann::json jn = {
-      {"id", std::to_string(iid - 1)},
-      {"label", slabel},
+      {"id", std::to_string(n_id - 1)},
+      {"label", s_label},
       {"metadata", { 
-        {"altitude", dalt},
-        {"latitude", dlat},
-        {"longitude", dlon},
-        {"compulsory", compulsory},
-        {"locked", locked},
-        {"phase", phase}
+        {"altitude", d_alt},
+        {"latitude", d_lat},
+        {"longitude", d_lon},
+        {"compulsory", b_mandatory},
+        {"locked", b_forced},
+        {"phase", n_phase}
       }}
     };                
     j["graph"]["nodes"].push_back(jn);   
@@ -967,6 +966,8 @@ RosNode::send_msg_navgraph_update(){
   icare_interfaces::msg::StringStamped message = icare_interfaces::msg::StringStamped();
   message.data = j.dump();
   message.header.stamp = _node->get_clock()->now();
+
+  //cout << "Send msg Update Navigation Graph\n" << message.data << endl;
 
   publisher_navgraph_update->publish(message);
 }
