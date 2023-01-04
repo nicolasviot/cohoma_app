@@ -123,7 +123,10 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_limit_models, CoreProcess, _model_manager, limits)
   GET_CHILD_VAR2 (_zone_models, CoreProcess, _model_manager, zones)
   GET_CHILD_VAR2 (_lima_models, CoreProcess, _model_manager, limas)
+
+  GET_CHILD_VAR2 (_node_ids, CoreProcess, _model_manager, node_ids)
   GET_CHILD_VAR2 (_node_models, CoreProcess, _model_manager, nodes)
+  GET_CHILD_VAR2 (_edge_ids, CoreProcess, _model_manager, edge_ids)
   GET_CHILD_VAR2 (_edge_models, CoreProcess, _model_manager, edges)
 
   // Itineraries
@@ -292,9 +295,11 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
 
   nlohmann::json j = nlohmann::json::parse(msg->data);
   nlohmann::json j_graph;
-  if (j.contains("graph"))
+  if (j.contains("graph")) {
     j_graph = j["graph"];
-  else if (j.contains("graphs")) {
+  }
+  else if (j.contains("graphs"))
+  {
     if (j.size() > 1)
       j_graph = j["graphs"][0];
     else if (j.size() == 0)
@@ -304,15 +309,15 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   //cout << "Receive msg Navigation Graph:\n" << j_graph << endl;
 
   // NODES
-  for (int i = j_graph["nodes"].size() - 1; i >= 0; i--)
+  for (auto& j_node : j_graph["nodes"])
   {
-    auto& json_node = j_graph["nodes"][i];
-    const string& node_id = json_node["id"].get<string>();
-    const string& label = json_node["label"].get<string>();
-    //const string& node_id = json_node["id"];
-    //const string& label = json_node["label"];
+    //auto& j_node = j_graph["nodes"][i];
+    //const string& node_id = j_node["id"].get<string>();
+    //const string& label = j_node["label"].get<string>();
+    const string& node_id = j_node["id"];
+    const string& label = j_node["label"];
     
-    auto& m = json_node["metadata"];
+    auto& m = j_node["metadata"];
     int phase = m["phase"].get<int>();
     double latitude = m["latitude"].get<double>();
     double longitude = m["longitude"].get<double>();
@@ -320,25 +325,30 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     bool mandatory = m["compulsory"].get<bool>();
     //bool forced = m["locked"].get<bool>();
 
-    NodeModel (_node_models, "", std::stoi(node_id) + 1, phase, label, latitude, longitude, altitude, mandatory);
+    TextProperty* tmp = new TextProperty (_node_ids, node_id, node_id);
+
+    NodeModel (_node_models, node_id, std::stoi(node_id), phase, label, latitude, longitude, altitude, mandatory);
   }
 
   // EDGES
   for (auto& j_edge : j_graph["edges"])
   {
-    const string& str_source = j_edge["source"].get<string>();
-    const string& str_target = j_edge["target"].get<string>();
-    int n_source = stoi(str_source) + 1;
-    int n_target = stoi(str_target) + 1;
+    //const string& str_source = j_edge["source"].get<string>();
+    //const string& str_target = j_edge["target"].get<string>();
+    const string& str_source = j_edge["source"];
+    const string& str_target = j_edge["target"];
+
+    string edge_id = str_source + '_' + str_target;
 
     auto& m = j_edge["metadata"];
     double length = m["length"].get<double>();
-    
-    //cout << n_source << "-->" << n_target << endl;
 
-    Process* source = _node_models->find_child (to_string (n_source));
-    Process* target = _node_models->find_child (to_string (n_target));
-    EdgeModel (_edge_models, "", source, target, length);
+    TextProperty* tmp = new TextProperty (_edge_ids, edge_id, edge_id);
+
+    Process* source = _node_models->find_child (str_source);
+    Process* target = _node_models->find_child (str_target);
+
+    EdgeModel (_edge_models, edge_id, source, target, length);
   }
 
   GRAPH_EXEC;

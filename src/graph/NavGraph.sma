@@ -8,7 +8,57 @@ import Edge
 _native_code_
 %{
     #include <iostream>
+	using namespace std;
 %}
+
+
+_action_
+action_node_ids_added (Process src, Process self)
+{
+	if (self.nodes.size == 0) {
+		print ("New model of node added: " + self.model_manager.node_ids.size + " nodes. View is empty (" + self.nodes.size + " nodes)\n")
+
+		for node_id : self.model_manager.node_ids {
+			string str_id = toString (node_id)
+
+			model = find (self.model_manager.nodes, str_id)
+
+			Node (self.nodes, str_id, self.map, self.context, model)
+		}
+	}
+	else if (self.nodes.size == self.model_manager.node_ids.size - 1) {
+		print ("New model of node added: " + self.model_manager.node_ids.size + " nodes. View has " + self.nodes.size + " nodes\n")
+
+	}
+	else {
+		print ("FIXME TODO: New model of node added: " + self.model_manager.node_ids.size + " nodes. View has " + self.nodes.size + " nodes\n")
+	}
+}
+
+
+_action_
+action_edge_ids_added (Process src, Process self)
+{
+	if (self.edges.lst.size == 0) {
+		print ("New model of edge added: " + self.model_manager.edge_ids.size + " edges. View is empty (" + self.edges.lst.size + " edges)\n")
+
+		for edge_id : self.model_manager.edge_ids {
+			string str_id = toString (edge_id)
+
+			model = find (self.model_manager.edges, str_id)
+			if (&model != null) {
+				Edge (self.edges, str_id, self.context, model)
+			}
+		}
+	}
+	else if (self.edges.lst.size == self.model_manager.edge_ids.size - 1) {
+		print ("New model of edge added: " + self.model_manager.edge_ids.size + " edges. View has " + self.edges.lst.size + " edges\n")
+
+	}
+	else {
+		print ("FIXME TODO: New model of edge added: " + self.model_manager.edge_ids.size + " edges. View has " + self.edges.lst.size + " edges\n")
+	}
+}
 
 
 _define_
@@ -42,7 +92,7 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 		List lst
 	}
 
-	_model_manager.edges.$added -> na_edges_added:(this) {
+	/*_model_manager.edges.$added -> na_edges_added:(this) {
 		if (this.edges.lst.size == 0) {
 			print ("New model of edge added: " + this.model_manager.edges.size + " edges. View is empty (" + this.edges.lst.size + " edges)\n")
 
@@ -67,7 +117,10 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 
 	_model_manager.edges.$removed -> na_edges_removed:(this) {
 		print ("Model of edge removed: " + this.model_manager.edges.size + " edges.\n")
-	}
+	}*/
+
+	NativeAction na_edge_ids_added (action_edge_ids_added, this, 1)
+	_model_manager.edge_ids.$added -> na_edge_ids_added
 
 
 	// **************************************************************************************************
@@ -77,7 +130,7 @@ NavGraph (Process _map, Process _context, Process _model_manager)
     // **************************************************************************************************
 	List nodes
 
-	_model_manager.nodes.$added -> na_nodes_added:(this) {
+	/*_model_manager.nodes.$added -> na_nodes_added:(this) {
 		if (this.nodes.size == 0) {
 			print ("New model of node added: " + this.model_manager.nodes.size + " nodes. View is empty (" + this.nodes.size + " nodes)\n")
 
@@ -102,7 +155,10 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 
 	_model_manager.nodes.$removed -> na_nodes_removed:(this) {
 		print ("Model of node removed: " + this.model_manager.nodes.size + " nodes.\n")
-	}
+	}*/
+
+	NativeAction na_node_ids_added (action_node_ids_added, this, 1)
+	_model_manager.node_ids.$added -> na_node_ids_added
 
 
 	// **************************************************************************************************
@@ -110,7 +166,7 @@ NavGraph (Process _map, Process _context, Process _model_manager)
     //  DEBUG
     //
     // **************************************************************************************************
-	if (_model_manager.IS_DEBUG)
+	/*if (_model_manager.IS_DEBUG)
 	{
 		for model : _model_manager.nodes {
 			addChildrenTo this.nodes {
@@ -123,5 +179,5 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 				Edge edge (_context, model)
 			}
 		}
-	}
+	}*/
 }

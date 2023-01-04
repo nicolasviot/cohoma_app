@@ -102,6 +102,7 @@ class RosNode : public FatProcess, public ExternalSource
     CoreProcess *_limit_models, *_zone_models, *_lima_models;
     
     // Navigation graph
+    CoreProcess *_node_ids, *_edge_ids;
     CoreProcess *_node_models, *_edge_models;
 
     // TASKS
