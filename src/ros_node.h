@@ -98,13 +98,6 @@ class RosNode : public FatProcess, public ExternalSource
 	  CoreProcess *_frame;
     CoreProcess *_layer_filter;
 
-    //navgraph fields
-    TextProperty navgraph_data;
-    CoreProcess *_nodes, *_edges; // FIXME
-
-    // ---------------------------
-    // MODEL
-
     // SITE
     CoreProcess *_limit_models, *_zone_models, *_lima_models;
     CoreProcess *_node_models, *_edge_models;
@@ -114,9 +107,6 @@ class RosNode : public FatProcess, public ExternalSource
 
     // TRAPS
     CoreProcess *_trap_models;
-
-    CoreProcess *_task_edges, *_task_areas, *_task_traps;
-    CoreProcess *_task_allocated_edges, *_task_allocated_areas, *_task_allocated_traps;
     
     // Models of itineraries
     std::vector<CoreProcess*> _itineraries;
@@ -134,18 +124,16 @@ class RosNode : public FatProcess, public ExternalSource
     RefProperty* _ref_current_trap;
     TextProperty* _selected_itinerary_id;
 
-    //Planif VAB
+    // Planif VAB
     IntProperty _current_plan_id_vab;
     IntProperty _start_plan_vab_id;
     IntProperty _end_plan_vab_id;
 
-    //Visibility_map
+    // Visibility_map
     CoreProcess* _georef_visibility_map;
     DoubleProperty* _visibility_map_resolution;
     DataImage* _visibility_map;
     
-
-	  std::vector<ParentProcess*> navgraph_list;
   
 #ifndef NO_ROS
     //Ros

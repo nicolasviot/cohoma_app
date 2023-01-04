@@ -1,7 +1,6 @@
 #include "ros_node.h"
 
 #include "exec_env/global_mutex.h"
-//#include "core/execution/graph.h"
 #include "core/control/binding.h"
 #include "core/ontology/coupling.h"
 #include "base/connector.h"
@@ -29,13 +28,6 @@
 #include "model/task/TaskAreaModel.h"
 #include "model/task/TaskTrapModel.h"
 
-
-#include "task/TaskTrap.h"
-#include "task/TaskAreaSummit.h"
-#include "task/OldTaskArea.h"
-#include "task/OldTaskEdge.h"
-
-
 using std::placeholders::_1;
 
 using namespace djnn;
@@ -43,7 +35,7 @@ using namespace std;
 
 extern Process* get_edge_model (Process* model_manager, int index_1, int index_2);
 
-//TODO : MP
+// TODO : MP
 // remove - find_child
 // remove set_value
 // remove get_value
@@ -58,9 +50,6 @@ RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, C
   _map (my_map),
   _context (context),
   _model_manager (model_manager),
-
-  // Nav Graph fields
-  navgraph_data (this, "data", ""),
 
   // Planif VAB
   _current_plan_id_vab (this, "current_plan_id", 0),
@@ -119,9 +108,7 @@ RosNode::impl_activate ()
   publisher_trap_activation = _node->create_publisher<icare_interfaces::msg::TrapActivation>("/activation", qos);
   #endif
 
-  //activate navgraph fields
-  navgraph_data.activate();
-
+  // Activate
   _current_plan_id_vab.activate();
   _start_plan_vab_id.activate();
   _end_plan_vab_id.activate();
@@ -178,17 +165,6 @@ RosNode::impl_activate ()
 
   // ---------------------------
   // VIEW
-  
-  GET_CHILD_VAR2 (_nodes, CoreProcess, _parent, parent/l/map/layers/navgraph/nodes)
-  GET_CHILD_VAR2 (_edges, CoreProcess, _parent, parent/l/map/layers/navgraph/edges)
-
-  GET_CHILD_VAR2 (_task_edges, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/edges)
-  GET_CHILD_VAR2 (_task_areas, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/areas)
-  GET_CHILD_VAR2 (_task_traps, CoreProcess, _parent, parent/l/map/layers/tasks/tasklayer/traps)
-  GET_CHILD_VAR2 (_task_allocated_edges, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/edges)
-  GET_CHILD_VAR2 (_task_allocated_areas, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/areas)
-  GET_CHILD_VAR2 (_task_allocated_traps, CoreProcess, _parent, parent/l/map/layers/allocated_tasks/allocated_tasks_layer/traps)
-
   GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/right_panel/clock)
   GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/right_panel/clock/fw/input)
   GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/right_panel/clock/fw_console/input)
@@ -220,9 +196,7 @@ RosNode::impl_deactivate ()
   sub_allocation.reset ();
 
 #endif  
-  //deactivate navgraph fields
-  navgraph_data.deactivate();
-
+  // De-activate
   _current_plan_id_vab.deactivate();
   _start_plan_vab_id.deactivate();
   _end_plan_vab_id.deactivate();
@@ -311,51 +285,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   _ref_node_status_edition->set_value (_ref_NULL, true);
 
 
-  /*Container *_task_edge_container = dynamic_cast<Container *> (_task_edges);
-  if (_task_edge_container) {
-    int _task_edge_container_size = _task_edge_container->children ().size ();
-    for (int i = _task_edge_container_size - 1; i >= 0; i--) {
-      auto *item = _task_edge_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
-      }
-    }
-  }*/
-
-  /*Container *_trap_container = dynamic_cast<Container *> (_task_traps);
-  if (_trap_container) {
-    int _trap_container_size = _trap_container->children ().size ();
-    for (int i = _trap_container_size - 1; i >= 0; i--) {
-      auto *item = _trap_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
-      }
-    }
-  }*/
-
-  /*Container *_task_areas_container = dynamic_cast<Container *> (_task_areas);
-  if (_task_areas_container) {
-    int _task_container_size = _task_areas_container->children ().size ();
-    for (int i = _task_container_size - 1; i >= 0; i--) {
-      auto *item = _task_areas_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
-      }
-    }
-  }*/
-
+  // FIXME TODO: schedule_delete old tasks about edges, about traps and about zones
   // schedule delete old itineraries
   // schedule delete old edges
   // schedule delete old nodes
@@ -641,50 +571,7 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
 
   cout << "Receive msg Candidate Tasks" << endl;
 
-  /*Container *_edge_container = dynamic_cast<Container *> (_task_edges);
-  if (_edge_container) {
-    int _edge_container_size = _edge_container->children ().size ();
-    for (int i = _edge_container_size - 1; i >= 0; i--) {
-      auto *item = _edge_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
-      }
-    }
-  }*/
-
-  /*Container *_trap_container = dynamic_cast<Container *> (_task_traps);
-  if (_trap_container) {
-    int _trap_container_size = _trap_container->children ().size ();
-    for (int i = _trap_container_size - 1; i >= 0; i--) {
-      auto *item = _trap_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
-      }
-    }
-  }*/
-
-  /*Container *_task_areas_container = dynamic_cast<Container *> (_task_areas);
-  if (_task_areas_container) {
-    int _task_container_size = _task_areas_container->children ().size ();
-    for (int i = _task_container_size - 1; i >= 0; i--) {
-      auto *item = _task_areas_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
-      }
-    }
-  }*/
+  // FIXME TODO: schedule_delete old tasks about edges, about traps and about zones
   
   // Aerial
   int nb_uav_zone = msg.uav_zones.size();
@@ -863,50 +750,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
     }
   }
 
-  Container *_edge_container = dynamic_cast<Container *> (_task_allocated_edges);
-  if (_edge_container) {
-    int _edge_container_size = _edge_container->children ().size ();
-    for (int i = _edge_container_size - 1; i >= 0; i--) {
-      auto *item = _edge_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
-      }
-    }
-  }
-
-  Container *_trap_container = dynamic_cast<Container *> (_task_allocated_traps);
-  if (_trap_container) {
-    int _trap_container_size = _trap_container->children ().size ();
-    for (int i = _trap_container_size - 1; i >= 0; i--) {
-      auto *item = _trap_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
-      }
-    }
-  }
-
-  Container *_task_areas_container = dynamic_cast<Container *> (_task_allocated_areas);
-  if (_task_areas_container) {
-    int _task_container_size = _task_areas_container->children ().size ();
-    for (int i = _task_container_size - 1; i >= 0; i--) {
-      auto *item = _task_areas_container->children ()[i];
-      if (item) {
-        item->deactivate ();
-        if (item->get_parent ())
-          item->get_parent ()->remove_child (dynamic_cast<FatChildProcess*>(item));
-        item->schedule_delete ();
-        item = nullptr;
-      }
-    }
-  }
+  // FIXME TODO: schedule_delete old ASSIGNED tasks about edges, about traps and about zones
 
   GRAPH_EXEC;
   
@@ -948,11 +792,13 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
   
   // FIXME TODO
   for (int i = 0; i < nb_total; i++)
-  {  
+  {
+    int robot_id = msg.tasks[i].robot_id;
+
     // ZONE
     if (msg.tasks[i].task_type == 1)
-    {
-      cout << i << ": task about ZONE assigned to " << msg.tasks[i].robot_id << endl;
+    {  
+      cout << i << ": task about ZONE assigned to '" << robot_id << "'" << endl;
       /*ParentProcess* area_to_add = OldTaskArea(_task_allocated_areas, "", _map);
       for (int j=0 ;j< msg.tasks[i].zone.points.size(); j++){
         auto* task_summit = TaskAreaSummit (area_to_add, std::string("summit_") + std::to_string(j), _map, msg.tasks[i].zone.points[j].latitude, msg.tasks[i].zone.points[j].longitude);
@@ -969,7 +815,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
     // EDGE
     else if (msg.tasks[i].task_type == 2)
     {
-      cout << i << ": task about EDGE assigned to " << msg.tasks[i].robot_id << endl;
+      cout << i << ": task about EDGE assigned to '" << robot_id << "'" << endl;
       /*ParentProcess* edge_to_add = OldTaskEdge(_task_allocated_edges, "", _map, std::stoi(msg.tasks[i].edge.source) + 1, std::stoi(msg.tasks[i].edge.target) + 1, _nodes);
     
       SET_CHILD_VALUE (Double, edge_to_add, length, msg.tasks[i].edge.length, true)
@@ -979,7 +825,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
     // IDENTIFICATION
     else if (msg.tasks[i].task_type == 3)
     {
-      cout << i << ": task about TRAP IDENTIFICATION assigned to " << msg.tasks[i].robot_id << endl;
+      cout << i << ": task about TRAP IDENTIFICATION assigned to '" << robot_id << "'" << endl;
       /*ParentProcess* trap_to_add = TaskTrap(_task_allocated_traps, "", _map, msg.tasks[i].identification.id, msg.tasks[i].identification.location.latitude, msg.tasks[i].identification.location.longitude);
       SET_CHILD_VALUE (Bool, trap_to_add, active, msg.tasks[i].identification.active, true)
       SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.tasks[i].identification.identified, true)
@@ -994,7 +840,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
     // DE-ACTIVATION
     else if (msg.tasks[i].task_type == 4)
     {
-      cout << i << ": task about TRAP DE-ACTIVATION assigned to " << msg.tasks[i].robot_id << endl;
+      cout << i << ": task about TRAP DE-ACTIVATION assigned to '" << robot_id << "'" << endl;
       /*ParentProcess* trap_to_add = TaskTrap(_task_allocated_traps, "", _map, msg.tasks[i].deactivation.id, msg.tasks[i].deactivation.location.latitude, msg.tasks[i].deactivation.location.longitude);
       SET_CHILD_VALUE (Bool, trap_to_add, active, msg.tasks[i].deactivation.active, true)
       SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.tasks[i].deactivation.identified, true)
@@ -1426,29 +1272,34 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
     int j1 = j0 + 1;
     int j2 = j0 + 2;
     int j3 = j0 + 3;
-    if (msg.outside_area_layer[i] == 0){
-      if (msg.ugv_camera_layer[i] != 0 ) {
+    if (msg.outside_area_layer[i] == 0)
+    {
+      if (msg.ugv_camera_layer[i] != 0)
+      {
         //yellow
         frame_data[j0] = static_cast<char>(0x3F); //B
         frame_data[j1] = static_cast<char>(0xD0); //G
         frame_data[j2] = static_cast<char>(0xF4); //R
         frame_data[j3] = static_cast<char>(0x6A); //A
       }
-      if (msg.uav_camera_layer[i] != 0) {
+      if (msg.uav_camera_layer[i] != 0)
+      {
         //purple
         frame_data[j0] = static_cast<char>(0x9B); //B
         frame_data[j1] = static_cast<char>(0x59); //G
         frame_data[j2] = static_cast<char>(0xB6); //R
         frame_data[j3] = static_cast<char>(0x6A); //A
       }
-      if ((msg.ugv_camera_layer[i] != 0) && (msg.uav_camera_layer[i] != 0)) {
+      if ((msg.ugv_camera_layer[i] != 0) && (msg.uav_camera_layer[i] != 0))
+      {
         //cyan
         frame_data[j0] = static_cast<char>(0xD5); //B
         frame_data[j1] = static_cast<char>(0xB3); //G
         frame_data[j2] = static_cast<char>(0x7F); //R
         frame_data[j3] = static_cast<char>(0x6A); //A
       }
-      if ((msg.uav_camera_layer[i] == 0) && (msg.ugv_camera_layer[i] == 0)) {
+      if ((msg.uav_camera_layer[i] == 0) && (msg.ugv_camera_layer[i] == 0))
+      {
         //blank
         frame_data[j0] = static_cast<char>(0xFF); //B
         frame_data[j1] = static_cast<char>(0xFF); //G
@@ -1477,11 +1328,13 @@ RosNode::send_msg_trap_activation(int id, bool new_active_state){
   msg.header.stamp = _node->get_clock()->now();
   publisher_trap_activation->publish(msg);
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
-  if (new_active_state){
+  if (new_active_state)
+  {
     SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp + " - Trap activation (#" +std::to_string(id) + ")\n", true)
     SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Trap activation (#" +std::to_string(id) + ")\n", true)
   }
-  else {
+  else
+  {
     SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp + " - Trap deactivation (#" +std::to_string(id) + ")\n", true)
     SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Trap deactivation (#" +std::to_string(id) + ")\n", true)
   }
