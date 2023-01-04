@@ -20,6 +20,7 @@
  *  https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
  */
 #define RADIUS 6378137.0
+#define PI 3.14159265358979323846
 
 // zoom level to resolution, in meters per pixel for Web Mercator projection
 // https://geoservices.ign.fr/documentation/services/api-et-services-ogc/images-tuilees-wmts-ogc
@@ -55,19 +56,19 @@ double get_y0 () { return 20037508; }
 
 static double to_radians (double deg)
 {
-	return deg * (M_PI/180);
+	return deg * (PI/180);
 }
 
 static double to_degrees (double rad)
 {
-	return rad * (180/M_PI);
+	return rad * (180/PI);
 }
 double lat2my (double lat) {
-  return log (tan (M_PI / 4 + to_radians (lat) / 2)) * RADIUS;
+  return log (tan (PI / 4 + to_radians (lat) / 2)) * RADIUS;
 }
 
 double my2lat (double my) {
-  return to_degrees (atan (exp(my / RADIUS)) * 2 - M_PI/2);
+  return to_degrees (atan (exp(my / RADIUS)) * 2 - PI/2);
 }
 
 double lon2mx (double lon) {
@@ -116,9 +117,9 @@ double px2lon (double px, int zoom)
 
 int lat2tiley (double lat, int z)
 {
-  double latrad = lat * M_PI/180.0;
+  double latrad = lat * PI/180.0;
   int n = pow (2, z);
-	return (int)((1.0 - asinh(tan(latrad)) / M_PI) / 2.0 * n);
+	return (int)((1.0 - asinh(tan(latrad)) / PI) / 2.0 * n);
 }
 
 int lon2tilex (double lon, int z)
@@ -129,8 +130,8 @@ int lon2tilex (double lon, int z)
 
 double tiley2lat (int y, int z)
 {
-  double n = M_PI - 2.0 * M_PI * y / (double)(1 << z);
-	return 180.0 / M_PI * atan(0.5 * (exp(n) - exp(-n)));
+  double n = PI - 2.0 * PI * y / (double)(1 << z);
+	return 180.0 / PI * atan(0.5 * (exp(n) - exp(-n)));
 }
 
 double tilex2lon (int x, int z)
