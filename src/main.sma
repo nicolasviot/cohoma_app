@@ -24,7 +24,7 @@ import model.NoRosModelManager
 import model.EdgeModel
 
 import map.Map
-import map.MapLayerSync
+import map.MapLayer
 import map.EnvMapLayer
 import graph.Node
 import graph.NavGraph
@@ -176,8 +176,8 @@ Component root {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible {
-          MapLayerSync layer (f, map, load_geoportail_tile, "geoportail", "http://proxy.recherche.enac.fr:3128") // geoportail may need proxy - using https
-          //MapLayerSync layer (f, map, load_osm_tile, "osm", "") // osm do not need proxy - using http
+          MapLayer layer (f, map, load_geoportail_tile, "geoportail", "http://proxy.recherche.enac.fr:3128") // geoportail may need proxy - using https
+          //MapLayer layer (f, map, load_osm_tile, "osm", "") // osm do not need proxy - using http
         }
       }
       opacity aka ctrl_visibility.visible.layer.opacity

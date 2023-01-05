@@ -7,7 +7,7 @@ _native_code_
 %{
 #include "cpp/coords-utils.h"
 #include "cpp/tiles_manager.h"
-#include "cpp/map_move_sync.h"
+#include "cpp/map_move.h"
 #include "core/control/native_action.h"
 #include <cmath>
 
@@ -21,7 +21,7 @@ import PixmapTile
 import gui.animation.Animator
 
 _define_
-MapLayerSync (Process f, Process map, NativeCode loader, string name, string proxy)
+MapLayer (Process f, Process map, NativeCode loader, string name, string proxy)
 {
   check_and_build_dir ("cache/" + name)
 
@@ -46,18 +46,18 @@ MapLayerSync (Process f, Process map, NativeCode loader, string name, string pro
 
   zoomLevel aka map.zoomLevel
 
-  NativeAction move_left_l1 (fn_move_left_l1_sync, this, 1)
-  NativeAction move_right_l1 (fn_move_right_l1_sync, this, 1)
-  NativeAction move_up_l1 (fn_move_up_l1_sync, this, 1)
-  NativeAction move_down_l1 (fn_move_down_l1_sync, this, 1)
+  NativeAction move_left_l1 (fn_move_left_l1, this, 1)
+  NativeAction move_right_l1 (fn_move_right_l1, this, 1)
+  NativeAction move_up_l1 (fn_move_up_l1, this, 1)
+  NativeAction move_down_l1 (fn_move_down_l1, this, 1)
 
-  NativeAction move_left_l2 (fn_move_left_l2_sync, this, 1)
-  NativeAction move_right_l2 (fn_move_right_l2_sync, this, 1)
-  NativeAction move_up_l2 (fn_move_up_l2_sync, this, 1)
-  NativeAction move_down_l2 (fn_move_down_l2_sync, this, 1)
+  NativeAction move_left_l2 (fn_move_left_l2, this, 1)
+  NativeAction move_right_l2 (fn_move_right_l2, this, 1)
+  NativeAction move_up_l2 (fn_move_up_l2, this, 1)
+  NativeAction move_down_l2 (fn_move_down_l2, this, 1)
 
-  NativeAction zoom_in (fn_zoom_in_sync, this, 1)
-  NativeAction zoom_out (fn_zoom_out_sync, this, 1)
+  NativeAction zoom_in (fn_zoom_in, this, 1)
+  NativeAction zoom_out (fn_zoom_out, this, 1)
 
 
   map.move_left     -> move_left_l1

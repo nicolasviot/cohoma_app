@@ -4,7 +4,7 @@
 #include "core/execution/graph.h"
 
 #include "cpp/coords-utils.h"
-#include "cpp/map_move_sync.h"
+#include "cpp/map_move.h"
 #include "core/core.h"
 
   void fill4tiles (djnn::CoreProcess* tiles, int nbRows, int nbCols, int row, int col, int x, int y, int z) {
@@ -41,7 +41,7 @@
   }
 
   void
-  fn_zoom_in_sync (djnn::CoreProcess *src)
+  fn_zoom_in (djnn::CoreProcess *src)
   {
     //djnn::get_exclusive_access(DBG_GET);
     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
@@ -77,7 +77,7 @@
   }
 
 void
-fn_zoom_out_sync (djnn::CoreProcess *src)
+fn_zoom_out (djnn::CoreProcess *src)
 {
   //djnn::get_exclusive_access(DBG_GET);
   djnn::Process *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
@@ -109,7 +109,7 @@ fn_zoom_out_sync (djnn::CoreProcess *src)
 
 
 void 
-fn_move_right_l1_sync (djnn::CoreProcess *src)
+fn_move_right_l1 (djnn::CoreProcess *src)
   {
     //djnn::get_exclusive_access(DBG_GET);
     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
@@ -148,7 +148,7 @@ fn_move_right_l1_sync (djnn::CoreProcess *src)
   }
 
   void
-  fn_move_left_l1_sync (djnn::CoreProcess *src)
+  fn_move_left_l1 (djnn::CoreProcess *src)
   {
     //djnn::get_exclusive_access(DBG_GET);
     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
@@ -185,7 +185,7 @@ fn_move_right_l1_sync (djnn::CoreProcess *src)
   }
 
   void
-  fn_move_down_l1_sync (djnn::CoreProcess *src)
+  fn_move_down_l1 (djnn::CoreProcess *src)
   {
     //djnn::get_exclusive_access(DBG_GET);
     djnn::CoreProcess *data = (djnn::CoreProcess*) get_native_user_data (src);
@@ -223,7 +223,7 @@ fn_move_right_l1_sync (djnn::CoreProcess *src)
   }
 
   void
-  fn_move_up_l1_sync (djnn::CoreProcess *src)
+  fn_move_up_l1 (djnn::CoreProcess *src)
   {
     //djnn::get_exclusive_access(DBG_GET);
     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
@@ -261,7 +261,7 @@ fn_move_right_l1_sync (djnn::CoreProcess *src)
 
   
 void 
-fn_move_right_l2_sync (djnn::CoreProcess *src)
+fn_move_right_l2 (djnn::CoreProcess *src)
   {
     //djnn::get_exclusive_access(DBG_GET);
     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
@@ -298,7 +298,7 @@ fn_move_right_l2_sync (djnn::CoreProcess *src)
   }
 
   void
-  fn_move_left_l2_sync (djnn::CoreProcess *src)
+  fn_move_left_l2 (djnn::CoreProcess *src)
   {
     //djnn::get_exclusive_access(DBG_GET);
     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
@@ -334,7 +334,7 @@ fn_move_right_l2_sync (djnn::CoreProcess *src)
   }
 
   void
-  fn_move_down_l2_sync (djnn::CoreProcess *src)
+  fn_move_down_l2 (djnn::CoreProcess *src)
   {
     //djnn::get_exclusive_access(DBG_GET);
     djnn::CoreProcess *data = (djnn::CoreProcess*) get_native_user_data (src);
@@ -370,7 +370,7 @@ fn_move_right_l2_sync (djnn::CoreProcess *src)
   }
 
   void
-  fn_move_up_l2_sync (djnn::CoreProcess *src)
+  fn_move_up_l2 (djnn::CoreProcess *src)
   {
     //djnn::get_exclusive_access(DBG_GET);
     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
