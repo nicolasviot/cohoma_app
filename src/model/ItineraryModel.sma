@@ -46,11 +46,7 @@ ItineraryModel (Process _context, string _type)
 		//toString(type) =: _context.selected_itinerary_type
     }
 
-
-	// FIXME
 	List node_ids
-	//List node_indexes
-
 
 	LogPrinter lp ("Itinerary model (debug): ")
 	//type + " (" + uid + "): " + description_input =:> lp.input

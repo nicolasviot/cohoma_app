@@ -43,7 +43,9 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 			for (int i = 1; i < this.model.node_ids.size; i++) {
 				//print ("New edge from " + this.model.node_ids.[i] + " to " + this.model.node_ids.[i+1] + "\n")
 
-				edge_model = get_edge_model (this.model_manager, $this.model.node_ids.[i], $this.model.node_ids.[i+1])
+				// edge_model = get_edge_model (this.model_manager, $this.model.node_ids.[i], $this.model.node_ids.[i+1])
+				string edge_id = toString(this.model.node_ids.[i]) + "_" + toString(this.model.node_ids.[i+1])
+				edge_model = find (this.model_manager.edges, edge_id)
 				if (&edge_model != null)
 				{
 					addChildrenTo this.itinerary_edges {

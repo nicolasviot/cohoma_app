@@ -394,19 +394,17 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
 
     for (int i = 0; i < msg->itineraries.size(); i++)
     {
-      cout << "Iti " << i << " with " << msg->itineraries[i].nodes.size() << " nodes" << endl;
+      cout << "Itinerary " << i << " with " << msg->itineraries[i].nodes.size() << " nodes" << endl;
 
       model = _itineraries[i];
       SET_CHILD_VALUE (Text, model, uid, msg->itineraries[i].id, true)
       SET_CHILD_VALUE (Text, model, description_input, msg->itineraries[i].description, true)
       
       GET_CHILD_VAR2 (list_node_ids, CoreProcess, model, node_ids)
-      //GET_CHILD_VAR2 (list_node_indexes, CoreProcess, model, node_indexes)
 
       for (int j = 0; j < msg->itineraries[i].nodes.size(); j++) {
         //cout << "New IntProperty " << msg->itineraries[i].nodes[j] << " in " << i << endl;
         new IntProperty (list_node_ids, "", std::stoi(msg->itineraries[i].nodes[j]));
-        //new IntProperty (list_node_indexes, "", std::stoi(msg->itineraries[i].nodes[j]));
       }
     }
   }
@@ -914,11 +912,11 @@ RosNode::send_msg_planning_request()
     GET_CHILD_VALUE (n_id, Int, item, id)
 
     if (str_status == "start")
-      message.start_node = to_string(n_id - 1);
+      message.start_node = to_string(n_id);
     else if ( str_status == "end")
-      message.end_node = to_string(n_id - 1);
+      message.end_node = to_string(n_id);
     else if (str_status == "forced")
-        message.node_contraints.push_back(to_string(n_id -1));
+        message.node_contraints.push_back(to_string(n_id));
   }
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
