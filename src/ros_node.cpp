@@ -311,7 +311,6 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   // NODES
   for (auto& j_node : j_graph["nodes"])
   {
-    //auto& j_node = j_graph["nodes"][i];
     //const string& node_id = j_node["id"].get<string>();
     //const string& label = j_node["label"].get<string>();
     const string& node_id = j_node["id"];
@@ -325,9 +324,16 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     bool mandatory = m["compulsory"].get<bool>();
     //bool forced = m["locked"].get<bool>();
 
-    TextProperty* tmp = new TextProperty (_node_ids, node_id, node_id);
+    Process* node = _node_models->find_child_impl(node_id);
+    if (node == nullptr)
+    {
+      // We need a pointer on the TextProperty (else memory pb)
+      TextProperty* tmp = new TextProperty (_node_ids, "", node_id);
 
-    NodeModel (_node_models, node_id, std::stoi(node_id), phase, label, latitude, longitude, altitude, mandatory);
+      NodeModel (_node_models, node_id, std::stoi(node_id), phase, label, latitude, longitude, altitude, mandatory);
+    }
+    //else
+    //  cout << "Model of node " << node_id << " already exist. Need to update it ?" << endl;
   }
 
   // EDGES
@@ -343,12 +349,19 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     auto& m = j_edge["metadata"];
     double length = m["length"].get<double>();
 
-    TextProperty* tmp = new TextProperty (_edge_ids, edge_id, edge_id);
+    Process* edge = _edge_models->find_child_impl(edge_id);
+    if (edge == nullptr)
+    {
+      // We need a pointer on the TextProperty (else memory pb)
+      TextProperty* tmp = new TextProperty (_edge_ids, "", edge_id);
 
-    Process* source = _node_models->find_child (str_source);
-    Process* target = _node_models->find_child (str_target);
+      Process* source = _node_models->find_child (str_source);
+      Process* target = _node_models->find_child (str_target);
 
-    EdgeModel (_edge_models, edge_id, source, target, length);
+      EdgeModel (_edge_models, edge_id, source, target, length);
+    }  
+    //else
+    //  cout << "Model of edge " << edge_id << " already exist. Need to update it ?" << endl;
   }
 
   GRAPH_EXEC;
@@ -937,8 +950,8 @@ RosNode::send_msg_navgraph_update()
     GET_CHILD_VALUE (d_length, Double, edge, length)
 
     nlohmann::json jn = {
-      {"source", std::to_string(source_id - 1)},
-      {"target", std::to_string(target_id - 1)},
+      {"source", to_string(source_id)},
+      {"target", to_string(target_id)},
       {"metadata", { 
        // {"length", d_length}
       }}
@@ -959,7 +972,7 @@ RosNode::send_msg_navgraph_update()
     GET_CHILD_VALUE (b_forced, Bool, node, is_forced) // = locked
     
     nlohmann::json jn = {
-      {"id", std::to_string(n_id - 1)},
+      {"id", to_string(n_id)},
       {"label", s_label},
       {"metadata", { 
         {"altitude", d_alt},

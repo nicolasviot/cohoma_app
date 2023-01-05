@@ -465,12 +465,16 @@ Component root {
         }
 
         int size = $root.fsm_add_edge.preview_on.temp_id_list.size 
-        int src = $root.fsm_add_edge.preview_on.temp_id_list.[size - 1] + 1
-        int dest = $root.fsm_add_edge.preview_on.temp_id_list.[size] + 1
+        string source_id = toString (root.fsm_add_edge.preview_on.temp_id_list.[size - 1])
+        string target_id = toString (root.fsm_add_edge.preview_on.temp_id_list.[size])
+        string edge_id = source_id + "_" + target_id
 
-        addChildrenTo root.model.edges {
-          EdgeModel _ (root.model.nodes[src], root.model.nodes[dest], 0.0)
+        addChildrenTo root.model.edge_ids {
+          TextProperty _ (edge_id)
         }
+        source = find (root.model.nodes, source_id)
+        target = find (root.model.nodes, target_id)
+        EdgeModel (root.model.edges, edge_id, source, target, 0.0)
       }
       
       Scaling sc (1, 1, 0, 0)

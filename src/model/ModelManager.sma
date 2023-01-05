@@ -135,20 +135,29 @@ ModelManager (Process _context, int _is_debug)
     //  NODES
     //
     // **************************************************************************************************
-    //List nodes
-    Component nodes
     List node_ids
+
+    // Don't use index but node id instead
+    //List nodes
+
+    // Get a node with its id
+    Component nodes
     
     // Model of the temporary node during edition 
     NodeModel temp_node (-1, -1, "", 0.0, 0.0, 0, 0)
 
     Spike create_node_from_temp
 
-    /*create_node_from_temp -> na_create_node_from_temp:(this) {
-        addChildrenTo this.nodes {
-            NodeModel _ ($this.nodes.size, -1, "by operator", $this.temp_node.lat, $this.temp_node.lon, 0, 0)
+    create_node_from_temp -> na_create_node_from_temp:(this) {
+        int n_node_id = this.node_ids.size
+        string s_node_id = toString (this.node_ids.size)
+        
+        NodeModel (this.nodes, s_node_id, n_node_id, -1, "by operator", $this.temp_node.lat, $this.temp_node.lon, 0, 0)
+
+        addChildrenTo this.node_ids {
+            TextProperty _ (s_node_id)
         }
-    }*/
+    }
 
 
     // **************************************************************************************************
@@ -156,9 +165,14 @@ ModelManager (Process _context, int _is_debug)
     //  EDGES
     //
     // **************************************************************************************************
-    //List edges
-    Component edges
     List edge_ids
+
+    // Don't use index but edge id instead
+    //List edges
+
+    // Get a edge with its id
+    Component edges
+    
 
     // Temporary edge during graph edition
     //EdgeModel temp_edge (this.nodes[..], this.nodes[..], 0.0)
