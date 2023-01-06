@@ -71,7 +71,7 @@ int download_tile(int z, int row, int col, const std::string& uri, const std::st
     return 1;
   }
 
-  auto tries = 3;
+  auto tries = 1;
 
 #if 0 //DEBUG
   djnn::lock_ios_mutex();
@@ -121,7 +121,7 @@ int download_tile(int z, int row, int col, const std::string& uri, const std::st
   auto res = curl_easy_perform(curl);
 
   // ERROR due to Timeout, or https behind proxies
-  tries = 3;
+  tries = 1;
   while (tries && res != CURLE_OK) {
     usleep(500'000);
     res = curl_easy_perform(curl);
@@ -164,14 +164,25 @@ int load_image_from_geoportail(int z, int row, int col, const std::string& name,
   std::string filepath = "cache/" + name + "/" + std::to_string(z) + "_" + std::to_string(col) + "_" + std::to_string(row) + ".jpg";
 
   auto res = 0;
-  if (!filesystem::exists(filepath)) {
+  while (!filesystem::exists(filepath)) {
+    // debug
+    // djnn::lock_ios_mutex();
+    // std::cerr << "----->" << filepath << " NOT exist" << std::endl;
+    // djnn::release_ios_mutex();
     res = download_tile(z, row, col, uri, filepath, proxy);
   }
 
   // file exist but size is null ? => try again
-  if (std::filesystem::file_size(filepath) == 0) {
+  while (filesystem::exists(filepath) && std::filesystem::file_size(filepath) == 0) {
+    // debug
+    // djnn::lock_ios_mutex();
+    // std::cerr << "----->" << filepath << " EMPTY " << std::endl;
+    // djnn::release_ios_mutex();
     res = download_tile(z, row, col, uri, filepath, proxy);
   }
+
+  assert(filesystem::exists(filepath));
+  assert(std::filesystem::file_size(filepath) != 0);
 
   return res;
 }
@@ -187,14 +198,25 @@ int load_image_from_osm(int z, int row, int col, const std::string& name)
   std::string filepath = "cache/" + name + "/" + std::to_string(z) + "_" + std::to_string(col) + "_" + std::to_string(row) + ".png";
 
   auto res = 0;
-  if (!filesystem::exists(filepath)) {
+  while (!filesystem::exists(filepath)) {
+    // debug
+    // djnn::lock_ios_mutex();
+    // std::cerr << "----->" << filepath << " NOT exist" << std::endl;
+    // djnn::release_ios_mutex();
     res = download_tile(z, row, col, uri, filepath, "");
   }
 
   // file exist but size is null ? => try again
-  if (std::filesystem::file_size(filepath) == 0) {
+  while (filesystem::exists(filepath) && std::filesystem::file_size(filepath) == 0) {
+    // debug
+    // djnn::lock_ios_mutex();
+    // std::cerr << "----->" << filepath << " EMPTY " << std::endl;
+    // djnn::release_ios_mutex();
     res = download_tile(z, row, col, uri, filepath, "");
   }
+
+  assert(filesystem::exists(filepath));
+  assert(std::filesystem::file_size(filepath) != 0);
 
   return res;
 }
