@@ -398,7 +398,7 @@ Component root {
   right_panel.plan_request -> ros_manager.plan_request
   right_panel.validate_plan -> ros_manager.validate_plan
   right_panel.update_graph -> ros_manager.update_graph
-  right_panel.itinerary_panel.plan_set -> ros_manager.validate_plan
+  right_panel.itinerary_panel.set_plan -> ros_manager.validate_plan
   right_panel.send_selected_tasks -> ros_manager.send_selected_tasks
   
 

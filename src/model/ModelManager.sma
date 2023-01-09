@@ -30,13 +30,29 @@ _native_code_
     #include <iostream>
     using namespace std;
 
-    //#include "core/property/text_property.h"
-    //#include "core/property/double_property.h"
-    //#include "core/property/int_property.h"
-    //#include "core/property/bool_property.h"
-    //#include "core/property/ref_property.h"
-
 %}
+
+// FIXME: Failed to do it directly in smala
+/*_action_
+action_clear_itineraries (Process src, Process self)
+{
+    print ("Clear itineraries...\n")
+
+    for itinerary : self.itineraries
+    //for (int i = 1; i <= 3; i++)
+    {
+        //itinerary = find (self.itineraries, i)
+        //int size = 
+        for (int j = 1; j <= itinerary.node_ids.size; j++)
+        {
+            print ("delete " + itinerary.node_ids.[j] + "\n")
+            //delete itinerary.node_ids.[j]
+            node_id = find (itinerary.node_ids, j)
+            remove node_id from itinerary.node_ids
+            delete node_id
+        }
+    }
+}*/
 
 _action_
 action_clear_itineraries (Process c)
@@ -77,27 +93,23 @@ action_clear_itineraries (Process c)
     }
 %}
 
-// FIXME: Failed to do it directly in smala
-/*_action_
-action_clear_itineraries (Process src, Process self)
-{
-    print ("Clear itineraries...\n")
 
-    for itinerary : self.itineraries
-    //for (int i = 1; i <= 3; i++)
+_action_
+action_clear_tasks (Process c)
+%{
+    Process *self = (Process*) get_native_user_data(c);
+
+    cout << "Clear tasks..." << endl;
+
+    /*for (int i = 1; i <= ; i++)
     {
-        //itinerary = find (self.itineraries, i)
-        //int size = 
-        for (int j = 1; j <= itinerary.node_ids.size; j++)
+        Process* task_area = self->find_child("task_areas/" + to_string(i));
+        if (task_area != nullptr)
         {
-            print ("delete " + itinerary.node_ids.[j] + "\n")
-            //delete itinerary.node_ids.[j]
-            node_id = find (itinerary.node_ids, j)
-            remove node_id from itinerary.node_ids
-            delete node_id
         }
-    }
-}*/
+    }*/
+%}
+
 
 
 _define_
@@ -110,6 +122,7 @@ ModelManager (Process _context, int _is_debug)
     print ("Model Manager\n")
 
 	Spike clear_itineraries
+    Spike clear_tasks
 
     Spike itineraries_updated
 
@@ -238,12 +251,18 @@ ModelManager (Process _context, int _is_debug)
     //  TASKS
     //
     // **************************************************************************************************
-    /*Component tasks {
-        List areas
-        List edges
-        List traps        
-    }*/
-    List task_areas
+    //List task_edge_ids
+
+    // Don't use list but edge id instead
     List task_edges
+
+    // Get a task edge with its edge id
+    //Component task_edges
+
+    List task_areas
     List task_traps
+
+    NativeAction na_clear_tasks (action_clear_tasks, this, 1)
+    clear_tasks -> na_clear_tasks
+    
 }

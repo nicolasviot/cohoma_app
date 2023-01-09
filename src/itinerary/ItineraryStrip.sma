@@ -23,7 +23,7 @@ ItineraryStrip (Process _context, Process _model, double dy)
     //FontWeight _ (DJN_NORMAL)
 	FontSize _ (5, 12)
 
-    Spike plan_set
+    Spike set_plan
 
 
 	Switch switch (false) {
@@ -55,13 +55,13 @@ ItineraryStrip (Process _context, Process _model, double dy)
 			Text cost_label (150, 28, "...") 
 			_model.cost =:> cost_label.text
 			
-			Button set_plan (bg, "set plan", 299, 3)
+			Button btn_set_plan (bg, "set plan", 299, 3)
 
-			44 =: set_plan.r.height
-			88 =: set_plan.r.width
-			24 =: set_plan.thisLabel.y
+			44 =: btn_set_plan.r.height
+			88 =: btn_set_plan.r.width
+			24 =: btn_set_plan.thisLabel.y
 
-			set_plan.click -> plan_set
+			btn_set_plan.click -> set_plan
 		}
 	}
 	_model.is_selected =:> switch.state

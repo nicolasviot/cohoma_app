@@ -22,7 +22,7 @@ ItineraryPanel (Process _context, Process _model_manager)
 	svg_itineraries = loadFromXML ("res/svg/Itinerary_Panel.svg")
 	gfx_itineraries << svg_itineraries.itinerary_panel
 
-	Spike plan_set
+	Spike set_plan
 	Spike start_waiting_anim
     Spike stop_waiting_anim
 
@@ -41,7 +41,7 @@ ItineraryPanel (Process _context, Process _model_manager)
 	}
 
 	for strip : strips {
-		strip.plan_set -> plan_set
+		strip.set_plan -> set_plan
 	}
 
 

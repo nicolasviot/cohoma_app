@@ -11,7 +11,8 @@ _native_code_
 	#include <iostream>
 %}
 
-// Visibility Map Layer ?
+
+// FIXME: Rename into "Visibility Map Layer"
 _define_
 EnvMapLayer (Process _map, Process _context)
 {
