@@ -87,8 +87,7 @@ class RosNode : public FatProcess, public ExternalSource
     void send_msg_update_trap_position(int, double, double);
     void save_console();
   #endif
-    void test_draw_visibility_map();
-    void write_to_log (string, string);
+    //void test_draw_visibility_map();
  
    private:
     const std::string _topic_name;

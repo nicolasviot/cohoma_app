@@ -38,7 +38,8 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 		{
 			print ("Node IDs added to itinerary " + this.model.type + ": " + this.model.node_ids.size + " nodes\n")
 
-			for (int i = 1; i < this.model.node_ids.size; i++) {
+			for (int i = 1; i < this.model.node_ids.size; i++)
+			{
 				//print ("New edge from " + this.model.node_ids.[i] + " to " + this.model.node_ids.[i+1] + "\n")
 
 				string edge_id = toString(this.model.node_ids.[i]) + "_" + toString(this.model.node_ids.[i+1])
@@ -50,6 +51,27 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 							ItineraryEdge edge (this.context, edge_model)
 							edge.click -> this.model.select
 						}
+					}
+				}
+				// edge model is null. Try in opposite direction: [i+1]_[i]
+				else
+				{
+					//print ("Try in opposite direction ? " + this.model.node_ids.[i+1] + " to " + this.model.node_ids.[i] + "\n")
+
+					string edge_id_opposite = toString(this.model.node_ids.[i+1]) + "_" + toString(this.model.node_ids.[i])
+					edge_model_opposite = find (this.model_manager.edges, edge_id_opposite)
+					if (&edge_model_opposite != null)
+					{
+						addChildrenTo this.itinerary_edges {
+							Component _ {
+								ItineraryEdge edge (this.context, edge_model_opposite)
+								edge.click -> this.model.select
+							}
+						}
+					}
+					else
+					{
+						print ("ERROR: NO edge " + this.model.node_ids.[i] + " <--> " + this.model.node_ids.[i+1] + " to create the itinerary !\n")
 					}
 				}
 			}

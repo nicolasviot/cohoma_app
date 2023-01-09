@@ -634,7 +634,14 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
     //cout << n_source << "-->" << n_target << "(" << length << "m) explored = " << explored << endl;
 
     const string& edge_id = msg.ugv_edges[i].source + "_" + msg.ugv_edges[i].target; 
-    Process* edge = _edge_models->find_child (edge_id);
+    Process* edge = _edge_models->find_child_impl (edge_id);
+
+    // edge model is null. Try in opposite direction: [target]_[source]
+    if (edge == nullptr) {
+      const string& edge_id_opposite = msg.ugv_edges[i].target + "_" + msg.ugv_edges[i].source; 
+      edge = _edge_models->find_child_impl (edge_id_opposite);
+    }
+    
     if (edge != nullptr) {
       TaskEdgeModel (_task_edge_models, "", edge, explored);
     }
@@ -1360,7 +1367,7 @@ RosNode::send_msg_trap_activation(int id, bool new_active_state){
 
 
 // FIXME useless ?
-void
+/*void
 RosNode::test_draw_visibility_map(){
 
   float lat_center_map = 44.27432196595285;
@@ -1450,7 +1457,7 @@ RosNode::test_draw_visibility_map(){
   // ask for draw
   _visibility_map->set_invalid_cache (true);
   _visibility_map->get_frame ()->damaged ()->activate (); // ?
-}
+}*/
 
 
 void
