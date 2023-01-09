@@ -31,45 +31,11 @@ _native_code_
     using namespace std;
 
     //#include "core/property/text_property.h"
-    #include "core/property/double_property.h"
+    //#include "core/property/double_property.h"
     //#include "core/property/int_property.h"
     //#include "core/property/bool_property.h"
     //#include "core/property/ref_property.h"
 
-    //Process* get_edge_model (Process* self, int id_1, int id_2)
-    Process* get_edge_model (Process* self, int index_1, int index_2)
-	{
-		Process* edge_model = nullptr;
-
-        Process* nodes = self->find_child("nodes");
-        int nodes_size = static_cast<IntProperty*>(nodes->find_child("size"))->get_value();
-
-        Process* edges = self->find_child("edges");
-        int edges_size = static_cast<IntProperty*>(edges->find_child("size"))->get_value();
-
-        //if ( (index_1 < nodes_size) && (index_2 << nodes_size) )
-        
-        Process* node_1 = nodes->find_child(to_string(index_1 + 1));
-        Process* node_2 = nodes->find_child(to_string(index_2 + 1));
-
-        //int id_1 = static_cast<IntProperty*>(node_1->find_child("id"))->get_value();
-        //int id_2 = static_cast<IntProperty*>(node_2->find_child("id"))->get_value();
-        //cout << "Get edge model at " << index_1 << " (id " << id_1 << ") -- at " << index_2 << " (id " << id_2 << ")" << endl;
-
-		for (int i = 1; i <= edges_size; i++)
-    	{
-			Process *edge = edges->find_child(to_string(i));
-			
-            if ( ( (node_1 == edge->find_child("node1")) || (node_1 == edge->find_child("node2")) )
-              && ( (node_2 == edge->find_child("node1")) || (node_2 == edge->find_child("node2")) ) )
-              {
-                //cout << "Edge model " << index_1 << " -- " << index_2 << " FOUND !!!" << endl;
-                edge_model = edge;
-                break;
-            }
-		}
-		return edge_model;
-	}
 %}
 
 _action_

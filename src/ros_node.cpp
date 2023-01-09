@@ -33,8 +33,6 @@ using std::placeholders::_1;
 using namespace djnn;
 using namespace std;
 
-extern Process* get_edge_model (Process* model_manager, int index_1, int index_2);
-
 // TODO : MP
 // remove - find_child
 // remove set_value
@@ -635,7 +633,8 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
     double explored = msg.ugv_edges[i].explored;
     //cout << n_source << "-->" << n_target << "(" << length << "m) explored = " << explored << endl;
 
-    Process* edge = get_edge_model (_model_manager, n_source, n_target);
+    const string& edge_id = msg.ugv_edges[i].source + "_" + msg.ugv_edges[i].target; 
+    Process* edge = _edge_models->find_child (edge_id);
     if (edge != nullptr) {
       TaskEdgeModel (_task_edge_models, "", edge, explored);
     }
