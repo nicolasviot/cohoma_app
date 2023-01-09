@@ -23,14 +23,11 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
   	Rectangle bg (0, 0, $_context.RIGHT_PANEL_WIDTH, 0, 0, 0)
 	_frame.height =:> bg.height
 
-	Spike plan_request 
+	Spike plan_request
 	Spike validate_plan  
 	Spike update_graph
-
-	Spike test_allocation_spike
-	Spike test_lima_spike
 	Spike send_selected_tasks
-	Spike test_visibility_map
+
 
 	// Legend for Nav Graph
 	Component nav_graph_legend
@@ -59,8 +56,8 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 			pressed -> hover (button.release, plan_request)
 			hover -> pressed (button.press)
 			pressed -> idle (button.leave)
-
 		}
+
 		FSM button_update_graph_FSM {
 			State idle{
 				#666682 =: button_update_graph.fill.value
@@ -89,19 +86,19 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 	// Panel with the 3 strips corresponding to 3 itineraries
 	ItineraryPanel itinerary_panel (_context, _model_manager)
 
-	plan_request -> itinerary_panel.start_waiting_anim
+	plan_request -> itinerary_panel.start_waiting_anim	
+	plan_request -> _model_manager.clear_itineraries
+	
 	_model_manager.itineraries_updated -> itinerary_panel.stop_waiting_anim
 
-
 	Translation _ (0, 200)
-	Component validate_tasks_button
-	{
+
+	Component validate_tasks_button {
 		validate_tasks_button_svg = loadFromXML ("res/svg/RightPanel_button.svg")
 		task_button << validate_tasks_button_svg.button
 
 		button aka task_button.bg
 		button_text aka task_button.text.text //un peu bizarre...
-
 
 		FSM button_FSM {
 			State idle{
@@ -146,25 +143,7 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 
 	Console console(0, 0, _ros_node)
 
-	Component debug {
-		/*StandAlonePushButton send_plan_req ("request plan", 20, 40)
-		send_plan_req.click -> plan_request
-		
-		StandAlonePushButton valid_plan ("validate plan", 20, 70)
-		valid_plan.click -> validate_plan
-
-		StandAlonePushButton update_graph_but ("send graph", 20, 100)
-		update_graph_but.click -> update_graph
-	
-		StandAlonePushButton test_allocation_button("test allocation", 20, 160)
-		test_allocation_button.click -> test_allocation_spike
-		
-		StandAlonePushButton test_lima_button("test lima", 20, 190)
-		test_lima_button.click -> test_lima_spike
-
-		StandAlonePushButton test_visibility_map_button("test_visibility_map", 20, 220)
-		test_visibility_map_button.click->test_visibility_map*/
-
+	Component debug {		
 		if (_model_manager.IS_DEBUG)
 		{
 			StandAlonePushButton btn_add_trap1 ("add trap 1", 20, 10)

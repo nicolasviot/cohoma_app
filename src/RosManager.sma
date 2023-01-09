@@ -10,8 +10,8 @@ validate_plan_fun (Process c)
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
   	#ifndef NO_ROS
-  if (node)
- 	 node->send_validation_plan(); 
+  	if (node)
+ 		node->send_validation_plan(); 
  	#endif
 %}
 
@@ -21,8 +21,8 @@ update_graph_fun (Process c)
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
   	#ifndef NO_ROS
-  if (node)
- 	 node->send_msg_navgraph_update();  
+  	if (node)
+ 		node->send_msg_navgraph_update();  
  	#endif
 %}
 
@@ -32,54 +32,21 @@ plan_request_fun (Process c)
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
   	#ifndef NO_ROS
-  if (node)
- 	 node->send_msg_planning_request(); 
+  	if (node)
+ 		node->send_msg_planning_request(); 
  	#endif
 %}
 
 _action_
-send_selected_allocation_fun (Process c)
+send_selected_tasks_fun (Process c)
 %{
 
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
   	#ifndef NO_ROS
   	if (node)
- 		node->send_selected_tasks(); 
+ 		node->send_selected_tasks();
  	#endif
-%}
-
-
-_action_
-test_lima (Process c)
-%{
-	Process *data = (Process*) get_native_user_data(c);
- 	RosNode *node = dynamic_cast<RosNode*>(data);
-	#ifndef NO_ROS
-  	node ->send_msg_lima(1); 
-	#endif
-  	
-%}
-
-_action_
-send_selected_tasks_native (Process c)
-%{
-	Process *data = (Process*) get_native_user_data(c);
-	RosNode *node = dynamic_cast<RosNode*>(data);
-	#ifndef NO_ROS
-	node->send_selected_tasks();
-	#endif
-%}
-
-
-_action_
-test_visibility_map_native (Process c)
-%{
-	#ifndef NO_ROS
-		Process *data = (Process*) get_native_user_data(c);
-		RosNode *node = dynamic_cast<RosNode*>(data);
-		node->test_draw_visibility_map();
-	#endif
 %}
 
 
@@ -95,12 +62,9 @@ RosManager (Process _parent, Process _map, Process _context, Process _model_mana
 	Spike update_graph
 	Spike plan_request
 	Spike validate_plan
-
-	Spike test_allocation_spike
-	Spike test_lima_spike
 	Spike send_selected_tasks
-	Spike test_visibility_map
 
+	// ROS node
 	RosNode node (map, context, model_manager)
 
   	NativeAction validate_plan_action (validate_plan_fun, node, 1)
@@ -112,15 +76,7 @@ RosManager (Process _parent, Process _map, Process _context, Process _model_mana
   	NativeAction plan_request_action (plan_request_fun, node, 1)
   	plan_request -> plan_request_action
 
-  	NativeAction test_send_allocated_action (send_selected_allocation_fun, node, 1)
-  	test_allocation_spike -> test_send_allocated_action
-
-  	NativeAction test_lima_action (test_lima, node, 1)
-  	test_lima_spike -> test_lima_action
-
-  	NativeAction send_selected_tasks_action(send_selected_tasks_native, node, 1)
+  	NativeAction send_selected_tasks_action(send_selected_tasks_fun, node, 1)
   	send_selected_tasks -> send_selected_tasks_action
-	
-  	NativeAction test_visibility_map_action(test_visibility_map_native, node, 1)
-  	test_visibility_map -> test_visibility_map_action
+
 }

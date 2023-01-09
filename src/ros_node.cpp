@@ -384,7 +384,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
 
   get_exclusive_access(DBG_GET);
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received " + std::to_string(msg->itineraries.size()) + " itineraries\n", true);
  
   if (msg->itineraries.size() == _itineraries.size())
@@ -401,6 +401,9 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       SET_CHILD_VALUE (Text, model, description_input, msg->itineraries[i].description, true)
       
       GET_CHILD_VAR2 (list_node_ids, CoreProcess, model, node_ids)
+      //GET_CHILD_VALUE (size_node_ids, Int, list_node_ids, size)
+
+      //cout << "Itinerary " << i << " has already " << size_node_ids << " nodes" << endl;
 
       for (int j = 0; j < msg->itineraries[i].nodes.size(); j++) {
         //cout << "New IntProperty " << msg->itineraries[i].nodes[j] << " in " << i << endl;
@@ -1363,6 +1366,7 @@ RosNode::send_msg_trap_activation(int id, bool new_active_state){
 }
 
 
+// FIXME useless ?
 void
 RosNode::test_draw_visibility_map(){
 

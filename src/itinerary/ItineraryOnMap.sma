@@ -8,8 +8,6 @@ import ItineraryEdge
 _native_code_
 %{
 	#include <iostream>
-
-	extern Process* get_edge_model (Process* model_manager, int index_1, int index_2);
 %}
 
 
@@ -24,7 +22,7 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 	_model.is_selected ? _context.SELECTED_ITINERARY_COL : _context.UNSELECTED_ITINERARY_COL =:> outline_color.value
 
 	// Sub views
-	Component itinerary_edges
+	List itinerary_edges
 
 	print ("Itinerary on Map " + _model.type + "\n")
 
@@ -43,7 +41,6 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 			for (int i = 1; i < this.model.node_ids.size; i++) {
 				//print ("New edge from " + this.model.node_ids.[i] + " to " + this.model.node_ids.[i+1] + "\n")
 
-				// edge_model = get_edge_model (this.model_manager, $this.model.node_ids.[i], $this.model.node_ids.[i+1])
 				string edge_id = toString(this.model.node_ids.[i]) + "_" + toString(this.model.node_ids.[i+1])
 				edge_model = find (this.model_manager.edges, edge_id)
 				if (&edge_model != null)
@@ -64,5 +61,10 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 
 	_model.node_ids.$removed -> na_node_id_removed:(this) {
 		print ("Node IDs removed from itinerary " + this.model.type + ": " + this.model.node_ids.size + " nodes\n")
+
+		for edge_parent : this.itinerary_edges {
+			delete edge_parent
+		}
 	}
+
 }

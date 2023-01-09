@@ -72,6 +72,67 @@ _native_code_
 	}
 %}
 
+_action_
+action_clear_itineraries (Process c)
+%{
+    Process *self = (Process*) get_native_user_data(c);
+
+    cout << "Clear itineraries..." << endl;
+
+    for (int i = 1; i <= 3; i++)
+    {
+        Process* itinerary = self->find_child("itineraries/" + to_string(i));
+        if (itinerary != nullptr)
+        {
+            string type = static_cast<TextProperty*>(itinerary->find_child("type"))->get_value();
+            Container* node_ids = dynamic_cast<Container*>(itinerary->find_child("node_ids"));
+            if (node_ids != nullptr)
+            {
+                int nodes_size = dynamic_cast<IntProperty*>(node_ids->find_child("size"))->get_value();
+                if (nodes_size > 0)
+                {
+                    cout << i << ": itinerary '" << type << "'' with " << nodes_size << " nodes. Clean up content..." << endl;
+                
+                    // FIXME: node_ids.$removed is not activated
+                    //node_ids->clean_up_content();
+
+                    vector <Process*> tmp;
+                    for (Process* node_id : node_ids->children()) {
+                        tmp.push_back(node_id);
+                    }
+                    for (Process* node_id : tmp)
+                    {
+                        node_ids->remove_child(node_id);
+                        node_id->schedule_delete();
+                    }
+                }
+            }
+        }
+    }
+%}
+
+// FIXME: Failed to do it directly in smala
+/*_action_
+action_clear_itineraries (Process src, Process self)
+{
+    print ("Clear itineraries...\n")
+
+    for itinerary : self.itineraries
+    //for (int i = 1; i <= 3; i++)
+    {
+        //itinerary = find (self.itineraries, i)
+        //int size = 
+        for (int j = 1; j <= itinerary.node_ids.size; j++)
+        {
+            print ("delete " + itinerary.node_ids.[j] + "\n")
+            //delete itinerary.node_ids.[j]
+            node_id = find (itinerary.node_ids, j)
+            remove node_id from itinerary.node_ids
+            delete node_id
+        }
+    }
+}*/
+
 
 _define_
 ModelManager (Process _context, int _is_debug)
@@ -81,6 +142,8 @@ ModelManager (Process _context, int _is_debug)
     Bool IS_DEBUG (_is_debug)
 
     print ("Model Manager\n")
+
+	Spike clear_itineraries
 
     Spike itineraries_updated
 
@@ -172,7 +235,6 @@ ModelManager (Process _context, int _is_debug)
 
     // Get a edge with its id
     Component edges
-    
 
     // Temporary edge during graph edition
     //EdgeModel temp_edge (this.nodes[..], this.nodes[..], 0.0)
@@ -184,14 +246,17 @@ ModelManager (Process _context, int _is_debug)
     //
     // **************************************************************************************************
     List itineraries {
-        ItineraryModel itinerary1 (_context, "shortest")
-        ItineraryModel itinerary2 (_context, "safest")
-        ItineraryModel itinerary3 (_context, "tradeoff")
+        ItineraryModel _ (_context, "shortest")
+        ItineraryModel _ (_context, "safest")
+        ItineraryModel _ (_context, "tradeoff")
     }
     // FIXME: use aka
     shortest_itinerary aka itineraries.[1]
     safest_itinerary aka itineraries.[2]
     tradeoff_itinerary aka itineraries.[3]
+
+    NativeAction na_clear_itineraries (action_clear_itineraries, this, 1)
+    clear_itineraries -> na_clear_itineraries
 
 
     // **************************************************************************************************
