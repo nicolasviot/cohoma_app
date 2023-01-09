@@ -171,9 +171,9 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/right_panel/clock/fw_console/input)
   GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_panel/console)
 
-  GET_CHILD_VAR2 (_georef_visibility_map, CoreProcess, _parent, parent/l/map/layers/result/georef_visibility_map)
+  GET_CHILD_VAR2 (_result_layer, CoreProcess, _parent, parent/l/map/layers/result/result_layer)
   GET_CHILD_VAR2 (_visibility_map, DataImage, _parent, parent/l/map/layers/result/visibility_map)
-  GET_CHILD_VAR2 (_visibility_map_resolution, DoubleProperty, _parent, parent/l/map/layers/result/visibility_map_resolution)
+
 
   //start the thread
   ExternalSource::start ();  
@@ -1257,21 +1257,15 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received exploration map update\n", true)
 
-  float lat_center = msg.origin.latitude;
-  float lon_center = msg.origin.longitude; 
-  float lat_center_map = msg.origin.latitude;
-  float lon_center_map = msg.origin.longitude;
+  //float lat_center_map = msg.origin.latitude;
+  //float lon_center_map = msg.origin.longitude;
   
   int w = msg.width;
   int h = msg.height;
 
-  if (_georef_visibility_map) {
-    SET_CHILD_VALUE (Double, _georef_visibility_map, lat, lat_center_map, true)
-    SET_CHILD_VALUE (Double, _georef_visibility_map, lon, lon_center_map, true)
-  }
-  
-  if (_visibility_map_resolution)
-    _visibility_map_resolution->set_value (msg.resolution, true);
+  SET_CHILD_VALUE (Double, _result_layer, visibility_map_resolution, msg.resolution, true)
+  SET_CHILD_VALUE (Double, _result_layer, visibility_map_lat, msg.origin.latitude, true)
+  SET_CHILD_VALUE (Double, _result_layer, visibility_map_lon, msg.origin.longitude, true)
 
   _visibility_map->width()->set_value (w, true);
   _visibility_map->height()->set_value (h, true);
@@ -1396,14 +1390,11 @@ RosNode::test_draw_visibility_map(){
                                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
       
   float resolution = 5; //cells are 5 meters large squares 
-
-  if (_georef_visibility_map) {
-    dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lat"))->set_value (lat_center_map, true);
-    dynamic_cast<DoubleProperty*> (_georef_visibility_map->find_child ("lon"))->set_value (lon_center_map, true);
-  }
-  if (_visibility_map_resolution)
-      _visibility_map_resolution->set_value (resolution, true);
   
+  SET_CHILD_VALUE (Double, _result_layer, visibility_map_resolution, resolution, true)
+  SET_CHILD_VALUE (Double, _result_layer, visibility_map_lat, lat_center_map, true)
+  SET_CHILD_VALUE (Double, _result_layer, visibility_map_lon, lon_center_map, true)
+
   _visibility_map->width()->set_value (w, true);
   _visibility_map->height()->set_value (h, true);
   _visibility_map->format()->set_value(5 , true);  // frame is ARGB_32 , QImage::Format_ARGB32 = 5 

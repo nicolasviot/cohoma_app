@@ -133,8 +133,7 @@ class RosNode : public FatProcess, public ExternalSource
     IntProperty _end_plan_vab_id;
 
     // Visibility_map
-    CoreProcess* _georef_visibility_map;
-    DoubleProperty* _visibility_map_resolution;
+    CoreProcess* _result_layer;
     DataImage* _visibility_map;
     
   

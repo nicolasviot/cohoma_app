@@ -17,7 +17,6 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/strip/Strip.sma src/strip/StripContainer.sma \
             src/graph/NodeStatusSelector.sma src/graph/Edge.sma src/graph/Node.sma src/graph/NavGraph.sma \
             src/trap/TrapStatusSelector.sma src/trap/Trap.sma \
-            src/task/TaskAreaSummit.sma \
             src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma \
             src/task/TaskLayer.sma src/trap/TrapLayer.sma \
             src/site/ExclusionArea.sma src/site/Lima.sma src/site/SiteLayer.sma \
