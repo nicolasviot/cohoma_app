@@ -284,13 +284,12 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible  {
-          EnvMapLayer layer (map)
+          EnvMapLayer layer (map, context)
         }
       }
       String name("Result")
-      georef_visibility_map aka ctrl_visibility.visible.layer.georef_visibility_map
+      result_layer aka ctrl_visibility.visible.layer
       visibility_map aka ctrl_visibility.visible.layer.visibility_map
-      visibility_map_resolution aka ctrl_visibility.visible.layer.visibility_map_resolution
     }
 
 

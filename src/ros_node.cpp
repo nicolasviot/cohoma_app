@@ -435,18 +435,39 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
 
   cout << "Receive msg FINAL itinerary (in graph) (id = " << msg->id << ")" << endl;
 
-  // schedule delete old itineraries
+  CoreProcess* model = nullptr;
 
-  /*Component *new_itinerary = new Component ( _itineraries_list, msg->id );
-  new TextProperty (new_itinerary, "id", msg->id);
-  List* new_ite_edges = new List (new_itinerary, "edges");
-  int ite_edges_size = msg->nodes.size ();
-  if ( ite_edges_size > 0) {
-    for (int i = 1; i < ite_edges_size; i++) {
-      ParentProcess* edge = Edge( new_ite_edges, "", std::stoi(msg->nodes[i-1]) + 1,std::stoi(msg->nodes[i]) + 1, 20, _nodes);
-      SET_CHILD_VALUE (Int, edge, outline_color/value, selected, true)
+  for (int i = 0; i < _itineraries.size(); i++)
+  {
+    model = _itineraries[i];
+    GET_CHILD_VALUE (model_uid, Text, model, uid)
+    if (model_uid != msg->id)
+    {
+      //cout << "Itinerary " << i << " is NOT the selected one. Remove its nodes !" << endl;
+
+      Container* node_ids = dynamic_cast<Container*>(model->find_child("node_ids"));
+      if (node_ids != nullptr)
+      {
+          GET_CHILD_VALUE (model_type, Text, model, type);
+          GET_CHILD_VALUE (nodes_size, Int, node_ids, size);
+          if (nodes_size > 0)
+          {
+              cout << i << ": itinerary '" << model_type << "'' with " << nodes_size << " nodes. Clean up content..." << endl;
+              vector <Process*> tmp;
+              for (Process* node_id : node_ids->children()) {
+                  tmp.push_back(node_id);
+              }
+              for (Process* node_id : tmp)
+              {
+                  node_ids->remove_child(node_id);
+                  node_id->schedule_delete();
+              }
+          }
+      }
     }
-  }*/
+    //else
+    //  cout << "Itinerary " << i << " is the selected one. Nothing to do !" << endl;
+  }
 
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
