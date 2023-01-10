@@ -108,7 +108,7 @@ action_clear_tasks (Process c)
         int tasks_size = dynamic_cast<IntProperty*>(task_areas->find_child("size"))->get_value();
         if (tasks_size > 0)
         {
-            cout << "Delete " << tasks_size << " tasks about AREA. Clean up content..." << endl;
+            cout << "Delete " << tasks_size << " tasks about an AREA. Clean up content..." << endl;
         
             vector <Process*> tmp;
             for (Process* task : task_areas->children()) {
@@ -129,7 +129,7 @@ action_clear_tasks (Process c)
         int tasks_size = dynamic_cast<IntProperty*>(task_edges->find_child("size"))->get_value();
         if (tasks_size > 0)
         {
-            cout << "Delete " << tasks_size << " tasks about EDGE. Clean up content..." << endl;
+            cout << "Delete " << tasks_size << " tasks about an EDGE. Clean up content..." << endl;
         
             vector <Process*> tmp;
             for (Process* task : task_edges->children()) {
@@ -138,6 +138,27 @@ action_clear_tasks (Process c)
             for (Process* task : tmp)
             {
                 task_edges->remove_child(task);
+                task->schedule_delete();
+            }
+        }
+    }
+
+    // TRAPS
+    Container* task_traps = dynamic_cast<Container*>(self->find_child("task_traps"));
+    if (task_traps != nullptr)
+    {
+        int tasks_size = dynamic_cast<IntProperty*>(task_traps->find_child("size"))->get_value();
+        if (tasks_size > 0)
+        {
+            cout << "Delete " << tasks_size << " tasks about a TRAP. Clean up content..." << endl;
+        
+            vector <Process*> tmp;
+            for (Process* task : task_traps->children()) {
+                tmp.push_back(task);
+            }
+            for (Process* task : tmp)
+            {
+                task_traps->remove_child(task);
                 task->schedule_delete();
             }
         }
