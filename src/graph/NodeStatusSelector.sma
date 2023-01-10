@@ -14,7 +14,7 @@ NodeStatusSelector (Process _frame, Process _context)
     DerefString model_status (_context.ref_node_status_edition, "status", DJNN_GET_ON_CHANGE)
     DerefDouble model_dx_in_map (_context.ref_node_status_edition, "dx_in_map", DJNN_GET_ON_CHANGE)
     DerefDouble model_dy_in_map (_context.ref_node_status_edition, "dy_in_map", DJNN_GET_ON_CHANGE)
-    //"id: " + model_id.value + " -- status: " + model_status.value =:> tp.input
+    "id: " + model_id.value + " -- status: " + model_status.value =:> tp.input
 
     Translation tr (0, 0)
     model_dx_in_map.value + 3 => tr.tx
@@ -81,6 +81,5 @@ NodeStatusSelector (Process _frame, Process _context)
         hidden -> visible (_context.is_null_node_status_edition.false)
         visible -> hidden (_context.is_null_node_status_edition.true)
     }
-    // FIXME: works only if menu is closed, then opened again
-    model_status.value =:> fsm.visible.fsm_status.initial 
+
 }
