@@ -19,6 +19,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <cassert>
+#include <thread>
+#include <semaphore>
 
 #include "gui/gui.h"
 
@@ -34,6 +36,8 @@
 #include "cpp/coords-utils.h"
 
 #include "core/utils/error.h"
+
+#define MAX_POOL 8
 
 using namespace std;
 
@@ -60,7 +64,86 @@ void check_and_build_dir(const std::string& path)
   filesystem::create_directories(path);
 }
 
-int download_tile(int z, int row, int col, const std::string& uri, const std::string& filepath, const std::string& proxy)
+
+static std::counting_semaphore<MAX_POOL> sem {MAX_POOL};
+static std::binary_semaphore sem_wr{1};
+static std::list <std::tuple<djnn::Process*, std::string, std::string>> request_queue ;
+static tiles_manager tm (MAX_POOL);
+static bool __init_tiles_manager = false;
+
+void init_tiles_manager () {
+  if (!__init_tiles_manager) {
+    tm.run ();
+    __init_tiles_manager = true;
+  }
+}
+
+void 
+tiles_manager::add_to_queue (std::tuple<djnn::Process*, std::string, std::string> p) {
+  djnn::lock_ios_mutex();
+  std::cerr << __FUNCTION__  << std::endl;
+  djnn::release_ios_mutex();
+  sem_wr.acquire (); // wait for request_queue
+  request_queue.push_back (p);
+  sem_wr.release (); // release reuest_queue
+}
+
+int nb_download = 0 ;
+
+void
+each_thread_does (){
+
+  djnn::lock_ios_mutex();
+  std::cerr << "\n" << " -- Thread " << std::this_thread::get_id() << " STARTED " << std::endl;
+  djnn::release_ios_mutex();
+
+  bool done = false;
+  while (!done){
+    sem.acquire (); // wait for a slot
+    sem_wr.acquire (); // wait for request_queue
+    
+    if (!request_queue.empty()) {
+      // copy data from queue
+      std::tuple<djnn::Process*, std::string, std::string> t = request_queue.front ();
+      request_queue.pop_front ();
+      sem_wr.release (); // release request_queue after poping
+      djnn::lock_ios_mutex();
+      std::cerr << "\n" << nb_download++ << " -- DOWNLOADING: " << std::get<1>(t) << " - file: " << std::get<2>(t) << std::endl;
+      djnn::release_ios_mutex();
+      
+      //work
+      download_tile (std::get<1>(t), std::get<2>(t), ""); // bloquing until curl did not finish
+      djnn::get_exclusive_access(DBG_GET); // wait for djnn
+      ((djnn::AbstractProperty*)(std::get<0>(t)->find_child("img/path")))->set_value(std::get<2>(t), true);
+      djnn::release_exclusive_access(DBG_GET); // realse djnn
+      //usleep (500); // simulate work
+
+    }
+    else {
+      sem_wr.release (); // release request_queue if empty
+      //done = true; 
+    }
+    sem.release (); // release slot
+  } 
+  djnn::lock_ios_mutex();
+  std::cerr << "\n" << " -- Thread " << std::this_thread::get_id() << " DONE ! " << std::endl;
+  djnn::release_ios_mutex();
+}
+
+void
+tiles_manager::run () {
+  for (int i = 0; i < _maxpool; ++i) {
+    thread_pool.push_back(std::thread(each_thread_does));
+  }
+  //for (std::thread &t: thread_pool)
+  //  t.join();
+}
+
+
+int nb_fd_opened = 0;
+int nb_fd_closed = 0;
+
+int download_tile(const std::string& uri, const std::string& filepath, const std::string& proxy)
 {
   using namespace curl;
   CURL* curl = curl_easy_init();
@@ -82,12 +165,12 @@ int download_tile(int z, int row, int col, const std::string& uri, const std::st
   FILE* fp = nullptr;
   while (tries && fp == nullptr) {
     errno = 0;
-    fp = fopen(filepath.c_str(), "wb");
+    fp = fopen(filepath.c_str(), "wb"); nb_fd_opened++;
     if (!fp) {
       if (errno == EMFILE) {
         djnn::lock_ios_mutex();
-        std::cerr << "too many open files, retrying later..." << __FL__;
-        usleep(500'000);
+        std::cerr << "too many open files, retrying later..."  << " ----- " << nb_fd_opened << " -- " << nb_fd_closed << __FL__ ;
+        sleep(1);
         djnn::release_ios_mutex();
       }
       else {
@@ -131,7 +214,7 @@ int download_tile(int z, int row, int col, const std::string& uri, const std::st
   if (res != CURLE_OK) {
     djnn::lock_ios_mutex();
     std::cerr << "ERROR -- performing curl: " << res << " " /*<< uri << " error: "*/ << curl_easy_strerror(res) << std::endl;
-    fclose(fp);
+    fclose(fp); nb_fd_closed++;
     int err = remove(filepath.c_str());
     if (err) perror("");
     djnn::release_ios_mutex();
@@ -141,7 +224,7 @@ int download_tile(int z, int row, int col, const std::string& uri, const std::st
   }
 
   curl_easy_cleanup(curl);
-  fclose(fp);
+  fclose(fp); nb_fd_closed++;
 
 #if 0 //DEBUG
   djnn::lock_ios_mutex();
@@ -169,7 +252,7 @@ int load_image_from_geoportail(int z, int row, int col, const std::string& name,
     // djnn::lock_ios_mutex();
     // std::cerr << "----->" << filepath << " NOT exist" << std::endl;
     // djnn::release_ios_mutex();
-    res = download_tile(z, row, col, uri, filepath, proxy);
+    res = download_tile(uri, filepath, proxy);
   }
 
   // file exist but size is null ? => try again
@@ -178,7 +261,7 @@ int load_image_from_geoportail(int z, int row, int col, const std::string& name,
     // djnn::lock_ios_mutex();
     // std::cerr << "----->" << filepath << " EMPTY " << std::endl;
     // djnn::release_ios_mutex();
-    res = download_tile(z, row, col, uri, filepath, proxy);
+    res = download_tile(uri, filepath, proxy);
   }
 
   assert(filesystem::exists(filepath));
@@ -187,6 +270,7 @@ int load_image_from_geoportail(int z, int row, int col, const std::string& name,
   return res;
 }
 
+#if 0
 int load_image_from_osm(int z, int row, int col, const std::string& name)
 {
   std::string uri = "http://a.tile.openstreetmap.fr/osmfr/"
@@ -220,9 +304,31 @@ int load_image_from_osm(int z, int row, int col, const std::string& name)
 
   return res;
 }
+#else
+void
+load_image_from_osm (djnn::Process* tile, int z, int row, int col, const std::string& name)
+{
+  std::string uri = "http://a.tile.openstreetmap.fr/osmfr/"
+    + std::to_string(z)
+    + "/"
+    + std::to_string(col)
+    + "/"
+    + std::to_string(row) + ".png";
+  std::string filepath = "cache/" + name + "/" + std::to_string(z) + "_" + std::to_string(col) + "_" + std::to_string(row) + ".png";
+
+  
+  tm.add_to_queue (std::make_tuple(tile, uri, filepath));
+
+  // assure que la queue n'est pas vide quand le premier thread démarre
+  init_tiles_manager ();
+}
+#endif
+
+
 
 void
 load_osm_tile(djnn::Process* src) {
+#if 0
   djnn::get_exclusive_access(DBG_GET);
 
   assert(src);
@@ -262,6 +368,42 @@ load_osm_tile(djnn::Process* src) {
   }
   ((djnn::AbstractProperty*)(data->find_child("img/path")))->set_value(new_path, true);
   djnn::release_exclusive_access(DBG_REL);
+#else
+  assert(src);
+  djnn::Process* tile = (djnn::Process*)get_native_user_data(src);
+
+  int X = getInt(tile->find_child("X"));
+  int Y = getInt(tile->find_child("Y"));
+  int Z = getInt(tile->find_child("Z"));
+  const std::string& layer_name = ((djnn::AbstractProperty*)(tile->find_child("layer_name")))->get_string_value();
+
+  std::string path = "src/img/default.png";
+
+  int max = pow(2, Z);
+  if (X < max && Y < max) {
+    std::string new_path = "cache/" + layer_name + "/" + std::to_string(Z) + "_" + std::to_string(X) + "_" + std::to_string(Y) + ".png";
+
+    // if file do not exist or empty
+    if (!filesystem::exists(new_path) || std::filesystem::file_size(new_path) == 0) {
+      load_image_from_osm(tile, Z, Y, X, layer_name);
+      djnn::lock_ios_mutex();
+      std::cerr << new_path << " doesn't exist or is empty" << std::endl;
+      djnn::release_ios_mutex();
+    }
+    else {
+      djnn::lock_ios_mutex();
+      std::cerr << new_path << " LOADING cache" << std::endl;
+      djnn::release_ios_mutex();
+      path = new_path;
+    }
+  }
+  else {
+    djnn::lock_ios_mutex();
+    std::cerr << "Warning - load_osm_tile - out of bounds x (" << X << ") or y (" << X << "), max is " << max << " (Z = " << Z << ")" << std::endl;
+    djnn::release_ios_mutex();
+  }
+  ((djnn::AbstractProperty*)(tile->find_child("img/path")))->set_value(path, true);
+#endif
 }
 
 void

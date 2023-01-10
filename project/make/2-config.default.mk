@@ -1,4 +1,4 @@
-CXXFLAGS += -std=c++17
+CXXFLAGS += -std=c++20
 CXXFLAGS += -MMD
 
 build_dir ?= build

@@ -69,10 +69,12 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
 
   Int zoomLevel (_zoom)
 
-  Int nbCols (ceil(_width/256) + 4)
-  Int nbRows (ceil(_height/256) + 4)
-  ceil(width/256) + 4 =:> nbCols
-  ceil(height/256) + 4 =:> nbRows
+  int extra_tiles = 4 //4
+
+  Int nbCols (ceil(_width/256) + extra_tiles)
+  Int nbRows (ceil(_height/256) + extra_tiles)
+  ceil(width/256) + extra_tiles =:> nbCols
+  ceil(height/256) + extra_tiles =:> nbRows
 
   Spike move_left
   Spike move_right
