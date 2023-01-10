@@ -36,7 +36,7 @@ import strip.StripContainer
 import SafetyPilot
 import Vehicule
 import task.TasksLayer
-import trap.TrapLayer
+import trap.TrapsLayer
 import trap.TrapStatusSelector
 import site.SiteLayer
 import menu.UpperLeftMenu
@@ -258,7 +258,7 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-          TrapLayer layer (map, context, model_manager)
+          TrapsLayer layer (map, context, model_manager)
         }
       }
       String name("Traps")

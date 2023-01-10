@@ -12,7 +12,7 @@ _native_code_
 
 
 _define_
-TrapLayer (Process _map, Process _context, Process _model_manager)
+TrapsLayer (Process _map, Process _context, Process _model_manager)
 {
 	map aka _map
 	context aka _context
