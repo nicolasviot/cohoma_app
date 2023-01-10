@@ -35,7 +35,7 @@ import RosManager
 import strip.StripContainer
 import SafetyPilot
 import Vehicule
-import task.TaskLayer
+import task.TasksLayer
 import trap.TrapLayer
 import trap.TrapStatusSelector
 import site.SiteLayer
@@ -271,7 +271,7 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-          TaskLayer layer (map, context, model_manager)
+          TasksLayer layer (map, context, model_manager)
         }
       }
       String name("Tasks")
@@ -333,7 +333,7 @@ Component root {
       Switch ctrl_visibility(visible){
         Component hidden
         Component visible{
-          TaskLayer layer (map, context, model_manager)
+          TasksLayer layer (map, context, model_manager)
         }
       }
       String name("Allocation")
@@ -388,27 +388,40 @@ Component root {
   show_reticule -> l.map.reticule.show_reticule, foreground.create
   hide_reticule -> l.map.reticule.hide_reticule, foreground.edit
 
+
+  // ----------------------------------------------------
   // ROS manager
   RosManager ros_manager (root, l.map, context, model_manager)
   
   // Right panel
   RightPanel right_panel (context, model_manager, f, ros_manager.node)
 
+  // ----------------------------------------------------
   // Ros node w/ all sub and pub fonctions
   right_panel.plan_request -> ros_manager.plan_request
-  right_panel.validate_plan -> ros_manager.validate_plan
   right_panel.update_graph -> ros_manager.update_graph
   right_panel.itinerary_panel.set_plan -> ros_manager.validate_plan
   right_panel.send_selected_tasks -> ros_manager.send_selected_tasks
   
+	right_panel.plan_request -> model_manager.clear_itineraries
 
+  // FIXME: We can't clear the model first, because views are coupled to these models and it generates errors in std-out:
+  // WARNING: 0  -  CouplingProcess::~CouplingProcess - noname
+  // WARNING: 0  -  CoreProcess::~CoreProcess - noname - _vertex is NOT NULL and it should
+  //right_panel.itinerary_panel.set_plan -> model_manager.clear_tasks
+
+  // --> Clear the view first
+  right_panel.itinerary_panel.set_plan -> root.l.map.layers.tasks.ctrl_visibility.visible.layer.clear
+	
+  // ----------------------------------------------------
   // Strips container
   StripContainer strips (context, model_manager, f)
 
+  // ----------------------------------------------------
   // Menu to show/hide layers
   UpperLeftMenu menu (l.map, f)
 
-
+  // ----------------------------------------------------
   // FSM to manage the addition of node in the graph
   FSM fsm_add_node {
     State idle 

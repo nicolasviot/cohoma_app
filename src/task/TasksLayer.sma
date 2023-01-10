@@ -13,14 +13,15 @@ _native_code_
 %}
 
 
-// FIXME: Rename into "Tasks Layer"
 _define_
-TaskLayer (Process _map, Process _context, Process _model_manager)
+TasksLayer (Process _map, Process _context, Process _model_manager)
 {
 	map aka _map
 	context aka _context
 	model_manager aka _model_manager
 	
+	Spike clear
+
 	Scaling sc (1, 1, 0, 0)
     _context.map_scale =:> sc.sx, sc.sy
 
@@ -48,9 +49,14 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 		}
 	}
 
-	_model_manager.task_areas.$removed -> na_task_areas_removed:(this) {
+	// FIXME: We can't clear the model first, because views are coupled to these models and it generates errors in std-out:
+	/*_model_manager.task_areas.$removed -> na_task_areas_removed:(this) {
 		print ("Model of task for area(s) removed from list " + this.model_manager.task_areas.size + "\n")
-	}
+	
+		for task : this.areas {
+			delete task
+		}
+	}*/
 
 
     // **************************************************************************************************
@@ -66,10 +72,6 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 
 	_model_manager.task_edges.$added -> na_task_edges_added:(this) {
 		print ("New model of task for edge(s) added to list " + this.model_manager.task_edges.size + "\n")
-		//model = getRef (&this.model_manager.task_edges.$added)
-    	//addChildrenTo this.edges {
-		//	TaskEdge task (this.map, this.context, model)
-		//}
 
 		for model : this.model_manager.task_edges {
 			addChildrenTo this.edges.lst {
@@ -78,9 +80,14 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 		}
 	}
 
-	_model_manager.task_edges.$removed -> na_task_edges_removed:(this) {
+	// FIXME: We can't clear the model first, because views are coupled to these models and it generates errors in std-out:
+	/*_model_manager.task_edges.$removed -> na_task_edges_removed:(this) {
 		print ("Model of task for edge(s) removed from list " + this.model_manager.task_edges.size + "\n")
-	}
+	
+		for task : this.edges.lst {
+			delete task
+		}
+	}*/
 
 
 	// **************************************************************************************************
@@ -106,6 +113,27 @@ TaskLayer (Process _map, Process _context, Process _model_manager)
 		print ("Model of task for trap(s) removed from list " + this.model_manager.task_traps.size + "\n")
 	}
 	
+
+	// **************************************************************************************************
+    //
+    //  ALL
+    //
+    // **************************************************************************************************
+
+	clear -> na_clear_tasks:(this) {
+		print ("CLEAR " + this.areas.size + " tasks about AREA and " + this.edges.lst.size + "  tasks about EDGE\n")
+	
+		for task_area : this.areas {
+			delete task_area
+		}
+
+		for task_edge : this.edges.lst {
+			delete task_edge
+		}
+	}
+	// Then, clear the models
+	na_clear_tasks -> _model_manager.clear_tasks
+
 
 	// **************************************************************************************************
     //

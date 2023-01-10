@@ -24,7 +24,6 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 	_frame.height =:> bg.height
 
 	Spike plan_request
-	Spike validate_plan  
 	Spike update_graph
 	Spike send_selected_tasks
 
@@ -86,12 +85,8 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 	// Panel with the 3 strips corresponding to 3 itineraries
 	ItineraryPanel itinerary_panel (_context, _model_manager)
 
-	// Add bindings from / to this panel
-	plan_request -> itinerary_panel.start_waiting_anim	
-	plan_request -> _model_manager.clear_itineraries
-
-	itinerary_panel.set_plan -> _model_manager.clear_tasks
-	
+	// Start / Stop waiting animation
+	plan_request -> itinerary_panel.start_waiting_anim		
 	_model_manager.itineraries_updated -> itinerary_panel.stop_waiting_anim
 
 

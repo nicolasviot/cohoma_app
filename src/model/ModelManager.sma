@@ -57,7 +57,7 @@ action_clear_itineraries (Process src, Process self)
 _action_
 action_clear_itineraries (Process c)
 %{
-    Process *self = (Process*) get_native_user_data(c);
+    Process* self = (Process*) get_native_user_data(c);
 
     cout << "Clear itineraries..." << endl;
 
@@ -97,17 +97,51 @@ action_clear_itineraries (Process c)
 _action_
 action_clear_tasks (Process c)
 %{
-    Process *self = (Process*) get_native_user_data(c);
+    Process* self = (Process*) get_native_user_data(c);
 
-    cout << "Clear tasks..." << endl;
+    cout << "Clear models of tasks..." << endl;
 
-    /*for (int i = 1; i <= ; i++)
+    // AREAS (ZONES)
+    Container* task_areas = dynamic_cast<Container*>(self->find_child("task_areas"));
+    if (task_areas != nullptr)
     {
-        Process* task_area = self->find_child("task_areas/" + to_string(i));
-        if (task_area != nullptr)
+        int tasks_size = dynamic_cast<IntProperty*>(task_areas->find_child("size"))->get_value();
+        if (tasks_size > 0)
         {
+            cout << "Delete " << tasks_size << " tasks about AREA. Clean up content..." << endl;
+        
+            vector <Process*> tmp;
+            for (Process* task : task_areas->children()) {
+                tmp.push_back(task);
+            }
+            for (Process* task : tmp)
+            {
+                task_areas->remove_child(task);
+                task->schedule_delete();
+            }
         }
-    }*/
+    }
+
+    // EDGES
+    Container* task_edges = dynamic_cast<Container*>(self->find_child("task_edges"));
+    if (task_edges != nullptr)
+    {
+        int tasks_size = dynamic_cast<IntProperty*>(task_edges->find_child("size"))->get_value();
+        if (tasks_size > 0)
+        {
+            cout << "Delete " << tasks_size << " tasks about EDGE. Clean up content..." << endl;
+        
+            vector <Process*> tmp;
+            for (Process* task : task_edges->children()) {
+                tmp.push_back(task);
+            }
+            for (Process* task : tmp)
+            {
+                task_edges->remove_child(task);
+                task->schedule_delete();
+            }
+        }
+    }
 %}
 
 
