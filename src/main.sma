@@ -478,7 +478,7 @@ Component root {
         string edge_id = source_id + "_" + target_id
 
         addChildrenTo root.model.edge_ids {
-          TextProperty _ (edge_id)
+          String _ (edge_id)
         }
         source = find (root.model.nodes, source_id)
         target = find (root.model.nodes, target_id)

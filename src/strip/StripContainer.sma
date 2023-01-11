@@ -1,4 +1,5 @@
 use core
+use gui
 use base
   
 import Strip

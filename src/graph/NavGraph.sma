@@ -158,18 +158,32 @@ NavGraph (Process _map, Process _context, Process _model_manager)
     //  DEBUG
     //
     // **************************************************************************************************
-	/*if (_model_manager.IS_DEBUG)
+	if (_model_manager.IS_DEBUG)
 	{
-		for model : _model_manager.nodes {
-			addChildrenTo this.nodes {
-				Node node (_map, _context, model)
+		print ("DEBUG: Load " + _model_manager.node_ids.size + " nodes and " + _model_manager.edge_ids.size + " edges...\n")
+
+		for node_id : _model_manager.node_ids {
+			string str_id = toString(node_id)
+
+			model = find (_model_manager.nodes, str_id)
+			if (&model != null) {
+				Node (nodes, "", _map, _context, model)
+			}
+			else {
+				print ("No model of node with id " + node_id + "\n")
 			}
 		}
 
-		for model : _model_manager.edges {
-			addChildrenTo this.edges.lst {
-				Edge edge (_context, model)
+		for edge_id : _model_manager.edge_ids {
+			string str_id = toString (edge_id)
+
+			model = find (_model_manager.edges, str_id)
+			if (&model != null) {
+				Edge (edges.lst, "", _context, model)
+			}
+			else {
+				print ("No model of edge with id " + edge_id + "\n")
 			}
 		}
-	}*/
+	}
 }

@@ -252,7 +252,7 @@ ModelManager (Process _context, int _is_debug)
         NodeModel (this.nodes, s_node_id, n_node_id, -1, "by operator", $this.temp_node.lat, $this.temp_node.lon, 0, 0)
 
         addChildrenTo this.node_ids {
-            TextProperty _ (s_node_id)
+            String _ (s_node_id)
         }
     }
 
