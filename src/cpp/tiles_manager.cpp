@@ -69,7 +69,6 @@ static std::counting_semaphore<MAX_POOL> sem {MAX_POOL};
 static std::binary_semaphore sem_wr{1};
 static std::list <std::tuple<djnn::Process*, std::string, std::string>> request_queue ;
 static bool __init_tiles_manager = false;
-static int request_queue_count = 0;
 static std::vector <std::thread> thread_pool(MAX_POOL);
 
 int nb_download = 0 ;
@@ -158,6 +157,11 @@ add_to_queue (std::tuple<djnn::Process*, std::string, std::string> p) {
   sem_wr.acquire (); // wait for request_queue
   request_queue.push_back (p);
   sem_wr.release (); // release reuest_queue
+
+  //this makes sure there is enough in the queue when the pool start
+  if (request_queue.size () > MAX_POOL) {
+    init_tiles_manager ();
+  }
 }
 
 int download_tile(const std::string& uri, const std::string& filepath, const std::string& proxy)
@@ -277,9 +281,6 @@ load_image_from_osm (djnn::Process* tile, int z, int row, int col, const std::st
   std::string filepath = "cache/" + name + "/" + std::to_string(z) + "_" + std::to_string(col) + "_" + std::to_string(row) + ".png";
 
   add_to_queue (std::make_tuple(tile, uri, filepath));
-
-  //there is already something in the queue when the threads start
-  init_tiles_manager ();
 }
 
 void
