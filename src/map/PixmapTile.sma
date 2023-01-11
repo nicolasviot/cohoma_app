@@ -4,13 +4,14 @@ use gui
 
 _native_code_
 %{
-#include <iostream>
+#include "cpp/tiles_manager.h"
 #include "cpp/coords-utils.h"
 #include <cmath>
+#include <iostream>
 %}
 
 _define_
-PixmapTile (int _x, int _y, int _zoomLevel, int row_m, int col_m, NativeCode loader, string name, string _proxy, Process opacity)
+PixmapTile (int _x, int _y, int _zoomLevel, int row_m, int col_m, string name, string _proxy, Process opacity)
 {
   Int Z (_zoomLevel)
   Int X (col_m)
@@ -35,7 +36,7 @@ PixmapTile (int _x, int _y, int _zoomLevel, int row_m, int col_m, NativeCode loa
   Int y (_y)
 
   Image img ("src/img/default.png", _x, _y, 256, 256)
-  NativeAction update_image (loader, this, 0)
+  NativeAction update_image (load_tiles_from, this, 0)
   Z->update_image
   X->update_image
   Y->update_image

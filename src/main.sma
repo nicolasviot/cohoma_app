@@ -176,8 +176,8 @@ Component root {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible {
-          MapLayer layer (f, map, load_geoportail_tile, "geoportail", "http://proxy.recherche.enac.fr:3128") // geoportail may need proxy - using https
-          //MapLayer layer (f, map, load_osm_tile, "osm", "") // osm do not need proxy - using http
+          //MapLayer layer (f, map, "geoportail", "http://proxy.recherche.enac.fr:3128") // geoportail may need proxy - using https
+          MapLayer layer (f, map, "osm", "") // osm do not need proxy - using http
         }
       }
       opacity aka ctrl_visibility.visible.layer.opacity

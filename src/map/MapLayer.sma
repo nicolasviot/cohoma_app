@@ -14,14 +14,13 @@ _native_code_
 #include "exec_env/global_mutex.h"
 #include "core/execution/graph.h"
 #include "core/core-dev.h"
-
 %}
 
 import PixmapTile
 import gui.animation.Animator
 
 _define_
-MapLayer (Process f, Process map, NativeCode loader, string name, string proxy)
+MapLayer (Process f, Process map, string name, string proxy)
 {
   check_and_build_dir ("cache/" + name)
 
@@ -90,7 +89,7 @@ MapLayer (Process f, Process map, NativeCode loader, string name, string proxy)
         for (int i = 0; i < $nbRows; i++) {
           List row {
             for (int j = 0; j < $nbCols; j++) {
-              PixmapTile _ (j*256, i*256, $zoomLevel, cur_row, cur_col, loader, name, proxy, opacity)
+              PixmapTile _ (j*256, i*256, $zoomLevel, cur_row, cur_col, name, proxy, opacity)
               cur_col++
             }
           }
@@ -110,7 +109,7 @@ MapLayer (Process f, Process map, NativeCode loader, string name, string proxy)
         for (int i = 0; i < $nbRows; i++) {
           List row {
             for (int j = 0; j < $nbCols; j++) {
-              PixmapTile _ (j*256, i*256, $zoomLevel, cur_row, cur_col, loader, name, proxy, opacity)
+              PixmapTile _ (j*256, i*256, $zoomLevel, cur_row, cur_col, name, proxy, opacity)
               cur_col++
             }
           }
