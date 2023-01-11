@@ -37,19 +37,33 @@
 
 #include "core/utils/error.h"
 
-#define MAX_POOL 8
+
 
 using namespace std;
 
 
 #include "core/utils/filesystem.h"
 
-namespace curl { // fix 'Rectangle' clash name for windowss
+namespace curl {
 #include <curl/curl.h>
 #include <curl/easy.h>
 }
 
-enum source_t { OSM, GEOPORTAIL };
+#define MAX_POOL 8
+struct __request { 
+  djnn::Process* tile;
+  int Z;
+  int X;
+  int Y;
+  string uri;
+  string filepath;
+  string proxy;
+} ;
+static std::counting_semaphore<MAX_POOL> sem {MAX_POOL};
+static std::binary_semaphore sem_wr{1};
+static std::list <__request> request_queue ;
+static bool __init_tiles_manager = false;
+static std::vector <std::thread> thread_pool(MAX_POOL);
 
 static size_t write_data(void* ptr, size_t size, size_t nmemb, void* stream)
 {
@@ -63,13 +77,6 @@ void check_and_build_dir(const std::string& path)
     return;
   filesystem::create_directories(path);
 }
-
-
-static std::counting_semaphore<MAX_POOL> sem {MAX_POOL};
-static std::binary_semaphore sem_wr{1};
-static std::list <std::tuple<djnn::Process*, std::string, std::string>> request_queue ;
-static bool __init_tiles_manager = false;
-static std::vector <std::thread> thread_pool(MAX_POOL);
 
 int nb_download = 0 ;
 
@@ -89,7 +96,7 @@ each_slot_does () {
     
     if (!request_queue.empty()) {
       // copy data from queue
-      std::tuple<djnn::Process*, std::string, std::string> t = request_queue.front ();
+      __request t = request_queue.front ();
       request_queue.pop_front ();
       sem_wr.release (); // release request_queue after poping
       // djnn::lock_ios_mutex();
@@ -97,10 +104,20 @@ each_slot_does () {
       // djnn::release_ios_mutex();
       
       //work
-      error = download_tile (std::get<1>(t), std::get<2>(t), ""); // bloquing until curl did not finish
+      error = download_tile (t.uri, t.filepath, t.proxy); // bloquing until curl did not finish
       if (!error) { 
         djnn::get_exclusive_access(DBG_GET); // wait for djnn
-        ((djnn::AbstractProperty*)(std::get<0>(t)->find_child("img/path")))->set_value(std::get<2>(t), true);
+        int X = getInt(t.tile->find_child("X"));
+        int Y = getInt(t.tile->find_child("Y"));
+        int Z = getInt(t.tile->find_child("Z"));
+        if (Z == t.Z && Y == t.Y && t.X == X) {
+          ((djnn::AbstractProperty*)(t.tile->find_child("img/path")))->set_value(t.filepath, true);
+        }
+        // else {
+        //   djnn::lock_ios_mutex();
+        //   std::cerr << " -- ERROR !: " << Z << " - " << X << " - " << Y << " NOT Matched !!" << std::endl;
+        //   djnn::release_ios_mutex();
+        // }
         djnn::release_exclusive_access(DBG_GET); // realse djnn
       }
     }
@@ -149,7 +166,7 @@ void init_tiles_manager () {
 }
 
 void 
-add_to_queue (std::tuple<djnn::Process*, std::string, std::string> p) {
+add_to_request_queue (__request& p) {
   // debug
   // djnn::lock_ios_mutex();
   // std::cerr << __FUNCTION__  << std::endl;
@@ -280,7 +297,16 @@ load_image_from_osm (djnn::Process* tile, int z, int row, int col, const std::st
     + std::to_string(row) + ".png";
   std::string filepath = "cache/" + name + "/" + std::to_string(z) + "_" + std::to_string(col) + "_" + std::to_string(row) + ".png";
 
-  add_to_queue (std::make_tuple(tile, uri, filepath));
+  __request t;
+  t.tile = tile;
+  t.Z = z;
+  t.X = col;
+  t.Y = row;
+  t.uri =  uri;
+  t.filepath =  filepath;
+  t.proxy =  "";
+
+  add_to_request_queue (t);
 }
 
 void

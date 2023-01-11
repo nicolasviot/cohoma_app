@@ -13,7 +13,6 @@
  */
 #include <string>
 #include "core/core-dev.h"
-#include <thread>
 
 void check_and_build_dir (const std::string &path);
 int download_tile (const std::string& uri, const std::string& filepath, const std::string& proxy);
