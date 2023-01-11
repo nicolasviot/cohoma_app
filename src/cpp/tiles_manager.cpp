@@ -83,6 +83,7 @@ each_slot_does () {
   // djnn::release_ios_mutex();
 
   bool done = false;
+  int error = 0;
   while (!done){
     sem.acquire (); // wait for a slot
     sem_wr.acquire (); // wait for request_queue
@@ -97,12 +98,12 @@ each_slot_does () {
       // djnn::release_ios_mutex();
       
       //work
-      download_tile (std::get<1>(t), std::get<2>(t), ""); // bloquing until curl did not finish
-      djnn::get_exclusive_access(DBG_GET); // wait for djnn
-      ((djnn::AbstractProperty*)(std::get<0>(t)->find_child("img/path")))->set_value(std::get<2>(t), true);
-      djnn::release_exclusive_access(DBG_GET); // realse djnn
-      //usleep (500); // simulate work
-
+      error = download_tile (std::get<1>(t), std::get<2>(t), ""); // bloquing until curl did not finish
+      if (!error) { 
+        djnn::get_exclusive_access(DBG_GET); // wait for djnn
+        ((djnn::AbstractProperty*)(std::get<0>(t)->find_child("img/path")))->set_value(std::get<2>(t), true);
+        djnn::release_exclusive_access(DBG_GET); // realse djnn
+      }
     }
     else {
       sem_wr.release (); // release request_queue if empty
@@ -159,10 +160,6 @@ add_to_queue (std::tuple<djnn::Process*, std::string, std::string> p) {
   sem_wr.release (); // release reuest_queue
 }
 
-
-int nb_fd_opened = 0;
-int nb_fd_closed = 0;
-
 int download_tile(const std::string& uri, const std::string& filepath, const std::string& proxy)
 {
   using namespace curl;
@@ -174,8 +171,6 @@ int download_tile(const std::string& uri, const std::string& filepath, const std
     return 1;
   }
 
-  auto tries = 1;
-
 #if 0 //DEBUG
   djnn::lock_ios_mutex();
   std::cerr << "----->" << uri << " - " << filepath << std::endl;
@@ -183,27 +178,15 @@ int download_tile(const std::string& uri, const std::string& filepath, const std
 #endif
 
   FILE* fp = nullptr;
-  while (tries && fp == nullptr) {
-    errno = 0;
-    fp = fopen(filepath.c_str(), "wb"); nb_fd_opened++;
-    if (!fp) {
-      if (errno == EMFILE) {
-        djnn::lock_ios_mutex();
-        std::cerr << "too many open files, retrying later..."  << " ----- " << nb_fd_opened << " -- " << nb_fd_closed << __FL__ ;
-        sleep(1);
-        djnn::release_ios_mutex();
-      }
-      else {
-        break;
-      }
-    }
-    --tries;
-  }
-
-  if (fp == nullptr) {
+  errno = 0;
+  fp = fopen(filepath.c_str(), "wb");
+  if (!fp) {
     djnn::lock_ios_mutex();
-    std::cerr << "Fail to create file " << filepath << std::endl;
+    std::cerr << "ERROR - tile_manager - Fail to create file " << filepath << std::endl;
     perror("");
+    if (errno == EMFILE) {
+      std::cerr << "ERROR - tile_manager - too many open files, retrying later..." << __FL__ ;
+    }
     djnn::release_ios_mutex();
     curl_easy_cleanup(curl);
     return 2;
@@ -223,18 +206,10 @@ int download_tile(const std::string& uri, const std::string& filepath, const std
   
   auto res = curl_easy_perform(curl);
 
-  // ERROR due to Timeout, or https behind proxies
-  tries = 1;
-  while (tries && res != CURLE_OK) {
-    usleep(500'000);
-    res = curl_easy_perform(curl);
-    --tries;
-  }
-
   if (res != CURLE_OK) {
     djnn::lock_ios_mutex();
     std::cerr << "ERROR -- performing curl: " << res << " " /*<< uri << " error: "*/ << curl_easy_strerror(res) << std::endl;
-    fclose(fp); nb_fd_closed++;
+    fclose(fp);
     int err = remove(filepath.c_str());
     if (err) perror("");
     djnn::release_ios_mutex();
@@ -244,7 +219,7 @@ int download_tile(const std::string& uri, const std::string& filepath, const std
   }
 
   curl_easy_cleanup(curl);
-  fclose(fp); nb_fd_closed++;
+  fclose(fp);
 
 #if 0 //DEBUG
   djnn::lock_ios_mutex();
