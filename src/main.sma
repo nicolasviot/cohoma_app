@@ -53,6 +53,14 @@ _native_code_
   #include "rclcpp/rclcpp.hpp"
   #endif
 
+  using namespace std;
+
+
+  double init_latitude = -1;
+  double init_longitude = -1;
+  string map_provider = "";
+  string proxy = "";
+
 
   static void
   init_ros ()
@@ -62,14 +70,61 @@ _native_code_
   #endif
   }
 
-  int
-  get_arg_double (int argc, char** argv, int n)
+  char* getCmdOption(char ** begin, char ** end, const std::string & option)
   {
-    if (argc < n+1) {
-      return -1;
+      char ** itr = std::find(begin, end, option);
+      if (itr != end && ++itr != end)
+      {
+          return *itr;
+      }
+      return 0;
+  }
+
+  bool cmdOptionExists(char** begin, char** end, const std::string& option)
+  {
+      return std::find(begin, end, option) != end;
+  }
+
+  void init_args (int argc, char * argv[])
+  {
+	  char* lat = getCmdOption(argv, argv + argc, "-lat");
+    if (lat) {
+        init_latitude = std::strtod (lat, nullptr);
     }
-    double r = std::strtod (argv[n], nullptr);
-    return r;
+    else {
+        init_latitude = 48.86109526727752;
+        cout << "using default latitude '" << init_latitude << "' of Beynes" << endl;
+    }
+
+    char* lon = getCmdOption(argv, argv + argc, "-lon");
+    if (lon) {
+        init_longitude = std::strtod (lon, nullptr);
+    }
+    else {
+        init_longitude = 1.8933138875646296;
+        cout << "using default longitude '" << init_longitude << "' of Beynes" << endl;
+    }
+
+    char* map = getCmdOption(argv, argv + argc, "-m");
+    if (map) {
+        map_provider = string (map);
+    }
+    else {
+        map_provider = "geoportail";
+        cout << "using default map provider: '" << map_provider << "'" << endl;
+    }
+
+    char* p = getCmdOption(argv, argv + argc, "-p");
+    if (p) {
+        proxy = string (p);
+    }
+
+    if (proxy == "") {
+      cout << "Run COHOMA with map provider '" << map_provider << "' at " << init_latitude << " " << init_longitude << " (without proxy)..." << endl;
+    }
+    else {
+      cout << "Run COHOMA with map provider '" << map_provider << "' at " << init_latitude << " " << init_longitude << " and proxy '" << proxy << "'..." << endl;
+    }
   }
 %}
 
@@ -77,31 +132,15 @@ _main_
 Component root {
 
   init_ros ()
+
+  init_args (argc, argv)
   
+
   // Use static data model for debug
   int is_debug = 1
   // Use "#ifndef NO_ROS" instead
 
-
-  double init_lat = get_arg_double (argc, argv, 1)
-  if (init_lat == -1) {
-    //Esperces data
-    //init_lat = 43.315313261816485
-    //Caylus data 
-    //init_lat = 44.27432196595285
-    //Beynes data
-    init_lat = 48.86109526727752
-  }
-  double init_lon = get_arg_double (argc, argv, 2)
-  if (init_lon == -1){
-    //Esperces data
-    //init_lon = 1.404974527891014
-    //Caylus data
-    //init_lon = 1.729783361205679
-    //Baynes data
-    init_lon = 1.8933138875646296
-  }
-  //maximum lvl of zoom of 19
+  // Maximum level of zoom of 19
   int init_zoom = 19
 
 
@@ -131,7 +170,7 @@ Component root {
   svg_drone = load_from_XML_once ("res/svg/drone.svg")
   svg_safety_pilot = load_from_XML_once("res/svg/safety_pilot.svg")
 
-  CohomaContext context (f, init_lat, init_lon, init_zoom)
+  CohomaContext context (f, init_latitude, init_longitude, init_zoom)
   /*context.ctrl -> {
     "key CONTROL" =: lp.input
   }
@@ -159,7 +198,7 @@ Component root {
 
     // ----------------------------------------------------
     //  MAP
-    Map map (f, 0, 0, init_frame_width - $context.RIGHT_PANEL_WIDTH, init_frame_height - $context.STRIP_HEIGHT, init_lat, init_lon, init_zoom)
+    Map map (f, 0, 0, init_frame_width - $context.RIGHT_PANEL_WIDTH, init_frame_height - $context.STRIP_HEIGHT, init_latitude, init_longitude, init_zoom)
     // FIXME: map crash if I add dynamic width/height:
     //f.width - context.RIGHT_PANEL_WIDTH =:> map.width
     //f.height - context.STRIP_HEIGHT =:> map.height
@@ -177,7 +216,7 @@ Component root {
         Component hidden
         Component visible {
           //MapLayer layer (f, map, "geoportail", "http://proxy.recherche.enac.fr:3128") // geoportail may need proxy - using https
-          MapLayer layer (f, map, "osm", "") // osm do not need proxy - using http
+          MapLayer layer (f, map, map_provider, proxy)
         }
       }
       opacity aka ctrl_visibility.visible.layer.opacity
@@ -189,7 +228,8 @@ Component root {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible {
-          MapLayer layer (f, map, load_osm_tile, "osm")
+          //MapLayer layer (f, map, "osm", "") // osm do not need proxy - using http
+          MapLayer layer (f, map, map_provider, proxy)
         }
       }
       opacity aka ctrl_visibility.visible.layer.opacity

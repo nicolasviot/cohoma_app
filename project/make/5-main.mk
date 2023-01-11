@@ -125,6 +125,25 @@ ld_library_path:=$(ld_library_path):$(abspath $(djnn_lib_path)):$(abspath $(smal
 
 test: $(exe)
 	(cd $(exe_dir); env $(LD_LIBRARY_PATH)=$(ld_library_path):$$$(LD_LIBRARY_PATH) $(launch_cmd) "$(shell pwd)/$(exe)")
+test_g: $(exe)
+	(cd $(exe_dir); env $(LD_LIBRARY_PATH)=$(ld_library_path):$$$(LD_LIBRARY_PATH) $(launch_cmd) "$(shell pwd)/$(exe)" -m geoportail)
+test_g_p: $(exe)
+	(cd $(exe_dir); env $(LD_LIBRARY_PATH)=$(ld_library_path):$$$(LD_LIBRARY_PATH) $(launch_cmd) "$(shell pwd)/$(exe)" -m geoportail -p http://proxy.recherche.enac.fr:3128)
+test_o: $(exe)
+	(cd $(exe_dir); env $(LD_LIBRARY_PATH)=$(ld_library_path):$$$(LD_LIBRARY_PATH) $(launch_cmd) "$(shell pwd)/$(exe)" -m osm)
+test_o_p: $(exe)
+	(cd $(exe_dir); env $(LD_LIBRARY_PATH)=$(ld_library_path):$$$(LD_LIBRARY_PATH) $(launch_cmd) "$(shell pwd)/$(exe)" -m osm -p http://proxy.recherche.enac.fr:3128)
+
+# Beynes (default): 48.86109526727752 1.8933138875646296
+
+# Esperces: 43.315313261816485 1.404974527891014
+test_g_e: $(exe)
+	(cd $(exe_dir); env $(LD_LIBRARY_PATH)=$(ld_library_path):$$$(LD_LIBRARY_PATH) $(launch_cmd) "$(shell pwd)/$(exe)" -m geoportail -lat 43.315313261816485 -lon 1.404974527891014)
+
+# Caylus: 44.27432196595285 1.729783361205679
+test_g_c: $(exe)
+	(cd $(exe_dir); env $(LD_LIBRARY_PATH)=$(ld_library_path):$$$(LD_LIBRARY_PATH) $(launch_cmd) "$(shell pwd)/$(exe)" -m geoportail -lat 44.27432196595285 -lon 1.729783361205679)
+
 dbg: $(exe)
 	(cd $(exe_dir); env $(LD_LIBRARY_PATH)=$(ld_library_path):$$$(LD_LIBRARY_PATH) $(debugger) "$(shell pwd)/$(exe)")
 .PHONY: test
