@@ -327,8 +327,10 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     {
       // We need a pointer on the TextProperty (else memory pb)
       TextProperty* tmp = new TextProperty (_node_ids, "", node_id);
+      //cout << "String _ (\"_" << node_id << "\")" << endl;
 
       NodeModel (_node_models, node_id, std::stoi(node_id), phase, label, latitude, longitude, altitude, mandatory);
+      //cout << "NodeModel _" << node_id << " (" + node_id << ", " << to_string(phase) << ", \"" << label << "\", " << latitude << ", " << longitude << ", " << altitude << ", " << mandatory << ")" << endl;
     }
     //else
     //  cout << "Model of node " << node_id << " already exist. Need to update it ?" << endl;
@@ -352,11 +354,13 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     {
       // We need a pointer on the TextProperty (else memory pb)
       TextProperty* tmp = new TextProperty (_edge_ids, "", edge_id);
+      //cout << "String _ (\"_" << edge_id << "\")" << endl;
 
       Process* source = _node_models->find_child (str_source);
       Process* target = _node_models->find_child (str_target);
 
       EdgeModel (_edge_models, edge_id, source, target, length);
+      //cout << "EdgeModel _" << edge_id << " (find(this.nodes, \"_" << str_source << "\"), find(this.nodes, \"_" << str_target << "\"), " << length << ")" << endl;
     }  
     //else
     //  cout << "Model of edge " << edge_id << " already exist. Need to update it ?" << endl;
