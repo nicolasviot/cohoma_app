@@ -12,7 +12,8 @@ UpperLeftMenu (Process map, Process f)
 {
  svg = loadFromXML ("res/svg/icon_menu.svg")
  main_bg << svg.layer1.main_bg
- Component ui {
+
+  Component ui {
     Scaling sc (0, 0, 0, 0)
     Int height (0)
     Int width (0)
@@ -39,27 +40,24 @@ UpperLeftMenu (Process map, Process f)
     TextAnchor _ (0)
     s1.y + s1.height + t2.height + 10 =:> pos2.ty
     int off_y = 0
-    int nb_items = 0
-    List cb_left {
+
+    List check_box_list {
       for item : map.layers {
         Component _ {
-          CheckBox cb (getString (item.name), 5, off_y)
+          CheckBox cb (toString (item.name), 5, off_y)
           cb.state =:> item.ctrl_visibility.state
-          width aka cb.min_width
-          String name (getString (item.name))
-
+          String name (toString (item.name))
         }
         off_y += 20
-        nb_items ++
       }
     }
-    //dump cb_left.[1]
 
-    s1.height + nb_items * 20 + t2.height + 20 =:> height
+    s1.height + check_box_list.size * 20 + t2.height + 20 =:> height
     s1.width =:> width
   }
 
   Animator anim (200, 0, 1, DJN_IN_SINE, 0, 0)
+
   FSM menu_animation {
     State start {
       fg << clone (svg.layer1.fg)
@@ -77,13 +75,13 @@ UpperLeftMenu (Process map, Process f)
     }
     State fold {
       1 - anim.output => ui.sc.sx, ui.sc.sy
-      (ui.width - 18)- anim.output * (ui.width - 18) + 28 =:> main_bg.width
+      (ui.width - 18) - anim.output * (ui.width - 18) + 28 =:> main_bg.width
       (ui.height - 13 + ui.pos.ty) - anim.output * (ui.height - 13 + ui.pos.ty) + 28 =:> main_bg.height
     }
     State unfolded {
       1 =: ui.sc.sx, ui.sc.sy
-      (ui.s1.width + 10) =: main_bg.width
-      (ui.height + 15 + ui.pos.ty) =: main_bg.height
+      ui.s1.width + 10 =: main_bg.width
+      ui.height + 15 + ui.pos.ty =: main_bg.height
       5 =: main_bg.ry
     }
     start->folded (f.move) // we need this to avoid a false move event at startup

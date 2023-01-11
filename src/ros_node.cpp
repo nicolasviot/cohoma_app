@@ -112,7 +112,7 @@ RosNode::impl_activate ()
   _end_plan_vab_id.activate();
 
   GET_CHILD_VAR2 (_frame, CoreProcess, _parent, parent/f)
-  GET_CHILD_VAR2 (_layer_filter, CoreProcess, _parent, parent/menu/ui/cb_left)
+  GET_CHILD_VAR2 (_layer_filter, CoreProcess, _parent, parent/menu/ui/check_box_list)
 
   // ---------------------------
   // MODEL
