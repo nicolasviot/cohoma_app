@@ -1304,7 +1304,7 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
   _visibility_map->format()->set_value(5 , true);  // DO NOT Change frame is ARGB_32 , QImage::Format_ARGB32 = 5 
 
   int octect = 4;
-  int size_map = w*h*octect;;
+  int size_map = w*h*octect;
       
   frame_data.reserve(size_map);
 
@@ -1313,11 +1313,12 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
   data = &frame_data;
 
   //color:
-  //ugv_camera => yellow ( #f4d03f )
-  //uav_camera => purple ( #9b59b6 )
-  //uav_camera && ugv_camera => cyan #7fb3d5
+  //ugv_camera => yellow ( #f4d03f ) // Vince #FFFF00
+  //uav_camera => purple ( #9b59b6 ) // Vince #800080
+  //uav_camera && ugv_camera => cyan #7fb3d5 // Vince #00FFFF
 
-  for (int i = 0 ;  i < w*h ; i++ ) {
+  for (int i = 0;  i < w*h; i++)
+  {
     int j0 = i*octect;
     int j1 = j0 + 1;
     int j2 = j0 + 2;
@@ -1330,15 +1331,15 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
         frame_data[j0] = static_cast<char>(0x3F); //B
         frame_data[j1] = static_cast<char>(0xD0); //G
         frame_data[j2] = static_cast<char>(0xF4); //R
-        frame_data[j3] = static_cast<char>(0x6A); //A
+        frame_data[j3] = static_cast<char>(0x6A); //A = 106
       }
       if (msg.uav_camera_layer[i] != 0)
       {
         //purple
-        frame_data[j0] = static_cast<char>(0x9B); //B
+        frame_data[j0] = static_cast<char>(0xB6); //B
         frame_data[j1] = static_cast<char>(0x59); //G
-        frame_data[j2] = static_cast<char>(0xB6); //R
-        frame_data[j3] = static_cast<char>(0x6A); //A
+        frame_data[j2] = static_cast<char>(0x9B); //R
+        frame_data[j3] = static_cast<char>(0x6A); //A = 106
       }
       if ((msg.ugv_camera_layer[i] != 0) && (msg.uav_camera_layer[i] != 0))
       {
@@ -1346,7 +1347,7 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
         frame_data[j0] = static_cast<char>(0xD5); //B
         frame_data[j1] = static_cast<char>(0xB3); //G
         frame_data[j2] = static_cast<char>(0x7F); //R
-        frame_data[j3] = static_cast<char>(0x6A); //A
+        frame_data[j3] = static_cast<char>(0x6A); //A = 106
       }
       if ((msg.uav_camera_layer[i] == 0) && (msg.ugv_camera_layer[i] == 0))
       {
@@ -1354,7 +1355,7 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
         frame_data[j0] = static_cast<char>(0xFF); //B
         frame_data[j1] = static_cast<char>(0xFF); //G
         frame_data[j2] = static_cast<char>(0xFF); //R
-        frame_data[j3] = static_cast<char>(0x00); //A
+        frame_data[j3] = static_cast<char>(0x00); //A = 0
       }
     }
   }
