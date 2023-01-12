@@ -53,7 +53,7 @@ struct __request {
   string filepath;
   string proxy;
 } ;
-static std::counting_semaphore<MAX_POOL> sem {MAX_POOL};
+static std::counting_semaphore<MAX_POOL> sem_pool{0};
 static std::binary_semaphore sem_wr{1};
 static std::list <__request> request_queue ;
 static bool __init_tiles_manager = false;
@@ -143,30 +143,21 @@ download_tile(const std::string& uri, const std::string& filepath, const std::st
   return 0;
 }
 
-
 static void
 each_slot_does () {
 
-  // debug
-  // djnn::lock_ios_mutex();
-  // std::cerr << "\n" << " -- Thread " << std::this_thread::get_id() << " STARTED " << std::endl;
-  // djnn::release_ios_mutex();
-
-  bool done = false;
   int error = 0;
-  while (!done){
-    sem.acquire (); // wait for a slot
+  while (1){
+    sem_pool.acquire (); // wait for a slot
     sem_wr.acquire (); // wait for request_queue
-    
+
     if (!request_queue.empty()) {
+
       // copy data from queue
       __request t = request_queue.front ();
       request_queue.pop_front ();
       sem_wr.release (); // release request_queue after poping
-      // djnn::lock_ios_mutex();
-      // std::cerr << "\n" << nb_download++ << " -- DOWNLOADING: " << std::get<1>(t) << " - file: " << std::get<2>(t) << std::endl;
-      // djnn::release_ios_mutex();
-      
+
       //work
       error = download_tile (t.uri, t.filepath, t.proxy); // bloquing until curl did not finish
       if (!error) { 
@@ -187,68 +178,36 @@ each_slot_does () {
     }
     else {
       sem_wr.release (); // release request_queue if empty
-      done = true; 
     }
-    sem.release (); // release slot
   } 
-  // debug
-  // djnn::lock_ios_mutex();
-  // std::cerr << "\n" << " -- Thread " << std::this_thread::get_id() << " DONE ! " << std::endl;
-  // djnn::release_ios_mutex();
-}
-
-static void
-run_manager () {
-
-  // debug
-  // djnn::lock_ios_mutex();
-  // std::cerr << " -- Thread  RUN " << std::this_thread::get_id() << " STARTED " << std::endl;
-  // djnn::release_ios_mutex();
-
-  for (int i = 0; i < MAX_POOL; ++i) {
-    thread_pool.push_back(std::thread(each_slot_does));
-  }
-  for (std::thread &t: thread_pool)
-    if(t.joinable()){t.join();}
-  // uninit tiles_manager
-  __init_tiles_manager = false ;
-
-  //debug
-  // djnn::lock_ios_mutex();
-  // std::cerr << "\n" << " -- Thread  RUN " << std::this_thread::get_id() << " DONE " << std::endl;
-  // djnn::release_ios_mutex();
 }
 
 static void 
 wakeup_tiles_manager () {
-
   if (!__init_tiles_manager) {
     __init_tiles_manager = true;
-    std::thread t (run_manager);
-    t.detach ();
-  }
 
+    for (int i = 0; i < MAX_POOL; ++i) {
+    thread_pool.push_back(std::thread(each_slot_does));
+    }
+  }
 }
 
 static void 
 add_to_request_queue (__request& p) {
-  // debug
-  // djnn::lock_ios_mutex();
-  // std::cerr << __FUNCTION__  << std::endl;
-  // djnn::release_ios_mutex();
+  
   sem_wr.acquire (); // wait for request_queue
   request_queue.push_back (p);
   sem_wr.release (); // release reuest_queue
 
-  //this makes sure there is enough in the queue when the pool start
-  if (request_queue.size () > MAX_POOL/4) {
-    wakeup_tiles_manager ();
-  }
+  wakeup_tiles_manager (); //if necessary
+
+  sem_pool.release (); // release a slot
 }
 
 static void
 build_request (djnn::Process* tile, int z, int row, int col, const std::string& filepath, const std::string& layer_name)
-{
+{ 
   // proxy
   std::string proxy = ((djnn::AbstractProperty*)(tile->find_child("proxy")))->get_string_value();
 
