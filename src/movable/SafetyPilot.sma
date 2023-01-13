@@ -14,8 +14,6 @@ _native_code_
 _define_
 SafetyPilot (Process map, Process _context, Process _model, Process _svg)
 {
-    //APP-6A: Symbologie militaire interarmées de l'OTAN
-
     //context aka _context
     model aka _model
     

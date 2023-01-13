@@ -25,15 +25,15 @@ import model.EdgeModel
 
 import map.Map
 import map.MapLayer
-import map.EnvMapLayer
+import VisibilityMapLayer
 import graph.Node
 import graph.NavGraph
 import graph.NodeStatusSelector
 import itinerary.Itineraries
 import RosManager
 import strip.StripContainer
-import SafetyPilot
-import Vehicule
+import movable.SafetyPilot
+import movable.Vehicle
 import task.TasksLayer
 import trap.TrapsLayer
 import trap.TrapStatusSelector
@@ -252,12 +252,12 @@ Component root {
           context.map_translation_y =:> pos.ty
 
           List layers {
-            Vehicule vab (map, context, model_manager.vehicles.vab, svg_vab)
-            Vehicule agilex1 (map, context, model_manager.vehicles.agilex1, svg_robot)
-            Vehicule agilex2 (map, context, model_manager.vehicles.agilex2, svg_robot)
-            Vehicule lynx (map, context, model_manager.vehicles.lynx, svg_robot)
-            Vehicule spot (map, context, model_manager.vehicles.spot, svg_robot)
-            Vehicule drone (map, context, model_manager.vehicles.drone, svg_drone)
+            Vehicle vab (map, context, model_manager.vehicles.vab, svg_vab)
+            Vehicle agilex1 (map, context, model_manager.vehicles.agilex1, svg_robot)
+            Vehicle agilex2 (map, context, model_manager.vehicles.agilex2, svg_robot)
+            Vehicle lynx (map, context, model_manager.vehicles.lynx, svg_robot)
+            Vehicle spot (map, context, model_manager.vehicles.spot, svg_robot)
+            Vehicle drone (map, context, model_manager.vehicles.drone, svg_drone)
           }
         }
       }
@@ -323,12 +323,12 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible  {
-          EnvMapLayer layer (map, context)
+          VisibilityMapLayer layer (map, context)
         }
       }
       String name("Result")
       result_layer aka ctrl_visibility.visible.layer
-      visibility_map aka ctrl_visibility.visible.layer.visibility_map
+      image aka ctrl_visibility.visible.layer.image
     }
 
 

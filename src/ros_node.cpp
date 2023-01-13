@@ -172,7 +172,7 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_panel/console)
 
   GET_CHILD_VAR2 (_result_layer, CoreProcess, _parent, parent/l/map/layers/result/result_layer)
-  GET_CHILD_VAR2 (_visibility_map, DataImage, _parent, parent/l/map/layers/result/visibility_map)
+  GET_CHILD_VAR2 (_image, DataImage, _parent, parent/l/map/layers/result/image)
 
 
   //start the thread
@@ -1299,9 +1299,9 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
   SET_CHILD_VALUE (Double, _result_layer, visibility_map_lat, msg.origin.latitude, true)
   SET_CHILD_VALUE (Double, _result_layer, visibility_map_lon, msg.origin.longitude, true)
 
-  _visibility_map->width()->set_value (w, true);
-  _visibility_map->height()->set_value (h, true);
-  _visibility_map->format()->set_value(5 , true);  // DO NOT Change frame is ARGB_32 , QImage::Format_ARGB32 = 5 
+  _image->width()->set_value (w, true);
+  _image->height()->set_value (h, true);
+  _image->format()->set_value(5 , true);  // DO NOT Change frame is ARGB_32 , QImage::Format_ARGB32 = 5 
 
   int octect = 4;
   int size_map = w*h*octect;
@@ -1309,7 +1309,7 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
   frame_data.reserve(size_map);
 
   // link frame_data to the data_image
-  string*& data = _visibility_map->get_data_ref();
+  string*& data = _image->get_data_ref();
   data = &frame_data;
 
   //color:
@@ -1361,8 +1361,8 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
   }
 
   //ask for draw
-  _visibility_map->set_invalid_cache (true);
-  _visibility_map->get_frame ()->damaged ()->activate (); // ?
+  _image->set_invalid_cache (true);
+  _image->get_frame ()->damaged ()->activate (); // ?
       
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
@@ -1428,9 +1428,9 @@ RosNode::test_draw_visibility_map(){
   SET_CHILD_VALUE (Double, _result_layer, visibility_map_lat, lat_center_map, true)
   SET_CHILD_VALUE (Double, _result_layer, visibility_map_lon, lon_center_map, true)
 
-  _visibility_map->width()->set_value (w, true);
-  _visibility_map->height()->set_value (h, true);
-  _visibility_map->format()->set_value(5 , true);  // frame is ARGB_32 , QImage::Format_ARGB32 = 5 
+  _image->width()->set_value (w, true);
+  _image->height()->set_value (h, true);
+  _image->format()->set_value(5 , true);  // frame is ARGB_32 , QImage::Format_ARGB32 = 5 
 
   int octect = 4;
   int size_map = w*h*octect;;
@@ -1438,7 +1438,7 @@ RosNode::test_draw_visibility_map(){
   frame_data.reserve(size_map);
 
   // link frame_data to the data_image
-  string*& data = _visibility_map->get_data_ref();
+  string*& data = _image->get_data_ref();
   data = &frame_data;
 
   //ugv_camera => yellow ( #f4d03f )
@@ -1481,8 +1481,8 @@ RosNode::test_draw_visibility_map(){
   }
 
   // ask for draw
-  _visibility_map->set_invalid_cache (true);
-  _visibility_map->get_frame ()->damaged ()->activate (); // ?
+  _image->set_invalid_cache (true);
+  _image->get_frame ()->damaged ()->activate (); // ?
 }*/
 
 

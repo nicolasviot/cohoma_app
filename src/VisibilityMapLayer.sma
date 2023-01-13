@@ -12,9 +12,8 @@ _native_code_
 %}
 
 
-// FIXME: Rename into "Visibility Map Layer"
 _define_
-EnvMapLayer (Process _map, Process _context)
+VisibilityMapLayer (Process _map, Process _context)
 {
 	Double visibility_map_resolution (1)
 	Double visibility_map_lat (0)
@@ -31,7 +30,7 @@ EnvMapLayer (Process _map, Process _context)
 	Translation t_to_center (0, 0)
 	Scaling scale (1, 1, 0, 0)
 
-	DataImage visibility_map (0, 0, 0, 0)
+	DataImage image (0, 0, 0, 0)
 
 	// Update the position via "t_to_georef" in function of lat/lon and current zoom level
 	NotDraggableItem not_draggable_item (_map, visibility_map_lat, visibility_map_lon, t_to_georef.tx, t_to_georef.ty)
@@ -40,6 +39,6 @@ EnvMapLayer (Process _map, Process _context)
 	visibility_map_resolution * _map.scaling_factor_correction / get_resolution ($_map.zoomLevel) =:> scale.sx
 	visibility_map_resolution * _map.scaling_factor_correction / get_resolution ($_map.zoomLevel) =:> scale.sy
 
-	- (visibility_map.width * visibility_map_resolution * _map.scaling_factor_correction/ get_resolution ($_map.zoomLevel)) / 2 =:> t_to_center.tx
-	- (visibility_map.height * visibility_map_resolution * _map.scaling_factor_correction/ get_resolution ($_map.zoomLevel)) / 2 =:> t_to_center.ty
+	- (image.width * visibility_map_resolution * _map.scaling_factor_correction/ get_resolution ($_map.zoomLevel)) / 2 =:> t_to_center.tx
+	- (image.height * visibility_map_resolution * _map.scaling_factor_correction/ get_resolution ($_map.zoomLevel)) / 2 =:> t_to_center.ty
 }
