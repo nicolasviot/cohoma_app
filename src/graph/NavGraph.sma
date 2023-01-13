@@ -11,7 +11,11 @@ _native_code_
 	using namespace std;
 %}
 
-
+//**************************************************************************************************
+//
+//  NODES
+//
+//**************************************************************************************************
 _action_
 action_node_ids_added (Process src, Process self)
 {
@@ -56,6 +60,11 @@ action_node_ids_removed (Process src, Process self)
 }
 
 
+//**************************************************************************************************
+//
+//  EDGES
+//
+//**************************************************************************************************
 _action_
 action_edge_ids_added (Process src, Process self)
 {
@@ -112,52 +121,49 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 	//Spike create_bindings
 	//Spike clear
 
-	Scaling sc (1, 1, 0, 0)
-	_context.map_scale =:> sc.sx, sc.sy
+	Layer layer {
 
-	Translation pos (0, 0)
-	_context.map_translation_x =:> pos.tx
-	_context.map_translation_y =:> pos.ty
+		Scaling sc (1, 1, 0, 0)
+		_context.map_scale =:> sc.sx, sc.sy
+
+		Translation pos (0, 0)
+		_context.map_translation_x =:> pos.tx
+		_context.map_translation_y =:> pos.ty
+
+		//____________________
+		//
+		// EDGES
+		Component edges {
+			OutlineColor outline_color ($_context.EDGE_COLOR)
+			//OutlineOpacity _ (0.3)
+
+			List lst
+		}
+
+		NativeAction na_edge_ids_added (action_edge_ids_added, this, 1)
+		_model_manager.edge_ids.$added -> na_edge_ids_added
+
+		NativeAction na_edge_ids_removed (action_edge_ids_removed, this, 1)
+		_model_manager.edge_ids.$removed -> na_edge_ids_removed
 
 
-	// **************************************************************************************************
-    //
-    //  EDGES
-    //
-    // **************************************************************************************************
-	Component edges {
-		OutlineColor outline_color ($_context.EDGE_COLOR)
-		//OutlineOpacity _ (0.3)
+		//____________________
+		//
+		// NODES
+		List nodes
 
-		List lst
+		NativeAction na_node_ids_added (action_node_ids_added, this, 1)
+		_model_manager.node_ids.$added -> na_node_ids_added
+
+		NativeAction na_node_ids_removed (action_node_ids_removed, this, 1)
+		_model_manager.node_ids.$removed -> na_node_ids_removed
 	}
 
-	NativeAction na_edge_ids_added (action_edge_ids_added, this, 1)
-	_model_manager.edge_ids.$added -> na_edge_ids_added
 
-	NativeAction na_edge_ids_removed (action_edge_ids_removed, this, 1)
-	_model_manager.edge_ids.$removed -> na_edge_ids_removed
-
-
-	// **************************************************************************************************
-    //
-    //  NODES
-    //
-    // **************************************************************************************************
-	List nodes
-
-	NativeAction na_node_ids_added (action_node_ids_added, this, 1)
-	_model_manager.node_ids.$added -> na_node_ids_added
-
-	NativeAction na_node_ids_removed (action_node_ids_removed, this, 1)
-	_model_manager.node_ids.$removed -> na_node_ids_removed
-
-
-	// **************************************************************************************************
-    //
-    //  DEBUG
-    //
-    // **************************************************************************************************
+	//____________________
+	//
+	//  DEBUG
+	//
 	if (_model_manager.IS_DEBUG)
 	{
 		print ("DEBUG: Load " + _model_manager.node_ids.size + " nodes and " + _model_manager.edge_ids.size + " edges...\n")
@@ -167,7 +173,7 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 
 			model = find (_model_manager.nodes, str_id)
 			if (&model != null) {
-				Node (nodes, "", _map, _context, model)
+				Node (layer.nodes, "", _map, _context, model)
 			}
 			else {
 				print ("No model of node with id " + node_id + "\n")
@@ -179,7 +185,7 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 
 			model = find (_model_manager.edges, str_id)
 			if (&model != null) {
-				Edge (edges.lst, "", _context, model)
+				Edge (layer.edges.lst, "", _context, model)
 			}
 			else {
 				print ("No model of edge with id " + edge_id + "\n")
