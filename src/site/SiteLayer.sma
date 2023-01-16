@@ -35,10 +35,16 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 		// LIMITS
 		Component limits {
 			NoFill _
-			OutlineWidth outline_width (6)
-			OutlineColor outline_color (#14BE14)
 			
-			Polyline poly_line
+			OutlineWidth outline_width (6)
+			OutlineColor outline_color (#000000)
+			
+			Polyline poly_line_out
+
+			OutlineWidth outline_width_in (2)
+			OutlineColor outline_color_in (#BBBBBB)
+
+			Polyline poly_line_in
 
 			Component behaviors
 
@@ -50,12 +56,16 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 				for (int i = 1; i <= this.model_manager.limits.size; i++) {
 					//print ("View of point: lat = " + this.model_manager.limits.[i].lat + " -- lon = " + this.model_manager.limits.[i].lon + "\n")
 					
-					addChildrenTo this.limits.poly_line.points {
+					addChildrenTo this.limits.poly_line_out.points {
+						PolyPoint _ (0, 0)
+					}
+					addChildrenTo this.limits.poly_line_in.points {
 						PolyPoint _ (0, 0)
 					}
 
 					addChildrenTo this.limits.behaviors {
-						NotDraggableItem _ (this.map, this.model_manager.limits.[i].lat, this.model_manager.limits.[i].lon, this.limits.poly_line.points.[i].x, this.limits.poly_line.points.[i].y)
+						NotDraggableItem _ (this.map, this.model_manager.limits.[i].lat, this.model_manager.limits.[i].lon, this.limits.poly_line_out.points.[i].x, this.limits.poly_line_out.points.[i].y)
+						NotDraggableItem _ (this.map, this.model_manager.limits.[i].lat, this.model_manager.limits.[i].lon, this.limits.poly_line_in.points.[i].x, this.limits.poly_line_in.points.[i].y)
 					}
 				}
 			}
@@ -95,12 +105,16 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 	{
 		// LIMITS
 		for (int i = 1; i <= _model_manager.limits.size; i++) {
-			addChildrenTo layer.limits.poly_line.points {
+			addChildrenTo layer.limits.poly_line_out.points {
+				PolyPoint _ (0, 0)
+			}
+			addChildrenTo layer.limits.poly_line_in.points {
 				PolyPoint _ (0, 0)
 			}
 
 			addChildrenTo layer.limits.behaviors {
-				NotDraggableItem _ (_map, _model_manager.limits.[i].lat, _model_manager.limits.[i].lon, layer.limits.poly_line.points.[i].x, layer.limits.poly_line.points.[i].y)
+				NotDraggableItem _ (_map, _model_manager.limits.[i].lat, _model_manager.limits.[i].lon, layer.limits.poly_line_out.points.[i].x, layer.limits.poly_line_out.points.[i].y)
+				NotDraggableItem _ (_map, _model_manager.limits.[i].lat, _model_manager.limits.[i].lon, layer.limits.poly_line_in.points.[i].x, layer.limits.poly_line_in.points.[i].y)
 			}
 		}
 
