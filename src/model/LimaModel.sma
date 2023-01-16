@@ -17,8 +17,10 @@ action_validate_lima (Process c)
     Process *self = (Process*) get_native_user_data(c);
 
     RosNode *node = dynamic_cast<RosNode*>(self->find_child("ros_node"));
-    IntProperty *id = dynamic_cast<IntProperty*>(self->find_child("id"));
+    IntProperty *id = static_cast<IntProperty*>(self->find_child("id"));
 	
+	static_cast<BoolProperty*>(self->find_child("is_validated"))->set_value(true, true);
+
 	//cout << "action_validate_lima " << id->get_value() << endl;
 
     #ifndef NO_ROS
@@ -37,6 +39,8 @@ LimaModel (int _id, string _name, Process _ros_node) // int _phase)
 
 	// Cross a LIMA --> change the phase
 	//Int phase (_phase)
+
+	Bool is_validated (false)
 
 	List points
 	

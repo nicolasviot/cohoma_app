@@ -3,6 +3,7 @@ use gui
 use base
 
 import behavior.NotDraggableItem
+import widgets.Label
 
 _native_code_
 %{
@@ -22,10 +23,12 @@ Lima (Process _map, Process _context, Process _model)
     Spike double_click
     double_click -> _model.na_validate_lima
     
-    //FillOpacity fo (0.8)
+    FillOpacity fill_op (0.8)
+    OutlineOpacity outline_op (0.5)
+
     NoFill _
-    OutlineWidth outline_width(15)
-    OutlineColor outline_color(20, 20, 250)
+    OutlineWidth outline_width (15)
+    OutlineColor outline_color (#1414AF)
     
     Polyline poly_line
 
@@ -43,54 +46,51 @@ Lima (Process _map, Process _context, Process _model)
         }
     }
 
+    if (_model.points.size > 0)
+    {
+        Label label1 (toString(_model.name))
+        Label label2 (toString(_model.name))
+
+        NotDraggableItem _ (_map, _model.points.[1].lat, _model.points.[1].lon, label1.x, label1.y)
+        NotDraggableItem _ (_map, _model.points.[_model.points.size].lat, _model.points.[_model.points.size].lon, label2.x, label2.y)
+    }
+
     FSM hovered_lima {
         State not_hovered {
-            220 =: outline_color.b
             15 =: outline_width.width
         }
         State hovered {
-            170 =:outline_color.b
             25 =: outline_width.width
         }
         not_hovered -> hovered (poly_line.enter)
         hovered -> not_hovered (poly_line.leave)
     }
 
-
     FSM lima_selection {
         State idle {
-            190 =: outline_color.b
-            20 =: outline_color.g
+            #1414AF =: outline_color.value
+
+            0.8 =:> fill_op.a
+            0.5 =:> outline_op.a
         }
         State first_click {
-            20 =: outline_color.b
-            190 =: outline_color.g
+            #1414FF =: outline_color.value
 
-            Timer t (5000)
+            1.0 =:> fill_op.a
+            0.7 =:> outline_op.a
 
-            Translation tr (0, 0)
-            poly_line.bounding_box.x + poly_line.bounding_box.width / 2 =: tr.tx
-            poly_line.bounding_box.y + poly_line.bounding_box.height / 2 =: tr.ty
+            Timer t (4000)
 
-            OutlineWidth _ (1)
-            OutlineColor _ (#777777)
-            FillOpacity fo (0.8)
-            FillColor light_grey (204, 204, 204)
-            Rectangle bg (0, -15, 1, 30, 5, 5)
-            
-            FillColor black (#000000)
-            FontWeight _ (DJN_NORMAL)
-            FontSize _ (5, 24)
-            TextAnchor _ (DJN_MIDDLE_ANCHOR)
-            Text legend (0, 6, toString(_model.name))
-            legend.width + 10 =:> bg.width
-            - bg.width / 2 =:> bg.x
-            //poly_line.press.x =: legend.x
-            //poly_line.press.y =: legend.y
+            poly_line.press -> double_click
+        }
+        State validated {
+            #1488FF =: outline_color.value
+
+            1.0 =:> fill_op.a, outline_op.a
         }
         idle -> first_click (poly_line.press)
         first_click -> idle (first_click.t.end)
-        first_click -> idle (poly_line.press, double_click)
+        first_click -> validated (_model.is_validated)
     }
 
 }
