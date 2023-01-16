@@ -37,13 +37,23 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Double init_zoom (_init_zoom)
 
     // scale and translation applied to the map
+    Double map_zoom (1.0)
     Double map_scale (1.0)
     Double map_translation_x (0.0)
     Double map_translation_y (0.0)
 
     Double veil_opacity (0.3)
 
-    map_scale =:> lp.input
+    //map_zoom / _init_zoom =:> map_scale
+
+    //  Max  Zoom = 19  <-->  Map Scale = 100%
+    // "Min" Zoom = 16  <-->  Map Scale = 75%
+    // Y = a * X + b
+    // a = (1 - 0.75) / (19 - 16)
+    // b = 1 - a * 19
+    (0.25 / 3.0 * map_zoom) - 0.5833333333 =:> map_scale
+    
+    //map_zoom + " --> " + map_scale =:> lp.input
 
     // CONST
     Int RIGHT_PANEL_WIDTH (425)

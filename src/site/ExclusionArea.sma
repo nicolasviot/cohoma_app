@@ -19,10 +19,10 @@ ExclusionArea (Process _map, Process _context, Process _model)
     //model aka _model
 
     Component bg {
-        FillOpacity fill_op (0.2)
-        FillColor fill_col (0)
-        OutlineWidth _ (6)
-        OutlineColor outline_col (0)
+        FillOpacity fill_op (0.3)
+        FillColor fill_col (#FFA500)
+        OutlineWidth _ (2)
+        OutlineColor outline_col (#FFA500)
         OutlineCapStyle _ (1)
     
         Polygon poly_gon
@@ -46,21 +46,14 @@ ExclusionArea (Process _map, Process _context, Process _model)
 
             // Restricted Fire Area (deactivation only on clearance)
             Component RFA {
-
             }
 
             // No Fire Area (deactivation forbidden)
             Component NFA {
-                0.3 =: fill_op.a
-                #14B4B4 =: fill_col.value
-                #14B4B4 =: outline_col.value
             }
 
             // No Fly Zone
             Component NFZ {
-                0.3 =: fill_op.a
-                #FAFA32 =: fill_col.value
-                #FAFA32 =: outline_col.value
             }
 
             // Free Fire Area (deactivation allowed)
@@ -69,36 +62,33 @@ ExclusionArea (Process _map, Process _context, Process _model)
 
             // Restricted Operation Zone / forbidden to all vehicles
             Component ROZ_ALL {
-                0.7 =: fill_op.a
-                #FF0000 =: fill_col.value
-                #FF0000 =: outline_col.value
             }
 
             // Restricted Operation Zone / forbidden to ground vehicles
             Component ROZ_GROUND {
-                0.3 =: fill_op.a
-                #FFA500 =: fill_col.value
-                #FFA500 =: outline_col.value
             }
         }
         _model.type =:> switch.state
     }
 
+
     Translation tr (0, 0)
+    Scaling scale (1, 1, 0, 0)
+    _context.map_scale =:> scale.sx, scale.sy
 
     FillOpacity text_opacity (0.8)
     FillColor _ (#EAEAEA)
     TextAnchor _ (DJN_MIDDLE_ANCHOR)
-
-    FontSize _ (5, 28)
     FontWeight _ (DJN_BOLD)
+
+    FontSize _ (5, 30)
     Text lbl_type (0, 0, "")
     _model.type =: lbl_type.text
 
     FontSize _ (5, 24)
-    FontWeight _ (DJN_BOLD)
     Text lbl_name (0, 40, toString(_model.name))
     //_model.name =: lbl_name.text
+    
     
 
     // FSM to manage zoom in/out

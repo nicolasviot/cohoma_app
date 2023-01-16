@@ -206,7 +206,7 @@ Component root {
     init_frame_height - context.STRIP_HEIGHT =: map.height
 
     map.g_map.pz.press_trigger -> press_on_background
-    map.zoomLevel =:> context.map_scale
+    map.zoomLevel =:> context.map_zoom
     map.xpan - map.cur_ref_x + map.px0 =:> context.map_translation_x
     map.ypan - map.cur_ref_y + map.py0 =:> context.map_translation_y
 
@@ -220,7 +220,7 @@ Component root {
           MapLayer layer (f, map, map_provider, proxy)
         }
       }
-      opacity aka ctrl_visibility.visible.layer.opacity
+      //opacity aka ctrl_visibility.visible.layer.opacity
       String name ("Geoportail")
     }
 
@@ -233,7 +233,7 @@ Component root {
           MapLayer layer (f, map, map_provider, proxy)
         }
       }
-      opacity aka ctrl_visibility.visible.layer.opacity
+      //opacity aka ctrl_visibility.visible.layer.opacity
       String name ("OSM")
     }*/
 
