@@ -19,6 +19,15 @@ VisibilityMapLayer (Process _map, Process _context)
 	Double visibility_map_lat (0)
 	Double visibility_map_lon (0)
 
+	Component veil {
+		FillOpacity opacity (0.5)
+		_context.veil_opacity =:> opacity.a
+		FillColor black (#000000)
+		Rectangle r (0, 0, $_map.width, $_map.height, 0, 0)
+		//_map.width =:> r.width
+		//_map.height =:> r.height
+	}
+
 	Scaling sc (1, 1, 0, 0)
 	_context.map_scale =:> sc.sx, sc.sy
 

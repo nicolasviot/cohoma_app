@@ -458,7 +458,7 @@ Component root {
 
   // ----------------------------------------------------
   // Menu to show/hide layers
-  UpperLeftMenu menu (l.map, f)
+  UpperLeftMenu menu (l.map, context, f)
 
   // ----------------------------------------------------
   // FSM to manage the addition of node in the graph

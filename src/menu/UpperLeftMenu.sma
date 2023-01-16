@@ -8,10 +8,12 @@ import widgets.CheckBox
 import gui.animation.Animator
 
 _define_
-UpperLeftMenu (Process map, Process f)
+UpperLeftMenu (Process map, Process _context, Process f)
 {
- svg = load_from_XML ("res/svg/icon_menu.svg")
- main_bg << svg.layer1.main_bg
+  //context aka _context
+
+  svg = load_from_XML ("res/svg/icon_menu.svg")
+  main_bg << svg.layer1.main_bg
 
   Component ui {
     Scaling sc (0, 0, 0, 0)
@@ -29,6 +31,7 @@ UpperLeftMenu (Process map, Process f)
     Translation pos (0, 20)
     Slider s1 (f, 5, 5, 0, 100, 0)
     //s1.output/100 =:> map.layers.osm.opacity
+    s1.output / 100 =:> _context.veil_opacity
 
     /* Title 2 */
     Text t2 (6, 0, "Layers")
