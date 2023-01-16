@@ -23,9 +23,6 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 
 	Layer layer {
 
-		Scaling sc (1, 1, 0, 0)
-		_context.map_scale =:> sc.sx, sc.sy
-
 		Translation pos (0, 0)
 		_context.map_translation_x =:> pos.tx
 		_context.map_translation_y =:> pos.ty

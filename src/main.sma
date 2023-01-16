@@ -206,9 +206,10 @@ Component root {
     init_frame_height - context.STRIP_HEIGHT =: map.height
 
     map.g_map.pz.press_trigger -> press_on_background
-    map.zoom =:> context.map_scale
+    map.zoomLevel =:> context.map_scale
     map.xpan - map.cur_ref_x + map.px0 =:> context.map_translation_x
     map.ypan - map.cur_ref_y + map.py0 =:> context.map_translation_y
+
 
     // Geoportail tiles
     Component geoportail {
@@ -243,9 +244,6 @@ Component root {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible { //using Layer prevents some animations to work (TODO Stephane)
-
-          Scaling sc (1, 1, 0, 0)
-          context.map_scale =:> sc.sx, sc.sy
 
           Translation pos (0, 0)
           context.map_translation_x =:> pos.tx
@@ -338,8 +336,6 @@ Component root {
       Switch ctrl_visibility (visible){
         Component hidden
         Component visible {
-          Scaling sc (1, 1, 0, 0)
-          context.map_scale =:> sc.sx, sc.sy
 
           Translation pos (0, 0)
           context.map_translation_x =:> pos.tx
@@ -402,9 +398,6 @@ Component root {
     Spike edit
     Spike create
 
-    Scaling sc (1, 1, 0, 0)
-    context.map_scale =:> sc.sx, sc.sy
-
     Translation pos (0, 0)
     context.map_translation_x =:> pos.tx
     context.map_translation_y =:> pos.ty
@@ -466,8 +459,6 @@ Component root {
     State idle 
 
     State preview {
-      Scaling sc (1, 1, 0, 0)
-      context.map_scale =:> sc.sx, sc.sy
 
       Translation pos (0, 0)
       context.map_translation_x =:> pos.tx
@@ -524,9 +515,6 @@ Component root {
         EdgeModel (root.model.edges, edge_id, source, target, 0.0)
       }
       
-      Scaling sc (1, 1, 0, 0)
-      context.map_scale =:> sc.sx, sc.sy
-
       Translation pos (0, 0)
       context.map_translation_x =:> pos.tx
       context.map_translation_y =:> pos.ty

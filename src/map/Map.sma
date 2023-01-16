@@ -158,7 +158,7 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
 
     Component layers
   }
-  zoom aka g_map.pz.zoom
+  //zoom aka g_map.pz.zoom
   xpan aka g_map.pz.xpan
   ypan aka g_map.pz.ypan
   acc_dx aka g_map.pz.acc_dx.result

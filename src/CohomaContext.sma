@@ -43,6 +43,8 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
 
     Double veil_opacity (0.3)
 
+    map_scale =:> lp.input
+
     // CONST
     Int RIGHT_PANEL_WIDTH (425)
     Int STRIP_WIDTH (225)
@@ -169,7 +171,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
 
     // Don't use empty string
     String selected_itinerary_id ("-1")
-    selected_itinerary_id =:> lp.input
+    //selected_itinerary_id =:> lp.input
 
     //String selected_itinerary_type ("")
 

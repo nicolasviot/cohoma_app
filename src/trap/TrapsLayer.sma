@@ -28,9 +28,6 @@ TrapsLayer (Process _map, Process _context, Process _model_manager)
     svg_trap_contact_icon = load_from_XML ("res/svg/trap_contact_icon.svg")
 	svg_contact_icon aka svg_trap_contact_icon // To be accessible with a "find_child"
 
-	Scaling sc (1, 1, 0, 0)
-    _context.map_scale =:> sc.sx, sc.sy
-
     Translation pos (0, 0)
 	_context.map_translation_x =:> pos.tx
 	_context.map_translation_y =:> pos.ty
