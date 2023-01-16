@@ -14,8 +14,8 @@ Edge (Process _context, Process _model)
     //context aka _context
     model aka _model
 
-    Int default_width (8)
-	Int inside_width (16)
+    Int default_width (4)
+	Int inside_width (12)
 	Int mask_width (16)
 
     String text_tooltip (toString(_model.length_meters))

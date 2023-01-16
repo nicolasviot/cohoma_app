@@ -33,7 +33,7 @@ TaskEdge (Process _context, Process _model) inherits Edge (_context, _model.edge
             OutlineCapStyle _ (1)            
             OutlineColor color ($_context.TASK_SELECTION_COLOR)
             //OutlineOpacity opacity (1.0)
-            OutlineWidth width (24)
+            OutlineWidth width (20)
 
             Line selection (0, 0, 0, 0)
 

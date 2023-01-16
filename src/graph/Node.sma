@@ -21,8 +21,8 @@ Node (Process _map, Process _context, Process _model)
     //_model.id - 1 => id_in_tooltip
 
     Int default_radius (10)
-	Int inside_radius (20)
-	Int mask_radius (30)
+	Int inside_radius (15)
+	Int mask_radius (20)
 
     Translation screen_translation (0, 0)
 	_model.dx_in_map =:> screen_translation.tx
