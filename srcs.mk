@@ -78,7 +78,7 @@ icare_interfaces_libs_install_path := $(PATH_TO_WORKSPACE)/install/icare_interfa
 icare_libs := $(shell ls $(icare_interfaces_libs_install_path)/lib*.so 2>/dev/null | xargs echo)
 icare_libs := $(patsubst $(icare_interfaces_libs_install_path)/lib%.so, -l%, $(icare_libs))
 
-CXXFLAGS += -I./src -I./src/cpp -I./src/include
+CXXFLAGS += -I./src -I./src/cpp -I./src/include -I/usr/local/include/boost/
 CXXFLAGS += -I$(ros_include_path)
 CXXFLAGS += -I$(PATH_TO_WORKSPACE)/install/icare_interfaces/include \
             -I$(PATH_TO_WORKSPACE)/install/lemon/include
@@ -90,7 +90,13 @@ ifeq ($(no_ros),1)
 CXXFLAGS += -DNO_ROS -DNO_LEMON
 else
 LIBS += -L$(ros_lib_path) $(ros_libs) -L$(ros_lib_path)/x86_64-linux-gnu $(ros_x86_libs)
-LIBS += -L$(icare_interfaces_libs_install_path) $(icare_libs) 
+LIBS += -L$(icare_interfaces_libs_install_path) $(icare_libs)
+ifeq ($(os),Linux)
+LIBS += -lboost_thread
+endif
+ifeq ($(os),Darwin)
+LIBS += -lboost_thread-mt
+endif
 
 ld_library_path+=$(ros_lib_path):$(ros_lib_path)/x86_64-linux-gnu:$(icare_interfaces_libs_install_path)
 endif

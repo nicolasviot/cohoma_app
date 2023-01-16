@@ -20,13 +20,14 @@
 #include <unistd.h>
 #include <cassert>
 #include <thread>
-#include <semaphore>
+// #include <semaphore> C++20
 
 namespace curl {
 #include <curl/curl.h>
 #include <curl/easy.h>
 }
 
+#include <semaphore.hpp> // without C++20
 #include "gui/gui.h"
 #include "tiles_manager.h"
 #include <chrono>
@@ -53,8 +54,9 @@ struct __request {
   string filepath;
   string proxy;
 } ;
-static std::counting_semaphore<MAX_POOL> sem_pool{0};
-static std::binary_semaphore sem_wr{1};
+
+semaphore sem_pool(MAX_POOL); 
+semaphore sem_wr(1); 
 static std::list <__request> request_queue ;
 static bool __init_tiles_manager = false;
 static std::vector <std::thread> thread_pool(MAX_POOL);
