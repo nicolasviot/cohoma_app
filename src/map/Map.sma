@@ -153,16 +153,13 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
     RectangleClip clip_area (0, 0, _width, _height)
 
 
-    PanAndZoom pz (f.move, pick_area, pick_area.wheel.dy)
+    PanAndZoom pz (f.move, pick_area)
     this.{width,height} =:> clip_area.{width,height}, pick_area.{width, height}
 
     Component layers
   }
-  //zoom aka g_map.pz.zoom
   xpan aka g_map.pz.xpan
   ypan aka g_map.pz.ypan
-  acc_dx aka g_map.pz.acc_dx.result
-  acc_dy aka g_map.pz.acc_dy.result
   layers aka g_map.layers
   enter aka g_map.pick_area.enter
   leave aka g_map.pick_area.leave
@@ -187,8 +184,8 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
       floor((g_map.pick_area.move.local_x - (xpan - cur_ref_x) + 512)/256.0) + x_odd =:> pointer_col
       floor((g_map.pick_area.move.local_y - (ypan - cur_ref_y) + 512)/256.0) + y_odd =:> pointer_row
 
-      (g_map.pick_area.move.local_x - (xpan - cur_ref_x - acc_dx) + 512)%256.0 =:> mod_x_zooom_in
-      (g_map.pick_area.move.local_y - (ypan - cur_ref_y - acc_dy) + 512)%256.0 =:> mod_y_zooom_in
+      (g_map.pick_area.move.local_x - (xpan - cur_ref_x) + 512)%256.0 =:> mod_x_zooom_in
+      (g_map.pick_area.move.local_y - (ypan - cur_ref_y) + 512)%256.0 =:> mod_y_zooom_in
     }
     State pressed {
     }
