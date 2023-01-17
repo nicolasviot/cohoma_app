@@ -159,14 +159,21 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 			btn_set_trap2.click -> _model_manager.set_trap2
 
 
-			StandAlonePushButton btn_set_shortest ("set shortest", 20, 70)
+			StandAlonePushButton btn_set_shortest ("set shortest", 20, 80)
 			btn_set_shortest.click -> _model_manager.set_shortest_itinerary
 
-			StandAlonePushButton btn_set_safest ("set safest", 150, 70)
+			StandAlonePushButton btn_set_safest ("set safest", 150, 80)
 			btn_set_safest.click -> _model_manager.set_safest_itinerary
 
-			StandAlonePushButton btn_set_tradeoff ("set tradeoff", 280, 70)
+			StandAlonePushButton btn_set_tradeoff ("set tradeoff", 280, 80)
 			btn_set_tradeoff.click -> _model_manager.set_tradeoff_itinerary
+
+
+			StandAlonePushButton btn_add_task_edge1 ("add task edge 1", 20, 120)
+			btn_add_task_edge1.click -> _model_manager.add_task_edge1
+
+			StandAlonePushButton btn_add_task_edge2 ("add task edge 2", 150, 120)
+			btn_add_task_edge2.click -> _model_manager.add_task_edge2
 		}
 	}
 

@@ -72,7 +72,7 @@ TasksLayer (Process _map, Process _context, Process _model_manager)
 
 		for model : this.model_manager.task_edges {
 			addChildrenTo this.edges.lst {
-				TaskEdge task (this.context, model)
+				TaskEdge task (this.context, model, $this.context.TASK_EDGE_WIDTH)
 			}
 		}
 	}

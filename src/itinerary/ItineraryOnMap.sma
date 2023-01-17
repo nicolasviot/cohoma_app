@@ -48,7 +48,7 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 				{
 					addChildrenTo this.itinerary_edges {
 						Component _ {
-							ItineraryEdge edge (this.context, edge_model)
+							ItineraryEdge edge (this.context, edge_model, $this.context.ITINERARY_WIDTH)
 							edge.click -> this.model.select
 						}
 					}
@@ -64,7 +64,7 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 					{
 						addChildrenTo this.itinerary_edges {
 							Component _ {
-								ItineraryEdge edge (this.context, edge_model_opposite)
+								ItineraryEdge edge (this.context, edge_model_opposite, $this.context.ITINERARY_WIDTH)
 								edge.click -> this.model.select
 							}
 						}

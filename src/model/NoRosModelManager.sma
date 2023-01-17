@@ -26,6 +26,7 @@ import EdgeModel
 import ItineraryModel
 import TrapModel
 import task.TaskTrapModel
+import task.TaskEdgeModel
 
 _native_code_
 %{
@@ -803,4 +804,24 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
         }
     }
 
+
+    // **************************************************************************************************
+    //
+    //  TASKS
+    //
+    // **************************************************************************************************
+
+    Spike add_task_edge1
+    Spike add_task_edge2
+
+    add_task_edge1 -> (this) {
+        addChildrenTo this.task_edges {
+            TaskEdgeModel debug_task_edge1 (find(this.edges, "_22__29"), 0.51)
+        }
+    }
+    add_task_edge2 -> (this) {
+        addChildrenTo this.task_edges {
+            TaskEdgeModel debug_task_edge2 (find(this.edges, "_29__30"), 0.12)
+        }
+    }
 }

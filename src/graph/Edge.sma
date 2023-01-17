@@ -9,14 +9,13 @@ _native_code_
 
 
 _define_
-Edge (Process _context, Process _model)
+Edge (Process _context, Process _model, int _width)
 {
     //context aka _context
     model aka _model
 
-    Int default_width (4)
-	Int inside_width (12)
-	Int mask_width (16)
+    Int default_width (_width)
+	Int mask_width (_width + 4)
 
     String text_tooltip (toString(_model.length_meters))
 
@@ -25,20 +24,20 @@ Edge (Process _context, Process _model)
     OutlineCapStyle _ (1)
 
     Component bg {
-        // "Transparent", only to detect enter/leave with 15 as outline width
-        NoOutline _
-        PickOutline _
-        //OutlineColor color (#000000)
-        //OutlineOpacity opacity (0.0)
-        OutlineWidth width ($mask_width)
+        OutlineColor color (#000000)
+        //OutlineWidth width ($mask_width)
+        OutlineWidth width (_width + 6)
+        OutlineOpacity opacity (0.0)
 
         Line mask (0, 0, 0, 0)
     }
     mask_release aka bg.mask.release
 
     Component fg {
+        // Defined in parent
+        //OutlineColor color (...)
         OutlineWidth width ($default_width)
-        //OutlineColor color ($_context.EDGE_COLOR)
+        //OutlineOpacity opacity (1.0)
         
         Line edge (0, 0, 0, 0)
     }
@@ -50,11 +49,11 @@ Edge (Process _context, Process _model)
 
         State entered {
             Timer t (500)
-            inside_width =: fg.width.width
+
+            default_width + 2 =: fg.width.width
         }
 
         State display_tooltip {
-            //inside_width =: fg.width.width
 
             Translation tr (0, 0)
             (_model.node1.dx_in_map + _model.node2.dx_in_map) / 2 =:> tr.tx

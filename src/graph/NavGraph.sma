@@ -76,7 +76,7 @@ action_edge_ids_added (Process src, Process self)
 
 			model = find (self.model_manager.edges, str_id)
 			if (&model != null) {
-				Edge (self.layer.edges.lst, "", self.context, model)
+				Edge (self.layer.edges.lst, "", self.context, model, $self.context.EDGE_WIDTH)
 			}
 			else {
 				print ("ERROR: No model of edge for id " + edge_id + "\n")
@@ -91,7 +91,7 @@ action_edge_ids_added (Process src, Process self)
 
 		model = find (self.model_manager.edges, str_id)
 		if (&model != null) {
-			Edge (self.layer.edges.lst, "", self.context, model)
+			Edge (self.layer.edges.lst, "", self.context, model, $self.context.EDGE_WIDTH)
 		}
 		else {
 			print ("ERROR: No model of node for id " + edge_id + "\n")
@@ -182,7 +182,7 @@ NavGraph (Process _map, Process _context, Process _model_manager)
 
 			model = find (_model_manager.edges, str_id)
 			if (&model != null) {
-				Edge (layer.edges.lst, "", _context, model)
+				Edge (layer.edges.lst, "", _context, model, $_context.EDGE_WIDTH)
 			}
 			else {
 				print ("No model of edge with id " + edge_id + "\n")

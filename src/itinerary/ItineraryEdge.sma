@@ -11,7 +11,7 @@ _native_code_
 
 
 _define_
-ItineraryEdge (Process _context, Process _model) inherits Edge (_context, _model)
+ItineraryEdge (Process _context, Process _model, int _width) inherits Edge (_context, _model, _width)
 {
     Spike click
 
