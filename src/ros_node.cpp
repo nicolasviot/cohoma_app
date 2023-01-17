@@ -1116,10 +1116,11 @@ RosNode::send_selected_tasks()
     if (edge_is_selected)
     {
       icare_interfaces::msg::GraphEdge edge_to_add = icare_interfaces::msg::GraphEdge();
-      GET_CHILD_VALUE (source, Int, model, edge/node1/id)
-      edge_to_add.source = std::to_string(source);
-      GET_CHILD_VALUE (dest, Int, model, edge/node2/id)
-      edge_to_add.target = std::to_string(dest);
+      GET_CHILD_VALUE (source, Text, model, edge/node1/id)
+      edge_to_add.source = source;
+      GET_CHILD_VALUE (target, Text, model, edge/node2/id)
+      edge_to_add.target = target;
+
       GET_CHILD_VALUE2 (edge_to_add.length, Double, model, edge/length)
       GET_CHILD_VALUE2 (edge_to_add.explored, Double, model, explored)
       message.ugv_edges.push_back(edge_to_add);
