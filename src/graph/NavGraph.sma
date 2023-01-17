@@ -19,44 +19,44 @@ _native_code_
 _action_
 action_node_ids_added (Process src, Process self)
 {
-	if (self.nodes.size == 0) {
-		print ("New model of node added: " + self.model_manager.node_ids.size + " nodes. View is empty (" + self.nodes.size + " nodes)\n")
+	if (self.layer.nodes.size == 0) {
+		print ("New model of node added: " + self.model_manager.node_ids.size + " nodes. View is empty (" + self.layer.nodes.size + " nodes)\n")
 
 		for node_id : self.model_manager.node_ids {
 			string str_id = toString (node_id)
 
 			model = find (self.model_manager.nodes, str_id)
 			if (&model != null) {
-				Node (self.nodes, "", self.map, self.context, model)
+				Node (self.layer.nodes, "", self.map, self.context, model)
 			}
 			else {
 				print ("ERROR: No model of node for id " + node_id + "\n")
 			}
 		}
 	}
-	else if (self.nodes.size == self.model_manager.node_ids.size - 1) {
-		print ("New model of node added: " + self.model_manager.node_ids.size + " nodes. View has " + self.nodes.size + " nodes\n")
+	else if (self.layer.nodes.size == self.model_manager.node_ids.size - 1) {
+		print ("New model of node added: " + self.model_manager.node_ids.size + " nodes. View has " + self.layer.nodes.size + " nodes\n")
 
 		node_id = getRef (self.model_manager.node_ids.$added)
 		string str_id = toString (node_id)
 
 		model = find (self.model_manager.nodes, str_id)
 		if (&model != null) {
-			Node (self.nodes, "", self.map, self.context, model)
+			Node (self.layer.nodes, "", self.map, self.context, model)
 		}
 		else {
 			print ("ERROR: No model of node for id " + node_id + "\n")
 		}
 	}
 	else {
-		print ("FIXME TODO: New model of node added: " + self.model_manager.node_ids.size + " nodes. View has " + self.nodes.size + " nodes\n")
+		print ("FIXME TODO: New model of node added: " + self.model_manager.node_ids.size + " nodes. View has " + self.layer.nodes.size + " nodes\n")
 	}
 }
 
 _action_
 action_node_ids_removed (Process src, Process self)
 {
-	print ("FIXME TODO: Model of node removed: " + self.model_manager.node_ids.size + " edges. View has " + self.nodes.size + " edges\n")
+	print ("FIXME TODO: Model of node removed: " + self.model_manager.node_ids.size + " edges. View has " + self.layer.nodes.size + " edges\n")
 }
 
 
@@ -68,44 +68,44 @@ action_node_ids_removed (Process src, Process self)
 _action_
 action_edge_ids_added (Process src, Process self)
 {
-	if (self.edges.lst.size == 0) {
-		print ("New model of edge added: " + self.model_manager.edge_ids.size + " edges. View is empty (" + self.edges.lst.size + " edges)\n")
+	if (self.layer.edges.lst.size == 0) {
+		print ("New model of edge added: " + self.model_manager.edge_ids.size + " edges. View is empty (" + self.layer.edges.lst.size + " edges)\n")
 
 		for edge_id : self.model_manager.edge_ids {
 			string str_id = toString (edge_id)
 
 			model = find (self.model_manager.edges, str_id)
 			if (&model != null) {
-				Edge (self.edges.lst, "", self.context, model)
+				Edge (self.layer.edges.lst, "", self.context, model)
 			}
 			else {
 				print ("ERROR: No model of edge for id " + edge_id + "\n")
 			}
 		}
 	}
-	else if (self.edges.lst.size == self.model_manager.edge_ids.size - 1) {
-		print ("New model of edge added: " + self.model_manager.edge_ids.size + " edges. View has " + self.edges.lst.size + " edges\n")
+	else if (self.layer.edges.lst.size == self.model_manager.edge_ids.size - 1) {
+		print ("New model of edge added: " + self.model_manager.edge_ids.size + " edges. View has " + self.layer.edges.lst.size + " edges\n")
 
 		edge_id = getRef (self.model_manager.edge_ids.$added)
 		string str_id = toString (edge_id)
 
 		model = find (self.model_manager.edges, str_id)
 		if (&model != null) {
-			Edge (self.edges.lst, "", self.context, model)
+			Edge (self.layer.edges.lst, "", self.context, model)
 		}
 		else {
 			print ("ERROR: No model of node for id " + edge_id + "\n")
 		}
 	}
 	else {
-		print ("FIXME TODO: New model of edge added: " + self.model_manager.edge_ids.size + " edges. View has " + self.edges.lst.size + " edges\n")
+		print ("FIXME TODO: New model of edge added: " + self.model_manager.edge_ids.size + " edges. View has " + self.layer.edges.lst.size + " edges\n")
 	}
 }
 
 _action_
 action_edge_ids_removed (Process src, Process self)
 {
-	print ("FIXME TODO: Model of edge removed: " + self.model_manager.edge_ids.size + " edges. View has " + self.edges.lst.size + " edges\n")
+	print ("FIXME TODO: Model of edge removed: " + self.model_manager.edge_ids.size + " edges. View has " + self.layer.edges.lst.size + " edges\n")
 }
 
 

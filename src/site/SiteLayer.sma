@@ -53,16 +53,16 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 				for (int i = 1; i <= this.model_manager.limits.size; i++) {
 					//print ("View of point: lat = " + this.model_manager.limits.[i].lat + " -- lon = " + this.model_manager.limits.[i].lon + "\n")
 					
-					addChildrenTo this.limits.poly_line_out.points {
+					addChildrenTo this.layer.limits.poly_line_out.points {
 						PolyPoint _ (0, 0)
 					}
-					addChildrenTo this.limits.poly_line_in.points {
+					addChildrenTo this.layer.limits.poly_line_in.points {
 						PolyPoint _ (0, 0)
 					}
 
-					addChildrenTo this.limits.behaviors {
-						NotDraggableItem _ (this.map, this.model_manager.limits.[i].lat, this.model_manager.limits.[i].lon, this.limits.poly_line_out.points.[i].x, this.limits.poly_line_out.points.[i].y)
-						NotDraggableItem _ (this.map, this.model_manager.limits.[i].lat, this.model_manager.limits.[i].lon, this.limits.poly_line_in.points.[i].x, this.limits.poly_line_in.points.[i].y)
+					addChildrenTo this.layer.limits.behaviors {
+						NotDraggableItem _ (this.map, this.model_manager.limits.[i].lat, this.model_manager.limits.[i].lon, this.layer.limits.poly_line_out.points.[i].x, this.layer.limits.poly_line_out.points.[i].y)
+						NotDraggableItem _ (this.map, this.model_manager.limits.[i].lat, this.model_manager.limits.[i].lon, this.layer.limits.poly_line_in.points.[i].x, this.layer.limits.poly_line_in.points.[i].y)
 					}
 				}
 			}
@@ -76,7 +76,7 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 			print ("New model of zone added to list " + this.model_manager.zones.size + "\n")
 
 			for model : this.model_manager.zones {
-				addChildrenTo this.zones {
+				addChildrenTo this.layer.zones {
 					ExclusionArea zone (this.map, this.context, model)
 				}
 			}
@@ -90,7 +90,7 @@ SiteLayer (Process _map, Process _context, Process _model_manager)
 			print ("New model of Lima added to list " + this.model_manager.limas.size + "\n")
 			
 			for model : this.model_manager.limas {
-				addChildrenTo this.limas {
+				addChildrenTo this.layer.limas {
 					Lima lima (this.map, this.context, model)
 				}
 			}
