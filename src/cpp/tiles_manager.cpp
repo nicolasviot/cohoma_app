@@ -20,13 +20,14 @@
 #include <unistd.h>
 #include <cassert>
 #include <thread>
-#include <semaphore>
+// #include <semaphore> C++20
 
 namespace curl {
 #include <curl/curl.h>
 #include <curl/easy.h>
 }
 
+#include <semaphore.hpp> // without C++20
 #include "gui/gui.h"
 #include "tiles_manager.h"
 #include <chrono>
@@ -53,8 +54,9 @@ struct __request {
   string filepath;
   string proxy;
 } ;
-static std::counting_semaphore<MAX_POOL> sem_pool{0};
-static std::binary_semaphore sem_wr{1};
+
+semaphore sem_pool(MAX_POOL); 
+semaphore sem_wr(1); 
 static std::list <__request> request_queue ;
 static bool __init_tiles_manager = false;
 static std::vector <std::thread> thread_pool(MAX_POOL);
@@ -206,21 +208,10 @@ add_to_request_queue (__request& p) {
 }
 
 static void
-build_request (djnn::Process* tile, int z, int row, int col, const std::string& filepath, const std::string& layer_name)
+build_request (djnn::Process* tile, int z, int row, int col, const std::string& filepath, const std::string& uri)
 { 
   // proxy
   std::string proxy = ((djnn::AbstractProperty*)(tile->find_child("proxy")))->get_string_value();
-
-  // uri from layer_name
-  std::string uri = "UNKNOWN_LAYER";
-  if (layer_name.compare ("osm") == 0 )
-      uri = OSM_BASE_URI + std::to_string(z) + "/" + std::to_string(col) + "/" + std::to_string(row) + ".png";
-  else if (layer_name.compare ("geoportail") == 0 )
-      uri = GEOPORTAIL_BASE_URI + std::to_string(z) + "&TileRow=" + std::to_string(row) + "&TileCol=" + std::to_string(col);
-  else {
-    std::cerr << "ERROR - UNKNOWN layer \"" << layer_name << "\" -- should be: osm/geoportail" << std::endl;
-    return;
-  }
 
   __request t;
   t.tile = tile;
@@ -249,11 +240,25 @@ load_tiles_from(djnn::Process* src) {
 
   int max = pow(2, Z);
   if (X < max && Y < max) {
-    std::string new_path = "cache/" + layer_name + "/" + std::to_string(Z) + "_" + std::to_string(X) + "_" + std::to_string(Y) + ".png";
+    
+    std::string new_path = "cache/" + layer_name + "/" + std::to_string(Z) + "_" + std::to_string(X) + "_" + std::to_string(Y);
+    std::string uri = "UNKNOWN_LAYER";
+    if (layer_name.compare ("osm") == 0 ) {
+      uri = OSM_BASE_URI + std::to_string(Z) + "/" + std::to_string(X) + "/" + std::to_string(Y) + ".png";
+      new_path = new_path + ".png";
+    }
+    else if (layer_name.compare ("geoportail") == 0 ) {
+      uri = GEOPORTAIL_BASE_URI + std::to_string(Z) + "&TileRow=" + std::to_string(Y) + "&TileCol=" + std::to_string(X);
+      new_path = new_path + ".jpg";
+    }
+    else {
+      std::cerr << "ERROR - UNKNOWN layer \"" << layer_name << "\" -- should be: osm/geoportail" << std::endl;
+    return;
+    }
 
     // if file do not exist or empty
     if (!filesystem::exists(new_path) || std::filesystem::file_size(new_path) == 0) {
-      build_request (tile, Z, Y, X, new_path, layer_name);
+      build_request (tile, Z, Y, X, new_path, uri);
       // djnn::lock_ios_mutex();
       // std::cerr << new_path << " doesn't exist or is empty" << std::endl;
       // djnn::release_ios_mutex();
