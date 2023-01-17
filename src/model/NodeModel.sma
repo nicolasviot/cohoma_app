@@ -9,9 +9,9 @@ _native_code_
 
 
 _define_
-NodeModel (int _id, int _phase, string _label, double _lat, double _lon, double _alt, int _is_mandatory)
+NodeModel (string _id, int _phase, string _label, double _lat, double _lon, double _alt, int _is_mandatory)
 {
-	Int id (_id)
+	String id (_id)
 	
 	// Cross a LIMA --> change the phase
 	Int phase (_phase)

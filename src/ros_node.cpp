@@ -329,8 +329,8 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
       TextProperty* tmp = new TextProperty (_node_ids, "", node_id);
       //cout << "String _ (\"_" << node_id << "\")" << endl;
 
-      NodeModel (_node_models, node_id, std::stoi(node_id), phase, label, latitude, longitude, altitude, mandatory);
-      //cout << "NodeModel _" << node_id << " (" + node_id << ", " << to_string(phase) << ", \"" << label << "\", " << latitude << ", " << longitude << ", " << altitude << ", " << mandatory << ")" << endl;
+      NodeModel (_node_models, node_id, node_id, phase, label, latitude, longitude, altitude, mandatory);
+      //cout << "NodeModel _" << node_id << " (\"" + node_id << "\", " << to_string(phase) << ", \"" << label << "\", " << latitude << ", " << longitude << ", " << altitude << ", " << mandatory << ")" << endl;
     }
     //else
     //  cout << "Model of node " << node_id << " already exist. Need to update it ?" << endl;
@@ -354,13 +354,13 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
     {
       // We need a pointer on the TextProperty (else memory pb)
       TextProperty* tmp = new TextProperty (_edge_ids, "", edge_id);
-      //cout << "String _ (\"_" << edge_id << "\")" << endl;
+      //cout << "String _ (\"_" << str_source << "__" << str_target << "\")" << endl;
 
       Process* source = _node_models->find_child (str_source);
       Process* target = _node_models->find_child (str_target);
 
       EdgeModel (_edge_models, edge_id, source, target, length);
-      //cout << "EdgeModel _" << edge_id << " (find(this.nodes, \"_" << str_source << "\"), find(this.nodes, \"_" << str_target << "\"), " << length << ")" << endl;
+      //cout << "EdgeModel _" << str_source << "__" << str_target << " (find(this.nodes, \"_" << str_source << "\"), find(this.nodes, \"_" << str_target << "\"), " << length << ")" << endl;
     }  
     //else
     //  cout << "Model of edge " << edge_id << " already exist. Need to update it ?" << endl;
@@ -408,8 +408,8 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
       //cout << "Itinerary " << i << " has already " << size_node_ids << " nodes" << endl;
 
       for (int j = 0; j < msg->itineraries[i].nodes.size(); j++) {
-        //cout << "New IntProperty " << msg->itineraries[i].nodes[j] << " in " << i << endl;
-        new IntProperty (list_node_ids, "", std::stoi(msg->itineraries[i].nodes[j]));
+        //cout << "New Text Property " << msg->itineraries[i].nodes[j] << " in " << i << endl;
+        new TextProperty (list_node_ids, "", msg->itineraries[i].nodes[j]);
       }
     }
   }
@@ -943,14 +943,14 @@ RosNode::send_msg_planning_request()
   for (auto item : ((djnn::List*)_node_models)->children())
   {
     GET_CHILD_VALUE (str_status, Text, item, status)
-    GET_CHILD_VALUE (n_id, Int, item, id)
+    GET_CHILD_VALUE (str_id, Text, item, id)
 
     if (str_status == "start")
-      message.start_node = to_string(n_id);
+      message.start_node = str_id;
     else if ( str_status == "end")
-      message.end_node = to_string(n_id);
+      message.end_node = str_id;
     else if (str_status == "forced")
-        message.node_contraints.push_back(to_string(n_id));
+        message.node_contraints.push_back(str_id);
   }
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);

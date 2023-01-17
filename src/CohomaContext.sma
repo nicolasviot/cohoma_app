@@ -138,7 +138,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Ref ref_node_graph_edition (nullptr)
     //Bool is_null_node_graph_edition (1)
 
-    DerefInt id_node_graph_edition (ref_node_graph_edition, "id", DJNN_GET_ON_CHANGE)
+    DerefString id_node_graph_edition (ref_node_graph_edition, "id", DJNN_GET_ON_CHANGE)
     DerefDouble dx_node_graph_edition (ref_node_graph_edition, "dx_in_map", DJNN_GET_ON_CHANGE)
     DerefDouble dy_node_graph_edition (ref_node_graph_edition, "dy_in_map", DJNN_GET_ON_CHANGE)
     //id_node_graph_edition.value =:> lp.input

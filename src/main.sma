@@ -499,7 +499,7 @@ Component root {
 
       root.context.id_node_graph_edition.value -> (root) {
         addChildrenTo root.fsm_add_edge.preview_on.temp_id_list {
-          Int _ ($root.context.id_node_graph_edition.value)
+          String _ (toString(root.context.id_node_graph_edition.value))
         }
 
         int size = $root.fsm_add_edge.preview_on.temp_id_list.size 
@@ -562,7 +562,7 @@ Component root {
 
     // Add the id of the first selected node
     addChildrenTo root.fsm_add_edge.preview_on.temp_id_list{
-      Int _ ($root.context.id_node_graph_edition.value)
+      String _ (toString(root.context.id_node_graph_edition.value))
     }
   }
 

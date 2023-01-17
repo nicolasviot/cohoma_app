@@ -241,15 +241,14 @@ ModelManager (Process _context, int _is_debug)
     Component nodes
     
     // Model of the temporary node during edition 
-    NodeModel temp_node (-1, -1, "", 0.0, 0.0, 0, 0)
+    NodeModel temp_node ("temp", -1, "", 0.0, 0.0, 0, 0)
 
     Spike create_node_from_temp
 
     create_node_from_temp -> na_create_node_from_temp:(this) {
-        int n_node_id = this.node_ids.size
         string s_node_id = toString (this.node_ids.size)
         
-        NodeModel (this.nodes, s_node_id, n_node_id, -1, "by operator", $this.temp_node.lat, $this.temp_node.lon, 0, 0)
+        NodeModel (this.nodes, s_node_id, s_node_id, -1, "by operator", $this.temp_node.lat, $this.temp_node.lon, 0, 0)
 
         addChildrenTo this.node_ids {
             String _ (s_node_id)
