@@ -19,13 +19,14 @@ SafetyPilot (Process map, Process _context, Process _model, Process _svg)
     
     Translation screen_translation (0, 0)
     
-    NoOutline _
-    FillColor _ ($model.color)
-    FillOpacity _ (0.3)
-    Circle c (0, 0, 50)
+    Component bg {
+        NoOutline _
+        FillColor _ ($model.color)
+        FillOpacity _ (0.2)
+        Circle c (0, 0, 50)
+    }
 
-    FillColor _ (0, 0, 0)
-    FillOpacity _ (3.3) // 0.3 * 3.3 = 0.99 (opacity = 100%)
+    FillColor _ (#000000)
 
     icon << clone (_svg.icon)
     picking aka icon.picking
@@ -40,6 +41,6 @@ SafetyPilot (Process map, Process _context, Process _model, Process _svg)
 
     // Update the position via "screen_translation" in function of lat/lon and current zoom level
     // Allow to drag via "picking"
-    DraggableItemWithRadius draggable_item (map, model.lat, model.lon, model.radius, screen_translation.tx, screen_translation.ty, picking, c.r)
+    DraggableItemWithRadius draggable_item (map, model.lat, model.lon, model.radius, screen_translation.tx, screen_translation.ty, picking, bg.c.r)
 
 }

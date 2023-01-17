@@ -24,7 +24,7 @@ Label (string _label)
   FontWeight _ (DJN_NORMAL)
   FontSize _ (5, 24)
   TextAnchor _ (DJN_MIDDLE_ANCHOR)
-  Text legend (0, 7, _label)
+  Text legend (0, 8, _label)
   legend.width + 10 =:> bg.width
   - bg.width / 2 =:> bg.x
 }
