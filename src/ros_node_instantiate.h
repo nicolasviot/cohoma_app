@@ -53,48 +53,26 @@ struct ros_node_instantiate {
 
     void activate(RosNode* rosnode) {
     	#ifndef NO_ROS
-		  //subscriptions
-		  sub_navgraph =_node->create_subscription<icare_interfaces::msg::StringStamped>( 
-		  "/navgraph", qos_transient, std::bind(&RosNode::receive_msg_navgraph, rosnode, _1)); //Replace 10 with qosbesteffort
-		  
-		  sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>(
-		    "/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, rosnode, _1));
+		// SUBSCRIBE
+		sub_navgraph = _node->create_subscription<icare_interfaces::msg::StringStamped>("/navgraph", qos_transient, std::bind(&RosNode::receive_msg_navgraph, rosnode, _1));		  
+		sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>("/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, rosnode, _1));
+		sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItineraryList>("/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary_loop, rosnode, _1));
+		sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItinerary>("/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, rosnode, _1));
+		sub_candidate_tasks = _node->create_subscription<icare_interfaces::msg::Tasks>("/candidate_tasks", qos, std::bind(&RosNode::receive_msg_candidate_tasks, rosnode, _1));
+		sub_allocation = _node->create_subscription<icare_interfaces::msg::Allocation>("/allocation", qos, std::bind(&RosNode::receive_msg_allocation, rosnode, _1));
+		sub_traps = _node->create_subscription<icare_interfaces::msg::TrapList>("/traps", qos_transient, std::bind(&RosNode::receive_msg_trap, rosnode, _1));
+		sub_site = _node->create_subscription<icare_interfaces::msg::Site>("/site", qos_transient, std::bind(&RosNode::receive_msg_site, rosnode, _1));
+		sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>("map", qos_transient, std::bind(&RosNode::receive_msg_map, rosnode, std::placeholders::_1));
 
-		  sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItineraryList>(
-		    "/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary_loop, rosnode, _1));
-
-		  sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItinerary>(
-		    "/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, rosnode, _1));
-
-		  sub_candidate_tasks = _node->create_subscription<icare_interfaces::msg::Tasks>(
-		    "/candidate_tasks", qos, std::bind(&RosNode::receive_msg_candidate_tasks, rosnode, _1));
-
-		  sub_allocation = _node->create_subscription<icare_interfaces::msg::Allocation>(
-		    "/allocation", qos, std::bind(&RosNode::receive_msg_allocation, rosnode, _1));
-
-		  sub_traps = _node->create_subscription<icare_interfaces::msg::TrapList>(
-		    "/traps", qos_transient, std::bind(&RosNode::receive_msg_trap, rosnode, _1));
-
-		  sub_site = _node->create_subscription<icare_interfaces::msg::Site>(
-		    "/site", qos_transient, std::bind(&RosNode::receive_msg_site, rosnode, _1));
-
-		  sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>(
-		  "map", qos_transient, std::bind(&RosNode::receive_msg_map, rosnode, std::placeholders::_1));
-
-
-		  publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>(
-		    "/planning_request", qos);
-		  publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>(
-		    "/validation", qos);
-		  publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped>(
-		    "/navgraph_update", qos_transient);
-		  publisher_tasks = _node->create_publisher<icare_interfaces::msg::Tasks>(
-		    "/tasks", qos);
-		  publisher_validation_tasks = _node->create_publisher<icare_interfaces::msg::StringStamped>(
-		    "/validate", qos);
-		  publisher_lima = _node->create_publisher<icare_interfaces::msg::LimaCrossed>(
-		    "/lima", qos);
-		  #endif
+		// PUBLISH
+		publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>("/planning_request", qos);
+		publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>("/validation", qos);
+		publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped>("/navgraph_update", qos_transient);
+		publisher_tasks = _node->create_publisher<icare_interfaces::msg::Tasks>("/tasks", qos);
+		publisher_validation_tasks = _node->create_publisher<icare_interfaces::msg::StringStamped>("/validate", qos);
+		publisher_lima = _node->create_publisher<icare_interfaces::msg::LimaCrossed>("/lima", qos);
+		//publisher_trap_activation = _node->create_publisher<icare_interfaces::msg::TrapActivation>("/activation", qos);
+		#endif
 
     }
 
