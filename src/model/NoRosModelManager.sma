@@ -19,7 +19,7 @@ import ModelManager
 import PointModel
 import ExclusionZoneModel
 import LimaModel
-import VehiculeModel
+import VehicleModel
 import SafetyPilotModel
 import NodeModel
 import EdgeModel

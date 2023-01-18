@@ -78,7 +78,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int SELECTED_ITINERARY_COL (#1E90FF) // Blue
 
 
-    // COLORS for VEHICULES -- blues variations
+    // COLORS for VEHICLES -- blues variations
     //Int VAB_COL (#6BC0FF)
     //Int AGI_1_COL (#ADE2ED)
     //Int AGI_2_COL (#51D5F0)

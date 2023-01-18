@@ -32,7 +32,7 @@ Strip (Process _context, Process _model, Process _svg, int _index)
    String emergency_stop_str("")
    model.emergency_stop ? "true" : "false" =:> emergency_stop_str
 
-   String failsafe_str("")
+   String failsafe_str ("")
    model.failsafe ? "true" : "false" =:> failsafe_str
 
    g << clone (_svg.Strip)
