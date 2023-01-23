@@ -34,6 +34,7 @@ import itinerary.Itineraries
 import RosManager
 import strip.StripContainer
 import movable.SafetyPilot
+import movable.SubLayerVehicles
 import movable.Vehicle
 import task.TasksLayer
 import trap.TrapsLayer
@@ -167,9 +168,9 @@ Component root {
   Spike hide_reticule
 
   // Load only once SVG files
-	svg_vab = load_from_XML_once ("res/svg/vab.svg")
-  svg_robot = load_from_XML_once ("res/svg/robot.svg")
-  svg_drone = load_from_XML_once ("res/svg/drone.svg")
+	//svg_vab = load_from_XML_once ("res/svg/vab.svg")
+  //svg_robot = load_from_XML_once ("res/svg/robot.svg")
+  //svg_drone = load_from_XML_once ("res/svg/drone.svg")
   svg_safety_pilot = load_from_XML_once("res/svg/safety_pilot.svg")
 
   CohomaContext context (f, init_latitude, init_longitude, init_zoom)
@@ -195,11 +196,11 @@ Component root {
   model_manager = find(root.model)
   
 
-  List sub_layers {
+  /*List sub_layers {
     for model : model_manager.layers {
       SubLayer sub_layer (model)
     }
-  }
+  }*/
 
 
   // Create one layer per data, from bottom to top:
@@ -257,7 +258,7 @@ Component root {
 
     // ----------------------------------------------------
     //  SATELITE = VEHICLE = VAB + UGV + UAV
-    Component satellites {
+    /*Component satellites {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible {
@@ -277,7 +278,8 @@ Component root {
         }
       }
       String name ("Satellites")
-    }
+    }*/
+    SubLayerVehicles vehicles (model_manager.layers.[6], map, context, model_manager)
 
 
     // ----------------------------------------------------
@@ -401,7 +403,7 @@ Component root {
       site,
       navgraph,
       itineraries,
-      satellites,
+      vehicles, //satellites,
       traps, 
       tasks,
       actors,
