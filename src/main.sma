@@ -129,6 +129,7 @@ _native_code_
   }
 %}
 
+
 _main_
 Component root {
 
@@ -468,7 +469,7 @@ Component root {
 
   // ----------------------------------------------------
   // Menu to show/hide layers
-  UpperLeftMenu menu (l.map, context, f)
+  UpperLeftMenu menu (l.map, context, model_manager, f)
 
   // ----------------------------------------------------
   // FSM to manage the addition of node in the graph

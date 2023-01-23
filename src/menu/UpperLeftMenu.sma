@@ -8,7 +8,7 @@ import widgets.CheckBox
 import gui.animation.Animator
 
 _define_
-UpperLeftMenu (Process map, Process _context, Process f)
+UpperLeftMenu (Process map, Process _context, Process _model_manager, Process f)
 {
   //context aka _context
 
@@ -25,7 +25,7 @@ UpperLeftMenu (Process map, Process _context, Process f)
     FontWeight _ (DJN_BOLD)
     FontSize _ (0, 12)
     FillColor _ (White)
-    Text t (6, 17, "OSM opacity")
+    Text t (6, 17, "Opacity")
 
     /* Slider */
     Translation pos (0, 20)
@@ -45,11 +45,13 @@ UpperLeftMenu (Process map, Process _context, Process f)
     int off_y = 0
 
     List check_box_list {
-      for item : map.layers {
+      for model : _model_manager.layers {
         Component _ {
-          CheckBox cb (toString (item.name), 5, off_y)
-          cb.state =:> item.ctrl_visibility.state
-          String name (toString (item.name))
+          CheckBox cb (toString (model.name), 5, off_y)
+          cb.state =:> model.is_visible
+
+          // FIXME: to remove
+          String name (toString (model.name))
         }
         off_y += 20
       }
@@ -87,10 +89,10 @@ UpperLeftMenu (Process map, Process _context, Process f)
       ui.height + 15 + ui.pos.ty =: main_bg.height
       5 =: main_bg.ry
     }
-    start->folded (f.move) // we need this to avoid a false move event at startup
-    folded->unfold (main_bg.enter, anim.start)
-    unfold->unfolded (anim.end)
-    unfolded->fold (map.enter, anim.start)
-    fold->folded (anim.end)
+    start -> folded (f.move) // we need this to avoid a false move event at startup
+    folded -> unfold (main_bg.enter, anim.start)
+    unfold -> unfolded (anim.end)
+    unfolded -> fold (map.enter, anim.start)
+    fold -> folded (anim.end)
   }
 }

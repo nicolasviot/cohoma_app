@@ -10,12 +10,12 @@ SubLayer (Process _model)
 
     TextPrinter tp
 
-    Switch switch (visible) {
-        Component hidden {
-            "sub layer " +_model.name + " is hidden" =: tp.input
-        }
-        Component visible {
+    Switch switch (true) {
+        Component true {
             "sub layer " + _model.name + " is visible" =: tp.input
+        }
+        Component false {
+            "sub layer " +_model.name + " is hidden" =: tp.input
         }
     }
     _model.is_visible =:> switch.state

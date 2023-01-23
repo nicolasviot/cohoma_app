@@ -61,8 +61,8 @@ class RosNode : public FatProcess, public ExternalSource
 
     void run () override;
   	
-    void activate_layer(const string& string);
-    void deactivate_layer(const string& string);
+    //void activate_layer(const string& string);
+    //void deactivate_layer(const string& string);
 
   #ifndef NO_ROS
     void receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg);
@@ -95,7 +95,10 @@ class RosNode : public FatProcess, public ExternalSource
     // Arguments
 	  CoreProcess *_map, *_context, *_model_manager;
 	  CoreProcess *_frame;
+
+    // Layers
     CoreProcess *_layer_filter;
+    CoreProcess *_layer_models;
 
     // SITE
     CoreProcess *_limit_models, *_zone_models, *_lima_models;

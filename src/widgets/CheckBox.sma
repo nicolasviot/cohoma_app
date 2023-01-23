@@ -17,8 +17,8 @@ use display
 use gui
 
 _define_
-CheckBox (string _label, double x_, double y_) {
-  Translation t (x_, y_)
+CheckBox (string _label, double _x, double _y) {
+  Translation t (_x, _y)
 
   /*----- interface -----*/
   x aka t.tx
@@ -55,14 +55,16 @@ CheckBox (string _label, double x_, double y_) {
     State hover {
       75 =: fw.weight
     }
-    idle->hover (mask.enter)
-    hover->idle (mask.leave)
+    idle -> hover (mask.enter)
+    hover -> idle (mask.leave)
   }
+
   Spike press
   mask.press -> press
 
   FSM fsm {
-    State visible {
+    // Visible
+    State true {
       check_color =: fc.value
       1 =: ow.width
       OutlineColor oc (#ffffff)
@@ -75,12 +77,15 @@ CheckBox (string _label, double x_, double y_) {
         Point _ (14, 7)
       }
     }
-    State hidden {
+
+    // Hidden
+    State false {
       idle_color =: fc.value
       2 =: ow.width
     }
-    visible->hidden (press)
-    hidden->visible (press)
+
+    true -> false (press)
+    false -> true (press)
   }
 
   label aka thisLabel.text
