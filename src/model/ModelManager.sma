@@ -15,6 +15,7 @@ use core
 use gui
 use base
 
+import SubLayerModel
 import PointModel
 import ExclusionZoneModel
 import LimaModel
@@ -180,6 +181,22 @@ ModelManager (Process _context, int _is_debug)
     Spike clear_tasks
 
     Spike itineraries_updated
+
+
+    // sub Layers
+    List layers {
+        SubLayerModel _ ("Map")
+        SubLayerModel _ ("Result")
+        SubLayerModel _ ("Site")
+        SubLayerModel _ ("Nav. Graph")
+        SubLayerModel _ ("Itineraries")
+        SubLayerModel _ ("Satellites")
+        SubLayerModel _ ("Traps")
+        SubLayerModel _ ("Tasks")
+        SubLayerModel _ ("Safety")
+        SubLayerModel _ ("Allocations")
+    }
+
 
     // **************************************************************************************************
     //

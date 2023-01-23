@@ -10,8 +10,8 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/model/PointModel.sma src/model/ExclusionZoneModel.sma src/model/LimaModel.sma \
             src/model/NodeModel.sma src/model/EdgeModel.sma src/model/ItineraryModel.sma \
             src/model/VehicleModel.sma src/model/SafetyPilotModel.sma src/model/TrapModel.sma \
-            src/model/task/TaskEdgeModel.sma src/model/task/TaskAreaModel.sma  src/model/task/TaskTrapModel.sma \
-            src/model/ModelManager.sma src/model/NoRosModelManager.sma \
+            src/model/task/TaskEdgeModel.sma src/model/task/TaskAreaModel.sma src/model/task/TaskTrapModel.sma \
+            src/model/SubLayerModel.sma src/model/ModelManager.sma src/model/NoRosModelManager.sma \
             src/behavior/NotDraggableItem.sma src/behavior/DraggableItem.sma src/behavior/DraggableItemWithRadius.sma \
             src/Console.sma src/VisibilityMapLayer.sma src/ClockComponent.sma src/Reticule.sma \
             src/strip/Strip.sma src/strip/StripContainer.sma \
@@ -21,6 +21,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/task/TasksLayer.sma src/trap/TrapsLayer.sma \
             src/site/ExclusionArea.sma src/site/Lima.sma src/site/SiteLayer.sma \
             src/itinerary/ItineraryEdge.sma src/itinerary/ItineraryOnMap.sma src/itinerary/Itineraries.sma src/itinerary/ItineraryStrip.sma src/itinerary/ItineraryPanel.sma \
+            src/SubLayer.sma \
             src/map/PanAndZoom.sma src/map/PixmapTile.sma src/map/MapLayer.sma src/map/Map.sma \
             src/RosManager.sma \
             src/movable/Vehicle.sma src/movable/SafetyPilot.sma \

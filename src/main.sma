@@ -23,6 +23,7 @@ import model.ModelManager
 import model.NoRosModelManager
 import model.EdgeModel
 
+import SubLayer
 import map.Map
 import map.MapLayer
 import VisibilityMapLayer
@@ -193,6 +194,13 @@ Component root {
   model_manager = find(root.model)
   
 
+  List sub_layers {
+    for model : model_manager.layers {
+      SubLayer sub_layer (model)
+    }
+  }
+
+
   // Create one layer per data, from bottom to top:
   Component l {
 
@@ -210,19 +218,28 @@ Component root {
     map.xpan - map.cur_ref_x + map.px0 =:> context.map_translation_x
     map.ypan - map.cur_ref_y + map.py0 =:> context.map_translation_y
 
+    // Map provider
+    Component map_layer {
+      Switch ctrl_visibility (visible) {
+        Component hidden
+        Component visible {
+          MapLayer layer (f, map, map_provider, proxy)
+        }
+      }
+      String name ("Map")
+    }
 
     // Geoportail tiles
-    Component geoportail {
+    /*Component geoportail {
       Switch ctrl_visibility (visible) {
         Component hidden
         Component visible {
           //MapLayer layer (f, map, "geoportail", "http://proxy.recherche.enac.fr:3128") // geoportail may need proxy - using https
-          MapLayer layer (f, map, map_provider, proxy)
         }
       }
       //opacity aka ctrl_visibility.visible.layer.opacity
       String name ("Geoportail")
-    }
+    }*/
 
     // OSM tiles
     /*Component osm {
@@ -230,7 +247,6 @@ Component root {
         Component hidden
         Component visible {
           //MapLayer layer (f, map, "osm", "") // osm do not need proxy - using http
-          MapLayer layer (f, map, map_provider, proxy)
         }
       }
       //opacity aka ctrl_visibility.visible.layer.opacity
@@ -240,10 +256,10 @@ Component root {
 
     // ----------------------------------------------------
     //  SATELITE = VEHICLE = VAB + UGV + UAV
-    Component satelites {
+    Component satellites {
       Switch ctrl_visibility (visible) {
         Component hidden
-        Component visible { //using Layer prevents some animations to work (TODO Stephane)
+        Component visible {
 
           Translation pos (0, 0)
           context.map_translation_x =:> pos.tx
@@ -259,7 +275,7 @@ Component root {
           }
         }
       }
-      String name ("Satelites")
+      String name ("Satellites")
     }
 
 
@@ -272,7 +288,7 @@ Component root {
           NavGraph layer (map, context, model_manager)
         }
       }
-      String name ("Navgraph")
+      String name ("Nav. Graph")
     }
 
 
@@ -371,19 +387,20 @@ Component root {
           TasksLayer layer (map, context, model_manager)
         }
       }
-      String name("Allocation")
+      String name("Allocations")
     }
     
     
     // Add layers, from bottom to top:
     addChildrenTo map.layers {
-      geoportail,
+      map_layer,
+      //geoportail,
       //osm,
       result,
       site,
       navgraph,
       itineraries,
-      satelites,
+      satellites,
       traps, 
       tasks,
       actors,

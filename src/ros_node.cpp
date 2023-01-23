@@ -793,7 +793,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
         }
       }
 
-      if (layer_name == "Allocation")
+      if (layer_name == "Allocations")
       {
         cout << "Found 'Allocation' layer" << endl;
         GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
@@ -1059,7 +1059,7 @@ RosNode::send_validation_plan()
           }
         }
 
-        if (layer_name == "Allocation")
+        if (layer_name == "Allocations")
         {
           std::cerr << "Found 'Allocation' layer" << std::endl;
           GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
