@@ -188,14 +188,6 @@ Component root {
     ModelManager model (context, is_debug)
   }
   model_manager = find(root.model)
-  
-
-  // FIXME: To remove
-  /*List sub_layers {
-    for model : model_manager.layers {
-      SubLayer sub_layer (model)
-    }
-  }*/
 
 
   // Create one layer per data, from bottom to top:
@@ -216,38 +208,21 @@ Component root {
     map.ypan - map.cur_ref_y + map.py0 =:> context.map_translation_y
 
     // Map provider
-    Component map_layer {
-      Switch ctrl_visibility (visible) {
-        Component hidden
-        Component visible {
-          MapLayer layer (f, map, map_provider, proxy)
-        }
-      }
-      String name ("Map")
+    SubLayer sub_layer_map (model_manager.layers.[1])
+    addChildrenTo sub_layer_map.switch.true {
+      MapLayer map_layer (f, map, map_provider, proxy)
     }
 
-    // Geoportail tiles
-    /*Component geoportail {
-      Switch ctrl_visibility (visible) {
-        Component hidden
-        Component visible {
-          //MapLayer layer (f, map, "geoportail", "http://proxy.recherche.enac.fr:3128") // geoportail may need proxy - using https
-        }
-      }
-      //opacity aka ctrl_visibility.visible.layer.opacity
-      String name ("Geoportail")
+    /*// Geoportail tiles
+    SubLayer sub_layer_geoportail (model_manager.layers.[11])
+    addChildrenTo sub_layer_geoportail.switch.true {
+      MapLayer map_layer_geoportail (f, map, "geoportail", "http://proxy.recherche.enac.fr:3128") // geoportail may need proxy - using https
     }*/
 
     // OSM tiles
-    /*Component osm {
-      Switch ctrl_visibility (visible) {
-        Component hidden
-        Component visible {
-          //MapLayer layer (f, map, "osm", "") // osm do not need proxy - using http
-        }
-      }
-      //opacity aka ctrl_visibility.visible.layer.opacity
-      String name ("OSM")
+    /*SubLayer sub_layer_osm (model_manager.layers.[12])
+    addChildrenTo sub_layer_osm.switch.true {
+      MapLayer map_layer_osm (f, map, "osm", "") // osm do not need proxy - using http
     }*/
 
 
@@ -298,9 +273,9 @@ Component root {
     
     // Add layers, from bottom to top:
     addChildrenTo map.layers {
-      map_layer,
-      //geoportail,
-      //osm,
+      sub_layer_map,
+      //sub_layer_geoportail,
+      //sub_layer_osm,
       visibility_map,
       site,
       navigation_graph,

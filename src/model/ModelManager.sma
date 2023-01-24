@@ -195,6 +195,9 @@ ModelManager (Process _context, int _is_debug)
         SubLayerModel _ ("Traps")
         SubLayerModel _ ("Tasks")
         SubLayerModel _ ("Allocations")
+
+        //SubLayerModel _ ("Geoportail")
+        //SubLayerModel _ ("OSM")
     }
 
 
