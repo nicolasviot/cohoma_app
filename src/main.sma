@@ -35,7 +35,7 @@ import RosManager
 import strip.StripContainer
 import movable.SubLayerVehicles
 import movable.SubLayerSafetyPilots
-import task.TasksLayer
+import task.SubLayerTasks
 import trap.SubLayerTraps
 import trap.TrapStatusSelector
 import site.SubLayerSite
@@ -298,28 +298,12 @@ Component root {
 
     // ----------------------------------------------------
     //  TASK
-    Component tasks{
-      Switch ctrl_visibility (visible){
-        Component hidden
-        Component visible {
-          TasksLayer layer (map, context, model_manager)
-        }
-      }
-      String name("Tasks")
-    }
+    SubLayerTasks tasks (model_manager.layers.[9], map, context, model_manager)
 
 
     // ----------------------------------------------------
-    //  Allocated TASK
-    Component allocated_tasks{
-      Switch ctrl_visibility(visible){
-        Component hidden
-        Component visible{
-          TasksLayer layer (map, context, model_manager)
-        }
-      }
-      String name("Allocations")
-    }
+    //  Allocated Tasks
+    SubLayerTasks allocated_tasks (model_manager.layers.[10], map, context, model_manager)
     
     
     // Add layers, from bottom to top:
