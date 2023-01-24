@@ -111,7 +111,6 @@ RosNode::impl_activate ()
   _end_plan_vab_id.activate();
 
   GET_CHILD_VAR2 (_frame, CoreProcess, _parent, parent/f)
-  GET_CHILD_VAR2 (_layer_filter, CoreProcess, _parent, parent/menu/ui/check_box_list)
 
 
   // ---------------------------
@@ -730,35 +729,25 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
 
   cout << "Receive msg Tasks Assignment (Allocation)" << endl;
 
-  Container *_layer_filter_container = dynamic_cast<Container *> (_layer_filter);
-  if (_layer_filter_container)
+  
+for (auto sub_layer_model : (dynamic_cast<djnn::List*>(_layer_models))->children())
   {
-    int layer_size = _layer_filter_container->children ().size ();
-    for (int i = layer_size - 1; i >= 0; i--)
+    GET_CHILD_VALUE (layer_name, Text, sub_layer_model, name)
+    cout << "Layer " << layer_name << endl;
+    if ((layer_name == "Tasks") || (layer_name == "Allocations"))
     {
-      auto *child = _layer_filter_container->children ()[i];
-      GET_CHILD_VALUE (layer_name, Text, child, name)
-      //cout << "Found layer" << layer_name << std::endl;
-
-      if (layer_name == "Tasks")
+      BoolProperty* is_visible = static_cast<BoolProperty*>(sub_layer_model->find_child("is_visible"));
+      if (is_visible != nullptr)
       {
-        cout << "Found 'Tasks' layer" << endl;
-        GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
-        if (activation_state == "visible")
+        if ((layer_name == "Tasks") && is_visible->get_value())
         {
-          cout << "Tasks layer is visible --> Notify activation to cb/press" << endl;
-          child->find_child("cb/press")->notify_activation();
+          cout << "Tasks layer is visible --> hide it !" << endl;
+          is_visible->set_value(false, true);
         }
-      }
-
-      if (layer_name == "Allocations")
-      {
-        cout << "Found 'Allocation' layer" << endl;
-        GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
-        if (activation_state == "hidden")
+        else if ((layer_name == "Allocations") && !is_visible->get_value())
         {
-          cout << "Allocation layer is hidden --> Notify activation to cb/press" << endl;
-          child->find_child("cb/press")->notify_activation();
+          cout << "Allocations layer is hidden --> display it !" << endl;
+          is_visible->set_value(true, true);
         }
       }
     }
@@ -996,39 +985,30 @@ RosNode::send_validation_plan()
   message.header.stamp = _node->get_clock()->now();
   publisher_validation->publish(message);
 
-  Container *_layer_filter_container = dynamic_cast<Container *> (_layer_filter);
-  if (_layer_filter_container)
+  for (auto sub_layer_model : (dynamic_cast<djnn::List*>(_layer_models))->children())
   {
-    int layer_size = _layer_filter_container->children ().size ();
-    for (int i = layer_size - 1; i >= 0; i--)
+    GET_CHILD_VALUE (layer_name, Text, sub_layer_model, name)
+    cout << "Layer " << layer_name << endl;
+    if ((layer_name == "Tasks") || (layer_name == "Allocations"))
     {
-        auto *child = _layer_filter_container->children ()[i];
-        GET_CHILD_VALUE (layer_name, Text, child, name)
-        //cout << "Found layer" << layer_name << std::endl;
-
-        if (layer_name == "Tasks")
+      BoolProperty* is_visible = static_cast<BoolProperty*>(sub_layer_model->find_child("is_visible"));
+      if (is_visible != nullptr)
+      {
+        if ((layer_name == "Tasks") && !is_visible->get_value())
         {
-          cout << "Found 'Tasks' layer" << endl;
-          GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
-          if (activation_state == "hidden")
-          {
-            cout << "Tasks layer is hidden --> Notify activation to cb/press" << endl;
-            child->find_child("cb/press")->notify_activation();
-          }
+          cout << "Tasks layer is hidden --> display it !" << endl;
+          is_visible->set_value(true, true);
         }
-
-        if (layer_name == "Allocations")
+        else if ((layer_name == "Allocations") && is_visible->get_value())
         {
-          std::cerr << "Found 'Allocation' layer" << std::endl;
-          GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
-          if (activation_state == "visible")
-          {
-            cout << "Allocation layer is visible --> Notify activation to cb/press" << endl;
-            child->find_child("cb/press")->notify_activation();
-          }
+          cout << "Allocations layer is visible --> hide it !" << endl;
+          is_visible->set_value(false, true);
         }
+      }
     }
   }
+
+  //GRAPH_EXEC;
 
   GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Validate plan #" + message.data + "\n" , true);

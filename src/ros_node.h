@@ -93,8 +93,7 @@ class RosNode : public FatProcess, public ExternalSource
 	  CoreProcess *_map, *_context, *_model_manager;
 	  CoreProcess *_frame;
 
-    // Layers
-    CoreProcess *_layer_filter;
+    // (sub) Layers
     CoreProcess *_layer_models;
 
     // SITE

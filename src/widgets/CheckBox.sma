@@ -1,54 +1,69 @@
 /*
- *	djnn Smala compiler
+ *	COHOMA (Collaboration Homme Machine) application
  *
  *	The copyright holders for the contents of this file are:
- *		Ecole Nationale de l'Aviation Civile, France (2017)
+ *	Ecole Nationale de l'Aviation Civile, France (2021-2023)
  *	See file "license.terms" for the rights and conditions
  *	defined by copyright holders.
  *
- *
  *	Contributors:
- *		Mathieu Magnaudet <mathieu.magnaudet@enac.fr>
+ *    Mathieu Magnaudet <mathieu.magnaudet@enac.fr>
+ *    Vincent Peyruqueou <vincent.peyruqueou@enac.fr>
  *
  */
+
 use core
 use base
 use display
 use gui
 
 _define_
-CheckBox (string _label, double _x, double _y) {
+CheckBox (string _label, double _x, double _y)
+{
   Translation t (_x, _y)
 
   /*----- interface -----*/
   x aka t.tx
   y aka t.ty
+  
+  Int checked_color (#dd9408)
+  Int unchecked_color (#ffffff)
+
+  Bool is_checked (true)
+  
+  Spike checked
+  Spike unchecked
   /*----- interface -----*/
 
-  Int check_color (#dd9408)
-  Int idle_color (#ffffff)
-  Int min_height (0)
+  Int min_height (22)
   Int min_width (0)
 
+  // Mask
   NoFill _
   NoOutline _
   PickFill _
-  Rectangle mask (0, 0, 50, 22, 0, 0)
-  FillColor _ (#303030)
-  Rectangle _ (0, 0, 22, 22, 2, 2)
+  Rectangle mask (0, 0, 50, $min_height, 0, 0)
+  min_width =:> mask.width
 
+  // Square background
+  FillColor _ (#303030)
+  Rectangle _ (0, 0, $min_height, $min_height, 2, 2)
+
+  // Label
   FillColor text_color (#ffffff)
   FontWeight fw  (DJN_NORMAL)
-  Text thisLabel (26, 17, _label)
-  thisLabel.width + 22 =:> mask.width
+  Text txt_label (26, 17, _label)
+  txt_label.width + 25 =:> min_width
+  
+  label aka txt_label.text
 
+  // Square border
   OutlineWidth ow (2)
   OutlineColor oc (#535353)
-  FillColor fc (#ffffff)
-  
+  FillColor fc ($checked_color)
   Rectangle r (3, 3, 16, 16, 2, 2)
-
-  FSM ctrl_hover {
+  
+  FSM fsm_hover {
     State idle {
       50 =: fw.weight
     }
@@ -59,14 +74,13 @@ CheckBox (string _label, double _x, double _y) {
     hover -> idle (mask.leave)
   }
 
-  Spike press
-  mask.press -> press
+  FSM fsm_check {
+    State st_checked {
+      1 =?: is_checked
 
-  FSM fsm {
-    // Visible
-    State true {
-      check_color =: fc.value
+      checked_color =: fc.value
       1 =: ow.width
+
       OutlineColor oc (#ffffff)
       OutlineJoinStyle _ (1)
       OutlineCapStyle _ (1)
@@ -78,18 +92,17 @@ CheckBox (string _label, double _x, double _y) {
       }
     }
 
-    // Hidden
-    State false {
-      idle_color =: fc.value
+    State st_unchecked {
+      0 =?: is_checked
+
+      unchecked_color =: fc.value
       2 =: ow.width
     }
 
-    true -> false (press)
-    false -> true (press)
-  }
+    st_checked -> st_unchecked (mask.press, unchecked)
+    st_checked -> st_unchecked (is_checked.false) //, unchecked)
 
-  label aka thisLabel.text
-  thisLabel.width + 25 =:> min_width
-  min_height = 22
-  state aka fsm.state
+    st_unchecked -> st_checked (mask.press, checked)
+    st_unchecked -> st_checked (is_checked.true) //, checked)
+  }
 }

@@ -48,10 +48,17 @@ UpperLeftMenu (Process map, Process _context, Process _model_manager, Process f)
       for model : _model_manager.layers {
         Component _ {
           CheckBox cb (toString (model.name), 5, off_y)
-          cb.state =:> model.is_visible
 
-          // FIXME: to remove
-          String name (toString (model.name))
+          // Model --> View
+          model.is_visible =:> cb.is_checked
+
+          // View --> Model
+          cb.unchecked -> {
+            0 =?: model.is_visible
+          }
+          cb.checked -> {
+            1 =?: model.is_visible
+          }
         }
         off_y += 20
       }
