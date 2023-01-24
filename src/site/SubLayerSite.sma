@@ -86,8 +86,13 @@ SubLayerSite (Process _layer_model, Process _map, Process _context, Process _mod
 	model_manager aka _model_manager
 
 	NativeAction na_limits_added (action_limits_added, this, 1)
+	_model_manager.limits.$added -> na_limits_added
+	
 	NativeAction na_zones_added (action_zones_added, this, 1)
+	_model_manager.zones.$added -> na_zones_added
+
 	NativeAction na_limas_added (action_limas_added, this, 1)
+	_model_manager.limas.$added -> na_limas_added
 
 
 	addChildrenTo this.switch.true {
@@ -114,28 +119,23 @@ SubLayerSite (Process _layer_model, Process _map, Process _context, Process _mod
 				Polyline poly_line_in
 
 				Component behaviors
-
-				_model_manager.limits.$added -> na_limits_added
 			}
-
 
 			// EXCLUSION ZONES
 			List zones
 
-			_model_manager.zones.$added -> na_zones_added
-
-
 			// LIMAS
 			List limas
-
-			_model_manager.limas.$added -> na_limas_added
 		}
 	}
 
 	ui aka this.switch.true.layer
 
 
-	// DEBUG
+	//____________________
+	//
+	//  DEBUG
+	//
 	if (_model_manager.IS_DEBUG)
 	{
 		// LIMITS

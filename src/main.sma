@@ -27,8 +27,8 @@ import SubLayer
 import map.Map
 import map.MapLayer
 import VisibilityMapLayer
+import graph.SubLayerNavigGraph
 import graph.Node
-import graph.NavGraph
 import graph.NodeStatusSelector
 import itinerary.Itineraries
 import RosManager
@@ -271,6 +271,10 @@ Component root {
     SubLayerSite site (model_manager.layers.[3], map, context, model_manager)
 
     // ----------------------------------------------------
+    //  Navigation GRAPH = Nodes + Segments
+    SubLayerNavigGraph navigation_graph (model_manager.layers.[4], map, context, model_manager)
+
+    // ----------------------------------------------------
     //  VEHICLEs = VAB + SATELLITEs (UGV + UAV)
     SubLayerVehicles vehicles (model_manager.layers.[6], map, context, model_manager)
 
@@ -279,18 +283,6 @@ Component root {
     //  Layer "Safety Pilots"
     SubLayerSafetyPilots safety_pilots (model_manager.layers.[7], map, context, model_manager)
 
-
-    // ----------------------------------------------------
-    //  Navigation GRAPH
-    Component navgraph {
-      Switch ctrl_visibility (visible) {
-        Component hidden
-        Component visible {
-          NavGraph layer (map, context, model_manager)
-        }
-      }
-      String name ("Nav. Graph")
-    }
 
 
     // ----------------------------------------------------
@@ -352,7 +344,7 @@ Component root {
       //osm,
       result,
       site,
-      navgraph,
+      navigation_graph,
       itineraries,
       vehicles, //satellites,
       safety_pilots, //actors,

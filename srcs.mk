@@ -15,7 +15,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/behavior/NotDraggableItem.sma src/behavior/DraggableItem.sma src/behavior/DraggableItemWithRadius.sma \
             src/SubLayer.sma src/Console.sma src/VisibilityMapLayer.sma src/ClockComponent.sma src/Reticule.sma \
             src/strip/Strip.sma src/strip/StripContainer.sma \
-            src/graph/NodeStatusSelector.sma src/graph/Edge.sma src/graph/Node.sma src/graph/NavGraph.sma \
+            src/graph/NodeStatusSelector.sma src/graph/Edge.sma src/graph/Node.sma src/graph/SubLayerNavigGraph.sma \
             src/trap/TrapStatusSelector.sma src/trap/Trap.sma \
             src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma \
             src/task/TasksLayer.sma src/trap/TrapsLayer.sma \
