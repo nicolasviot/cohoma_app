@@ -20,7 +20,8 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma \
             src/task/TasksLayer.sma src/trap/TrapsLayer.sma \
             src/site/ExclusionArea.sma src/site/Lima.sma src/site/SubLayerSite.sma \
-            src/itinerary/ItineraryEdge.sma src/itinerary/ItineraryOnMap.sma src/itinerary/Itineraries.sma src/itinerary/ItineraryStrip.sma src/itinerary/ItineraryPanel.sma \
+            src/itinerary/ItineraryEdge.sma src/itinerary/ItineraryOnMap.sma src/itinerary/SubLayerItineraries.sma \
+            src/itinerary/ItineraryStrip.sma src/itinerary/ItineraryPanel.sma \
             src/map/PanAndZoom.sma src/map/PixmapTile.sma src/map/MapLayer.sma src/map/Map.sma \
             src/RosManager.sma \
             src/movable/Vehicle.sma src/movable/SubLayerVehicles.sma src/movable/SafetyPilot.sma src/movable/SubLayerSafetyPilots.sma \

@@ -30,7 +30,7 @@ import VisibilityMapLayer
 import graph.SubLayerNavigGraph
 import graph.Node
 import graph.NodeStatusSelector
-import itinerary.Itineraries
+import itinerary.SubLayerItineraries
 import RosManager
 import strip.StripContainer
 import movable.SubLayerVehicles
@@ -270,9 +270,16 @@ Component root {
     //  SITE = Limits + Exclusion zones + Limas
     SubLayerSite site (model_manager.layers.[3], map, context, model_manager)
 
+
     // ----------------------------------------------------
     //  Navigation GRAPH = Nodes + Segments
     SubLayerNavigGraph navigation_graph (model_manager.layers.[4], map, context, model_manager)
+
+
+    // ----------------------------------------------------
+    //  ITINERARY
+    SubLayerItineraries itineraries (model_manager.layers.[5], map, context, model_manager)
+
 
     // ----------------------------------------------------
     //  VEHICLEs = VAB + SATELLITEs (UGV + UAV)
@@ -283,19 +290,6 @@ Component root {
     //  Layer "Safety Pilots"
     SubLayerSafetyPilots safety_pilots (model_manager.layers.[7], map, context, model_manager)
 
-
-
-    // ----------------------------------------------------
-    //  ITINERARY
-    Component itineraries {
-      Switch ctrl_visibility (visible){
-        Component hidden
-        Component visible{
-          Itineraries layer (map, context, model_manager)
-        }
-      }
-      String name ("Itineraries")
-    }
 
 
     // ----------------------------------------------------
