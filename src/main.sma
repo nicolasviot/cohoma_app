@@ -26,7 +26,7 @@ import model.EdgeModel
 import SubLayer
 import map.Map
 import map.MapLayer
-import VisibilityMapLayer
+import SubLayerVisibilityMap
 import graph.SubLayerNavigGraph
 import graph.Node
 import graph.NodeStatusSelector
@@ -253,17 +253,7 @@ Component root {
 
     // ----------------------------------------------------
     //  Result of the map exploration by drones and robots
-    Component result{
-      Switch ctrl_visibility (visible){
-        Component hidden
-        Component visible  {
-          VisibilityMapLayer layer (map, context)
-        }
-      }
-      String name("Result")
-      result_layer aka ctrl_visibility.visible.layer
-      image aka ctrl_visibility.visible.layer.image
-    }
+    SubLayerVisibilityMap visibility_map (model_manager.layers.[2], map, context)
 
 
     // ----------------------------------------------------
@@ -311,7 +301,7 @@ Component root {
       map_layer,
       //geoportail,
       //osm,
-      result,
+      visibility_map,
       site,
       navigation_graph,
       itineraries,
@@ -375,7 +365,7 @@ Component root {
   //right_panel.itinerary_panel.set_plan -> model_manager.clear_tasks
 
   // --> Clear the view first
-  right_panel.itinerary_panel.set_plan -> root.l.map.layers.tasks.ctrl_visibility.visible.layer.clear
+  right_panel.itinerary_panel.set_plan -> root.l.map.layers.tasks.clear
 	
   // ----------------------------------------------------
   // Strips container
