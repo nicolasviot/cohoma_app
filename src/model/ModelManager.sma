@@ -191,9 +191,9 @@ ModelManager (Process _context, int _is_debug)
         SubLayerModel _ ("Nav. Graph")
         SubLayerModel _ ("Itineraries")
         SubLayerModel _ ("Vehicles") // SubLayerModel _ ("Satellites")
+        SubLayerModel _ ("Safety pilots")
         SubLayerModel _ ("Traps")
         SubLayerModel _ ("Tasks")
-        SubLayerModel _ ("Safety")
         SubLayerModel _ ("Allocations")
     }
 

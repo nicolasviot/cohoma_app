@@ -13,18 +13,17 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/model/task/TaskEdgeModel.sma src/model/task/TaskAreaModel.sma src/model/task/TaskTrapModel.sma \
             src/model/SubLayerModel.sma src/model/ModelManager.sma src/model/NoRosModelManager.sma \
             src/behavior/NotDraggableItem.sma src/behavior/DraggableItem.sma src/behavior/DraggableItemWithRadius.sma \
-            src/Console.sma src/VisibilityMapLayer.sma src/ClockComponent.sma src/Reticule.sma \
+            src/SubLayer.sma src/Console.sma src/VisibilityMapLayer.sma src/ClockComponent.sma src/Reticule.sma \
             src/strip/Strip.sma src/strip/StripContainer.sma \
             src/graph/NodeStatusSelector.sma src/graph/Edge.sma src/graph/Node.sma src/graph/NavGraph.sma \
             src/trap/TrapStatusSelector.sma src/trap/Trap.sma \
             src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma \
             src/task/TasksLayer.sma src/trap/TrapsLayer.sma \
-            src/site/ExclusionArea.sma src/site/Lima.sma src/site/SiteLayer.sma \
+            src/site/ExclusionArea.sma src/site/Lima.sma src/site/SubLayerSite.sma \
             src/itinerary/ItineraryEdge.sma src/itinerary/ItineraryOnMap.sma src/itinerary/Itineraries.sma src/itinerary/ItineraryStrip.sma src/itinerary/ItineraryPanel.sma \
-            src/SubLayer.sma src/movable/SubLayerVehicles.sma \
             src/map/PanAndZoom.sma src/map/PixmapTile.sma src/map/MapLayer.sma src/map/Map.sma \
             src/RosManager.sma \
-            src/movable/Vehicle.sma src/movable/SafetyPilot.sma \
+            src/movable/Vehicle.sma src/movable/SubLayerVehicles.sma src/movable/SafetyPilot.sma src/movable/SubLayerSafetyPilots.sma \
             src/menu/RightPanel.sma src/menu/UpperLeftMenu.sma \
             src/main.sma
 # or

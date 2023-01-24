@@ -1,3 +1,16 @@
+/*
+ *	COHOMA (Collaboration Homme Machine) application
+ *
+ *	The copyright holders for the contents of this file are:
+ *	Ecole Nationale de l'Aviation Civile, France (2021-2023)
+ *	See file "license.terms" for the rights and conditions
+ *	defined by copyright holders.
+ *
+ *	Contributors:
+ *    Vincent Peyruqueou <vincent.peyruqueou@enac.fr>
+ *
+ */
+
 use core
 use gui
 use base
@@ -8,6 +21,10 @@ import Vehicle
 _define_
 SubLayerVehicles (Process _layer_model, Process _map, Process _context, Process _model_manager) inherits SubLayer (_layer_model)
 {
+	//map aka _map
+	//context aka _context
+	//model_manager aka _model_manager
+
 	// Load only once SVG files
 	svg_vab = load_from_XML_once ("res/svg/vab.svg")
   	svg_robot = load_from_XML_once ("res/svg/robot.svg")

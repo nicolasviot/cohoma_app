@@ -33,13 +33,12 @@ import graph.NodeStatusSelector
 import itinerary.Itineraries
 import RosManager
 import strip.StripContainer
-import movable.SafetyPilot
 import movable.SubLayerVehicles
-import movable.Vehicle
+import movable.SubLayerSafetyPilots
 import task.TasksLayer
 import trap.TrapsLayer
 import trap.TrapStatusSelector
-import site.SiteLayer
+import site.SubLayerSite
 import menu.UpperLeftMenu
 import menu.RightPanel
 
@@ -167,11 +166,6 @@ Component root {
   Spike show_reticule
   Spike hide_reticule
 
-  // Load only once SVG files
-	//svg_vab = load_from_XML_once ("res/svg/vab.svg")
-  //svg_robot = load_from_XML_once ("res/svg/robot.svg")
-  //svg_drone = load_from_XML_once ("res/svg/drone.svg")
-  svg_safety_pilot = load_from_XML_once("res/svg/safety_pilot.svg")
 
   CohomaContext context (f, init_latitude, init_longitude, init_zoom)
   /*context.ctrl -> {
@@ -257,29 +251,41 @@ Component root {
 
 
     // ----------------------------------------------------
-    //  SATELITE = VEHICLE = VAB + UGV + UAV
-    /*Component satellites {
-      Switch ctrl_visibility (visible) {
+    //  Result of the map exploration by drones and robots
+    Component result{
+      Switch ctrl_visibility (visible){
         Component hidden
-        Component visible {
-
-          Translation pos (0, 0)
-          context.map_translation_x =:> pos.tx
-          context.map_translation_y =:> pos.ty
-
-          List layers {
-            Vehicle vab (map, context, model_manager.vehicles.vab, svg_vab)
-            Vehicle agilex1 (map, context, model_manager.vehicles.agilex1, svg_robot)
-            Vehicle agilex2 (map, context, model_manager.vehicles.agilex2, svg_robot)
-            Vehicle lynx (map, context, model_manager.vehicles.lynx, svg_robot)
-            Vehicle spot (map, context, model_manager.vehicles.spot, svg_robot)
-            Vehicle drone (map, context, model_manager.vehicles.drone, svg_drone)
-          }
+        Component visible  {
+          VisibilityMapLayer layer (map, context)
         }
       }
-      String name ("Satellites")
+      String name("Result")
+      result_layer aka ctrl_visibility.visible.layer
+      image aka ctrl_visibility.visible.layer.image
+    }
+
+
+    // ----------------------------------------------------
+    //  SITE = Limits + Exclusion zones + Limas
+    /*Component site{
+      Switch ctrl_visibility(visible){
+        Component hidden
+        Component visible {
+          SiteLayer layer (map, context, model_manager)
+        }
+      }
+      String name("Site")
     }*/
+    SubLayerSite site (model_manager.layers.[3], map, context, model_manager)
+
+    // ----------------------------------------------------
+    //  VEHICLEs = VAB + SATELLITEs (UGV + UAV)
     SubLayerVehicles vehicles (model_manager.layers.[6], map, context, model_manager)
+
+
+    // ----------------------------------------------------
+    //  Layer "Safety Pilots"
+    SubLayerSafetyPilots safety_pilots (model_manager.layers.[7], map, context, model_manager)
 
 
     // ----------------------------------------------------
@@ -335,53 +341,6 @@ Component root {
 
 
     // ----------------------------------------------------
-    //  Result of the map exploration by drones and robots
-    Component result{
-      Switch ctrl_visibility (visible){
-        Component hidden
-        Component visible  {
-          VisibilityMapLayer layer (map, context)
-        }
-      }
-      String name("Result")
-      result_layer aka ctrl_visibility.visible.layer
-      image aka ctrl_visibility.visible.layer.image
-    }
-
-
-    // ----------------------------------------------------
-    //  ACTOR = Safety Pilot
-    Component actors{
-      Switch ctrl_visibility (visible){
-        Component hidden
-        Component visible {
-
-          Translation pos (0, 0)
-          context.map_translation_x =:> pos.tx
-          context.map_translation_y =:> pos.ty
-
-          SafetyPilot drone_safety_pilot (map, context, model_manager.safety_pilots.drone_safety_pilot, svg_safety_pilot)
-          SafetyPilot ground_safety_pilot (map, context, model_manager.safety_pilots.ground_safety_pilot, svg_safety_pilot)
-        }
-      }
-      String name("Actors")
-    }
-
-
-    // ----------------------------------------------------
-    //  SITE = exclusion areas + limas
-    Component site{
-      Switch ctrl_visibility(visible){
-        Component hidden
-        Component visible {
-          SiteLayer layer (map, context, model_manager)
-        }
-      }
-      String name("Site")
-    }
-
-
-    // ----------------------------------------------------
     //  Allocated TASK
     Component allocated_tasks{
       Switch ctrl_visibility(visible){
@@ -404,9 +363,9 @@ Component root {
       navgraph,
       itineraries,
       vehicles, //satellites,
+      safety_pilots, //actors,
       traps, 
       tasks,
-      actors,
       allocated_tasks
     }
   }
