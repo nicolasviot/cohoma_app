@@ -60,9 +60,6 @@ class RosNode : public FatProcess, public ExternalSource
     void impl_deactivate () override;
 
     void run () override;
-  	
-    //void activate_layer(const string& string);
-    //void deactivate_layer(const string& string);
 
   #ifndef NO_ROS
     void receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg);

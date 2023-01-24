@@ -36,16 +36,16 @@ action_limits_added (Process src, Process self)
 	for (int i = 1; i <= self.model_manager.limits.size; i++) {
 		//print ("View of point: lat = " + self.model_manager.limits.[i].lat + " -- lon = " + self.model_manager.limits.[i].lon + "\n")
 		
-		addChildrenTo self.ui.poly_line_out.points {
+		addChildrenTo self.ui.limits.poly_line_out.points {
 			PolyPoint _ (0, 0)
 		}
-		addChildrenTo self.ui.poly_line_in.points {
+		addChildrenTo self.ui.limits.poly_line_in.points {
 			PolyPoint _ (0, 0)
 		}
 
-		addChildrenTo self.ui.behaviors {
-			NotDraggableItem _ (self.map, self.model_manager.limits.[i].lat, self.model_manager.limits.[i].lon, self.ui.poly_line_out.points.[i].x, self.ui.poly_line_out.points.[i].y)
-			NotDraggableItem _ (self.map, self.model_manager.limits.[i].lat, self.model_manager.limits.[i].lon, self.ui.poly_line_in.points.[i].x, self.ui.poly_line_in.points.[i].y)
+		addChildrenTo self.ui.limits.behaviors {
+			NotDraggableItem _ (self.map, self.model_manager.limits.[i].lat, self.model_manager.limits.[i].lon, self.ui.limits.poly_line_out.points.[i].x, self.ui.limits.poly_line_out.points.[i].y)
+			NotDraggableItem _ (self.map, self.model_manager.limits.[i].lat, self.model_manager.limits.[i].lon, self.ui.limits.poly_line_in.points.[i].x, self.ui.limits.poly_line_in.points.[i].y)
 		}
 	}
 }
@@ -115,27 +115,6 @@ SubLayerSite (Process _layer_model, Process _map, Process _context, Process _mod
 
 				Component behaviors
 
-				//print ("Limits: " + _model_manager.limits.size + " points\n")
-
-				/*_model_manager.limits.$added -> na_limits_added:(this) {
-					print ("New model of point added to the limits: " + this.model_manager.limits.size + "\n")
-				
-					for (int i = 1; i <= this.model_manager.limits.size; i++) {
-						//print ("View of point: lat = " + this.model_manager.limits.[i].lat + " -- lon = " + this.model_manager.limits.[i].lon + "\n")
-						
-						addChildrenTo this.layer.limits.poly_line_out.points {
-							PolyPoint _ (0, 0)
-						}
-						addChildrenTo this.layer.limits.poly_line_in.points {
-							PolyPoint _ (0, 0)
-						}
-
-						addChildrenTo this.layer.limits.behaviors {
-							NotDraggableItem _ (this.map, this.model_manager.limits.[i].lat, this.model_manager.limits.[i].lon, this.layer.limits.poly_line_out.points.[i].x, this.layer.limits.poly_line_out.points.[i].y)
-							NotDraggableItem _ (this.map, this.model_manager.limits.[i].lat, this.model_manager.limits.[i].lon, this.layer.limits.poly_line_in.points.[i].x, this.layer.limits.poly_line_in.points.[i].y)
-						}
-					}
-				}*/
 				_model_manager.limits.$added -> na_limits_added
 			}
 
@@ -143,30 +122,12 @@ SubLayerSite (Process _layer_model, Process _map, Process _context, Process _mod
 			// EXCLUSION ZONES
 			List zones
 
-			/*_model_manager.zones.$added -> na_zone_added:(this) {
-				print ("New model of zone added to list " + this.model_manager.zones.size + "\n")
-
-				for model : this.model_manager.zones {
-					addChildrenTo this.layer.zones {
-						ExclusionArea zone (this.map, this.context, model)
-					}
-				}
-			}*/
 			_model_manager.zones.$added -> na_zones_added
 
 
 			// LIMAS
 			List limas
 
-			/*_model_manager.limas.$added -> na_lima_added:(this) {
-				print ("New model of Lima added to list " + this.model_manager.limas.size + "\n")
-				
-				for model : this.model_manager.limas {
-					addChildrenTo this.layer.limas {
-						Lima lima (this.map, this.context, model)
-					}
-				}
-			}*/
 			_model_manager.limas.$added -> na_limas_added
 		}
 	}

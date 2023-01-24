@@ -217,51 +217,6 @@ RosNode::run () {
 }
 
 
-/*void
-RosNode::activate_layer(const string& layer_to_activate)
-{
-  Container *_layer_filter_container = dynamic_cast<Container *> (_layer_filter);
-  if (_layer_filter_container != nullptr)
-  {
-    int layer_size = _layer_filter_container->children ().size ();
-    for (int i = layer_size - 1; i >= 0; i--)
-    {
-      auto *child = _layer_filter_container->children ()[i];
-      GET_CHILD_VALUE (layer_name, Text, child, name)
-      if (layer_name == layer_to_activate)
-      {
-        GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
-        if (activation_state == "hidden"){
-          child->find_child("cb/press")->activate();
-        }
-      }
-    }
-  }
-}
-
-void
-RosNode::deactivate_layer (const string& layer_to_deactivate)
-{
-  Container *_layer_filter_container = dynamic_cast<Container *> (_layer_filter);
-  if (_layer_filter_container != nullptr)
-  {
-    int layer_size = _layer_filter_container->children ().size ();
-    for (int i = layer_size - 1; i >= 0; i--)
-    {
-      auto *child = _layer_filter_container->children ()[i];
-      GET_CHILD_VALUE (layer_name, Text, child, name)
-      if (layer_name == layer_to_deactivate)
-      {
-        GET_CHILD_VALUE (activation_state, Text, child, cb/fsm/state)
-        if (activation_state == "visible") {
-          child->find_child("cb/press")->activate();
-        }
-      }
-    }
-  }
-}*/
-
-
 #ifndef NO_ROS
 
 // **************************************************************************************************

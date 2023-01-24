@@ -190,6 +190,7 @@ Component root {
   model_manager = find(root.model)
   
 
+  // FIXME: To remove
   /*List sub_layers {
     for model : model_manager.layers {
       SubLayer sub_layer (model)
@@ -267,15 +268,6 @@ Component root {
 
     // ----------------------------------------------------
     //  SITE = Limits + Exclusion zones + Limas
-    /*Component site{
-      Switch ctrl_visibility(visible){
-        Component hidden
-        Component visible {
-          SiteLayer layer (map, context, model_manager)
-        }
-      }
-      String name("Site")
-    }*/
     SubLayerSite site (model_manager.layers.[3], map, context, model_manager)
 
     // ----------------------------------------------------
