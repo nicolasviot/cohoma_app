@@ -36,7 +36,7 @@ import strip.StripContainer
 import movable.SubLayerVehicles
 import movable.SubLayerSafetyPilots
 import task.TasksLayer
-import trap.TrapsLayer
+import trap.SubLayerTraps
 import trap.TrapStatusSelector
 import site.SubLayerSite
 import menu.UpperLeftMenu
@@ -282,27 +282,18 @@ Component root {
 
 
     // ----------------------------------------------------
-    //  VEHICLEs = VAB + SATELLITEs (UGV + UAV)
+    //  VEHICLE = VAB + SATELLITEs (UGV + UAV)
     SubLayerVehicles vehicles (model_manager.layers.[6], map, context, model_manager)
 
 
     // ----------------------------------------------------
-    //  Layer "Safety Pilots"
+    //  Safety Pilots
     SubLayerSafetyPilots safety_pilots (model_manager.layers.[7], map, context, model_manager)
-
 
 
     // ----------------------------------------------------
     //  TRAP
-    Component traps{
-      Switch ctrl_visibility (visible){
-        Component hidden
-        Component visible {
-          TrapsLayer layer (map, context, model_manager)
-        }
-      }
-      String name("Traps")
-    }
+    SubLayerTraps traps (model_manager.layers.[8], map, context, model_manager)
 
 
     // ----------------------------------------------------
