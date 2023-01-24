@@ -247,30 +247,30 @@ Component root {
 
 
     // ----------------------------------------------------
-    //  VEHICLE = VAB + SATELLITEs (UGV + UAV)
-    SubLayerVehicles vehicles (model_manager.layers.[6], map, context, model_manager)
-
-
-    // ----------------------------------------------------
-    //  Safety Pilots
-    SubLayerSafetyPilots safety_pilots (model_manager.layers.[7], map, context, model_manager)
-
-
-    // ----------------------------------------------------
     //  TRAP
-    SubLayerTraps traps (model_manager.layers.[8], map, context, model_manager)
+    SubLayerTraps traps (model_manager.layers.[6], map, context, model_manager)
 
 
     // ----------------------------------------------------
     //  TASK
-    SubLayerTasks tasks (model_manager.layers.[9], map, context, model_manager)
+    SubLayerTasks tasks (model_manager.layers.[7], map, context, model_manager)
 
 
     // ----------------------------------------------------
     //  Allocated Tasks
-    SubLayerTasks allocated_tasks (model_manager.layers.[10], map, context, model_manager)
+    SubLayerTasks allocated_tasks (model_manager.layers.[8], map, context, model_manager)
+
+
+    // ----------------------------------------------------
+    //  Safety Pilots
+    SubLayerSafetyPilots safety_pilots (model_manager.layers.[9], map, context, model_manager)
+
+
+    // ----------------------------------------------------
+    //  VEHICLE = VAB + SATELLITEs (UGV + UAV)
+    SubLayerVehicles vehicles (model_manager.layers.[10], map, context, model_manager)
     
-    
+
     // Add layers, from bottom to top:
     addChildrenTo map.layers {
       sub_layer_map,
@@ -280,11 +280,11 @@ Component root {
       site,
       navigation_graph,
       itineraries,
-      vehicles, //satellites,
-      safety_pilots, //actors,
       traps, 
       tasks,
-      allocated_tasks
+      allocated_tasks,
+      safety_pilots, //actors,
+      vehicles //satellites
     }
   }
 

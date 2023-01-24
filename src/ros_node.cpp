@@ -733,7 +733,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
 for (auto sub_layer_model : (dynamic_cast<djnn::List*>(_layer_models))->children())
   {
     GET_CHILD_VALUE (layer_name, Text, sub_layer_model, name)
-    cout << "Layer " << layer_name << endl;
+    //cout << "Layer " << layer_name << endl;
     if ((layer_name == "Tasks") || (layer_name == "Allocations"))
     {
       BoolProperty* is_visible = static_cast<BoolProperty*>(sub_layer_model->find_child("is_visible"));
@@ -988,7 +988,7 @@ RosNode::send_validation_plan()
   for (auto sub_layer_model : (dynamic_cast<djnn::List*>(_layer_models))->children())
   {
     GET_CHILD_VALUE (layer_name, Text, sub_layer_model, name)
-    cout << "Layer " << layer_name << endl;
+    //cout << "Layer " << layer_name << endl;
     if ((layer_name == "Tasks") || (layer_name == "Allocations"))
     {
       BoolProperty* is_visible = static_cast<BoolProperty*>(sub_layer_model->find_child("is_visible"));
