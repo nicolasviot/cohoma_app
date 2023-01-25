@@ -17,6 +17,15 @@ NodeModel (string _id, int _phase, string _label, double _lat, double _lon, doub
 	Int phase (_phase)
 	
 	String label (_label)
+	Bool is_empty_label (0)
+	if (_label == "") {
+		//1 =: is_empty_label
+		is_empty_label = 1
+	}
+	// FIXME: if label can be updated
+	//TextComparator tc (_label, "")
+	//label =:> tc.left
+	//is_empty_label aka tc.output
 
 	Double lat (_lat)
 	Double lon (_lon)

@@ -21,7 +21,7 @@ Label (string _label)
   Rectangle bg (0, -15, 1, 30, 5, 5)
   
   FillColor black (#000000)
-  FontWeight _ (DJN_NORMAL)
+  FontWeight _ (DJN_BOLD) // (DJN_NORMAL)
   FontSize _ (5, 24)
   TextAnchor _ (DJN_MIDDLE_ANCHOR)
   Text legend (0, 8, _label)
