@@ -25,6 +25,7 @@ _define_
 CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_zoom)
 {
     //frame aka _frame
+    frame_released aka _frame.release
 
 	LogPrinter lp ("Context (debug): ")
     TextPrinter tp
@@ -133,7 +134,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Spike del_r
     _frame.key\-pressed == DJN_Key_Backspace -> del
 
-
+    
     //
     // Dynamic properties
     //

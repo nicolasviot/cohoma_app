@@ -12,7 +12,7 @@ _native_code_
 
 
 _define_
-DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Process _dx, Process _dy, Process _picking)
+DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Process _dx, Process _dy, Process _picking, Process _frame_released)
 {
     //TextPrinter tp
 
@@ -107,6 +107,8 @@ DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Proce
         
         no_drag -> drag (_picking.left.press, _map.reticule.show_reticule2)
         drag -> no_drag (_picking.left.release, _map.reticule.hide_reticule2)
+        drag -> no_drag (_frame_released, _map.reticule.hide_reticule2) // Occurs when release is done outside parent layer
+
         no_drag -> no_drag_while_shift_key (_context.shift)
         no_drag_while_shift_key -> no_drag (_context.shift_r)
     }

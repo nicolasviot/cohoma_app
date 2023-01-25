@@ -41,6 +41,6 @@ SafetyPilot (Process map, Process _context, Process _model, Process _svg)
 
     // Update the position via "screen_translation" in function of lat/lon and current zoom level
     // Allow to drag via "picking"
-    DraggableItemWithRadius draggable_item (map, model.lat, model.lon, model.radius, screen_translation.tx, screen_translation.ty, picking, bg.c.r)
+    DraggableItemWithRadius draggable_item (map, model.lat, model.lon, model.radius, screen_translation.tx, screen_translation.ty, picking, _context.frame_released, bg.c.r)
 
 }

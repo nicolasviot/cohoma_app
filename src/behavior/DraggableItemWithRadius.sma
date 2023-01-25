@@ -12,7 +12,7 @@ _native_code_
 
 
 _define_
-DraggableItemWithRadius (Process _map, Process _lat, Process _lon, Process _radius_meter, Process _tx, Process _ty, Process _picking, Process _radius_pixel)
+DraggableItemWithRadius (Process _map, Process _lat, Process _lon, Process _radius_meter, Process _tx, Process _ty, Process _picking, Process _frame_released, Process _radius_pixel)
 {
     //TextPrinter tp
 
@@ -130,6 +130,7 @@ DraggableItemWithRadius (Process _map, Process _lat, Process _lon, Process _radi
         }
         no_drag -> drag (_picking.left.press, _map.reticule.show_reticule2)
         drag -> no_drag (_picking.left.release, _map.reticule.hide_reticule2)
+        drag -> no_drag (_frame_released, _map.reticule.hide_reticule2) // Occurs when release is done outside parent layer
     }
 
 }

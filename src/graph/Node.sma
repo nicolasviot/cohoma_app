@@ -59,16 +59,17 @@ Node (Process _map, Process _context, Process _model)
 
 
 	Component label {
+		Int default_label_height (20)
 		FillOpacity global_op (0.7)
 
 		FillColor light_grey (#D3D3D3)
-		Rectangle r_link ($default_radius, -2, 20 - $default_radius, 4, 0, 0)
+		Rectangle r_link ($default_radius, -2, 18 - $default_radius, 4, 0, 0)
 
 		OutlineOpacity outline_op (0.7)
 		OutlineWidth _ (1)
 		OutlineColor _ (#555555)
 
-		Rectangle r_bg (20, -11, 22, 22, 5, 5)
+		Rectangle r_bg (18, -10, 20, $default_label_height, 5, 5)
 		
 		FillColor texts_color (#000000)
 
@@ -77,7 +78,7 @@ Node (Process _map, Process _context, Process _model)
 
 			FontWeight _ (DJN_NORMAL)
 			FontSize _ (5, 14)
-			Text txt_details (24, 5, "")
+			Text txt_details (22, 5, "")
 			"(" + _model.id + ") " + _model.status =:> txt_details.text
 		}
 
@@ -85,18 +86,18 @@ Node (Process _map, Process _context, Process _model)
 			// NOT empty name
 			Component false {
 				FontWeight _ (DJN_BOLD)
-				FontSize _ (5, 18)
-				Text txt_name (24, 7, toString(_model.label))
+				FontSize _ (5, 16)
+				Text txt_name (22, 5, toString(_model.label))
 				//_model.label =:> txt_name.text
 
-				26 =: details.txt_details.y
+				24 =: details.txt_details.y
 
 				Switch switch_not_empty_label (idle) {
 					Component idle {
 						txt_name.width + 8 =: r_bg.width
 						0.7 =: global_op.a, outline_op.a
 						0.0 =: details.details_op.a
-						22 =: r_bg.height
+						default_label_height =: r_bg.height
 					}
 					Component entered {
 						
@@ -104,7 +105,7 @@ Node (Process _map, Process _context, Process _model)
 					Component display_details {
 						txt_name.width > details.txt_details.width ? txt_name.width + 8 : details.txt_details.width + 8 =: r_bg.width
 						0.9 =: global_op.a, outline_op.a, details.details_op.a
-						44 =: r_bg.height
+						40 =: r_bg.height
 					}
 				}
 				fsm.state =:> switch_not_empty_label.state
@@ -200,6 +201,6 @@ Node (Process _map, Process _context, Process _model)
 
     // Update the position via "screen_translation" in function of lat/lon and current zoom level
     // Allow to drag via "picking"
-    DraggableItem draggable_item (_map, _context, _model.lat, _model.lon, _model.dx_in_map, _model.dy_in_map, bg.mask)
+    DraggableItem draggable_item (_map, _context, _model.lat, _model.lon, _model.dx_in_map, _model.dy_in_map, bg.mask, _context.frame_released)
 
 }
