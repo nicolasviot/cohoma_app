@@ -17,9 +17,9 @@ Node (Process _map, Process _context, Process _model)
 	 //context aka _context
 	model aka _model
     
-    Int default_radius (10)
-	Int inside_radius (15)
-	Int mask_radius (20)
+    Int default_radius (5)
+	Int inside_radius (12)
+	Int mask_radius (16)
 
     Translation screen_translation (0, 0)
 	_model.dx_in_map =:> screen_translation.tx
@@ -63,13 +63,13 @@ Node (Process _map, Process _context, Process _model)
 		FillOpacity global_op (0.7)
 
 		FillColor light_grey (#D3D3D3)
-		Rectangle r_link ($default_radius, -2, 18 - $default_radius, 4, 0, 0)
+		Rectangle r_link ($default_radius, -2, 15 - $default_radius, 4, 0, 0)
 
 		OutlineOpacity outline_op (0.7)
 		OutlineWidth _ (1)
 		OutlineColor _ (#555555)
 
-		Rectangle r_bg (18, -10, 20, $default_label_height, 5, 5)
+		Rectangle r_bg (15, -10, 20, $default_label_height, 5, 5)
 		
 		FillColor texts_color (#000000)
 
@@ -78,7 +78,7 @@ Node (Process _map, Process _context, Process _model)
 
 			FontWeight _ (DJN_NORMAL)
 			FontSize _ (5, 14)
-			Text txt_details (22, 5, "")
+			Text txt_details (18, 5, "")
 			"(" + _model.id + ") " + _model.status =:> txt_details.text
 		}
 
@@ -86,15 +86,15 @@ Node (Process _map, Process _context, Process _model)
 			// NOT empty name
 			Component false {
 				FontWeight _ (DJN_BOLD)
-				FontSize _ (5, 16)
-				Text txt_name (22, 5, toString(_model.label))
+				FontSize _ (5, 14)
+				Text txt_name (18, 5, toString(_model.label))
 				//_model.label =:> txt_name.text
 
 				24 =: details.txt_details.y
 
 				Switch switch_not_empty_label (idle) {
 					Component idle {
-						txt_name.width + 8 =: r_bg.width
+						txt_name.width + 6 =: r_bg.width
 						0.7 =: global_op.a, outline_op.a
 						0.0 =: details.details_op.a
 						default_label_height =: r_bg.height
@@ -103,7 +103,7 @@ Node (Process _map, Process _context, Process _model)
 						
 					}
 					Component display_details {
-						txt_name.width > details.txt_details.width ? txt_name.width + 8 : details.txt_details.width + 8 =: r_bg.width
+						txt_name.width > details.txt_details.width ? txt_name.width + 6 : details.txt_details.width + 6 =: r_bg.width
 						0.9 =: global_op.a, outline_op.a, details.details_op.a
 						40 =: r_bg.height
 					}
@@ -112,7 +112,7 @@ Node (Process _map, Process _context, Process _model)
 			}
 			// Empty name
 			Component true {
-				details.txt_details.width + 8 =:> r_bg.width
+				details.txt_details.width + 6 =:> r_bg.width
 
 				Switch switch_empty_name (idle) {
 					Component idle {
@@ -146,7 +146,7 @@ Node (Process _map, Process _context, Process _model)
 				_context.NODE_COL =: fill_color.value
 				_context.WHITE_COL =: outline_color.value
 
-				3 =: outline_width.width
+				2 =: outline_width.width
 			}
 
 			Component start {
@@ -179,7 +179,7 @@ Node (Process _map, Process _context, Process _model)
 				NoFill _ 
 				OutlineWidth _ (2)
 				OutlineOpacity _ (1.5)
-				Circle outer_circle (0, 0, 15)
+				Circle outer_circle (0, 0, $inside_radius)
 			}
 		}
 		_model.status =:> status_switch.state

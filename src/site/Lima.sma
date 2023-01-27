@@ -27,7 +27,7 @@ Lima (Process _map, Process _context, Process _model)
     OutlineOpacity outline_op (0.5)
 
     NoFill _
-    OutlineWidth outline_width (15)
+    OutlineWidth outline_width (10)
     OutlineColor outline_color (#1414AF)
     
     Polyline poly_line
@@ -46,21 +46,21 @@ Lima (Process _map, Process _context, Process _model)
         }
     }
 
+    Label label1 (toString(_model.name))
+    Label label2 (toString(_model.name))
+
     if (_model.points.size > 0)
     {
-        Label label1 (toString(_model.name))
-        Label label2 (toString(_model.name))
-
         NotDraggableItem _ (_map, _model.points.[1].lat, _model.points.[1].lon, label1.x, label1.y)
         NotDraggableItem _ (_map, _model.points.[_model.points.size].lat, _model.points.[_model.points.size].lon, label2.x, label2.y)
     }
 
     FSM hovered_lima {
         State not_hovered {
-            15 =: outline_width.width
+            10 =: outline_width.width
         }
         State hovered {
-            25 =: outline_width.width
+            15 =: outline_width.width
         }
         not_hovered -> hovered (poly_line.enter)
         hovered -> not_hovered (poly_line.leave)
@@ -68,13 +68,13 @@ Lima (Process _map, Process _context, Process _model)
 
     FSM lima_selection {
         State idle {
-            #1414AF =: outline_color.value
+            #1414AF =: outline_color.value, label1.outline_color.value, label2.outline_color.value
 
             0.8 =:> fill_op.a
             0.5 =:> outline_op.a
         }
         State first_click {
-            #1414FF =: outline_color.value
+            #1414FF =: outline_color.value, label1.outline_color.value, label2.outline_color.value
 
             1.0 =:> fill_op.a
             0.7 =:> outline_op.a
@@ -84,7 +84,7 @@ Lima (Process _map, Process _context, Process _model)
             poly_line.press -> double_click
         }
         State validated {
-            #1488FF =: outline_color.value
+            #1488FF =: outline_color.value, label1.outline_color.value, label2.outline_color.value
 
             1.0 =:> fill_op.a, outline_op.a
         }
