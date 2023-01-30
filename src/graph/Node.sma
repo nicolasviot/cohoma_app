@@ -36,6 +36,8 @@ Node (Process _map, Process _context, Process _model)
     	mask.left.press -> {
 			_model =: _context.ref_node_graph_edition
     	}
+		mask.left.release -> _context.set_node_graph_edition_to_null
+
 		mask.right.press -> {
     	    _model =: _context.ref_node_status_edition
     	}
