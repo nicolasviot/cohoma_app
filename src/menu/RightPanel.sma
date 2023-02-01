@@ -5,7 +5,6 @@ use base
 import widgets.Button
 import gui.widgets.StandAlonePushButton
 import itinerary.ItineraryPanel
-import ClockComponent
 import Console
 
 _define_
@@ -124,7 +123,6 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 
 	Translation _ (0, 70)
 	
-	ClockComponent clock (_frame)
 
 	// Component ms_per_frame {
 	// 	FillColor white (#FFFFFF)

@@ -41,6 +41,7 @@ import trap.TrapStatusSelector
 import site.SubLayerSite
 import menu.UpperLeftMenu
 import menu.RightPanel
+import ClockComponent
 
 
 _native_code_
@@ -344,6 +345,12 @@ Component root {
   // --> Clear the view first
   right_panel.itinerary_panel.set_plan -> root.l.map.layers.tasks.clear
 	
+  // ----------------------------------------------------
+  Component cclock {
+    Translation _ (1626, 395)
+    ClockComponent clock (f)
+  }
+
   // ----------------------------------------------------
   // Strips container
   StripContainer strips (context, model_manager, f)
