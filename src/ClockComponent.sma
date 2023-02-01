@@ -20,7 +20,7 @@ ClockComponent (Process _frame)
     
     // il faut une source trigger
     // FIXME: 250ms is sufficient (vs 100ms) ?
-    Clock clock_trigger (250)
+    Clock clock_trigger (900)
     clock_trigger.tick -> wc.state_text
 
     WallClock wc_name

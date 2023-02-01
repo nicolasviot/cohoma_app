@@ -126,16 +126,16 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 	
 	ClockComponent clock (_frame)
 
-	Component ms_per_frame {
-		FillColor white (#FFFFFF)
+	// Component ms_per_frame {
+	// 	FillColor white (#FFFFFF)
 		
-		FontSize _ (5, 12) // 5 = pixel
-		Text label_mspf (315, -5, "mspf: ")
+	// 	FontSize _ (5, 12) // 5 = pixel
+	// 	Text label_mspf (315, -5, "mspf: ")
 		
-		FontSize _ (5, 14) // 5 = pixel
-		Text mspf (350, -5, "0")
-		_frame.mspf => mspf.text
-	}
+	// 	FontSize _ (5, 14) // 5 = pixel
+	// 	Text mspf (350, -5, "0")
+	// 	_frame.mspf => mspf.text
+	// }
 
 
 	//Translation _ (0, 200)

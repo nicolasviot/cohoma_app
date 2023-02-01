@@ -133,6 +133,8 @@ _native_code_
 _main_
 Component root {
 
+  _DEBUG_SEE_COLOR_PICKING_VIEW = 0
+
   init_ros ()
 
   init_args (argc, argv)
