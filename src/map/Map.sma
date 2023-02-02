@@ -156,16 +156,32 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
     PanAndZoom pz (f.move, pick_area)
     this.{width,height} =:> clip_area.{width,height}, pick_area.{width, height}
 
-    Component layers
+    Layer pixmap_cache {
+      Component layers
+    }
+
+    // FSM DamageLayer {
+    // State idle
+    // State waiting {
+    //   Timer t (500) // beware, make sure the time is greater than the time it takes to render a frame, otherwise the layer will constantly be damaged
+    //   t.end -> layer.damaged
+    //   //pz.zoom -> t.reset
+    //   pz.xpan -> t.reset
+    // }
+    // //idle -> waiting (pz.zoom)
+    // idle -> waiting (pz.xpan)
+    // waiting -> idle (waiting.t.end)
+    // }
   }
   xpan aka g_map.pz.xpan
   ypan aka g_map.pz.ypan
-  layers aka g_map.layers
+  layers aka g_map.pixmap_cache.layers
   enter aka g_map.pick_area.enter
   leave aka g_map.pick_area.leave
   
   Reticule reticule (this, f)
   
+  // demande de recalcul de la carte
   xpan->{ (xpan - cur_ref_x)/256 =: pix_offset_x }
   ypan->{ (ypan - cur_ref_y)/256 =: pix_offset_y }
   
