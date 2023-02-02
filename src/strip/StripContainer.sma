@@ -11,7 +11,7 @@ StripContainer (Process _context, Process _model_manager, Process _frame)
   // Load only once SVG file
   svg_strip = load_from_XML ("res/svg/stripV2.svg")
 
-  Layer layer {
+  Layer layer (0, 1152 ,1350, 150) {  
 
     Translation tr (0, 0)
     _frame.height - _context.STRIP_HEIGHT =:> tr.ty

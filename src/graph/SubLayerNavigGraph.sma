@@ -149,7 +149,7 @@ SubLayerNavigGraph (Process _layer_model, Process _map, Process _context, Proces
 
 
 	addChildrenTo this.switch.true {
-		Layer layer {
+		Component layer {
 
 			Translation pos (0, 0)
 			_context.map_translation_x =:> pos.tx
