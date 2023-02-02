@@ -44,21 +44,24 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   Double init_lon (_lon)
   Double pointer_lat (_lat)
   Double pointer_lon (_lon)
-  Double lat_center (_lat)
-  Double lon_center (_lon)
+  //Double lat_center (_lat)
+  //Double lon_center (_lon)
   Double mod_x_zooom_in (0)
   Double mod_y_zooom_in (0)
 
   Double scaling_factor_correction(0)
-  // mercator scaling correction, use pointer_lat to keep updating the correction
-  //, but we should use lat_center (not updated in this version), if we have an app that do not use the pointer
 
-  //(1 + c2*(cos(2*f) - 1)) / cos(f) where c2 = 0.00001120378
+  // important note :
+  // mercator scaling correction, use init_lat to update the correction ONCE
+  // to make it workcorrectly, this computation should be include in an Abstract_Geo_ref Class
+  // because the correction is only dependante on Lat/Lon of a object
+  // formula: (1 + c2*(cos(2*f) - 1)) / cos(f)
+  // where: c2 = 0.00001120378
   Double c2 (0.00001120378)
   Cosine cos1 (0)
   Cosine cos2 (0)
-  2 * pointer_lat * 2 * 3.14159265359 / 360=:> cos1.input
-  pointer_lat * 2 * 3.14159265359 / 360 =:> cos2.input
+  2 * init_lat * 2 * 3.14159265359 / 360=:> cos1.input
+  init_lat * 2 * 3.14159265359 / 360 =:> cos2.input
   (1 + c2 * (cos1.output - 1 )) / cos2.output =:> scaling_factor_correction
 
 

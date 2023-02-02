@@ -15,23 +15,14 @@ _define_
 DraggableItemWithRadius (Process _map, Process _lat, Process _lon, Process _radius_meter, Process _tx, Process _ty, Process _picking, Process _frame_released, Process _radius_pixel)
 {
     //TextPrinter tp
-
-    // 0 = not lazy (updated on first activation)
-    AssignmentSequence update_radius_pixel (0) {
-        _radius_meter * _map.scaling_factor_correction / get_resolution ($_map.zoomLevel) =: _radius_pixel
-        //_radius_meter + " m --> " + _radius_pixel + " px" =: tp.input
-    }
-
+    
     // FSM to manage zoom in/out
     FSM zoom_fsm {
         State idle {
             //(lon2px ($_lon, $_map.zoomLevel) - _map.t0_x) =:> _tx
             //_map.t0_y - lat2py ($_lat, $_map.zoomLevel) =:> _ty
 
-            // FIXME: scaling_factor_correction is updated each time the mouse move
-            //_radius_meter * _map.scaling_factor_correction / get_resolution ($_map.zoomLevel) =:> _radius_pixel
-            _radius_meter -> update_radius_pixel
-            _map.zoomLevel -> update_radius_pixel
+            _radius_meter * _map.scaling_factor_correction / get_resolution ($_map.zoomLevel) =:> _radius_pixel
             
             //_radius_meter + " m --> " + _radius_pixel + " px" =:> tp.input
         }
