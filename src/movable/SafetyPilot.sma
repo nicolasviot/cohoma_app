@@ -1,9 +1,7 @@
 use core
 use gui
 use base
-use animation
 
-import gui.animation.Animator
 import behavior.DraggableItemWithRadius
 
 _native_code_

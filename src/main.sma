@@ -15,7 +15,6 @@
 use core
 use base
 use gui
-use animation
 use display
 
 import CohomaContext

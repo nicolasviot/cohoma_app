@@ -1,11 +1,8 @@
 use core
 use gui
 use base
-use animation
 
 import behavior.DraggableItemWithRadius
-//import gui.animation.Animator
-//import ros_node
 
 _native_code_
 %{
