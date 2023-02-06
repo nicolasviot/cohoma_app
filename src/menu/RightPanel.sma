@@ -10,8 +10,11 @@ import Console
 _define_
 RightPanel (Process _context, Process _model_manager, Process _frame, Process _ros_node)
 {
-
 	//context aka _context
+
+	Spike plan_request
+	Spike update_graph
+	Spike send_selected_tasks
 
 	Layer layer (1623, 0, 425, 964) {
 
@@ -21,10 +24,6 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 		FillColor _ ($_context.DRAK_GRAY)
 		Rectangle bg (0, 0, $_context.RIGHT_PANEL_WIDTH, 0, 0, 0)
 		_frame.height =:> bg.height
-
-		Spike plan_request
-		Spike update_graph
-		Spike send_selected_tasks
 
 
 		// Legend for Nav Graph

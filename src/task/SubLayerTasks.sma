@@ -27,6 +27,25 @@ _native_code_
 %}
 
 
+_action_
+action_clean_tasks (Process src, Process self)
+{
+	print ("CLEAR (View) " + self.ui.areas.size + " tasks about an AREA, " + self.ui.edges.lst.size + " tasks about an EDGE and " + self.ui.traps.size + " tasks about a TRAP\n")
+
+	for task_area : self.ui.areas {
+		delete task_area
+	}
+
+	for task_edge : self.ui.edges.lst {
+		delete task_edge
+	}
+
+	for task_trap : self.ui.traps {
+		delete task_trap
+	}
+}
+
+
 _define_
 SubLayerTasks (Process _layer_model, Process _map, Process _context, Process _model_manager) inherits SubLayer (_layer_model)
 {
@@ -34,7 +53,18 @@ SubLayerTasks (Process _layer_model, Process _map, Process _context, Process _mo
 	context aka _context
 	model_manager aka _model_manager
 	
-	Spike clear
+	Spike clean_only_views
+	Spike clean_views_then_models	
+
+	NativeAction na_clean_only_views (action_clean_tasks, this, 1)
+	clean_only_views -> na_clean_only_views
+
+	NativeAction na_clean_task_views_then_models (action_clean_tasks, this, 1)
+	clean_views_then_models -> na_clean_task_views_then_models
+
+	// Then, clean the models
+	na_clean_task_views_then_models -> _model_manager.clear_tasks
+
 
 	addChildrenTo this.switch.true {
 
@@ -118,29 +148,6 @@ SubLayerTasks (Process _layer_model, Process _map, Process _context, Process _mo
 		}
 	}*/
 	
-
-	// _________________________
-	//
-    //  ALL
-
-	clear -> na_clear_tasks:(this) {
-		print ("CLEAR (View) " + this.ui.areas.size + " tasks about an AREA, " + this.ui.edges.lst.size + " tasks about an EDGE and " + this.ui.traps.size + " tasks about a TRAP\n")
-	
-		for task_area : this.ui.areas {
-			delete task_area
-		}
-
-		for task_edge : this.ui.edges.lst {
-			delete task_edge
-		}
-
-		for task_trap : this.ui.traps {
-			delete task_trap
-		}
-	}
-	// Then, clear the models
-	na_clear_tasks -> _model_manager.clear_tasks
-
 
 	// **************************************************************************************************
     //
