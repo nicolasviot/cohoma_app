@@ -206,8 +206,10 @@ Component root {
 
     map.g_map.pz.press_trigger -> press_on_background
     map.zoomLevel =:> context.map_zoom
-    map.xpan - map.cur_ref_x + map.px0 =:> context.map_translation_x
-    map.ypan - map.cur_ref_y + map.py0 =:> context.map_translation_y
+    //map.xpan - map.cur_ref_x + map.px0 =:> context.map_translation_x
+    //map.ypan - map.cur_ref_y + map.py0 =:> context.map_translation_y
+    map.real_xpan =:> context.map_translation_x
+    map.real_ypan =:> context.map_translation_y
 
     // Map provider
     SubLayer sub_layer_map (model_manager.layers.[1])

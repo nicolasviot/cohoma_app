@@ -185,8 +185,9 @@ MapLayer (Process f, Process map, string name, string proxy)
  
   FSM zoom_control {
     State idle {
-      map.xpan + map.px0 =:> ref_tr_current_tx.value, ref_tr_above_tx.value
-      map.ypan + map.py0 =:> ref_tr_current_ty.value, ref_tr_above_ty.value
+      map.real_xpan_intermediaire =:> ref_tr_current_tx.value, ref_tr_above_tx.value
+      map.real_ypan_intermediaire =:> ref_tr_current_ty.value, ref_tr_above_ty.value
+
       1 =: ref_zoom_current.value, ref_zoom_above.value
     }
     State zooming_in {

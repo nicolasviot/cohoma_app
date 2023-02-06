@@ -159,22 +159,12 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
     PanAndZoom pz (f.move, pick_area)
     this.{width,height} =:> clip_area.{width,height}, pick_area.{width, height}
 
-    Layer pixmap_cache {
+    Translation t_pmc (0, 0)
+    int pixmap_extra = extra_tiles / 2 * 256 // TODO : REMOVE the magic 256
+    Layer pixmap_cache (-pixmap_extra, -pixmap_extra, 1623+2*pixmap_extra, 1152+2*pixmap_extra) {
+    // Layer pixmap_cache (0, 0, 1623, 1152) {
       Component layers
     }
-
-    // FSM DamageLayer {
-    // State idle
-    // State waiting {
-    //   Timer t (500) // beware, make sure the time is greater than the time it takes to render a frame, otherwise the layer will constantly be damaged
-    //   t.end -> layer.damaged
-    //   //pz.zoom -> t.reset
-    //   pz.xpan -> t.reset
-    // }
-    // //idle -> waiting (pz.zoom)
-    // idle -> waiting (pz.xpan)
-    // waiting -> idle (waiting.t.end)
-    // }
   }
   xpan aka g_map.pz.xpan
   ypan aka g_map.pz.ypan
@@ -184,18 +174,35 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   
   Reticule reticule (this, f)
   
-  // demande de recalcul de la carte
-  xpan->{ (xpan - cur_ref_x)/256 =: pix_offset_x }
-  ypan->{ (ypan - cur_ref_y)/256 =: pix_offset_y }
+  Double real_xpan (0)
+  Double real_ypan (0)
+  Double real_xpan_intermediaire (0)
+  Double real_ypan_intermediaire (0)
+
+  // Use to compute pix_offset_x and pix_offset_y at start
+  // because their is no release event at start
+  (xpan - cur_ref_x)/256 =: pix_offset_x
+  (ypan - cur_ref_y)/256 =: pix_offset_y
+  g_map.pick_area.release -> { 
+    (xpan - cur_ref_x)/256 =: pix_offset_x 
+    (ypan - cur_ref_y)/256 =: pix_offset_y
+  }
   
   Int pointer_col (0)
   Int pointer_row (0)
 
   Int x_odd (!even_cols)
   Int y_odd (!even_rows)
+
+  Double old_xpan (0)
+  Double old_ypan (0)
   
   FSM fsm {
     State idle {
+
+      0 =: g_map.t_pmc.tx
+      0 =: g_map.t_pmc.ty
+      
       //Calcul des coordonnées du pointeur
       px2lon (t0_x + g_map.pick_area.move.x - px0 - (xpan - cur_ref_x), $zoomLevel) => pointer_lon
       py2lat (t0_y - g_map.pick_area.move.y + py0 + (ypan - cur_ref_y), $zoomLevel) => pointer_lat
@@ -205,11 +212,23 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
 
       (g_map.pick_area.move.local_x - (xpan - cur_ref_x) + 512)%256.0 =:> mod_x_zooom_in
       (g_map.pick_area.move.local_y - (ypan - cur_ref_y) + 512)%256.0 =:> mod_y_zooom_in
+
+
+      xpan + px0 =:> real_xpan_intermediaire
+      ypan + py0 =:> real_ypan_intermediaire
+      real_xpan_intermediaire - cur_ref_x =:> real_xpan
+      real_ypan_intermediaire - cur_ref_y =:> real_ypan
+
+      
     }
     State pressed {
+      xpan =: old_xpan
+      ypan =: old_ypan
+      xpan - old_xpan =:> g_map.t_pmc.tx
+      ypan - old_ypan =:> g_map.t_pmc.ty
     }
-    idle->pressed (f.press)
-    pressed->idle (f.release)
+    idle->pressed (g_map.pick_area.press)
+    pressed->idle (g_map.pick_area.release)
   }
 
   Double new_lon (0)
