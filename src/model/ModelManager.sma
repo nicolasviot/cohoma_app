@@ -111,6 +111,7 @@ action_clear_tasks (Process c)
         {
             cout << "Delete " << tasks_size << " tasks about an AREA. Clean up content..." << endl;
         
+            // Create a local temporary vector to iterate on it while removing child from task_areas
             vector <Process*> tmp;
             for (Process* task : task_areas->children()) {
                 tmp.push_back(task);
@@ -132,6 +133,7 @@ action_clear_tasks (Process c)
         {
             cout << "Delete " << tasks_size << " tasks about an EDGE. Clean up content..." << endl;
         
+            // Create a local temporary vector to iterate on it while removing child from task_edges
             vector <Process*> tmp;
             for (Process* task : task_edges->children()) {
                 tmp.push_back(task);
@@ -153,6 +155,7 @@ action_clear_tasks (Process c)
         {
             cout << "Delete " << tasks_size << " tasks about a TRAP. Clean up content..." << endl;
         
+            // Create a local temporary vector to iterate on it while removing child from task_traps
             vector <Process*> tmp;
             for (Process* task : task_traps->children()) {
                 tmp.push_back(task);
