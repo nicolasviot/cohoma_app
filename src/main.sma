@@ -342,7 +342,9 @@ Component root {
   //right_panel.itinerary_panel.set_plan -> model_manager.clear_tasks
 
   // --> Clear the view first
-  right_panel.layer.itinerary_panel.set_plan -> root.l.map.layers.tasks.clear
+  right_panel.itinerary_panel.set_plan -> root.l.map.layers.tasks.clear
+
+  //right_panel.send_selected_tasks -> root.l.map.layers.tasks.clear
 	
   // ----------------------------------------------------
   Component cclock {

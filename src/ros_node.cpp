@@ -730,7 +730,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
   cout << "Receive msg Tasks Assignment (Allocation)" << endl;
 
   
-for (auto sub_layer_model : (dynamic_cast<djnn::List*>(_layer_models))->children())
+  for (auto sub_layer_model : (dynamic_cast<djnn::List*>(_layer_models))->children())
   {
     GET_CHILD_VALUE (layer_name, Text, sub_layer_model, name)
     //cout << "Layer " << layer_name << endl;
@@ -755,7 +755,7 @@ for (auto sub_layer_model : (dynamic_cast<djnn::List*>(_layer_models))->children
 
   // FIXME TODO: schedule_delete old ASSIGNED tasks about edges, about traps and about zones
 
-  GRAPH_EXEC;
+  //GRAPH_EXEC;
   
   // Allocation = list of assigned tasks
   /*
