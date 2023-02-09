@@ -162,7 +162,6 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
     Translation t_pmc (0, 0)
     int pixmap_extra = extra_tiles / 2 * 256 // TODO : REMOVE the magic 256
     Layer pixmap_cache (-pixmap_extra, -pixmap_extra, 1623+2*pixmap_extra, 1152+2*pixmap_extra) {
-    // Layer pixmap_cache (0, 0, 1623, 1152) {
       Component layers
     }
   }
@@ -179,15 +178,14 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   Double real_xpan_intermediaire (0)
   Double real_ypan_intermediaire (0)
 
-  // Use to compute pix_offset_x and pix_offset_y at start
-  // because their is no release event at start
-  (xpan - cur_ref_x)/256 =: pix_offset_x
-  (ypan - cur_ref_y)/256 =: pix_offset_y
-  g_map.pick_area.release -> { 
-    (xpan - cur_ref_x)/256 =: pix_offset_x 
+  AssignmentSequence reset_pix_offset (0) {
+    (xpan - cur_ref_x)/256 =: pix_offset_x
     (ypan - cur_ref_y)/256 =: pix_offset_y
   }
-  
+  g_map.pick_area.release -> reset_pix_offset
+  end_zoom_out -> reset_pix_offset
+  end_zoom_in -> reset_pix_offset
+
   Int pointer_col (0)
   Int pointer_row (0)
 
