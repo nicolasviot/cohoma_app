@@ -161,7 +161,7 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
 
     Translation t_pmc (0, 0)
     int pixmap_extra = extra_tiles / 2 * 256 // TODO : REMOVE the magic 256
-    Layer pixmap_cache (-pixmap_extra, -pixmap_extra, 1623+2*pixmap_extra, 1152+2*pixmap_extra) {
+    Layer pixmap_cache (0, 0, 1623, 1152, pixmap_extra) {
       Component layers
     }
   }
