@@ -31,9 +31,6 @@ DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Proce
             (lon2px ($_lon, $_map.zoomLevel + 1) - _map.new_t0_x) =: new_x
             _map.new_t0_y - lat2py ($_lat, $_map.zoomLevel + 1) =: new_y
 
-            Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
-            0 =: anim.inc.state, anim.gen.input
-
             Double init_x (0)
             Double init_y (0)
             _dx =: init_x
@@ -44,8 +41,8 @@ DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Proce
             new_x - init_x =: dx
             new_y - init_y =: dy
 
-            anim.output * (dx + _map.new_dx) + init_x =:> _dx
-            anim.output * (dy + _map.new_dy) + init_y =:> _dy
+            _map.zoom_animator.output * (dx + _map.new_dx) + init_x =:> _dx
+            _map.zoom_animator.output * (dy + _map.new_dy) + init_y =:> _dy
         }
 
         State zoom_out {
@@ -55,9 +52,6 @@ DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Proce
             (lon2px ($_lon, $_map.zoomLevel - 1) - _map.new_t0_x) =: new_x
             _map.new_t0_y - lat2py ($_lat, $_map.zoomLevel - 1) =: new_y
             
-            Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
-            0 =: anim.inc.state, anim.gen.input
-
             Double init_x (0)
             Double init_y (0)
             _dx =: init_x
@@ -68,14 +62,14 @@ DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Proce
             new_x - init_x =: dx
             new_y - init_y =: dy
 
-            anim.output * (dx + _map.new_dx) + init_x =:> _dx
-            anim.output * (dy + _map.new_dy) + init_y =:> _dy
+            _map.zoom_animator.output * (dx + _map.new_dx) + init_x =:> _dx
+            _map.zoom_animator.output * (dy + _map.new_dy) + init_y =:> _dy
         }
 
         idle -> zoom_in (_map.prepare_zoom_in)
-        zoom_in -> idle (zoom_in.anim.end)
+        zoom_in -> idle (_map.zoom_animator.end)
         idle -> zoom_out (_map.prepare_zoom_out)
-        zoom_out -> idle (zoom_out.anim.end)
+        zoom_out -> idle (_map.zoom_animator.end)
     }
 
 

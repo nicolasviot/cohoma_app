@@ -182,7 +182,7 @@ MapLayer (Process f, Process map, string name, string proxy)
 
   update_layer_after_zoom_in->map.end_zoom_in
   update_layer_after_zoom_out->map.end_zoom_out
- 
+
   FSM zoom_control {
     State idle {
       map.real_xpan_intermediaire =:> ref_tr_current_tx.value, ref_tr_above_tx.value
@@ -191,32 +191,30 @@ MapLayer (Process f, Process map, string name, string proxy)
       1 =: ref_zoom_current.value, ref_zoom_above.value
     }
     State zooming_in {
-      Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
-      0 =: anim.inc.state, anim.gen.input
-      anim.output =:> ref_opacity_above.value
-      1 - anim.output =:> ref_opacity_current.value
+      0 =: map.zoom_animator.inc.state, map.zoom_animator.gen.input
+      map.zoom_animator.output =:> ref_opacity_above.value
+      1 - map.zoom_animator.output =:> ref_opacity_current.value
       map.xpan + map.px0 + map.new_dx =: ref_tr_above_tx.value
       map.ypan + map.py0 + map.new_dy =: ref_tr_above_ty.value
       f.move.x =: ref_sc_current_cx.value, ref_sc_above_cx.value
       f.move.y =: ref_sc_current_cy.value, ref_sc_above_cy.value
-      1 + anim.output =:> ref_zoom_current.value
-      0.5 + anim.output/2 =:> ref_zoom_above.value
+      1 + map.zoom_animator.output =:> ref_zoom_current.value
+      0.5 + map.zoom_animator.output/2 =:> ref_zoom_above.value
     }
     State zooming_out {
-      Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
-      0 =: anim.inc.state, anim.gen.input
-      anim.output =:> ref_opacity_above.value
-      1 - anim.output =:> ref_opacity_current.value
+      0 =: map.zoom_animator.inc.state, map.zoom_animator.gen.input
+      map.zoom_animator.output =:> ref_opacity_above.value
+      1 - map.zoom_animator.output =:> ref_opacity_current.value
       map.xpan + map.px0 + map.new_dx =: ref_tr_above_tx.value
       map.ypan + map.py0 + map.new_dy =: ref_tr_above_ty.value
       f.move.x =: ref_sc_current_cx.value, ref_sc_above_cx.value
       f.move.y =: ref_sc_current_cy.value, ref_sc_above_cy.value
-      1 - anim.output =:> ref_zoom_current.value
-      2 - anim.output =:> ref_zoom_above.value
+      1 - map.zoom_animator.output =:> ref_zoom_current.value
+      2 - map.zoom_animator.output =:> ref_zoom_above.value
     }
-    idle->zooming_in (map.prepare_zoom_in)
-    zooming_in->idle (zooming_in.anim.end, update_layer_after_zoom_in)
-    idle->zooming_out (map.prepare_zoom_out)
-    zooming_out->idle (zooming_out.anim.end, update_layer_after_zoom_out)
+    idle->zooming_in (map.prepare_zoom_in, map.zoom_animator.start)
+    zooming_in->idle (map.zoom_animator.end, update_layer_after_zoom_in)
+    idle->zooming_out (map.prepare_zoom_out, map.zoom_animator.start)
+    zooming_out->idle (map.zoom_animator.end, update_layer_after_zoom_out)
   }
 }

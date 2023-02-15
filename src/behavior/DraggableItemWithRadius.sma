@@ -36,9 +36,6 @@ DraggableItemWithRadius (Process _map, Process _lat, Process _lon, Process _radi
             _map.new_t0_y - lat2py ($_lat, $_map.zoomLevel + 1) =: new_y
             _radius_meter * _map.scaling_factor_correction / get_resolution ($_map.zoomLevel + 1) =: new_r
 
-            Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
-            0 =: anim.inc.state, anim.gen.input
-
             Double init_x (0)
             Double init_y (0)
             Double init_r (0)
@@ -55,9 +52,9 @@ DraggableItemWithRadius (Process _map, Process _lat, Process _lon, Process _radi
 
             //"zoom IN: (" + _radius_meter + " m) " + init_r + " --> " + new_r + " px" =:> tp.input
 
-            anim.output * (dx + _map.new_dx) + init_x =:> _tx
-            anim.output * (dy + _map.new_dy) + init_y =:> _ty
-            anim.output * dr + init_r =:> _radius_pixel
+            _map.zoom_animator.output * (dx + _map.new_dx) + init_x =:> _tx
+            _map.zoom_animator.output * (dy + _map.new_dy) + init_y =:> _ty
+            _map.zoom_animator.output * dr + init_r =:> _radius_pixel
         }
 
         State zoom_out {
@@ -68,10 +65,7 @@ DraggableItemWithRadius (Process _map, Process _lat, Process _lon, Process _radi
             (lon2px ($_lon, $_map.zoomLevel - 1) - _map.new_t0_x) =: new_x
             _map.new_t0_y - lat2py ($_lat, $_map.zoomLevel - 1) =: new_y
             _radius_meter * _map.scaling_factor_correction / get_resolution ($_map.zoomLevel - 1) =: new_r
-            
-            Animator anim (200, 0, 1, DJN_IN_SINE, 0, 1)
-            0 =: anim.inc.state, anim.gen.input
-
+    
             Double init_x (0)
             Double init_y (0)
             Double init_r (0)
@@ -88,15 +82,15 @@ DraggableItemWithRadius (Process _map, Process _lat, Process _lon, Process _radi
 
             //"zoom OUT: (" + _radius_meter + " m) " + init_r + " --> " + new_r + " px" =:> tp.input
 
-            anim.output * (dx + _map.new_dx) + init_x =:> _tx
-            anim.output * (dy + _map.new_dy) + init_y =:> _ty
-            anim.output * dr + init_r =:> _radius_pixel
+            _map.zoom_animator.output * (dx + _map.new_dx) + init_x =:> _tx
+            _map.zoom_animator.output * (dy + _map.new_dy) + init_y =:> _ty
+            _map.zoom_animator.output * dr + init_r =:> _radius_pixel
         }
 
         idle -> zoom_in (_map.prepare_zoom_in)
-        zoom_in -> idle (zoom_in.anim.end)
+        zoom_in -> idle (_map.zoom_animator.end)
         idle -> zoom_out (_map.prepare_zoom_out)
-        zoom_out -> idle (zoom_out.anim.end)
+        zoom_out -> idle (_map.zoom_animator.end)
     }
 
 

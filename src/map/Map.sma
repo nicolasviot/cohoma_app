@@ -12,15 +12,17 @@
  *
  */
 
- use core
- use base
- use gui
+use core
+use base
+use gui
+use animation
 
- import map.PanAndZoom
- import Reticule
+import map.PanAndZoom
+import Reticule
+import gui.animation.Animator
 
- _native_code_
- %{
+_native_code_
+%{
 //#include <chrono>
 //#include <thread>
 
@@ -166,6 +168,9 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
 
     this.{width,height} =:> clip_area.{width,height}, pick_area.{width, height}, pixmap_cache.{w, h}
   }
+
+  Animator zoom_animator (200, 0, 1, DJN_IN_SINE, 0, 1)
+
   xpan aka g_map.pz.xpan
   ypan aka g_map.pz.ypan
   layers aka g_map.pixmap_cache.layers
