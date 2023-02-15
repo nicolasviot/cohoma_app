@@ -5,8 +5,11 @@ use base
 use files
 
 _define_
-ClockComponent (Process _frame)
+ClockComponent (Process _context, Process _frame)
 {
+    Translation tr (0, 395)
+    _frame.width - _context.RIGHT_PANEL_WIDTH =:> tr.tx
+
     //afficher l'heure
     WallClock wc
     "%H:%M:%S" =: wc.format   // exemple=  "%H:%M:%S", "%Hh%Mm%Ss"

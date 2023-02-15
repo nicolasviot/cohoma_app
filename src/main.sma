@@ -354,10 +354,7 @@ Component root {
 	
 
   // ----------------------------------------------------
-  Component cclock {
-    Translation _ (1626, 395)
-    ClockComponent clock (f)
-  }
+  ClockComponent clock (context, f)
 
   // ----------------------------------------------------
   // Strips container

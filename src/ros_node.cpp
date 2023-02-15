@@ -167,9 +167,9 @@ RosNode::impl_activate ()
 
   // ---------------------------
   // VIEW
-  GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/cclock/clock)
-  GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/cclock/clock/fw/input)
-  GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/cclock/clock/fw_console/input)
+  GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/clock)
+  GET_CHILD_VAR2 (_fw_input, CoreProcess, _clock, fw/input)
+  GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _clock, fw_console/input)
   GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_panel/layer/console)
 
   GET_CHILD_VAR2 (_result_layer, CoreProcess, _parent, parent/l/map/layers/visibility_map)
