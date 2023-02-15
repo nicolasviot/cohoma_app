@@ -11,10 +11,10 @@ StripContainer (Process _context, Process _model_manager, Process _frame)
   // Load only once SVG file
   svg_strip = load_from_XML ("res/svg/stripV2.svg")
 
-  Layer layer (0, 1152 ,1350, 150) {  
+  Layer layer (0, 0 ,1350, 0) { //bindings on y and h under
 
     Translation tr (0, 0)
-    _frame.height - _context.STRIP_HEIGHT =:> tr.ty
+    _frame.height - _context.STRIP_HEIGHT+1  =:> tr.ty
 
     Strip strip_vab (_context, _model_manager.vehicles.vab, svg_strip, 0)
 
@@ -28,4 +28,6 @@ StripContainer (Process _context, Process _model_manager, Process _frame)
 
     Strip strip_drone (_context, _model_manager.vehicles.drone, svg_strip, 5)
   }
+  _frame.height - _context.STRIP_HEIGHT =:> layer.y
+  _context.STRIP_HEIGHT =:> layer.h
 }
