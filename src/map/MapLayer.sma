@@ -192,7 +192,8 @@ MapLayer (Process f, Process map, string name, string proxy)
     }
     State zooming_in {
       0 =: map.zoom_animator.inc.state, map.zoom_animator.gen.input
-      map.zoom_animator.output =:> ref_opacity_above.value
+      //map.zoom_animator.output =:> ref_opacity_above.value
+      1 =: ref_opacity_above.value
       1 - map.zoom_animator.output =:> ref_opacity_current.value
       map.xpan + map.px0 + map.new_dx =: ref_tr_above_tx.value
       map.ypan + map.py0 + map.new_dy =: ref_tr_above_ty.value
@@ -203,7 +204,8 @@ MapLayer (Process f, Process map, string name, string proxy)
     }
     State zooming_out {
       0 =: map.zoom_animator.inc.state, map.zoom_animator.gen.input
-      map.zoom_animator.output =:> ref_opacity_above.value
+      //map.zoom_animator.output =:> ref_opacity_above.value
+      1 =: ref_opacity_above.value
       1 - map.zoom_animator.output =:> ref_opacity_current.value
       map.xpan + map.px0 + map.new_dx =: ref_tr_above_tx.value
       map.ypan + map.py0 + map.new_dy =: ref_tr_above_ty.value
