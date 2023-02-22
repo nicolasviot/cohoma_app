@@ -66,6 +66,8 @@ MapLayer (Process f, Process map, string name, string proxy)
   FillOpacity fo (1)
   OutlineOpacity oo (1)
   opacity =:> fo.a, oo.a
+
+  // TODO : VIRER LA LISTE .. useless
   List layers {
     Component _ {
       cur_row = $map.row_0
@@ -90,21 +92,20 @@ MapLayer (Process f, Process map, string name, string proxy)
     }
   }
 
-  // remove Ref and deref ... use aka ?
+  // TODO :remove Ref and deref ... use aka ?
   RefProperty ref_corner_tile (layers.[1].tiles.[1].[1])
-  RefProperty ref_layer_above (layers.[1])
-
-  DerefDouble ref_opacity_above (ref_layer_above, "opacity", DJNN_GET_ON_CHANGE)
-  DerefDouble ref_tr_above_tx (ref_layer_above, "pan_tr/tx", DJNN_GET_ON_CHANGE)
-  DerefDouble ref_tr_above_ty (ref_layer_above, "pan_tr/ty", DJNN_GET_ON_CHANGE)
-  DerefDouble ref_sc_above_cx (ref_layer_above, "sc/cx", DJNN_GET_ON_CHANGE)
-  DerefDouble ref_sc_above_cy (ref_layer_above, "sc/cy", DJNN_GET_ON_CHANGE)
-  DerefDouble ref_zoom_above    (ref_layer_above, "zoom", DJNN_GET_ON_CHANGE)
   DerefDouble ref_y_0 (ref_corner_tile, "y0", DJNN_GET_ON_CHANGE)
   DerefDouble ref_x_0 (ref_corner_tile, "x0", DJNN_GET_ON_CHANGE)
+  ref_y_0.value =:> t0_y
+  ref_x_0.value =:> t0_x
 
-  ref_y_0.value   =:> t0_y
-  ref_x_0.value   =:> t0_x
+  ref_layer aka layers.[1]
+  ref_opacity aka ref_layer.opacity
+  ref_tr_tx aka ref_layer.pan_tr.tx
+  ref_tr_ty aka ref_layer.pan_tr.ty
+  ref_sc_cx aka ref_layer.sc.cx
+  ref_sc_cy aka ref_layer.sc.cy
+  ref_zoom aka ref_layer.zoom
 
   move_left  -> set_tile_0 : (this) {
     setRef (this.ref_corner_tile, this.layers.[1].tiles.[1].[1])
@@ -147,29 +148,28 @@ MapLayer (Process f, Process map, string name, string proxy)
 
   FSM zoom_control {
     State idle {
-      map.real_xpan_intermediaire =:> ref_tr_above_tx.value
-      map.real_ypan_intermediaire =:> ref_tr_above_ty.value
+      map.real_xpan_intermediaire =:> ref_tr_tx
+      map.real_ypan_intermediaire =:> ref_tr_ty
 
-      1 =: ref_zoom_above.value
+      1 =: ref_zoom
     }
     State zooming_in {
       0 =: map.zoom_animator.inc.state, map.zoom_animator.gen.input
-      1 =: ref_opacity_above.value
-      map.xpan + map.px0 + map.new_dx =: ref_tr_above_tx.value
-      map.ypan + map.py0 + map.new_dy =: ref_tr_above_ty.value
-      f.move.x =: ref_sc_above_cx.value  // REPLACE f.move.x par map.pick_area.move.x
-      f.move.y =: ref_sc_above_cy.value  // REPLACE f.move.y par map.pick_area.move.y
-      0.5 + map.zoom_animator.output/2 =:> ref_zoom_above.value
+      1 =: ref_opacity
+      map.xpan + map.px0 + map.new_dx =: ref_tr_tx
+      map.ypan + map.py0 + map.new_dy =: ref_tr_ty
+      f.move.x =: ref_sc_cx // REPLACE f.move.x par map.pick_area.move.x
+      f.move.y =: ref_sc_cy // REPLACE f.move.y par map.pick_area.move.y
+      0.5 + map.zoom_animator.output/2 =:> ref_zoom
     }
     State zooming_out {
-      print ("out ")
       0 =: map.zoom_animator.inc.state, map.zoom_animator.gen.input
-      1 =: ref_opacity_above.value
-      map.xpan + map.px0 + map.new_dx =: ref_tr_above_tx.value
-      map.ypan + map.py0 + map.new_dy =: ref_tr_above_ty.value
-      f.move.x =: ref_sc_above_cx.value  // REPLACE f.move.x par map.pick_area.move.x
-      f.move.y =: ref_sc_above_cy.value  // REPLACE f.move.y par map.pick_area.move.y
-      2 - map.zoom_animator.output =:> ref_zoom_above.value
+      1 =: ref_opacity
+      map.xpan + map.px0 + map.new_dx =: ref_tr_tx
+      map.ypan + map.py0 + map.new_dy =: ref_tr_ty
+      f.move.x =: ref_sc_cx  // REPLACE f.move.x par map.pick_area.move.x
+      f.move.y =: ref_sc_cy  // REPLACE f.move.y par map.pick_area.move.y
+      2 - map.zoom_animator.output =:> ref_zoom
     }
     idle->zooming_in (map.prepare_zoom_in, map.zoom_animator.start)
     zooming_in->idle (map.zoom_animator.end, update_layer_after_zoom_in)
