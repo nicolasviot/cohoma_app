@@ -99,6 +99,8 @@ MapLayer (Process f, Process map, string name, string proxy)
   ref_y_0.value =:> t0_y
   ref_x_0.value =:> t0_x
 
+
+  // TODO : simplfier au moment ou on retire la liste
   ref_layer aka layers.[1]
   ref_opacity aka ref_layer.opacity
   ref_tr_tx aka ref_layer.pan_tr.tx
@@ -107,12 +109,17 @@ MapLayer (Process f, Process map, string name, string proxy)
   ref_sc_cy aka ref_layer.sc.cy
   ref_zoom aka ref_layer.zoom
 
+  Spike update_layer_after_zoom_in
+  Spike update_layer_after_zoom_out
+
   move_left  -> set_tile_0 : (this) {
     setRef (this.ref_corner_tile, this.layers.[1].tiles.[1].[1])
   }
   move_right -> set_tile_0
   move_up    -> set_tile_0
   move_down  -> set_tile_0
+  update_layer_after_zoom_in -> set_tile_0
+  update_layer_after_zoom_out -> set_tile_0
 
   map.zoom_in_req->zoom_in
   map.zoom_out_req->zoom_out
@@ -132,16 +139,6 @@ MapLayer (Process f, Process map, string name, string proxy)
     this.new_t0_y = this.layers.[1].tiles.[1].[1].y0
   }
   set_corner_tile_out->map.prepare_zoom_out
-
-
-  Spike update_layer_after_zoom_in
-  Spike update_layer_after_zoom_out
-
-  // USELESS NOW ?
-  update_layer_after_zoom_in->switch_layers:(this) {
-    setRef (this.ref_corner_tile, this.layers.[1].tiles.[1].[1])
-  }
-  update_layer_after_zoom_out->switch_layers
 
   update_layer_after_zoom_in->map.end_zoom_in
   update_layer_after_zoom_out->map.end_zoom_out
