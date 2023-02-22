@@ -32,6 +32,9 @@ ExclusionArea (Process _map, Process _context, Process _model)
         for (int i = 1; i <= _model.points.size; i++) {
             //print ("Exclusion Area: View of point: lat = " + _model.points.[i].lat + " -- lon = " + _model.points.[i].lon + "\n")
             
+            _model.barycenter.lat + _model.points.[i].lat =: _model.barycenter.lat
+            _model.barycenter.lon + _model.points.[i].lon =: _model.barycenter.lon
+
             addChildrenTo poly_gon.points {
                 PolyPoint _ (0, 0)
             }
@@ -40,6 +43,8 @@ ExclusionArea (Process _map, Process _context, Process _model)
                 NotDraggableItem _ (_map, _model.points.[i].lat, _model.points.[i].lon, poly_gon.points.[i].x, poly_gon.points.[i].y)
             }
         }
+        _model.barycenter.lat / _model.points.size =: _model.barycenter.lat
+        _model.barycenter.lon / _model.points.size =: _model.barycenter.lon
 
         Switch switch (UNKNOWN) {
             Component UNKNOWN
@@ -89,30 +94,6 @@ ExclusionArea (Process _map, Process _context, Process _model)
     Text lbl_name (0, 40, toString(_model.name))
     //_model.name =: lbl_name.text
     
-    
-
-    // FSM to manage zoom in/out
-    FSM fsm {
-        State idle {
-            0.8 =: text_opacity.a
-            bg.poly_gon.bounding_box.x + bg.poly_gon.bounding_box.width / 2 =:> tr.tx
-            bg.poly_gon.bounding_box.y + bg.poly_gon.bounding_box.height / 2 =:> tr.ty
-        }
-
-        State zoom_in {
-            Timer t (200)
-            0.0 =: text_opacity.a
-        }
-
-        State zoom_out {
-            Timer t (200)
-            0.0 =: text_opacity.a
-        }
-
-        idle -> zoom_in (_map.prepare_zoom_in)
-        zoom_in -> idle (zoom_in.t.end)
-        idle -> zoom_out (_map.prepare_zoom_out)
-        zoom_out -> idle (zoom_out.t.end)
-    }
+    NotDraggableItem _ (_map, _model.barycenter.lat, _model.barycenter.lon, tr.tx, tr.ty)
 
 }

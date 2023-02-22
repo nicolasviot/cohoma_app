@@ -2,6 +2,8 @@ use core
 use gui
 use base
 
+import PointModel
+
 _native_code_
 %{
     #include <iostream>
@@ -52,7 +54,9 @@ ExclusionZoneModel (int _type, string _name)
 	String name (_name)
 
 	List points
+
+    PointModel barycenter (0, 0, 0)
 	
 	TextPrinter tp
-	"Model of Exclusion Zone " + type + " (" + n_type + ") '" + name =: tp.input
+	"Model of Exclusion Zone " + type + " (" + n_type + ") '" + name + "'" =: tp.input
 }

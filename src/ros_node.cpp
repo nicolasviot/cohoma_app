@@ -1133,64 +1133,6 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg)
   }
 
 
-  /*for (int i=0; i < msg.zones.size(); i++){
-    ParentProcess* area_to_add = ExclusionArea(_exclusion_areas,"", _map, "unknown"); 
-    SET_CHILD_VALUE (Text, area_to_add, name, msg.zones[i].name, true)
-    
-    static const string area_status_name[] = {"unknown", "rfa", "nfa", "nfz", "ffa", "roz_all", "roz_ground"};
-    SET_CHILD_VALUE (Text, area_to_add, status, area_status_name[msg.zones[i].type], true)
-
-    auto* bary_summit = TaskAreaSummit(area_to_add, "bary_summit", _map, 0, 0);
-    int n = msg.zones[i].polygon.points.size();
-      
-    double above_x = 0;
-    double below_x = 0;
-
-    double above_y = 0;
-    double below_y = 0;
-    
-    GET_CHILD (CoreProcess, area_to_add, area)
-    for (int j = 0; j < n; j++){
-      auto* task_summit = TaskAreaSummit(area_to_add, std::string("summit_") + std::to_string(j), _map, msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude);
-      
-      SET_CHILD_VALUE (Double, task_summit, alt, msg.zones[i].polygon.points[j].altitude, true)
-      auto* point = new PolyPoint(area, std::string("pt_") + std::to_string(j), 0, 0);
-      GET_CHILD_VALUE (cur_lat, Double, bary_summit, lat)
-      GET_CHILD_VALUE (cur_lon, Double, bary_summit, lon)
-        
-      SET_CHILD_VALUE (Double, bary_summit, lat, cur_lat + msg.zones[i].polygon.points[j].latitude / n, true)
-      SET_CHILD_VALUE (Double, bary_summit, lon, cur_lon + msg.zones[i].polygon.points[j].longitude / n, true)
-      
-      new Connector (area_to_add, "x_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/x")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/x")), 1);
-      new Connector (area_to_add, "y_bind", area_to_add->find_child(std::string("summit_") + std::to_string(j) + std::string("/y")), area_to_add->find_child(std::string("area/") + std::string("pt_") + std::to_string(j) + std::string("/y")), 1);
-    }
-
-    // barycenter of polygon : https://fr-academic.com/dic.nsf/frwiki/263573
-    //Compute above x : 
-    for (int j = 0; j < n -1; j++){
-      above_x = above_x + (msg.zones[i].polygon.points[j].latitude + msg.zones[i].polygon.points[j+ 1].latitude) * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude);
-    }
-    //Compute below x :
-    for (int j = 0; j < n -1; j++){
-      below_x = below_x + 3 * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude); 
-    }
-    //Compute above y
-    for (int j = 0; j < n -1; j++){
-      above_y = above_y + (msg.zones[i].polygon.points[j].longitude + msg.zones[i].polygon.points[j+ 1].longitude) * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude);
-    }
-    //Compute below y
-    for (int j = 0; j < n -1; j++){
-      below_y = below_y + 3 * (msg.zones[i].polygon.points[j].latitude * msg.zones[i].polygon.points[j+1].longitude - msg.zones[i].polygon.points[j].longitude * msg.zones[i].polygon.points[j+1].latitude); 
-    }
-
-    double res_lat = above_x/below_x;
-    double res_lon = above_y/below_y;
-    std::cout << "res latitude = " << res_lat << " -- longitude = " << res_lon << std::endl;
-
-    new Connector (area_to_add, "x_bary_bind", area_to_add->find_child("bary_summit/x"), area_to_add->find_child("barycenterX"), 1);
-    new Connector (area_to_add, "y_bary_bind", area_to_add->find_child("bary_summit/y"), area_to_add->find_child("barycenterY"), 1);
-  }*/
-
   // LIMAS
   for (int i = 0; i < msg.limas.size(); i++)
   {
