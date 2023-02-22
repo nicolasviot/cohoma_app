@@ -50,27 +50,27 @@ MapLayer (Process f, Process map, string name, string proxy)
   //NativeAction move_up_l1 (fn_move_up_l1, this, 1)
   //NativeAction move_down_l1 (fn_move_down_l1, this, 1)
 
-  NativeAction move_left_l2 (fn_move_left_l2, this, 1)
-  NativeAction move_right_l2 (fn_move_right_l2, this, 1)
-  NativeAction move_up_l2 (fn_move_up_l2, this, 1)
-  NativeAction move_down_l2 (fn_move_down_l2, this, 1)
+  NativeAction move_left (fn_move_left, this, 1)
+  NativeAction move_right (fn_move_right, this, 1)
+  NativeAction move_up (fn_move_up, this, 1)
+  NativeAction move_down (fn_move_down, this, 1)
 
   NativeAction zoom_in (fn_zoom_in, this, 1)
   NativeAction zoom_out (fn_zoom_out, this, 1)
 
 
   // map.move_left     -> move_left_l1
-  // move_left_l1  -> move_left_l2
+  // move_left_l1  -> move_left
   // map.move_right    -> move_right_l1
-  // move_right_l1 -> move_right_l2
+  // move_right_l1 -> move_right
   // map.move_up       -> move_up_l1
-  // move_up_l1    -> move_up_l2
+  // move_up_l1    -> move_up
   // map.move_down     -> move_down_l1
-  // move_down_l1  -> move_down_l2
-  map.move_left  -> move_left_l2
-  map.move_right -> move_right_l2
-  map.move_up   -> move_up_l2
-  map.move_down   -> move_down_l2
+  // move_down_l1  -> move_down
+  map.move_left  -> move_left
+  map.move_right -> move_right
+  map.move_up   -> move_up
+  map.move_down   -> move_down
 
   int cur_row = $map.row_0
   int cur_col = $map.col_0
@@ -82,30 +82,30 @@ MapLayer (Process f, Process map, string name, string proxy)
   OutlineOpacity oo (1)
   opacity =:> fo.a, oo.a
   List layers {
-    Component _ {
-      Double opacity (0)
-      Double zoom (1)
-      Scaling sc (1, 1, 0, 0)
-      zoom =:> sc.sx, sc.sy
-      Translation pan_tr (0,0)
+    // Component _ {
+    //   Double opacity (0)
+    //   Double zoom (1)
+    //   Scaling sc (1, 1, 0, 0)
+    //   zoom =:> sc.sx, sc.sy
+    //   Translation pan_tr (0,0)
 
-      List tiles {
-        for (int i = 0; i < $nbRows; i++) {
-          List row {
-            for (int j = 0; j < $nbCols; j++) {
-              PixmapTile _ (j*256, i*256, $zoomLevel, cur_row, cur_col, name, proxy, opacity)
-              cur_col++
-            }
-          }
-          cur_row++
-          cur_col = $map.col_0
-        }
-      }
+    //   List tiles {
+    //     for (int i = 0; i < $nbRows; i++) {
+    //       List row {
+    //         for (int j = 0; j < $nbCols; j++) {
+    //           PixmapTile _ (j*256, i*256, $zoomLevel, cur_row, cur_col, name, proxy, opacity)
+    //           cur_col++
+    //         }
+    //       }
+    //       cur_row++
+    //       cur_col = $map.col_0
+    //     }
+    //   }
 
       // FillColor _ (Blue)
       //FillOpacity _ (1)
       // Rectangle _ (0, 0, $map.width*2, $map.height*2, 0, 0)
-    }
+    //}
     Component _ {
       cur_row = $map.row_0
       Double opacity (1)
@@ -134,7 +134,7 @@ MapLayer (Process f, Process map, string name, string proxy)
   }
   RefProperty ref_corner_tile (layers.[1].tiles.[1].[1])
   //RefProperty ref_layer_current (layers.[1])
-  RefProperty ref_layer_above (layers.[2])
+  RefProperty ref_layer_above (layers.[1])
 
   DerefDouble ref_opacity_above (ref_layer_above, "opacity", DJNN_GET_ON_CHANGE)
   //DerefDouble ref_opacity_current (ref_layer_current, "opacity", DJNN_GET_ON_CHANGE)
@@ -157,12 +157,12 @@ MapLayer (Process f, Process map, string name, string proxy)
   ref_y_0.value   =:> t0_y
   ref_x_0.value   =:> t0_x
 
-  move_left_l2  -> set_tile_0 : (this) {
-    setRef (this.ref_corner_tile, this.layers.[2].tiles.[1].[1])
+  move_left  -> set_tile_0 : (this) {
+    setRef (this.ref_corner_tile, this.layers.[1].tiles.[1].[1])
   }
-  move_right_l2 -> set_tile_0
-  move_up_l2    -> set_tile_0
-  move_down_l2  -> set_tile_0
+  move_right -> set_tile_0
+  move_up    -> set_tile_0
+  move_down  -> set_tile_0
 
 
   map.zoom_in_req->zoom_in
@@ -171,16 +171,16 @@ MapLayer (Process f, Process map, string name, string proxy)
   zoom_in->set_corner_tile_in:(this) {
     this.buff_lon = this.pointer_lon
     this.buff_lat = this.pointer_lat
-    this.new_t0_x = this.layers.[2].tiles.[1].[1].x0
-    this.new_t0_y = this.layers.[2].tiles.[1].[1].y0
+    this.new_t0_x = this.layers.[1].tiles.[1].[1].x0
+    this.new_t0_y = this.layers.[1].tiles.[1].[1].y0
   }
   set_corner_tile_in->map.prepare_zoom_in
 
   zoom_out->set_corner_tile_out:(this) {
     this.buff_lon = this.pointer_lon
     this.buff_lat = this.pointer_lat
-    this.new_t0_x = this.layers.[2].tiles.[1].[1].x0
-    this.new_t0_y = this.layers.[2].tiles.[1].[1].y0
+    this.new_t0_x = this.layers.[1].tiles.[1].[1].x0
+    this.new_t0_y = this.layers.[1].tiles.[1].[1].y0
   }
   set_corner_tile_out->map.prepare_zoom_out
 
@@ -190,7 +190,7 @@ MapLayer (Process f, Process map, string name, string proxy)
 
   update_layer_after_zoom_in->switch_layers:(this) {
     // moveChild this.layers.[2] << //sans ca le graph ne se met pas a jour ??
-    setRef (this.ref_corner_tile, this.layers.[2].tiles.[1].[1])
+    setRef (this.ref_corner_tile, this.layers.[1].tiles.[1].[1])
     //setRef (this.ref_layer_current, this.layers.[1])
     //setRef (this.ref_layer_above, this.layers.[2])
   }
