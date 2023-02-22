@@ -104,158 +104,158 @@ fn_zoom_out (djnn::CoreProcess *src)
   }
 
 
-void 
-fn_move_right_l1 (djnn::CoreProcess *src)
-  {
-    //djnn::get_exclusive_access(DBG_GET);
-    djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
+// void 
+// fn_move_right_l1 (djnn::CoreProcess *src)
+//   {
+//     //djnn::get_exclusive_access(DBG_GET);
+//     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
 
-    int nbCol = getInt (data->find_child ("nbCols"));
-    int nbRow = getInt (data->find_child ("nbRows"));
-    int off_x = abs(getInt (data->find_child ("offset_x")));
+//     int nbCol = getInt (data->find_child ("nbCols"));
+//     int nbRow = getInt (data->find_child ("nbRows"));
+//     int off_x = abs(getInt (data->find_child ("offset_x")));
 
-    djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
-    if (tiles == nullptr) {
-      djnn::release_exclusive_access(DBG_REL);
-      return;
-    }
+//     djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
+//     if (tiles == nullptr) {
+//       djnn::release_exclusive_access(DBG_REL);
+//       return;
+//     }
 
-    for (int nb = 0; nb < off_x; nb++) {
+//     for (int nb = 0; nb < off_x; nb++) {
       
-      djnn::List* first_row = (djnn::List*)tiles->find_child ("1");
-      djnn::List* last_row = (djnn::List*)tiles->find_child (nbRow);
-      djnn::CoreProcess* first_tile = first_row->find_child ("1");
-      djnn::CoreProcess* last_tile = last_row->find_child (std::to_string (nbCol));
+//       djnn::List* first_row = (djnn::List*)tiles->find_child ("1");
+//       djnn::List* last_row = (djnn::List*)tiles->find_child (nbRow);
+//       djnn::CoreProcess* first_tile = first_row->find_child ("1");
+//       djnn::CoreProcess* last_tile = last_row->find_child (std::to_string (nbCol));
     
-      int X1 = djnn::getInt (first_tile->find_child ("X"));
-      double x1 = ((djnn::AbstractProperty*)first_tile->find_child( "img/x"))->get_double_value ();
-      for (int i = 1; i <= nbRow; i++) {
-        first_row = (djnn::List*)tiles->find_child (std::to_string (i));
-        djnn::CoreProcess *tile = first_row->find_child(std::to_string(nbCol));
-        djnn::CoreProcess *img_X = tile->find_child("X");
-        djnn::setInt (img_X, X1 - 1);
-        first_row->remove_child (tile);
-        first_row->insert (tile, "<");
-        djnn::AbstractProperty *img_x = (djnn::AbstractProperty*)tile->find_child( "img/x");
-        img_x->set_value (x1 - 256, true);  
-      }
-    }
-    //djnn::release_exclusive_access(DBG_REL);
-  }
+//       int X1 = djnn::getInt (first_tile->find_child ("X"));
+//       double x1 = ((djnn::AbstractProperty*)first_tile->find_child( "img/x"))->get_double_value ();
+//       for (int i = 1; i <= nbRow; i++) {
+//         first_row = (djnn::List*)tiles->find_child (std::to_string (i));
+//         djnn::CoreProcess *tile = first_row->find_child(std::to_string(nbCol));
+//         djnn::CoreProcess *img_X = tile->find_child("X");
+//         djnn::setInt (img_X, X1 - 1);
+//         first_row->remove_child (tile);
+//         first_row->insert (tile, "<");
+//         djnn::AbstractProperty *img_x = (djnn::AbstractProperty*)tile->find_child( "img/x");
+//         img_x->set_value (x1 - 256, true);  
+//       }
+//     }
+//     //djnn::release_exclusive_access(DBG_REL);
+//   }
 
-  void
-  fn_move_left_l1 (djnn::CoreProcess *src)
-  {
-    //djnn::get_exclusive_access(DBG_GET);
-    djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
+//   void
+//   fn_move_left_l1 (djnn::CoreProcess *src)
+//   {
+//     //djnn::get_exclusive_access(DBG_GET);
+//     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
 
-    int nbCol = djnn::getInt (data->find_child ("nbCols"));
-    int nbRow = djnn::getInt (data->find_child ("nbRows"));
-    int off_x = abs(getInt (data->find_child ("offset_x")));
+//     int nbCol = djnn::getInt (data->find_child ("nbCols"));
+//     int nbRow = djnn::getInt (data->find_child ("nbRows"));
+//     int off_x = abs(getInt (data->find_child ("offset_x")));
 
-    djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
-    if (tiles == nullptr) {
-      djnn::release_exclusive_access(DBG_REL);
-      return;
-    }
+//     djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
+//     if (tiles == nullptr) {
+//       djnn::release_exclusive_access(DBG_REL);
+//       return;
+//     }
 
-    for (int nb = 0; nb < off_x; nb++) {
-      djnn::List* first_row = (djnn::List*)tiles->find_child ("1");
-      djnn::List* last_row = (djnn::List*)tiles->find_child (nbRow);
-      djnn::CoreProcess* first_tile = first_row->find_child ("1");
-      djnn::CoreProcess* last_tile = last_row->find_child (std::to_string (nbCol));
-      int X_last = djnn::getInt (last_tile->find_child ("X"));
-      double x_last = ((djnn::AbstractProperty*)last_tile->find_child( "img/x"))->get_double_value ();
-      for (int i = 1; i <= nbRow;i++) {
-        first_row = (djnn::List*)tiles->find_child (std::to_string (i));
-        djnn::CoreProcess *tile = first_row->find_child(std::to_string(1));
-        djnn::CoreProcess *img_X = tile->find_child("X");
-        djnn::setInt (img_X, X_last + 1);
-        first_row->remove_child (tile);
-        first_row->insert (tile, ">");
-        djnn::AbstractProperty *img_x = (djnn::AbstractProperty*)tile->find_child( "img/x");
-        img_x->set_value (x_last + 256, true);
-      }
-    }
-    //djnn::release_exclusive_access(DBG_REL);
-  }
+//     for (int nb = 0; nb < off_x; nb++) {
+//       djnn::List* first_row = (djnn::List*)tiles->find_child ("1");
+//       djnn::List* last_row = (djnn::List*)tiles->find_child (nbRow);
+//       djnn::CoreProcess* first_tile = first_row->find_child ("1");
+//       djnn::CoreProcess* last_tile = last_row->find_child (std::to_string (nbCol));
+//       int X_last = djnn::getInt (last_tile->find_child ("X"));
+//       double x_last = ((djnn::AbstractProperty*)last_tile->find_child( "img/x"))->get_double_value ();
+//       for (int i = 1; i <= nbRow;i++) {
+//         first_row = (djnn::List*)tiles->find_child (std::to_string (i));
+//         djnn::CoreProcess *tile = first_row->find_child(std::to_string(1));
+//         djnn::CoreProcess *img_X = tile->find_child("X");
+//         djnn::setInt (img_X, X_last + 1);
+//         first_row->remove_child (tile);
+//         first_row->insert (tile, ">");
+//         djnn::AbstractProperty *img_x = (djnn::AbstractProperty*)tile->find_child( "img/x");
+//         img_x->set_value (x_last + 256, true);
+//       }
+//     }
+//     //djnn::release_exclusive_access(DBG_REL);
+//   }
 
-  void
-  fn_move_down_l1 (djnn::CoreProcess *src)
-  {
-    //djnn::get_exclusive_access(DBG_GET);
-    djnn::CoreProcess *data = (djnn::CoreProcess*) get_native_user_data (src);
+//   void
+//   fn_move_down_l1 (djnn::CoreProcess *src)
+//   {
+//     //djnn::get_exclusive_access(DBG_GET);
+//     djnn::CoreProcess *data = (djnn::CoreProcess*) get_native_user_data (src);
 
-    int nbCol = getInt (data->find_child ("nbCols"));
-    int nbRow = getInt (data->find_child ("nbRows"));
-    int off_y = abs(getInt (data->find_child ("offset_y")));
+//     int nbCol = getInt (data->find_child ("nbCols"));
+//     int nbRow = getInt (data->find_child ("nbRows"));
+//     int off_y = abs(getInt (data->find_child ("offset_y")));
 
-    djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
-    if (tiles == nullptr) {
-      djnn::release_exclusive_access(DBG_REL);
-      return;
-    }
+//     djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
+//     if (tiles == nullptr) {
+//       djnn::release_exclusive_access(DBG_REL);
+//       return;
+//     }
     
-    for (int nb = 0; nb < off_y; nb++) {
-      djnn::List* first_row = (djnn::List*)tiles->find_child ("1");
-      djnn::List* last_row = (djnn::List*)tiles->find_child (nbRow);
-      djnn::CoreProcess* first_tile = first_row->find_child ("1");
-      djnn::CoreProcess* last_tile = last_row->find_child (std::to_string (nbCol));
+//     for (int nb = 0; nb < off_y; nb++) {
+//       djnn::List* first_row = (djnn::List*)tiles->find_child ("1");
+//       djnn::List* last_row = (djnn::List*)tiles->find_child (nbRow);
+//       djnn::CoreProcess* first_tile = first_row->find_child ("1");
+//       djnn::CoreProcess* last_tile = last_row->find_child (std::to_string (nbCol));
 
-      int Y_first = getInt(first_tile->find_child("Y"));
-      double y1 = ((djnn::AbstractProperty*)first_tile->find_child( "img/y"))->get_double_value ();
-      last_row = (djnn::List*)tiles->find_child (nbRow);
-      for (int j = 1; j <= nbCol; j++) {
-        djnn::CoreProcess *tile = last_row->find_child (std::to_string(j));
-        djnn::CoreProcess *tile_Y = tile->find_child("Y");
-        djnn::setInt (tile_Y, Y_first - 1);
-        djnn::AbstractProperty *img_y = (djnn::AbstractProperty*)tile->find_child( "img/y");
-        img_y->set_value (y1 - 256, true);
-      }
-      tiles->remove_child (last_row);
-      ((djnn::List*)tiles)->insert (last_row, "<");
-    }
-    //djnn::release_exclusive_access(DBG_REL);
-  }
+//       int Y_first = getInt(first_tile->find_child("Y"));
+//       double y1 = ((djnn::AbstractProperty*)first_tile->find_child( "img/y"))->get_double_value ();
+//       last_row = (djnn::List*)tiles->find_child (nbRow);
+//       for (int j = 1; j <= nbCol; j++) {
+//         djnn::CoreProcess *tile = last_row->find_child (std::to_string(j));
+//         djnn::CoreProcess *tile_Y = tile->find_child("Y");
+//         djnn::setInt (tile_Y, Y_first - 1);
+//         djnn::AbstractProperty *img_y = (djnn::AbstractProperty*)tile->find_child( "img/y");
+//         img_y->set_value (y1 - 256, true);
+//       }
+//       tiles->remove_child (last_row);
+//       ((djnn::List*)tiles)->insert (last_row, "<");
+//     }
+//     //djnn::release_exclusive_access(DBG_REL);
+//   }
 
-  void
-  fn_move_up_l1 (djnn::CoreProcess *src)
-  {
-    //djnn::get_exclusive_access(DBG_GET);
-    djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
+//   void
+//   fn_move_up_l1 (djnn::CoreProcess *src)
+//   {
+//     //djnn::get_exclusive_access(DBG_GET);
+//     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
 
-    int nbCol = djnn::getInt (data->find_child ("nbCols"));
-    int nbRow = djnn::getInt (data->find_child ("nbRows"));
-    int off_y = abs(getInt (data->find_child ("offset_y")));
+//     int nbCol = djnn::getInt (data->find_child ("nbCols"));
+//     int nbRow = djnn::getInt (data->find_child ("nbRows"));
+//     int off_y = abs(getInt (data->find_child ("offset_y")));
 
-    djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
-    if (tiles == nullptr) {
-      djnn::release_exclusive_access(DBG_REL);
-      return;
-    }
+//     djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
+//     if (tiles == nullptr) {
+//       djnn::release_exclusive_access(DBG_REL);
+//       return;
+//     }
 
-    for (int nb = 0; nb < off_y; nb++) {
-      djnn::List* first_row = (djnn::List*)tiles->find_child ("1");
-      djnn::List* last_row = (djnn::List*)tiles->find_child (nbRow);
-      djnn::CoreProcess* first_tile = first_row->find_child ("1");
-      djnn::CoreProcess* last_tile = last_row->find_child (std::to_string (nbCol));
-      int Y_last = djnn::getInt (last_tile->find_child ("Y"));
-      double y_last = ((djnn::AbstractProperty*)last_tile->find_child( "img/y"))->get_double_value ();
-      first_row = (djnn::List*)tiles->find_child ("1");
-      for (int j = 1; j <= nbCol; j++) {
-        djnn::CoreProcess *tile = first_row->find_child (std::to_string(j));
-        djnn::CoreProcess *tile_Y = tile->find_child("Y");
-        djnn::setInt (tile_Y, Y_last + 1);
-        djnn::AbstractProperty *img_y = (djnn::AbstractProperty*)tile->find_child( "img/y");
-        img_y->set_value (y_last + 256, true);
-      }
-      tiles->remove_child (first_row);
-      ((djnn::List*)tiles)->insert (first_row, ">");
-    }
-    //djnn::release_exclusive_access(DBG_REL);
-  }
+//     for (int nb = 0; nb < off_y; nb++) {
+//       djnn::List* first_row = (djnn::List*)tiles->find_child ("1");
+//       djnn::List* last_row = (djnn::List*)tiles->find_child (nbRow);
+//       djnn::CoreProcess* first_tile = first_row->find_child ("1");
+//       djnn::CoreProcess* last_tile = last_row->find_child (std::to_string (nbCol));
+//       int Y_last = djnn::getInt (last_tile->find_child ("Y"));
+//       double y_last = ((djnn::AbstractProperty*)last_tile->find_child( "img/y"))->get_double_value ();
+//       first_row = (djnn::List*)tiles->find_child ("1");
+//       for (int j = 1; j <= nbCol; j++) {
+//         djnn::CoreProcess *tile = first_row->find_child (std::to_string(j));
+//         djnn::CoreProcess *tile_Y = tile->find_child("Y");
+//         djnn::setInt (tile_Y, Y_last + 1);
+//         djnn::AbstractProperty *img_y = (djnn::AbstractProperty*)tile->find_child( "img/y");
+//         img_y->set_value (y_last + 256, true);
+//       }
+//       tiles->remove_child (first_row);
+//       ((djnn::List*)tiles)->insert (first_row, ">");
+//     }
+//     //djnn::release_exclusive_access(DBG_REL);
+//   }
 
-  
+ 
 void 
 fn_move_right_l2 (djnn::CoreProcess *src)
   {
