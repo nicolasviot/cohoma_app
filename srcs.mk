@@ -114,9 +114,6 @@ ifeq ($(os),Darwin)
 LIBS += -lboost_thread-mt
 endif
 
-ld_library_path+=$(ros_lib_path):$(ros_lib_path)/x86_64-linux-gnu:$(icare_interfaces_libs_install_path)
-endif
-
 
 # external libraries
 # CXXFLAGS += $(shell pkg-config --cflags foo)
