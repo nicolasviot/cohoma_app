@@ -44,7 +44,7 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   int tile_size_x2 = 2 * tile_size  // 512
   int tile_size_d2 = tile_size / 2  // 128
   int pixmap_extra = (extra_tiles / 2) * tile_size // in pixel
-  int animator_duration = 100
+  int animator_duration = 300
 
   Translation pos (_x, _y)
   x aka pos.tx

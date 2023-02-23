@@ -69,48 +69,44 @@ MapLayer (Process f, Process map, string name, string proxy)
   OutlineOpacity oo (1)
   opacity =:> fo.a, oo.a
 
-  // TODO : VIRER LA LISTE .. useless
-  List layers {
-    Component _ {
-      Double zoom (1)
-      Scaling sc (1, 1, 0, 0)
-      zoom =:> sc.sx, sc.sy
-      Translation pan_tr (0,0)
+  Component tile_layer {
+    Double zoom (1)
+    Scaling sc (1, 1, 0, 0)
+    zoom =:> sc.sx, sc.sy
+    Translation pan_tr (0,0)
 
-      List tiles {
-        for (int i = 0; i < $nbRows; i++) {
-          List row {
-            for (int j = 0; j < $nbCols; j++) {
-              PixmapTile _ (j*tile_size, i*tile_size, $zoomLevel, cur_row, cur_col, name, proxy, opacity)
-              cur_col++
-            }
+    List tiles {
+      for (int i = 0; i < $nbRows; i++) {
+        List row {
+          for (int j = 0; j < $nbCols; j++) {
+            PixmapTile _ (j*tile_size, i*tile_size, $zoomLevel, cur_row, cur_col, name, proxy, opacity)
+            cur_col++
           }
-          cur_row++
-          cur_col = $map.col_0
         }
+        cur_row++
+        cur_col = $map.col_0
       }
     }
   }
 
-  RefProperty ref_corner_tile (layers.[1].tiles.[1].[1])
+  RefProperty ref_corner_tile (tile_layer.tiles.[1].[1])
   DerefDouble ref_y_0 (ref_corner_tile, "y0", DJNN_GET_ON_CHANGE)
   DerefDouble ref_x_0 (ref_corner_tile, "x0", DJNN_GET_ON_CHANGE)
   ref_y_0.value =:> t0_y
   ref_x_0.value =:> t0_x
 
-  ref_layer aka layers.[1]
-  ref_tr_tx aka ref_layer.pan_tr.tx
-  ref_tr_ty aka ref_layer.pan_tr.ty
-  ref_sc_cx aka ref_layer.sc.cx
-  ref_sc_cy aka ref_layer.sc.cy
-  ref_zoom aka ref_layer.zoom
+  ref_tr_tx aka tile_layer.pan_tr.tx
+  ref_tr_ty aka tile_layer.pan_tr.ty
+  ref_sc_cx aka tile_layer.sc.cx
+  ref_sc_cy aka tile_layer.sc.cy
+  ref_zoom aka tile_layer.zoom
 
   Spike update_layer_after_zoom_in
   Spike update_layer_after_zoom_out
 
   // SetREF ? utile ?
   move_left  -> set_tile_0 : (this) {
-    setRef (this.ref_corner_tile, this.layers.[1].tiles.[1].[1])
+    setRef (this.ref_corner_tile, this.tile_layer.tiles.[1].[1])
   }
   move_right -> set_tile_0
   move_up    -> set_tile_0
@@ -124,16 +120,16 @@ MapLayer (Process f, Process map, string name, string proxy)
   zoom_in->set_corner_tile_in:(this) {
     this.buff_lon = this.pointer_lon
     this.buff_lat = this.pointer_lat
-    this.new_t0_x = this.layers.[1].tiles.[1].[1].x0
-    this.new_t0_y = this.layers.[1].tiles.[1].[1].y0
+    this.new_t0_x = this.tile_layer.tiles.[1].[1].x0
+    this.new_t0_y = this.tile_layer.tiles.[1].[1].y0
   }
   set_corner_tile_in->map.prepare_zoom_in
 
   zoom_out->set_corner_tile_out:(this) {
     this.buff_lon = this.pointer_lon
     this.buff_lat = this.pointer_lat
-    this.new_t0_x = this.layers.[1].tiles.[1].[1].x0
-    this.new_t0_y = this.layers.[1].tiles.[1].[1].y0
+    this.new_t0_x = this.tile_layer.tiles.[1].[1].x0
+    this.new_t0_y = this.tile_layer.tiles.[1].[1].y0
   }
   set_corner_tile_out->map.prepare_zoom_out
 

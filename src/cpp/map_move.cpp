@@ -55,7 +55,7 @@
     
 
 
-    djnn::List *tiles = (djnn::List*) data->find_optional_child ("layers/1/tiles");
+    djnn::List *tiles = (djnn::List*) data->find_optional_child ("tile_layer/tiles");
     djnn::CoreProcess* tile = tiles->find_child (std::to_string(row))->find_child(std::to_string (col));
     if (tiles == nullptr) {
       djnn::release_exclusive_access(DBG_REL);
@@ -85,7 +85,7 @@ fn_zoom_out (djnn::CoreProcess *src)
   double lat = djnn::getDouble (data->find_child ("pointer_lat"));
   int tx =  lon2tilex (lon, z); // x de la tuile couvrant le point de référence
   int ty =  lat2tiley (lat, z); // y de la tuile couvrant le point de référence
-  djnn::List *tiles = (djnn::List*) data->find_optional_child ("layers/1/tiles");
+  djnn::List *tiles = (djnn::List*) data->find_optional_child ("tile_layer/tiles");
   djnn::CoreProcess* tile = tiles->find_child (std::to_string(row))->find_child(std::to_string (col));
   if (tiles == nullptr) {
     djnn::release_exclusive_access(DBG_REL);
@@ -105,7 +105,7 @@ fn_move_right (djnn::CoreProcess *src)
   {
     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
 
-    djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
+    djnn::CoreProcess *tiles = data->find_optional_child ("tile_layer/tiles");
     if (tiles == nullptr) {
       djnn::release_exclusive_access(DBG_REL);
       return;
@@ -140,7 +140,7 @@ fn_move_right (djnn::CoreProcess *src)
   {
     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
 
-    djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
+    djnn::CoreProcess *tiles = data->find_optional_child ("tile_layer/tiles");
     if (tiles == nullptr) {
       djnn::release_exclusive_access(DBG_REL);
       return;
@@ -173,7 +173,7 @@ fn_move_right (djnn::CoreProcess *src)
   fn_move_down (djnn::CoreProcess *src)
   {
     djnn::CoreProcess *data = (djnn::CoreProcess*) get_native_user_data (src);
-    djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
+    djnn::CoreProcess *tiles = data->find_optional_child ("tile_layer/tiles");
     if (tiles == nullptr) {
       djnn::release_exclusive_access(DBG_REL);
       return;
@@ -208,7 +208,7 @@ fn_move_right (djnn::CoreProcess *src)
   {
     djnn::CoreProcess *data = (djnn::CoreProcess*) djnn::get_native_user_data (src);
   
-    djnn::CoreProcess *tiles = data->find_optional_child ("layers/1/tiles");
+    djnn::CoreProcess *tiles = data->find_optional_child ("tile_layer/tiles");
     if (tiles == nullptr) {
       djnn::release_exclusive_access(DBG_REL);
       return;
