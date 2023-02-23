@@ -22,6 +22,8 @@ import gui.animation.Animator
 _define_
 MapLayer (Process f, Process map, string name, string proxy)
 {
+  int tile_size = 256
+
   check_and_build_dir ("cache/" + name)
 
   pointer_lat aka map.pointer_lat
@@ -80,7 +82,7 @@ MapLayer (Process f, Process map, string name, string proxy)
         for (int i = 0; i < $nbRows; i++) {
           List row {
             for (int j = 0; j < $nbCols; j++) {
-              PixmapTile _ (j*256, i*256, $zoomLevel, cur_row, cur_col, name, proxy, opacity)
+              PixmapTile _ (j*tile_size, i*tile_size, $zoomLevel, cur_row, cur_col, name, proxy, opacity)
               cur_col++
             }
           }

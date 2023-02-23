@@ -38,6 +38,14 @@ _native_code_
 _define_
 Map (Process f, int _x, int _y, double _width, double _height, double _lat, double _lon, int _zoom)
 {
+  // Magic Numbers
+  int extra_tiles = 4  // 4 means 2 each sides
+  int tile_size = 256
+  int tile_size_x2 = 2 * tile_size  // 512
+  int tile_size_d2 = tile_size / 2  // 128
+  int pixmap_extra = (extra_tiles / 2) * tile_size // in pixel
+  int animator_duration = 100
+
   Translation pos (_x, _y)
   x aka pos.tx
   y aka pos.ty
@@ -52,7 +60,6 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   Double mod_y_zooom_in (0)
 
   Double scaling_factor_correction(0)
-
   // important note :
   // mercator scaling correction, use init_lat to update the correction ONCE
   // to make it workcorrectly, this computation should be include in an Abstract_Geo_ref Class
@@ -74,12 +81,10 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
 
   Int zoomLevel (_zoom)
 
-  int extra_tiles = 4 //4
-
-  Int nbCols (ceil(_width/256) + extra_tiles)
-  Int nbRows (ceil(_height/256) + extra_tiles)
-  ceil(width/256) + extra_tiles =:> nbCols
-  ceil(height/256) + extra_tiles =:> nbRows
+  Int nbCols (ceil(_width/tile_size) + extra_tiles)
+  Int nbRows (ceil(_height/tile_size) + extra_tiles)
+  ceil(width/tile_size) + extra_tiles =:> nbCols
+  ceil(height/tile_size) + extra_tiles =:> nbRows
 
   Spike move_left
   Spike move_right
@@ -127,13 +132,13 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   int n_cols_before = ceil($nbCols/2)
 
   
-  int _px0 = - 512
-  int _py0 = - 512
+  int _px0 = - tile_size_x2
+  int _py0 = - tile_size_x2
   if (!even_rows) {
-    _py0 -= 128
+    _py0 -= tile_size_d2
   }
   if (!even_cols) {
-    _px0 -= 128
+    _px0 -= tile_size_d2
   }
   
   Int px0 (_px0 + _dx)
@@ -157,19 +162,17 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
     Rectangle pick_area (0, 0, 0, 0, 0, 0)
     RectangleClip clip_area (0, 0, _width, _height)
 
-
     PanAndZoom pz (f.move, pick_area)
 
     Translation t_pmc (0, 0)
-    int pixmap_extra = extra_tiles / 2 * 256 // TODO : REMOVE the magic 256
-    Layer pixmap_cache (0, 0, 0, 0, pixmap_extra) { //bindings on w and h under. Pad will never change during the execution
+    Layer pixmap_cache (0, 0, 0, 0, pixmap_extra) { 
       Component layers
     }
 
     this.{width,height} =:> clip_area.{width,height}, pick_area.{width, height}, pixmap_cache.{w, h}
   }
 
-  Animator zoom_animator (200, 0, 1, DJN_IN_SINE, 0, 1)
+  Animator zoom_animator (animator_duration, 0, 1, DJN_IN_SINE, 0, 1)
 
   xpan aka g_map.pz.xpan
   ypan aka g_map.pz.ypan
@@ -178,6 +181,8 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   leave aka g_map.pick_area.leave
   move_x aka g_map.pick_area.move.x
   move_y aka g_map.pick_area.move.y
+  move_local_x aka g_map.pick_area.move.local_x
+  move_local_y aka g_map.pick_area.move.local_y
   release aka g_map.pick_area.release
   press aka g_map.pick_area.press
   wheel_dy aka g_map.pick_area.wheel.dy
@@ -190,8 +195,8 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   Double real_ypan_intermediaire (0)
 
   AssignmentSequence reset_pix_offset (0) {
-    (xpan - cur_ref_x)/256 =: pix_offset_x
-    (ypan - cur_ref_y)/256 =: pix_offset_y
+    (xpan - cur_ref_x)/tile_size =: pix_offset_x
+    (ypan - cur_ref_y)/tile_size =: pix_offset_y
   }
   g_map.pick_area.release -> reset_pix_offset
   end_zoom_out -> reset_pix_offset
@@ -215,20 +220,17 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
       //Calcul des coordonnées du pointeur
       px2lon (t0_x + move_x - px0 - (xpan - cur_ref_x), $zoomLevel) => pointer_lon
       py2lat (t0_y - move_y + py0 + (ypan - cur_ref_y), $zoomLevel) => pointer_lat
- 
-      floor((g_map.pick_area.move.local_x - (xpan - cur_ref_x) + 512)/256.0) + x_odd =:> pointer_col
-      floor((g_map.pick_area.move.local_y - (ypan - cur_ref_y) + 512)/256.0) + y_odd =:> pointer_row
 
-      (g_map.pick_area.move.local_x - (xpan - cur_ref_x) + 512)%256.0 =:> mod_x_zooom_in
-      (g_map.pick_area.move.local_y - (ypan - cur_ref_y) + 512)%256.0 =:> mod_y_zooom_in
+      floor((move_local_x - (xpan - cur_ref_x) + tile_size_x2) / tile_size) + x_odd =:> pointer_col  // transformer en Double ??
+      floor((move_local_y - (ypan - cur_ref_y) + tile_size_x2) / tile_size) + y_odd =:> pointer_row
 
+      (move_local_x - (xpan - cur_ref_x) + tile_size_x2) % tile_size =:> mod_x_zooom_in
+      (move_local_y - (ypan - cur_ref_y) + tile_size_x2) % tile_size =:> mod_y_zooom_in
 
       xpan + px0 =:> real_xpan_intermediaire
       ypan + py0 =:> real_ypan_intermediaire
       real_xpan_intermediaire - cur_ref_x =:> real_xpan
-      real_ypan_intermediaire - cur_ref_y =:> real_ypan
-
-      
+      real_ypan_intermediaire - cur_ref_y =:> real_ypan      
     }
     State pressed {
       xpan =: old_xpan
@@ -299,14 +301,14 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
 
   AssignmentSequence prepare_move_right (1) {
     pix_offset_x =: buff_pix_offset_x
-    cur_ref_x + 256*pix_offset_x =: cur_ref_x
+    cur_ref_x + tile_size * pix_offset_x =: cur_ref_x
   }
   (pix_offset_x >=  1) -> prepare_move_right
   prepare_move_right -> move_right
   
   AssignmentSequence prepare_move_left (1) {
     pix_offset_x =: buff_pix_offset_x
-    cur_ref_x - abs(256*pix_offset_x) =: cur_ref_x
+    cur_ref_x - abs(tile_size * pix_offset_x) =: cur_ref_x
   }
 
   (pix_offset_x <= -1) -> prepare_move_left
@@ -314,14 +316,14 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
 
   AssignmentSequence prepare_move_down (1) {
     pix_offset_y =: buff_pix_offset_y
-    cur_ref_y + (pix_offset_y*256) =: cur_ref_y
+    cur_ref_y + (pix_offset_y * tile_size) =: cur_ref_y
   }
   (pix_offset_y >=  1) -> prepare_move_down
   prepare_move_down -> move_down
 
   AssignmentSequence prepare_move_up (1) {
     pix_offset_y =: buff_pix_offset_y
-    cur_ref_y - abs(pix_offset_y*256) =: cur_ref_y
+    cur_ref_y - abs(pix_offset_y * tile_size) =: cur_ref_y
   }
   (pix_offset_y <= -1) -> prepare_move_up
   prepare_move_up -> move_up
