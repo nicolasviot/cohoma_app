@@ -70,7 +70,6 @@ MapLayer (Process f, Process map, string name, string proxy)
   // TODO : VIRER LA LISTE .. useless
   List layers {
     Component _ {
-      cur_row = $map.row_0
       Double opacity (1)
       Double zoom (1)
       Scaling sc (1, 1, 0, 0)
@@ -155,8 +154,8 @@ MapLayer (Process f, Process map, string name, string proxy)
       1 =: ref_opacity
       map.xpan + map.px0 + map.new_dx =: ref_tr_tx
       map.ypan + map.py0 + map.new_dy =: ref_tr_ty
-      f.move.x =: ref_sc_cx // REPLACE f.move.x par map.pick_area.move.x
-      f.move.y =: ref_sc_cy // REPLACE f.move.y par map.pick_area.move.y
+      map.move_x =: ref_sc_cx
+      map.move_y =: ref_sc_cy
       0.5 + map.zoom_animator.output/2 =:> ref_zoom
     }
     State zooming_out {
@@ -164,8 +163,8 @@ MapLayer (Process f, Process map, string name, string proxy)
       1 =: ref_opacity
       map.xpan + map.px0 + map.new_dx =: ref_tr_tx
       map.ypan + map.py0 + map.new_dy =: ref_tr_ty
-      f.move.x =: ref_sc_cx  // REPLACE f.move.x par map.pick_area.move.x
-      f.move.y =: ref_sc_cy  // REPLACE f.move.y par map.pick_area.move.y
+      map.move_x =: ref_sc_cx
+      map.move_y =: ref_sc_cy
       2 - map.zoom_animator.output =:> ref_zoom
     }
     idle->zooming_in (map.prepare_zoom_in, map.zoom_animator.start)

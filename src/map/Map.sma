@@ -176,6 +176,11 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   layers aka g_map.pixmap_cache.layers
   enter aka g_map.pick_area.enter
   leave aka g_map.pick_area.leave
+  move_x aka g_map.pick_area.move.x
+  move_y aka g_map.pick_area.move.y
+  release aka g_map.pick_area.release
+  press aka g_map.pick_area.press
+  wheel_dy aka g_map.pick_area.wheel.dy
   
   Reticule reticule (this, f)
   
@@ -208,8 +213,8 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
       0 =: g_map.t_pmc.ty
       
       //Calcul des coordonnées du pointeur
-      px2lon (t0_x + g_map.pick_area.move.x - px0 - (xpan - cur_ref_x), $zoomLevel) => pointer_lon
-      py2lat (t0_y - g_map.pick_area.move.y + py0 + (ypan - cur_ref_y), $zoomLevel) => pointer_lat
+      px2lon (t0_x + move_x - px0 - (xpan - cur_ref_x), $zoomLevel) => pointer_lon
+      py2lat (t0_y - move_y + py0 + (ypan - cur_ref_y), $zoomLevel) => pointer_lat
  
       floor((g_map.pick_area.move.local_x - (xpan - cur_ref_x) + 512)/256.0) + x_odd =:> pointer_col
       floor((g_map.pick_area.move.local_y - (ypan - cur_ref_y) + 512)/256.0) + y_odd =:> pointer_row
@@ -231,8 +236,8 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
       xpan - old_xpan =:> g_map.t_pmc.tx
       ypan - old_ypan =:> g_map.t_pmc.ty
     }
-    idle->pressed (g_map.pick_area.press)
-    pressed->idle (g_map.pick_area.release)
+    idle->pressed (press)
+    pressed->idle (release)
   }
 
   Double new_lon (0)
@@ -251,15 +256,15 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   }
 
   AssignmentSequence prepare_zoom_in (1) {
-    px2lon (new_t0_x + g_map.pick_area.move.x - px0 - (xpan - cur_ref_x), zoomLevel+1) =: new_lon
-    py2lat (new_t0_y - g_map.pick_area.move.y + py0 + (ypan - cur_ref_y), zoomLevel+1) =: new_lat
+    px2lon (new_t0_x + move_x - px0 - (xpan - cur_ref_x), zoomLevel+1) =: new_lon
+    py2lat (new_t0_y - move_y + py0 + (ypan - cur_ref_y), zoomLevel+1) =: new_lat
     lon2px ($new_lon, zoomLevel + 1) - lon2px ($buff_lon, zoomLevel + 1) =: new_dx
     lat2py ($buff_lat, zoomLevel + 1) - lat2py ($new_lat, zoomLevel + 1) =: new_dy
   }
   
   AssignmentSequence prepare_zoom_out (1) {
-    px2lon (new_t0_x + g_map.pick_area.move.x - px0 - (xpan - cur_ref_x), zoomLevel-1) =: new_lon
-    py2lat (new_t0_y - g_map.pick_area.move.y + py0 + (ypan - cur_ref_y), zoomLevel-1) =: new_lat
+    px2lon (new_t0_x + move_x - px0 - (xpan - cur_ref_x), zoomLevel-1) =: new_lon
+    py2lat (new_t0_y - move_y + py0 + (ypan - cur_ref_y), zoomLevel-1) =: new_lat
     lon2px ($new_lon, zoomLevel - 1) - lon2px ($buff_lon, zoomLevel - 1) =: new_dx
     lat2py ($buff_lat, zoomLevel - 1) - lat2py ($new_lat, zoomLevel - 1) =: new_dy
   }
@@ -272,14 +277,14 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
       zoomLevel == 1 =:> min
       Switch check_zoom (both) {
         Component both {
-          g_map.pick_area.wheel.dy > 0 -> zoom_in_req
-          g_map.pick_area.wheel.dy < 0 -> zoom_out_req
+          wheel_dy > 0 -> zoom_in_req
+          wheel_dy < 0 -> zoom_out_req
         }
         Component only_in {
-          g_map.pick_area.wheel.dy > 0 -> zoom_in_req
+          wheel_dy > 0 -> zoom_in_req
         }
         Component only_out {
-          g_map.pick_area.wheel.dy < 0 -> zoom_out_req
+          wheel_dy < 0 -> zoom_out_req
         }
       }
       min == 1 ? "only_in" : (max == 1 ? "only_out" : "both") =:> check_zoom.state 
