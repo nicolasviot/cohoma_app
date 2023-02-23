@@ -72,7 +72,6 @@ MapLayer (Process f, Process map, string name, string proxy)
   // TODO : VIRER LA LISTE .. useless
   List layers {
     Component _ {
-      Double opacity (1)
       Double zoom (1)
       Scaling sc (1, 1, 0, 0)
       zoom =:> sc.sx, sc.sy
@@ -93,17 +92,13 @@ MapLayer (Process f, Process map, string name, string proxy)
     }
   }
 
-  // TODO :remove Ref and deref ... use aka ?
   RefProperty ref_corner_tile (layers.[1].tiles.[1].[1])
   DerefDouble ref_y_0 (ref_corner_tile, "y0", DJNN_GET_ON_CHANGE)
   DerefDouble ref_x_0 (ref_corner_tile, "x0", DJNN_GET_ON_CHANGE)
   ref_y_0.value =:> t0_y
   ref_x_0.value =:> t0_x
 
-
-  // TODO : simplfier au moment ou on retire la liste
   ref_layer aka layers.[1]
-  ref_opacity aka ref_layer.opacity
   ref_tr_tx aka ref_layer.pan_tr.tx
   ref_tr_ty aka ref_layer.pan_tr.ty
   ref_sc_cx aka ref_layer.sc.cx
@@ -113,6 +108,7 @@ MapLayer (Process f, Process map, string name, string proxy)
   Spike update_layer_after_zoom_in
   Spike update_layer_after_zoom_out
 
+  // SetREF ? utile ?
   move_left  -> set_tile_0 : (this) {
     setRef (this.ref_corner_tile, this.layers.[1].tiles.[1].[1])
   }
@@ -148,12 +144,10 @@ MapLayer (Process f, Process map, string name, string proxy)
     State idle {
       map.real_xpan_intermediaire =:> ref_tr_tx
       map.real_ypan_intermediaire =:> ref_tr_ty
-
       1 =: ref_zoom
     }
     State zooming_in {
       0 =: map.zoom_animator.inc.state, map.zoom_animator.gen.input
-      1 =: ref_opacity
       map.xpan + map.px0 + map.new_dx =: ref_tr_tx
       map.ypan + map.py0 + map.new_dy =: ref_tr_ty
       map.move_x =: ref_sc_cx
@@ -162,7 +156,6 @@ MapLayer (Process f, Process map, string name, string proxy)
     }
     State zooming_out {
       0 =: map.zoom_animator.inc.state, map.zoom_animator.gen.input
-      1 =: ref_opacity
       map.xpan + map.px0 + map.new_dx =: ref_tr_tx
       map.ypan + map.py0 + map.new_dy =: ref_tr_ty
       map.move_x =: ref_sc_cx
