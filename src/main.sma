@@ -41,6 +41,7 @@ import site.SubLayerSite
 import menu.UpperLeftMenu
 import menu.RightPanel
 import ClockComponent
+import widgets.chat.Chat
 
 
 _native_code_
@@ -480,5 +481,8 @@ Component root {
   stop_create_edges -> na_stop_create_edges:(root) {
     delete_content root.fsm_add_edge.preview_on.temp_id_list
   }
+
+  // Translation _(150,0)
+  // Chat chat(f)
 
 }

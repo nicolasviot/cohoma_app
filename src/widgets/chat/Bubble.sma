@@ -9,6 +9,19 @@ _define_
 Bubble (string _label) inherits IWidget () {
   Translation offset (0, 0)
   
+  Component date {
+    Translation tr (100, 0)
+    FillColor fc (#333333)
+    //TextAnchor ta(DJN_END_ANCHOR)
+    FontFamily _ ("B612")
+    FontSize _(DJN_PX, 10)
+    Text t (0, 0, "")
+    WallClock wc
+    "%Hh%Mm%Ss" =: wc.format
+    wc.state_text =: t.text
+    //this.width - t.width =:> tr.tx 
+  }
+
   FillColor _ (0,0,255)
   Rectangle bg (0,0,100,10,5,5)
   
@@ -18,13 +31,17 @@ Bubble (string _label) inherits IWidget () {
   text aka ui.text
   this.height/2 + ui.ascent/2 - 1 =:> offset.ty
 
+
+
+  // bubble geometry 
   ui.width =: this.min_width
   this.preferred_width == -1 ? ui.width : this.preferred_width =: this.preferred_width
   ui.height =: this.min_height
   this.preferred_height == -1 ? ui.height : this.preferred_height =: this.preferred_height
 
-  ui.x =:> bg.x
-  ui.y - ui.height =:> bg.y
-  ui.width =:> bg.width
-  ui.height =:> bg.height
+  // bg geometry according to text
+  ui.x - 5 =:> bg.x
+  ui.y - ui.height + 2 =:> bg.y
+  ui.width + 10 =:> bg.width
+  ui.height + 2 =:> bg.height
 }
