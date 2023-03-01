@@ -4,7 +4,7 @@ use display
 use gui
 
 _define_
-Label (string _label)
+CLabel (string _label)
 {
   Translation tr (0, 0)
 

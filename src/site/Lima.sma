@@ -3,7 +3,7 @@ use gui
 use base
 
 import behavior.NotDraggableItem
-import widgets.Label
+import widgets.CLabel
 
 _native_code_
 %{
@@ -46,8 +46,8 @@ Lima (Process _map, Process _context, Process _model)
         }
     }
 
-    Label label1 (toString(_model.name))
-    Label label2 (toString(_model.name))
+    CLabel label1 (toString(_model.name))
+    CLabel label2 (toString(_model.name))
 
     if (_model.points.size > 0)
     {
