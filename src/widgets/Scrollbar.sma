@@ -131,23 +131,24 @@ Scrollbar(Process frame) inherits IWidget () {
     FillColor   _ (255,255,255) // white
     Rectangle   more_arrow_bg (0,0,1,1,0,0) // ^
     FillColor   _ (200,200,200) // gray
-    Rectangle   bg (0,0,1,1,0,0)        // []
+    Rectangle   bg (0,0,1,1,0,0)            // []
     FillColor   _ (255,255,255) // white
     Rectangle   less_arrow_bg (0,0,1,1,0,0) // v
 
     // thumb on top
-    FillColor   _ (150,150,255) // grayblue
-    Rectangle   thumb (0,0,1,1,0,0)      // =
+    FillColor   _ (0x32,0x32,0x32) // darkgray
+    Rectangle   thumb (0,0,1,1,0,0)         // =
 
     // 'one-way constraint' or data-flow of position/size of each zone for a regular scrollbar display layout
     // transforms the model into a display view (background + arrows + thumb)
 
+    //                                       x, width
                                          width =:> more_arrow_bg.width, bg.width, thumb.width, less_arrow_bg.width
-                                  0 - width/2  =:> more_arrow_bg.x, bg.x, thumb.x, less_arrow_bg.x
-
+                                   0 - width/2 =:> more_arrow_bg.x, bg.x, thumb.x, less_arrow_bg.x
+    //                                       y, height
                                              0 =:> more_arrow_bg.y 
                     arrow_height / transform.s =:> more_arrow_bg.height
-              more_arrow_bg.y + more_arrow_bg.height =:> bg.y
+        more_arrow_bg.y + more_arrow_bg.height =:> bg.y
                                              1 =:> bg.height
                               bg.y + bg.height =:> less_arrow_bg.y
                     arrow_height / transform.s =:> less_arrow_bg.height
