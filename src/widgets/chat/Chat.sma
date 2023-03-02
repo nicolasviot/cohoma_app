@@ -67,11 +67,13 @@ Chat (Process frame) {
     //sb.preferred_width =: sb.width
     //sb.preferred_height =: sb.height
 
-    //deactivate (send)
-    toString(edit.field.content.text) != "" -> send // FIXME there should be a disabled state
-    toString(edit.field.content.text) == "" ->! send
-    
-    
+    // Trick to trigger an activation after initialization
+    Timer t(0)
+    t.end -> send.disable
+
+    toString(edit.field.content.text) != "" -> send.enable
+    toString(edit.field.content.text) == "" -> send.disable
+        
     //vbox.{x,y,width,height} =:> cpr_.{x,y,width,height}
 
     // add message to conversation
