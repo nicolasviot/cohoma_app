@@ -177,7 +177,7 @@ SubLayerNavigGraph (Process _layer_model, Process _map, Process _context, Proces
 	//
 	if (_model_manager.IS_DEBUG)
 	{
-		print ("DEBUG: Load " + _model_manager.node_ids.size + " nodes and " + _model_manager.edge_ids.size + " edges...\n")
+		//print ("DEBUG: Load " + _model_manager.node_ids.size + " nodes and " + _model_manager.edge_ids.size + " edges...\n")
 
 		for node_id : _model_manager.node_ids {
 			string str_id = toString(node_id)

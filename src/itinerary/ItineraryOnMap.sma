@@ -24,7 +24,7 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 	// Sub views
 	List itinerary_edges
 
-	print ("Itinerary on Map " + _model.type + "\n")
+	//print ("Itinerary on Map " + _model.type + "\n")
 
 	/*Switch switch (false) {
 		Component false 
@@ -36,7 +36,7 @@ ItineraryOnMap (Process _context, Process _model_manager, Process _model)
 	_model.node_ids.$added -> na_node_id_added:(this) {
 		if (this.model.node_ids.size > 0)
 		{
-			print ("Node IDs added to itinerary " + this.model.type + ": " + this.model.node_ids.size + " nodes\n")
+			//print ("Node IDs added to itinerary " + this.model.type + ": " + this.model.node_ids.size + " nodes\n")
 
 			for (int i = 1; i < this.model.node_ids.size; i++)
 			{

@@ -57,6 +57,6 @@ ExclusionZoneModel (int _type, string _name)
 
     PointModel barycenter (0, 0, 0)
 	
-	TextPrinter tp
-	"Model of Exclusion Zone " + type + " (" + n_type + ") '" + name + "'" =: tp.input
+	//TextPrinter tp
+	//"Model of Exclusion Zone " + type + " (" + n_type + ") '" + name + "'" =: tp.input
 }

@@ -87,15 +87,22 @@ _native_code_
       return std::find(begin, end, option) != end;
   }
 
+  // pseudo /dev/null for iostream
+  class toto {}; template <typename X> toto& operator<<(toto& t, const X&) { return t; }
+  int myendl=0;
+
   void init_args (int argc, char * argv[])
   {
 	  char* lat = getCmdOption(argv, argv + argc, "-lat");
+    //auto& out = cout;
+    //auto& myendl = endl;
+    toto out;
     if (lat) {
         init_latitude = std::strtod (lat, nullptr);
     }
     else {
         init_latitude = 48.86109526727752;
-        cout << "using default latitude '" << init_latitude << "' of Beynes" << endl;
+        out << "using default latitude '" << init_latitude << "' of Beynes" << myendl;
     }
 
     char* lon = getCmdOption(argv, argv + argc, "-lon");
@@ -104,7 +111,7 @@ _native_code_
     }
     else {
         init_longitude = 1.8933138875646296;
-        cout << "using default longitude '" << init_longitude << "' of Beynes" << endl;
+        out << "using default longitude '" << init_longitude << "' of Beynes" << myendl;
     }
 
     char* map = getCmdOption(argv, argv + argc, "-m");
@@ -113,7 +120,7 @@ _native_code_
     }
     else {
         map_provider = "geoportail";
-        cout << "using default map provider: '" << map_provider << "'" << endl;
+        out << "using default map provider: '" << map_provider << "'" << myendl;
     }
 
     char* p = getCmdOption(argv, argv + argc, "-p");
@@ -122,10 +129,10 @@ _native_code_
     }
 
     if (proxy == "") {
-      cout << "Run COHOMA with map provider '" << map_provider << "' at " << init_latitude << " " << init_longitude << " (without proxy)..." << endl;
+      out << "Run COHOMA with map provider '" << map_provider << "' at " << init_latitude << " " << init_longitude << " (without proxy)..." << myendl;
     }
     else {
-      cout << "Run COHOMA with map provider '" << map_provider << "' at " << init_latitude << " " << init_longitude << " and proxy '" << proxy << "'..." << endl;
+      out << "Run COHOMA with map provider '" << map_provider << "' at " << init_latitude << " " << init_longitude << " and proxy '" << proxy << "'..." << myendl;
     }
   }
 %}
