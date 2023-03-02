@@ -99,9 +99,9 @@ DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Proce
             py2lat (_map.t0_y - $_dy, $_map.zoomLevel) => _lat, _map.reticule.pointer_lat2
         }
         
-        no_drag -> drag (_picking.left.press, _map.reticule.show_reticule2)
-        drag -> no_drag (_picking.left.release, _map.reticule.hide_reticule2)
-        drag -> no_drag (_frame_released, _map.reticule.hide_reticule2) // Occurs when release is done outside parent layer
+        no_drag -> drag (_picking.left.press, _map.reticule.show2)
+        drag -> no_drag (_picking.left.release, _map.reticule.hide2)
+        drag -> no_drag (_frame_released, _map.reticule.hide2) // Occurs when release is done outside parent layer
 
         no_drag -> no_drag_while_shift_key (_context.shift)
         no_drag_while_shift_key -> no_drag (_context.shift_r)
