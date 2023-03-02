@@ -146,6 +146,9 @@ Component root {
   _DEBUG_SEE_COLOR_PICKING_VIEW = 0
   _DEBUG_SEE_RECOMPUTE_PIXMAP_ONLY = 0
 
+  // CONFIG
+  _DEBUG_NO_TOUCH_EVENT = 1
+
   init_ros ()
 
   init_args (argc, argv)
