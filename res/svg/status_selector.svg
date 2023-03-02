@@ -11,17 +11,17 @@
 	c0,2.77-2.23,5-5,5H15c-2.77,0-5-2.23-5-5V10L0,0l10-10v-50.74C10-63.51,12.23-65.74,15-65.74z"/>
 <rect id="mask_forced" x="10" y="37.97" fill="#2F2F2F" fill-opacity="0" width="93" height="21.09"/>
 <rect id="rect_forced" x="10" y="37.97" fill="#DD9408" fill-opacity="0.9608" width="93" height="21.09"/>
-<text id="forced" transform="matrix(1 0 0 1 20.384 54.1251)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">Forced</text>
+<text id="forced" transform="matrix(1 0 0 1 20.384 54.1251)" fill="#FFFFFF" font-family="B612" font-size="14px">Forced</text>
 <rect id="mask_mandatory" x="10" y="13.98" fill="#2F2F2F" fill-opacity="0" width="93" height="21.09"/>
 <rect id="rect_mandatory" x="10" y="13.98" fill="#DD9408" fill-opacity="0.9608" width="93" height="21.09"/>
-<text id="mandatory" transform="matrix(1 0 0 1 20.384 30.1411)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">Mandatory</text>
+<text id="mandatory" transform="matrix(1 0 0 1 20.384 30.1411)" fill="#FFFFFF" font-family="B612" font-size="14px">Mandatory</text>
 <rect id="mask_end" x="10" y="-10" fill="#2F2F2F" fill-opacity="0" width="93" height="21.09"/>
 <rect id="rect_end" x="10" y="-10" fill="#DD9408" fill-opacity="0.9608" width="93" height="21.09"/>
-<text id="end" transform="matrix(1 0 0 1 20.384 5.0342)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">End</text>
+<text id="end" transform="matrix(1 0 0 1 20.384 5.0342)" fill="#FFFFFF" font-family="B612" font-size="14px">End</text>
 <rect id="mask_start" x="10" y="-34.11" fill="#2F2F2F" fill-opacity="0" width="93" height="21.09"/>
 <rect id="rect_start" x="10" y="-34.11" fill="#DD9408" fill-opacity="0.9608" width="93" height="21.09"/>
-<text id="start" transform="matrix(1 0 0 1 20.384 -17.952)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">Start</text>
+<text id="start" transform="matrix(1 0 0 1 20.384 -17.952)" fill="#FFFFFF" font-family="B612" font-size="14px">Start</text>
 <rect id="mask_default" x="10" y="-58.09" fill="#2F2F2F" fill-opacity="0" width="93" height="21.09"/>
 <rect id="rect_default" x="10" y="-58.09" fill="#DD9408" fill-opacity="0.9608" width="93" height="21.09"/>
-<text id="default" transform="matrix(1 0 0 1 20.384 -41.936)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">Default</text>
+<text id="default" transform="matrix(1 0 0 1 20.384 -41.936)" fill="#FFFFFF" font-family="B612" font-size="14px">Default</text>
 </svg>
