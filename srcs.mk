@@ -8,7 +8,7 @@ exe ?= cohoma
 # find src -name "*.sma" -path "src/widgets/impl" | xargs echo
 
 srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.sma src/widgets/CLabel.sma \
-            src/widgets/impl/scrollbar/clamp.sma src/widgets/impl/scrollbar/inverse_transform.sma src/widgets/impl/scrollbar/paging.sma src/widgets/Scrollbar.sma\
+            src/widgets/impl/scrollbar/clamp.sma src/widgets/impl/scrollbar/inverse_transform.sma src/widgets/impl/scrollbar/paging.sma src/widgets/Scrollbar.sma \
             src/widgets/chat/Bubble.sma src/widgets/chat/VBoxTranslation.sma src/widgets/chat/Chat.sma \
             src/CohomaContext.sma \
             src/model/PointModel.sma src/model/ExclusionZoneModel.sma src/model/LimaModel.sma \
@@ -20,7 +20,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/SubLayer.sma src/SubLayerVisibilityMap.sma \
             src/Console.sma src/ClockComponent.sma src/Reticule.sma \
             src/strip/Strip.sma src/strip/StripContainer.sma \
-            src/graph/NodeStatusSelector.sma src/graph/Edge.sma src/graph/Node.sma src/graph/SubLayerNavigGraph.sma \
+            src/graph/NodeStatusSelector.sma src/graph/Edge.sma src/graph/Node.sma src/graph/SubLayerNavigGraph.sma src/graph/CGraph.sma \
             src/trap/TrapStatusSelector.sma src/trap/Trap.sma src/trap/SubLayerTraps.sma \
             src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma src/task/SubLayerTasks.sma \
             src/site/ExclusionArea.sma src/site/Lima.sma src/site/SubLayerSite.sma \
