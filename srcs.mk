@@ -123,3 +123,5 @@ endif
 # or
 # pkgdeps +=
 
+#pkgdeps += libcurl # already in djnn
+pkgdeps += boost
