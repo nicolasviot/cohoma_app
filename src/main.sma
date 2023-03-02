@@ -321,8 +321,8 @@ Component root {
     press_on_background -> context.set_current_trap_to_null
   }
 
-  show_reticule -> l.map.reticule.show_reticule, foreground.create
-  hide_reticule -> l.map.reticule.hide_reticule, foreground.edit
+  show_reticule -> l.map.reticule.show, foreground.create
+  hide_reticule -> l.map.reticule.hide, foreground.edit
 
 
   // ----------------------------------------------------
