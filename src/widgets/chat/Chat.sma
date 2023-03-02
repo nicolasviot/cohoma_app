@@ -11,7 +11,7 @@ import gui.widgets.UITextField
 import widgets.Scrollbar
 
 import widgets.chat.Bubble
-
+import widgets.chat.VBoxTranslation
 
 _define_
 Chat (Process frame) {
@@ -25,7 +25,8 @@ Chat (Process frame) {
 
     VBox main_box (frame)
         HBox conversation_box (main_box)
-            VBox conversation_ (conversation_box)
+            VBoxTranslation conversation_ (conversation_box)
+                // here: this is where messages are stored
             Scrollbar sb_ (frame)
             addChildrenTo conversation_box.items {
                 conversation_, sb_
@@ -44,11 +45,18 @@ Chat (Process frame) {
         }
     
     conversation aka this.main_box.items.[1].items.[1].items
+    conversation_tr aka this.main_box.items.[1].items.[1].g.tr
     sb aka this.main_box.items.[1].items.[2]
     //Scrollbar sb(frame)
     edit  aka this.main_box.items.[2].items.[1]
     send aka this.main_box.items.[2].items.[2]
     new_msg aka this.main_box.items.[2]
+
+    main_box.preferred_width = 100
+    main_box.preferred_height = 100
+    
+    0 =: sb.model.low
+    1 =: sb.model.high
 
     10 =: sb.preferred_width
     100 =: sb.preferred_height
@@ -59,21 +67,51 @@ Chat (Process frame) {
     //sb.preferred_width =: sb.width
     //sb.preferred_height =: sb.height
 
-    //msg.field.content.text != "" =:> send.enabled
+    //deactivate (send)
+    toString(edit.field.content.text) != "" -> send // FIXME there should be a disabled state
+    toString(edit.field.content.text) == "" ->! send
+    
     
     //vbox.{x,y,width,height} =:> cpr_.{x,y,width,height}
 
-
-    send.click -> send_msg: (this) {
+    // add message to conversation
+    send.click -> add_msg: (this) {
         addChildrenTo this.conversation {
             Bubble b ("toto")
             b.ui.text = toString(this.edit.field.content.text)
-                //l.ui.anchor = 
-                //l.ui.width =:> bg.width
-                //l.ui.height =:> bg.height
-            //}
+            b.v_alignment = 2 // FIXME does not seem to be working
         }
     }
-    send_msg -> edit.clear
+    add_msg -> edit.clear
+
+    ((conversation.size > 2) && sb.model.low==0) -> {
+        2.0 / conversation.size =: sb.model.high
+    }
+    ((conversation.size > 2) && sb.model.low>1) -> {
+        sb.model.low + 2.0 / conversation.size =: sb.model.high
+    }
+
+    //_DEBUG_GRAPH_CYCLE_DETECT = 1
+
+    // clip messages by disabling them
+    sb.model.low -> (this) {
+        int nb_items = this.conversation.size
+        double v = 0
+        double acc = 1. 
+        acc = acc/nb_items
+        for item : this.conversation {
+            //printf("%f %f\n", acc, v)
+            if ( v>= $this.sb.model.low && v <= $this.sb.model.high) {
+                item.bg_color.b = 255
+                //activate(item)
+            } else {
+                item.bg_color.b = 100
+                //deactivate(item)
+            }
+            v += acc
+        }
+    }
+
+    sb.model.low * 100 =:> conversation_tr.ty
 
 }
