@@ -8,7 +8,6 @@ import model.EdgeModel
 _define_
 CGraph (Process root, Process f, Process model_manager, Process map, Process context)
 {
-    // ----------------------------------------------------
   // FSM to manage the addition of node in the graph
   FSM fsm_add_node {
     State idle 

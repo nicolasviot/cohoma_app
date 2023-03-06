@@ -284,7 +284,6 @@ Component root {
     // ----------------------------------------------------
     //  VEHICLE = VAB + SATELLITEs (UGV + UAV)
     SubLayerVehicles vehicles (model_manager.layers.[10], map, context, model_manager)
-    
 
     // Add layers, from bottom to top:
     addChildrenTo map.layers {
@@ -301,36 +300,34 @@ Component root {
       safety_pilots, //actors,
       vehicles //satellites
     }
-  }
 
+    // Foreground (absolute position in frame)
+    Component foreground {
+      Spike edit
+      Spike create
 
-  // ----------------------------------------------------
-  // Foreground (absolute position in frame)
-  Component foreground {
-    Spike edit
-    Spike create
+      Translation pos (0, 0)
+      context.map_translation_x =:> pos.tx
+      context.map_translation_y =:> pos.ty
 
-    Translation pos (0, 0)
-    context.map_translation_x =:> pos.tx
-    context.map_translation_y =:> pos.ty
+      FSM fsm_mode {
+        State mode_edit_node {
+          NodeStatusSelector node_menu (f, context)
+          press_on_background -> context.set_node_status_edition_to_null
+        }
+        State mode_create_node
 
-    FSM fsm_mode {
-      State mode_edit_node {
-        NodeStatusSelector node_menu (f, context)
-        press_on_background -> context.set_node_status_edition_to_null
+        mode_create_node -> mode_edit_node (edit)
+        mode_edit_node -> mode_create_node (create)
       }
-      State mode_create_node
 
-      mode_create_node -> mode_edit_node (edit)
-      mode_edit_node -> mode_create_node (create)
+      TrapStatusSelector trap_menu (f, context)
+      press_on_background -> context.set_current_trap_to_null
     }
 
-    TrapStatusSelector trap_menu (f, context)
-    press_on_background -> context.set_current_trap_to_null
+    show_reticule -> l.map.reticule.show, foreground.create
+    hide_reticule -> l.map.reticule.hide, foreground.edit
   }
-
-  show_reticule -> l.map.reticule.show, foreground.create
-  hide_reticule -> l.map.reticule.hide, foreground.edit
 
 
   // ----------------------------------------------------
