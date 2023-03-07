@@ -34,7 +34,8 @@ Bubble (string _label) inherits IWidget () {
     FontSize _(DJN_PX, 10)
     Text t (0, 0, "")
     WallClock wc
-    "%Hh%Mm%Ss" =: wc.format
+    //"%Hh%Mm%Ss" =: wc.format
+    "%H:%M" =: wc.format
     wc.state_text =: t.text
     //this.width - t.width =:> tr.tx 
   }
