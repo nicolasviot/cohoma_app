@@ -44,7 +44,8 @@ Chat (Process frame) {
             new_msg_
         }
     
-    conversation aka this.main_box.items.[1].items.[1].items
+    // the above addChildrenTo change the parenting, rename the components to make the code more usable
+    conversation aka this.main_box.items.[1].items.[1]
     conversation_tr aka this.main_box.items.[1].items.[1].g.tr
     sb aka this.main_box.items.[1].items.[2]
     //Scrollbar sb(frame)
@@ -52,15 +53,19 @@ Chat (Process frame) {
     send aka this.main_box.items.[2].items.[2]
     new_msg aka this.main_box.items.[2]
 
-    main_box.preferred_width = 100
-    main_box.preferred_height = 100
-    
+    //main_box.min_width  = 300
+    //main_box.min_height = 100
+
+    //conversation.preferred_width  = 300
+    300 =: conversation.min_width  //= 300
+    100 =: conversation.min_height  //= 100
+
     0 =: sb.model.low
     1 =: sb.model.high
 
-    10 =: sb.preferred_width
+    10  =: sb.preferred_width
     100 =: sb.preferred_height
-    2 =: sb.h_alignment
+    sb.h_alignment = 2
     2 =: new_msg.v_alignment
 
 
@@ -78,7 +83,7 @@ Chat (Process frame) {
 
     // add message to conversation
     send.click -> add_msg: (this) {
-        addChildrenTo this.conversation {
+        addChildrenTo this.conversation.items {
             Bubble b ("toto")
             b.ui.text = toString(this.edit.field.content.text)
             b.v_alignment = 2 // FIXME does not seem to be working
@@ -86,22 +91,22 @@ Chat (Process frame) {
     }
     add_msg -> edit.clear
 
-    ((conversation.size > 2) && sb.model.low==0) -> {
-        2.0 / conversation.size =: sb.model.high
+    ((conversation.items.size > 2) && sb.model.low == 0) -> {
+        2.0 / conversation.items.size =: sb.model.high
     }
-    ((conversation.size > 2) && sb.model.low>1) -> {
-        sb.model.low + 2.0 / conversation.size =: sb.model.high
+    ((conversation.items.size > 2) && sb.model.low > 1) -> {
+        sb.model.low + 2.0 / conversation.items.size =: sb.model.high
     }
 
     //_DEBUG_GRAPH_CYCLE_DETECT = 1
 
     // clip messages by disabling them
     sb.model.low -> (this) {
-        int nb_items = this.conversation.size
+        int nb_items = this.conversation.items.size
         double v = 0
         double acc = 1. 
         acc = acc/nb_items
-        for item : this.conversation {
+        for item : this.conversation.items {
             //printf("%f %f\n", acc, v)
             if ( v>= $this.sb.model.low && v <= $this.sb.model.high) {
                 item.bg_color.b = 255

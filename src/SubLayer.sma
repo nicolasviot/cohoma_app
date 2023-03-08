@@ -12,10 +12,12 @@ SubLayer (Process _model)
 
     Switch switch (true) {
         Component true {
-            "sub layer " + _model.name + " is visible" =: tp.input
+            Blank _ // allow commenting out the following line
+            //"sub layer " + _model.name + " is visible" =: tp.input
         }
         Component false {
-            "sub layer " +_model.name + " is hidden" =: tp.input
+            Blank _ // allow commenting out the following line
+            //"sub layer " +_model.name + " is hidden" =: tp.input
         }
     }
     _model.is_visible =:> switch.state

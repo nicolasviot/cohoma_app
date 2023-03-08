@@ -113,9 +113,9 @@ DraggableItemWithRadius (Process _map, Process _lat, Process _lon, Process _radi
             px2lon ($_tx + _map.t0_x, $_map.zoomLevel) => _lon, _map.reticule.pointer_lon2
             py2lat (_map.t0_y - $_ty, $_map.zoomLevel) => _lat, _map.reticule.pointer_lat2
         }
-        no_drag -> drag (_picking.left.press, _map.reticule.show_reticule2)
-        drag -> no_drag (_picking.left.release, _map.reticule.hide_reticule2)
-        drag -> no_drag (_frame_released, _map.reticule.hide_reticule2) // Occurs when release is done outside parent layer
+        no_drag -> drag (_picking.left.press, _map.reticule.show2)
+        drag -> no_drag (_picking.left.release, _map.reticule.hide2)
+        drag -> no_drag (_frame_released, _map.reticule.hide2) // Occurs when release is done outside parent layer
     }
 
 }

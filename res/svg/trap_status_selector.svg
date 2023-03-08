@@ -11,17 +11,17 @@
 	c0,3-2.2,5.5-5,5.5H15c-2.8,0-5-2.4-5-5.5V8.3L0-2.6l10-10.9v-55.4C10-72,12.2-74.4,15-74.4z"/>
 <g id="delete_btn">
 	<rect id="rect_delete" x="10" y="40.8" fill="#DD5408" fill-opacity="0.9608" width="93" height="21.1"/>
-	<text id="delete" transform="matrix(1 0 0 1 51.5 56.9902)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">Delete</text>
+	<text id="delete" transform="matrix(1 0 0 1 51.5 56.9902)" fill="#FFFFFF" font-family="B612" font-size="14px">Delete</text>
 </g>
 <rect id="mask_deactivated" x="10" y="-10" fill="#2F2F2F" fill-opacity="0" width="93" height="21.1"/>
 <rect id="rect_deactivated" x="10" y="-10" fill="#DD9408" fill-opacity="0.9608" width="93" height="21.1"/>
-<text id="deactivated" transform="matrix(1 0 0 1 20.384 5.0342)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">Deactivated</text>
+<text id="deactivated" transform="matrix(1 0 0 1 20.384 5.0342)" fill="#FFFFFF" font-family="B612" font-size="14px">Deactivated</text>
 <rect id="mask_identified" x="10" y="-34.1" fill="#2F2F2F" fill-opacity="0" width="93" height="21.1"/>
 <rect id="rect_identified" x="10" y="-34.1" fill="#DD9408" fill-opacity="0.9608" width="93" height="21.1"/>
-<text id="identified" transform="matrix(1 0 0 1 20.384 -17.952)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">Identified</text>
+<text id="identified" transform="matrix(1 0 0 1 20.384 -17.952)" fill="#FFFFFF" font-family="B612" font-size="14px">Identified</text>
 <rect id="mask_unknown" x="10" y="-58.1" fill="#2F2F2F" fill-opacity="0" width="93" height="21.1"/>
 <rect id="rect_unknown" x="10" y="-58.1" fill="#DD9408" fill-opacity="0.9608" width="93" height="21.1"/>
-<text id="unknown" transform="matrix(1 0 0 1 20.384 -41.936)" fill="#FFFFFF" font-family="'B612-Regular'" font-size="14px">Unknown</text>
+<text id="unknown" transform="matrix(1 0 0 1 20.384 -41.936)" fill="#FFFFFF" font-family="B612" font-size="14px">Unknown</text>
 <g id="close_button">
 	
 		<rect id="close_mask" x="89.3" y="-72.8" fill="none" stroke="#FFFFFF" stroke-width="0.25" stroke-miterlimit="10" width="11.8" height="11.8"/>

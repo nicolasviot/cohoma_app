@@ -42,7 +42,7 @@ _native_code_
 _define_
 NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_context, _is_debug)
 {
-    print ("No ROS Model Manager\n")
+    //print ("No ROS Model Manager\n")
 
     // **************************************************************************************************
     //

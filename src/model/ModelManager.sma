@@ -178,7 +178,7 @@ ModelManager (Process _context, int _is_debug)
 
     Bool IS_DEBUG (_is_debug)
 
-    print ("Model Manager\n")
+    //print ("Model Manager\n")
 
 	Spike clear_itineraries
     Spike clear_tasks

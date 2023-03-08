@@ -29,6 +29,7 @@ import SubLayerVisibilityMap
 import graph.SubLayerNavigGraph
 import graph.Node
 import graph.NodeStatusSelector
+import graph.CGraph
 import itinerary.SubLayerItineraries
 import RosManager
 import strip.StripContainer
@@ -87,15 +88,22 @@ _native_code_
       return std::find(begin, end, option) != end;
   }
 
+  // pseudo /dev/null for iostream
+  class toto {}; template <typename X> toto& operator<<(toto& t, const X&) { return t; }
+  int myendl=0;
+
   void init_args (int argc, char * argv[])
   {
 	  char* lat = getCmdOption(argv, argv + argc, "-lat");
+    //auto& out = cout;
+    //auto& myendl = endl;
+    toto out;
     if (lat) {
         init_latitude = std::strtod (lat, nullptr);
     }
     else {
         init_latitude = 48.86109526727752;
-        cout << "using default latitude '" << init_latitude << "' of Beynes" << endl;
+        out << "using default latitude '" << init_latitude << "' of Beynes" << myendl;
     }
 
     char* lon = getCmdOption(argv, argv + argc, "-lon");
@@ -104,7 +112,7 @@ _native_code_
     }
     else {
         init_longitude = 1.8933138875646296;
-        cout << "using default longitude '" << init_longitude << "' of Beynes" << endl;
+        out << "using default longitude '" << init_longitude << "' of Beynes" << myendl;
     }
 
     char* map = getCmdOption(argv, argv + argc, "-m");
@@ -113,7 +121,7 @@ _native_code_
     }
     else {
         map_provider = "geoportail";
-        cout << "using default map provider: '" << map_provider << "'" << endl;
+        out << "using default map provider: '" << map_provider << "'" << myendl;
     }
 
     char* p = getCmdOption(argv, argv + argc, "-p");
@@ -122,10 +130,10 @@ _native_code_
     }
 
     if (proxy == "") {
-      cout << "Run COHOMA with map provider '" << map_provider << "' at " << init_latitude << " " << init_longitude << " (without proxy)..." << endl;
+      out << "Run COHOMA with map provider '" << map_provider << "' at " << init_latitude << " " << init_longitude << " (without proxy)..." << myendl;
     }
     else {
-      cout << "Run COHOMA with map provider '" << map_provider << "' at " << init_latitude << " " << init_longitude << " and proxy '" << proxy << "'..." << endl;
+      out << "Run COHOMA with map provider '" << map_provider << "' at " << init_latitude << " " << init_longitude << " and proxy '" << proxy << "'..." << myendl;
     }
   }
 %}
@@ -276,7 +284,6 @@ Component root {
     // ----------------------------------------------------
     //  VEHICLE = VAB + SATELLITEs (UGV + UAV)
     SubLayerVehicles vehicles (model_manager.layers.[10], map, context, model_manager)
-    
 
     // Add layers, from bottom to top:
     addChildrenTo map.layers {
@@ -293,36 +300,34 @@ Component root {
       safety_pilots, //actors,
       vehicles //satellites
     }
-  }
 
+    // Foreground (absolute position in frame)
+    Component foreground {
+      Spike edit
+      Spike create
 
-  // ----------------------------------------------------
-  // Foreground (absolute position in frame)
-  Component foreground {
-    Spike edit
-    Spike create
+      Translation pos (0, 0)
+      context.map_translation_x =:> pos.tx
+      context.map_translation_y =:> pos.ty
 
-    Translation pos (0, 0)
-    context.map_translation_x =:> pos.tx
-    context.map_translation_y =:> pos.ty
+      FSM fsm_mode {
+        State mode_edit_node {
+          NodeStatusSelector node_menu (f, context)
+          press_on_background -> context.set_node_status_edition_to_null
+        }
+        State mode_create_node
 
-    FSM fsm_mode {
-      State mode_edit_node {
-        NodeStatusSelector node_menu (f, context)
-        press_on_background -> context.set_node_status_edition_to_null
+        mode_create_node -> mode_edit_node (edit)
+        mode_edit_node -> mode_create_node (create)
       }
-      State mode_create_node
 
-      mode_create_node -> mode_edit_node (edit)
-      mode_edit_node -> mode_create_node (create)
+      TrapStatusSelector trap_menu (f, context)
+      press_on_background -> context.set_current_trap_to_null
     }
 
-    TrapStatusSelector trap_menu (f, context)
-    press_on_background -> context.set_current_trap_to_null
+    show_reticule -> l.map.reticule.show, foreground.create
+    hide_reticule -> l.map.reticule.hide, foreground.edit
   }
-
-  show_reticule -> l.map.reticule.show_reticule, foreground.create
-  hide_reticule -> l.map.reticule.hide_reticule, foreground.edit
 
 
   // ----------------------------------------------------
@@ -365,124 +370,10 @@ Component root {
   // Menu to show/hide layers
   UpperLeftMenu menu (l.map, context, model_manager, f)
 
-  // ----------------------------------------------------
-  // FSM to manage the addition of node in the graph
-  FSM fsm_add_node {
-    State idle 
+  CGraph graph (root, f, model_manager, l.map, context)
 
-    State preview {
 
-      Translation pos (0, 0)
-      context.map_translation_x =:> pos.tx
-      context.map_translation_y =:> pos.ty
-
-      // Temporary view uses temporary model
-      Node temporary (l.map, context, model_manager.temp_node)
-
-      // Update model
-      l.map.pointer_lat =:> model_manager.temp_node.lat
-      l.map.pointer_lon =:> model_manager.temp_node.lon
-
-      f.release -> model_manager.create_node_from_temp
-    }
-    idle -> preview (context.ctrl, show_reticule)
-    preview -> idle (context.ctrl_r, hide_reticule)
   }
 
-
-  // Spikes
-  Spike start_create_edges
-  Spike stop_create_edges
-  Spike clear_all
-
-  context.del -> context.set_node_graph_edition_to_null
-  context.del -> context.set_node_status_edition_to_null
-  context.del -> clear_all
-  
-
-  // FSM to manage the addition of edges in the graph
-  FSM fsm_add_edge {
-    State idle
-
-    State shift_on
-
-    State preview_on {
-      List temp_id_list
-
-      root.context.id_node_graph_edition.value -> (root) {
-        addChildrenTo root.fsm_add_edge.preview_on.temp_id_list {
-          String _ (toString(root.context.id_node_graph_edition.value))
-        }
-
-        int size = $root.fsm_add_edge.preview_on.temp_id_list.size 
-        string source_id = toString (root.fsm_add_edge.preview_on.temp_id_list.[size - 1])
-        string target_id = toString (root.fsm_add_edge.preview_on.temp_id_list.[size])
-        string edge_id = source_id + "_" + target_id
-
-        addChildrenTo root.model.edge_ids {
-          String _ (edge_id)
-        }
-        source = find (root.model.nodes, source_id)
-        target = find (root.model.nodes, target_id)
-        EdgeModel (root.model.edges, edge_id, source, target, 0.0)
-      }
-      
-      Translation pos (0, 0)
-      context.map_translation_x =:> pos.tx
-      context.map_translation_y =:> pos.ty
-
-      // UI of temporary edge
-      NoFill _
-      OutlineOpacity _ (0.5)
-      OutlineWidth _ (5)
-      //OutlineColor _ ($context.EDGE_COLOR)
-      OutlineColor _ (#FFFF00)
-    
-      Line temp_shadow_edge (0, 0, 0, 0)
-
-
-      context.dx_node_graph_edition.value =:> temp_shadow_edge.x1
-      context.dy_node_graph_edition.value =:> temp_shadow_edge.y1
-
-      f.move.x - pos.tx =:> temp_shadow_edge.x2
-      f.move.y - pos.ty =:> temp_shadow_edge.y2
-    }
-
-    idle -> shift_on (context.shift, show_reticule)
-    shift_on -> idle (context.shift_r, hide_reticule)
-    shift_on -> preview_on (root.context.id_node_graph_edition.value, start_create_edges)
-    preview_on -> idle (context.shift_r, stop_create_edges) // + hide_reticule
-  }
-  stop_create_edges -> hide_reticule
-  stop_create_edges -> context.set_node_graph_edition_to_null
-
-
-  clear_all -> (root) {
-    print ("Clear all\n")
-    
-    delete_content root.fsm_add_edge.preview_on.temp_id_list
-    
-    //delete_content root.l.map.layers.navgraph.edges
-    delete_content root.model.edges
-
-    //delete_content root.l.map.layers.navgraph.nodes
-    delete_content root.model.nodes
-  }
-
-  start_create_edges -> (root) {
-    //print ("Start create edges\n")
-
-    // Add the id of the first selected node
-    addChildrenTo root.fsm_add_edge.preview_on.temp_id_list{
-      String _ (toString(root.context.id_node_graph_edition.value))
-    }
-  }
-
-  stop_create_edges -> na_stop_create_edges:(root) {
-    delete_content root.fsm_add_edge.preview_on.temp_id_list
-  }
-
-  // Translation _(150,0)
-  // Chat chat(f)
 
 }
