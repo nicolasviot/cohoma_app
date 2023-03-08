@@ -1,7 +1,3 @@
-#CXXFLAGS += -std=c++20
-CXXFLAGS += -std=c++17	
-CXXFLAGS += -MMD
-
 build_dir ?= build
 
 # release and installed (brew, apt, pacman)
