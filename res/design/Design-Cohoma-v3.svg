@@ -32,9 +32,9 @@
 	.st26{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 	.st27{fill:#FF0000;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;}
 	
-		.st28{opacity:0.3;fill:url(#trap-wait-area_00000163756578472478019460000007790506085875974795_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+		.st28{opacity:0.3;fill:url(#trap-wait-area_00000054965824760159104590000000585215783831873963_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
 	
-		.st29{opacity:0.3;fill:url(#trap-wait-area_00000136405425259075961310000017495304432526072977_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+		.st29{opacity:0.3;fill:url(#trap-wait-area_00000143578100663360136550000005747738615734796471_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
 	.st30{opacity:0.7;fill:#7DE1FF;stroke:#000000;stroke-width:0.5;stroke-linecap:round;enable-background:new    ;}
 	.st31{opacity:0.6;fill:#0000FF;enable-background:new    ;}
 	.st32{opacity:0.7;fill:#7DE1FF;stroke:#000000;stroke-width:0.5;enable-background:new    ;}
@@ -49,7 +49,7 @@
 		.st40{opacity:0.3;fill:#FF0000;stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
 	.st41{opacity:0.6;fill:url(#SVGID_1_);stroke:#FF5555;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
 	
-		.st42{opacity:0.3;fill:url(#SVGID_00000114048909021055909150000001612196576587597737_);stroke:#FF5555;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+		.st42{opacity:0.3;fill:url(#SVGID_00000031189500219581203810000014465077908516244380_);stroke:#FF5555;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
 	.st43{opacity:0.8;}
 	.st44{fill:#32ED2B;stroke:#1D1D1B;stroke-width:0.25;stroke-linecap:round;stroke-miterlimit:10;}
 	.st45{fill:#FF3FE6;stroke:#1D1D1B;stroke-width:0.25;stroke-linecap:round;stroke-miterlimit:10;}
@@ -58,9 +58,9 @@
 	.st48{opacity:0.9;fill:none;stroke:#00B2FF;stroke-width:4;stroke-miterlimit:10;enable-background:new    ;}
 	.st49{opacity:0.8;fill:none;stroke:#CCECFF;stroke-width:4;stroke-miterlimit:10;enable-background:new    ;}
 	
-		.st50{opacity:0.3;fill:url(#trap-wait-area_00000058550146423854854710000015585235899745929346_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+		.st50{opacity:0.3;fill:url(#trap-wait-area_00000062912052854279094400000007010479231264407215_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
 	
-		.st51{opacity:0.3;fill:url(#trap-wait-area_00000085218284065054601660000005948229125310982319_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+		.st51{opacity:0.3;fill:url(#trap-wait-area_00000041275279151408866870000012045411064404382909_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
 	.st52{fill:none;stroke:#FFFA00;stroke-width:3;stroke-linecap:round;stroke-miterlimit:4;}
 	.st53{fill:none;stroke:#FFFA00;stroke-width:2;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:2,4;}
 	.st54{fill:none;stroke:#FFFA00;stroke-width:3;}
@@ -93,7 +93,7 @@
 		.st80{opacity:0.15;fill:#A056F6;stroke:#A056F6;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
 	.st81{opacity:0.8;fill:#00B2FF;stroke:#000000;stroke-miterlimit:10;enable-background:new    ;}
 	.st82{opacity:0.2;fill:#B6FD4F;stroke:#000000;stroke-miterlimit:10;enable-background:new    ;}
-	.st83{opacity:0.8;fill:#00B2FF;stroke:#000000;stroke-width:1;stroke-miterlimit:9.9996;enable-background:new    ;}
+	.st83{opacity:0.8;fill:#00B2FF;stroke:#000000;stroke-width:1;stroke-miterlimit:9.9995;enable-background:new    ;}
 	.st84{opacity:0.3;fill:#B6FD4F;stroke:#000000;stroke-miterlimit:10;enable-background:new    ;}
 	.st85{fill:none;stroke:#FFFA00;stroke-width:4;stroke-miterlimit:10;stroke-dasharray:2,4;}
 	.st86{fill:none;stroke:#FFFA00;stroke-width:4;stroke-miterlimit:10;}
@@ -102,9 +102,6 @@
 </style>
 <rect id="background" x="-2.3" y="-2" class="st0" width="1419" height="895"/>
 <g id="map">
-	
-		<image style="overflow:visible;enable-background:new    ;" width="1501" height="1238" id="Layer_0" xlink:href="36893CEF1069A76B.png"  transform="matrix(0.6019 0 0 0.7202 273.3466 3.8979)">
-	</image>
 	<rect x="273.3" y="3.9" class="st1" width="903.5" height="891.6"/>
 </g>
 <g id="GraphNav">
@@ -223,7 +220,6 @@
 	<text transform="matrix(1 0 0 1 1240.1578 783.2004)" class="st3 st4 st14">Trap 2</text>
 </g>
 <circle id="GraphNode" class="st6" cx="47" cy="330.9" r="5.5"/>
-<circle id="GraphNode_00000133508108805231352840000003803372827501467554_" class="st6" cx="95.4" cy="284.3" r="5.5"/>
 <g id="WP-mandatory">
 	<circle id="GraphNode_00000037651371581574869380000015190954715562188676_" class="st8" cx="100.6" cy="331" r="5.2"/>
 	<g id="waypoint_00000001657941572728661110000008676324997185197242_" class="st9">
@@ -248,33 +244,33 @@
 </g>
 <g id="Trap-wait">
 	
-		<rect id="trap-marker-wait" x="60.5" y="472.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -319.9047 190.0869)" class="st27" width="18" height="18"/>
+		<rect id="trap-marker-wait" x="60.5" y="472.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -319.9051 190.0808)" class="st27" width="18" height="18"/>
 	<text transform="matrix(1 0 0 1 66.7285 485.6621)" class="st4 st5">?</text>
 	
-		<linearGradient id="trap-wait-area_00000068662980929192950910000002227392273709172663_" gradientUnits="userSpaceOnUse" x1="34" y1="796.5" x2="105" y2="796.5" gradientTransform="matrix(1 0 0 1 0 -316)">
+		<linearGradient id="trap-wait-area_00000086689504721709152290000013411028737302291849_" gradientUnits="userSpaceOnUse" x1="34" y1="99.5" x2="105" y2="99.5" gradientTransform="matrix(1 0 0 -1 0 580)">
 		<stop  offset="0" style="stop-color:#FF7BAC"/>
 		<stop  offset="1" style="stop-color:#FF7BAC;stop-opacity:0"/>
 	</linearGradient>
 	
-		<circle id="trap-wait-area" style="opacity:0.3;fill:url(#trap-wait-area_00000068662980929192950910000002227392273709172663_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" cx="69.5" cy="480.5" r="35.5"/>
+		<circle id="trap-wait-area" style="opacity:0.3;fill:url(#trap-wait-area_00000086689504721709152290000013411028737302291849_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" cx="69.5" cy="480.5" r="35.5"/>
 </g>
 <g id="Trap-wait_00000013887169550499912710000012822081471665072777_">
 	
-		<rect id="trap-marker-wait_00000155139509222704621200000006084822802434660267_" x="145.7" y="476.9" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -298.2695 251.7032)" class="st27" width="18" height="18"/>
+		<rect id="trap-marker-wait_00000155139509222704621200000006084822802434660267_" x="145.7" y="476.9" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -298.2692 251.7038)" class="st27" width="18" height="18"/>
 	<text transform="matrix(1 0 0 1 151.9533 490.3497)" class="st4 st5">?</text>
 	
-		<linearGradient id="trap-wait-area_00000178201546009773576220000016806623890039439239_" gradientUnits="userSpaceOnUse" x1="119.2" y1="801.2" x2="190.2" y2="801.2" gradientTransform="matrix(1 0 0 1 0 -316)">
+		<linearGradient id="trap-wait-area_00000141413104091017002500000014426195240265894817_" gradientUnits="userSpaceOnUse" x1="119.2" y1="94.8" x2="190.2" y2="94.8" gradientTransform="matrix(1 0 0 -1 0 580)">
 		<stop  offset="0" style="stop-color:#FF7BAC"/>
 		<stop  offset="1" style="stop-color:#FF7BAC;stop-opacity:0"/>
 	</linearGradient>
 	
-		<circle id="trap-wait-area_00000065055662835020163460000000797672426262895242_" style="opacity:0.3;fill:url(#trap-wait-area_00000178201546009773576220000016806623890039439239_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" cx="154.7" cy="485.2" r="35.5"/>
+		<circle id="trap-wait-area_00000065055662835020163460000000797672426262895242_" style="opacity:0.3;fill:url(#trap-wait-area_00000141413104091017002500000014426195240265894817_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" cx="154.7" cy="485.2" r="35.5"/>
 </g>
 <g id="VAB">
 	<path id="path2988" class="st30" d="M51.5,582.8c-9.1,0-16.6-7.4-16.6-16.6s7.4-16.6,16.6-16.6h30.1c9.1,0,16.6,7.4,16.6,16.6
 		s-7.5,16.6-16.7,16.6H51.5z"/>
 	
-		<ellipse id="vab-marker" transform="matrix(0.1327 -0.9912 0.9912 0.1327 -503.9395 556.7892)" class="st31" cx="66.2" cy="566.4" rx="3.3" ry="3.3"/>
+		<ellipse id="vab-marker" transform="matrix(0.1656 -0.9862 0.9862 0.1656 -503.2254 537.8918)" class="st31" cx="66.3" cy="566.3" rx="3.3" ry="3.3"/>
 </g>
 <g id="Drone">
 	<path id="UAV_00000121995831506571423420000009652437194042732428_" class="st32" d="M68.8,625.3l-28-23.3l27.9,9.2l27.9-9.8
@@ -318,24 +314,27 @@
 </g>
 <g id="Trap-deactivated" class="st36">
 	
-		<rect id="trap-marker_00000142159114049024685930000007925754984476763829_" x="145.7" y="395.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -240.4913 227.7767)" class="st37" width="18" height="18"/>
+		<rect id="trap-marker_00000142159114049024685930000007925754984476763829_" x="145.7" y="395.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -240.4987 227.7812)" class="st37" width="18" height="18"/>
 </g>
 <g id="Trap-deactivated_00000007399641431079519690000012978140683272338853_" class="st36">
 	
-		<rect id="trap-marker_00000008857375525188519290000015868750447123745187_" x="463.1" y="148.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 27.1825 379.8254)" class="st37" width="18" height="18"/>
+		<rect id="trap-marker_00000008857375525188519290000015868750447123745187_" x="463.1" y="148.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 27.1933 379.8282)" class="st37" width="18" height="18"/>
 </g>
 <g id="Trap-deactivated_00000036950274185498013620000006317957638881271989_" class="st36">
 	
-		<rect id="trap-marker_00000098922585052981121230000017130011945054221713_" x="433.8" y="167.6" transform="matrix(0.7071 -0.7071 0.7071 0.7071 4.8056 364.8268)" class="st37" width="18" height="18"/>
+		<rect id="trap-marker_00000098922585052981121230000017130011945054221713_" x="433.8" y="167.6" transform="matrix(0.7071 -0.7071 0.7071 0.7071 4.8154 364.8191)" class="st37" width="18" height="18"/>
 </g>
 <g id="Trap-deactivated_00000159469569607088964980000011154879631323584417_" class="st36">
 	
-		<rect id="trap-marker_00000019660851175339812220000014022615212913145474_" x="530.1" y="218.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -2.6921 447.719)" class="st37" width="18" height="18"/>
+		<rect id="trap-marker_00000019660851175339812220000014022615212913145474_" x="530.1" y="218.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -2.6915 447.7099)" class="st37" width="18" height="18"/>
 </g>
-<path class="st38" d="M126.7,291.3h-16.1c-2.4,0-4.3-1.9-4.3-4.3v-5.3c0-2.4,1.9-4.3,4.3-4.3h16.1c2.4,0,4.3,1.9,4.3,4.3v5.3
-	C131,289.4,129.1,291.3,126.7,291.3z"/>
-<text transform="matrix(1 0 0 1 110.0238 288.0068)" class="st4 st14">T21</text>
-<line class="st2" x1="106.3" y1="284.3" x2="100.9" y2="284.3"/>
+<g>
+	<circle id="GraphNode_00000133508108805231352840000003803372827501467554_" class="st6" cx="95.4" cy="284.3" r="5.5"/>
+	<path class="st38" d="M126.7,291.3h-16.1c-2.4,0-4.3-1.9-4.3-4.3v-5.3c0-2.4,1.9-4.3,4.3-4.3h16.1c2.4,0,4.3,1.9,4.3,4.3v5.3
+		C131,289.4,129.1,291.3,126.7,291.3z"/>
+	<text transform="matrix(1 0 0 1 110.0238 288.0068)" class="st4 st14">T21</text>
+	<line class="st2" x1="106.3" y1="284.3" x2="100.9" y2="284.3"/>
+</g>
 <g id="title_bar">
 	<rect x="622.1" y="9.6" class="st23" width="1419" height="23.7"/>
 	<text transform="matrix(1 0 0 1 622.1 20.2046)" class="st3 st4 st5">COHOMA-STRATEGICAL PLANNING CENTER</text>
@@ -344,10 +343,10 @@
 <text transform="matrix(1 0 0 1 605.1792 225.5771)" class="st4 st39">20m</text>
 <g id="Trap-confirmed_00000130625981216176981070000001288864810480191398_">
 	
-		<rect id="trap-marker_00000039827077637248622690000002282894003686022041_" x="89.1" y="148.8" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -82.8443 115.573)" class="st27" width="18" height="18"/>
+		<rect id="trap-marker_00000039827077637248622690000002282894003686022041_" x="89.1" y="148.8" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -82.8386 115.5837)" class="st27" width="18" height="18"/>
 	<circle id="trap-area_00000167368550196143017870000012327370568286696087_" class="st40" cx="98.1" cy="157.1" r="35.5"/>
 </g>
-<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="625.9" y1="612.1" x2="806.5" y2="612.1" gradientTransform="matrix(1 0 0 1 0 -132)">
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="625.9" y1="283.9" x2="806.5" y2="283.9" gradientTransform="matrix(1 0 0 -1 0 764)">
 	<stop  offset="0" style="stop-color:#D13026"/>
 	<stop  offset="0.1007" style="stop-color:#D13026;stop-opacity:0"/>
 	<stop  offset="0.2" style="stop-color:#D13026"/>
@@ -361,7 +360,7 @@
 	<stop  offset="1" style="stop-color:#D13026"/>
 </linearGradient>
 <polygon class="st41" points="806.5,491.5 741.1,558.7 693.9,609.2 625.9,544.2 648.2,452.9 683,351 "/>
-<linearGradient id="SVGID_00000018917865587188072830000000094635779429395340_" gradientUnits="userSpaceOnUse" x1="104.1" y1="937.15" x2="213.1" y2="937.15" gradientTransform="matrix(1 0 0 1 0 -132)">
+<linearGradient id="SVGID_00000015357252101877453930000014148980915624336822_" gradientUnits="userSpaceOnUse" x1="104.1" y1="-41.15" x2="213.1" y2="-41.15" gradientTransform="matrix(1 0 0 -1 0 764)">
 	<stop  offset="0" style="stop-color:#D13026"/>
 	<stop  offset="0.1007" style="stop-color:#D13026;stop-opacity:0"/>
 	<stop  offset="0.2" style="stop-color:#D13026"/>
@@ -374,7 +373,7 @@
 	<stop  offset="0.9" style="stop-color:#D13026;stop-opacity:0"/>
 	<stop  offset="1" style="stop-color:#D13026"/>
 </linearGradient>
-<polygon style="opacity:0.3;fill:url(#SVGID_00000018917865587188072830000000094635779429395340_);stroke:#FF5555;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" points="
+<polygon style="opacity:0.3;fill:url(#SVGID_00000015357252101877453930000014148980915624336822_);stroke:#FF5555;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" points="
 	213.1,812 173.6,852.6 145.1,883.1 104.1,843.9 117.5,788.7 138.6,727.2 "/>
 <text transform="matrix(1 0 0 1 681.4896 166.7147)" class="st4 st39">2</text>
 <text transform="matrix(1 0 0 1 704.2374 285.6051)" class="st4 st39">1</text>
@@ -471,44 +470,44 @@
 	<g id="traps_layer">
 		<g id="Trap-wait_00000001654999862564348330000016030012049283753104_">
 			
-				<rect id="trap-marker-wait_00000013183220643365684380000003538424100651202474_" x="669.2" y="155.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 82.6116 527.6207)" class="st27" width="18" height="18"/>
+				<rect id="trap-marker-wait_00000013183220643365684380000003538424100651202474_" x="669.2" y="155.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 82.6041 527.6251)" class="st27" width="18" height="18"/>
 			<text transform="matrix(1 0 0 1 674.4728 168.5748)" class="st4 st5">?</text>
 			
-				<linearGradient id="trap-wait-area_00000087370584915584143380000002516784483358401215_" gradientUnits="userSpaceOnUse" x1="642.7" y1="479.4" x2="713.7" y2="479.4" gradientTransform="matrix(1 0 0 1 0 -316)">
+				<linearGradient id="trap-wait-area_00000177461496441997159590000002454837556288371120_" gradientUnits="userSpaceOnUse" x1="642.7" y1="416.6" x2="713.7" y2="416.6" gradientTransform="matrix(1 0 0 -1 0 580)">
 				<stop  offset="0" style="stop-color:#FF7BAC"/>
 				<stop  offset="1" style="stop-color:#FF7BAC;stop-opacity:0"/>
 			</linearGradient>
 			
-				<circle id="trap-wait-area_00000181063026990419285740000015711407699703082905_" style="opacity:0.3;fill:url(#trap-wait-area_00000087370584915584143380000002516784483358401215_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" cx="678.2" cy="163.4" r="35.5"/>
+				<circle id="trap-wait-area_00000181063026990419285740000015711407699703082905_" style="opacity:0.3;fill:url(#trap-wait-area_00000177461496441997159590000002454837556288371120_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" cx="678.2" cy="163.4" r="35.5"/>
 		</g>
 		<g id="Trap-wait_00000134962140097247962830000007149990770873380502_">
 			
-				<rect id="trap-marker-wait_00000116216846238082621720000001601039858241752491_" x="692" y="273.8" transform="matrix(0.7071 -0.7071 0.7071 0.7071 5.3394 578.5026)" class="st27" width="18" height="18"/>
+				<rect id="trap-marker-wait_00000116216846238082621720000001601039858241752491_" x="692" y="273.8" transform="matrix(0.7071 -0.7071 0.7071 0.7071 5.3484 578.4991)" class="st27" width="18" height="18"/>
 			<text transform="matrix(1 0 0 1 698.2206 287.2271)" class="st4 st5">?</text>
 			
-				<linearGradient id="trap-wait-area_00000101075638729885436960000001538463396812655294_" gradientUnits="userSpaceOnUse" x1="665.5" y1="598.1" x2="736.5" y2="598.1" gradientTransform="matrix(1 0 0 1 0 -316)">
+				<linearGradient id="trap-wait-area_00000160880992910183377230000012865454966108945564_" gradientUnits="userSpaceOnUse" x1="665.5" y1="297.9" x2="736.5" y2="297.9" gradientTransform="matrix(1 0 0 -1 0 580)">
 				<stop  offset="0" style="stop-color:#FF7BAC"/>
 				<stop  offset="1" style="stop-color:#FF7BAC;stop-opacity:0"/>
 			</linearGradient>
 			
-				<circle id="trap-wait-area_00000083792281254064293480000005622539668664136090_" style="opacity:0.3;fill:url(#trap-wait-area_00000101075638729885436960000001538463396812655294_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" cx="701" cy="282.1" r="35.5"/>
+				<circle id="trap-wait-area_00000083792281254064293480000005622539668664136090_" style="opacity:0.3;fill:url(#trap-wait-area_00000160880992910183377230000012865454966108945564_);stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;" cx="701" cy="282.1" r="35.5"/>
 		</g>
 		<g id="Trap-confirmed_00000001658058541022969970000014529472497163152003_">
 			
-				<rect id="trap-marker_00000138568999772973898550000011709170893772269700_" x="604.6" y="213.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 22.528 498.9913)" class="st27" width="18" height="18"/>
+				<rect id="trap-marker_00000138568999772973898550000011709170893772269700_" x="604.6" y="213.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 22.5252 498.9867)" class="st27" width="18" height="18"/>
 			<circle id="trap-area_00000129910128512184403400000008258192843857397136_" class="st40" cx="613.6" cy="222.3" r="17.8"/>
 		</g>
 		<g id="Trap-confirmed">
 			
-				<rect id="trap-marker" x="60.5" y="396.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -266.1651 167.8272)" class="st27" width="18" height="18"/>
+				<rect id="trap-marker" x="60.5" y="396.2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -266.1654 167.8211)" class="st27" width="18" height="18"/>
 			<circle id="trap-area" class="st40" cx="69.5" cy="404.5" r="35.5"/>
 		</g>
 	</g>
 	<g id="tasks_chooser_layer">
 		
-			<rect id="trap-marker-wait_00000023251546608998512030000014545333155059425155_" x="669.2" y="155.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 82.6116 527.6207)" class="st52" width="18" height="18"/>
+			<rect id="trap-marker-wait_00000023251546608998512030000014545333155059425155_" x="669.2" y="155.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 82.6041 527.6251)" class="st52" width="18" height="18"/>
 		
-			<rect id="trap-marker-wait_00000115483187883073680860000007690676718319216814_" x="692" y="274.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 4.9863 578.6479)" class="st53" width="18" height="18"/>
+			<rect id="trap-marker-wait_00000115483187883073680860000007690676718319216814_" x="692" y="274.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 4.9958 578.6454)" class="st53" width="18" height="18"/>
 		<path class="st54" d="M716.5,292.7c-30-39.8-4.6-96.9,44.6-104.4c46.8-7.1,103.9-7,162.5,15c64,24,152.6,82.7,142.9,129.3
 			c-6.7,31.8-59.3,58.4-92.6,45.6c-40-15.4-24.3-77.4-64.4-99.3c-53.1-28.9-124.2,55.6-175.7,28.8
 			C727.9,304.6,722,299.9,716.5,292.7z"/>
@@ -616,7 +615,7 @@
 		</g>
 		<g>
 			
-				<rect x="560.2" y="168.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 45.1087 452.1057)" class="st83" width="16.2" height="7"/>
+				<rect x="560.2" y="168.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 45.11 452.1033)" class="st83" width="16.2" height="7"/>
 			<polygon class="st84" points="575.9,148.8 591,164 568.1,171.8 			"/>
 		</g>
 	</g>

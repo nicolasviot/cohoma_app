@@ -21,51 +21,67 @@
 	.st15{fill:#D730FF;}
 	.st16{fill:#12CC8B;}
 	.st17{fill:#FF6200;}
-	.st18{fill:#FF0209;}
-	.st19{fill:#FF0209;stroke:#000000;stroke-miterlimit:10;}
-	.st20{opacity:0.1;fill:#FF6200;enable-background:new    ;}
+	.st18{opacity:0.1;fill:#FF6200;enable-background:new    ;}
+	.st19{fill:#FF0209;stroke:#000000;stroke-width:1.0002;stroke-miterlimit:10.001;}
+	.st20{font-size:7px;}
 	.st21{fill:#AAC4CC;}
 	.st22{fill:none;stroke:#D9D9D9;stroke-width:0.5;stroke-miterlimit:10;}
-	.st23{font-family:'MyriadPro-Regular';}
-	.st24{font-size:7px;}
-	.st25{fill:#00B374;}
-	.st26{fill:#317CE8;stroke:#FFFFFF;stroke-width:0.5;stroke-miterlimit:10;}
-	.st27{fill:#27E8F5;stroke:#FFFFFF;stroke-width:0.5;stroke-miterlimit:10;}
-	.st28{fill:#29B9FF;stroke:#FFFFFF;stroke-width:0.5;stroke-miterlimit:10;}
-	.st29{fill:#4027F5;stroke:#FFFFFF;stroke-width:0.25;}
-	.st30{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-miterlimit:133.3333;}
-	.st31{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:133.3333;}
-	.st32{fill:none;stroke:#FFFFFF;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:133.3333;}
-	.st33{font-size:24px;}
-	.st34{fill:none;stroke:#E2E2E4;stroke-miterlimit:10;}
-	.st35{fill:#1D1D1B;stroke:#E2E2E4;stroke-miterlimit:10;}
-	.st36{opacity:0.2;}
-	.st37{fill:#E2E2E4;}
-	.st38{font-size:12.161px;}
-	.st39{opacity:0.2;fill:#FFFFFF;enable-background:new    ;}
-	.st40{enable-background:new    ;}
-	.st41{fill:#3C3C3B;stroke:#000000;stroke-width:0.5;stroke-miterlimit:10;}
-	.st42{font-family:'Helvetica-Bold';}
-	.st43{font-size:7.5833px;}
-	.st44{fill:#4CAC33;}
-	.st45{fill:#3872B7;stroke:#FFFFFF;stroke-width:0.25;}
-	.st46{font-size:4.0485px;}
-	.st47{opacity:0.5;}
-	.st48{opacity:0.5;fill:#FFFFFF;enable-background:new    ;}
-	.st49{font-size:5.6243px;}
-	.st50{fill:#545454;stroke:#D9D9D9;stroke-width:0.25;stroke-miterlimit:10;}
-	.st51{font-size:3.3326px;}
-	.st52{fill:none;stroke:#FFFFFF;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:133.3333;}
-	.st53{fill:none;stroke:#FFFFFF;stroke-miterlimit:128;}
-	.st54{fill:#3872B7;}
-	.st55{fill:url(#name_bg_00000052802937975515127240000007116671592076914862_);}
-	.st56{fill:#1D1D1B;}
-	.st57{font-family:'Segoe';}
-	.st58{font-size:13.2281px;}
-	.st59{font-family:'Helvetica';}
-	.st60{fill:none;stroke:#000000;stroke-width:4;stroke-miterlimit:10;}
+	.st23{fill:#FF0209;}
+	.st24{fill:#00B374;}
+	.st25{fill:#317CE8;stroke:#FFFFFF;stroke-width:0.5;stroke-miterlimit:10;}
+	.st26{fill:#27E8F5;stroke:#FFFFFF;stroke-width:0.5;stroke-miterlimit:10;}
+	.st27{fill:#29B9FF;stroke:#FFFFFF;stroke-width:0.5;stroke-miterlimit:10;}
+	.st28{fill:#4027F5;stroke:#FFFFFF;stroke-width:0.25;}
+	.st29{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-miterlimit:133.3333;}
+	.st30{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:133.3333;}
+	.st31{fill:none;stroke:#FFFFFF;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:133.3333;}
+	.st32{font-size:24px;}
+	.st33{fill:none;stroke:#E2E2E4;stroke-miterlimit:10;}
+	.st34{fill:#1D1D1B;stroke:#E2E2E4;stroke-miterlimit:10;}
+	.st35{opacity:0.2;}
+	.st36{fill:#E2E2E4;}
+	.st37{font-size:12.161px;}
+	.st38{opacity:0.2;fill:#FFFFFF;enable-background:new    ;}
+	.st39{fill:#3C3C3B;stroke:#000000;stroke-width:0.5;stroke-miterlimit:10;}
+	.st40{font-family:'Helvetica-Bold';}
+	.st41{font-size:7.5833px;}
+	.st42{fill:#4CAC33;}
+	.st43{fill:#3872B7;stroke:#FFFFFF;stroke-width:0.25;}
+	.st44{font-size:4.0485px;}
+	.st45{opacity:0.5;}
+	.st46{opacity:0.5;fill:#FFFFFF;enable-background:new    ;}
+	.st47{font-size:5.6243px;}
+	.st48{fill:#545454;stroke:#D9D9D9;stroke-width:0.25;stroke-miterlimit:10;}
+	.st49{font-size:3.3326px;}
+	.st50{fill:none;stroke:#FFFFFF;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:133.3333;}
+	.st51{fill:none;stroke:#FFFFFF;stroke-miterlimit:128;}
+	.st52{fill:#3872B7;}
+	.st53{fill:url(#name_bg_00000168082485822736843550000000962174058138754991_);}
+	.st54{fill:#1D1D1B;}
+	.st55{font-family:'Segoe';}
+	.st56{font-size:13.2281px;}
+	.st57{font-family:'Helvetica';}
+	.st58{fill:none;stroke:#000000;stroke-width:4;stroke-miterlimit:10;}
+	.st59{opacity:0.8;}
+	.st60{fill:none;stroke:#D8D8D8;stroke-width:0.5;stroke-miterlimit:10;}
+	.st61{fill:#00AE08;}
+	.st62{fill:#007EEF;}
+	.st63{fill:#1A74BC;stroke:#FFFFFF;stroke-width:0.25;}
+	.st64{fill:#E1E1E3;}
+	.st65{fill:#545454;stroke:#D8D8D8;stroke-width:0.25;stroke-miterlimit:10;}
+	.st66{fill:#F5AE00;}
+	.st67{fill:url(#name_bg_00000154421350073727290520000010858391190123759773_);}
+	.st68{fill:#00BBFF;}
+	.st69{fill:url(#name_bg_00000131366536079900918520000017370478184791763118_);}
+	.st70{fill:#00EBF7;}
+	.st71{fill:url(#name_bg_00000129176149097062273330000011779655089087744188_);}
+	.st72{fill:#4426FF;}
+	.st73{fill:url(#name_bg_00000084495527287007150050000004364335882832900026_);}
+	.st74{fill:none;stroke:#E2E2E4;stroke-width:4;stroke-miterlimit:10;}
+	.st75{opacity:0.8;fill:#CCCCCC;stroke:#FFFFFF;stroke-miterlimit:10;enable-background:new    ;}
+	.st76{fill:none;stroke:#FFFFFF;stroke-miterlimit:10;}
 </style>
-<rect y="0" class="st0" width="1768.6" height="800"/>
+<rect class="st0" width="1768.6" height="800"/>
 <g>
 	<path id="ctrl_manual" class="st1" d="M54,136.3v-5h19.8v5 M67.1,118.2v13.2 M60.6,118.2v13.2 M73.7,108.2c0,5.5-4.4,9.9-9.9,9.9
 		s-9.9-4.4-9.9-9.9s4.4-9.9,9.9-9.9S73.7,102.9,73.7,108.2z M83.6,147.8H44.1c-1.8,0-3.3-1.5-3.3-3.3v-3.3c0-1.8,1.5-3.3,3.3-3.3
@@ -118,11 +134,12 @@
 	<rect x="333.5" y="397.1" class="st16" width="27.6" height="20.9"/>
 	<rect x="401.4" y="397.1" class="st17" width="27.6" height="20.9"/>
 	
-		<rect x="231.2" y="463.9" transform="matrix(0.7255 -0.6883 0.6883 0.7255 -259.5018 295.079)" class="st18" width="17.8" height="17.8"/>
-	
-		<rect x="280.1" y="463.9" transform="matrix(0.7255 -0.6883 0.6883 0.7255 -246.0972 328.684)" class="st19" width="17.8" height="17.8"/>
-	
-		<rect x="338" y="463" transform="matrix(0.7172 -0.6969 0.6969 0.7172 -230.9553 375.6306)" class="st20" width="18.7" height="18.7"/>
+		<rect id="trap_deact" x="338" y="463" transform="matrix(0.7172 -0.6969 0.6969 0.7172 -230.9256 375.6661)" class="st18" width="18.7" height="18.7"/>
+	<g id="trap_indent">
+		
+			<rect x="280.1" y="463.9" transform="matrix(0.7255 -0.6883 0.6883 0.7255 -246.0598 328.7394)" class="st19" width="17.8" height="17.8"/>
+		<text transform="matrix(1 0 0 1 280.5504 475.1542)" class="st3 st20">2353</text>
+	</g>
 	<text transform="matrix(1 0 0 1 218.4533 508.0101)" class="st2 st3 st4">inconnu</text>
 	<text transform="matrix(1 0 0 1 272.6112 508.0104)" class="st2 st3 st4">identifié</text>
 	<text transform="matrix(1 0 0 1 321.047 508.0096)" class="st2 st3 st4">désactivé</text>
@@ -136,105 +153,108 @@
 	<rect x="696.9" y="464.7" class="st11" width="27.6" height="20.9"/>
 	<rect x="750.8" y="464.7" class="st11" width="27.6" height="20.9"/>
 	<path class="st22" d="M598,285.1h-12v-6.7h16.3v2.5C602.3,283.2,600.4,285.1,598,285.1z"/>
-	<text transform="matrix(1 0 0 1 238.3013 475.1544)" class="st23 st24">?</text>
-	<text transform="matrix(1 0 0 1 280.5504 475.1542)" class="st23 st24">2353</text>
-	<rect x="367.9" y="397" class="st25" width="27.6" height="20.9"/>
+	<g id="trap_unknown">
+		
+			<rect x="231.2" y="463.9" transform="matrix(0.7255 -0.6883 0.6883 0.7255 -259.5139 295.0684)" class="st23" width="17.8" height="17.8"/>
+		<text transform="matrix(1 0 0 1 238.3013 475.1544)" class="st3 st20">?</text>
+	</g>
+	<rect x="367.9" y="397" class="st24" width="27.6" height="20.9"/>
 </g>
 <g id="icones_stalittes">
 	<g id="ugv_icon">
-		<rect x="93" y="590.9" pointer-events="none" class="st26" width="22.1" height="4.6"/>
-		<ellipse pointer-events="none" class="st26" cx="97.6" cy="597.1" rx="1.8" ry="1.7"/>
-		<ellipse pointer-events="none" class="st26" cx="110.5" cy="597.1" rx="1.8" ry="1.7"/>
+		<rect x="93" y="590.9" pointer-events="none" class="st25" width="22.1" height="4.6"/>
+		<ellipse pointer-events="none" class="st25" cx="97.6" cy="597.1" rx="1.8" ry="1.7"/>
+		<ellipse pointer-events="none" class="st25" cx="110.5" cy="597.1" rx="1.8" ry="1.7"/>
 	</g>
-	<path id="uav_icon" pointer-events="none" class="st26" d="M114,610.6L114,610.6L114,610.6l-9.9,8.9l-9.9-8.9l0,0l0,0l9.9,4.8
+	<path id="uav_icon" pointer-events="none" class="st25" d="M114,610.6L114,610.6L114,610.6l-9.9,8.9l-9.9-8.9l0,0l0,0l9.9,4.8
 		L114,610.6z"/>
 	<g id="ugv_icon_00000089539696186155437590000014645201544070329741_">
-		<rect x="163.3" y="588.6" pointer-events="none" class="st27" width="22.1" height="4.6"/>
-		<ellipse pointer-events="none" class="st27" cx="167.9" cy="594.8" rx="1.8" ry="1.7"/>
-		<ellipse pointer-events="none" class="st27" cx="180.8" cy="594.8" rx="1.8" ry="1.7"/>
+		<rect x="163.3" y="588.6" pointer-events="none" class="st26" width="22.1" height="4.6"/>
+		<ellipse pointer-events="none" class="st26" cx="167.9" cy="594.8" rx="1.8" ry="1.7"/>
+		<ellipse pointer-events="none" class="st26" cx="180.8" cy="594.8" rx="1.8" ry="1.7"/>
 	</g>
-	<path id="uav_icon_00000024702319139558247580000015323652903770336445_" pointer-events="none" class="st27" d="M184.3,608.3
+	<path id="uav_icon_00000024702319139558247580000015323652903770336445_" pointer-events="none" class="st26" d="M184.3,608.3
 		L184.3,608.3L184.3,608.3l-9.9,8.9l-9.9-8.9l0,0l0,0l9.9,4.8L184.3,608.3z"/>
 	<g id="ugv_icon_00000150783552129727469750000007778839578047786158_">
-		<rect x="127.6" y="590.9" pointer-events="none" class="st28" width="22.1" height="4.6"/>
-		<ellipse pointer-events="none" class="st28" cx="132.2" cy="597.1" rx="1.8" ry="1.7"/>
-		<ellipse pointer-events="none" class="st28" cx="145.1" cy="597.1" rx="1.8" ry="1.7"/>
+		<rect x="127.6" y="590.9" pointer-events="none" class="st27" width="22.1" height="4.6"/>
+		<ellipse pointer-events="none" class="st27" cx="132.2" cy="597.1" rx="1.8" ry="1.7"/>
+		<ellipse pointer-events="none" class="st27" cx="145.1" cy="597.1" rx="1.8" ry="1.7"/>
 	</g>
-	<path id="uav_icon_00000093145542069274974870000016251165323839529900_" pointer-events="none" class="st28" d="M148.6,610.6
+	<path id="uav_icon_00000093145542069274974870000016251165323839529900_" pointer-events="none" class="st27" d="M148.6,610.6
 		L148.6,610.6L148.6,610.6l-9.9,8.9l-9.9-8.9l0,0l0,0l9.9,4.8L148.6,610.6z"/>
 	<g id="vab_icon">
-		<rect x="60.2" y="554.7" pointer-events="none" class="st29" width="32.5" height="14.6"/>
-		<ellipse pointer-events="none" class="st29" cx="66.9" cy="571.8" rx="2.7" ry="2.4"/>
-		<ellipse pointer-events="none" class="st29" cx="85.9" cy="571.8" rx="2.7" ry="2.4"/>
+		<rect x="60.2" y="554.7" pointer-events="none" class="st28" width="32.5" height="14.6"/>
+		<ellipse pointer-events="none" class="st28" cx="66.9" cy="571.8" rx="2.7" ry="2.4"/>
+		<ellipse pointer-events="none" class="st28" cx="85.9" cy="571.8" rx="2.7" ry="2.4"/>
 	</g>
 	<text transform="matrix(1 0 0 1 51.9876 539.1002)" class="st2 st3 st4">Icones satellites</text>
 </g>
 <g id="icons">
 	<text transform="matrix(1 0 0 1 250.3326 243.2302)" class="st2 st3 st4">Tasks</text>
 	<text transform="matrix(1 0 0 1 250.3326 257.6302)" class="st2 st3 st4">add remove</text>
-	<path id="task_add" class="st30" d="M369.4,257h-3 M366.4,257h-3 M366.4,257v-3 M366.4,257v3 M371.5,266.2h-10.3
+	<path id="task_add" class="st29" d="M369.4,257h-3 M366.4,257h-3 M366.4,257v-3 M366.4,257v3 M371.5,266.2h-10.3
 		c-2.2,0-4.1-1.8-4.1-4.1v-10.3c0-2.2,1.8-4.1,4.1-4.1h10.3c2.2,0,4.1,1.8,4.1,4.1v10.3C375.6,264.4,373.7,266.2,371.5,266.2z"/>
 	<g id="task_remove">
-		<path class="st31" d="M399.3,259.1v-7.6c0-1.8-1.4-3.2-3.2-3.2h-5.4 M399.3,259.1l-7,6.5 M399.3,259.1h-4.9c-1.2,0-2.2,1-2.2,2.2
+		<path class="st30" d="M399.3,259.1v-7.6c0-1.8-1.4-3.2-3.2-3.2h-5.4 M399.3,259.1l-7,6.5 M399.3,259.1h-4.9c-1.2,0-2.2,1-2.2,2.2
 			v4.3 M392.3,265.6h-7c-1.8,0-3.2-1.4-3.2-3.2V257"/>
-		<path class="st32" d="M382,248.3l2.7,2.7 M387.4,253.7l-2.7-2.7 M384.7,251l2.7-2.7 M384.7,251l-2.7,2.7"/>
+		<path class="st31" d="M382,248.3l2.7,2.7 M387.4,253.7l-2.7-2.7 M384.7,251l2.7-2.7 M384.7,251l-2.7,2.7"/>
 	</g>
-	<text transform="matrix(1 0 0 1 249.6501 217.7737)" class="st2 st3 st33">Icones</text>
+	<text transform="matrix(1 0 0 1 249.6501 217.7737)" class="st2 st3 st32">Icones</text>
 </g>
 <g id="trap_detect">
-	<rect x="90.3" y="643.9" class="st34" width="44.4" height="44.4"/>
-	<path class="st35" d="M168.2,666.9H56.8c-5.7,0-10.4-4.4-10.4-9.9v-22.2c0-5.3,4.6-9.6,10.4-9.6h111.4c5.7,0,10.4,4.4,10.4,9.8
+	<rect x="90.3" y="643.9" class="st33" width="44.4" height="44.4"/>
+	<path class="st34" d="M168.2,666.9H56.8c-5.7,0-10.4-4.4-10.4-9.9v-22.2c0-5.3,4.6-9.6,10.4-9.6h111.4c5.7,0,10.4,4.4,10.4,9.8
 		v22.2C178.4,662.5,173.9,666.9,168.2,666.9z"/>
-	<path class="st35" d="M168.6,688.3H56.3c-5.8,0-10.4-4.7-10.4-10.4v-23.6c0-5.8,4.7-10.4,10.4-10.4h112.3c5.8,0,10.4,4.7,10.4,10.4
+	<path class="st34" d="M168.6,688.3H56.3c-5.8,0-10.4-4.7-10.4-10.4v-23.6c0-5.8,4.7-10.4,10.4-10.4h112.3c5.8,0,10.4,4.7,10.4,10.4
 		v23.6C179,683.7,174.4,688.3,168.6,688.3z"/>
-	<path class="st35" d="M168.7,688.1H57.3c-5.7,0-10.4-4.7-10.4-10.4v-23.6c0-10.1-0.5-10.1,10.4-10.4h111.4
+	<path class="st34" d="M168.7,688.1H57.3c-5.7,0-10.4-4.7-10.4-10.4v-23.6c0-10.1-0.5-10.1,10.4-10.4h111.4
 		c5.7,0,10.4,4.7,10.4,10.4v23.6C179,683.5,174.4,688.1,168.7,688.1z"/>
-	<path class="st34" d="M45.9,652.8v-19.2c0-4.7,4.7-8.5,10.4-8.5h112.3c5.8,0,10.4,3.8,10.4,8.5v19.2"/>
+	<path class="st33" d="M45.9,652.8v-19.2c0-4.7,4.7-8.5,10.4-8.5h112.3c5.8,0,10.4,3.8,10.4,8.5v19.2"/>
 	<g id="show">
 		<path class="st2" d="M68.6,662.7c-12.5,0-16.2,10.8-16.3,10.9l-0.2,0.5l0.2,0.5c0,0.1,3.8,10.9,16.3,10.9s16.2-10.8,16.3-10.9
 			l0.2-0.5l-0.2-0.5C84.8,673.5,81,662.7,68.6,662.7z M68.6,680.7c-3.6,0-6.5-2.9-6.5-6.5s2.9-6.5,6.5-6.5s6.5,2.9,6.5,6.5
 			S72.2,680.7,68.6,680.7z"/>
 		<path class="st2" d="M68.6,670.9c-1.8,0-3.3,1.5-3.3,3.3s1.5,3.3,3.3,3.3s3.3-1.5,3.3-3.3S70.3,670.9,68.6,670.9z"/>
 	</g>
-	<g id="db" class="st36">
+	<g id="db" class="st35">
 		<path class="st2" d="M166.9,664.2c0-2.9-4.8-5.3-10.5-5.3s-10.5,2.4-10.5,5.3v2.6c0,2.9,4.8,5.3,10.5,5.3s10.5-2.4,10.5-5.3V664.2
 			z M156.4,681.3c-5.7,0-10.5-2.4-10.5-5.3v3.9c0,2.9,4.8,5.3,10.5,5.3s10.5-2.4,10.5-5.3V676C166.9,678.9,162.1,681.3,156.4,681.3z
 			"/>
 		<path class="st2" d="M166.9,669.5c0,2.9-4.8,5.3-10.5,5.3s-10.5-2.4-10.5-5.3v3.9c0,2.9,4.8,5.3,10.5,5.3s10.5-2.4,10.5-5.3V669.5
 			z"/>
-		<circle class="st37" cx="162.5" cy="679.9" r="5.6"/>
+		<circle class="st36" cx="162.5" cy="679.9" r="5.6"/>
 		<path d="M166.4,683.1l-0.7,0.7c-0.2,0.2-0.4,0.2-0.6,0l-6.4-6.4c-0.2-0.2-0.2-0.4,0-0.6l0.7-0.7c0.2-0.2,0.4-0.2,0.6,0l6.4,6.4
 			C166.6,682.7,166.6,682.9,166.4,683.1z"/>
 		<path d="M165.7,676.1l0.7,0.7c0.2,0.2,0.2,0.4,0,0.6l-6.4,6.4c-0.2,0.2-0.4,0.2-0.6,0l-0.7-0.7c-0.2-0.2-0.2-0.4,0-0.6l6.4-6.4
 			C165.3,675.9,165.5,675.9,165.7,676.1z"/>
 	</g>
-	<text transform="matrix(1 0 0 1 101.7514 655.8915)" class="st2 st3 st38">stop</text>
-	<path id="hide_00000149339459138346963910000013382059317078617514_" class="st39" d="M106.3,672.5l-6-6c-2.4,2.6-3.3,5.2-3.3,5.2
+	<text transform="matrix(1 0 0 1 101.7514 655.8915)" class="st2 st3 st37">stop</text>
+	<path id="hide_00000149339459138346963910000013382059317078617514_" class="st38" d="M106.3,672.5l-6-6c-2.4,2.6-3.3,5.2-3.3,5.2
 		l-0.2,0.5l0.2,0.5c0,0.1,3.6,10.4,15.5,10.4c1.5,0,2.8-0.2,4-0.4l-4.3-4.3C109,678.3,106.4,675.7,106.3,672.5L106.3,672.5z
 		 M112.5,661.3c-2.9,0-5.3,0.6-7.3,1.6l-5.8-5.8l-2.2,2.2l28.1,28.1l2.2-2.2l-5.2-5.2c4.1-3.1,5.6-7.2,5.6-7.3l0.2-0.5l-0.2-0.5
 		C128,671.6,124.4,661.3,112.5,661.3z M115.5,673.1c0.3-1.1,0-2.2-0.8-3.1s-2-1.1-3.1-0.8l-2.4-2.4c1-0.6,2.1-0.9,3.2-0.9
 		c3.4,0,6.3,2.8,6.3,6.3c0,1.1-0.3,2.2-0.9,3.2L115.5,673.1L115.5,673.1z"/>
-	<text transform="matrix(1 0 0 1 140.6039 655.8915)" class="st2 st3 st38">ignore</text>
-	<text transform="matrix(1 0 0 1 52.1439 655.33)" class="st2 st3 st38">detect</text>
-	<text transform="matrix(1 0 0 1 52.7475 637.9774)" class="st2 st3 st38">trap detection</text>
+	<text transform="matrix(1 0 0 1 140.6039 655.8915)" class="st2 st3 st37">ignore</text>
+	<text transform="matrix(1 0 0 1 52.1439 655.33)" class="st2 st3 st37">detect</text>
+	<text transform="matrix(1 0 0 1 52.7475 637.9774)" class="st2 st3 st37">trap detection</text>
 </g>
 <g id="trap_stop">
-	<rect x="239.3" y="645" class="st34" width="43.8" height="43.8"/>
-	<path class="st35" d="M316.6,688.8H205.8c-5.7,0-10.3-4.6-10.3-10.3v-23.3c0-5.7,4.6-10.3,10.3-10.3h110.8
+	<rect x="239.3" y="645" class="st33" width="43.8" height="43.8"/>
+	<path class="st34" d="M316.6,688.8H205.8c-5.7,0-10.3-4.6-10.3-10.3v-23.3c0-5.7,4.6-10.3,10.3-10.3h110.8
 		c5.7,0,10.3,4.6,10.3,10.3v23.3C326.8,684.2,322.3,688.8,316.6,688.8z"/>
-	<g id="show_00000165949898754802178630000008981432343393465003_" class="st36">
+	<g id="show_00000165949898754802178630000008981432343393465003_" class="st35">
 		<path class="st2" d="M217.9,663.5c-12.3,0-16,10.7-16,10.8l-0.2,0.5l0.2,0.5c0,0.1,3.7,10.8,16,10.8s16-10.7,16-10.8l0.2-0.5
 			l-0.2-0.5C233.9,674.2,230.2,663.5,217.9,663.5z M217.9,681.2c-3.6,0-6.4-2.9-6.4-6.4c0-3.6,2.9-6.4,6.4-6.4s6.4,2.9,6.4,6.4
 			C224.3,678.4,221.4,681.2,217.9,681.2z"/>
 		<path class="st2" d="M217.9,671.6c-1.7,0-3.2,1.5-3.2,3.2s1.5,3.2,3.2,3.2s3.2-1.5,3.2-3.2S219.6,671.6,217.9,671.6z"/>
 	</g>
-	<g id="db_00000083795993442586194760000007731622011708591250_" class="st36">
+	<g id="db_00000083795993442586194760000007731622011708591250_" class="st35">
 		<path class="st2" d="M314.9,665c0-2.8-4.8-5.2-10.4-5.2s-10.4,2.4-10.4,5.2v2.6c0,2.8,4.8,5.2,10.4,5.2s10.4-2.4,10.4-5.2V665z
 			 M304.5,681.9c-5.6,0-10.4-2.4-10.4-5.2v3.9c0,2.8,4.8,5.2,10.4,5.2s10.4-2.4,10.4-5.2v-3.9C314.9,679.5,310.1,681.9,304.5,681.9z
 			"/>
 		<path class="st2" d="M314.9,670.2c0,2.8-4.8,5.2-10.4,5.2s-10.4-2.4-10.4-5.2v3.9c0,2.8,4.8,5.2,10.4,5.2s10.4-2.4,10.4-5.2V670.2
 			z"/>
-		<circle class="st37" cx="310.6" cy="680.5" r="5.5"/>
+		<circle class="st36" cx="310.6" cy="680.5" r="5.5"/>
 		<path d="M314.1,683.9L314,684c-0.3,0.3-0.8,0.3-1.2,0l-5.8-5.8c-0.3-0.3-0.3-0.8,0-1.2l0.1-0.1c0.3-0.3,0.8-0.3,1.2,0l5.8,5.8
 			C314.5,683.1,314.5,683.6,314.1,683.9z"/>
 		<path d="M314,677l0.1,0.1c0.3,0.3,0.3,0.8,0,1.2l-5.8,5.8c-0.3,0.3-0.8,0.3-1.2,0L307,684c-0.3-0.3-0.3-0.8,0-1.2l5.8-5.8
@@ -250,10 +270,10 @@
 	<text transform="matrix(1 0 0 1 201.0301 656.7904)" class="st2 st3 st4">detect</text>
 </g>
 <g id="trap_">
-	<rect x="381.7" y="644" class="st34" width="43.8" height="43.8"/>
-	<path class="st35" d="M459,687.8H348.2c-5.7,0-10.3-4.6-10.3-10.3v-23.3c0-5.7,4.6-10.3,10.3-10.3H459c5.7,0,10.3,4.6,10.3,10.3
+	<rect x="381.7" y="644" class="st33" width="43.8" height="43.8"/>
+	<path class="st34" d="M459,687.8H348.2c-5.7,0-10.3-4.6-10.3-10.3v-23.3c0-5.7,4.6-10.3,10.3-10.3H459c5.7,0,10.3,4.6,10.3,10.3
 		v23.3C469.2,683.2,464.7,687.8,459,687.8z"/>
-	<g id="show_00000017496945215404984410000012264574128429004990_" class="st36">
+	<g id="show_00000017496945215404984410000012264574128429004990_" class="st35">
 		<path class="st2" d="M360.3,662.6c-12.3,0-16,10.7-16,10.8l-0.2,0.5l0.2,0.5c0,0.1,3.7,10.8,16,10.8s16-10.7,16-10.8l0.2-0.5
 			l-0.2-0.5C376.3,673.2,372.6,662.6,360.3,662.6z M360.3,680.3c-3.6,0-6.4-2.9-6.4-6.4c0-3.6,2.9-6.4,6.4-6.4
 			c3.6,0,6.4,2.9,6.4,6.4C366.7,677.4,363.8,680.3,360.3,680.3z"/>
@@ -265,14 +285,14 @@
 			"/>
 		<path class="st2" d="M457.3,669.2c0,2.8-4.8,5.2-10.4,5.2s-10.4-2.4-10.4-5.2v3.9c0,2.8,4.8,5.2,10.4,5.2s10.4-2.4,10.4-5.2V669.2
 			z"/>
-		<circle class="st37" cx="453" cy="679.6" r="5.5"/>
+		<circle class="st36" cx="453" cy="679.6" r="5.5"/>
 		<path d="M456.5,683l-0.1,0.1c-0.3,0.3-0.8,0.3-1.2,0l-5.8-5.8c-0.3-0.3-0.3-0.8,0-1.2l0.1-0.1c0.3-0.3,0.8-0.3,1.2,0l5.8,5.8
 			C456.8,682.1,456.8,682.6,456.5,683z"/>
 		<path d="M456.4,676l0.1,0.1c0.3,0.3,0.3,0.8,0,1.2l-5.8,5.8c-0.3,0.3-0.8,0.3-1.2,0l-0.1-0.1c-0.3-0.3-0.3-0.8,0-1.2l5.8-5.8
 			C455.5,675.7,456.1,675.7,456.4,676z"/>
 	</g>
 	<text transform="matrix(1 0 0 1 393.0094 655.8372)" class="st2 st3 st4">stop</text>
-	<path id="hide_00000178918549566979541180000015964316482250493325_" class="st39" d="M397.5,672.3l-6-6c-2.3,2.6-3.2,5.1-3.2,5.2
+	<path id="hide_00000178918549566979541180000015964316482250493325_" class="st38" d="M397.5,672.3l-6-6c-2.3,2.6-3.2,5.1-3.2,5.2
 		l-0.2,0.5l0.2,0.5c0,0.1,3.6,10.3,15.3,10.3c1.4,0,2.7-0.2,3.9-0.4l-4.2-4.2C400.1,677.9,397.6,675.4,397.5,672.3L397.5,672.3z
 		 M403.6,661.2c-2.9,0-5.2,0.6-7.2,1.5l-5.7-5.7l-2.2,2.2l27.8,27.8l2.2-2.2l-5.1-5.1c4.1-3,5.5-7.2,5.5-7.2l0.2-0.5l-0.2-0.5
 		C418.9,671.4,415.4,661.2,403.6,661.2z M406.5,672.8c0.3-1,0-2.2-0.8-3s-2-1-3-0.8l-2.3-2.3c1-0.6,2-0.9,3.2-0.9
@@ -280,21 +300,24 @@
 	<text transform="matrix(1 0 0 1 431.3474 655.8375)" class="st2 st3 st4">ignore</text>
 	<text transform="matrix(1 0 0 1 343.4241 655.8369)" class="st2 st3 st4">detect</text>
 </g>
-<text transform="matrix(1 0 0 1 576.1827 629.4081)" class="st2 st3 st4">add remove</text>
-<path id="task_add_00000147190891159625291690000003280520449165084847_" class="st30" d="M693.1,629.1h-3.2 M689.9,629.1h-3.2
+<text transform="matrix(1 0 0 1 576.1826 629.4081)" class="st2 st3 st4">add remove</text>
+<path id="task_add_00000147190891159625291690000003280520449165084847_" class="st29" d="M693.1,629.1h-3.2 M689.9,629.1h-3.2
 	 M689.9,629.1v-2.9 M689.9,629.1v2.9 M695.3,638h-11c-2.4,0-4.4-1.7-4.4-4v-10c0-2.1,1.9-4,4.4-4h11c2.4,0,4.4,1.7,4.4,4v10
 	C699.7,636.2,697.7,638,695.3,638z"/>
 <g id="task_remove_00000135657187697200909950000017086343493350258587_">
-	<path class="st31" d="M725.2,631.1v-7.4c0-1.7-1.5-3.1-3.4-3.1h-5.8 M725.2,631.1l-7.5,6.3 M725.2,631.1h-5.3c-1.3,0-2.4,1-2.4,2.1
+	<path class="st30" d="M725.2,631.1v-7.4c0-1.7-1.5-3.1-3.4-3.1H716 M725.2,631.1l-7.5,6.3 M725.2,631.1h-5.3c-1.3,0-2.4,1-2.4,2.1
 		v4.2 M717.6,637.4h-7.5c-1.9,0-3.4-1.4-3.4-3.1v-5.2"/>
-	<path class="st32" d="M706.6,620.7l2.9,2.6 M712.4,625.9l-2.9-2.6 M709.5,623.3l2.9-2.6 M709.5,623.3l-2.9,2.6"/>
+	<path class="st31" d="M706.6,620.7l2.9,2.6 M712.4,625.9l-2.9-2.6 M709.5,623.3l2.9-2.6 M709.5,623.3l-2.9,2.6"/>
 </g>
-<text transform="matrix(1 0 0 1 575.5001 659.4151)" class="st40"><tspan x="0" y="0" class="st2 st3 st4">goto</tspan><tspan x="0" y="14.4" class="st2 st3 st4">identify</tspan></text>
-<text transform="matrix(1 0 0 1 575.1999 686.4934)" class="st40"><tspan x="0" y="0" class="st2 st3 st4">wait</tspan><tspan x="0" y="14.4" class="st2 st3 st4">explore</tspan><tspan x="0" y="28.8" class="st2 st3 st4">deactivate trap T0 (contact/distance/laser)</tspan></text>
-<text transform="matrix(1 0 0 1 575.5002 589.5516)" class="st2 st3 st33">Tâches</text>
-<text transform="matrix(1 0 0 1 526.763 223.7235)" class="st2 st3 st33">Strips</text>
+<text transform="matrix(1 0 0 1 575.5001 659.4151)" class="st2 st3 st4">goto</text>
+<text transform="matrix(1 0 0 1 575.5001 673.8151)" class="st2 st3 st4">identify</text>
+<text transform="matrix(1 0 0 1 575.2 686.4934)" class="st2 st3 st4">wait</text>
+<text transform="matrix(1 0 0 1 575.2 700.8934)" class="st2 st3 st4">explore</text>
+<text transform="matrix(1 0 0 1 575.2 715.2934)" class="st2 st3 st4">deactivate trap T0 (contact/distance/laser)</text>
+<text transform="matrix(1 0 0 1 575.5002 589.5516)" class="st2 st3 st32">Tâches</text>
+<text transform="matrix(1 0 0 1 526.7629 223.7235)" class="st2 st3 st32">Strips</text>
 <g id="strip_container">
-	<path id="strip_container_bg" class="st41" d="M687.1,359c0,4.8-1.8,8.6-4,8.6H524.1c-2.2,0-4-3.8-4-8.6V250.1c0-4.8,1.8-8.6,4-8.6
+	<path id="strip_container_bg" class="st39" d="M687.1,359c0,4.8-1.8,8.6-4,8.6h-159c-2.2,0-4-3.8-4-8.6V250.1c0-4.8,1.8-8.6,4-8.6
 		h159.1c2.2,0,4,3.8,4,8.6L687.1,359L687.1,359z"/>
 	<g id="strip">
 		<path id="strip_bg" class="st22" d="M681.8,300.3H526.3c-1.9,0-3.4-2.1-3.4-4.6V276c0-2.6,1.6-4.6,3.4-4.6h35.1h120.3
@@ -302,8 +325,8 @@
 		<line class="st22" x1="575.4" y1="300.3" x2="575.3" y2="271.4"/>
 		<line class="st22" x1="638.6" y1="299.7" x2="638.6" y2="271.3"/>
 		<g id="strip_monitor_group">
-			<text id="strip_label" transform="matrix(1 0 0 1 527.2342 280.389)" class="st2 st42 st43">BNX8</text>
-			<path id="strip_status_ok" class="st44" d="M564.7,273.2c-3.2,0-5.8,2.6-5.8,5.8s2.6,5.8,5.8,5.8s5.8-2.6,5.8-5.8
+			<text id="strip_label" transform="matrix(1 0 0 1 527.2341 280.389)" class="st2 st40 st41">BNX8</text>
+			<path id="strip_status_ok" class="st42" d="M564.7,273.2c-3.2,0-5.8,2.6-5.8,5.8s2.6,5.8,5.8,5.8s5.8-2.6,5.8-5.8
 				S567.9,273.2,564.7,273.2z M563.5,282.1l-2.7-2.8l0.9-0.9l1.9,1.9l4.1-4.1l0.9,0.9L563.5,282.1z"/>
 			<g id="strip_ctrl_group">
 				<g id="ctrl_auto_">
@@ -316,9 +339,9 @@
 				</g>
 			</g>
 			<g id="strip_icon">
-				<rect x="526.2" y="288.1" pointer-events="none" class="st45" width="22.1" height="4.6"/>
-				<ellipse pointer-events="none" class="st45" cx="530.8" cy="294.3" rx="1.8" ry="1.7"/>
-				<ellipse pointer-events="none" class="st45" cx="543.7" cy="294.3" rx="1.8" ry="1.7"/>
+				<rect x="526.2" y="288.1" pointer-events="none" class="st43" width="22.1" height="4.6"/>
+				<ellipse pointer-events="none" class="st43" cx="530.8" cy="294.3" rx="1.8" ry="1.7"/>
+				<ellipse pointer-events="none" class="st43" cx="543.7" cy="294.3" rx="1.8" ry="1.7"/>
 			</g>
 		</g>
 		<g id="trap_group">
@@ -329,45 +352,45 @@
 						S647.9,295.5,646.7,295.5z"/>
 					<path class="st2" d="M646.7,292.2c-0.6,0-1.1,0.5-1.1,1.1s0.5,1.1,1.1,1.1s1.1-0.5,1.1-1.1S647.3,292.2,646.7,292.2z"/>
 				</g>
-				<text transform="matrix(1 0 0 1 641.2499 287.0509)" class="st2 st3 st46">detect</text>
-				<g id="ignore_icon" class="st47">
+				<text transform="matrix(1 0 0 1 641.2499 287.0509)" class="st2 st3 st44">detect</text>
+				<g id="ignore_icon" class="st45">
 					<path class="st2" d="M679.4,290c0-0.9-1.6-1.8-3.5-1.8s-3.5,0.8-3.5,1.8v0.9c0,0.9,1.6,1.8,3.5,1.8s3.5-0.8,3.5-1.8V290z
 						 M675.9,295.7c-1.9,0-3.5-0.8-3.5-1.8v1.3c0,0.9,1.6,1.8,3.5,1.8s3.5-0.8,3.5-1.8v-1.3C679.4,294.9,677.8,295.7,675.9,295.7z"
 						/>
 					<path class="st2" d="M679.4,291.7c0,0.9-1.6,1.8-3.5,1.8s-3.5-0.8-3.5-1.8v1.3c0,0.9,1.6,1.8,3.5,1.8s3.5-0.8,3.5-1.8V291.7z"
 						/>
-					<circle class="st37" cx="678" cy="295.2" r="1.9"/>
+					<circle class="st36" cx="678" cy="295.2" r="1.9"/>
 					<path d="M679.2,296.3l-0.2,0.2c-0.1,0.1-0.2,0.1-0.2,0l-2.1-2.1c-0.1-0.1-0.1-0.2,0-0.2l0.2-0.2c0.1-0.1,0.2-0.1,0.2,0l2.1,2.1
 						C679.3,296.1,679.3,296.2,679.2,296.3z"/>
 					<path d="M679,293.9l0.2,0.2c0.1,0.1,0.1,0.2,0,0.2l-2.1,2.1c-0.1,0.1-0.2,0.1-0.2,0l-0.2-0.2c-0.1-0.1-0.1-0.2,0-0.2l2.1-2.1
 						C678.9,293.9,679,293.9,679,293.9z"/>
 				</g>
-				<text transform="matrix(1 0 0 1 670.6993 287.2365)" class="st48 st3 st46">ignore</text>
-				<text transform="matrix(1 0 0 1 657.7657 287.2365)" class="st48 st3 st46">stop</text>
-				<path id="stop_icon" class="st48" d="M659.2,292.7l-2-2c-0.8,0.9-1.1,1.7-1.1,1.7l-0.1,0.2l0.1,0.2c0,0,1.2,3.5,5.2,3.5
+				<text transform="matrix(1 0 0 1 670.6992 287.2365)" class="st46 st3 st44">ignore</text>
+				<text transform="matrix(1 0 0 1 657.7656 287.2365)" class="st46 st3 st44">stop</text>
+				<path id="stop_icon" class="st46" d="M659.2,292.7l-2-2c-0.8,0.9-1.1,1.7-1.1,1.7l-0.1,0.2l0.1,0.2c0,0,1.2,3.5,5.2,3.5
 					c0.5,0,0.9-0.1,1.3-0.1l-1.4-1.4C660.1,294.7,659.3,293.8,659.2,292.7L659.2,292.7z M661.3,289c-1,0-1.8,0.2-2.4,0.5l-1.9-1.9
 					l-0.7,0.7l9.4,9.4l0.7-0.7l-1.7-1.7c1.4-1,1.9-2.4,1.9-2.4l0.1-0.2l-0.1-0.2C666.5,292.4,665.3,289,661.3,289z M662.3,292.9
 					c0.1-0.4,0-0.7-0.3-1s-0.7-0.4-1-0.3l-0.8-0.8c0.3-0.2,0.7-0.3,1.1-0.3c1.1,0,2.1,0.9,2.1,2.1c0,0.4-0.1,0.7-0.3,1.1
 					L662.3,292.9L662.3,292.9z"/>
 			</g>
-			<text transform="matrix(1 0 0 1 640.4999 276.5179)" class="st2 st3 st49">traps </text>
+			<text transform="matrix(1 0 0 1 640.4999 276.5179)" class="st2 st3 st47">traps </text>
 			<g id="btn_show">
-				<path id="button_show_bg" class="st50" d="M680.5,278.4h-12.7c-0.8,0-1.5-0.6-1.5-1.5v-1.8c0-0.8,0.6-1.5,1.5-1.5h12.7
+				<path id="button_show_bg" class="st48" d="M680.5,278.4h-12.7c-0.8,0-1.5-0.6-1.5-1.5v-1.8c0-0.8,0.6-1.5,1.5-1.5h12.7
 					c0.8,0,1.5,0.6,1.5,1.5v1.8C681.9,277.8,681.3,278.4,680.5,278.4z"/>
-				<text transform="matrix(1 0 0 1 667.6841 277.2717)" class="st2 st3 st51">Show all</text>
+				<text transform="matrix(1 0 0 1 667.6841 277.2717)" class="st2 st3 st49">Show all</text>
 			</g>
 			<path class="st22" d="M650.6,278.2h-12v-6.7h16.3v2.5C654.9,276.3,653,278.2,650.6,278.2z"/>
 		</g>
 		<g id="tasks_monitor_group">
-			<text transform="matrix(1 0 0 1 576.3087 276.5877)" class="st2 st3 st49">tasks</text>
-			<text transform="matrix(1 0 0 1 578.3976 286.4063)" class="st11 st23 st24">survey area_1</text>
+			<text transform="matrix(1 0 0 1 576.3087 276.5877)" class="st2 st3 st47">tasks</text>
+			<text transform="matrix(1 0 0 1 578.3976 286.4063)" class="st11 st3 st20">survey area_1</text>
 			<path class="st22" d="M587.4,278.3h-12v-6.7h16.3v2.5C591.6,276.4,589.7,278.3,587.4,278.3z"/>
-			<text transform="matrix(1 0 0 1 578.6696 294.4065)" class="st21 st23 st24">identify T2</text>
+			<text transform="matrix(1 0 0 1 578.6697 294.4065)" class="st21 st3 st20">identify T2</text>
 			<g id="btn_add_task">
-				<path id="button_show_bg_00000080204040175633691090000000765764108045519542_" class="st50" d="M634.5,278.4h-12.7
+				<path id="button_show_bg_00000080204040175633691090000000765764108045519542_" class="st48" d="M634.5,278.4h-12.7
 					c-0.8,0-1.5-0.6-1.5-1.5v-1.8c0-0.8,0.6-1.5,1.5-1.5h12.7c0.8,0,1.5,0.6,1.5,1.5v1.8C635.9,277.8,635.3,278.4,634.5,278.4z"/>
-				<text transform="matrix(1 0 0 1 621.6666 277.2718)" class="st2 st3 st51">Add</text>
-				<path id="task_add_00000098179230359501329880000011325903290281144988_" class="st52" d="M633,276h-0.6 M632.4,276h-0.6
+				<text transform="matrix(1 0 0 1 621.6666 277.2718)" class="st2 st3 st49">Add</text>
+				<path id="task_add_00000098179230359501329880000011325903290281144988_" class="st50" d="M633,276h-0.6 M632.4,276h-0.6
 					 M632.4,276v-0.5 M632.4,276v0.5 M633.4,277.7h-2.1c-0.4,0-0.8-0.3-0.8-0.7v-1.9c0-0.4,0.4-0.7,0.8-0.7h2.1
 					c0.4,0,0.8,0.3,0.8,0.7v1.9C634.2,277.4,633.8,277.7,633.4,277.7z"/>
 			</g>
@@ -378,13 +401,13 @@
 			c-1.9,0-3.4-2.1-3.4-4.6v-19.7c0-2.6,1.6-4.6,3.4-4.6h35.1h120.3c1.9,0,3.4,2.1,3.4,4.6v19.7C685.2,361.8,683.7,363.9,681.8,363.9
 			z"/>
 		
-			<text id="strip_label_00000104671212298617379490000008406790099060746369_" transform="matrix(1 0 0 1 527.2342 343.9266)" class="st2 st42 st43">agilex 2</text>
+			<text id="strip_label_00000104671212298617379490000008406790099060746369_" transform="matrix(1 0 0 1 527.2341 343.9266)" class="st2 st40 st41">agilex 2</text>
 		<line class="st22" x1="575.5" y1="363.9" x2="575.2" y2="335.3"/>
 		<line class="st22" x1="638.6" y1="363.7" x2="638.6" y2="335.3"/>
 		<g id="strip_icon_00000096749500409041240490000016126674825298994084_">
-			<rect x="526.2" y="351.7" pointer-events="none" class="st45" width="22.1" height="4.6"/>
-			<ellipse pointer-events="none" class="st45" cx="530.8" cy="357.9" rx="1.8" ry="1.7"/>
-			<ellipse pointer-events="none" class="st45" cx="543.7" cy="357.9" rx="1.8" ry="1.7"/>
+			<rect x="526.2" y="351.7" pointer-events="none" class="st43" width="22.1" height="4.6"/>
+			<ellipse pointer-events="none" class="st43" cx="530.8" cy="357.9" rx="1.8" ry="1.7"/>
+			<ellipse pointer-events="none" class="st43" cx="543.7" cy="357.9" rx="1.8" ry="1.7"/>
 		</g>
 		<g id="trap_00000066481366200165216920000018297345027049553059_">
 			<g id="trap_detection_selector_00000011018819635163485300000007824681449890771612_">
@@ -394,51 +417,51 @@
 						S647.8,359.4,646.6,359.4z"/>
 					<path class="st2" d="M646.6,356.1c-0.6,0-1.1,0.5-1.1,1.1s0.5,1.1,1.1,1.1s1.1-0.5,1.1-1.1S647.2,356.1,646.6,356.1z"/>
 				</g>
-				<text transform="matrix(1 0 0 1 641.0999 350.9081)" class="st2 st3 st46">detect</text>
-				<g id="ignore_icon_00000036930800996311232980000000350666308283926710_" class="st47">
+				<text transform="matrix(1 0 0 1 641.0999 350.9081)" class="st2 st3 st44">detect</text>
+				<g id="ignore_icon_00000036930800996311232980000000350666308283926710_" class="st45">
 					<path class="st2" d="M679.3,353.9c0-0.9-1.6-1.8-3.5-1.8s-3.5,0.8-3.5,1.8v0.9c0,0.9,1.6,1.8,3.5,1.8s3.5-0.8,3.5-1.8V353.9z
 						 M675.8,359.6c-1.9,0-3.5-0.8-3.5-1.8v1.3c0,0.9,1.6,1.8,3.5,1.8s3.5-0.8,3.5-1.8v-1.3C679.3,358.8,677.7,359.6,675.8,359.6z"
 						/>
 					<path class="st2" d="M679.3,355.7c0,0.9-1.6,1.8-3.5,1.8s-3.5-0.8-3.5-1.8v1.3c0,0.9,1.6,1.8,3.5,1.8s3.5-0.8,3.5-1.8V355.7z"
 						/>
-					<circle class="st37" cx="677.9" cy="359.1" r="1.9"/>
+					<circle class="st36" cx="677.9" cy="359.1" r="1.9"/>
 					<path d="M679.1,360.2l-0.2,0.2c-0.1,0.1-0.2,0.1-0.2,0l-2.1-2.1c-0.1-0.1-0.1-0.2,0-0.2l0.2-0.2c0.1-0.1,0.2-0.1,0.2,0l2.1,2.1
 						C679.2,360,679.2,360.1,679.1,360.2z"/>
 					<path d="M678.9,357.9l0.2,0.2c0.1,0.1,0.1,0.2,0,0.2l-2.1,2.1c-0.1,0.1-0.2,0.1-0.2,0l-0.2-0.2c-0.1-0.1-0.1-0.2,0-0.2l2.1-2.1
 						C678.8,357.8,678.9,357.8,678.9,357.9z"/>
 				</g>
-				<text transform="matrix(1 0 0 1 670.5493 351.0937)" class="st48 st3 st46">ignore</text>
-				<text transform="matrix(1 0 0 1 657.6157 351.0937)" class="st48 st3 st46">stop</text>
-				<path id="stop_icon_00000066498372925186775390000012578976442364663208_" class="st48" d="M659.1,356.7l-2-2
+				<text transform="matrix(1 0 0 1 670.5493 351.0937)" class="st46 st3 st44">ignore</text>
+				<text transform="matrix(1 0 0 1 657.6157 351.0937)" class="st46 st3 st44">stop</text>
+				<path id="stop_icon_00000066498372925186775390000012578976442364663208_" class="st46" d="M659.1,356.7l-2-2
 					c-0.8,0.9-1.1,1.7-1.1,1.7l-0.1,0.2l0.1,0.2c0,0,1.2,3.5,5.2,3.5c0.5,0,0.9-0.1,1.3-0.1l-1.4-1.4
 					C660,358.6,659.2,357.7,659.1,356.7L659.1,356.7z M661.2,352.9c-1,0-1.8,0.2-2.4,0.5l-1.9-1.9l-0.7,0.7l9.4,9.4l0.7-0.7
 					l-1.7-1.7c1.4-1,1.9-2.4,1.9-2.4l0.1-0.2l-0.1-0.2C666.4,356.4,665.2,352.9,661.2,352.9z M662.2,356.9c0.1-0.4,0-0.7-0.3-1
 					s-0.7-0.4-1-0.3l-0.8-0.8c0.3-0.2,0.7-0.3,1.1-0.3c1.1,0,2.1,0.9,2.1,2.1c0,0.4-0.1,0.7-0.3,1.1L662.2,356.9L662.2,356.9z"/>
 			</g>
-			<text transform="matrix(1 0 0 1 640.3499 340.3752)" class="st2 st3 st49">traps </text>
+			<text transform="matrix(1 0 0 1 640.3499 340.3752)" class="st2 st3 st47">traps </text>
 			<g id="btn_show_00000175294806655240908950000009657108288221646521_">
-				<path id="button_show_bg_00000015332294766247919400000015623348603898854847_" class="st50" d="M680.4,342.4h-12.7
+				<path id="button_show_bg_00000015332294766247919400000015623348603898854847_" class="st48" d="M680.4,342.4h-12.7
 					c-0.8,0-1.5-0.6-1.5-1.5v-1.8c0-0.8,0.6-1.5,1.5-1.5h12.7c0.8,0,1.5,0.6,1.5,1.5v1.8C681.8,341.7,681.2,342.4,680.4,342.4z"/>
-				<text transform="matrix(1 0 0 1 667.5341 341.1289)" class="st2 st3 st51">Show all</text>
+				<text transform="matrix(1 0 0 1 667.5342 341.1289)" class="st2 st3 st49">Show all</text>
 			</g>
 		</g>
 		<path id="status_error_00000150101493863775900720000011824476033765573798_" class="st6" d="M565,336.9c-2.9,0-5.3,2.3-5.3,5.3
 			c0,2.9,2.3,5.3,5.3,5.3c2.9,0,5.3-2.4,5.3-5.3C570.2,339.3,567.9,336.9,565,336.9z M567.8,344.2L567,345l-2-2l-2,2l-0.8-0.8l2-2
 			l-2-2l0.8-0.8l2,2l2-2l0.8,0.8l-2,2L567.8,344.2z"/>
-		<path id="ctrl_manual_00000083060504196927379610000006535632259058443952_" class="st53" d="M562.9,359v-1h4.1v1 M565.6,355.3
+		<path id="ctrl_manual_00000083060504196927379610000006535632259058443952_" class="st51" d="M562.9,359v-1h4.1v1 M565.6,355.3
 			v2.7 M564.3,355.3v2.7 M567,353.2c0,1.1-0.9,2-2,2s-2-0.9-2-2s0.9-2,2-2S567,352.2,567,353.2z M569,361.4h-8.1
 			c-0.4,0-0.7-0.3-0.7-0.7V360c0-0.4,0.3-0.7,0.7-0.7h8.1c0.4,0,0.7,0.3,0.7,0.7v0.7C569.7,361,569.4,361.4,569,361.4z"/>
 		<g id="tasks_monitor_group_00000078761703179892849430000003747261989339170447_">
-			<text transform="matrix(1 0 0 1 576.3087 340.04)" class="st2 st3 st49">tasks</text>
-			<text transform="matrix(1 0 0 1 578.3976 349.8586)" class="st11 st23 st24">goto T123</text>
+			<text transform="matrix(1 0 0 1 576.3087 340.04)" class="st2 st3 st47">tasks</text>
+			<text transform="matrix(1 0 0 1 578.3976 349.8586)" class="st11 st3 st20">goto T123</text>
 			<path class="st22" d="M587.4,341.8h-12V335h16.3v2.5C591.6,339.9,589.7,341.8,587.4,341.8z"/>
-			<text transform="matrix(1 0 0 1 578.6696 357.8588)" class="st5 st23 st24">goto T124</text>
+			<text transform="matrix(1 0 0 1 578.6697 357.8588)" class="st5 st3 st20">goto T124</text>
 		</g>
 		<g id="btn_add_task_00000163789190469133164170000011491286617896797597_">
-			<path id="button_show_bg_00000153663103501122521640000000249201419074965942_" class="st50" d="M634.5,341.8h-12.7
+			<path id="button_show_bg_00000153663103501122521640000000249201419074965942_" class="st48" d="M634.5,341.8h-12.7
 				c-0.8,0-1.5-0.6-1.5-1.5v-1.8c0-0.8,0.6-1.5,1.5-1.5h12.7c0.8,0,1.5,0.6,1.5,1.5v1.8C635.9,341.2,635.3,341.8,634.5,341.8z"/>
-			<text transform="matrix(1 0 0 1 621.6666 340.6343)" class="st2 st3 st51">Add</text>
-			<path id="task_add_00000105408921510413973970000002330569479142192047_" class="st52" d="M633,339.4h-0.6 M632.4,339.4h-0.6
+			<text transform="matrix(1 0 0 1 621.6666 340.6343)" class="st2 st3 st49">Add</text>
+			<path id="task_add_00000105408921510413973970000002330569479142192047_" class="st50" d="M633,339.4h-0.6 M632.4,339.4h-0.6
 				 M632.4,339.4v-0.5 M632.4,339.4v0.5 M633.4,341.1h-2.1c-0.4,0-0.8-0.3-0.8-0.7v-1.9c0-0.4,0.4-0.7,0.8-0.7h2.1
 				c0.4,0,0.8,0.3,0.8,0.7v1.9C634.2,340.7,633.8,341.1,633.4,341.1z"/>
 		</g>
@@ -447,13 +470,13 @@
 		<path id="strip_bg_00000119076533927173353960000017910456514872278919_" class="st22" d="M681.8,332H526.3
 			c-1.9,0-3.4-2.1-3.4-4.6v-19.7c0-2.6,1.6-4.6,3.4-4.6h35.1h120.3c1.9,0,3.4,2.1,3.4,4.6v19.7C685.2,329.9,683.7,332,681.8,332z"/>
 		
-			<text id="strip_label_00000005243956833175422400000000820294485681381813_" transform="matrix(1 0 0 1 527.2342 312.0014)" class="st2 st42 st43">agilex 1</text>
+			<text id="strip_label_00000005243956833175422400000000820294485681381813_" transform="matrix(1 0 0 1 527.2341 312.0014)" class="st2 st40 st41">agilex 1</text>
 		<line class="st22" x1="575.5" y1="332" x2="575.2" y2="303.4"/>
 		<line class="st22" x1="638.6" y1="331.7" x2="638.6" y2="303.4"/>
 		<g id="strip_icon_00000035496772787072263650000001018606515643290780_">
-			<rect x="526.2" y="319.8" pointer-events="none" class="st45" width="22.1" height="4.6"/>
-			<ellipse pointer-events="none" class="st45" cx="530.8" cy="326" rx="1.8" ry="1.7"/>
-			<ellipse pointer-events="none" class="st45" cx="543.7" cy="326" rx="1.8" ry="1.7"/>
+			<rect x="526.2" y="319.8" pointer-events="none" class="st43" width="22.1" height="4.6"/>
+			<ellipse pointer-events="none" class="st43" cx="530.8" cy="326" rx="1.8" ry="1.7"/>
+			<ellipse pointer-events="none" class="st43" cx="543.7" cy="326" rx="1.8" ry="1.7"/>
 		</g>
 		<g id="trap_00000123436726055518604450000012728914654296340405_">
 			<g id="trap_detection_selector_00000139981414290780443230000004219748928798722437_">
@@ -463,32 +486,32 @@
 						S647.9,327.1,646.7,327.1z"/>
 					<path class="st2" d="M646.7,323.8c-0.6,0-1.1,0.5-1.1,1.1s0.5,1.1,1.1,1.1s1.1-0.5,1.1-1.1S647.3,323.8,646.7,323.8z"/>
 				</g>
-				<text transform="matrix(1 0 0 1 641.2195 318.5829)" class="st2 st3 st46">detect</text>
-				<g id="ignore_icon_00000001631226906621189110000003412008206306428051_" class="st47">
+				<text transform="matrix(1 0 0 1 641.2195 318.5829)" class="st2 st3 st44">detect</text>
+				<g id="ignore_icon_00000001631226906621189110000003412008206306428051_" class="st45">
 					<path class="st2" d="M679.4,321.6c0-0.9-1.6-1.8-3.5-1.8s-3.5,0.8-3.5,1.8v0.9c0,0.9,1.6,1.8,3.5,1.8s3.5-0.8,3.5-1.8V321.6z
 						 M675.9,327.3c-1.9,0-3.5-0.8-3.5-1.8v1.3c0,0.9,1.6,1.8,3.5,1.8s3.5-0.8,3.5-1.8v-1.3C679.4,326.5,677.8,327.3,675.9,327.3z"
 						/>
 					<path class="st2" d="M679.4,323.3c0,0.9-1.6,1.8-3.5,1.8s-3.5-0.8-3.5-1.8v1.3c0,0.9,1.6,1.8,3.5,1.8s3.5-0.8,3.5-1.8V323.3z"
 						/>
-					<circle class="st37" cx="678" cy="326.8" r="1.9"/>
+					<circle class="st36" cx="678" cy="326.8" r="1.9"/>
 					<path d="M679.2,327.9l-0.2,0.2c-0.1,0.1-0.2,0.1-0.2,0l-2.1-2.1c-0.1-0.1-0.1-0.2,0-0.2l0.2-0.2c0.1-0.1,0.2-0.1,0.2,0l2.1,2.1
 						C679.3,327.7,679.3,327.8,679.2,327.9z"/>
 					<path d="M679,325.6l0.2,0.2c0.1,0.1,0.1,0.2,0,0.2l-2.1,2.1c-0.1,0.1-0.2,0.1-0.2,0l-0.2-0.2c-0.1-0.1-0.1-0.2,0-0.2l2.1-2.1
 						C678.9,325.5,679,325.5,679,325.6z"/>
 				</g>
-				<text transform="matrix(1 0 0 1 670.6689 318.7684)" class="st48 st3 st46">ignore</text>
-				<text transform="matrix(1 0 0 1 657.7353 318.7684)" class="st48 st3 st46">stop</text>
-				<path id="stop_icon_00000057857078299303420830000018219841381192974261_" class="st48" d="M659.2,324.4l-2-2
+				<text transform="matrix(1 0 0 1 670.6689 318.7684)" class="st46 st3 st44">ignore</text>
+				<text transform="matrix(1 0 0 1 657.7354 318.7684)" class="st46 st3 st44">stop</text>
+				<path id="stop_icon_00000057857078299303420830000018219841381192974261_" class="st46" d="M659.2,324.4l-2-2
 					c-0.8,0.9-1.1,1.7-1.1,1.7l-0.1,0.2l0.1,0.2c0,0,1.2,3.5,5.2,3.5c0.5,0,0.9-0.1,1.3-0.1l-1.4-1.4
 					C660.1,326.3,659.3,325.4,659.2,324.4L659.2,324.4z M661.3,320.6c-1,0-1.8,0.2-2.4,0.5l-1.9-1.9l-0.7,0.7l9.4,9.4l0.7-0.7
 					l-1.7-1.7c1.4-1,1.9-2.4,1.9-2.4l0.1-0.2l-0.1-0.2C666.5,324.1,665.3,320.6,661.3,320.6z M662.3,324.5c0.1-0.4,0-0.7-0.3-1
 					s-0.7-0.4-1-0.3l-0.8-0.8c0.3-0.2,0.7-0.3,1.1-0.3c1.1,0,2.1,0.9,2.1,2.1c0,0.4-0.1,0.7-0.3,1.1L662.3,324.5L662.3,324.5z"/>
 			</g>
-			<text transform="matrix(1 0 0 1 640.4695 308.0499)" class="st2 st3 st49">traps </text>
+			<text transform="matrix(1 0 0 1 640.4695 308.0499)" class="st2 st3 st47">traps </text>
 			<g id="btn_show_00000057107759960244076010000011505359259861372554_">
-				<path id="button_show_bg_00000163763320848741732760000001712124147614491807_" class="st50" d="M680.5,310.1h-12.7
+				<path id="button_show_bg_00000163763320848741732760000001712124147614491807_" class="st48" d="M680.5,310.1h-12.7
 					c-0.8,0-1.5-0.6-1.5-1.5v-1.8c0-0.8,0.6-1.5,1.5-1.5h12.7c0.8,0,1.5,0.6,1.5,1.5v1.8C681.9,309.4,681.3,310.1,680.5,310.1z"/>
-				<text transform="matrix(1 0 0 1 667.6537 308.8037)" class="st2 st3 st51">Show all</text>
+				<text transform="matrix(1 0 0 1 667.6537 308.8037)" class="st2 st3 st49">Show all</text>
 			</g>
 		</g>
 		<path id="status_warning_00000154383463179312906460000003871947799280575907_" class="st7" d="M564.9,305.1c-3,0-5.4,2.4-5.4,5.4
@@ -497,7 +520,7 @@
 		<path id="ctrl_wait_00000075140932433895790390000004201973536593438608_" class="st2" d="M570.1,324.2c0,0.2-0.2,0.5-0.5,0.5
 			c-0.2,0-0.5-0.2-0.5-0.5c0-2.5-2-4.5-4.5-4.5c-0.2,0-0.5-0.2-0.5-0.5s0.2-0.5,0.5-0.5C567.7,318.9,570.1,321.3,570.1,324.2z
 			 M566.5,324.7c0.2,0,0.5-0.2,0.5-0.5s-0.2-0.5-0.5-0.5h-1c-0.1-0.1-0.2-0.2-0.3-0.3V322c0-0.2-0.2-0.5-0.5-0.5
-			c-0.2,0-0.5,0.2-0.5,0.5v1.5c-0.4,0.2-0.6,0.8-0.3,1.2c0.2,0.4,0.8,0.6,1.2,0.3c0.1-0.1,0.2-0.2,0.3-0.3L566.5,324.7L566.5,324.7z
+			c-0.2,0-0.5,0.2-0.5,0.5v1.5c-0.4,0.2-0.6,0.8-0.3,1.2c0.2,0.4,0.8,0.6,1.2,0.3c0.1-0.1,0.2-0.2,0.3-0.3H566.5L566.5,324.7z
 			 M560.2,321.9c-0.2,0-0.5,0.2-0.5,0.5c0,0.2,0.2,0.5,0.5,0.5c0.2,0,0.5-0.2,0.5-0.5C560.6,322.1,560.4,321.9,560.2,321.9
 			L560.2,321.9z M560.3,324.2c0-0.2-0.2-0.5-0.5-0.5c-0.2,0-0.5,0.2-0.5,0.5s0.2,0.5,0.5,0.5S560.3,324.5,560.3,324.2z M564.7,328.7
 			c-0.2,0-0.5,0.2-0.5,0.5s0.2,0.5,0.5,0.5c0.2,0,0.5-0.2,0.5-0.5S565,328.7,564.7,328.7z M561.3,320.3c-0.2,0-0.5,0.2-0.5,0.5
@@ -510,38 +533,880 @@
 			S568.5,327.3,568.2,327.3z M566.6,328.3c-0.2,0-0.5,0.2-0.5,0.5s0.2,0.5,0.5,0.5c0.2,0,0.5-0.2,0.5-0.5S566.9,328.3,566.6,328.3
 			L566.6,328.3z"/>
 		<g id="tasks_monitor_group_00000052824233119990395280000016995192733092753280_">
-			<text transform="matrix(1 0 0 1 576.3088 308.0499)" class="st2 st3 st49">tasks</text>
-			<text transform="matrix(1 0 0 1 578.3976 317.7325)" class="st6 st23 st24">goto T126</text>
+			<text transform="matrix(1 0 0 1 576.3088 308.0499)" class="st2 st3 st47">tasks</text>
+			<text transform="matrix(1 0 0 1 578.3976 317.7325)" class="st6 st3 st20">goto T126</text>
 			<path class="st22" d="M587.4,309.9h-12v-6.7h16.3v2.5C591.6,308,589.7,309.9,587.4,309.9z"/>
-			<text transform="matrix(1 0 0 1 578.6696 325.7327)" class="st21 st23 st24">goto T124</text>
+			<text transform="matrix(1 0 0 1 578.6697 325.7327)" class="st21 st3 st20">goto T124</text>
 		</g>
-		<path class="st22" d="M650.7,309.9h-12v-6.7h16.3v2.5C654.9,308,653,309.9,650.7,309.9z"/>
+		<path class="st22" d="M650.7,309.9h-12v-6.7H655v2.5C654.9,308,653,309.9,650.7,309.9z"/>
 		<g id="btn_add_task_00000016792563772572663830000012006044405973467818_">
-			<path id="button_show_bg_00000004538626246290310140000005833295513192547514_" class="st50" d="M634.5,310.1h-12.7
+			<path id="button_show_bg_00000004538626246290310140000005833295513192547514_" class="st48" d="M634.5,310.1h-12.7
 				c-0.8,0-1.5-0.6-1.5-1.5v-1.8c0-0.8,0.6-1.5,1.5-1.5h12.7c0.8,0,1.5,0.6,1.5,1.5v1.8C635.9,309.5,635.3,310.1,634.5,310.1z"/>
-			<text transform="matrix(1 0 0 1 621.6666 308.8913)" class="st2 st3 st51">Add</text>
-			<path id="task_add_00000103984784226330979650000000601190148057498004_" class="st52" d="M633,307.7h-0.6 M632.4,307.7h-0.6
+			<text transform="matrix(1 0 0 1 621.6666 308.8913)" class="st2 st3 st49">Add</text>
+			<path id="task_add_00000103984784226330979650000000601190148057498004_" class="st50" d="M633,307.7h-0.6 M632.4,307.7h-0.6
 				 M632.4,307.7v-0.5 M632.4,307.7v0.5 M633.4,309.3h-2.1c-0.4,0-0.8-0.3-0.8-0.7v-1.9c0-0.4,0.4-0.7,0.8-0.7h2.1
 				c0.4,0,0.8,0.3,0.8,0.7v1.9C634.2,309,633.8,309.3,633.4,309.3z"/>
 		</g>
 	</g>
-	<path id="group_col" class="st54" d="M624.8,243.4h-96.2c-4.7,0-8.5,3.9-8.5,8.6v15.6h104.7V243.4L624.8,243.4z"/>
+	<path id="group_col" class="st52" d="M624.8,243.4h-96.2c-4.7,0-8.5,3.9-8.5,8.6v15.6h104.7V243.4L624.8,243.4z"/>
 	
-		<linearGradient id="name_bg_00000008835693710139412200000000247929922443860363_" gradientUnits="userSpaceOnUse" x1="649.0354" y1="-675.6484" x2="649.0354" y2="-651.2493" gradientTransform="matrix(1 0 0 -1 0 -408)">
+		<linearGradient id="name_bg_00000087380560801902422420000007499371484597803162_" gradientUnits="userSpaceOnUse" x1="649" y1="-953.6484" x2="649" y2="-929.2398" gradientTransform="matrix(1 0 0 -1 0 -686)">
 		<stop  offset="0" style="stop-color:#BCBCBB"/>
 		<stop  offset="0.791" style="stop-color:#ACACAC"/>
 		<stop  offset="1" style="stop-color:#E8E7E7"/>
 	</linearGradient>
-	<path id="name_bg" style="fill:url(#name_bg_00000008835693710139412200000000247929922443860363_);" d="M613.5,267.6v-15.3
-		c0-5.9,0-5.9,0-9.1l67.4,0c3-0.2,3.6,3.1,3.6,7v17.4H613.5L613.5,267.6z"/>
-	<text id="op_name" transform="matrix(0.9827 0 0 1 617.1597 260.3288)" class="st56 st57 st58">Christophe</text>
-	<text id="op_id" transform="matrix(0.9827 0 0 1 524.4517 260.3288)" class="st2 st59 st58">OP-Systeme 1</text>
-	<text transform="matrix(1 0 0 1 929.3384 77.2358)" class="st2 st3 st33">Planification</text>
+	<path id="name_bg" style="fill:url(#name_bg_00000087380560801902422420000007499371484597803162_);" d="M613.5,267.6v-15.3
+		c0-5.9,0-5.9,0-9.1h67.4c3-0.2,3.6,3.1,3.6,7v17.4H613.5L613.5,267.6z"/>
+	<text id="op_name" transform="matrix(0.9827 0 0 1 617.1597 260.3286)" class="st54 st55 st56">Christophe</text>
+	<text id="op_id" transform="matrix(0.9827 0 0 1 524.4517 260.3286)" class="st2 st57 st56">OP-Systeme 1</text>
+	<text transform="matrix(1 0 0 1 929.3384 77.2358)" class="st2 st3 st32">Planification</text>
 	<rect x="902" y="109.8" class="st2" width="608.5" height="19.8"/>
 	<rect x="902" y="146.1" class="st2" width="608.5" height="19.8"/>
 	<rect x="902" y="190.1" class="st2" width="608.5" height="19.8"/>
 	<rect x="902" y="234" class="st2" width="608.5" height="19.8"/>
 	<rect x="902" y="274.7" class="st2" width="608.5" height="19.8"/>
 </g>
-<polyline class="st60" points="756.3,473.4 761.7,478.9 772.9,467.4 "/>
+<polyline class="st58" points="756.3,473.4 761.7,478.9 772.9,467.4 "/>
+<g>
+	<g id="strip_container_00000115495046790803807160000002636349484550987927_" class="st59">
+		<path id="strip_container_bg_00000176021131371188582730000004216193950205502597_" class="st39" d="M1133,615.7
+			c0,7.5-2.8,13.5-6.2,13.5H876c-3.4,0-6.2-6-6.2-13.5V444c0-7.5,2.8-13.5,6.2-13.5h250.9c3.4,0,6.2,6,6.2,13.5L1133,615.7
+			L1133,615.7z"/>
+		<g id="strip_00000178200200465791513950000014618453760616628129_">
+			<path id="strip_bg_00000109727292057359196070000009450535474336182187_" class="st60" d="M1124.7,523.2H879.6
+				c-3.1,0-5.4-3.3-5.4-7.3v-31c0-4.1,2.5-7.3,5.4-7.3H935h189.7c3.1,0,5.4,3.3,5.4,7.3V516C1130.1,520.1,1127.7,523.2,1124.7,523.2
+				z"/>
+			<line class="st60" x1="957" y1="523.2" x2="956.8" y2="477.7"/>
+			<line class="st60" x1="1056.6" y1="522.2" x2="1056.6" y2="477.5"/>
+			<g id="strip_monitor_group_00000135674480552963022030000011941200089950845609_">
+				
+					<text id="strip_label_00000049192425282384451870000008759990196916050347_" transform="matrix(1 0 0 1 881.0137 491.7748)" class="st2 st40" style="font-size:11.9547px;">BNX8</text>
+				<path id="strip_status_ok_00000165211998459549638830000009249539671133171095_" class="st61" d="M940.1,480.5
+					c-5,0-9.1,4.1-9.1,9.1s4.1,9.1,9.1,9.1s9.1-4.1,9.1-9.1C949.2,484.6,945.1,480.5,940.1,480.5z M938.2,494.5l-4.3-4.4l1.4-1.4
+					l3,3l6.5-6.5l1.4,1.4L938.2,494.5z"/>
+				<g id="strip_ctrl_group_00000121272911490450977130000003591468180356254140_">
+					<g id="ctrl_auto__00000124147360506102627030000012105277638517777808_">
+						<path class="st2" d="M946.7,510.3h-2.5c-0.6,0-1.3,0.6-1.3,1.3v7.4h1.3v-3.2h2.5v3.2h1.3v-7.4
+							C948,510.9,947.3,510.3,946.7,510.3z M944.2,514.7v-3.2h2.5v3.2H944.2z"/>
+						<path class="st2" d="M940.4,517.1c-2.4,0-4.4-1.1-5.7-3.2h3.3v-1.1h-5v5h1.3v-2.4c1.6,1.9,3.8,3,6.1,3L940.4,517.1
+							L940.4,517.1z"/>
+						<path class="st2" d="M942.9,506.5h3.3c-2-3.2-6.3-4.1-9.5-2c-1.9,1.3-3.2,3.5-3.2,5.7h-1.3c0-4.4,3.6-8,8-8
+							c2.4,0,4.7,1.1,6.1,3v-2.4h1.3v5h-4.9v-1.3L942.9,506.5L942.9,506.5z"/>
+					</g>
+				</g>
+				<g id="strip_icon_00000142137872590753544470000013176339386967186861_">
+					<rect x="879.4" y="504" pointer-events="none" class="st62" width="34.8" height="7.3"/>
+					<ellipse pointer-events="none" class="st63" cx="886.6" cy="513.8" rx="2.8" ry="2.7"/>
+					<ellipse pointer-events="none" class="st63" cx="907" cy="513.8" rx="2.8" ry="2.7"/>
+				</g>
+			</g>
+			<g id="trap_group_00000166652675683359613000000012254809221714533006_">
+				<g id="trap_detection_selector_00000115498906017940112890000016702525421665811331_">
+					<g id="detect_icon_00000006697392523172183810000004271168837566794126_">
+						<path class="st2" d="M1069.4,506.2c-6.6,0-8.5,5.7-8.5,5.7l-0.2,0.3l0.2,0.3c0,0,2,5.7,8.5,5.7c6.6,0,8.5-5.7,8.5-5.7l0.2-0.3
+							l-0.2-0.3C1077.9,511.9,1075.9,506.2,1069.4,506.2z M1069.4,515.7c-1.9,0-3.5-1.6-3.5-3.5c0-1.9,1.6-3.5,3.5-3.5
+							s3.5,1.6,3.5,3.5C1072.9,514.1,1071.3,515.7,1069.4,515.7z"/>
+						<path class="st2" d="M1069.4,510.5c-0.9,0-1.7,0.8-1.7,1.7s0.8,1.7,1.7,1.7s1.7-0.8,1.7-1.7S1070.4,510.5,1069.4,510.5z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1060.7538 502.2772)" class="st2 st3" style="font-size:6.3823px;">detect</text>
+					<g id="ignore_icon_00000181058261968663034250000016473219741837217666_" class="st45">
+						<path class="st2" d="M1121,507c0-1.4-2.5-2.8-5.5-2.8s-5.5,1.3-5.5,2.8v1.4c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V507z
+							 M1115.4,516c-3,0-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8v-2C1121,514.8,1118.4,516,1115.4,516z"/>
+						<path class="st2" d="M1121,509.7c0,1.4-2.5,2.8-5.5,2.8s-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V509.7z"/>
+						<circle class="st64" cx="1118.8" cy="515.2" r="3"/>
+						<path d="M1120.6,517l-0.3,0.3c-0.2,0.2-0.3,0.2-0.3,0l-3.3-3.3c-0.2-0.2-0.2-0.3,0-0.3l0.3-0.3c0.2-0.2,0.3-0.2,0.3,0l3.3,3.3
+							C1120.8,516.7,1120.8,516.8,1120.6,517z"/>
+						<path d="M1120.3,513.2l0.3,0.3c0.2,0.2,0.2,0.3,0,0.3l-3.3,3.3c-0.2,0.2-0.3,0.2-0.3,0l-0.3-0.3c-0.2-0.2-0.2-0.3,0-0.3
+							l3.3-3.3C1120.2,513.2,1120.3,513.2,1120.3,513.2z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1107.1786 502.5703)" class="st46 st3" style="font-size:6.3823px;">ignore</text>
+					<text transform="matrix(1 0 0 1 1086.7891 502.5703)" class="st46 st3" style="font-size:6.3823px;">stop</text>
+					<path id="stop_icon_00000135663980370180965870000012017597682792361642_" class="st46" d="M1089.1,511.3l-3.2-3.2
+						c-1.3,1.4-1.7,2.7-1.7,2.7l-0.2,0.3l0.2,0.3c0,0,1.9,5.5,8.2,5.5c0.8,0,1.4-0.2,2-0.2l-2.2-2.2
+						C1090.5,514.4,1089.3,513,1089.1,511.3L1089.1,511.3z M1092.4,505.5c-1.6,0-2.8,0.3-3.8,0.8l-3-3l-1.1,1.1l14.8,14.8l1.1-1.1
+						l-2.7-2.7c2.2-1.6,3-3.8,3-3.8l0.2-0.3l-0.2-0.3C1100.6,510.8,1098.7,505.5,1092.4,505.5z M1094,511.6c0.2-0.6,0-1.1-0.5-1.6
+						s-1.1-0.6-1.6-0.5l-1.3-1.3c0.5-0.3,1.1-0.5,1.7-0.5c1.7,0,3.3,1.4,3.3,3.3c0,0.6-0.2,1.1-0.5,1.7L1094,511.6L1094,511.6z"/>
+				</g>
+				<text transform="matrix(1 0 0 1 1059.5713 485.6729)" class="st2 st3" style="font-size:8.8664px;">traps </text>
+				<g id="btn_show_00000054958332303352926160000001229019713176801958_">
+					<path id="button_show_bg_00000033350678307470182040000013131087714049264830_" class="st65" d="M1122.7,488.7h-20
+						c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1124.9,487.8,1124,488.7,1122.7,488.7z"/>
+					<text transform="matrix(1 0 0 1 1102.4258 486.8613)" class="st2 st3" style="font-size:5.2537px;">Show all</text>
+				</g>
+				<path class="st60" d="M1078,488.4h-21.4v-10.6h25.6v6.4C1082.2,486.5,1080.3,488.4,1078,488.4z"/>
+			</g>
+			<g id="tasks_monitor_group_00000158728088904365215310000009161966976141740452_">
+				<text transform="matrix(1 0 0 1 958.377 485.7822)" class="st2 st3" style="font-size:8.8664px;">tasks</text>
+				<text transform="matrix(1 0 0 1 961.6699 501.2603)" class="st70 st3" style="font-size:11.0351px;">survey area_1</text>
+				<path class="st60" d="M978.3,488.5h-21.4v-10.6h25.6v6.4C982.5,486.6,980.6,488.5,978.3,488.5z"/>
+				
+					<text transform="matrix(1 0 0 1 962.0986 513.8729)" style="fill:#A2C4CC; font-family:'BradleyHandITCTT-Bold'; font-size:11.0351px;">identify T2</text>
+				<g id="btn_add_task_00000057845106169821028160000016660777642015317435_">
+					<path id="button_show_bg_00000091696124350939117130000002503944493118372501_" class="st65" d="M1050.2,488.7h-20
+						c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1052.4,487.8,1051.4,488.7,1050.2,488.7z"/>
+					<text transform="matrix(1 0 0 1 1029.8809 486.8613)" class="st2 st3" style="font-size:5.2537px;">Add</text>
+					<path id="task_add_00000022520025351992879700000011794326647791808688_" class="st50" d="M1047.7,485h-0.9 M1046.8,485h-0.9
+						 M1046.8,485v-0.9 M1046.8,485v0.9 M1048.4,487.6h-3.2c-0.7,0-1.3-0.5-1.3-1.2v-2.9c0-0.6,0.6-1.2,1.3-1.2h3.2
+						c0.7,0,1.3,0.5,1.3,1.2v2.9C1049.7,487.1,1049.1,487.6,1048.4,487.6z"/>
+				</g>
+			</g>
+		</g>
+		<g id="strip_00000088823184792179405270000008821359820072668553_">
+			<path id="strip_bg_00000169555230181747946860000010826700237868233634_" class="st60" d="M1124.7,623.5H879.6
+				c-3.1,0-5.4-3.3-5.4-7.3v-31.1c0-4.1,2.5-7.3,5.4-7.3H935h189.7c3.1,0,5.4,3.3,5.4,7.3v31.1
+				C1130.1,620.2,1127.7,623.5,1124.7,623.5z"/>
+			
+				<text id="strip_label_00000045609178565488576720000012536801113232007081_" transform="matrix(1 0 0 1 881.0137 591.9389)" class="st2 st40" style="font-size:11.9547px;">agilex 2</text>
+			<line class="st60" x1="957.1" y1="623.5" x2="956.6" y2="578.4"/>
+			<line class="st60" x1="1056.6" y1="623.1" x2="1056.6" y2="578.2"/>
+			<g id="strip_icon_00000015321065835173853630000008142505416165370243_">
+				<rect x="879.4" y="604.2" pointer-events="none" class="st62" width="34.8" height="7.3"/>
+				<ellipse pointer-events="none" class="st63" cx="886.6" cy="614" rx="2.8" ry="2.7"/>
+				<ellipse pointer-events="none" class="st63" cx="907" cy="614" rx="2.8" ry="2.7"/>
+			</g>
+			<g id="trap_00000139994587928287913380000016997947179767637896_">
+				<g id="trap_detection_selector_00000114053180731239757330000005538215539131820167_">
+					<g id="detect_icon_00000016769668025654200780000007136621224716413858_">
+						<path class="st2" d="M1069.2,606.9c-6.6,0-8.5,5.7-8.5,5.7l-0.2,0.3l0.2,0.3c0,0,2,5.7,8.5,5.7c6.6,0,8.5-5.7,8.5-5.7l0.2-0.3
+							l-0.2-0.3C1077.7,612.5,1075.6,606.9,1069.2,606.9z M1069.2,616.2c-1.9,0-3.5-1.6-3.5-3.5s1.6-3.5,3.5-3.5s3.5,1.6,3.5,3.5
+							C1072.7,614.7,1071.1,616.2,1069.2,616.2z"/>
+						<path class="st2" d="M1069.2,611.1c-0.9,0-1.7,0.8-1.7,1.7s0.8,1.7,1.7,1.7c0.9,0,1.7-0.8,1.7-1.7S1070.1,611.1,1069.2,611.1z
+							"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1060.5165 602.9453)" class="st2 st3" style="font-size:6.3823px;">detect</text>
+					<g id="ignore_icon_00000063624239320205051780000013851204168512097952_" class="st45">
+						<path class="st2" d="M1120.7,607.6c0-1.4-2.5-2.8-5.5-2.8s-5.5,1.3-5.5,2.8v1.4c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V607.6z
+							 M1115.2,616.6c-3,0-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8v-2C1120.7,615.4,1118.2,616.6,1115.2,616.6z"/>
+						<path class="st2" d="M1120.7,610.5c0,1.4-2.5,2.8-5.5,2.8s-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V610.5z"
+							/>
+						<circle class="st64" cx="1118.5" cy="615.8" r="3"/>
+						<path d="M1120.4,617.6l-0.3,0.3c-0.2,0.2-0.3,0.2-0.3,0l-3.3-3.3c-0.2-0.2-0.2-0.3,0-0.3l0.3-0.3c0.2-0.2,0.3-0.2,0.3,0
+							l3.3,3.3C1120.6,617.2,1120.6,617.4,1120.4,617.6z"/>
+						<path d="M1120.1,613.9l0.3,0.3c0.2,0.2,0.2,0.3,0,0.3l-3.3,3.3c-0.2,0.2-0.3,0.2-0.3,0l-0.3-0.3c-0.2-0.2-0.2-0.3,0-0.3
+							l3.3-3.3C1119.9,613.8,1120.1,613.8,1120.1,613.9z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1106.9424 603.2368)" class="st46 st3" style="font-size:6.3823px;">ignore</text>
+					<text transform="matrix(1 0 0 1 1086.5527 603.2368)" class="st46 st3" style="font-size:6.3823px;">stop</text>
+					<path id="stop_icon_00000142887143986510317560000003945725863421478070_" class="st46" d="M1088.9,612.1l-3.2-3.2
+						c-1.3,1.4-1.7,2.7-1.7,2.7l-0.2,0.3l0.2,0.3c0,0,1.9,5.5,8.2,5.5c0.8,0,1.4-0.2,2-0.2l-2.2-2.2
+						C1090.3,615.1,1089,613.6,1088.9,612.1L1088.9,612.1z M1092.2,606.1c-1.6,0-2.8,0.3-3.8,0.8l-3-3l-1.1,1.1l14.8,14.8l1.1-1.1
+						l-2.7-2.7c2.2-1.6,3-3.8,3-3.8l0.2-0.3l-0.2-0.3C1100.4,611.6,1098.5,606.1,1092.2,606.1z M1093.8,612.4c0.2-0.6,0-1.1-0.5-1.6
+						s-1.1-0.6-1.6-0.5l-1.3-1.3c0.5-0.3,1.1-0.5,1.7-0.5c1.7,0,3.3,1.4,3.3,3.3c0,0.6-0.2,1.1-0.5,1.7L1093.8,612.4L1093.8,612.4z"
+						/>
+				</g>
+				<text transform="matrix(1 0 0 1 1059.335 586.3393)" class="st2 st3" style="font-size:8.8664px;">traps </text>
+				<g id="btn_show_00000061468577005144641830000005493899541390483647_">
+					<path id="button_show_bg_00000141446742162770047680000018202962239629724337_" class="st65" d="M1122.5,589.5h-20
+						c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1124.7,588.4,1123.7,589.5,1122.5,589.5z"/>
+					<text transform="matrix(1 0 0 1 1102.1895 587.5283)" class="st2 st3" style="font-size:5.2537px;">Show all</text>
+				</g>
+			</g>
+			<path id="status_error_00000105403675625322338450000008395534942975708827_" class="st6" d="M940.6,580.9
+				c-4.6,0-8.4,3.6-8.4,8.4c0,4.6,3.6,8.4,8.4,8.4c4.6,0,8.4-3.8,8.4-8.4C948.8,584.7,945.1,580.9,940.6,580.9z M945,592.4l-1.3,1.3
+				l-3.2-3.2l-3.2,3.2l-1.3-1.3l3.2-3.2L936,586l1.3-1.3l3.2,3.2l3.2-3.2l1.3,1.3l-3.2,3.2L945,592.4z"/>
+			<path id="ctrl_manual_00000049209034498971016170000017188955404097746078_" class="st51" d="M937.2,615.8v-1.6h6.5v1.6
+				 M941.5,609.9v4.3 M939.4,609.9v4.3 M943.7,606.6c0,1.7-1.4,3.2-3.2,3.2c-1.7,0-3.2-1.4-3.2-3.2s1.4-3.2,3.2-3.2
+				C942.3,603.5,943.7,605,943.7,606.6z M946.9,619.5h-12.8c-0.6,0-1.1-0.5-1.1-1.1v-1.1c0-0.6,0.5-1.1,1.1-1.1h12.8
+				c0.6,0,1.1,0.5,1.1,1.1v1.1C948,618.9,947.5,619.5,946.9,619.5z"/>
+			<g id="tasks_monitor_group_00000060742536205964745230000003630985041049255326_">
+				<text transform="matrix(1 0 0 1 958.377 585.8115)" class="st2 st3" style="font-size:8.8664px;">tasks</text>
+				<text transform="matrix(1 0 0 1 961.6699 601.29)" class="st70 st3" style="font-size:11.0351px;">goto T123</text>
+				<path class="st60" d="M978.3,588.6h-21.4v-10.7h25.6v6.4C982.5,586.7,980.6,588.6,978.3,588.6z"/>
+				<text transform="matrix(1 0 0 1 962.0986 613.9028)" class="st3" style="fill:#00CF00; font-size:11.0351px;">goto T124</text>
+			</g>
+			<g id="btn_add_task_00000041270533064504100240000009155346501102181021_">
+				<path id="button_show_bg_00000165215973320167858180000011087078378425701813_" class="st65" d="M1050.2,588.6h-20
+					c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1052.4,587.7,1051.4,588.6,1050.2,588.6z"/>
+				<text transform="matrix(1 0 0 1 1029.8809 586.7485)" class="st2 st3" style="font-size:5.2537px;">Add</text>
+				<path id="task_add_00000106147522987002432900000008189585374905368498_" class="st50" d="M1047.7,584.9h-0.9 M1046.8,584.9
+					h-0.9 M1046.8,584.9V584 M1046.8,584.9v0.9 M1048.4,587.5h-3.2c-0.7,0-1.3-0.5-1.3-1.2v-2.9c0-0.6,0.6-1.2,1.3-1.2h3.2
+					c0.7,0,1.3,0.5,1.3,1.2v2.9C1049.7,587,1049.1,587.5,1048.4,587.5z"/>
+			</g>
+		</g>
+		<g id="strip_00000041975332858585891320000001398323957074658444_">
+			<path id="strip_bg_00000122723074445728553960000018294191256886408358_" class="st60" d="M1124.7,573.2H879.6
+				c-3.1,0-5.4-3.3-5.4-7.3v-31c0-4.1,2.5-7.3,5.4-7.3H935h189.7c3.1,0,5.4,3.3,5.4,7.3v31C1130.1,569.9,1127.7,573.2,1124.7,573.2z
+				"/>
+			
+				<text id="strip_label_00000062881578072977521270000014282321285045361550_" transform="matrix(1 0 0 1 881.0137 541.6098)" class="st2 st40" style="font-size:11.9547px;">agilex 1</text>
+			<line class="st60" x1="957.1" y1="573.2" x2="956.6" y2="528.1"/>
+			<line class="st60" x1="1056.6" y1="572.7" x2="1056.6" y2="528.1"/>
+			<g id="strip_icon_00000012452318472569709000000005178815320576861318_">
+				<rect x="879.4" y="554" pointer-events="none" class="st62" width="34.8" height="7.3"/>
+				<ellipse pointer-events="none" class="st63" cx="886.6" cy="563.7" rx="2.8" ry="2.7"/>
+				<ellipse pointer-events="none" class="st63" cx="907" cy="563.7" rx="2.8" ry="2.7"/>
+			</g>
+			<g id="trap_00000030469257249255253370000004736666920967804290_">
+				<g id="trap_detection_selector_00000067952614354343712620000005109582995889625245_">
+					<g id="detect_icon_00000031192919598502763860000008611154654589367223_">
+						<path class="st2" d="M1069.4,555.9c-6.6,0-8.5,5.7-8.5,5.7l-0.2,0.3l0.2,0.3c0,0,2,5.7,8.5,5.7c6.6,0,8.5-5.7,8.5-5.7l0.2-0.3
+							l-0.2-0.3C1077.9,561.6,1075.8,555.9,1069.4,555.9z M1069.4,565.4c-1.9,0-3.5-1.6-3.5-3.5s1.6-3.5,3.5-3.5s3.5,1.6,3.5,3.5
+							C1072.9,563.8,1071.3,565.4,1069.4,565.4z"/>
+						<path class="st2" d="M1069.4,560.2c-0.9,0-1.7,0.8-1.7,1.7s0.8,1.7,1.7,1.7s1.7-0.8,1.7-1.7S1070.3,560.2,1069.4,560.2z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1060.7061 551.9854)" class="st2 st3" style="font-size:6.3823px;">detect</text>
+					<g id="ignore_icon_00000057145644590837326610000005257246702545681562_" class="st45">
+						<path class="st2" d="M1120.9,556.7c0-1.4-2.5-2.8-5.5-2.8s-5.5,1.3-5.5,2.8v1.4c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V556.7z
+							 M1115.4,565.7c-3,0-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8v-2C1120.9,564.4,1118.4,565.7,1115.4,565.7z"/>
+						<path class="st2" d="M1120.9,559.4c0,1.4-2.5,2.8-5.5,2.8s-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V559.4z"
+							/>
+						<circle class="st64" cx="1118.7" cy="564.9" r="3"/>
+						<path d="M1120.6,566.7l-0.3,0.3c-0.2,0.2-0.3,0.2-0.3,0l-3.3-3.3c-0.2-0.2-0.2-0.3,0-0.3l0.3-0.3c0.2-0.2,0.3-0.2,0.3,0
+							l3.3,3.3C1120.8,566.2,1120.8,566.5,1120.6,566.7z"/>
+						<path d="M1120.3,563l0.3,0.3c0.2,0.2,0.2,0.3,0,0.3l-3.3,3.3c-0.2,0.2-0.3,0.2-0.3,0l-0.3-0.3c-0.2-0.2-0.2-0.3,0-0.3l3.3-3.3
+							C1120.1,562.9,1120.3,562.9,1120.3,563z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1107.1309 552.2783)" class="st46 st3" style="font-size:6.3823px;">ignore</text>
+					<text transform="matrix(1 0 0 1 1086.7411 552.2783)" class="st46 st3" style="font-size:6.3823px;">stop</text>
+					<path id="stop_icon_00000054972723879072974680000006743513856781853614_" class="st46" d="M1089.1,561.1l-3.2-3.2
+						c-1.3,1.4-1.7,2.7-1.7,2.7l-0.2,0.3l0.2,0.3c0,0,1.9,5.5,8.2,5.5c0.8,0,1.4-0.2,2-0.2l-2.2-2.2
+						C1090.5,564.1,1089.2,562.7,1089.1,561.1L1089.1,561.1z M1092.4,555.1c-1.6,0-2.8,0.3-3.8,0.8l-3-3l-1.1,1.1l14.8,14.9l1.1-1.1
+						l-2.7-2.7c2.2-1.6,3-3.8,3-3.8l0.2-0.3l-0.2-0.3C1100.6,560.7,1098.7,555.1,1092.4,555.1z M1094,561.2c0.2-0.6,0-1.1-0.5-1.6
+						s-1.1-0.6-1.6-0.5l-1.3-1.3c0.5-0.3,1.1-0.5,1.7-0.5c1.7,0,3.3,1.4,3.3,3.3c0,0.6-0.2,1.1-0.5,1.7L1094,561.2L1094,561.2z"/>
+				</g>
+				<text transform="matrix(1 0 0 1 1059.5234 535.3809)" class="st2 st3" style="font-size:8.8664px;">traps </text>
+				<g id="btn_show_00000140013704725266679010000016028746986877050521_">
+					<path id="button_show_bg_00000117642042254336993440000016406507824887678629_" class="st65" d="M1122.6,538.6h-20
+						c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1124.9,537.5,1123.9,538.6,1122.6,538.6z"/>
+					<text transform="matrix(1 0 0 1 1102.3779 536.5692)" class="st2 st3" style="font-size:5.2537px;">Show all</text>
+				</g>
+			</g>
+			<path id="status_warning_00000057136011871473658990000002818734148028703136_" class="st66" d="M940.4,530.8
+				c-4.8,0-8.6,3.8-8.6,8.6s3.8,8.6,8.6,8.6s8.6-3.8,8.6-8.6C949,534.7,945.2,530.8,940.4,530.8z M941.5,544.1h-2.2v-5.7h2.1
+				L941.5,544.1L941.5,544.1z M941.5,536.9h-2.2v-2.1h2.1L941.5,536.9L941.5,536.9z"/>
+			<path id="ctrl_wait_00000119809697513575803310000001380899143823373241_" class="st2" d="M948.6,560.9c0,0.3-0.3,0.8-0.8,0.8
+				c-0.3,0-0.8-0.3-0.8-0.8c0-3.9-3.2-7.1-7.1-7.1c-0.3,0-0.8-0.3-0.8-0.8s0.3-0.8,0.8-0.8C944.8,552.5,948.6,556.2,948.6,560.9z
+				 M942.9,561.7c0.3,0,0.8-0.3,0.8-0.8s-0.3-0.8-0.8-0.8h-1.6c-0.2-0.2-0.3-0.3-0.5-0.5v-2.2c0-0.3-0.3-0.8-0.8-0.8
+				c-0.3,0-0.8,0.3-0.8,0.8v2.4c-0.6,0.3-0.9,1.3-0.5,1.9c0.3,0.6,1.3,0.9,1.9,0.5c0.2-0.2,0.3-0.3,0.5-0.5L942.9,561.7L942.9,561.7
+				z M933,557.2c-0.3,0-0.8,0.3-0.8,0.8c0,0.3,0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8C933.6,557.6,933.3,557.2,933,557.2L933,557.2z
+				 M933.1,560.9c0-0.3-0.3-0.8-0.8-0.8c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8S933.1,561.4,933.1,560.9z M940.1,568
+				c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8S940.6,568,940.1,568z M934.7,554.8c-0.3,0-0.8,0.3-0.8,0.8
+				s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8l0,0C935.4,555.1,935,554.8,934.7,554.8z M937.1,553c-0.3,0-0.8,0.3-0.8,0.8
+				s0.3,0.8,0.8,0.8s0.8-0.3,0.8-0.8l0,0C937.9,553.2,937.6,553,937.1,553z M933,563.2c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8
+				c0.3,0,0.8-0.3,0.8-0.8C933.8,563.6,933.3,563.2,933,563.2L933,563.2z M934.7,565.8c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8
+				c0.3,0,0.8-0.3,0.8-0.8S935,565.8,934.7,565.8z M937.1,567.4c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8s0.8-0.3,0.8-0.8
+				S937.6,567.4,937.1,567.4L937.1,567.4z M947.3,563.2c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8
+				C948.1,563.6,947.6,563.2,947.3,563.2L947.3,563.2z M945.6,565.8c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8
+				C946.4,566.1,946.1,565.8,945.6,565.8z M943.1,567.4c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8
+				S943.5,567.4,943.1,567.4L943.1,567.4z"/>
+			<g id="tasks_monitor_group_00000075143446740153304570000007674659007626389402_">
+				<text transform="matrix(1 0 0 1 958.377 535.3809)" class="st2 st3" style="font-size:8.8664px;">tasks</text>
+				<text transform="matrix(1 0 0 1 961.6699 550.645)" class="st6 st3" style="font-size:11.0351px;">goto T126</text>
+				<path class="st60" d="M978.3,538.2h-21.4v-10.6h25.6v6.4C982.5,536.4,980.6,538.2,978.3,538.2z"/>
+				<text transform="matrix(1 0 0 1 962.0986 563.2562)" class="st3" style="fill:#A2C4CC; font-size:11.0351px;">goto T124</text>
+			</g>
+			<path class="st60" d="M1078.1,538.2h-21.4v-10.6h25.6v6.4C1082.3,536.4,1080.4,538.2,1078.1,538.2z"/>
+			<g id="btn_add_task_00000083806593148602596330000009218269011720642235_">
+				<path id="button_show_bg_00000124152000984624748360000017115881789748017549_" class="st65" d="M1050.2,538.6h-20
+					c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1052.4,537.6,1051.4,538.6,1050.2,538.6z"/>
+				<text transform="matrix(1 0 0 1 1029.8809 536.7075)" class="st2 st3" style="font-size:5.2537px;">Add</text>
+				<path id="task_add_00000015350465076584827990000006183804712019325069_" class="st50" d="M1047.7,534.8h-0.9 M1046.8,534.8
+					h-0.9 M1046.8,534.8v-0.9 M1046.8,534.8v0.9 M1048.4,537.4h-3.2c-0.7,0-1.3-0.5-1.3-1.2v-2.9c0-0.6,0.6-1.2,1.3-1.2h3.2
+					c0.7,0,1.3,0.5,1.3,1.2v2.9C1049.7,536.9,1049.1,537.4,1048.4,537.4z"/>
+			</g>
+		</g>
+		<path id="group_col_00000076569407864464172120000016133724377151568319_" class="st62" d="M1034.8,433.5H883.2
+			c-7.4,0-13.4,6.1-13.4,13.6v24.6h165.1L1034.8,433.5L1034.8,433.5z"/>
+		
+			<linearGradient id="name_bg_00000037687217664957629900000017522184797919328423_" gradientUnits="userSpaceOnUse" x1="1073.0499" y1="-877.48" x2="1073.0499" y2="-839.0161" gradientTransform="matrix(1 0 0 -1 0 -405.78)">
+			<stop  offset="0" style="stop-color:#BBBBBA"/>
+			<stop  offset="0.791" style="stop-color:#ABABAB"/>
+			<stop  offset="1" style="stop-color:#E7E6E6"/>
+		</linearGradient>
+		
+			<path id="name_bg_00000068671027121275109550000005751244774695060402_" style="fill:url(#name_bg_00000037687217664957629900000017522184797919328423_);" d="
+			M1017.1,471.7v-24.1c0-9.3,0-9.3,0-14.3h106.3c4.8-0.4,5.6,4.8,5.6,11v27.4H1017.1L1017.1,471.7z"/>
+		
+			<text id="op_name_00000136410886903451667210000014523593177258383520_" transform="matrix(0.9827 0 0 1 1022.7764 460.1509)" class="st54 st55" style="font-size:20.8534px;">Christophe</text>
+		
+			<text id="op_id_00000058555728965220074960000007971098259620102042_" transform="matrix(0.9827 0 0 1 876.627 460.1509)" class="st2 st57" style="font-size:20.8534px;">OP-Systeme 1</text>
+	</g>
+	<g id="strip_container_00000035530596545665799600000006053993029857278875_" class="st59">
+		<path id="strip_container_bg_00000101799196362442876380000016202509661106961821_" class="st39" d="M1133,819.1
+			c0,7.5-2.8,13.5-6.2,13.5H876c-3.4,0-6.2-6-6.2-13.5V647.4c0-7.5,2.8-13.5,6.2-13.5h250.9c3.4,0,6.2,6,6.2,13.5L1133,819.1
+			L1133,819.1z"/>
+		<g id="strip_00000129896653115103698930000005586806021798508430_">
+			<path id="strip_bg_00000103251989042826324420000003390397510412830082_" class="st60" d="M1124.7,726.5H879.6
+				c-3.1,0-5.4-3.3-5.4-7.3v-31.1c0-4.1,2.5-7.3,5.4-7.3H935h189.7c3.1,0,5.4,3.3,5.4,7.3v31.1
+				C1130.1,723.4,1127.7,726.5,1124.7,726.5z"/>
+			<line class="st60" x1="957" y1="726.5" x2="956.8" y2="681"/>
+			<line class="st60" x1="1056.6" y1="725.6" x2="1056.6" y2="680.8"/>
+			<g id="strip_monitor_group_00000084499187994496835510000008370536068971437230_">
+				
+					<text id="strip_label_00000034070710800855156010000002168386603807188096_" transform="matrix(1 0 0 1 881.0139 695.0991)" class="st2 st40" style="font-size:11.9547px;">BNX8</text>
+				<path id="strip_status_ok_00000147926665625102972170000017247405998991217312_" class="st61" d="M940.1,683.8
+					c-5,0-9.1,4.1-9.1,9.1s4.1,9.1,9.1,9.1s9.1-4.1,9.1-9.1S945.1,683.8,940.1,683.8z M938.2,697.9l-4.3-4.4l1.4-1.4l3,3l6.5-6.5
+					l1.4,1.4L938.2,697.9z"/>
+				<g id="strip_ctrl_group_00000127765431526030033120000015122228476696130437_">
+					<g id="ctrl_auto__00000009578876331216285070000003168812910623401643_">
+						<path class="st2" d="M946.7,713.6h-2.5c-0.6,0-1.3,0.6-1.3,1.3v7.4h1.3V719h2.5v3.2h1.3v-7.4
+							C948,714.2,947.3,713.6,946.7,713.6z M944.2,718v-3.1h2.5v3.2h-2.5V718z"/>
+						<path class="st2" d="M940.4,720.4c-2.4,0-4.4-1.1-5.7-3.2h3.3V716h-5v5h1.3v-2.4c1.6,1.9,3.8,3,6.1,3L940.4,720.4L940.4,720.4
+							z"/>
+						<path class="st2" d="M942.9,709.8h3.3c-2-3.2-6.3-4.1-9.5-2c-1.9,1.3-3.2,3.5-3.2,5.7h-1.3c0-4.4,3.6-8,8-8
+							c2.4,0,4.7,1.1,6.1,3v-2.4h1.3v5h-4.9v-1.3H942.9z"/>
+					</g>
+				</g>
+				<g id="strip_icon_00000108990560636603177970000013604511673464094634_">
+					<rect x="879.4" y="707.2" pointer-events="none" class="st68" width="34.8" height="7.3"/>
+					<ellipse pointer-events="none" class="st63" cx="886.6" cy="717.1" rx="2.8" ry="2.7"/>
+					<ellipse pointer-events="none" class="st63" cx="907" cy="717.1" rx="2.8" ry="2.7"/>
+				</g>
+			</g>
+			<g id="trap_group_00000001664696474991406630000005883690317084435389_">
+				<g id="trap_detection_selector_00000157999288078251347980000006344678434884146356_">
+					<g id="detect_icon_00000175294498407694841780000012535339897865046424_">
+						<path class="st2" d="M1069.4,709.6c-6.6,0-8.5,5.7-8.5,5.7l-0.2,0.3l0.2,0.3c0,0,2,5.7,8.5,5.7c6.6,0,8.5-5.7,8.5-5.7l0.2-0.3
+							l-0.2-0.3C1077.9,715.2,1075.9,709.6,1069.4,709.6z M1069.4,719c-1.9,0-3.5-1.6-3.5-3.5s1.6-3.5,3.5-3.5s3.5,1.6,3.5,3.5
+							S1071.3,719,1069.4,719z"/>
+						<path class="st2" d="M1069.4,713.8c-0.9,0-1.7,0.8-1.7,1.7s0.8,1.7,1.7,1.7s1.7-0.8,1.7-1.7S1070.4,713.8,1069.4,713.8z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1060.7532 705.6015)" class="st2 st3" style="font-size:6.3823px;">detect</text>
+					<g id="ignore_icon_00000083067429837618170660000008203859341126554264_" class="st45">
+						<path class="st2" d="M1121,710.4c0-1.4-2.5-2.8-5.5-2.8s-5.5,1.3-5.5,2.8v1.4c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V710.4z
+							 M1115.4,719.2c-3,0-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8v-2C1121,718.1,1118.4,719.2,1115.4,719.2z"/>
+						<path class="st2" d="M1121,713c0,1.4-2.5,2.8-5.5,2.8s-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V713z"/>
+						<circle class="st64" cx="1118.8" cy="718.6" r="3"/>
+						<path d="M1120.6,720.2l-0.3,0.3c-0.2,0.2-0.3,0.2-0.3,0l-3.3-3.3c-0.2-0.2-0.2-0.3,0-0.3l0.3-0.3c0.2-0.2,0.3-0.2,0.3,0
+							l3.3,3.3C1120.8,720,1120.8,720.1,1120.6,720.2z"/>
+						<path d="M1120.3,716.5l0.3,0.3c0.2,0.2,0.2,0.3,0,0.3l-3.3,3.3c-0.2,0.2-0.3,0.2-0.3,0l-0.3-0.3c-0.2-0.2-0.2-0.3,0-0.3
+							l3.3-3.3C1120.2,716.5,1120.3,716.5,1120.3,716.5z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1107.1791 705.8945)" class="st46 st3" style="font-size:6.3823px;">ignore</text>
+					<text transform="matrix(1 0 0 1 1086.7894 705.8945)" class="st46 st3" style="font-size:6.3823px;">stop</text>
+					<path id="stop_icon_00000073718177754307846730000007100760863634723260_" class="st46" d="M1089.1,714.6l-3.2-3.2
+						c-1.3,1.4-1.7,2.7-1.7,2.7l-0.2,0.3l0.2,0.3c0,0,1.9,5.5,8.2,5.5c0.8,0,1.4-0.2,2-0.2l-2.1-2.1
+						C1090.5,717.8,1089.3,716.2,1089.1,714.6L1089.1,714.6z M1092.4,708.8c-1.6,0-2.8,0.3-3.8,0.8l-3-3l-1.1,1.1l14.8,14.8l1.1-1.1
+						l-2.7-2.7c2.2-1.6,3-3.8,3-3.8l0.2-0.3l-0.2-0.3C1100.6,714.1,1098.7,708.8,1092.4,708.8z M1094,714.9c0.2-0.6,0-1.1-0.5-1.6
+						s-1.1-0.6-1.6-0.5l-1.3-1.3c0.5-0.3,1.1-0.5,1.7-0.5c1.7,0,3.3,1.4,3.3,3.3c0,0.6-0.2,1.1-0.5,1.7L1094,714.9L1094,714.9z"/>
+				</g>
+				<text transform="matrix(1 0 0 1 1059.5707 688.997)" class="st2 st3" style="font-size:8.8664px;">traps </text>
+				<g id="btn_show_00000084526647034691415630000006256321883248156561_">
+					<path id="button_show_bg_00000021821522355525272370000012097214020105845656_" class="st65" d="M1122.7,692.1h-20
+						c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1124.9,691.1,1124,692.1,1122.7,692.1z"/>
+					<text transform="matrix(1 0 0 1 1102.4252 690.1854)" class="st2 st3" style="font-size:5.2537px;">Show all</text>
+				</g>
+				<path class="st60" d="M1078,691.7h-21.4V681h25.6v6.4C1082.2,689.8,1080.3,691.7,1078,691.7z"/>
+			</g>
+			<g id="tasks_monitor_group_00000073697263197647798450000007362481239912401560_">
+				<text transform="matrix(1 0 0 1 958.3773 689.1069)" class="st2 st3" style="font-size:8.8664px;">tasks</text>
+				<text transform="matrix(1 0 0 1 961.6703 704.5844)" class="st70 st3" style="font-size:11.0351px;">survey area_1</text>
+				<path class="st60" d="M978.3,691.9h-21.4v-10.6h25.6v6.4C982.5,690,980.6,691.9,978.3,691.9z"/>
+				<text transform="matrix(1 0 0 1 962.0991 717.1972)" class="st3" style="fill:#A2C4CC; font-size:11.0351px;">identify T2</text>
+				<g id="btn_add_task_00000036935759364328952960000018274323713760486278_">
+					<path id="button_show_bg_00000136411754638806417570000017483899821739027079_" class="st65" d="M1050.2,692.1h-20
+						c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1052.4,691.1,1051.4,692.1,1050.2,692.1z"/>
+					<text transform="matrix(1 0 0 1 1029.8812 690.1854)" class="st2 st3" style="font-size:5.2537px;">Add</text>
+					<path id="task_add_00000133489771036044649300000001033838483836064648_" class="st50" d="M1047.7,688.2h-0.9 M1046.8,688.2
+						h-0.9 M1046.8,688.2v-0.9 M1046.8,688.2v0.9 M1048.4,690.9h-3.2c-0.7,0-1.3-0.5-1.3-1.2v-2.9c0-0.6,0.6-1.2,1.3-1.2h3.2
+						c0.7,0,1.3,0.5,1.3,1.2v2.9C1049.7,690.4,1049.1,690.9,1048.4,690.9z"/>
+				</g>
+			</g>
+		</g>
+		<g id="strip_00000153700081421896119180000009288840445483838648_">
+			<path id="strip_bg_00000000222023500343946380000005725975940415173034_" class="st60" d="M1124.7,826.8H879.6
+				c-3.1,0-5.4-3.3-5.4-7.3v-31.1c0-4.1,2.5-7.3,5.4-7.3H935h189.7c3.1,0,5.4,3.3,5.4,7.3v31.1
+				C1130.1,823.5,1127.7,826.8,1124.7,826.8z"/>
+			
+				<text id="strip_label_00000088817084045720118400000009388706565331847600_" transform="matrix(1 0 0 1 881.0139 795.2631)" class="st2 st40" style="font-size:11.9547px;">agilex 2</text>
+			<line class="st60" x1="957.1" y1="826.8" x2="956.6" y2="781.7"/>
+			<line class="st60" x1="1056.6" y1="826.4" x2="1056.6" y2="781.6"/>
+			<g id="strip_icon_00000078726890368947007160000016615824863129282202_">
+				<rect x="879.4" y="807.6" pointer-events="none" class="st68" width="34.8" height="7.3"/>
+				<ellipse pointer-events="none" class="st63" cx="886.6" cy="817.4" rx="2.8" ry="2.7"/>
+				<ellipse pointer-events="none" class="st63" cx="907" cy="817.4" rx="2.8" ry="2.7"/>
+			</g>
+			<g id="trap_00000063595114127277447040000004982585189715880854_">
+				<g id="trap_detection_selector_00000110463620989631414720000017764489133003938453_">
+					<g id="detect_icon_00000152955477760973488330000000572543491633483710_">
+						<path class="st2" d="M1069.2,810.2c-6.6,0-8.5,5.7-8.5,5.7l-0.2,0.3l0.2,0.3c0,0,2,5.7,8.5,5.7c6.6,0,8.5-5.7,8.5-5.7l0.2-0.3
+							l-0.2-0.3C1077.7,815.9,1075.6,810.2,1069.2,810.2z M1069.2,819.6c-1.9,0-3.5-1.6-3.5-3.5s1.6-3.5,3.5-3.5s3.5,1.6,3.5,3.5
+							C1072.6,818.1,1071.1,819.6,1069.2,819.6z"/>
+						<path class="st2" d="M1069.2,814.4c-0.9,0-1.7,0.8-1.7,1.7s0.8,1.7,1.7,1.7c0.9,0,1.7-0.8,1.7-1.7S1070.1,814.4,1069.2,814.4z
+							"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1060.517 806.27)" class="st2 st3" style="font-size:6.3823px;">detect</text>
+					<g id="ignore_icon_00000172403831120906096190000008150375980859219646_" class="st45">
+						<path class="st2" d="M1120.7,811c0-1.4-2.5-2.8-5.5-2.8s-5.5,1.3-5.5,2.8v1.4c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V811z
+							 M1115.2,820c-3,0-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8v-2C1120.7,818.7,1118.2,820,1115.2,820z"/>
+						<path class="st2" d="M1120.7,813.8c0,1.4-2.5,2.8-5.5,2.8s-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V813.8z"
+							/>
+						<circle class="st64" cx="1118.5" cy="819.2" r="3"/>
+						<path d="M1120.4,820.9l-0.3,0.3c-0.2,0.2-0.3,0.2-0.3,0l-3.3-3.3c-0.2-0.2-0.2-0.3,0-0.3l0.3-0.3c0.2-0.2,0.3-0.2,0.3,0
+							l3.3,3.3C1120.6,820.6,1120.6,820.7,1120.4,820.9z"/>
+						<path d="M1120.1,817.3l0.3,0.3c0.2,0.2,0.2,0.3,0,0.3l-3.3,3.3c-0.2,0.2-0.3,0.2-0.3,0l-0.3-0.3c-0.2-0.2-0.2-0.3,0-0.3
+							l3.3-3.3C1119.9,817.1,1120.1,817.1,1120.1,817.3z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1106.9418 806.562)" class="st46 st3" style="font-size:6.3823px;">ignore</text>
+					<text transform="matrix(1 0 0 1 1086.553 806.562)" class="st46 st3" style="font-size:6.3823px;">stop</text>
+					<path id="stop_icon_00000096061312820707573710000015348411368176947873_" class="st46" d="M1088.9,815.4l-3.2-3.2
+						c-1.3,1.4-1.7,2.7-1.7,2.7l-0.2,0.3l0.2,0.3c0,0,1.9,5.5,8.2,5.5c0.8,0,1.4-0.2,2-0.2l-2.2-2.2
+						C1090.3,818.4,1089,817,1088.9,815.4L1088.9,815.4z M1092.2,809.4c-1.6,0-2.8,0.3-3.8,0.8l-3-3l-1.1,1.1l14.8,14.8l1.1-1.1
+						l-2.7-2.7c2.2-1.6,3-3.8,3-3.8l0.2-0.3l-0.2-0.3C1100.4,814.9,1098.5,809.4,1092.2,809.4z M1093.8,815.7c0.2-0.6,0-1.1-0.5-1.6
+						s-1.1-0.6-1.6-0.5l-1.3-1.3c0.5-0.3,1.1-0.5,1.7-0.5c1.7,0,3.3,1.4,3.3,3.3c0,0.6-0.2,1.1-0.5,1.7L1093.8,815.7L1093.8,815.7z"
+						/>
+				</g>
+				<text transform="matrix(1 0 0 1 1059.3344 789.6646)" class="st2 st3" style="font-size:8.8664px;">traps </text>
+				<g id="btn_show_00000074417972418138538050000005213011877945607346_">
+					<path id="button_show_bg_00000171682303738296729230000007115185976116464267_" class="st65" d="M1122.5,792.8h-20
+						c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1124.7,791.7,1123.7,792.8,1122.5,792.8z"/>
+					<text transform="matrix(1 0 0 1 1102.1888 790.853)" class="st2 st3" style="font-size:5.2537px;">Show all</text>
+				</g>
+			</g>
+			<path id="status_error_00000161590421844045941390000006077999379856779696_" class="st6" d="M940.6,784.2
+				c-4.6,0-8.4,3.6-8.4,8.4c0,4.6,3.6,8.4,8.4,8.4c4.6,0,8.4-3.8,8.4-8.4C948.8,788,945.1,784.2,940.6,784.2z M945,795.8l-1.3,1.3
+				l-3.2-3.2l-3.2,3.2l-1.3-1.3l3.2-3.2l-3.2-3.2l1.3-1.3l3.2,3.2l3.2-3.2l1.3,1.3l-3.2,3.2L945,795.8z"/>
+			<path id="ctrl_manual_00000103981441249284780910000007943197165712455612_" class="st51" d="M937.2,819.1v-1.6h6.5v1.6
+				 M941.5,813.3v4.3 M939.4,813.3v4.3 M943.7,809.9c0,1.7-1.4,3.2-3.2,3.2c-1.7,0-3.2-1.4-3.2-3.2c0-1.7,1.4-3.2,3.2-3.2
+				C942.3,806.8,943.7,808.4,943.7,809.9z M946.9,822.9h-12.8c-0.6,0-1.1-0.5-1.1-1.1v-1.1c0-0.6,0.5-1.1,1.1-1.1h12.8
+				c0.6,0,1.1,0.5,1.1,1.1v1.1C948,822.2,947.5,822.9,946.9,822.9z"/>
+			<g id="tasks_monitor_group_00000127755777681086915960000007435122830427587243_">
+				<text transform="matrix(1 0 0 1 958.3773 789.1362)" class="st2 st3" style="font-size:8.8664px;">tasks</text>
+				<text transform="matrix(1 0 0 1 961.6703 804.6146)" class="st70 st3" style="font-size:11.0351px;">goto T123</text>
+				<path class="st60" d="M978.3,791.9h-21.4v-10.6h25.6v6.4C982.5,790,980.6,791.9,978.3,791.9z"/>
+				<text transform="matrix(1 0 0 1 962.0991 817.2271)" class="st3" style="fill:#00CF00; font-size:11.0351px;">goto T124</text>
+			</g>
+			<g id="btn_add_task_00000054264835418753991120000015388230060680537004_">
+				<path id="button_show_bg_00000032634900267977713940000005166743246796571286_" class="st65" d="M1050.2,792h-20
+					c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1052.4,791,1051.4,792,1050.2,792z"/>
+				<text transform="matrix(1 0 0 1 1029.8812 790.0727)" class="st2 st3" style="font-size:5.2537px;">Add</text>
+				<path id="task_add_00000010996573568377869980000016010415358473143218_" class="st50" d="M1047.7,788.2h-0.9 M1046.8,788.2
+					h-0.9 M1046.8,788.2v-0.9 M1046.8,788.2v0.9 M1048.4,790.8h-3.2c-0.7,0-1.3-0.5-1.3-1.2v-2.9c0-0.6,0.6-1.2,1.3-1.2h3.2
+					c0.7,0,1.3,0.5,1.3,1.2v2.9C1049.7,790.2,1049.1,790.8,1048.4,790.8z"/>
+			</g>
+		</g>
+		<g id="strip_00000086684920864676720130000015001973634242900612_">
+			<path id="strip_bg_00000023277491801150317480000012693748308546665858_" class="st60" d="M1124.7,776.5H879.6
+				c-3.1,0-5.4-3.3-5.4-7.3v-31.1c0-4.1,2.5-7.3,5.4-7.3H935h189.7c3.1,0,5.4,3.3,5.4,7.3v31.1
+				C1130.1,773.2,1127.7,776.5,1124.7,776.5z"/>
+			
+				<text id="strip_label_00000121243821204768286530000015530675646641774755_" transform="matrix(1 0 0 1 881.0139 744.934)" class="st2 st40" style="font-size:11.9547px;">agilex 1</text>
+			<line class="st60" x1="957.1" y1="776.5" x2="956.6" y2="731.4"/>
+			<line class="st60" x1="1056.6" y1="776" x2="1056.6" y2="731.4"/>
+			<g id="strip_icon_00000090991332832255182660000017732313476159298958_">
+				<rect x="879.4" y="757.2" pointer-events="none" class="st68" width="34.8" height="7.3"/>
+				<ellipse pointer-events="none" class="st63" cx="886.6" cy="767.1" rx="2.8" ry="2.7"/>
+				<ellipse pointer-events="none" class="st63" cx="907" cy="767.1" rx="2.8" ry="2.7"/>
+			</g>
+			<g id="trap_00000035493056338021825850000016232556468537368996_">
+				<g id="trap_detection_selector_00000085955931663256330720000014880685658661044381_">
+					<g id="detect_icon_00000075866104683622413290000013628577067501334954_">
+						<path class="st2" d="M1069.4,759.2c-6.6,0-8.5,5.7-8.5,5.7l-0.2,0.3l0.2,0.3c0,0,2,5.7,8.5,5.7c6.6,0,8.5-5.7,8.5-5.7l0.2-0.3
+							l-0.2-0.3C1077.9,764.9,1075.8,759.2,1069.4,759.2z M1069.4,768.7c-1.9,0-3.5-1.6-3.5-3.5s1.6-3.5,3.5-3.5s3.5,1.6,3.5,3.5
+							C1072.9,767,1071.3,768.7,1069.4,768.7z"/>
+						<path class="st2" d="M1069.4,763.5c-0.9,0-1.7,0.8-1.7,1.7s0.8,1.7,1.7,1.7s1.7-0.8,1.7-1.7S1070.3,763.5,1069.4,763.5z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1060.7054 755.31)" class="st2 st3" style="font-size:6.3823px;">detect</text>
+					<g id="ignore_icon_00000052786945061741907860000003599794494167458455_" class="st45">
+						<path class="st2" d="M1120.9,760c0-1.4-2.5-2.8-5.5-2.8s-5.5,1.3-5.5,2.8v1.4c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V760z
+							 M1115.4,769c-3,0-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8v-2C1120.9,767.8,1118.4,769,1115.4,769z"/>
+						<path class="st2" d="M1120.9,762.7c0,1.4-2.5,2.8-5.5,2.8s-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V762.7z"
+							/>
+						<circle class="st64" cx="1118.7" cy="768.2" r="3"/>
+						<path d="M1120.6,770l-0.3,0.3c-0.2,0.2-0.3,0.2-0.3,0l-3.3-3.3c-0.2-0.2-0.2-0.3,0-0.3l0.3-0.3c0.2-0.2,0.3-0.2,0.3,0l3.3,3.3
+							C1120.8,769.7,1120.8,769.8,1120.6,770z"/>
+						<path d="M1120.3,766.4l0.3,0.3c0.2,0.2,0.2,0.3,0,0.3l-3.3,3.3c-0.2,0.2-0.3,0.2-0.3,0l-0.3-0.3c-0.2-0.2-0.2-0.3,0-0.3
+							l3.3-3.3C1120.1,766.2,1120.3,766.2,1120.3,766.4z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1107.1312 755.603)" class="st46 st3" style="font-size:6.3823px;">ignore</text>
+					<text transform="matrix(1 0 0 1 1086.7416 755.603)" class="st46 st3" style="font-size:6.3823px;">stop</text>
+					<path id="stop_icon_00000103975134529539209800000011669125466459551371_" class="st46" d="M1089.1,764.5l-3.2-3.2
+						c-1.3,1.4-1.7,2.7-1.7,2.7l-0.2,0.3l0.2,0.3c0,0,1.9,5.5,8.2,5.5c0.8,0,1.4-0.2,2-0.2l-2.2-2.2
+						C1090.5,767.5,1089.2,766,1089.1,764.5L1089.1,764.5z M1092.4,758.5c-1.6,0-2.8,0.3-3.8,0.8l-3-3l-1.1,1.1l14.8,14.8l1.1-1.1
+						l-2.7-2.7c2.2-1.6,3-3.8,3-3.8l0.2-0.3l-0.2-0.3C1100.6,764,1098.7,758.5,1092.4,758.5z M1094,764.6c0.2-0.6,0-1.1-0.5-1.6
+						s-1.1-0.6-1.6-0.5l-1.3-1.3c0.5-0.3,1.1-0.5,1.7-0.5c1.7,0,3.3,1.4,3.3,3.3c0,0.6-0.2,1.1-0.5,1.7L1094,764.6L1094,764.6z"/>
+				</g>
+				<text transform="matrix(1 0 0 1 1059.5228 738.705)" class="st2 st3" style="font-size:8.8664px;">traps </text>
+				<g id="btn_show_00000057831352383540532880000016895954320038353328_">
+					<path id="button_show_bg_00000039817094173575948670000010009445790941358732_" class="st65" d="M1122.6,741.9h-20
+						c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1124.9,740.8,1123.9,741.9,1122.6,741.9z"/>
+					<text transform="matrix(1 0 0 1 1102.3773 739.894)" class="st2 st3" style="font-size:5.2537px;">Show all</text>
+				</g>
+			</g>
+			<path id="status_warning_00000155135512961100173380000017444281611813310357_" class="st66" d="M940.4,734.2
+				c-4.8,0-8.6,3.8-8.6,8.6s3.8,8.6,8.6,8.6s8.6-3.8,8.6-8.6S945.2,734.2,940.4,734.2z M941.5,747.4h-2.2v-5.7h2.1L941.5,747.4
+				L941.5,747.4z M941.5,740.2h-2.2V738h2.1L941.5,740.2L941.5,740.2z"/>
+			<path id="ctrl_wait_00000128457551891348385080000010630298294426228902_" class="st2" d="M948.6,764.2c0,0.3-0.3,0.8-0.8,0.8
+				c-0.3,0-0.8-0.3-0.8-0.8c0-3.9-3.2-7.1-7.1-7.1c-0.3,0-0.8-0.3-0.8-0.8s0.3-0.8,0.8-0.8C944.8,755.9,948.6,759.7,948.6,764.2z
+				 M942.9,765c0.3,0,0.8-0.3,0.8-0.8s-0.3-0.8-0.8-0.8h-1.6c-0.2-0.2-0.3-0.3-0.5-0.5v-2.2c0-0.3-0.3-0.8-0.8-0.8
+				c-0.3,0-0.8,0.3-0.8,0.8v2.4c-0.6,0.3-0.9,1.3-0.5,1.9c0.3,0.6,1.3,0.9,1.9,0.5c0.2-0.2,0.3-0.3,0.5-0.5L942.9,765L942.9,765z
+				 M933,760.6c-0.3,0-0.8,0.3-0.8,0.8c0,0.3,0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8C933.6,760.9,933.3,760.6,933,760.6L933,760.6z
+				 M933.1,764.2c0-0.3-0.3-0.8-0.8-0.8c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8S933.1,764.7,933.1,764.2z M940.1,771.2
+				c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8C940.9,771.6,940.6,771.2,940.1,771.2z M934.7,758.1
+				c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8l0,0C935.4,758.4,935,758.1,934.7,758.1z M937.1,756.2
+				c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8s0.8-0.3,0.8-0.8l0,0C937.9,756.7,937.6,756.2,937.1,756.2z M933,766.6
+				c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8S933.3,766.6,933,766.6L933,766.6z M934.7,769.1
+				c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8C935.5,769.4,935,769.1,934.7,769.1z M937.1,770.7
+				c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8s0.8-0.3,0.8-0.8S937.6,770.7,937.1,770.7L937.1,770.7z M947.3,766.6
+				c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8S947.6,766.6,947.3,766.6L947.3,766.6z M945.6,769.1
+				c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8S946.1,769.1,945.6,769.1z M943.1,770.7c-0.3,0-0.8,0.3-0.8,0.8
+				s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8S943.5,770.7,943.1,770.7L943.1,770.7z"/>
+			<g id="tasks_monitor_group_00000083067189170516810000000007616785226357464986_">
+				<text transform="matrix(1 0 0 1 958.3773 738.705)" class="st2 st3" style="font-size:8.8664px;">tasks</text>
+				<text transform="matrix(1 0 0 1 961.6703 753.9697)" class="st6 st3" style="font-size:11.0351px;">goto T126</text>
+				<path class="st60" d="M978.3,741.6h-21.4V731h25.6v6.4C982.5,739.7,980.6,741.6,978.3,741.6z"/>
+				<text transform="matrix(1 0 0 1 962.0991 766.5805)" class="st3" style="fill:#A2C4CC; font-size:11.0351px;">goto T124</text>
+			</g>
+			<path class="st60" d="M1078.1,741.6h-21.4V731h25.6v6.4C1082.3,739.7,1080.4,741.6,1078.1,741.6z"/>
+			<g id="btn_add_task_00000173152007333807298860000014271031445902165918_">
+				<path id="button_show_bg_00000091734020331636315350000003382907460831466906_" class="st65" d="M1050.2,741.9h-20
+					c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1052.4,741,1051.4,741.9,1050.2,741.9z"/>
+				<text transform="matrix(1 0 0 1 1029.8812 740.0317)" class="st2 st3" style="font-size:5.2537px;">Add</text>
+				<path id="task_add_00000039827836175343822680000017852765611393844129_" class="st50" d="M1047.7,738.1h-0.9 M1046.8,738.1
+					h-0.9 M1046.8,738.1v-0.9 M1046.8,738.1v0.9 M1048.4,740.8h-3.2c-0.7,0-1.3-0.5-1.3-1.2v-2.9c0-0.6,0.6-1.2,1.3-1.2h3.2
+					c0.7,0,1.3,0.5,1.3,1.2v2.9C1049.7,740.2,1049.1,740.8,1048.4,740.8z"/>
+			</g>
+		</g>
+		<path id="group_col_00000046330336663331987830000016176553123939493001_" class="st68" d="M1034.8,636.8H883.2
+			c-7.4,0-13.4,6.1-13.4,13.6V675h165.1L1034.8,636.8L1034.8,636.8z"/>
+		
+			<linearGradient id="name_bg_00000171696983118716532090000001701681372149283774_" gradientUnits="userSpaceOnUse" x1="1073.0499" y1="-1080.78" x2="1073.0499" y2="-1042.3159" gradientTransform="matrix(1 0 0 -1 0 -405.78)">
+			<stop  offset="0" style="stop-color:#BBBBBA"/>
+			<stop  offset="0.791" style="stop-color:#ABABAB"/>
+			<stop  offset="1" style="stop-color:#E7E6E6"/>
+		</linearGradient>
+		
+			<path id="name_bg_00000052065112959402273350000011960489001438356355_" style="fill:url(#name_bg_00000171696983118716532090000001701681372149283774_);" d="
+			M1017.1,675v-24.1c0-9.3,0-9.3,0-14.3h106.3c4.8-0.4,5.6,4.8,5.6,11V675H1017.1L1017.1,675z"/>
+		
+			<text id="op_name_00000092414408233457972780000014478037508777540741_" transform="matrix(0.9827 0 0 1 1022.7754 663.4756)" class="st54 st55" style="font-size:20.8534px;">Titouan</text>
+		
+			<text id="op_id_00000134234908614558519930000012480556704835393210_" transform="matrix(0.9827 0 0 1 876.6265 663.4756)" class="st2 st57" style="font-size:20.8534px;">OP-Systeme 2</text>
+	</g>
+	<g id="strip_container_00000120519009569445430510000010385752849587717028_" class="st59">
+		<path id="strip_container_bg_00000117635592588152390370000011752286231750478013_" class="st39" d="M1133,1022.4
+			c0,7.5-2.8,13.5-6.2,13.5H876c-3.4,0-6.2-6-6.2-13.5V850.7c0-7.5,2.8-13.5,6.2-13.5h250.9c3.4,0,6.2,6,6.2,13.5L1133,1022.4
+			L1133,1022.4z"/>
+		<g id="strip_00000165206151717235435770000006608300618502782371_">
+			<path id="strip_bg_00000013873357731344103800000007932214448482059185_" class="st60" d="M1124.7,929.9H879.6
+				c-3.1,0-5.4-3.3-5.4-7.3v-31.1c0-4.1,2.5-7.3,5.4-7.3H935h189.7c3.1,0,5.4,3.3,5.4,7.3v31.1
+				C1130.1,926.7,1127.7,929.9,1124.7,929.9z"/>
+			<line class="st60" x1="957" y1="929.9" x2="956.8" y2="884.3"/>
+			<line class="st60" x1="1056.6" y1="928.9" x2="1056.6" y2="884.1"/>
+			<g id="strip_monitor_group_00000174577646758978203630000007555891547247252646_">
+				
+					<text id="strip_label_00000169530320305163071790000002333251837106307968_" transform="matrix(1 0 0 1 881.0139 898.4232)" class="st2 st40" style="font-size:11.9547px;">BNX8</text>
+				<path id="strip_status_ok_00000059298224725403992390000003657621888596052384_" class="st61" d="M940.1,887.1
+					c-5,0-9.1,4.1-9.1,9.1s4.1,9.1,9.1,9.1s9.1-4.1,9.1-9.1S945.1,887.1,940.1,887.1z M938.2,901.2l-4.3-4.4l1.4-1.4l3,3l6.5-6.5
+					l1.4,1.4L938.2,901.2z"/>
+				<g id="strip_ctrl_group_00000003815301313877130260000015085294800694813585_">
+					<g id="ctrl_auto__00000165920640107265519140000008980617247319336850_">
+						<path class="st2" d="M946.7,916.9h-2.5c-0.6,0-1.3,0.6-1.3,1.3v7.4h1.3v-3.2h2.5v3.2h1.3v-7.4
+							C948,917.6,947.3,916.9,946.7,916.9z M944.2,921.4v-3.2h2.5v3.2H944.2z"/>
+						<path class="st2" d="M940.4,923.7c-2.4,0-4.4-1.1-5.7-3.2h3.3v-1.1h-5v5h1.3V922c1.6,1.9,3.8,3,6.1,3L940.4,923.7L940.4,923.7
+							z"/>
+						<path class="st2" d="M942.9,913.2h3.3c-2-3.2-6.3-4.1-9.5-2c-1.9,1.3-3.2,3.5-3.2,5.7h-1.3c0-4.4,3.6-8,8-8
+							c2.4,0,4.7,1.1,6.1,3v-2.4h1.3v5h-4.9v-1.3H942.9z"/>
+					</g>
+				</g>
+				<g id="strip_icon_00000105421929331282092620000000178899411406442170_">
+					<rect x="879.4" y="910.6" pointer-events="none" class="st70" width="34.8" height="7.3"/>
+					<ellipse pointer-events="none" class="st63" cx="886.6" cy="920.4" rx="2.8" ry="2.7"/>
+					<ellipse pointer-events="none" class="st63" cx="907" cy="920.4" rx="2.8" ry="2.7"/>
+				</g>
+			</g>
+			<g id="trap_group_00000057863107969085801670000012952898194018051490_">
+				<g id="trap_detection_selector_00000176727293562738837610000001646984440588956339_">
+					<g id="detect_icon_00000157993001696168332520000009366121738374136749_">
+						<path class="st2" d="M1069.4,912.9c-6.6,0-8.5,5.7-8.5,5.7l-0.2,0.3l0.2,0.3c0,0,2,5.7,8.5,5.7c6.6,0,8.5-5.7,8.5-5.7l0.2-0.3
+							l-0.2-0.3C1077.9,918.6,1075.9,912.9,1069.4,912.9z M1069.4,922.4c-1.9,0-3.5-1.6-3.5-3.5s1.6-3.5,3.5-3.5s3.5,1.6,3.5,3.5
+							S1071.3,922.4,1069.4,922.4z"/>
+						<path class="st2" d="M1069.4,917.2c-0.9,0-1.7,0.8-1.7,1.7s0.8,1.7,1.7,1.7s1.7-0.8,1.7-1.7S1070.4,917.2,1069.4,917.2z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1060.7532 908.9252)" class="st2 st3" style="font-size:6.3823px;">detect</text>
+					<g id="ignore_icon_00000173138126242558634090000009653176160863942545_" class="st45">
+						<path class="st2" d="M1121,913.7c0-1.4-2.5-2.8-5.5-2.8s-5.5,1.3-5.5,2.8v1.4c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V913.7z
+							 M1115.4,922.7c-3,0-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8v-2C1121,921.4,1118.4,922.7,1115.4,922.7z"/>
+						<path class="st2" d="M1121,916.4c0,1.4-2.5,2.8-5.5,2.8s-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V916.4z"/>
+						<circle class="st64" cx="1118.8" cy="921.9" r="3"/>
+						<path d="M1120.6,923.6l-0.3,0.3c-0.2,0.2-0.3,0.2-0.3,0l-3.3-3.3c-0.2-0.2-0.2-0.3,0-0.3l0.3-0.3c0.2-0.2,0.3-0.2,0.3,0
+							l3.3,3.3C1120.8,923.3,1120.8,923.5,1120.6,923.6z"/>
+						<path d="M1120.3,919.8l0.3,0.3c0.2,0.2,0.2,0.3,0,0.3l-3.3,3.3c-0.2,0.2-0.3,0.2-0.3,0l-0.3-0.3c-0.2-0.2-0.2-0.3,0-0.3
+							l3.3-3.3C1120.2,919.8,1120.3,919.8,1120.3,919.8z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1107.1791 909.2183)" class="st46 st3" style="font-size:6.3823px;">ignore</text>
+					<text transform="matrix(1 0 0 1 1086.7894 909.2183)" class="st46 st3" style="font-size:6.3823px;">stop</text>
+					<path id="stop_icon_00000076577478182060451740000016439152675066549647_" class="st46" d="M1089.1,917.9l-3.2-3.2
+						c-1.3,1.4-1.7,2.7-1.7,2.7l-0.2,0.3l0.2,0.3c0,0,1.9,5.5,8.2,5.5c0.8,0,1.4-0.2,2-0.2l-2.2-2.2
+						C1090.5,921.1,1089.3,919.7,1089.1,917.9L1089.1,917.9z M1092.4,912.1c-1.6,0-2.8,0.3-3.8,0.8l-3-3l-1.1,1.1l14.8,14.8l1.1-1.1
+						l-2.7-2.7c2.2-1.6,3-3.8,3-3.8l0.2-0.3l-0.2-0.3C1100.6,917.5,1098.7,912.1,1092.4,912.1z M1094,918.3c0.2-0.6,0-1.1-0.5-1.6
+						s-1.1-0.6-1.6-0.5l-1.3-1.3c0.5-0.3,1.1-0.5,1.7-0.5c1.7,0,3.3,1.4,3.3,3.3c0,0.6-0.2,1.1-0.5,1.7L1094,918.3L1094,918.3z"/>
+				</g>
+				<text transform="matrix(1 0 0 1 1059.5707 892.3207)" class="st2 st3" style="font-size:8.8664px;">traps </text>
+				<g id="btn_show_00000043425631651049117460000002309436920965843346_">
+					<path id="button_show_bg_00000088833485865732542540000002560212095457274273_" class="st65" d="M1122.7,895.4h-20
+						c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1124.9,894.4,1124,895.4,1122.7,895.4z"/>
+					<text transform="matrix(1 0 0 1 1102.4252 893.5092)" class="st2 st3" style="font-size:5.2537px;">Show all</text>
+				</g>
+				<path class="st60" d="M1078,895.1h-21.4v-10.6h25.6v6.4C1082.2,893.2,1080.3,895.1,1078,895.1z"/>
+			</g>
+			<g id="tasks_monitor_group_00000163791195826524264280000017346121872576748931_">
+				<text transform="matrix(1 0 0 1 958.3773 892.4312)" class="st2 st3" style="font-size:8.8664px;">tasks</text>
+				<text transform="matrix(1 0 0 1 961.6703 907.9086)" class="st70 st3" style="font-size:11.0351px;">survey area_1</text>
+				<path class="st60" d="M978.3,895.2h-21.4v-10.6h25.6v6.4C982.5,893.3,980.6,895.2,978.3,895.2z"/>
+				<text transform="matrix(1 0 0 1 962.0991 920.5209)" class="st3" style="fill:#A2C4CC; font-size:11.0351px;">identify T2</text>
+				<g id="btn_add_task_00000001648298690526144940000005560243987229089433_">
+					<path id="button_show_bg_00000145058329271460685910000008034401900219991948_" class="st65" d="M1050.2,895.4h-20
+						c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1052.4,894.4,1051.4,895.4,1050.2,895.4z"/>
+					<text transform="matrix(1 0 0 1 1029.8812 893.5092)" class="st2 st3" style="font-size:5.2537px;">Add</text>
+					<path id="task_add_00000178897952345491731790000013151559729585633189_" class="st50" d="M1047.7,891.6h-0.9 M1046.8,891.6
+						h-0.9 M1046.8,891.6v-0.9 M1046.8,891.6v0.9 M1048.4,894.2h-3.2c-0.7,0-1.3-0.5-1.3-1.2v-3c0-0.6,0.6-1.2,1.3-1.2h3.2
+						c0.7,0,1.3,0.5,1.3,1.2v2.9C1049.7,893.7,1049.1,894.2,1048.4,894.2z"/>
+				</g>
+			</g>
+		</g>
+		<g id="strip_00000002345337747869353550000001607625435545646744_">
+			<path id="strip_bg_00000093898229679785274470000014670777042082511020_" class="st60" d="M1124.7,1030.1H879.6
+				c-3.1,0-5.4-3.3-5.4-7.3v-31.1c0-4.1,2.5-7.3,5.4-7.3H935h189.7c3.1,0,5.4,3.3,5.4,7.3v31.2
+				C1130.1,1026.8,1127.7,1030.1,1124.7,1030.1z"/>
+			
+				<text id="strip_label_00000162326539067023234620000010517381102387926406_" transform="matrix(1 0 0 1 881.0139 998.5873)" class="st2 st40" style="font-size:11.9547px;">agilex 2</text>
+			<line class="st60" x1="957.1" y1="1030.1" x2="956.6" y2="985"/>
+			<line class="st60" x1="1056.6" y1="1029.7" x2="1056.6" y2="985"/>
+			<g id="strip_icon_00000029021005274149865330000015113279253206054078_">
+				<rect x="879.4" y="1010.9" pointer-events="none" class="st70" width="34.8" height="7.3"/>
+				<ellipse pointer-events="none" class="st63" cx="886.6" cy="1020.7" rx="2.8" ry="2.7"/>
+				<ellipse pointer-events="none" class="st63" cx="907" cy="1020.7" rx="2.8" ry="2.7"/>
+			</g>
+			<g id="trap_00000010996642461249928090000016959708652429931446_">
+				<g id="trap_detection_selector_00000145058882461573600480000014367457118884705944_">
+					<g id="detect_icon_00000075152736778257658980000007040560340217652900_">
+						<path class="st2" d="M1069.2,1013.5c-6.6,0-8.5,5.7-8.5,5.7l-0.2,0.3l0.2,0.3c0,0,2,5.7,8.5,5.7c6.6,0,8.5-5.7,8.5-5.7
+							l0.2-0.3l-0.2-0.3C1077.7,1019.2,1075.6,1013.5,1069.2,1013.5z M1069.2,1023c-1.9,0-3.5-1.6-3.5-3.5s1.6-3.5,3.5-3.5
+							s3.5,1.6,3.5,3.5C1072.6,1021.4,1071.1,1023,1069.2,1023z"/>
+						<path class="st2" d="M1069.2,1017.8c-0.9,0-1.7,0.8-1.7,1.7s0.8,1.7,1.7,1.7c0.9,0,1.7-0.8,1.7-1.7
+							C1070.9,1018.5,1070.1,1017.8,1069.2,1017.8z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1060.517 1009.5933)" class="st2 st3" style="font-size:6.3823px;">detect</text>
+					<g id="ignore_icon_00000145041651359512873580000001331053515680773308_" class="st45">
+						<path class="st2" d="M1120.7,1014.3c0-1.4-2.5-2.8-5.5-2.8s-5.5,1.3-5.5,2.8v1.4c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8
+							V1014.3z M1115.2,1023.3c-3,0-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8v-2
+							C1120.7,1022,1118.2,1023.3,1115.2,1023.3z"/>
+						<path class="st2" d="M1120.7,1017.1c0,1.4-2.5,2.8-5.5,2.8s-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V1017.1z
+							"/>
+						<circle class="st64" cx="1118.5" cy="1022.5" r="3"/>
+						<path d="M1120.4,1024.2l-0.3,0.3c-0.2,0.2-0.3,0.2-0.3,0l-3.3-3.3c-0.2-0.2-0.2-0.3,0-0.3l0.3-0.3c0.2-0.2,0.3-0.2,0.3,0
+							l3.3,3.3C1120.6,1023.9,1120.6,1024.1,1120.4,1024.2z"/>
+						<path d="M1120.1,1020.6l0.3,0.3c0.2,0.2,0.2,0.3,0,0.3l-3.3,3.3c-0.2,0.2-0.3,0.2-0.3,0l-0.3-0.3c-0.2-0.2-0.2-0.3,0-0.3
+							l3.3-3.3C1119.9,1020.4,1120.1,1020.4,1120.1,1020.6z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1106.9418 1009.8853)" class="st46 st3" style="font-size:6.3823px;">ignore</text>
+					<text transform="matrix(1 0 0 1 1086.553 1009.8853)" class="st46 st3" style="font-size:6.3823px;">stop</text>
+					<path id="stop_icon_00000036943404060431846450000007367499894751447201_" class="st46" d="M1088.9,1018.7l-3.2-3.2
+						c-1.3,1.4-1.7,2.7-1.7,2.7l-0.2,0.3l0.2,0.3c0,0,1.9,5.5,8.2,5.5c0.8,0,1.4-0.2,2-0.2l-2.2-2.2
+						C1090.3,1021.7,1089,1020.3,1088.9,1018.7L1088.9,1018.7z M1092.2,1012.7c-1.6,0-2.8,0.3-3.8,0.8l-3-3l-1.1,1.1l14.8,14.8
+						l1.1-1.1l-2.7-2.7c2.2-1.6,3-3.8,3-3.8l0.2-0.3l-0.2-0.3C1100.4,1018.2,1098.5,1012.7,1092.2,1012.7z M1093.8,1019
+						c0.2-0.6,0-1.1-0.5-1.6s-1.1-0.6-1.6-0.5l-1.3-1.3c0.5-0.3,1.1-0.5,1.7-0.5c1.7,0,3.3,1.4,3.3,3.3c0,0.6-0.2,1.1-0.5,1.7
+						L1093.8,1019L1093.8,1019z"/>
+				</g>
+				<text transform="matrix(1 0 0 1 1059.3344 992.9877)" class="st2 st3" style="font-size:8.8664px;">traps </text>
+				<g id="btn_show_00000137853645334714084640000006713884523425735575_">
+					<path id="button_show_bg_00000041286301327688541650000014698030390559130508_" class="st65" d="M1122.5,996.2h-20
+						c-1.3,0-2.4-0.9-2.4-2.4V991c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1124.7,995.1,1123.7,996.2,1122.5,996.2z"/>
+					<text transform="matrix(1 0 0 1 1102.1888 994.1762)" class="st2 st3" style="font-size:5.2537px;">Show all</text>
+				</g>
+			</g>
+			<path id="status_error_00000150782244070855150160000011451857193365046441_" class="st6" d="M940.6,987.6
+				c-4.6,0-8.4,3.6-8.4,8.4c0,4.6,3.6,8.4,8.4,8.4c4.6,0,8.4-3.8,8.4-8.4C948.8,991.4,945.1,987.6,940.6,987.6z M945,999.1l-1.3,1.3
+				l-3.2-3.2l-3.2,3.2l-1.3-1.3l3.3-3.2l-3.2-3.2l1.3-1.3l3.2,3.2l3.2-3.2l1.3,1.3l-3.2,3.2L945,999.1z"/>
+			<path id="ctrl_manual_00000062910677871089791090000016624899463820459955_" class="st51" d="M937.2,1022.4v-1.6h6.5v1.6
+				 M941.5,1016.6v4.3 M939.4,1016.6v4.3 M943.7,1013.3c0,1.7-1.4,3.2-3.2,3.2c-1.7,0-3.2-1.4-3.2-3.2c0-1.7,1.4-3.2,3.2-3.2
+				S943.7,1011.7,943.7,1013.3z M946.9,1026.2h-12.8c-0.6,0-1.1-0.5-1.1-1.1v-1.1c0-0.6,0.5-1.1,1.1-1.1h12.8c0.6,0,1.1,0.5,1.1,1.1
+				v1.1C948,1025.6,947.5,1026.2,946.9,1026.2z"/>
+			<g id="tasks_monitor_group_00000128450884586683636040000002942169806516039046_">
+				<text transform="matrix(1 0 0 1 958.3773 992.4594)" class="st2 st3" style="font-size:8.8664px;">tasks</text>
+				<text transform="matrix(1 0 0 1 961.6703 1007.939)" class="st70 st3" style="font-size:11.0351px;">goto T123</text>
+				<path class="st60" d="M978.3,995.2h-21.4v-10.6h25.6v6.4C982.5,993.3,980.6,995.2,978.3,995.2z"/>
+				<text transform="matrix(1 0 0 1 962.0991 1020.5512)" class="st3" style="fill:#00CF00; font-size:11.0351px;">goto T124</text>
+			</g>
+			<g id="btn_add_task_00000182502026210550924260000013117280164920449454_">
+				<path id="button_show_bg_00000097471043558921807270000016048757659481098409_" class="st65" d="M1050.2,995.3h-20
+					c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1052.4,994.3,1051.4,995.3,1050.2,995.3z"/>
+				<text transform="matrix(1 0 0 1 1029.8812 993.3969)" class="st2 st3" style="font-size:5.2537px;">Add</text>
+				<path id="task_add_00000030452769220647250040000006436839777005548734_" class="st50" d="M1047.7,991.5h-0.9 M1046.8,991.5
+					h-0.9 M1046.8,991.5v-0.9 M1046.8,991.5v0.9 M1048.4,994.1h-3.2c-0.7,0-1.3-0.5-1.3-1.2V990c0-0.6,0.6-1.2,1.3-1.2h3.2
+					c0.7,0,1.3,0.5,1.3,1.2v2.9C1049.7,993.6,1049.1,994.1,1048.4,994.1z"/>
+			</g>
+		</g>
+		<g id="strip_00000005256354662847291930000002078232520784821182_">
+			<path id="strip_bg_00000163060391625647826650000012588279437940629139_" class="st60" d="M1124.7,979.8H879.6
+				c-3.1,0-5.4-3.3-5.4-7.3v-31.1c0-4.1,2.5-7.3,5.4-7.3H935h189.7c3.1,0,5.4,3.3,5.4,7.3v31.1
+				C1130.1,976.5,1127.7,979.8,1124.7,979.8z"/>
+			
+				<text id="strip_label_00000109715655278840445780000011813504620430300598_" transform="matrix(1 0 0 1 881.0139 948.2582)" class="st2 st40" style="font-size:11.9547px;">agilex 1</text>
+			<line class="st60" x1="957.1" y1="979.8" x2="956.6" y2="934.8"/>
+			<line class="st60" x1="1056.6" y1="979.4" x2="1056.6" y2="934.8"/>
+			<g id="strip_icon_00000116202056302725999450000003785019563525739696_">
+				<rect x="879.4" y="960.6" pointer-events="none" class="st70" width="34.8" height="7.3"/>
+				<ellipse pointer-events="none" class="st63" cx="886.6" cy="970.4" rx="2.8" ry="2.7"/>
+				<ellipse pointer-events="none" class="st70" cx="907" cy="970.4" rx="2.8" ry="2.7"/>
+			</g>
+			<g id="trap_00000048471226275090957930000007050073384161739938_">
+				<g id="trap_detection_selector_00000100369543480700981820000002388184167969564547_">
+					<g id="detect_icon_00000022537481932638594720000004326403216290546101_">
+						<path class="st2" d="M1069.4,962.6c-6.6,0-8.5,5.7-8.5,5.7l-0.2,0.3l0.2,0.3c0,0,2,5.7,8.5,5.7c6.6,0,8.5-5.7,8.5-5.7l0.2-0.3
+							l-0.2-0.3C1077.9,968.3,1075.8,962.6,1069.4,962.6z M1069.4,972c-1.9,0-3.5-1.6-3.5-3.5s1.6-3.5,3.5-3.5s3.5,1.6,3.5,3.5
+							C1072.8,970.5,1071.3,972,1069.4,972z"/>
+						<path class="st2" d="M1069.4,966.8c-0.9,0-1.7,0.8-1.7,1.7s0.8,1.7,1.7,1.7s1.7-0.8,1.7-1.7S1070.3,966.8,1069.4,966.8z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1060.7054 958.6342)" class="st2 st3" style="font-size:6.3823px;">detect</text>
+					<g id="ignore_icon_00000009586168304762709190000008586461009899699586_" class="st45">
+						<path class="st2" d="M1120.9,963.4c0-1.4-2.5-2.8-5.5-2.8s-5.5,1.3-5.5,2.8v1.4c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V963.4z
+							 M1115.4,972.4c-3,0-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8v-2C1120.9,971.1,1118.4,972.4,1115.4,972.4z"/>
+						<path class="st2" d="M1120.9,966.1c0,1.4-2.5,2.8-5.5,2.8s-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V966.1z"
+							/>
+						<circle class="st64" cx="1118.7" cy="971.6" r="3"/>
+						<path d="M1120.6,973.3l-0.3,0.3c-0.2,0.2-0.3,0.2-0.3,0l-3.3-3.3c-0.2-0.2-0.2-0.3,0-0.3l0.3-0.3c0.2-0.2,0.3-0.2,0.3,0
+							l3.3,3.3C1120.8,973,1120.8,973.1,1120.6,973.3z"/>
+						<path d="M1120.3,969.7l0.3,0.3c0.2,0.2,0.2,0.3,0,0.3l-3.3,3.3c-0.2,0.2-0.3,0.2-0.3,0l-0.3-0.3c-0.2-0.2-0.2-0.3,0-0.3
+							l3.3-3.3C1120.1,969.5,1120.3,969.5,1120.3,969.7z"/>
+					</g>
+					<text transform="matrix(1 0 0 1 1107.1312 958.9262)" class="st46 st3" style="font-size:6.3823px;">ignore</text>
+					<text transform="matrix(1 0 0 1 1086.7416 958.9262)" class="st46 st3" style="font-size:6.3823px;">stop</text>
+					<path id="stop_icon_00000157996627782201378770000008709374998700742575_" class="st46" d="M1089.1,967.8l-3.2-3.2
+						c-1.3,1.4-1.7,2.7-1.7,2.7l-0.2,0.3l0.2,0.3c0,0,1.9,5.5,8.2,5.5c0.8,0,1.4-0.2,2-0.2l-2.2-2.2
+						C1090.5,970.8,1089.2,969.4,1089.1,967.8L1089.1,967.8z M1092.4,961.8c-1.6,0-2.8,0.3-3.8,0.8l-3-3l-1.1,1.1l14.8,14.8l1.1-1.1
+						l-2.7-2.7c2.2-1.6,3-3.8,3-3.8l0.2-0.3l-0.2-0.3C1100.6,967.3,1098.7,961.8,1092.4,961.8z M1094,967.9c0.2-0.6,0-1.1-0.5-1.6
+						s-1.1-0.6-1.6-0.5l-1.3-1.3c0.5-0.3,1.1-0.5,1.7-0.5c1.7,0,3.3,1.4,3.3,3.3c0,0.6-0.2,1.1-0.5,1.7L1094,967.9L1094,967.9z"/>
+				</g>
+				<text transform="matrix(1 0 0 1 1059.5228 942.0287)" class="st2 st3" style="font-size:8.8664px;">traps </text>
+				<g id="btn_show_00000088091635005004947540000000285898678343835786_">
+					<path id="button_show_bg_00000160887947876367734380000010560449124122505356_" class="st65" d="M1122.6,945.2h-20
+						c-1.3,0-2.4-0.9-2.4-2.4V940c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1124.9,944.1,1123.9,945.2,1122.6,945.2z"/>
+					<text transform="matrix(1 0 0 1 1102.3773 943.2183)" class="st2 st3" style="font-size:5.2537px;">Show all</text>
+				</g>
+			</g>
+			<path id="status_warning_00000024718034342374332640000003487354487154449281_" class="st66" d="M940.4,937.5
+				c-4.8,0-8.6,3.8-8.6,8.6s3.8,8.6,8.6,8.6s8.6-3.8,8.6-8.6S945.2,937.5,940.4,937.5z M941.5,950.7h-2.2V945h2.1L941.5,950.7
+				L941.5,950.7z M941.5,943.6h-2.2v-2.1h2.1L941.5,943.6L941.5,943.6z"/>
+			<path id="ctrl_wait_00000017480302365414162040000003214238130954126244_" class="st2" d="M948.6,967.5c0,0.3-0.3,0.8-0.8,0.8
+				c-0.3,0-0.8-0.3-0.8-0.8c0-3.9-3.2-7.1-7.1-7.1c-0.3,0-0.8-0.3-0.8-0.8s0.3-0.8,0.8-0.8C944.8,959.2,948.6,963,948.6,967.5z
+				 M942.9,968.3c0.3,0,0.8-0.3,0.8-0.8s-0.3-0.8-0.8-0.8h-1.6c-0.2-0.2-0.3-0.3-0.5-0.5V964c0-0.3-0.3-0.8-0.8-0.8
+				c-0.3,0-0.8,0.3-0.8,0.8v2.4c-0.6,0.3-0.9,1.3-0.5,1.9c0.3,0.6,1.3,0.9,1.9,0.5c0.2-0.2,0.3-0.3,0.5-0.5L942.9,968.3L942.9,968.3
+				z M933,963.9c-0.3,0-0.8,0.3-0.8,0.8c0,0.3,0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8C933.6,964.2,933.3,963.9,933,963.9L933,963.9z
+				 M933.1,967.5c0-0.3-0.3-0.8-0.8-0.8c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8S933.1,968,933.1,967.5z M940.1,974.6
+				c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8S940.6,974.6,940.1,974.6z M934.7,961.4c-0.3,0-0.8,0.3-0.8,0.8
+				s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8l0,0C935.4,961.7,935,961.4,934.7,961.4z M937.1,959.7c-0.3,0-0.8,0.3-0.8,0.8
+				s0.3,0.8,0.8,0.8s0.8-0.3,0.8-0.8l0,0C937.9,960,937.6,959.7,937.1,959.7z M933,969.9c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8
+				c0.3,0,0.8-0.3,0.8-0.8S933.3,969.9,933,969.9L933,969.9z M934.7,972.4c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8
+				c0.3,0,0.8-0.3,0.8-0.8S935,972.4,934.7,972.4z M937.1,974c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8s0.8-0.3,0.8-0.8
+				C937.9,974.3,937.6,974,937.1,974L937.1,974z M947.3,969.9c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8
+				S947.6,969.9,947.3,969.9L947.3,969.9z M945.6,972.4c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8
+				S946.1,972.4,945.6,972.4z M943.1,974c-0.3,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.3,0,0.8-0.3,0.8-0.8
+				C943.9,974.3,943.5,974,943.1,974L943.1,974z"/>
+			<g id="tasks_monitor_group_00000144303354039969950730000016418177494489189053_">
+				<text transform="matrix(1 0 0 1 958.3773 942.0287)" class="st2 st3" style="font-size:8.8664px;">tasks</text>
+				<text transform="matrix(1 0 0 1 961.6703 957.2935)" class="st6 st3" style="font-size:11.0351px;">goto T126</text>
+				<path class="st60" d="M978.3,944.9h-21.4v-10.6h25.6v6.4C982.5,943,980.6,944.9,978.3,944.9z"/>
+				<text transform="matrix(1 0 0 1 962.0991 969.9047)" class="st3" style="fill:#A2C4CC; font-size:11.0351px;">goto T124</text>
+			</g>
+			<path class="st60" d="M1078.1,944.9h-21.4v-10.6h25.6v6.4C1082.3,943,1080.4,944.9,1078.1,944.9z"/>
+			<g id="btn_add_task_00000047764430642137946970000011652963251250951561_">
+				<path id="button_show_bg_00000013894323758088827950000009077128012689823908_" class="st65" d="M1050.2,945.2h-20
+					c-1.3,0-2.4-0.9-2.4-2.4V940c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1052.4,944.3,1051.4,945.2,1050.2,945.2z"/>
+				<text transform="matrix(1 0 0 1 1029.8812 943.356)" class="st2 st3" style="font-size:5.2537px;">Add</text>
+				<path id="task_add_00000008144637669121790260000006962645049942104500_" class="st50" d="M1047.7,941.5h-0.9 M1046.8,941.5
+					h-0.9 M1046.8,941.5v-0.9 M1046.8,941.5v0.9 M1048.4,944.1h-3.2c-0.7,0-1.3-0.5-1.3-1.2V940c0-0.6,0.6-1.2,1.3-1.2h3.2
+					c0.7,0,1.3,0.5,1.3,1.2v2.9C1049.7,943.6,1049.1,944.1,1048.4,944.1z"/>
+			</g>
+		</g>
+		<path id="group_col_00000003092262527079109260000002369326197966567058_" class="st70" d="M1034.8,840.2H883.2
+			c-7.4,0-13.4,6.1-13.4,13.6v24.6h165.1L1034.8,840.2L1034.8,840.2z"/>
+		
+			<linearGradient id="name_bg_00000132062057548677825450000006065323516618779832_" gradientUnits="userSpaceOnUse" x1="1073.0499" y1="-1284.0801" x2="1073.0499" y2="-1245.616" gradientTransform="matrix(1 0 0 -1 0 -405.78)">
+			<stop  offset="0" style="stop-color:#BBBBBA"/>
+			<stop  offset="0.791" style="stop-color:#ABABAB"/>
+			<stop  offset="1" style="stop-color:#E7E6E6"/>
+		</linearGradient>
+		
+			<path id="name_bg_00000111152568455646771160000000977116530416781230_" style="fill:url(#name_bg_00000132062057548677825450000006065323516618779832_);" d="
+			M1017.1,878.3v-24.1c0-9.3,0-9.3,0-14.3h106.3c4.8-0.4,5.6,4.8,5.6,11v27.4L1017.1,878.3L1017.1,878.3z"/>
+		
+			<text id="op_name_00000138544947230611921750000008952395885030114696_" transform="matrix(0.9827 0 0 1 1022.7754 866.7988)" class="st54 st55" style="font-size:20.8534px;">Baptiste</text>
+		
+			<text id="op_id_00000145021265151131773590000000914385570687025068_" transform="matrix(0.9827 0 0 1 876.6265 866.7988)" class="st2 st57" style="font-size:20.8534px;">OP-Systeme 3</text>
+	</g>
+	<g id="strip_container_00000168113379360411265670000005893813115959972510_" class="st59">
+		<path id="strip_container_bg_00000122711579900174998850000011157681591255812012_" class="st39" d="M1549.7,419.1
+			c0,3.8-7.2,6.8-16,6.8H885.8c-8.8,0-16-3-16-6.8V333c0-3.8,7.2-6.8,16-6.8h647.8c8.8,0,16,3,16,6.8L1549.7,419.1L1549.7,419.1z"/>
+		<g id="strip_00000072270517328136567180000014907033853085092281_">
+			<path id="strip_bg_00000140727945490675801320000002283216710909020042_" class="st60" d="M1530.9,418.9H888.4
+				c-8.1,0-14.2-3.3-14.2-7.3v-31c0-4.1,6.6-7.3,14.2-7.3h145.2h497.3c8.1,0,14.2,3.3,14.2,7.3v31.1
+				C1545.1,415.7,1538.8,418.9,1530.9,418.9z"/>
+			<line class="st60" x1="957" y1="418.9" x2="956.8" y2="373.3"/>
+			<line class="st60" x1="1056.6" y1="417.9" x2="1056.6" y2="373.1"/>
+			<g id="strip_monitor_group_00000116919057417701482080000000306723840039682993_">
+				
+					<text id="strip_label_00000110432835005373003090000006627620241649830538_" transform="matrix(1 0 0 1 881.0139 387.4232)" class="st2 st40" style="font-size:11.9547px;">BNX8</text>
+				<path id="strip_status_ok_00000132089912995226162100000010936087112167082930_" class="st61" d="M940.1,376.1
+					c-5,0-9.1,4.1-9.1,9.1s4.1,9.1,9.1,9.1s9.1-4.1,9.1-9.1S945.1,376.1,940.1,376.1z M938.2,390.2l-4.3-4.4l1.4-1.4l3,3l6.5-6.5
+					l1.4,1.4L938.2,390.2z"/>
+				<g id="strip_ctrl_group_00000086668394100226880000000003867325195675983243_">
+					<g id="ctrl_auto__00000181076077621441939340000011023554976172114090_">
+						<path class="st2" d="M946.7,405.9h-2.5c-0.6,0-1.3,0.6-1.3,1.3v7.4h1.3v-3.2h2.5v3.2h1.3v-7.4
+							C948,406.6,947.3,405.9,946.7,405.9z M944.2,410.4v-3.2h2.5v3.2H944.2z"/>
+						<path class="st2" d="M940.4,412.7c-2.4,0-4.4-1.1-5.7-3.2h3.3v-1.1h-5v5h1.3V411c1.6,1.9,3.8,3,6.1,3L940.4,412.7L940.4,412.7
+							z"/>
+						<path class="st2" d="M942.9,402.2h3.3c-2-3.2-6.3-4.1-9.5-2c-1.9,1.3-3.2,3.5-3.2,5.7h-1.3c0-4.4,3.6-8,8-8
+							c2.4,0,4.7,1.1,6.1,3v-2.4h1.3v5h-4.9v-1.3L942.9,402.2L942.9,402.2z"/>
+					</g>
+				</g>
+				<g id="strip_icon_00000005989081471537390860000010252085465698748562_">
+					<rect x="879.4" y="399.6" pointer-events="none" class="st63" width="34.8" height="7.3"/>
+					<ellipse pointer-events="none" class="st63" cx="886.6" cy="409.4" rx="2.8" ry="2.7"/>
+					<ellipse pointer-events="none" class="st63" cx="907" cy="409.4" rx="2.8" ry="2.7"/>
+				</g>
+			</g>
+			<g id="tasks_monitor_group_00000181083988234627593330000011294964783338615960_">
+				<text transform="matrix(1 0 0 1 958.3773 381.4312)" class="st2 st3" style="font-size:8.8664px;">tasks</text>
+				<text transform="matrix(1 0 0 1 961.6703 396.9091)" class="st70 st3" style="font-size:11.0351px;">survey area_1</text>
+				<path class="st60" d="M978.3,384.2h-21.4v-10.7h25.6v6.4C982.5,382.3,980.6,384.2,978.3,384.2z"/>
+				<text transform="matrix(1 0 0 1 962.0991 409.5214)" class="st3" style="fill:#A2C4CC; font-size:11.0351px;">identify T2</text>
+				<g id="btn_add_task_00000060753116629397773740000012040446379595341465_">
+					<path id="button_show_bg_00000116230314621784531860000004607416096787775364_" class="st65" d="M1050.2,384.4h-20
+						c-1.3,0-2.4-0.9-2.4-2.4v-2.8c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C1052.4,383.4,1051.4,384.4,1050.2,384.4z"/>
+					<text transform="matrix(1 0 0 1 1029.8812 382.5103)" class="st2 st3" style="font-size:5.2537px;">Add</text>
+					<path id="task_add_00000110454446989834994160000004076018285425936038_" class="st50" d="M1047.7,380.6h-0.9 M1046.8,380.6
+						h-0.9 M1046.8,380.6v-0.9 M1046.8,380.6v0.9 M1048.4,383.2h-3.2c-0.7,0-1.3-0.5-1.3-1.2v-2.9c0-0.6,0.6-1.2,1.3-1.2h3.2
+						c0.7,0,1.3,0.5,1.3,1.2v2.9C1049.7,382.7,1049.1,383.2,1048.4,383.2z"/>
+				</g>
+			</g>
+		</g>
+		<path id="group_col_00000103949819099061113170000007883657027113510564_" class="st72" d="M1034.8,329.2H883.2
+			c-7.4,0-13.4,6.1-13.4,13.6v24.6h165.1L1034.8,329.2L1034.8,329.2z"/>
+		
+			<linearGradient id="name_bg_00000151538420039753411040000009354498578621496210_" gradientUnits="userSpaceOnUse" x1="1073.0499" y1="-773.08" x2="1073.0499" y2="-734.616" gradientTransform="matrix(1 0 0 -1 0 -405.78)">
+			<stop  offset="0" style="stop-color:#BBBBBA"/>
+			<stop  offset="0.791" style="stop-color:#ABABAB"/>
+			<stop  offset="1" style="stop-color:#E7E6E6"/>
+		</linearGradient>
+		
+			<path id="name_bg_00000168810590282205076200000002672331796495224974_" style="fill:url(#name_bg_00000151538420039753411040000009354498578621496210_);" d="
+			M1017.1,367.3v-24.1c0-9.3,0-9.3,0-14.3h106.3c4.8-0.4,5.6,4.8,5.6,11v27.4H1017.1L1017.1,367.3z"/>
+		
+			<text id="op_name_00000046315760206428791960000004565406617110567055_" transform="matrix(0.9827 0 0 1 1022.7754 355.7998)" class="st54 st55" style="font-size:20.8534px;">Charles</text>
+		
+			<text id="op_id_00000116198703314066870470000001965458263865408653_" transform="matrix(0.9827 0 0 1 876.6265 355.7998)" class="st2 st57" style="font-size:20.8534px;">VAB</text>
+	</g>
+	<rect x="1394.3" y="385.5" class="st2" width="47.9" height="21.7"/>
+	<text transform="matrix(1 0 0 1 1402.4973 400)" class="st3 st4">Goto</text>
+	<rect x="1192.9" y="491.5" class="st2" width="106.4" height="21.7"/>
+	<rect x="1307.4" y="491.5" class="st2" width="95.5" height="21.5"/>
+	<text transform="matrix(1 0 0 1 1201.0818 506.0225)" class="st3 st4">explore zone 2</text>
+	<text transform="matrix(1 0 0 1 1311.0039 506.1505)" class="st3 st4">desactive piege 2</text>
+	<rect x="1192.9" y="536.6" class="st2" width="106.4" height="21.7"/>
+	<rect x="1307.4" y="536.6" class="st2" width="95.5" height="21.5"/>
+	<text transform="matrix(1 0 0 1 1201.0818 551.091)" class="st3 st4">Goto T124</text>
+	<text transform="matrix(1 0 0 1 1311.0039 551.2189)" class="st3 st4">desactiver piege 2</text>
+</g>
+<line class="st74" x1="1348.7" y1="535.8" x2="1348.7" y2="514.5"/>
+<text transform="matrix(1 0 0 1 469.3002 51.8897)" class="st2 st3 st4">Carte</text>
+<text transform="matrix(1 0 0 1 522.9004 96.8)" class="st2 st3 st4">node-point</text>
+<g>
+	<circle id="GraphNode_00000039104975422243462910000000457129300812961923_" class="st75" cx="473.4" cy="91.3" r="5.5"/>
+	<path class="st46" d="M504.7,98.3h-16.1c-2.4,0-4.3-1.9-4.3-4.3v-5.3c0-2.4,1.9-4.3,4.3-4.3h16.1c2.4,0,4.3,1.9,4.3,4.3V94
+		C509,96.4,507.1,98.3,504.7,98.3z"/>
+	<text transform="matrix(1 0 0 1 488.0718 95.0068)" class="st3 st4">T21</text>
+	<line class="st76" x1="484.3" y1="91.3" x2="478.9" y2="91.3"/>
+</g>
 </svg>
