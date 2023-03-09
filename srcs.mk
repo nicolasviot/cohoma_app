@@ -92,6 +92,8 @@ boost_cflags ?= -I$(shell brew --prefix)/include
 boost_ldflags ?= -L$(shell brew --prefix)/lib
 endif
 
+CXXFLAGS += -std=c++17
+
 CXXFLAGS += -I./src -I./src/cpp -I./src/include
 CXXFLAGS += $(boost_cflags)
 CXXFLAGS += -I$(ros_include_path)

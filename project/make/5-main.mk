@@ -44,6 +44,9 @@ endif
 # for emscripten
 em_ext_libs_path := ../../../djnn-emscripten-ext-libs
 
+# by default, generate dependency .d files
+CXXFLAGS += -MMD
+
 # ---------------------------------------
 # save user-provided CXXFLAGS, and use CXXFLAGS as the ultimate compiler configuration
 
