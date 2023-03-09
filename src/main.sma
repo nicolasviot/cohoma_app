@@ -372,8 +372,4 @@ Component root {
 
   CGraph graph (root, f, model_manager, l.map, context)
 
-
-  }
-
-
 }
