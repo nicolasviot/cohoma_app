@@ -22,7 +22,11 @@ import CohomaContext
 import model.ModelManager
 import model.NoRosModelManager
 
-import TopBar
+import panels.TopBar
+import panels.UpperLeftMenu
+import panels.LeftPanel
+import panels.RightPanel
+
 import SubLayer
 import map.Map
 import map.MapLayer
@@ -40,8 +44,6 @@ import task.SubLayerTasks
 import trap.SubLayerTraps
 import trap.TrapStatusSelector
 import site.SubLayerSite
-import menu.UpperLeftMenu
-import menu.RightPanel
 import widgets.chat.Chat
 
 
@@ -350,10 +352,13 @@ Component root {
   // ROS manager
   RosManager ros_manager (root, l.map, context, model_manager)
   
-  // Top bar
+  // Bar at the top of the window
   TopBar top_bar (context, f)
 
-  // Right panel
+  // Panel on the left of the window
+  LeftPanel left_panel (context, model_manager, f)
+
+  // Panel on the right of the window
   RightPanel right_panel (context, model_manager, f, ros_manager.node)
 
   // ----------------------------------------------------

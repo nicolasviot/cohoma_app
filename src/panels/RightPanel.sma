@@ -16,12 +16,12 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 	Spike update_graph
 	Spike send_selected_tasks
 
-	Layer layer (0, $_context.TOP_BAR_HEIGHT, 0, 964) { // Bindings on x and w under
+	Layer layer (0, $_context.TOP_BAR_HEIGHT, 0, 1054) { // Bindings on x and w under
 
-		Translation tr (0, 0)
+		Translation tr (0, $_context.TOP_BAR_HEIGHT)
 		_frame.width - _context.RIGHT_PANEL_WIDTH =:> tr.tx
 
-		FillColor _ ($_context.DRAK_GRAY)
+		FillColor _ ($_context.DARK_GRAY)
 		Rectangle bg (0, 0, $_context.RIGHT_PANEL_WIDTH, 0, 0, 0)
 		_frame.height =:> bg.height
 

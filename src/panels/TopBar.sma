@@ -9,7 +9,7 @@ TopBar (Process _context, Process _frame)
 {
     OutlineWidth _ (1)
     OutlineColor _ (#E1E1E3)
-    FillColor _ (#3C3C3B)
+    FillColor _ ($_context.DARK_GRAY)
     Rectangle bg (0, 0, 0, $_context.TOP_BAR_HEIGHT, 0, 0)
     _frame.width =:> bg.width
 
