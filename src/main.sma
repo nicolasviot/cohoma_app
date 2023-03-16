@@ -162,10 +162,8 @@ Component root {
   int init_zoom = 19
 
 
-  // Width: 1424 + 600 = 2024 why ?
-  int init_frame_width = 2048
-  // Hieght: 868 + 600 = 1468 why ?
-  int init_frame_height = 1280
+  int init_frame_width = 1920
+  int init_frame_height = 1080
 
   Frame f ("CoHoMa", 0, 0, init_frame_width, init_frame_height)
   mouseTracking = 1
@@ -211,12 +209,13 @@ Component root {
 
     // ----------------------------------------------------
     //  MAP
-    Map map (f, 0, 0, init_frame_width - $context.RIGHT_PANEL_WIDTH, init_frame_height - $context.STRIP_HEIGHT, init_latitude, init_longitude, init_zoom)
+    //Map map (f, 0, 0, init_frame_width - $context.RIGHT_PANEL_WIDTH, init_frame_height - $context.STRIP_HEIGHT, init_latitude, init_longitude, init_zoom)
+    Map map (f, $context.LEFT_PANEL_WIDTH, $context.TOP_BAR_HEIGHT, init_frame_width - $context.LEFT_PANEL_WIDTH - $context.RIGHT_PANEL_WIDTH, init_frame_height - $context.TOP_BAR_HEIGHT, init_latitude, init_longitude, init_zoom)
     // FIXME: map crash if I add dynamic width/height:
-    //f.width - context.RIGHT_PANEL_WIDTH =:> map.width
-    //f.height - context.STRIP_HEIGHT =:> map.height
-    init_frame_width - context.RIGHT_PANEL_WIDTH =: map.width
-    init_frame_height - context.STRIP_HEIGHT =: map.height
+    //f.width - context.LEFT_PANEL_WIDTH - context.RIGHT_PANEL_WIDTH =:> map.width
+    //f.height - context.TOP_BAR_HEIGHT =:> map.height
+    init_frame_width - context.LEFT_PANEL_WIDTH - context.RIGHT_PANEL_WIDTH =: map.width
+    init_frame_height - context.TOP_BAR_HEIGHT =: map.height
 
     map.g_map.pz.press_trigger -> press_on_background
     map.zoomLevel =:> context.map_zoom

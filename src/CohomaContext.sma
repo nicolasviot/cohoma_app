@@ -57,7 +57,10 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     //map_zoom + " --> " + map_scale =:> lp.input
 
     // CONST
-    Int RIGHT_PANEL_WIDTH (425)
+    Int TOP_BAR_HEIGHT (26)
+    Int LEFT_PANEL_WIDTH (264)
+    Int RIGHT_PANEL_WIDTH (296)
+
     Int STRIP_WIDTH (225)
     Int STRIP_HEIGHT (125)
 
