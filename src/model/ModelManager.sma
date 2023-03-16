@@ -16,11 +16,12 @@ use gui
 use base
 
 import SubLayerModel
+import team.OperatorModel
+import team.SafetyPilotModel
+import team.VehicleModel
 import PointModel
 import ExclusionZoneModel
 import LimaModel
-import VehicleModel
-import SafetyPilotModel
 import NodeModel
 import EdgeModel
 import TrapModel
@@ -201,6 +202,23 @@ ModelManager (Process _context, int _is_debug)
 
         //SubLayerModel _ ("Geoportail")
         //SubLayerModel _ ("OSM")
+    }
+
+
+    // **************************************************************************************************
+    //
+    //  OPERATORS
+    //
+    // **************************************************************************************************
+    Int OP_TYPE_TACTICAL (1)
+    Int OP_TYPE_ROBOT (2)
+    Int OP_TYPE_SAFETY (2)
+
+    Component operators {
+        OperatorModel ot (_context, 1, $OP_TYPE_TACTICAL, "OT", "Op. Tactique", "Charles", $_context.OT_COLOR)
+        OperatorModel og1 (_context, 2, $OP_TYPE_ROBOT, "OG1", "Op. Système 1", "Christophe", $_context.OG1_COLOR)
+        OperatorModel og2 (_context, 3, $OP_TYPE_ROBOT, "OG2", "Op. Système 2", "Titouan", $_context.OG2_COLOR)
+        OperatorModel og3 (_context, 4, $OP_TYPE_ROBOT, "OG3", "Op. Système 3", "Baptiste", $_context.OG3_COLOR)
     }
 
 

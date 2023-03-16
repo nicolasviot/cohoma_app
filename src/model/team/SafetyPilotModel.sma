@@ -8,6 +8,8 @@ use base
 
 %}*/
 
+// inherits from OperatorModel ?
+
 _define_
 SafetyPilotModel (Process _context, string _type, string _name, double _lat, double _lon, int _color)
 {

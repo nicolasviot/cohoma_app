@@ -82,15 +82,14 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int SELECTED_ITINERARY_COL (#1E90FF) // Blue
 
 
-    // COLORS for VEHICLES -- blues variations
-    //Int VAB_COL (#6BC0FF)
-    //Int AGI_1_COL (#ADE2ED)
-    //Int AGI_2_COL (#51D5F0)
-    //Int LYNX_COL (#5C64FF)
-    //Int SPOT_COL (#ABBFEB)
-    //Int DRONE_COL (#5EFFF1)
-    
-    // flashy
+    // Colors for operators
+    Int OT_COLOR (#4027F5)  // Op. TACTICAL
+    Int OG1_COLOR (#317CE8) // Op. Group 1
+    Int OG2_COLOR (#29B9FF) // Op. Group 2
+    Int OG3_COLOR (#27E8F5) // Op. Group 3
+    Int OS_COLOR (#5CAD9D)   // Op. Safety
+
+    // FIXME: TO REMOVE
     Int VAB_COL (#00B1E6)
     Int AGI_1_COL (#0C2EE8)
     Int AGI_2_COL (#B500FF)
@@ -98,8 +97,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int SPOT_COL (#0CE820)
     Int DRONE_COL (#1ACAFF)
 
-
-    // COLORS for SAFETY PILOTS
+    // FIXME: TO REMOVE
     Int UAV_COL (#FFFFFF)
     Int UGV_COL (#FFFFFF)
 

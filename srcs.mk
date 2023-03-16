@@ -13,8 +13,9 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/CohomaContext.sma \
             src/model/PointModel.sma src/model/ExclusionZoneModel.sma src/model/LimaModel.sma \
             src/model/NodeModel.sma src/model/EdgeModel.sma src/model/ItineraryModel.sma \
-            src/model/VehicleModel.sma src/model/SafetyPilotModel.sma src/model/TrapModel.sma \
+            src/model/TrapModel.sma \
             src/model/task/TaskEdgeModel.sma src/model/task/TaskAreaModel.sma src/model/task/TaskTrapModel.sma \
+            src/model/team/OperatorModel.sma src/model/team/SafetyPilotModel.sma src/model/team/VehicleModel.sma \
             src/model/SubLayerModel.sma src/model/ModelManager.sma src/model/NoRosModelManager.sma \
             src/behavior/NotDraggableItem.sma src/behavior/DraggableItem.sma src/behavior/DraggableItemWithRadius.sma \
             src/SubLayer.sma src/SubLayerVisibilityMap.sma \
