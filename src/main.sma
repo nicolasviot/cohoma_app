@@ -24,8 +24,10 @@ import model.NoRosModelManager
 
 import panels.TopBar
 import panels.UpperLeftMenu
-import panels.LeftPanel
 import panels.RightPanel
+
+import strip.StripContainer
+import left_panel.LeftPanel
 
 import SubLayer
 import map.Map
@@ -37,7 +39,6 @@ import graph.NodeStatusSelector
 import graph.CGraph
 import itinerary.SubLayerItineraries
 import RosManager
-import strip.StripContainer
 import movable.SubLayerVehicles
 import movable.SubLayerSafetyPilots
 import task.SubLayerTasks

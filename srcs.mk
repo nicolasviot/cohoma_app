@@ -29,7 +29,8 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/map/PanAndZoom.sma src/map/PixmapTile.sma src/map/MapLayer.sma src/map/Map.sma \
             src/RosManager.sma \
             src/movable/Vehicle.sma src/movable/SubLayerVehicles.sma src/movable/SafetyPilot.sma src/movable/SubLayerSafetyPilots.sma \
-            src/panels/TopBar.sma src/panels/LeftPanel.sma src/panels/RightPanel.sma src/panels/UpperLeftMenu.sma \
+            src/left_panel/Operator.sma src/left_panel/OperatorsList.sma src/left_panel/LeftPanel.sma \
+            src/panels/TopBar.sma src/panels/RightPanel.sma src/panels/UpperLeftMenu.sma \
             src/main.sma
 # or
 #srcs_sma := $(shell find $(src_dir) -name "*.sma")
