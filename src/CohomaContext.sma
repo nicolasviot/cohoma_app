@@ -142,6 +142,15 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     // Dynamic properties
     //
 
+    // Allow to display the current time
+    WallClock w_clock
+    "%H:%M:%S" =: w_clock.format // exemple = "%H:%M:%S", "%Hh%Mm%Ss"
+
+    // To update it (FIXME: 900ms is sufficient ?)
+    Clock clock_trigger (900)
+    clock_trigger.tick -> w_clock.state_text
+
+
     // Model of the node currently selected during graph edition (left click)
     Ref ref_node_graph_edition (nullptr)
     //Bool is_null_node_graph_edition (1)

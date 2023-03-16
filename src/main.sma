@@ -16,12 +16,13 @@ use core
 use base
 use gui
 use display
+use files
 
 import CohomaContext
 import model.ModelManager
 import model.NoRosModelManager
-import model.EdgeModel
 
+import TopBar
 import SubLayer
 import map.Map
 import map.MapLayer
@@ -41,7 +42,6 @@ import trap.TrapStatusSelector
 import site.SubLayerSite
 import menu.UpperLeftMenu
 import menu.RightPanel
-import ClockComponent
 import widgets.chat.Chat
 
 
@@ -174,14 +174,27 @@ Component root {
   Exit quit (0, 1)
   f.close->quit
 
-  LogPrinter lp ("Main (debug): ")
 
   Spike press_on_background
   Spike show_reticule
   Spike hide_reticule
 
+  LogPrinter lp ("Main (debug): ")
 
+  WallClock wc_file_name
+
+  // FIXME: do we need 2 different log files ?
+  FileWriter fw ("logs/Log_" + wc_file_name.state_text + ".log")
+  FileWriter fw_console ("logs/Log_console_" + wc_file_name.state_text + ".log")
+
+  // To centralize the current context
   CohomaContext context (f, init_latitude, init_longitude, init_zoom)
+
+  context.w_clock.state_text + " - Application start\n" =: fw.input
+  "Click at (" + f.press.x + ", " + f.press.y + ")\n" => fw.input
+
+  context.w_clock.state_text + " - Application start\n" =: fw_console.input
+
   /*context.ctrl -> {
     "key CONTROL" =: lp.input
   }
@@ -195,6 +208,7 @@ Component root {
     "key DEL" =: lp.input
   }*/
 
+  // Data model manager
   if (is_debug) {
     NoRosModelManager model (context, is_debug)
   }
@@ -336,6 +350,9 @@ Component root {
   // ROS manager
   RosManager ros_manager (root, l.map, context, model_manager)
   
+  // Top bar
+  TopBar top_bar (context, f)
+
   // Right panel
   RightPanel right_panel (context, model_manager, f, ros_manager.node)
 
@@ -360,9 +377,6 @@ Component root {
   //right_panel.send_selected_tasks -> root.l.map.layers.allocated_tasks.clean_only_views
   //right_panel.send_selected_tasks -> root.l.map.layers.tasks.clean_views_then_models
 	
-
-  // ----------------------------------------------------
-  ClockComponent clock (context, f)
 
   // ----------------------------------------------------
   // Strips container

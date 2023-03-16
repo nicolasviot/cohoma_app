@@ -167,9 +167,8 @@ RosNode::impl_activate ()
 
   // ---------------------------
   // VIEW
-  GET_CHILD_VAR2 (_clock, CoreProcess, _parent, parent/clock)
-  GET_CHILD_VAR2 (_fw_input, CoreProcess, _clock, fw/input)
-  GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _clock, fw_console/input)
+  GET_CHILD_VAR2 (_fw_input, CoreProcess, _parent, parent/fw/input)
+  GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/fw_console/input)
   GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_panel/layer/console)
 
   GET_CHILD_VAR2 (_result_layer, CoreProcess, _parent, parent/l/map/layers/visibility_map)
@@ -232,7 +231,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
 
   cout << "Receive msg Navigation Graph" << endl;
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text)
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received new navgraph\n", true)
   
   // Reset "nodes" in case it contains a pointer on a node that will be removed
@@ -342,7 +341,7 @@ RosNode::receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphIti
 
   get_exclusive_access(DBG_GET);
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text)
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received " + std::to_string(msg->itineraries.size()) + " itineraries\n", true);
  
   if (msg->itineraries.size() == _itineraries.size())
@@ -456,7 +455,7 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState::Shared
 
   get_exclusive_access(DBG_GET);
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
 
   SET_CHILD_VALUE (Double, robot, lat, msg->position.latitude, true);
   SET_CHILD_VALUE (Double, robot, lon, msg->position.longitude, true);
@@ -492,7 +491,7 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg)
 
   cout << "Receive msg Trap" << endl;
   
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
   
   int new_trap = 0;
   int update_trap = 0;
@@ -588,7 +587,7 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
   
   int nb_total = nb_uav_zone + nb_ugv_edges + nb_trap_deactivation + nb_trap_identification;
   
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text)
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received " + std::to_string(nb_total) + " tasks ("+ std::to_string(nb_uav_zone) + " uav_zones, " + std::to_string(nb_ugv_edges) + " ugv_edges, " + std::to_string(nb_trap_identification) + " trap_identifications, " + std::to_string(nb_trap_deactivation) + " trap_deactivations)\n", true)
  
   // Aerial --> Task Area Model
@@ -780,7 +779,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
   int nb_trap_deactivation = 0;
   int nb_total = msg.tasks.size();
   
-  //GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
+  //GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text)
   //SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received " + std::to_string(nb_total) + " tasks ("+ std::to_string(nb_uav_zone) + " uav_zones, " + std::to_string(nb_ugv_edges) + " ugv_edges, " + std::to_string(nb_trap_identification) + " trap_identifications, " + std::to_string(nb_trap_deactivation) + " trap_deactivations)\n", true)
 
   /*
@@ -870,7 +869,7 @@ RosNode::send_msg_lima(int id)
   message.id = id;
   //cout << "send_msg_lima " << id << endl;
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Validated lima " + std::to_string(id) + "\n", true);
   
   message.header.stamp = _node->get_clock()->now();
@@ -899,7 +898,7 @@ RosNode::send_msg_planning_request()
         message.node_contraints.push_back(str_id);
   }
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Asked planification between nodes "+ message.start_node + " and " + message.end_node + " \n", true);
 
   message.header.stamp = _node->get_clock()->now();
@@ -917,7 +916,7 @@ RosNode::send_msg_navgraph_update()
   nlohmann::json j;
   j["graph"]["directed"] = false;
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Send navgraph update\n", true);
 
   // Edges
@@ -1010,7 +1009,7 @@ RosNode::send_validation_plan()
 
   //GRAPH_EXEC;
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Validate plan #" + message.data + "\n" , true);
 }
 
@@ -1021,7 +1020,7 @@ RosNode::send_selected_tasks()
 {
   cout << "Send Selected Tasks" << endl;
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Send task selection\n", true);
 
   icare_interfaces::msg::Tasks message = icare_interfaces::msg::Tasks();
@@ -1112,7 +1111,7 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg)
 
   cout << "Receive msg SITE" << endl;
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received site data\n", true);
 
   // LIMITS
@@ -1166,7 +1165,7 @@ RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap msg){
   
   get_exclusive_access(DBG_GET);
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text)
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text)
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received exploration map update\n", true)
 
   //float lat_center_map = msg.origin.latitude;
@@ -1258,7 +1257,7 @@ RosNode::send_msg_trap_activation(int id, bool new_active_state){
   msg.id = id;
   msg.header.stamp = _node->get_clock()->now();
   publisher_trap_activation->publish(msg);
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
   if (new_active_state)
   {
     SET_CHILD_VALUE (Text, _console, ste/string_input, timestamp + " - Trap activation (#" +std::to_string(id) + ")\n", true)
@@ -1369,7 +1368,7 @@ RosNode::test_draw_visibility_map(){
 void
 RosNode::save_console(){
 
-  GET_CHILD_VALUE (timestamp, Text, _clock, wc/state_text);
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
   std::stringstream ss;
   ss << timestamp + " - Console Content stored\n";
 

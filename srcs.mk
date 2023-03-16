@@ -18,7 +18,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/model/SubLayerModel.sma src/model/ModelManager.sma src/model/NoRosModelManager.sma \
             src/behavior/NotDraggableItem.sma src/behavior/DraggableItem.sma src/behavior/DraggableItemWithRadius.sma \
             src/SubLayer.sma src/SubLayerVisibilityMap.sma \
-            src/Console.sma src/ClockComponent.sma src/Reticule.sma \
+            src/Console.sma src/Reticule.sma \
             src/strip/Strip.sma src/strip/StripContainer.sma \
             src/graph/NodeStatusSelector.sma src/graph/Edge.sma src/graph/Node.sma src/graph/SubLayerNavigGraph.sma src/graph/CGraph.sma \
             src/trap/TrapStatusSelector.sma src/trap/Trap.sma src/trap/SubLayerTraps.sma \
@@ -30,7 +30,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/RosManager.sma \
             src/movable/Vehicle.sma src/movable/SubLayerVehicles.sma src/movable/SafetyPilot.sma src/movable/SubLayerSafetyPilots.sma \
             src/menu/RightPanel.sma src/menu/UpperLeftMenu.sma \
-            src/main.sma
+            src/TopBar.sma src/main.sma
 # or
 #srcs_sma := $(shell find $(src_dir) -name "*.sma")
 

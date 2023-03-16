@@ -117,7 +117,7 @@ class RosNode : public FatProcess, public ExternalSource
     CoreProcess *_drone_safety_pilot, *_ground_safety_pilot;
 
     // fw = file writer
-    CoreProcess *_clock, *_console, *_fw_input, *_fw_console_input;
+    CoreProcess *_console, *_fw_input, *_fw_console_input;
 
     // In context
     RefProperty* _ref_NULL;

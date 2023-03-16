@@ -16,7 +16,7 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 	Spike update_graph
 	Spike send_selected_tasks
 
-	Layer layer (0, 0, 0, 964) { // Bindings on x and w under
+	Layer layer (0, $_context.TOP_BAR_HEIGHT, 0, 964) { // Bindings on x and w under
 
 		Translation tr (0, 0)
 		_frame.width - _context.RIGHT_PANEL_WIDTH =:> tr.tx
@@ -160,5 +160,6 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 		}
 	}
 	_frame.width - _context.RIGHT_PANEL_WIDTH =:> layer.x
-	_context.RIGHT_PANEL_WIDTH =:> layer.w
+	//_context.RIGHT_PANEL_WIDTH =:> layer.w
+	_context.RIGHT_PANEL_WIDTH =: layer.w
 }
