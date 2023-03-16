@@ -40,6 +40,6 @@ SubLayerVehicles (Process _layer_model, Process _map, Process _context, Process 
 		Vehicle agilex2 (_map, _context, _model_manager.vehicles.agilex2, svg_robot)
 		Vehicle lynx (_map, _context, _model_manager.vehicles.lynx, svg_robot)
 		Vehicle spot (_map, _context, _model_manager.vehicles.spot, svg_robot)
-		Vehicle drone (_map, _context, _model_manager.vehicles.drone, svg_drone)
+		Vehicle drone (_map, _context, _model_manager.vehicles.m600, svg_drone)
 	}
 }

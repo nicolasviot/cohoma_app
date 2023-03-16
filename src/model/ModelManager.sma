@@ -210,15 +210,12 @@ ModelManager (Process _context, int _is_debug)
     //  OPERATORS
     //
     // **************************************************************************************************
-    Int OP_TYPE_TACTICAL (1)
-    Int OP_TYPE_ROBOT (2)
-    Int OP_TYPE_SAFETY (2)
 
     Component operators {
-        OperatorModel ot (_context, 1, $OP_TYPE_TACTICAL, "OT", "Op. Tactique", "Charles", $_context.OT_COLOR)
-        OperatorModel og1 (_context, 2, $OP_TYPE_ROBOT, "OG1", "Op. Système 1", "Christophe", $_context.OG1_COLOR)
-        OperatorModel og2 (_context, 3, $OP_TYPE_ROBOT, "OG2", "Op. Système 2", "Titouan", $_context.OG2_COLOR)
-        OperatorModel og3 (_context, 4, $OP_TYPE_ROBOT, "OG3", "Op. Système 3", "Baptiste", $_context.OG3_COLOR)
+        OperatorModel ot (_context, 1, $_context.OPERATOR_TYPE_TACTICAL, "OT", "Op. Tactique", "Charles", $_context.OT_COLOR)
+        OperatorModel og1 (_context, 2, $_context.OPERATOR_TYPE_ROBOT, "OG1", "Op. Système 1", "Christophe", $_context.OG1_COLOR)
+        OperatorModel og2 (_context, 3, $_context.OPERATOR_TYPE_ROBOT, "OG2", "Op. Système 2", "Titouan", $_context.OG2_COLOR)
+        OperatorModel og3 (_context, 4, $_context.OPERATOR_TYPE_ROBOT, "OG3", "Op. Système 3", "Baptiste", $_context.OG3_COLOR)
     }
 
 
@@ -227,13 +224,22 @@ ModelManager (Process _context, int _is_debug)
     //  VEHICLES
     //
     // **************************************************************************************************
+
     Component vehicles {
-        VehicleModel vab (_context, "vab", "VAB", $_context.init_lat, $_context.init_lon, $_context.VAB_COL)
-        VehicleModel agilex1 (_context, "agilex1", "AGILEX 1", $_context.init_lat + 0.0005, $_context.init_lon, $_context.AGI_1_COL)
-        VehicleModel agilex2 (_context, "agilex2", "AGILEX 2", $_context.init_lat + 0.001, $_context.init_lon, $_context.AGI_2_COL)
-        VehicleModel lynx (_context, "lynx", "LYNX", $_context.init_lat, $_context.init_lon + 0.001, $_context.LYNX_COL)
-        VehicleModel spot (_context, "spot", "SPOT", $_context.init_lat + 0.001 , $_context.init_lon + 0.001, $_context.SPOT_COL)
-        VehicleModel drone (_context, "drone", "DRONE", $_context.init_lat + 0.0015 , $_context.init_lon + 0.0015, $_context.DRONE_COL)
+        VehicleModel vab (_context, 11, $_context.VEHICLE_TYPE_VAB, "vab", "VAB", $_context.init_lat, $_context.init_lon)
+
+        VehicleModel bnx8 (_context, 2, $_context.VEHICLE_TYPE_UAV, "bnx8", "BNX8", $_context.init_lat + 0.001 , $_context.init_lon)
+        VehicleModel agilex1 (_context, 3, $_context.VEHICLE_TYPE_UGV, "agilex1", "AGILEX 1", $_context.init_lat + 0.001, $_context.init_lon + 0.0015)
+        VehicleModel agilex2 (_context, 4, $_context.VEHICLE_TYPE_UGV, "agilex2", "AGILEX 2", $_context.init_lat + 0.001, $_context.init_lon + 0.003)
+        VehicleModel lynx (_context, 6, $_context.VEHICLE_TYPE_UGV, "lynx", "LYNX", $_context.init_lat + 0.001, $_context.init_lon + 0.0045)
+
+        VehicleModel m600 (_context, 1, $_context.VEHICLE_TYPE_UAV, "m600", "M600", $_context.init_lat + 0.0005 , $_context.init_lon)
+        VehicleModel agilex3 (_context, 5, $_context.VEHICLE_TYPE_UGV, "agilex3", "AGILEX 3", $_context.init_lat + 0.0005, $_context.init_lon + 0.0015)
+        VehicleModel minnie (_context, 7, $_context.VEHICLE_TYPE_UGV, "minnie", "MINNIE", $_context.init_lat + 0.0005, $_context.init_lon + 0.003)
+
+        VehicleModel long_eye (_context, 9, $_context.VEHICLE_TYPE_UAV, "long_eye", "LONG EYE", $_context.init_lat + 0.0015 , $_context.init_lon)
+        VehicleModel pprz (_context, 10, $_context.VEHICLE_TYPE_UAV, "pprz", "PAPARAZZI", $_context.init_lat + 0.0015 , $_context.init_lon + 0.0015)
+        VehicleModel spot (_context, 8, $_context.VEHICLE_TYPE_UGV, "spot", "SPOT", $_context.init_lat + 0.0015 , $_context.init_lon + 0.003)
     }
 
 

@@ -56,7 +56,16 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     
     //map_zoom + " --> " + map_scale =:> lp.input
 
-    // CONST
+
+    // CONST: always null
+    Ref REF_NULL (nullptr)
+
+    // **************************************************************************************************
+    //
+    //  SIZE
+    //
+    // **************************************************************************************************
+
     Int TOP_BAR_HEIGHT (26)
     Int LEFT_PANEL_WIDTH (264)
     Int RIGHT_PANEL_WIDTH (296)
@@ -69,7 +78,30 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int ITINERARY_WIDTH (8)
     Int TASK_EDGE_WIDTH (12)
 
-    Int DARK_GRAY (##3C3C3B)
+
+    // **************************************************************************************************
+    //
+    //  ENUMS
+    //
+    // **************************************************************************************************
+
+    // Type of operator
+    Int OPERATOR_TYPE_TACTICAL (1)
+    Int OPERATOR_TYPE_ROBOT (2)
+    Int OPERATOR_TYPE_SAFETY (3)
+
+    // Type of vehicle / satellite
+    Int VEHICLE_TYPE_VAB (1)
+    Int VEHICLE_TYPE_UGV (2)
+    Int VEHICLE_TYPE_UAV (3)
+
+    // **************************************************************************************************
+    //
+    //  COLORS
+    //
+    // **************************************************************************************************
+
+    Int DARK_GRAY (#3C3C3B)
     
     Int EDGE_COLOR (#EAEAEA) // R = G = B = 234
 
@@ -111,11 +143,12 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int MANDATORY_COL (#FF30FF)
 
 
-    // CONST: always null
-    Ref REF_NULL (nullptr)
+    // **************************************************************************************************
+    //
+    //  Keyboard inputs 
+    //
+    // **************************************************************************************************
 
-
-    // Keyboard inputs 
     // FIXME: Does not work on some keyboards
     Spike ctrl
     Spike ctrl_r
@@ -137,10 +170,12 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     _frame.key\-pressed == DJN_Key_Backspace -> del
 
     
+    // **************************************************************************************************
     //
-    // Dynamic properties
+    //  Dynamic properties
     //
-
+    // **************************************************************************************************
+    
     // Allow to display the current time
     WallClock w_clock
     "%H:%M:%S" =: w_clock.format // exemple = "%H:%M:%S", "%Hh%Mm%Ss"

@@ -143,7 +143,7 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_agilex2, CoreProcess, _model_manager, vehicles/agilex2)
   GET_CHILD_VAR2 (_lynx, CoreProcess, _model_manager, vehicles/lynx)
   GET_CHILD_VAR2 (_spot, CoreProcess, _model_manager, vehicles/spot)
-  GET_CHILD_VAR2 (_drone, CoreProcess, _model_manager, vehicles/drone)
+  GET_CHILD_VAR2 (_drone, CoreProcess, _model_manager, vehicles/m600)
 
   // Safety pilots
   GET_CHILD_VAR2 (_drone_safety_pilot, CoreProcess, _model_manager, safety_pilots/drone_safety_pilot)

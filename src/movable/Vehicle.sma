@@ -25,23 +25,7 @@ Vehicle (Process map, Process _context, Process _model, Process _svg)
 
     // [insert beautiful graphics here]
     icon << clone (_svg.icon)
-    model.color =: icon.shape.fill.value
-
-    /*Switch switch_type  (vab) {
-        Component vab {
-        }
-        Component agilex1 {
-        }
-        Component agilex2 {
-        }
-        Component lynx {
-        }
-        Component spot {
-        }
-        Component drone {
-        }
-    }
-    model.type =:> switch_type.state*/
+    model.operator_color =: icon.shape.fill.value
 
     // Update the position via "screen_translation" in function of lat/lon and current zoom level
     NotDraggableItem not_draggable_item (map, model.lat, model.lon, screen_translation.tx, screen_translation.ty)
@@ -68,7 +52,7 @@ Vehicle (Process map, Process _context, Process _model, Process _svg)
 
         State animate {
             OutlineWidth _ (4)
-            OutlineColor _ ($model.color)
+            OutlineColor _ ($model.operator_color)
             Circle c (0, 0, $radius)
             radius =:> c.r
         }

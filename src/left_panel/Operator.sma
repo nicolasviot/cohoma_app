@@ -9,7 +9,7 @@ use display
 
 
 _define_
-//Operator (Process _context, Process _model, int _index, Process _svg)
+//Operator (Process _context, Process _model, Process _svg)
 Operator (Process _context, Process _model)
 {
    //context aka _context
@@ -46,7 +46,6 @@ Operator (Process _context, Process _model)
 
    print ("New view of Operator (" + _model.uid + ") type: " + _model.code + " (" + _model.type + ") title: " + _model.title + " named " + _model.name + "\n")
 
-   //Translation tr (_index * $_context.STRIP_WIDTH, 0)
 
    //g << clone (_svg.Strip)
 

@@ -9,23 +9,15 @@ _native_code_
 
 
 _define_
-VehicleModel (Process _context, string _type, string _name, double _lat, double _lon, int _color)
+VehicleModel (Process _context, int _uid, int _type, string _code, string _title, double _lat, double _lon)
 {
     //context aka _context
 
-    // ROBOT_ID_UNKNOWN = 0 # unknown robot
-    // ROBOT_ID_UAV_1 = 1
-    // ROBOT_ID_AGILEX_1 = 2
-    // ROBOT_ID_AGILEX_2 = 3
-    // ROBOT_ID_LYNX = 4
-    // ROBOT_ID_SPOT = 5
-    // ROBOT_ID_VAB = 6
-    // ROBOT_ID_UAV_TELEPILOT = 7
-    // ROBOT_ID_UGV_TELEPILOT = 8
-    //Int uid (0)
-
-    String type (_type)
-    String name (_name)
+    Int uid (_uid)
+    Int type (_type)
+    String code (_code)
+    String title (_title)
+    //String name (_name)
 
     // Latitude [deg] - Longitude [deg] - Altitude (geoide)
     Double lat (_lat)
@@ -33,7 +25,10 @@ VehicleModel (Process _context, string _type, string _name, double _lat, double 
 
     // Body frame linear velocity [m/s]
 
-    Int color (_color)
+    // Color of operator
+    Int operator_color (0)
+
+    print ("New model of Vehicle (" + uid + ") type: " + code + " (" + type + ") title: " + title  + "\n")
 
     // Battery voltage
     Double battery_voltage (24)

@@ -26,7 +26,7 @@ StripContainer (Process _context, Process _model_manager, Process _frame)
 
     Strip strip_spot (_context, _model_manager.vehicles.spot, svg_strip, 4)
 
-    Strip strip_drone (_context, _model_manager.vehicles.drone, svg_strip, 5)
+    Strip strip_drone (_context, _model_manager.vehicles.m600, svg_strip, 5)
   }
   _frame.height - _context.STRIP_HEIGHT =:> layer.y
   _context.STRIP_HEIGHT =:> layer.h

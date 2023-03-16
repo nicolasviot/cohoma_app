@@ -43,10 +43,11 @@ Strip (Process _context, Process _model, Process _svg, int _index)
    model.battery_percentage * 46/100 =:> g.central.battery_gauge.battery_rect.width 
    b_volt.output + "V" =:> g.left.energy.gauge.energy_text.text
    model.battery_percentage * 60/100  =:> g.left.energy.gauge.energy_rect.width
-   (model.type == "drone") ? "aérien" : "terrestre" =:> g.type.text
-   model.name =:> g.id.text
+   (model.type == _context.VEHICLE_TYPE_UAV) ? "aérien" : "terrestre" =:> g.type.text
+   model.title =:> g.id.text
    model.status =:> g.left.status.mode.mode_text.text
-   model.color =:> g.strip_color.fill.value
+   
+   model.operator_color =:> g.strip_color.fill.value
 
    //link status
    Spike data_in
