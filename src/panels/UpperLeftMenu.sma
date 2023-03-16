@@ -12,7 +12,7 @@ UpperLeftMenu (Process map, Process _context, Process _model_manager, Process f)
 {
   //context aka _context
 
-  Translation _ (0, $_context.TOP_BAR_HEIGHT)
+  Translation _ ($_context.LEFT_PANEL_WIDTH, $_context.TOP_BAR_HEIGHT)
 
   svg = load_from_XML ("res/svg/icon_menu.svg")
   main_bg << svg.layer1.main_bg

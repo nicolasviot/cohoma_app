@@ -11,20 +11,20 @@ OperatorsList (Process _context, Process _model_manager)
   //context aka _context
   //model_manager aka _model_manager
 
-  Double height (0)
+  Double height (100)
 
   FillColor _ (#FF0000)
-  Rectangle fake (0, 100, 150, 150, 0, 0)
+  Rectangle bg_debug (0, 0, 50, 100, 0, 0)
+  height =:> bg_debug.height
 
-  //Translation tr (0, 0)
-  //_frame.height - _context.STRIP_HEIGHT+1  =:> tr.ty
+  Operator ot (_context, _model_manager.operators.ot)
+  
+  Operator og1 (_context, _model_manager.operators.og1)
+  ot.y + ot.height =:> og1.y
 
-  Operator ot (_context, null)
+  Operator og2 (_context, _model_manager.operators.og2)
+  og1.y + og1.height =:> og2.y
 
-  //Operator og1 (_context, _model_manager.vehicles.agilex1, svg_strip, 1)
-
-  //Operator og2 (_context, _model_manager.vehicles.agilex2, svg_strip, 2)
-
-  //Operator og3 (_context, _model_manager.vehicles.lynx, svg_strip, 3)
-
+  Operator og3 (_context, _model_manager.operators.og3)
+  og2.y + og2.height =:> og3.y
 }

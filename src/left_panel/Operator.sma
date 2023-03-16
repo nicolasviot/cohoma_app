@@ -15,10 +15,36 @@ Operator (Process _context, Process _model)
    //context aka _context
    model aka _model
 
-   Double height (0)
+   Double height ($_context.OPERATOR_HEADER_HEIGHT + 10)
 
-   FillColor _ (#0000FF)
-   Rectangle fake (0, 120, 100, 100, 0, 0)
+   Translation tr (0, 0)
+   y aka tr.ty
+
+   NoFill _
+   Rectangle bg (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 0, 0)
+   height =:> bg.height
+
+   Component header {
+      NoOutline _
+
+      FillColor _ ($_model.color)
+      Rectangle r1 (0, 0, 147, $_context.OPERATOR_HEADER_HEIGHT, 0, 0)
+
+      FillColor _ (#AAAAAA)
+      Rectangle r2 (147, 0, $_context.LEFT_PANEL_WIDTH - 147, $_context.OPERATOR_HEADER_HEIGHT, 0, 0)
+
+      //FontWeight _ (DJN_BOLD)
+      //FontWeight _ (DJN_NORMAL)
+      FontSize _ (5, 18) // 5 = pixel
+      
+      FillColor white (#FFFFFF)
+      Text txt_title (5, 25, toString(_model.title))
+
+      FillColor white (#000000)
+      Text txt_name (152, 25, toString(_model.name))
+   }
+
+   print ("New view of Operator (" + _model.uid + ") type: " + _model.code + " (" + _model.type + ") title: " + _model.title + " named " + _model.name + "\n")
 
    //Translation tr (_index * $_context.STRIP_WIDTH, 0)
 
