@@ -36,10 +36,19 @@ SubLayerVehicles (Process _layer_model, Process _map, Process _context, Process 
 		_context.map_translation_y =:> pos.ty
 
 		Vehicle vab (_map, _context, _model_manager.vehicles.vab, svg_vab)
+
+		Vehicle bnx8 (_map, _context, _model_manager.vehicles.bnx8, svg_drone)
 		Vehicle agilex1 (_map, _context, _model_manager.vehicles.agilex1, svg_robot)
 		Vehicle agilex2 (_map, _context, _model_manager.vehicles.agilex2, svg_robot)
 		Vehicle lynx (_map, _context, _model_manager.vehicles.lynx, svg_robot)
+
+		Vehicle m600 (_map, _context, _model_manager.vehicles.m600, svg_drone)
+		Vehicle agilex3 (_map, _context, _model_manager.vehicles.agilex3, svg_robot)
+		Vehicle minnie (_map, _context, _model_manager.vehicles.minnie, svg_robot)
+
+		Vehicle long_eye (_map, _context, _model_manager.vehicles.long_eye, svg_drone)
+		Vehicle pprz (_map, _context, _model_manager.vehicles.pprz, svg_drone)
 		Vehicle spot (_map, _context, _model_manager.vehicles.spot, svg_robot)
-		Vehicle drone (_map, _context, _model_manager.vehicles.m600, svg_drone)
+		
 	}
 }

@@ -47,7 +47,7 @@ Strip (Process _context, Process _model, Process _svg, int _index)
    model.title =:> g.id.text
    model.status =:> g.left.status.mode.mode_text.text
    
-   model.operator_color =:> g.strip_color.fill.value
+   model.operator_color.value =:> g.strip_color.fill.value
 
    //link status
    Spike data_in

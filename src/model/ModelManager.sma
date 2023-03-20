@@ -229,18 +229,57 @@ ModelManager (Process _context, int _is_debug)
         VehicleModel vab (_context, 11, $_context.VEHICLE_TYPE_VAB, "vab", "VAB", $_context.init_lat, $_context.init_lon)
 
         VehicleModel bnx8 (_context, 2, $_context.VEHICLE_TYPE_UAV, "bnx8", "BNX8", $_context.init_lat + 0.001 , $_context.init_lon)
+        VehicleModel agilex1 (_context, 3, $_context.VEHICLE_TYPE_UGV, "agilex1", "AGILEX 1", $_context.init_lat + 0.001, $_context.init_lon + 0.0005)
+        VehicleModel agilex2 (_context, 4, $_context.VEHICLE_TYPE_UGV, "agilex2", "AGILEX 2", $_context.init_lat + 0.001, $_context.init_lon + 0.001)
+        VehicleModel lynx (_context, 6, $_context.VEHICLE_TYPE_UGV, "lynx", "LYNX", $_context.init_lat + 0.001, $_context.init_lon + 0.0015)
+
+        VehicleModel m600 (_context, 1, $_context.VEHICLE_TYPE_UAV, "m600", "M600", $_context.init_lat + 0.0005 , $_context.init_lon)
+        VehicleModel agilex3 (_context, 5, $_context.VEHICLE_TYPE_UGV, "agilex3", "AGILEX 3", $_context.init_lat + 0.0005, $_context.init_lon + 0.0005)
+        VehicleModel minnie (_context, 7, $_context.VEHICLE_TYPE_UGV, "minnie", "MINNIE", $_context.init_lat + 0.0005, $_context.init_lon + 0.001)
+
+        VehicleModel long_eye (_context, 9, $_context.VEHICLE_TYPE_UAV, "long_eye", "LONG EYE", $_context.init_lat + 0.0015 , $_context.init_lon)
+        VehicleModel pprz (_context, 10, $_context.VEHICLE_TYPE_UAV, "pprz", "PAPARAZZI", $_context.init_lat + 0.0015 , $_context.init_lon + 0.0005)
+        VehicleModel spot (_context, 8, $_context.VEHICLE_TYPE_UGV, "spot", "SPOT", $_context.init_lat + 0.0015 , $_context.init_lon + 0.001)
+    }
+
+    //vehicles.vab =: operators.ot.robots.add
+    setRef (vehicles.vab.ref_operator, operators.ot)
+    
+    setRef (vehicles.bnx8.ref_operator, operators.og1)
+    setRef (vehicles.agilex1.ref_operator, operators.og1)
+    setRef (vehicles.agilex2.ref_operator, operators.og1)
+    setRef (vehicles.lynx.ref_operator, operators.og1)
+
+    //vehicles.m600 =: operators.og2.robots.add
+    //vehicles.agilex3 =: operators.og2.robots.add
+    //vehicles.minnie =: operators.og2.robots.add
+    setRef (vehicles.m600.ref_operator, operators.og2)
+    setRef (vehicles.agilex3.ref_operator, operators.og2)
+    setRef (vehicles.minnie.ref_operator, operators.og2)
+
+    setRef (vehicles.long_eye.ref_operator, operators.og3)
+    setRef (vehicles.pprz.ref_operator, operators.og3)
+    setRef (vehicles.spot.ref_operator, operators.og3)
+
+    /*addChildrenTo operators.ot.robots {
+        VehicleModel vab (_context, 11, $_context.VEHICLE_TYPE_VAB, "vab", "VAB", $_context.init_lat, $_context.init_lon)
+    }
+    addChildrenTo operators.og1.robots {
+        VehicleModel bnx8 (_context, 2, $_context.VEHICLE_TYPE_UAV, "bnx8", "BNX8", $_context.init_lat + 0.001 , $_context.init_lon)
         VehicleModel agilex1 (_context, 3, $_context.VEHICLE_TYPE_UGV, "agilex1", "AGILEX 1", $_context.init_lat + 0.001, $_context.init_lon + 0.0015)
         VehicleModel agilex2 (_context, 4, $_context.VEHICLE_TYPE_UGV, "agilex2", "AGILEX 2", $_context.init_lat + 0.001, $_context.init_lon + 0.003)
         VehicleModel lynx (_context, 6, $_context.VEHICLE_TYPE_UGV, "lynx", "LYNX", $_context.init_lat + 0.001, $_context.init_lon + 0.0045)
-
+    }
+    addChildrenTo operators.og2.robots {
         VehicleModel m600 (_context, 1, $_context.VEHICLE_TYPE_UAV, "m600", "M600", $_context.init_lat + 0.0005 , $_context.init_lon)
         VehicleModel agilex3 (_context, 5, $_context.VEHICLE_TYPE_UGV, "agilex3", "AGILEX 3", $_context.init_lat + 0.0005, $_context.init_lon + 0.0015)
         VehicleModel minnie (_context, 7, $_context.VEHICLE_TYPE_UGV, "minnie", "MINNIE", $_context.init_lat + 0.0005, $_context.init_lon + 0.003)
-
+    }
+    addChildrenTo operators.og3.robots {
         VehicleModel long_eye (_context, 9, $_context.VEHICLE_TYPE_UAV, "long_eye", "LONG EYE", $_context.init_lat + 0.0015 , $_context.init_lon)
         VehicleModel pprz (_context, 10, $_context.VEHICLE_TYPE_UAV, "pprz", "PAPARAZZI", $_context.init_lat + 0.0015 , $_context.init_lon + 0.0015)
         VehicleModel spot (_context, 8, $_context.VEHICLE_TYPE_UGV, "spot", "SPOT", $_context.init_lat + 0.0015 , $_context.init_lon + 0.003)
-    }
+    }*/
 
 
     // **************************************************************************************************
