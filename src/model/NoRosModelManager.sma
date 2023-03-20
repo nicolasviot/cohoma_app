@@ -19,8 +19,6 @@ import ModelManager
 import PointModel
 import ExclusionZoneModel
 import LimaModel
-import VehicleModel
-import SafetyPilotModel
 import NodeModel
 import EdgeModel
 import ItineraryModel
