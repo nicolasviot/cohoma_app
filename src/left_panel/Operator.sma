@@ -35,7 +35,7 @@ Operator (Process _context, Process _model)
    //context aka _context
    model aka _model
 
-   Double height ($_context.OPERATOR_HEADER_HEIGHT + 10)
+   Double height ($_context.OPERATOR_HEADER_HEIGHT + 5)
 
    Translation tr (0, 0)
    y aka tr.ty
@@ -67,19 +67,28 @@ Operator (Process _context, Process _model)
    print ("New view of Operator (" + _model.uid + ") type: " + _model.code + " (" + _model.type + ") title: " + _model.title + " named " + _model.name + "\n")
    //print ("New view of Operator (" + _model.uid + ") type: " + _model.code + " (" + _model.type + ") title: " + _model.title + " named " + _model.name + " with " +  _model.robots.size + " robots\n")
 
+   Translation _ (0, $_context.OPERATOR_HEADER_HEIGHT + 5)
 
-   FontSize _ (5, 18) // 5 = pixel
-   FillColor _ (#000000)
+   int i = 0
+   for robot : _model.robots {
+      print (_model.title + " has robot " + robot.title + "\n")
+      //_model =: robot.ref_operator
+      setRef (robot.ref_operator, model)
 
-   // FIXME: doesn't work
-   //int i = 0
-   /*for robot : _model.robots {
-      height + 20 =: height
+      Component fake_strip_to_replace {
+         Translation tr (5, i * (5 + $_context.VEHICLE_STRIP_HEIGHT))
+
+         FillColor _ (#AAAAAA)
+         Rectangle _ (0, 0, 100, $_context.VEHICLE_STRIP_HEIGHT, 0, 0)
+
+         FontSize _ (5, 18) // 5 = pixel
+         FillColor _ (#000000)
+         Text txt_robot (5, 20, toString(robot.title))
+      }
+      height + 5 + _context.VEHICLE_STRIP_HEIGHT =: height
       
-      //Text txt_robot (5, 25 + i * 20, toString(robot.title))
-      Text txt_robot (5, 25 + 20, toString(robot.title))
-      //i += 1
-   }*/
+      i = i + 1
+   }
 
    NativeCollectionAction nca_robots (collection_action_robots, _model.robots, 1)
    _model.robots -> nca_robots

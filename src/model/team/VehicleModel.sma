@@ -29,12 +29,13 @@ VehicleModel (Process _context, int _uid, int _type, string _code, string _title
     Ref ref_operator (nullptr)
     DerefInt operator_color (ref_operator, "color", DJNN_GET_ON_CHANGE)
 
-    // FIXME: doesn't work
+    // FIXME: TODO after a D&D
     /*ref_operator -> na_ref_operator:(this) {
         _ref_operator = getRef (this.ref_operator)
         if (&_ref_operator != null) {
             print ("ref_operator\n")
             _ref_operator.robots.add = this
+            setRef (_ref_operator.robots.add, this)
         }
     }*/
 
