@@ -40,18 +40,22 @@ Operator (Process _context, Process _model)
    Translation tr (0, 0)
    y aka tr.ty
 
-   NoFill _
-   Rectangle bg (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 0, 0)
-   height =:> bg.height
+   Component bg {
+      OutlineWidth _ (1)
+      OutlineColor black (#000000)
+      NoFill _
+      Rectangle bg (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 5, 5)
+      height =:> bg.height
+   }
 
    Component header {
       NoOutline _
 
       FillColor _ ($_model.color)
-      Rectangle r1 (0, 0, 147, $_context.OPERATOR_HEADER_HEIGHT, 0, 0)
+      Rectangle r1 (1, 1, 147, $_context.OPERATOR_HEADER_HEIGHT, 0, 0)
 
       FillColor _ (#AAAAAA)
-      Rectangle r2 (147, 0, $_context.LEFT_PANEL_WIDTH - 147, $_context.OPERATOR_HEADER_HEIGHT, 0, 0)
+      Rectangle r2 (148, 1, $_context.LEFT_PANEL_WIDTH - 152, $_context.OPERATOR_HEADER_HEIGHT, 0, 0)
 
       //FontWeight _ (DJN_BOLD)
       //FontWeight _ (DJN_NORMAL)

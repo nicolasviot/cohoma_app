@@ -3,6 +3,7 @@ use gui
 use base
 
 import OperatorsList
+import widgets.chat.Chat
 
 
 _define_
@@ -20,7 +21,12 @@ LeftPanel (Process _context, Process _model_manager, Process _frame)
 		Rectangle bg (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 0, 0)
 		_frame.height =:> bg.height
 
+		// List of operators (and their vehicles)
 		OperatorsList operators_list (_context, _model_manager)
+
+		// Chat to send (and receive) messages to others operators
+		Chat chat (_frame)
+		//operators_list.height =:> chat.y
 	}
 
 }

@@ -45,7 +45,6 @@ import task.SubLayerTasks
 import trap.SubLayerTraps
 import trap.TrapStatusSelector
 import site.SubLayerSite
-import widgets.chat.Chat
 
 
 _native_code_
