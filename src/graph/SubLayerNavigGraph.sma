@@ -79,7 +79,7 @@ action_node_ids_removed (Process src, Process self)
 //  EDGES
 //
 //**************************************************************************************************
-_action_
+/*_action_
 action_edge_ids_added (Process src, Process self)
 {
 	if (self.ui.edges.lst.size == 0) {
@@ -120,7 +120,7 @@ _action_
 action_edge_ids_removed (Process src, Process self)
 {
 	print ("FIXME TODO: Model of edge removed: " + self.model_manager.edge_ids.size + " edges. View has " + self.ui.edges.lst.size + " edges\n")
-}
+}*/
 
 
 _define_
@@ -135,11 +135,11 @@ SubLayerNavigGraph (Process _layer_model, Process _map, Process _context, Proces
 	//Spike create_bindings
 	//Spike clear
 
-	NativeAction na_edge_ids_added (action_edge_ids_added, this, 1)
-	_model_manager.edge_ids.$added -> na_edge_ids_added
+	//NativeAction na_edge_ids_added (action_edge_ids_added, this, 1)
+	//_model_manager.edge_ids.$added -> na_edge_ids_added
 
-	NativeAction na_edge_ids_removed (action_edge_ids_removed, this, 1)			
-	_model_manager.edge_ids.$removed -> na_edge_ids_removed
+	//NativeAction na_edge_ids_removed (action_edge_ids_removed, this, 1)			
+	//_model_manager.edge_ids.$removed -> na_edge_ids_removed
 
 	NativeAction na_node_ids_added (action_node_ids_added, this, 1)
 	_model_manager.node_ids.$added -> na_node_ids_added
@@ -156,12 +156,12 @@ SubLayerNavigGraph (Process _layer_model, Process _map, Process _context, Proces
 			_context.map_translation_y =:> pos.ty
 
 			// EDGES
-			Component edges {
+			/*Component edges {
 				OutlineColor outline_color ($_context.EDGE_COLOR)
 				//OutlineOpacity _ (0.3)
 
 				List lst
-			}
+			}*/
 
 			// NODES
 			List nodes			
@@ -191,7 +191,7 @@ SubLayerNavigGraph (Process _layer_model, Process _map, Process _context, Proces
 			}
 		}
 
-		for edge_id : _model_manager.edge_ids {
+		/*for edge_id : _model_manager.edge_ids {
 			string str_id = toString (edge_id)
 
 			model = find (_model_manager.edges, str_id)
@@ -201,6 +201,6 @@ SubLayerNavigGraph (Process _layer_model, Process _map, Process _context, Proces
 			else {
 				print ("No model of edge with id " + edge_id + "\n")
 			}
-		}
+		}*/
 	}
 }
