@@ -43,7 +43,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Double map_translation_x (0.0)
     Double map_translation_y (0.0)
 
-    Double veil_opacity (0.3)
+    Double veil_opacity (0.2) // 20%
 
     //map_zoom / _init_zoom =:> map_scale
 

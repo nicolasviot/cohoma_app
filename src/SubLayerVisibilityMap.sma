@@ -39,7 +39,8 @@ SubLayerVisibilityMap (Process _layer_model, Process _map, Process _context) inh
 			FillOpacity opacity (0.5)
 			_context.veil_opacity =:> opacity.a
 			FillColor black (#000000)
-			Rectangle r (0, 0, $_map.width, $_map.height, 0, 0)
+			//Rectangle r (0, 0, $_map.width, $_map.height, 0, 0)
+			Rectangle r (-500, -500, $_map.width + 1000, $_map.height + 1000, 0, 0)
 			//_map.width =:> r.width
 			//_map.height =:> r.height
 		}

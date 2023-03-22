@@ -31,8 +31,7 @@ UpperLeftMenu (Process map, Process _context, Process _model_manager, Process f)
 
     /* Slider */
     Translation pos (0, 20)
-    Slider s1 (f, 5, 5, 0, 100, 0)
-    //s1.output/100 =:> map.layers.osm.opacity
+    Slider s1 (f, 5, 5, 0, 100, 20)
     s1.output / 100 =:> _context.veil_opacity
 
     /* Title 2 */
