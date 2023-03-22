@@ -46,8 +46,8 @@ Operator (Process _context, Process _model)
       OutlineWidth _ (1)
       OutlineColor black (#000000)
       NoFill _
-      Rectangle bg (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 5, 5)
-      height =:> bg.height
+      //Rectangle bg (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 5, 5)
+      //height =:> bg.height
    }
 
    Component header {
@@ -84,7 +84,7 @@ Operator (Process _context, Process _model)
       Strip strip (_context, robot, i)
 
       
-      height + 3 + _context.VEHICLE_STRIP_HEIGHT =: height
+      height + 5 + _context.VEHICLE_STRIP_HEIGHT =: height
       
       i = i + 1
    }
