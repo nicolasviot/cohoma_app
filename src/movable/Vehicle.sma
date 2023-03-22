@@ -23,7 +23,7 @@ Vehicle (Process map, Process _context, Process _model, Process _svg)
     Rotation rot (0, 0, 0)
     model.heading_rot =:> rot.a
 
-    // [insert beautiful graphics here]
+    // icon
     icon << clone (_svg.icon)
     model.operator_color.value =: icon.shape.fill.value
 

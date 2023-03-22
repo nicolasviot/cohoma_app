@@ -71,7 +71,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int RIGHT_PANEL_WIDTH (296)
 
     Int OPERATOR_HEADER_HEIGHT (38)
-    Int VEHICLE_STRIP_HEIGHT (29)
+    Int VEHICLE_STRIP_HEIGHT (45)
     Int STRIP_WIDTH (225)
     Int STRIP_HEIGHT (125)
 

@@ -3,6 +3,8 @@ use base
 use gui
 use display
 
+import Strip
+
 _native_code_
 %{
    #include <iostream>
@@ -79,17 +81,10 @@ Operator (Process _context, Process _model)
       //_model =: robot.ref_operator
       setRef (robot.ref_operator, model)
 
-      Component fake_strip_to_replace {
-         Translation tr (5, i * (5 + $_context.VEHICLE_STRIP_HEIGHT))
+      Strip strip (_context, robot, i)
 
-         FillColor _ (#AAAAAA)
-         Rectangle _ (0, 0, 100, $_context.VEHICLE_STRIP_HEIGHT, 0, 0)
-
-         FontSize _ (5, 18) // 5 = pixel
-         FillColor _ (#000000)
-         Text txt_robot (5, 20, toString(robot.title))
-      }
-      height + 5 + _context.VEHICLE_STRIP_HEIGHT =: height
+      
+      height + 3 + _context.VEHICLE_STRIP_HEIGHT =: height
       
       i = i + 1
    }

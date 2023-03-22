@@ -20,7 +20,6 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/behavior/NotDraggableItem.sma src/behavior/DraggableItem.sma src/behavior/DraggableItemWithRadius.sma \
             src/SubLayer.sma src/SubLayerVisibilityMap.sma \
             src/Console.sma src/Reticule.sma \
-            src/strip/Strip.sma src/strip/StripContainer.sma \
             src/graph/NodeStatusSelector.sma src/graph/Edge.sma src/graph/Node.sma src/graph/SubLayerNavigGraph.sma src/graph/CGraph.sma \
             src/trap/TrapStatusSelector.sma src/trap/Trap.sma src/trap/SubLayerTraps.sma \
             src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma src/task/SubLayerTasks.sma \
@@ -30,7 +29,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/map/PanAndZoom.sma src/map/PixmapTile.sma src/map/MapLayer.sma src/map/Map.sma \
             src/RosManager.sma \
             src/movable/Vehicle.sma src/movable/SubLayerVehicles.sma src/movable/SafetyPilot.sma src/movable/SubLayerSafetyPilots.sma \
-            src/left_panel/Operator.sma src/left_panel/OperatorsList.sma src/left_panel/LeftPanel.sma \
+            src/left_panel/Strip.sma src/left_panel/Operator.sma src/left_panel/OperatorsList.sma src/left_panel/LeftPanel.sma \
             src/panels/TopBar.sma src/panels/RightPanel.sma src/panels/UpperLeftMenu.sma \
             src/main.sma
 # or

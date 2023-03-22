@@ -65,9 +65,12 @@ VehicleModel (Process _context, int _uid, int _type, string _code, string _title
     // OPERATING_MODE_TELEOPERATION = 2     # Operated by remote operator
     // OPERATING_MODE_AUTONOMOUS = 3        # Operated by on-board computer
     Int operation_mode (0)
-    String status ("")
-    (operation_mode == 1) ? "Manual" : ((operation_mode == 2 ) ? "TeleOP" : ((operation_mode == 3 ) ? "Auto" : "???")) =:> status
+    String operation_mode_status ("Unknown")
+    (operation_mode == 1) ? "Manual" : ((operation_mode == 2 ) ? "TeleOP" : ((operation_mode == 3 ) ? "Auto" : "Unknown")) =:> operation_mode_status
 
+
+    //TODO bind to messages
+    String status ("error")
 
     Spike start_locate
     Spike stop_locate

@@ -26,7 +26,6 @@ import panels.TopBar
 import panels.UpperLeftMenu
 import panels.RightPanel
 
-import strip.StripContainer
 import left_panel.LeftPanel
 
 import SubLayer
@@ -385,7 +384,7 @@ Component root {
 
   // ----------------------------------------------------
   // Strips container
-  StripContainer strips (context, model_manager, f)
+  // StripContainer strips (context, model_manager, f)
 
   // ----------------------------------------------------
   // Menu to show/hide layers
