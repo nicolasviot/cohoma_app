@@ -19,10 +19,10 @@ ExclusionArea (Process _map, Process _context, Process _model)
     //model aka _model
 
     Component bg {
-        FillOpacity fill_op (0.3)
-        FillColor fill_col (#FFA500)
-        OutlineWidth _ (2)
-        OutlineColor outline_col (#FFA500)
+        FillOpacity fill_op (0.5)
+        FillColor fill_col (#00CF84)
+        OutlineWidth _ (1)
+        OutlineColor outline_col (#FFFFFF)
         OutlineCapStyle _ (1)
     
         Polygon poly_gon
@@ -46,7 +46,7 @@ ExclusionArea (Process _map, Process _context, Process _model)
         _model.barycenter.lat / _model.points.size =: _model.barycenter.lat
         _model.barycenter.lon / _model.points.size =: _model.barycenter.lon
 
-        Switch switch (UNKNOWN) {
+        /*Switch switch (UNKNOWN) {
             Component UNKNOWN
 
             // Restricted Fire Area (deactivation only on clearance)
@@ -73,7 +73,7 @@ ExclusionArea (Process _map, Process _context, Process _model)
             Component ROZ_GROUND {
             }
         }
-        _model.type =:> switch.state
+        _model.type =:> switch.state*/
     }
 
 
