@@ -27,8 +27,9 @@ Lima (Process _map, Process _context, Process _model)
     OutlineOpacity outline_op (0.5)
 
     NoFill _
-    OutlineWidth outline_width (10)
-    OutlineColor outline_color (#1414AF)
+    OutlineWidth outline_width (5)
+    //OutlineColor outline_color (#1414AF)
+    OutlineColor outline_color (#12CC8B)
     
     Polyline poly_line
 
@@ -57,10 +58,10 @@ Lima (Process _map, Process _context, Process _model)
 
     FSM hovered_lima {
         State not_hovered {
-            10 =: outline_width.width
+            5 =: outline_width.width
         }
         State hovered {
-            15 =: outline_width.width
+            10 =: outline_width.width
         }
         not_hovered -> hovered (poly_line.enter)
         hovered -> not_hovered (poly_line.leave)
@@ -68,23 +69,26 @@ Lima (Process _map, Process _context, Process _model)
 
     FSM lima_selection {
         State idle {
-            #1414AF =: outline_color.value, label1.outline_color.value, label2.outline_color.value
+            //#1414AF =: outline_color.value, label1.outline_color.value, label2.outline_color.value
+            #12CC8B =: outline_color.value, label1.outline_color.value, label2.outline_color.value
 
             0.8 =:> fill_op.a
             0.5 =:> outline_op.a
         }
         State first_click {
-            #1414FF =: outline_color.value, label1.outline_color.value, label2.outline_color.value
+            //#1414FF =: outline_color.value, label1.outline_color.value, label2.outline_color.value
+            #12DD8B =: outline_color.value, label1.outline_color.value, label2.outline_color.value
 
             1.0 =:> fill_op.a
             0.7 =:> outline_op.a
 
-            Timer t (4000)
+            Timer t (2000)
 
             poly_line.press -> double_click
         }
         State validated {
-            #1488FF =: outline_color.value, label1.outline_color.value, label2.outline_color.value
+            //#1488FF =: outline_color.value, label1.outline_color.value, label2.outline_color.value
+            #12FF8B =: outline_color.value, label1.outline_color.value, label2.outline_color.value
 
             1.0 =:> fill_op.a, outline_op.a
         }
