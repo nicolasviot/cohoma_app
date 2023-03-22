@@ -119,7 +119,7 @@ action_clear_itineraries (Process c)
                     for (Process* node_id : tmp)
                     {
                         node_ids->remove_child(node_id);
-                        node_id->schedule_delete();
+                        node_id->schedule_deletion();
                     }
                 }
             }
@@ -152,7 +152,7 @@ action_clear_tasks (Process c)
             for (Process* task : tmp)
             {
                 task_areas->remove_child(task);
-                task->schedule_delete();
+                task->schedule_deletion();
             }
         }
     }
@@ -174,7 +174,7 @@ action_clear_tasks (Process c)
             for (Process* task : tmp)
             {
                 task_edges->remove_child(task);
-                task->schedule_delete();
+                task->schedule_deletion();
             }
         }
     }
@@ -196,7 +196,7 @@ action_clear_tasks (Process c)
             for (Process* task : tmp)
             {
                 task_traps->remove_child(task);
-                task->schedule_delete();
+                task->schedule_deletion();
             }
         }
     }

@@ -241,7 +241,7 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped::Share
   _ref_node_status_edition->set_value (_ref_NULL, true);
 
 
-  // FIXME TODO: schedule_delete old tasks about edges, about traps and about zones
+  // FIXME TODO: schedule_deletion old tasks about edges, about traps and about zones
   // schedule delete old itineraries
   // schedule delete old edges
   // schedule delete old nodes
@@ -419,7 +419,7 @@ RosNode::receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphIt
               for (Process* node_id : tmp)
               {
                   node_ids->remove_child(node_id);
-                  node_id->schedule_delete();
+                  node_id->schedule_deletion();
               }
           }
       }
@@ -575,7 +575,7 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
 
   cout << "Receive msg Candidate Tasks" << endl;
 
-  // FIXME TODO: schedule_delete old tasks about edges, about traps and about zones
+  // FIXME TODO: schedule_deletion old tasks about edges, about traps and about zones
   
   // Aerial
   int nb_uav_zone = msg.uav_zones.size();
@@ -752,7 +752,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
     }
   }
 
-  // FIXME TODO: schedule_delete old ASSIGNED tasks about edges, about traps and about zones
+  // FIXME TODO: schedule_deletion old ASSIGNED tasks about edges, about traps and about zones
 
   //GRAPH_EXEC;
   
