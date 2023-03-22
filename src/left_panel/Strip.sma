@@ -31,26 +31,19 @@ Strip (Process _context, Process _model, int _index)
       Scaling _ (0.5, 0.5, 0, 0)
       Rotation _ (90, 0, 0)
 
-      SwitchList iconSwitchList (1){
-        Component _ {
-          svg_icon = load_from_XML ("res/svg/vab.svg")
-          icon << svg_icon.icon
-          op_color =: icon.shape.fill.value
-        }
-        Component _ {
-          svg_icon = load_from_XML ("res/svg/robot.svg")
-          icon << svg_icon.icon
-          op_color =: icon.shape.fill.value
-        
-        }
-        Component _ {
-          svg_icon = load_from_XML ("res/svg/drone.svg")
-          icon << svg_icon.icon
-          op_color =: icon.shape.fill.value
-          
-        }
+      if ($type == 1){
+        svg_icon = load_from_XML ("res/svg/robot.svg")
+        icon << svg_icon.icon
+        op_color =: icon.shape.fill.value
+      } else if ($type == 2){
+        svg_icon = load_from_XML ("res/svg/drone.svg")
+        icon << svg_icon.icon
+         op_color =: icon.shape.fill.value
+      } else {
+        svg_icon = load_from_XML ("res/svg/vab.svg")
+        icon << svg_icon.icon
+         op_color =: icon.shape.fill.value
       }
-      type =: iconSwitchList.index
     }
 
     //health-status
