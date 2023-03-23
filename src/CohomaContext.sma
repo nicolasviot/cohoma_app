@@ -135,6 +135,8 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int UAV_COL (#FFFFFF)
     Int UGV_COL (#FFFFFF)
 
+    Int SAFETY_PILOT_COL(#5CAD9D)
+
     // COLORS for node states
     Int NODE_COL (#CCCCCC)
     Int WHITE_COL (#FFFFFF)

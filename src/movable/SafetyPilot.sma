@@ -18,16 +18,22 @@ SafetyPilot (Process map, Process _context, Process _model, Process _svg)
     Translation screen_translation (0, 0)
     
     Component bg {
-        NoOutline _
-        FillColor _ ($model.color)
-        FillOpacity _ (0.2)
+        OutlineColor _ ($model.color)
+        OutlineOpacity _ (0.7)
+        NoFill _
         Circle c (0, 0, 50)
     }
 
-    FillColor _ (#000000)
+    FillColor _ ($model.color)
 
+    Scaling iconScale (1,1, 0,0)
     icon << clone (_svg.icon)
     picking aka icon.picking
+
+    $model.color =: icon.marker.fill.value
+
+    10 / map.zoomLevel =:> iconScale.sx 
+    iconScale.sx =:> iconScale.sy  
 
     /*Switch switch_type (uav){
         Component uav {
