@@ -11,7 +11,7 @@ Strip (Process _context, Process _model, int _index)
 
   Translation drag_translation (0,0)
 
-  Translation tr (5, _index * (5 + $_context.VEHICLE_STRIP_HEIGHT))
+  Translation tr (0, _index * (5 + $_context.VEHICLE_STRIP_HEIGHT))
   svg = load_from_XML ("res/svg/strip.svg")
   g << svg.strip
   monitoring aka g.strip_monitor_group
@@ -172,18 +172,17 @@ Strip (Process _context, Process _model, int _index)
   g.strip_bg.press -> model.start_locate
   g.strip_bg.release -> model.stop_locate
 
+  //drag and drop to realocate -- -need to ask a manger to move ghost to another zone.
   Spike drop_action
   Spike drag_started
+  Int off_x (0)
+  Int off_y (0)
 
-   Int off_x (0)
-   Int off_y (0)
-  
-  ///
-  //drag and drop to realocate -- -need to ask a manger to move ghost to another zone.
   FSM dragMachine{
     State idle {
       0 =: drag_translation.tx
       0 =: drag_translation.ty
+      0=: _context.show_drop_zones_strip
     }
     State pressed{
       g.strip_bg.press.x =: off_x
@@ -199,9 +198,14 @@ Strip (Process _context, Process _model, int _index)
     }
     
     idle -> pressed (g.strip_bg.press)
-    pressed -> idle (g.strip_bg.release)
+    pressed -> idle (_context.frame_released)
     pressed -> dragging (drag_started)
-    dragging -> idle (g.strip_bg.release)
+    dragging -> idle (_context.frame_released)
   }
+  AssignmentSequence init_dragging (1) {
+    1 =: _context.show_drop_zones_strip
+    model =: _context.model_of_dragged_strip
+  }
+  drag_started -> init_dragging
 }
 

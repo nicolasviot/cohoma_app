@@ -30,4 +30,9 @@ OperatorsList (Process _context, Process _model_manager)
   og2.y + og2.height + $DELTA_Y_BETWEEN_OPERATORS =:> og3.y
 
   og3.y + og3.height =:> height
+
+  _context.show_drop_zones_strip =:> og1.accept_drop
+  _context.show_drop_zones_strip =:> og2.accept_drop
+  _context.show_drop_zones_strip =:> og3.accept_drop
+
 }

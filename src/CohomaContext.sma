@@ -67,7 +67,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     // **************************************************************************************************
 
     Int TOP_BAR_HEIGHT (26)
-    Int LEFT_PANEL_WIDTH (264)
+    Int LEFT_PANEL_WIDTH (250)
     Int RIGHT_PANEL_WIDTH (250)
 
     Int OPERATOR_HEADER_HEIGHT (25)
@@ -235,4 +235,8 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
 
     //String selected_itinerary_type ("")
 
+    
+    //DRAG and DROP
+    Bool show_drop_zones_strip (1)
+    Ref model_of_dragged_strip (null)
 }

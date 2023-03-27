@@ -2,6 +2,7 @@ use core
 use gui
 use base
 
+
 _native_code_
 %{
     #include <iostream>
@@ -39,7 +40,7 @@ VehicleModel (Process _context, int _uid, int _type, string _code, string _title
         }
     }*/
 
-    print ("New model of Vehicle (" + uid + ") type: " + code + " (" + type + ") title: " + title  + "\n")
+    print ("New model of Vehicle (" + uid + ") type: " + type + " code: " + code + " title: " + title  + "\n")
 
     // Battery voltage
     Double battery_voltage (24)
@@ -68,6 +69,9 @@ VehicleModel (Process _context, int _uid, int _type, string _code, string _title
     TextPrinter tp
     "TODO: faire un message pour dire que " + title + " trap detection " + detect_traps => tp.input 
 
+    //possibilité de réaffecter le robot ??
+    Bool can_assign (0)
+    
     // Current operating mode
     // OPERATING_MODE_UNKNOWN = 0           # Default value
     // OPERATING_MODE_MANUAL = 1            # Operated by security pilot

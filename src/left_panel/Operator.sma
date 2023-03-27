@@ -36,6 +36,7 @@ Operator (Process _context, Process _model)
 {
    //context aka _context
    model aka _model
+   context aka _context
 
    Double height ($_context.OPERATOR_HEADER_HEIGHT + 5)
 
@@ -70,57 +71,52 @@ Operator (Process _context, Process _model)
       Text txt_name (152, 18, toString(_model.name))
    }
 
-   //print ("New view of Operator (" + _model.uid + ") type: " + _model.code + " (" + _model.type + ") title: " + _model.title + " named " + _model.name + "\n")
-   //print ("New view of Operator (" + _model.uid + ") type: " + _model.code + " (" + _model.type + ") title: " + _model.title + " named " + _model.name + " with " +  _model.robots.size + " robots\n")
+   print ("New view of Operator (" + _model.uid + ") type: " + _model.type + " code " + _model.code + " title: " + _model.title + " named " + _model.name + "\n")
+   //print ("New view of Operator (" + _model.uid + ") type: " + _model.type + " code" + _model.code + " title: " + _model.title + " named " + _model.name + " with " +  _model.robots.size + " robots\n")
 
-   Translation _ (0, $_context.OPERATOR_HEADER_HEIGHT + 5)
 
-   int i = 0
-   for robot : _model.robots {
-      print (_model.title + " has robot " + robot.title + "\n")
-      //_model =: robot.ref_operator
-      setRef (robot.ref_operator, model)
+   Component strips{
+      Translation _ (0, $_context.OPERATOR_HEADER_HEIGHT + 5)
 
-      Strip strip (_context, robot, i)
-
-      
-      height + 5 + _context.VEHICLE_STRIP_HEIGHT =: height
-      
-      i = i + 1
+      int i = 0
+      for robot : _model.robots {
+         print (_model.title + " has robot " + robot.title + "\n")
+         setRef (robot.ref_operator, model)
+         Strip strip (_context, robot, i)
+         height + 5 + _context.VEHICLE_STRIP_HEIGHT =: height
+         i = i + 1
+      }
    }
 
-   NativeCollectionAction nca_robots (collection_action_robots, _model.robots, 1)
+    NativeCollectionAction nca_robots (collection_action_robots, _model.robots, 1)
    _model.robots -> nca_robots
-
-   Spike show_dropzone
-   Spike hide_dropzone
-   //dropzone
    
-   FSM dropable{
-      State idle
-      State accept_drop{
+
+   Bool accept_drop (0)
+   Spike drop_trigger
+   
+   FSM drop_zone{
+      State hide
+      State show_drop{
          OutlineWidth _ (1)
          OutlineColor black (#00FF00)
          FillOpacity _ (0.1)
          FillColor _ (#00FF00)
-         Rectangle bg (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 5, 5)
-         height =:> bg.height
+         Rectangle zone (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 5, 5)
+         height =:> zone.height
       }
-      idle -> accept_drop (show_dropzone)
-      accept_drop -> idle (hide_dropzone)
+      hide -> show_drop (accept_drop.true)
+      show_drop -> hide (accept_drop.false)
    }
+   drop_zone.show_drop.zone.release -> drop_trigger
 
-   //|-> show_dropzone
-   //g << clone (_svg.Strip)
-
-   //heading.output + "°" =:> g.central.data.heading.heading_text.text
-   //alt_msl.output + "m" =:> g.central.data.altitude.altitude_text.text 
-   //model.name =:> g.id.text
-   //model.status =:> g.left.status.mode.mode_text.text
-   //model.color =:> g.strip_color.fill.value
-
-   //g.background.press -> model.start_locate
-   //g.background.release -> model.stop_locate
-
+   //attention obligé de stocker contexte comme un enfant... sinon marche pas.
+   drop_trigger -> na_find_dropped_strip_model:(this) {
+        _ref_vehicle_model = getRef (this.context.model_of_dragged_strip)
+        if (&_ref_vehicle_model != null) {
+            print ("j'ai droppé le strip " + _ref_vehicle_model.code + " sur l'opérateur " + this.model.title + "\n")
+        }
+   }
+   
 }
 
