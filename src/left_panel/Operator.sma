@@ -116,6 +116,10 @@ Operator (Process _context, Process _model)
         if (&_ref_vehicle_model != null) {
             print ("j'ai droppé le strip " + _ref_vehicle_model.code + " sur l'opérateur " + this.model.title + "\n")
         }
+        //TODO : confirmer le changement
+        form_svg = load_from_XML("res/svg/allocation-robot-confirmation.svg")
+        //form << form_svg
+
    }
    
 }

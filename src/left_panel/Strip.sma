@@ -64,9 +64,9 @@ Strip (Process _context, Process _model, int _index)
             |-> reset_color
             
             timer.tick -> ellapsedIncr
-            227 - ((ellapsedIncr.state * 100) / 4000) *  23 =:> status.fill.g
-            106 + ((ellapsedIncr.state * 100) / 4000) *  100 =:> status.fill.r
-            68 + ((ellapsedIncr.state * 100) / 4000) *  130 =:> status.fill.b
+            227 - ((ellapsedIncr.state * 100) / 10000) *  23 =:> status.fill.g
+            106 + ((ellapsedIncr.state * 100) / 10000) *  100 =:> status.fill.r
+            68 + ((ellapsedIncr.state * 100) / 10000) *  130 =:> status.fill.b
 
           }
           Component warning{

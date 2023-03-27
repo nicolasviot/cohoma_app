@@ -97,7 +97,7 @@ VehicleModel (Process _context, int _uid, int _type, string _code, string _title
       }
         
       State connected{
-        Timer status_timer (4000) //wait 4seconds
+        Timer status_timer (10000) //wait 4seconds
         data_in -> status_timer.reset
         "ok" =: status
       }
