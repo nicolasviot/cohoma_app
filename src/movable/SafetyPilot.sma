@@ -32,6 +32,7 @@ SafetyPilot (Process map, Process _context, Process _model, Process _svg)
 
     $model.color =: icon.marker.fill.value
 
+    //update icon size with zoom level (keep somehow constant)
     10 / map.zoomLevel =:> iconScale.sx 
     iconScale.sx =:> iconScale.sy  
 

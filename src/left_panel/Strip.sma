@@ -16,8 +16,6 @@ Strip (Process _context, Process _model, int _index)
   g << svg.strip
   monitoring aka g.strip_monitor_group
   tasks aka g.tasks_monitor_group
-  traps aka g.trap_group
-
   
   //------ set identification data (label, icon, colors)
   toString(model.title) =:> monitoring.strip_label.text
@@ -25,22 +23,22 @@ Strip (Process _context, Process _model, int _index)
   addChildrenTo monitoring{
    
      //icon + colors
-     //todo changer en IF car statique
     Component icon_strip{
-      Translation _ (20, 30) 
-      Scaling _ (0.5, 0.5, 0, 0)
-      Rotation _ (90, 0, 0)
-
+      Translation _ (8, 12) 
+      Scaling _ (0.3, 0.3, 0, 0)
+    
       if ($type == 1){
-        svg_icon = load_from_XML ("res/svg/robot.svg")
+        svg_icon = load_from_XML ("res/svg/vab.svg")
         icon << svg_icon.icon
         op_color =: icon.shape.fill.value
       } else if ($type == 2){
+        Translation _ (4, 0) 
+        Rotation _ (90, 0, 0)
         svg_icon = load_from_XML ("res/svg/drone.svg")
         icon << svg_icon.icon
          op_color =: icon.shape.fill.value
       } else {
-        svg_icon = load_from_XML ("res/svg/vab.svg")
+        svg_icon = load_from_XML ("res/svg/robot.svg")
         icon << svg_icon.icon
          op_color =: icon.shape.fill.value
       }
@@ -56,18 +54,58 @@ Strip (Process _context, Process _model, int _index)
           }
           Component ok{
             status << svg_status.ok
+            Clock timer (100)
+            Incr ellapsedIncr (0)
+            TextPrinter tp
+            AssignmentSequence reset_color (1){
+              0 =: ellapsedIncr.state
+            }
+            model.data_in -> reset_color
+            |-> reset_color
+            
+            timer.tick -> ellapsedIncr
+            227 - ((ellapsedIncr.state * 100) / 4000) *  23 =:> status.fill.g
+            106 + ((ellapsedIncr.state * 100) / 4000) *  100 =:> status.fill.r
+            68 + ((ellapsedIncr.state * 100) / 4000) *  130 =:> status.fill.b
+
           }
           Component warning{
             status << svg_status.warning
           } 
         }
         model.status =:> status_switch.state
+        //debug
+        status_switch.warning.status.press -> model.data_in
+    }
+
+    //Capacités robots (camera/laser)
+    Component robot_capacities{
+      
+      camera_icon aka monitoring.camera_icon
+      laser_icon aka monitoring.laser_icon
+      model.camera ? _context.OK_COLOR : _context.NOK_COLOR =:> camera_icon.fill.value
+      model.laser ? _context.OK_COLOR : _context.NOK_COLOR =:> laser_icon.fill.value
+
+      //DEBUG
+      /*AssignmentSequence test_camera_on (1){
+        1 =: model.camera
+        1 =: model.laser
+      }
+      AssignmentSequence test_camera_off (1){
+        0 =: model.camera
+        0 =: model.laser
+      }
+      g.strip_bg.press -> test_camera_on
+      g.strip_bg.release -> test_camera_off
+      */
+      //FIN debug
+        
     }
 
     Component operation_mode{
       
       svg_mode = load_from_XML("res/svg/operation-mode-icons.svg")
-      Translation _ (70, 32)
+      Translation _ (95, 12)
 
       Switch mode_switch (Unknown){
           Component Unknown{
@@ -86,9 +124,30 @@ Strip (Process _context, Process _model, int _index)
      
       model.operation_mode_status =:> mode_switch.state
     }
-
+  
   }
 
+  //Gestion piege (detection dans le trap_manager)
+  Component trap_detection {
+    Translation _ (162, 12) 
+    Scaling _ (0.6, 0.6, 0, 0)
+    trap_detection_svg = load_from_XML("res/svg/icon-detect-traps.svg")
+    FSM trap_detection {
+      State detect_traps{
+        show << trap_detection_svg.show
+        1 =: model.detect_traps 
+      }
+      State ignore_traps{
+        hide << trap_detection_svg.hide
+        0 =: model.detect_traps
+      }
+      detect_traps -> ignore_traps (detect_traps.show.iris.press)
+      detect_traps -> ignore_traps (detect_traps.show.eye.press)
+      ignore_traps -> detect_traps (ignore_traps.hide.press)
+    }
+  }
+  
+  
   // --- Tasks et planification
 
   Spike show_new_task_panel
@@ -109,9 +168,6 @@ Strip (Process _context, Process _model, int _index)
   tasks.btn_add_task.button_show_bg.press -> show_new_task_panel
 
 
-  // ---- traps detection
-
-
   //locate interaction on press
   g.strip_bg.press -> model.start_locate
   g.strip_bg.release -> model.stop_locate
@@ -122,6 +178,7 @@ Strip (Process _context, Process _model, int _index)
    Int off_x (0)
    Int off_y (0)
   
+  ///
   //drag and drop to realocate -- -need to ask a manger to move ghost to another zone.
   FSM dragMachine{
     State idle {

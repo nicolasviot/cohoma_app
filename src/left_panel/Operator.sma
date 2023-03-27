@@ -46,8 +46,8 @@ Operator (Process _context, Process _model)
       OutlineWidth _ (1)
       OutlineColor black (#000000)
       NoFill _
-      //Rectangle bg (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 5, 5)
-      //height =:> bg.height
+      Rectangle bg (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 5, 5)
+      height =:> bg.height
    }
 
    Component header {
@@ -61,16 +61,16 @@ Operator (Process _context, Process _model)
 
       //FontWeight _ (DJN_BOLD)
       //FontWeight _ (DJN_NORMAL)
-      FontSize _ (5, 18) // 5 = pixel
+      FontSize _ (5, 15) // 5 = pixel
       
       FillColor white (#FFFFFF)
-      Text txt_title (5, 25, toString(_model.title))
+      Text txt_title (5, 18, toString(_model.title))
 
       FillColor black (#000000)
-      Text txt_name (152, 25, toString(_model.name))
+      Text txt_name (152, 18, toString(_model.name))
    }
 
-   print ("New view of Operator (" + _model.uid + ") type: " + _model.code + " (" + _model.type + ") title: " + _model.title + " named " + _model.name + "\n")
+   //print ("New view of Operator (" + _model.uid + ") type: " + _model.code + " (" + _model.type + ") title: " + _model.title + " named " + _model.name + "\n")
    //print ("New view of Operator (" + _model.uid + ") type: " + _model.code + " (" + _model.type + ") title: " + _model.title + " named " + _model.name + " with " +  _model.robots.size + " robots\n")
 
    Translation _ (0, $_context.OPERATOR_HEADER_HEIGHT + 5)
@@ -92,7 +92,25 @@ Operator (Process _context, Process _model)
    NativeCollectionAction nca_robots (collection_action_robots, _model.robots, 1)
    _model.robots -> nca_robots
 
+   Spike show_dropzone
+   Spike hide_dropzone
+   //dropzone
+   
+   FSM dropable{
+      State idle
+      State accept_drop{
+         OutlineWidth _ (1)
+         OutlineColor black (#00FF00)
+         FillOpacity _ (0.1)
+         FillColor _ (#00FF00)
+         Rectangle bg (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 5, 5)
+         height =:> bg.height
+      }
+      idle -> accept_drop (show_dropzone)
+      accept_drop -> idle (hide_dropzone)
+   }
 
+   //|-> show_dropzone
    //g << clone (_svg.Strip)
 
    //heading.output + "°" =:> g.central.data.heading.heading_text.text

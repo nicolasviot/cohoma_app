@@ -3,67 +3,38 @@
 <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="1920px" height="1080px" viewBox="0 0 1920 1080" enable-background="new 0 0 1920 1080" xml:space="preserve">
 <g id="strip">
-	<path id="strip_bg" fill="#666666" stroke="#D8D8D8" stroke-width="0.5" stroke-miterlimit="10" d="M250.5,46H5.4
-		C2.3,46,0,42.7,0,38.7v-31c0-4.1,2.5-7.3,5.4-7.3h55.4h189.7c3.1,0,5.4,3.3,5.4,7.3v31.1C255.9,42.9,253.5,46,250.5,46z"/>
-	<line fill="none" stroke="#D8D8D8" stroke-width="0.5" stroke-miterlimit="10" x1="82.8" y1="46" x2="82.6" y2="0.5"/>
-	<line fill="none" stroke="#D8D8D8" stroke-width="0.5" stroke-miterlimit="10" x1="182.4" y1="45" x2="182.4" y2="0.3"/>
+	<path id="strip_bg" fill="#666666" stroke="#D8D8D8" stroke-width="0.5" stroke-miterlimit="10" d="M244.8,25.1H5.4
+		c-3,0-5.3-1.8-5.3-4v-17c0-2.2,2.4-4,5.3-4h54.1h185.3c3,0,5.3,1.8,5.3,4v17.1C250.1,23.4,247.8,25.1,244.8,25.1z"/>
+	
+		<line id="delimiter" fill="none" stroke="#D8D8D8" stroke-width="0.5" stroke-miterlimit="10" x1="81" y1="25.1" x2="80.8" y2="0.2"/>
+	
+		<line id="delimiter_2" fill="none" stroke="#D8D8D8" stroke-width="0.5" stroke-miterlimit="10" x1="176.1" y1="25" x2="175.9" y2="0.1"/>
+	
+		<line id="delimiter_3" fill="none" stroke="#D8D8D8" stroke-width="0.5" stroke-miterlimit="10" x1="148" y1="25.1" x2="147.8" y2="0.2"/>
 	<g id="strip_monitor_group">
 		
-			<text id="strip_label" transform="matrix(1 0 0 1 6.8261 14.6675)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="11.9547px">BNX8</text>
-	</g>
-	<g id="trap_group">
-		<g id="trap_detection_selector">
-			<g id="detect_icon">
-				<path id="eye" fill="#FFFFFF" d="M195.2,29c-6.6,0-8.5,5.7-8.5,5.7l-0.2,0.3l0.2,0.3c0,0,2,5.7,8.5,5.7c6.6,0,8.5-5.7,8.5-5.7
-					l0.2-0.3l-0.2-0.3C203.7,34.7,201.7,29,195.2,29z M195.2,38.5c-1.9,0-3.5-1.6-3.5-3.5s1.6-3.5,3.5-3.5s3.5,1.6,3.5,3.5
-					S197.1,38.5,195.2,38.5z"/>
-				<path id="iris" fill="#FFFFFF" d="M195.2,33.3c-0.9,0-1.7,0.8-1.7,1.7s0.8,1.7,1.7,1.7s1.7-0.8,1.7-1.7S196.2,33.3,195.2,33.3z"
-					/>
-			</g>
-			<text transform="matrix(1 0 0 1 186.5663 25.1699)" fill="#FFFFFF" font-family="'ArialMT'" font-size="6.3823px">detect</text>
-			<g id="ignore_icon" opacity="0.5">
-				<path fill="#FFFFFF" d="M246.8,29.8c0-1.4-2.5-2.8-5.5-2.8s-5.5,1.3-5.5,2.8v1.4c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V29.8z
-					 M241.2,38.8c-3,0-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8v-2C246.8,37.6,244.2,38.8,241.2,38.8z"/>
-				<path fill="#FFFFFF" d="M246.8,32.5c0,1.4-2.5,2.8-5.5,2.8s-5.5-1.3-5.5-2.8v2c0,1.4,2.5,2.8,5.5,2.8s5.5-1.3,5.5-2.8V32.5z"/>
-				<circle fill="#E1E1E3" cx="244.6" cy="38" r="3"/>
-				<path d="M246.4,39.8l-0.3,0.3c-0.2,0.2-0.3,0.2-0.3,0l-3.3-3.3c-0.2-0.2-0.2-0.3,0-0.3l0.3-0.3c0.2-0.2,0.3-0.2,0.3,0l3.3,3.3
-					C246.6,39.5,246.6,39.6,246.4,39.8z"/>
-				<path d="M246.1,36l0.3,0.3c0.2,0.2,0.2,0.3,0,0.3l-3.3,3.3c-0.2,0.2-0.3,0.2-0.3,0l-0.3-0.3c-0.2-0.2-0.2-0.3,0-0.3l3.3-3.3
-					C246,36,246.1,36,246.1,36z"/>
-			</g>
-			
-				<text transform="matrix(1 0 0 1 232.9911 25.4629)" opacity="0.5" fill="#FFFFFF" enable-background="new    " font-family="'ArialMT'" font-size="6.3823px">ignore</text>
-			
-				<text transform="matrix(1 0 0 1 212.6016 25.4629)" opacity="0.5" fill="#FFFFFF" enable-background="new    " font-family="'ArialMT'" font-size="6.3823px">stop</text>
-			<path id="stop_icon" opacity="0.5" fill="#FFFFFF" enable-background="new    " d="M214.9,34.1l-3.2-3.2
-				c-1.3,1.4-1.7,2.7-1.7,2.7l-0.2,0.3l0.2,0.3c0,0,1.9,5.5,8.2,5.5c0.8,0,1.4-0.2,2-0.2l-2.2-2.2C216.3,37.2,215.1,35.8,214.9,34.1
-				L214.9,34.1z M218.2,28.3c-1.6,0-2.8,0.3-3.8,0.8l-3-3l-1.1,1.1L225.1,42l1.1-1.1l-2.7-2.7c2.2-1.6,3-3.8,3-3.8l0.2-0.3l-0.2-0.3
-				C226.4,33.6,224.5,28.3,218.2,28.3z M219.8,34.4c0.2-0.6,0-1.1-0.5-1.6s-1.1-0.6-1.6-0.5l-1.3-1.3c0.5-0.3,1.1-0.5,1.7-0.5
-				c1.7,0,3.3,1.4,3.3,3.3c0,0.6-0.2,1.1-0.5,1.7L219.8,34.4L219.8,34.4z"/>
-		</g>
-		<text transform="matrix(1 0 0 1 185.3837 8.5654)" fill="#FFFFFF" font-family="'ArialMT'" font-size="8.8664px">traps </text>
-		<g id="btn_show">
-			<path id="button_show_bg" fill="#545454" stroke="#D8D8D8" stroke-width="0.25" stroke-miterlimit="10" d="M248.5,11.5h-20
-				c-1.3,0-2.4-0.9-2.4-2.4V6.3c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C250.7,10.6,249.8,11.5,248.5,11.5z"/>
-			<text transform="matrix(1 0 0 1 228.2383 9.7539)" fill="#FFFFFF" font-family="'ArialMT'" font-size="5.2537px">Show all</text>
-		</g>
-		<path fill="none" stroke="#D8D8D8" stroke-width="0.5" stroke-miterlimit="10" d="M203.8,11.2h-21.4V0.6H208V7
-			C208,9.3,206.1,11.2,203.8,11.2z"/>
+			<text id="strip_label" transform="matrix(0.931 0 0 1 17.1427 14.6863)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10px">BNX8</text>
+		<path id="camera_icon" fill-rule="evenodd" clip-rule="evenodd" fill="#FF3E3E" d="M107.5,10c0-1.9,1.5-3.4,3.4-3.4h5.9
+			c1.9,0,3.4,1.5,3.4,3.4v0.1l2.7-1.6c0.7-0.4,1.5,0.1,1.5,0.9v6.3c0,0.7-0.8,1.2-1.4,0.9l-2.8-1.3c-0.1,1.7-1.6,3.1-3.4,3.1h-5.9
+			c-1.9,0-3.4-1.5-3.4-3.4V10z M120.2,13.5l2.5,1.1v-4.1l-2.5,1.5V13.5z M118.5,10c0-0.9-0.8-1.7-1.7-1.7h-5.9
+			c-0.9,0-1.7,0.8-1.7,1.7v5.1c0,0.9,0.8,1.7,1.7,1.7h5.9c0.9,0,1.7-0.8,1.7-1.7V10z"/>
+		<path id="laser_icon" fill-rule="evenodd" clip-rule="evenodd" fill="#FF3333" d="M143.5,13.1c-0.2,3.2-2.7,5.8-5.8,6.1v-2h-1v2
+			c-3.1-0.2-5.5-2.8-5.8-6.1h1.9v-1H131c0.2-3.2,2.7-5.8,5.8-6.1v2h1V6c3.1,0.2,5.5,2.8,5.8,6.1h-1.9v1L143.5,13.1L143.5,13.1z
+			 M144.4,12.1c-0.2-3.8-3.1-6.8-6.7-7.1v-1h-1v1c-3.6,0.3-6.5,3.3-6.7,7.1h-1v1h1c0.2,3.8,3.1,6.8,6.7,7.1v1h1v-1
+			c3.6-0.3,6.5-3.3,6.7-7.1h1v-1L144.4,12.1L144.4,12.1z M137.2,9c-1.9,0-3.4,1.6-3.4,3.5s1.5,3.5,3.4,3.5s3.4-1.6,3.4-3.5
+			S139.1,9,137.2,9"/>
 	</g>
 	<g id="tasks_monitor_group">
-		<text transform="matrix(1 0 0 1 84.1895 8.6748)" fill="#FFFFFF" font-family="'ArialMT'" font-size="8.8664px">tasks</text>
-		<path fill="none" stroke="#D8D8D8" stroke-width="0.5" stroke-miterlimit="10" d="M104.1,11.3H82.7V0.7h25.6v6.4
-			C108.3,9.4,106.4,11.3,104.1,11.3z"/>
+		<text transform="matrix(0.931 0 0 1 178.1997 8.7259)" fill="#FFFFFF" font-family="'ArialMT'" font-size="9.3037px">tasks</text>
+		<path id="task_panel_label" fill="none" stroke="#D8D8D8" stroke-width="0.5" stroke-miterlimit="10" d="M196.9,11.5H176V0.3h25
+			v6.7C201,9.5,199.1,11.5,196.9,11.5z"/>
 		<g id="btn_add_task">
-			
-				<path id="button_show_bg" fill="#545454" stroke="#D8D8D8" stroke-width="0.25" stroke-miterlimit="10" d="
-				M176,11.5h-20c-1.3,0-2.4-0.9-2.4-2.4V6.3c0-1.3,0.9-2.4,2.4-2.4h20c1.3,0,2.4,0.9,2.4,2.4v2.8C178.2,10.6,177.2,11.5,176,11.5z"
-				/>
-			<text transform="matrix(1 0 0 1 155.6934 9.7539)" fill="#FFFFFF" font-family="'ArialMT'" font-size="5.2537px">Add</text>
-			
-				<path id="task_add_00000098179230359501329880000011325903290281144988_" fill="none" stroke="#FFFFFF" stroke-width="0.5" stroke-linecap="round" stroke-miterlimit="133.3333" d="
-				M173.5,7.8h-0.9 M172.6,7.8h-0.9 M172.6,7.8V6.9 M172.6,7.8v0.9 M174.2,10.4H171c-0.7,0-1.3-0.5-1.3-1.2V6.3
-				c0-0.6,0.6-1.2,1.3-1.2h3.2c0.7,0,1.3,0.5,1.3,1.2v2.9C175.5,9.9,174.9,10.4,174.2,10.4z"/>
+			<path id="button_show_bg" fill="#545454" stroke="#D8D8D8" stroke-width="0.25" stroke-miterlimit="10" d="M245,9.8h-19.5
+				c-1.3,0-2.3-0.9-2.3-2.5V4.4c0-1.4,0.9-2.5,2.3-2.5H245c1.3,0,2.3,0.9,2.3,2.5v2.9C247.2,8.9,246.2,9.8,245,9.8z"/>
+			<text transform="matrix(0.931 0 0 1 225.1842 7.9875)" fill="#FFFFFF" font-family="'ArialMT'" font-size="5.5128px">Add</text>
+			<path id="plus_icon" fill="none" stroke="#FFFFFF" stroke-width="0.5" stroke-linecap="round" stroke-miterlimit="133.3333" d="
+				M242.6,5.9h-0.9 M241.7,5.9h-0.9 M241.7,5.9V5 M241.7,5.9v0.9 M243.3,8.7h-3.1c-0.7,0-1.3-0.5-1.3-1.3v-3c0-0.6,0.6-1.3,1.3-1.3
+				h3.1c0.7,0,1.3,0.5,1.3,1.3v3C244.5,8.1,243.9,8.7,243.3,8.7z"/>
 		</g>
 	</g>
 </g>

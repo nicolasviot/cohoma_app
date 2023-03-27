@@ -68,11 +68,11 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
 
     Int TOP_BAR_HEIGHT (26)
     Int LEFT_PANEL_WIDTH (264)
-    Int RIGHT_PANEL_WIDTH (296)
+    Int RIGHT_PANEL_WIDTH (250)
 
-    Int OPERATOR_HEADER_HEIGHT (38)
-    Int VEHICLE_STRIP_HEIGHT (45)
-    Int STRIP_WIDTH (225)
+    Int OPERATOR_HEADER_HEIGHT (25)
+    Int VEHICLE_STRIP_HEIGHT (25)
+    Int STRIP_WIDTH (250)
     Int STRIP_HEIGHT (125)
 
     Int EDGE_WIDTH (4)
@@ -123,13 +123,9 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int OG3_COLOR (#27E8F5) // Op. Group 3
     Int OS_COLOR (#5CAD9D)   // Op. Safety
 
-    // FIXME: TO REMOVE
-    Int VAB_COL (#00B1E6)
-    Int AGI_1_COL (#0C2EE8)
-    Int AGI_2_COL (#B500FF)
-    Int LYNX_COL (#B3B100)
-    Int SPOT_COL (#0CE820)
-    Int DRONE_COL (#1ACAFF)
+    //Colors for status strips
+    Int OK_COLOR(#314D17) //dark green for OK.
+    Int NOK_COLOR(#FF3333) //flashy red for problem
 
     // FIXME: TO REMOVE
     Int UAV_COL (#FFFFFF)

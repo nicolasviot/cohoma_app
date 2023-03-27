@@ -43,7 +43,6 @@ VehicleModel (Process _context, int _uid, int _type, string _code, string _title
 
     // Battery voltage
     Double battery_voltage (24)
-
     // Estimation of battery charge (0-100) negative if unknown
     Int battery_percentage (75)
 
@@ -59,6 +58,16 @@ VehicleModel (Process _context, int _uid, int _type, string _code, string _title
     // Safety stop in case of communication failure
     Bool failsafe (0)
 
+
+    //Capacité robots
+    Bool camera (0)
+    Bool laser (0)
+
+    //Ignorrer les pieges dans le manager
+    Bool detect_traps (1)
+    TextPrinter tp
+    "TODO: faire un message pour dire que " + title + " trap detection " + detect_traps => tp.input 
+
     // Current operating mode
     // OPERATING_MODE_UNKNOWN = 0           # Default value
     // OPERATING_MODE_MANUAL = 1            # Operated by security pilot
@@ -69,8 +78,32 @@ VehicleModel (Process _context, int _uid, int _type, string _code, string _title
     (operation_mode == 1) ? "Manual" : ((operation_mode == 2 ) ? "TeleOP" : ((operation_mode == 3 ) ? "Auto" : "Unknown")) =:> operation_mode_status
 
 
-    //TODO bind to messages
+    //TODO bind to messages for life of the robot =:> if no data --> warning
     String status ("error")
+
+
+    /// Alive mecanism
+    //link status with geo pos data
+   Spike data_in
+   lat -> data_in
+
+   FSM link_status_FSM{
+      State disconnected{
+        "warning" =: status
+      }
+        
+      State connected{
+        Timer status_timer (4000) //wait 4seconds
+        data_in -> status_timer.reset
+        "ok" =: status
+      }
+
+      disconnected -> connected (data_in)
+      connected -> disconnected (connected.status_timer.end) 
+   }
+
+
+
 
     Spike start_locate
     Spike stop_locate
