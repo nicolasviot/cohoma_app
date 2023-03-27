@@ -12,7 +12,7 @@ _native_code_
 
 
 _define_
-DraggableItemWithRadius (Process _map, Process _lat, Process _lon, Process _radius_meter, Process _tx, Process _ty, Process _picking, Process _frame_released, Process _radius_pixel)
+DraggableItemWithRadius (Process _map, Process _context, Process _lat, Process _lon, Process _radius_meter, Process _tx, Process _ty, Process _picking, Process _frame_released, Process _radius_pixel)
 {
     //TextPrinter tp
     
@@ -110,12 +110,12 @@ DraggableItemWithRadius (Process _map, Process _lat, Process _lon, Process _radi
             _picking.move.x - offset_x => _tx
             _picking.move.y - offset_y => _ty
 
-            px2lon ($_tx + _map.t0_x, $_map.zoomLevel) => _lon, _map.reticule.pointer_lon2
-            py2lat (_map.t0_y - $_ty, $_map.zoomLevel) => _lat, _map.reticule.pointer_lat2
+            px2lon ($_tx + _map.t0_x, $_map.zoomLevel) => _lon, _context.pointer_lon
+            py2lat (_map.t0_y - $_ty, $_map.zoomLevel) => _lat, _context.pointer_lat
         }
-        no_drag -> drag (_picking.left.press, _map.reticule.show2)
-        drag -> no_drag (_picking.left.release, _map.reticule.hide2)
-        drag -> no_drag (_frame_released, _map.reticule.hide2) // Occurs when release is done outside parent layer
+        no_drag -> drag (_picking.left.press, _context.start_drag_map_item)
+        drag -> no_drag (_picking.left.release, _context.stop_drag_map_item)
+        drag -> no_drag (_frame_released, _context.stop_drag_map_item) // Occurs when release is done outside parent layer
     }
 
 }

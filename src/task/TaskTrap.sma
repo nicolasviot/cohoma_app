@@ -62,6 +62,6 @@ TaskTrap (Process _map, Process _context, Process _model)
 
     // Update the position via "screen_translation" in function of lat/lon and current zoom level
     // Allow to drag via "picking"
-    DraggableItemWithRadius draggable_item (_map, _model.trap.lat, _model.trap.lon, _model.trap.radius, screen_translation.tx, screen_translation.ty, picking, _context.frame_released, c.r)
+    DraggableItemWithRadius draggable_item (_map, _context, _model.trap.lat, _model.trap.lon, _model.trap.radius, screen_translation.tx, screen_translation.ty, picking, _context.frame_released, c.r)
 	
 }

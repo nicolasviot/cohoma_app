@@ -95,13 +95,13 @@ DraggableItem (Process _map, Process _context, Process _lat, Process _lon, Proce
             _picking.move.x - offset_x => _dx
             _picking.move.y - offset_y => _dy
 
-            px2lon ($_dx + _map.t0_x, $_map.zoomLevel) => _lon, _map.reticule.pointer_lon2
-            py2lat (_map.t0_y - $_dy, $_map.zoomLevel) => _lat, _map.reticule.pointer_lat2
+            px2lon ($_dx + _map.t0_x, $_map.zoomLevel) => _lon, _context.pointer_lon
+            py2lat (_map.t0_y - $_dy, $_map.zoomLevel) => _lat, _context.pointer_lat
         }
         
-        no_drag -> drag (_picking.left.press, _map.reticule.show2)
-        drag -> no_drag (_picking.left.release, _map.reticule.hide2)
-        drag -> no_drag (_frame_released, _map.reticule.hide2) // Occurs when release is done outside parent layer
+        no_drag -> drag (_picking.left.press, _context.start_drag_map_item)
+        drag -> no_drag (_picking.left.release, _context.stop_drag_map_item)
+        drag -> no_drag (_frame_released, _context.stop_drag_map_item) // Occurs when release is done outside parent layer
 
         no_drag -> no_drag_while_shift_key (_context.shift)
         no_drag_while_shift_key -> no_drag (_context.shift_r)

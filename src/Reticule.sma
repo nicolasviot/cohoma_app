@@ -8,40 +8,35 @@ _native_code_
 %}
 
 _define_
-Reticule (Process map, Process f)
+Reticule (Process _frame, Process _context)
 {
   Spike show
   Spike hide
-  Spike show2
-  Spike hide2
 
-  Double pointer_lat2 (0)
-  Double pointer_lon2 (0)
-
-  Switch ui (hidden) {
+  Switch switch (hidden) {
     Component hidden
 
     Component visible {
       OutlineColor _(Black)
       Line l1 (0, 0, 0, 0)
       Line l2 (0, 0, 0, 0)
-      f.move.x =:> l1.x1, l1.x2
-      f.move.y =:> l2.y1, l2.y2
-      f.width =:> l2.x2
-      f.height =:> l1.y2 
+      _frame.move.x =:> l1.x1, l1.x2
+      _frame.move.y =:> l2.y1, l2.y2
+      _frame.width =:> l2.x2
+      _frame.height =:> l1.y2 
       
       Component bg {
         FillColor _ (White)
         NoOutline _
         FillOpacity _ (0.5)
         Rectangle r (0, 0, 100, 30)
-        f.move.x =:> r.x
-        f.move.y =:> r.y
+        _frame.move.x =:> r.x
+        _frame.move.y =:> r.y
       }
       
       FillColor _(Black)
       Text label (0, 0, "")
-      //map.pointer_lat + " " + map.pointer_lon =:> label.text
+      _context.pointer_lat + " " + _context.pointer_lon =:> label.text
 
       bg.r.x + 10 =:> label.x
       bg.r.y + 20 =:> label.y
@@ -50,22 +45,19 @@ Reticule (Process map, Process f)
     }
   }
 
-  FSM reticule {
-    State off {
-      "hidden" =: ui.state
-    }
-    State on_from_wp {
-      "visible" =: ui.state
-      map.pointer_lat + " " + map.pointer_lon =:> ui.visible.label.text
-    }
-    State on_from_movable_obj {
-      "visible" =: ui.state
-      pointer_lat2 + " " + pointer_lon2 =:> ui.visible.label.text
-    }
-    off -> on_from_wp (show)
-    on_from_wp -> off (hide)
-    off -> on_from_movable_obj (show2)
-    on_from_movable_obj -> off (hide2)
+  FSM fsm {
+    State hidden
+    State visible
+
+    hidden -> visible (show)
+    visible -> hidden (hide)
   }
+  fsm.state => switch.state
+
+  _context.start_drag_map_item -> show
+  _context.stop_drag_map_item -> hide
+
+  //TextPrinter tp
+  //"FSM in reticule = " + fsm.state =:> tp.input
 
 }

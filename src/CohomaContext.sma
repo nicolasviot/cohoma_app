@@ -72,8 +72,6 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
 
     Int OPERATOR_HEADER_HEIGHT (25)
     Int VEHICLE_STRIP_HEIGHT (25)
-    Int STRIP_WIDTH (250)
-    Int STRIP_HEIGHT (125)
 
     Int EDGE_WIDTH (4)
     Int ITINERARY_WIDTH (8)
@@ -127,10 +125,6 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int OK_COLOR(#314D17) //dark green for OK.
     Int NOK_COLOR(#FF3333) //flashy red for problem
 
-    // FIXME: TO REMOVE
-    Int UAV_COL (#FFFFFF)
-    Int UGV_COL (#FFFFFF)
-
     Int SAFETY_PILOT_COL(#5CAD9D)
 
     // COLORS for node states
@@ -182,6 +176,14 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     // To update it (FIXME: 900ms is sufficient ?)
     Clock clock_trigger (900)
     clock_trigger.tick -> w_clock.state_text
+
+    // Lat/Long of cursor
+    Double pointer_lat (0)
+    Double pointer_lon (0)
+
+    // Spikes to notify when a map item is currently dragged
+    Spike start_drag_map_item
+    Spike stop_drag_map_item
 
 
     // Model of the node currently selected during graph edition (left click)

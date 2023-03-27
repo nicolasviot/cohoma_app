@@ -44,6 +44,7 @@ import task.SubLayerTasks
 import trap.SubLayerTraps
 import trap.TrapStatusSelector
 import site.SubLayerSite
+import Reticule
 
 
 _native_code_
@@ -224,8 +225,9 @@ Component root {
 
     // ----------------------------------------------------
     //  MAP
-    //Map map (f, 0, 0, init_frame_width - $context.RIGHT_PANEL_WIDTH, init_frame_height - $context.STRIP_HEIGHT, init_latitude, init_longitude, init_zoom)
+    //Map map (f, 0, 0, init_frame_width - $context.RIGHT_PANEL_WIDTH, init_frame_height, init_latitude, init_longitude, init_zoom)
     Map map (f, $context.LEFT_PANEL_WIDTH, $context.TOP_BAR_HEIGHT, init_frame_width - $context.LEFT_PANEL_WIDTH - $context.RIGHT_PANEL_WIDTH, init_frame_height - $context.TOP_BAR_HEIGHT, init_latitude, init_longitude, init_zoom)
+    
     // FIXME: map crash if I add dynamic width/height:
     //f.width - context.LEFT_PANEL_WIDTH - context.RIGHT_PANEL_WIDTH =:> map.width
     //f.height - context.TOP_BAR_HEIGHT =:> map.height
@@ -318,10 +320,25 @@ Component root {
       vehicles //satellites
     }
 
+
     // Foreground (absolute position in frame)
     Component foreground {
       Spike edit
       Spike create
+
+      // Reticule
+      Reticule reticule (f, context)
+
+      FSM fsm_dragging_map_item {
+        State no_drag {
+          map.pointer_lat => context.pointer_lat
+          map.pointer_lon => context.pointer_lon    
+        }
+        State drag_map_item
+
+        no_drag -> drag_map_item (context.start_drag_map_item)
+        drag_map_item -> no_drag (context.stop_drag_map_item)
+      }
 
       Translation pos (0, 0)
       context.map_translation_x =:> pos.tx
@@ -340,10 +357,10 @@ Component root {
 
       TrapStatusSelector trap_menu (f, context)
       press_on_background -> context.set_current_trap_to_null
-    }
 
-    show_reticule -> l.map.reticule.show, foreground.create
-    hide_reticule -> l.map.reticule.hide, foreground.edit
+      show_reticule -> reticule.show, create
+      hide_reticule -> reticule.hide, edit
+    }
   }
 
 

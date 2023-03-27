@@ -285,11 +285,9 @@ ModelManager (Process _context, int _is_debug)
     // **************************************************************************************************
     Component safety_pilots {
         // Unmanned Aerial Vehicle
-        //SafetyPilotModel uav (_context, "uav", "UAV", $_context.init_lat, $_context.init_lon - 0.005, $_context.UAV_COL)
         SafetyPilotModel drone_safety_pilot (_context, "uav", "UAV", $_context.init_lat, $_context.init_lon - 0.005, $_context.SAFETY_PILOT_COL)
 
         // Unmanned Ground Vehicle
-        //SafetyPilotModel ugv (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.UGV_COL)
         SafetyPilotModel ground_safety_pilot (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.SAFETY_PILOT_COL)
     }
 

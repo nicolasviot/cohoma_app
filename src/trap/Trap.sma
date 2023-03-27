@@ -126,7 +126,7 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
 
         // Update the position via "screen_translation" in function of lat/lon and current zoom level
         // Allow to drag via "picking"
-        DraggableItemWithRadius draggable_item (_map, _model.lat, _model.lon, _model.radius, screen_translation.tx, screen_translation.ty, picking, _context.frame_released, c.r)
+        DraggableItemWithRadius draggable_item (_map, _context, _model.lat, _model.lon, _model.radius, screen_translation.tx, screen_translation.ty, picking, _context.frame_released, c.r)
 
     }
 

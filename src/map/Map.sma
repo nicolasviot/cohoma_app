@@ -18,7 +18,6 @@ use gui
 use animation
 
 import map.PanAndZoom
-import Reticule
 import gui.animation.Animator
 
 _native_code_
@@ -62,8 +61,8 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   Double scaling_factor_correction(0)
   // important note :
   // mercator scaling correction, use init_lat to update the correction ONCE
-  // to make it workcorrectly, this computation should be include in an Abstract_Geo_ref Class
-  // because the correction is only dependante on Lat/Lon of a object
+  // to make it work correctly, this computation should be include in an Abstract_Geo_ref Class
+  // because the correction is only dependant on Lat/Lon of an object
   // formula: (1 + c2*(cos(2*f) - 1)) / cos(f)
   // where: c2 = 0.00001120378
   Double c2 (0.00001120378)
@@ -186,8 +185,6 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   release aka g_map.pick_area.release
   press aka g_map.pick_area.press
   wheel_dy aka g_map.pick_area.wheel.dy
-  
-  Reticule reticule (this, f)
   
   Double real_xpan (0)
   Double real_ypan (0)
