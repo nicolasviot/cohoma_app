@@ -41,7 +41,7 @@ using namespace std;
 // check boucle for et utilisation des msg ROS2 
 
 
-RosNode::RosNode (ParentProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* context, CoreProcess* model_manager) :
+RosNode::RosNode (CoreProcess* parent, const string& n, CoreProcess* my_map, CoreProcess* context, CoreProcess* model_manager) :
   FatProcess (n),
   ExternalSource (n),
   //arguments
@@ -518,7 +518,7 @@ RosNode::receive_msg_trap (const icare_interfaces::msg::TrapList msg)
     {
       new_trap = new_trap + 1;
       
-      ParentProcess *new_trap = TrapModel (trap_models, "", _context, msg.traps[k].id, msg.traps[k].location.latitude, msg.traps[k].location.longitude, this);
+      CoreProcess *new_trap = TrapModel (trap_models, "", _context, msg.traps[k].id, msg.traps[k].location.latitude, msg.traps[k].location.longitude, this);
   
       current_trap_model = new_trap;
 
@@ -596,8 +596,8 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
     double area = msg.uav_zones[i].area;
     double explored = msg.uav_zones[i].explored;
 
-    ParentProcess* task = TaskAreaModel (_task_area_models, "", area, explored);
-    ParentProcess* points = task->find_child ("points");
+    CoreProcess* task = TaskAreaModel (_task_area_models, "", area, explored);
+    CoreProcess* points = task->find_child ("points");
     for (int j = 0; j < msg.uav_zones[i].points.size(); j++)
     {
       PointModel (points, "", msg.uav_zones[i].points[j].latitude, msg.uav_zones[i].points[j].longitude, msg.uav_zones[i].points[j].altitude);
@@ -656,7 +656,7 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
     if (trap_model != nullptr)
     {
       // FIXME: Need to update something in the trap model ?
-      /*ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_identifications[i].id, msg.trap_identifications[i].location.latitude, msg.trap_identifications[i].location.longitude);
+      /*CoreProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_identifications[i].id, msg.trap_identifications[i].location.latitude, msg.trap_identifications[i].location.longitude);
       SET_CHILD_VALUE (Bool, trap_to_add, active, msg.trap_identifications[i].active, true)
       SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.trap_identifications[i].identified, true)
       SET_CHILD_VALUE (Text, trap_to_add, trap_id_str, msg.trap_identifications[i].info.id, true)
@@ -697,7 +697,7 @@ RosNode::receive_msg_candidate_tasks(const icare_interfaces::msg::Tasks msg)
     if (trap_model != nullptr)
     {
       // FIXME: Need to update something in the trap model ?
-      /*ParentProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_deactivations[i].id, msg.trap_deactivations[i].location.latitude, msg.trap_deactivations[i].location.longitude);
+      /*CoreProcess* trap_to_add = TaskTrap(_task_traps, "", _map, msg.trap_deactivations[i].id, msg.trap_deactivations[i].location.latitude, msg.trap_deactivations[i].location.longitude);
       SET_CHILD_VALUE (Bool, trap_to_add, active, msg.trap_deactivations[i].active, true)
       SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.trap_deactivations[i].identified, true)
       SET_CHILD_VALUE (Text, trap_to_add, trap_id_str, msg.trap_deactivations[i].info.id, true)
@@ -801,7 +801,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
     if (msg.tasks[i].task_type == 1)
     {  
       cout << i << ": task about ZONE assigned to '" << robot_id << "'" << endl;
-      /*ParentProcess* area_to_add = OldTaskArea(_task_allocated_areas, "", _map);
+      /*CoreProcess* area_to_add = OldTaskArea(_task_allocated_areas, "", _map);
       for (int j=0 ;j< msg.tasks[i].zone.points.size(); j++){
         auto* task_summit = TaskAreaSummit (area_to_add, std::string("summit_") + std::to_string(j), _map, msg.tasks[i].zone.points[j].latitude, msg.tasks[i].zone.points[j].longitude);
         SET_CHILD_VALUE (Double, task_summit, alt, msg.tasks[i].zone.points[j].altitude, true)
@@ -818,7 +818,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
     else if (msg.tasks[i].task_type == 2)
     {
       cout << i << ": task about EDGE assigned to '" << robot_id << "'" << endl;
-      /*ParentProcess* edge_to_add = OldTaskEdge(_task_allocated_edges, "", _map, std::stoi(msg.tasks[i].edge.source) + 1, std::stoi(msg.tasks[i].edge.target) + 1, _nodes);
+      /*CoreProcess* edge_to_add = OldTaskEdge(_task_allocated_edges, "", _map, std::stoi(msg.tasks[i].edge.source) + 1, std::stoi(msg.tasks[i].edge.target) + 1, _nodes);
     
       SET_CHILD_VALUE (Double, edge_to_add, length, msg.tasks[i].edge.length, true)
       SET_CHILD_VALUE (Double, edge_to_add, explored, msg.tasks[i].edge.explored, true)
@@ -828,7 +828,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
     else if (msg.tasks[i].task_type == 3)
     {
       cout << i << ": task about TRAP IDENTIFICATION assigned to '" << robot_id << "'" << endl;
-      /*ParentProcess* trap_to_add = TaskTrap(_task_allocated_traps, "", _map, msg.tasks[i].identification.id, msg.tasks[i].identification.location.latitude, msg.tasks[i].identification.location.longitude);
+      /*CoreProcess* trap_to_add = TaskTrap(_task_allocated_traps, "", _map, msg.tasks[i].identification.id, msg.tasks[i].identification.location.latitude, msg.tasks[i].identification.location.longitude);
       SET_CHILD_VALUE (Bool, trap_to_add, active, msg.tasks[i].identification.active, true)
       SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.tasks[i].identification.identified, true)
       SET_CHILD_VALUE (Text, trap_to_add, trap_id_str, msg.tasks[i].identification.info.id, true)
@@ -843,7 +843,7 @@ RosNode::receive_msg_allocation(const icare_interfaces::msg::Allocation msg)
     else if (msg.tasks[i].task_type == 4)
     {
       cout << i << ": task about TRAP DE-ACTIVATION assigned to '" << robot_id << "'" << endl;
-      /*ParentProcess* trap_to_add = TaskTrap(_task_allocated_traps, "", _map, msg.tasks[i].deactivation.id, msg.tasks[i].deactivation.location.latitude, msg.tasks[i].deactivation.location.longitude);
+      /*CoreProcess* trap_to_add = TaskTrap(_task_allocated_traps, "", _map, msg.tasks[i].deactivation.id, msg.tasks[i].deactivation.location.latitude, msg.tasks[i].deactivation.location.longitude);
       SET_CHILD_VALUE (Bool, trap_to_add, active, msg.tasks[i].deactivation.active, true)
       SET_CHILD_VALUE (Bool, trap_to_add, identified, msg.tasks[i].deactivation.identified, true)
       SET_CHILD_VALUE (Text, trap_to_add, trap_id_str, msg.tasks[i].deactivation.info.id, true)
@@ -1123,8 +1123,8 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg)
   // EXCLUSION ZONES
   for (int i = 0; i < msg.zones.size(); i++)
   {
-    ParentProcess* zone = ExclusionZoneModel (_zone_models, "", msg.zones[i].type, msg.zones[i].name);
-    ParentProcess* points = zone->find_child ("points");
+    CoreProcess* zone = ExclusionZoneModel (_zone_models, "", msg.zones[i].type, msg.zones[i].name);
+    CoreProcess* points = zone->find_child ("points");
     for (int j = 0; j < msg.zones[i].polygon.points.size(); j++)
     {
       PointModel (points, "", msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude, msg.zones[i].polygon.points[j].altitude);
@@ -1136,7 +1136,7 @@ RosNode::receive_msg_site(const icare_interfaces::msg::Site msg)
   for (int i = 0; i < msg.limas.size(); i++)
   {
     int index = msg.limas[i].index;
-    ParentProcess* lima = LimaModel (_lima_models, std::to_string(index), index, msg.limas[i].name, this);
+    CoreProcess* lima = LimaModel (_lima_models, std::to_string(index), index, msg.limas[i].name, this);
       
     CoreProcess* points_list = lima->find_child("points");
 

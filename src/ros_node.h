@@ -53,7 +53,7 @@ using namespace djnn;
 class RosNode : public FatProcess, public ExternalSource
   {
   public:
-    RosNode (ParentProcess* parent, const string& n, CoreProcess* map, CoreProcess* context, CoreProcess* model_manager);
+    RosNode (CoreProcess* parent, const string& n, CoreProcess* map, CoreProcess* context, CoreProcess* model_manager);
     ~RosNode() {}
 
     void impl_activate () override;
