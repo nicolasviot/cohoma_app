@@ -331,8 +331,10 @@ Component root {
 
       FSM fsm_dragging_map_item {
         State no_drag {
-          map.pointer_lat => context.pointer_lat
-          map.pointer_lon => context.pointer_lon    
+          //map.pointer_lat => context.pointer_lat
+          //map.pointer_lon => context.pointer_lon
+          map.pointer_lat_dy => context.pointer_lat
+          map.pointer_lon_dx => context.pointer_lon
         }
         State drag_map_item
 
@@ -341,8 +343,10 @@ Component root {
       }
 
       Translation pos (0, 0)
-      context.map_translation_x =:> pos.tx
-      context.map_translation_y =:> pos.ty
+      //context.map_translation_x =:> pos.tx
+      //context.map_translation_y =:> pos.ty
+      context.LEFT_PANEL_WIDTH + context.map_translation_x =:> pos.tx
+      context.TOP_BAR_HEIGHT + context.map_translation_y =:> pos.ty
 
       FSM fsm_mode {
         State mode_edit_node {

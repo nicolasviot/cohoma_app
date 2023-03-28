@@ -53,6 +53,11 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
   Double init_lon (_lon)
   Double pointer_lat (_lat)
   Double pointer_lon (_lon)
+
+  // FIXME: to take into account initial dx/dy of the map in the frame/window
+  Double pointer_lon_dx (0)
+  Double pointer_lat_dy (0)
+  
   //Double lat_center (_lat)
   //Double lon_center (_lon)
   Double mod_x_zooom_in (0)
@@ -217,6 +222,10 @@ Map (Process f, int _x, int _y, double _width, double _height, double _lat, doub
       //Calcul des coordonnées du pointeur
       px2lon (t0_x + move_x - px0 - (xpan - cur_ref_x), $zoomLevel) => pointer_lon
       py2lat (t0_y - move_y + py0 + (ypan - cur_ref_y), $zoomLevel) => pointer_lat
+
+      // FIXME: to take into account initial dx/dy of the map in the frame/window
+      px2lon (t0_x + move_x - px0 - (xpan - cur_ref_x + _x), $zoomLevel) => pointer_lon_dx
+      py2lat (t0_y - move_y + py0 + (ypan - cur_ref_y + _y), $zoomLevel) => pointer_lat_dy
 
       floor((move_local_x - (xpan - cur_ref_x) + tile_size_x2) / tile_size) + x_odd =:> pointer_col  // transformer en Double ??
       floor((move_local_y - (ypan - cur_ref_y) + tile_size_x2) / tile_size) + y_odd =:> pointer_row
