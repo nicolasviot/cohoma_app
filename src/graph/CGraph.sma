@@ -15,15 +15,19 @@ CGraph (Process root, Process f, Process model_manager, Process map, Process con
     State preview {
 
       Translation pos (0, 0)
-      context.map_translation_x =:> pos.tx
-      context.map_translation_y =:> pos.ty
+      //context.map_translation_x =:> pos.tx
+      //context.map_translation_y =:> pos.ty
+      context.LEFT_PANEL_WIDTH + context.map_translation_x =:> pos.tx
+      context.TOP_BAR_HEIGHT + context.map_translation_y =:> pos.ty
 
       // Temporary view uses temporary model
       Node temporary (map, context, model_manager.temp_node)
 
       // Update model
-      map.pointer_lat =:> model_manager.temp_node.lat
-      map.pointer_lon =:> model_manager.temp_node.lon
+      //map.pointer_lat =:> model_manager.temp_node.lat
+      //map.pointer_lon =:> model_manager.temp_node.lon
+      map.pointer_lat_dy =:> model_manager.temp_node.lat
+      map.pointer_lon_dx =:> model_manager.temp_node.lon
 
       f.release -> model_manager.create_node_from_temp
     }
@@ -70,8 +74,10 @@ CGraph (Process root, Process f, Process model_manager, Process map, Process con
       }
       
       Translation pos (0, 0)
-      context.map_translation_x =:> pos.tx
-      context.map_translation_y =:> pos.ty
+      //context.map_translation_x =:> pos.tx
+      //context.map_translation_y =:> pos.ty
+      context.LEFT_PANEL_WIDTH + context.map_translation_x =:> pos.tx
+      context.TOP_BAR_HEIGHT + context.map_translation_y =:> pos.ty
 
       // UI of temporary edge
       NoFill _
