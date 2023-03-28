@@ -25,6 +25,7 @@ import model.NoRosModelManager
 import panels.TopBar
 import panels.UpperLeftMenu
 import panels.RightPanel
+import panels.PositionedItemSelector
 
 import left_panel.LeftPanel
 
@@ -362,7 +363,11 @@ Component root {
       }
 
       TrapStatusSelector trap_menu (f, context)
-      press_on_background -> context.set_current_trap_to_null
+      left_press_on_map_bg -> context.set_current_trap_to_null
+
+      PositionedItemSelector add_item_selector (l.map, context)
+      left_press_on_map_bg -> add_item_selector.hide
+      right_press_on_map_bg -> add_item_selector.show
 
       show_reticule -> reticule.show, create
       hide_reticule -> reticule.hide, edit
