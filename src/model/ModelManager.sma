@@ -258,7 +258,7 @@ ModelManager (Process _context, int _is_debug)
     // **************************************************************************************************
 
     Component vehicles {
-        VehicleModel vab (_context, 11, $_context.VEHICLE_TYPE_VAB, "vab", "VAB", $_context.init_lat, $_context.init_lon)
+        VehicleModel vab (_context, 11, $_context.VEHICLE_TYPE_VAB, "vab", "VAB", $_context.init_lat, $_context.init_lon + 0.0005)
 
         VehicleModel bnx8 (_context, 2, $_context.VEHICLE_TYPE_UAV, "bnx8", "BNX8", $_context.init_lat + 0.001 , $_context.init_lon)
         VehicleModel agilex1 (_context, 3, $_context.VEHICLE_TYPE_UGV, "agilex1", "AGILEX 1", $_context.init_lat + 0.001, $_context.init_lon + 0.0005)
