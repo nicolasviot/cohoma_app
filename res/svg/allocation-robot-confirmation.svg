@@ -2,17 +2,19 @@
 <!-- Generator: Adobe Illustrator 26.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="1920px" height="1080px" viewBox="0 0 1920 1080" enable-background="new 0 0 1920 1080" xml:space="preserve">
-<path opacity="0.6" fill="#333333" stroke="#FFFFFF" stroke-miterlimit="10" d="M125.1,64H4.2c-2.2,0-4.1-1.8-4.1-4.1V4.1
-	C0.2,1.8,2,0,4.2,0h120.9c2.2,0,4.1,1.8,4.1,4.1v55.9C129.2,62.2,127.3,64,125.1,64z"/>
-<text transform="matrix(1 0 0 1 33.3833 30.6172)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="11px">Robot :</text>
-<text id="robot_name" transform="matrix(1 0 0 1 68.3833 30.6172)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="11px">name</text>
-<text transform="matrix(1 0 0 1 14.3833 43.6172)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="11px">Opérateur :</text>
-<text id="op_name" transform="matrix(1 0 0 1 68.3833 43.6172)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="11px">name</text>
-<text transform="matrix(1 0 0 1 6.6689 11.4582)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="11px">Confirmation de transfert</text>
-<path fill="#4D4D4D" stroke="#FFFFFF" stroke-miterlimit="10" d="M116.8,62.5h-13.6c-2.6,0-4.7-2.1-4.7-4.7v-3.6
-	c0-2.6,2.1-4.7,4.7-4.7h13.6c2.6,0,4.7,2.1,4.7,4.7v3.6C121.5,60.4,119.4,62.5,116.8,62.5z"/>
-<text transform="matrix(1 0 0 1 101.3352 59.573)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="11px">Oui</text>
-<path fill="#4D4D4D" stroke="#FFFFFF" stroke-miterlimit="10" d="M83.8,62.5H70.2c-2.6,0-4.7-2.1-4.7-4.7v-3.6
-	c0-2.6,2.1-4.7,4.7-4.7h13.6c2.6,0,4.7,2.1,4.7,4.7v3.6C88.5,60.4,86.4,62.5,83.8,62.5z"/>
-<text transform="matrix(1 0 0 1 67.3352 59.573)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="11px">Non</text>
+<g id="form">
+	<path opacity="0.8" fill="#333333" stroke="#FFFFFF" stroke-miterlimit="10" enable-background="new    " d="M253.7,128H8.4
+		c-4.5,0-8.3-3.6-8.3-8.1V8.1C0.3,3.6,4,0,8.4,0h245.3c4.5,0,8.3,3.6,8.3,8.1v111.9C262,124.4,258.1,128,253.7,128z"/>
+	<text transform="matrix(1 0 0 1 35.2798 54.5515)" fill="#FFFFFF" font-family="'ArialMT'" font-size="18.055px">Robot :</text>
+	<text id="robot_name" transform="matrix(1 0 0 1 95.7275 54.5515)" fill="#FFFFFF" font-family="'ArialMT'" font-size="18.055px">name</text>
+	<text transform="matrix(1 0 0 1 4.0938 75.8889)" fill="#FFFFFF" font-family="'ArialMT'" font-size="18.055px">Opérateur :</text>
+	<text id="op_name" transform="matrix(1 0 0 1 95.7275 75.8889)" fill="#FFFFFF" font-family="'ArialMT'" font-size="18.055px">name</text>
+	<text transform="matrix(1 0 0 1 29.8633 19.0229)" fill="#FFFFFF" font-family="'ArialMT'" font-size="18.055px">Confirmation de transfert</text>
+	<path id="btn_oui" fill="#4D4D4D" stroke="#FFFFFF" stroke-miterlimit="10" d="M205.8,116.5h-25.1c-4.8,0-8.7-3.4-8.7-7.7v-5.9
+		c0-4.3,3.9-7.7,8.7-7.7h25.1c4.8,0,8.7,3.4,8.7,7.7v5.9C214.5,113,210.7,116.5,205.8,116.5z"/>
+	<text transform="matrix(1 0 0 1 178.6343 111.8613)" fill="#FFFFFF" font-family="'ArialMT'" font-size="18.055px">Oui</text>
+	<path id="btn_non" fill="#4D4D4D" stroke="#FFFFFF" stroke-miterlimit="10" d="M144.9,116.5h-25.1c-4.8,0-8.7-3.4-8.7-7.7v-5.9
+		c0-4.3,3.9-7.7,8.7-7.7h25.1c4.8,0,8.7,3.4,8.7,7.7v5.9C153.6,113,149.6,116.5,144.9,116.5z"/>
+	<text transform="matrix(1 0 0 1 116.415 111.645)" fill="#FFFFFF" font-family="'ArialMT'" font-size="18.055px">Non</text>
+</g>
 </svg>

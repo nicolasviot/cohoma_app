@@ -110,17 +110,41 @@ Operator (Process _context, Process _model)
    }
    drop_zone.show_drop.zone.release -> drop_trigger
 
+   //formulaire confirmation de changement opérateur
+   form_svg = load_from_XML("res/svg/allocation-robot-confirmation.svg")
+   //Confirmation du changement
+   FSM show_confirmation{
+         State idle{}
+         State show{
+            form << form_svg.form
+            model.title =: form.op_name.text
+         }
+         idle -> show (drop_trigger)
+         show-> idle (show.form.btn_oui.press)
+         show -> idle (show.form.btn_non.press)
+   }
+
+   show_confirmation.show.form.btn_oui.press -> na_transfer_robot : (this){
+       _ref_vehicle_model = getRef (this.context.model_of_dragged_strip)
+      
+        //Ca marche vraiment pas comme je crois...
+              //Process _prev_operator = _ref_vehicle_model.ref_operator
+              //Process _new_operator = this.model
+               print ("je confirme que le robot " + _ref_vehicle_model.code + " soit alloué à l'opérateur " + this.model.title + "\n")
+               //TODO : faire les changements sur les modèles..
+               //trouver infos sur ProcessCollection
+   }
+
+
    //attention obligé de stocker contexte comme un enfant... sinon marche pas.
    drop_trigger -> na_find_dropped_strip_model:(this) {
-        _ref_vehicle_model = getRef (this.context.model_of_dragged_strip)
-        if (&_ref_vehicle_model != null) {
-            print ("j'ai droppé le strip " + _ref_vehicle_model.code + " sur l'opérateur " + this.model.title + "\n")
-        }
-        //TODO : confirmer le changement
-        form_svg = load_from_XML("res/svg/allocation-robot-confirmation.svg")
-        //form << form_svg
-
+      _ref_vehicle_model = getRef (this.context.model_of_dragged_strip)
+      if (&_ref_vehicle_model != null) {
+         print ("j'ai droppé le strip " + _ref_vehicle_model.code + " sur l'opérateur " + this.model.title + "\n")
+         //set form values
+         //TODO ca marche pas comme ça on dirait...
+        this.show_confirmation.show.form.robot_name.text = _ref_vehicle_model.code
+      }
    }
-   
 }
 
