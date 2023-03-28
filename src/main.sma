@@ -177,7 +177,8 @@ Component root {
   f.close->quit
 
 
-  Spike press_on_background
+  Spike left_press_on_map_bg
+  Spike right_press_on_map_bg
   Spike show_reticule
   Spike hide_reticule
 
@@ -225,16 +226,21 @@ Component root {
 
     // ----------------------------------------------------
     //  MAP
-    //Map map (f, 0, 0, init_frame_width - $context.RIGHT_PANEL_WIDTH, init_frame_height, init_latitude, init_longitude, init_zoom)
-    Map map (f, $context.LEFT_PANEL_WIDTH, $context.TOP_BAR_HEIGHT, init_frame_width - $context.LEFT_PANEL_WIDTH - $context.RIGHT_PANEL_WIDTH, init_frame_height - $context.TOP_BAR_HEIGHT, init_latitude, init_longitude, init_zoom)
+    Map map (f, 0, 0, init_frame_width - $context.RIGHT_PANEL_WIDTH, init_frame_height, init_latitude, init_longitude, init_zoom)
+    //Map map (f, $context.LEFT_PANEL_WIDTH, $context.TOP_BAR_HEIGHT, init_frame_width - $context.LEFT_PANEL_WIDTH - $context.RIGHT_PANEL_WIDTH, init_frame_height - $context.TOP_BAR_HEIGHT, init_latitude, init_longitude, init_zoom)
     
     // FIXME: map crash if I add dynamic width/height:
     //f.width - context.LEFT_PANEL_WIDTH - context.RIGHT_PANEL_WIDTH =:> map.width
     //f.height - context.TOP_BAR_HEIGHT =:> map.height
-    init_frame_width - context.LEFT_PANEL_WIDTH - context.RIGHT_PANEL_WIDTH =: map.width
-    init_frame_height - context.TOP_BAR_HEIGHT =: map.height
+    
+    // Don't take into account LEFT_PANEL_WIDTH for x / width
+    //init_frame_width - context.LEFT_PANEL_WIDTH - context.RIGHT_PANEL_WIDTH =: map.width
+    init_frame_width - context.RIGHT_PANEL_WIDTH =: map.width
+    // Don't take into account TOP_BAR_HEIGHT for y / height
+    //init_frame_height - context.TOP_BAR_HEIGHT =: map.height
 
-    map.g_map.pz.press_trigger -> press_on_background
+    map.g_map.pz.left_press_trigger -> left_press_on_map_bg
+    map.g_map.pz.right_press_trigger -> right_press_on_map_bg
     map.zoomLevel =:> context.map_zoom
     //map.xpan - map.cur_ref_x + map.px0 =:> context.map_translation_x
     //map.ypan - map.cur_ref_y + map.py0 =:> context.map_translation_y
@@ -331,10 +337,8 @@ Component root {
 
       FSM fsm_dragging_map_item {
         State no_drag {
-          //map.pointer_lat => context.pointer_lat
-          //map.pointer_lon => context.pointer_lon
-          map.pointer_lat_dy => context.pointer_lat
-          map.pointer_lon_dx => context.pointer_lon
+          map.pointer_lat => context.pointer_lat
+          map.pointer_lon => context.pointer_lon
         }
         State drag_map_item
 
@@ -343,15 +347,13 @@ Component root {
       }
 
       Translation pos (0, 0)
-      //context.map_translation_x =:> pos.tx
-      //context.map_translation_y =:> pos.ty
-      context.LEFT_PANEL_WIDTH + context.map_translation_x =:> pos.tx
-      context.TOP_BAR_HEIGHT + context.map_translation_y =:> pos.ty
+      context.map_translation_x =:> pos.tx
+      context.map_translation_y =:> pos.ty
 
       FSM fsm_mode {
         State mode_edit_node {
           NodeStatusSelector node_menu (f, context)
-          press_on_background -> context.set_node_status_edition_to_null
+          left_press_on_map_bg -> context.set_node_status_edition_to_null
         }
         State mode_create_node
 

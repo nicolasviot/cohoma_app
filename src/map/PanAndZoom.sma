@@ -23,7 +23,8 @@ PanAndZoom (Process move, Process picking) {
     Double xpan (0)
     Double ypan (0)
     
-    press_trigger aka picking.left.press
+    left_press_trigger aka picking.left.press
+    right_press_trigger aka picking.right.press
     press aka picking.press
     release aka picking.release
 
@@ -54,7 +55,7 @@ PanAndZoom (Process move, Process picking) {
             }
             move -> seq
         }
-        idle -> pressing (press_trigger)
+        idle -> pressing (left_press_trigger)
         pressing -> idle (release)
         pressing -> panning (move)
         panning -> idle (release)
