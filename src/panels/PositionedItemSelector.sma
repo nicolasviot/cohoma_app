@@ -13,91 +13,106 @@ PositionedItemSelector (Process _map, Process _context)
 {
     TextPrinter tp
 
+    Double lat (0)
+    Double lon (0)
+
     Spike show
     Spike hide
 
-    /*DerefDouble tx (_context.ref_current_trap, "screen_translation/tx", DJNN_GET_ON_CHANGE)
-    DerefDouble ty (_context.ref_current_trap, "screen_translation/ty", DJNN_GET_ON_CHANGE)
+    Spike add_trap
+    Spike add_message
+    Spike add_goto
 
-    Translation tr (0, 0)
-    tx.value + 15 => tr.tx
-    ty.value + 3 => tr.ty
+    add_trap -> {
+        "Add a new trap at " + lat + " " + lon =: tp.input
+    }
+    add_trap -> hide
 
-    //DerefInt model_id (_context.ref_current_trap, "model/id", DJNN_GET_ON_CHANGE)
-    DerefString model_state (_context.ref_current_trap, "model/state", DJNN_GET_ON_CHANGE)
-    //"id: " + model_id.value + " -- state: " + model_state.value =:> tp.input
+    add_message -> {
+        "Add a new message at " + lat + " " + lon =: tp.input
+    }
+    add_message -> hide
 
-    Deref unknown_assignement (_context.ref_current_trap, "model/unknown_assignement")
-    Deref identified_assignement (_context.ref_current_trap, "model/identified_assignement")
-    Deref deactivated_assignement (_context.ref_current_trap, "model/deactivated_assignement")
-    Deref delete_assignement (_context.ref_current_trap, "model/delete_assignement")*/
+    add_goto -> {
+        "Add a go to at " + lat + " " + lon =: tp.input
+    }
+    add_goto -> hide
 
     Translation tr (0, 0)
 
     AssignmentSequence update_position (1) {
-        (lon2px ($_context.pointer_lon, $_map.zoomLevel) - _map.t0_x) =: tr.tx
-        _map.t0_y - lat2py ($_context.pointer_lat, $_map.zoomLevel) =: tr.ty
+        _context.pointer_lat =: lat
+        _context.pointer_lon =: lon
+
+        (lon2px ($lon, $_map.zoomLevel) - _map.t0_x) =: tr.tx
+        _map.t0_y - lat2py ($lat, $_map.zoomLevel) =: tr.ty
     }
 
     show -> update_position
 
     svg = load_from_XML_once ("res/svg/positioned_selector.svg")
 
-
     FSM fsm {
         State hidden
 
         State visible {
-            smala << svg
+            bg << svg.bg
+
+            btn_trap << svg.trap
+            //0.0 =: btn_trap.rect_trap.fill\-opacity.a
+
+            btn_message << svg.message
+            //0.0 =: btn_message.rect_message.fill\-opacity.a
+
+            btn_goto << svg.goto
+            //0.0 =: btn_goto.rect_goto.fill\-opacity.a
+
+            FSM fsm_options {
+                State idle {
+                    0.0 =: btn_trap.rect_press_trap.fill\-opacity.a
+                    0.0 =: btn_message.rect_press_message.fill\-opacity.a
+                    0.0 =: btn_goto.rect_press_goto.fill\-opacity.a
+                }
+
+                State hover_trap {
+                    0.2 =: btn_trap.rect_press_trap.fill\-opacity.a
+                }
+                State press_trap {
+                    1.0 =: btn_trap.rect_press_trap.fill\-opacity.a
+                }
+
+                State hover_message {
+                    0.2 =: btn_message.rect_press_message.fill\-opacity.a
+                }
+                State press_message {
+                    1.0 =: btn_message.rect_press_message.fill\-opacity.a
+                }
+
+                State hover_goto {
+                    0.2 =: btn_goto.rect_press_goto.fill\-opacity.a
+                }
+                State press_goto {
+                    1.0 =: btn_goto.rect_press_goto.fill\-opacity.a
+                }
+
+                idle -> hover_trap (btn_trap.rect_trap.enter)
+                hover_trap -> idle (btn_trap.rect_trap.leave)
+                hover_trap -> press_trap (btn_trap.rect_trap.press)
+                press_trap -> idle (btn_trap.rect_trap.release, add_trap)
+
+                idle -> hover_message (btn_message.rect_message.enter)
+                hover_message -> idle (btn_message.rect_message.leave)
+                hover_message -> press_message (btn_message.rect_message.press)
+                press_message -> idle (btn_message.rect_message.release, add_message)
+
+                idle -> hover_goto (btn_goto.rect_goto.enter)
+                hover_goto -> idle (btn_goto.rect_goto.leave)
+                hover_goto -> press_goto (btn_goto.rect_goto.press)
+                press_goto -> idle (btn_goto.rect_goto.release, add_goto)
+            }
         }
         hidden -> visible (show)
         visible -> hidden (hide)
     }
-
-    
-    /*FSM fsm {
-        State hidden
-
-        State visible {
-            bg << svg.bg
-            m_unknown << svg.mask_unknown
-            m_identified << svg.mask_identified
-            m_deactivated << svg.mask_deactivated
-            button_delete << svg.delete_btn
-
-            //close_btn << svg.close_button
-            //close_btn.close_mask.press -> _context.set_current_trap_to_null
-
-            FSM fsm_status {
-                State unknown {
-                    r_unknown << svg.rect_unknown
-                    r_unknown.press -> unknown_assignement.activation
-                    r_unknown.press -> _context.set_current_trap_to_null
-                }
-                State identified {
-                    r_identified << svg.rect_identified
-                    r_identified.press -> identified_assignement.activation
-                    r_identified.press -> _context.set_current_trap_to_null
-                }
-                State deactivated {
-                    r_deactivated << svg.rect_deactivated
-                    r_deactivated.press -> deactivated_assignement.activation
-                    r_deactivated.press -> _context.set_current_trap_to_null
-                }
-                {unknown,  identified} -> deactivated (m_deactivated.enter)
-                {identified, deactivated} -> unknown (m_unknown.enter)
-                {deactivated, unknown} -> identified (m_identified.enter)
-            }
-        
-            t_unknown << svg.unknown
-            t_identified << svg.identified
-            t_deactivated << svg.deactivated
-
-            button_delete.rect_delete.press -> delete_assignement.activation
-            button_delete.rect_delete.press -> _context.set_current_trap_to_null
-        }
-        hidden -> visible (_context.is_null_current_trap.false)
-        visible -> hidden (_context.is_null_current_trap.true)
-    }*/
     
 }
