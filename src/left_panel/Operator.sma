@@ -13,23 +13,6 @@ _native_code_
    #include "core/control/native_action.h" // FIXME: error: use of undeclared identifier 'get_native_user_data'
 %}
 
-
-_action_
-collection_action_robots (list l, Process c)
-%{
-   Process *self = (Process*) get_native_user_data(c);
-
-   for (auto robot : l) {
-      //double w = ((AbstractProperty*)e->find_child("width"))->get_double_value ();
-      //((DoubleProperty*)e->find_child("width"))->set_value (w + 5, true);
-
-      string title = static_cast<TextProperty*>(self->find_child("model/title"))->get_value();
-      string robot_title = static_cast<TextProperty*>(robot->find_child("title"))->get_value();
-      cout << "Operator '" << title << "': robot = " << title << endl;
-   }
-%}
-
-
 _define_
 //Operator (Process _context, Process _model, Process _svg)
 Operator (Process _context, Process _model)
@@ -39,6 +22,8 @@ Operator (Process _context, Process _model)
    context aka _context
 
    Double height ($_context.OPERATOR_HEADER_HEIGHT + 5)
+
+   //compute height according to number of strips
 
    Translation tr (0, 0)
    y aka tr.ty
@@ -75,6 +60,7 @@ Operator (Process _context, Process _model)
    //print ("New view of Operator (" + _model.uid + ") type: " + _model.type + " code" + _model.code + " title: " + _model.title + " named " + _model.name + " with " +  _model.robots.size + " robots\n")
 
 
+
    Component strips{
       Translation _ (0, $_context.OPERATOR_HEADER_HEIGHT + 5)
 
@@ -88,15 +74,26 @@ Operator (Process _context, Process _model)
       }
    }
 
-    NativeCollectionAction nca_robots (collection_action_robots, _model.robots, 1)
-   _model.robots -> nca_robots
+      TextPrinter tp
+   Double nb_robots (0)
+   model.robots.add -> model_changed:(this){
+      int i = 0
+         for robot : this.model.robots {
+            i=i+1
+         }
+      this.nb_robots = i
+   }
+   model.robots.rm -> model_changed
 
-   //|-> nca_robots
-   
+   "il y a " + nb_robots =:> tp.input
+
+
+
+
 
    Bool accept_drop (0)
    Spike drop_trigger
-   
+
    FSM drop_zone{
       State hide
       State show_drop{
@@ -106,24 +103,29 @@ Operator (Process _context, Process _model)
          FillColor _ (#00FF00)
          Rectangle zone (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 5, 5)
          height =:> zone.height
-         TextPrinter tp
-         AssignmentSequence hover (1){
-            0.2 =: fill_op.a
-            2 =: out_w.width
-         }
+         1000000 =: zone.z
 
-         AssignmentSequence leave (1){
-            0.1 =: fill_op.a
-            0.5 =: out_w.width
+         FSM hover_FSM{
+            State idle{
+               0.1 =: fill_op.a
+               0.5 =: out_w.width
+            }
+            State hover{
+               0.2 =: fill_op.a
+               2 =: out_w.width
+            }
+
+            idle -> hover (zone.enter)
+            hover -> idle (zone.leave)
+            hover -> idle (accept_drop.false)
          }
-         zone.enter -> hover
-         zone.leave -> leave
       }
       hide -> show_drop (accept_drop.true)
       show_drop -> hide (accept_drop.false)
    }
    drop_zone.show_drop.zone.release -> drop_trigger
 
+   ////////////////
    //formulaire confirmation de changement opérateur
    form_svg = load_from_XML("res/svg/allocation-robot-confirmation.svg")
    //Confirmation du changement
@@ -139,34 +141,35 @@ Operator (Process _context, Process _model)
    }
 
    //action lors du drop pour afficher la confirmation
-   //attention obligé de stocker contexte comme un enfant... sinon marche pas.
    drop_trigger -> na_find_dropped_strip_model:(this) {
-      _ref_vehicle_model = getRef (this.context.model_of_dragged_strip)
-      if (&_ref_vehicle_model != null) {
-         this.show_confirmation_form.show.form.robot_name.text = toString(_ref_vehicle_model.title)
+      _dropped_strip = getRef(this.context.dragged_strip)
+      //_ref_vehicle_model = _dropped_strip.model
+      if (&_dropped_strip != null) {
+         this.show_confirmation_form.show.form.robot_name.text = toString(_dropped_strip.model.code)
       }
    }
 
    //action lorsque l'utilisateur choisit oui et confirme la nouvelle affectation.
    show_confirmation_form.show.form.btn_oui.press -> na_transfer_robot : (this){
-         _ref_vehicle_model = getRef (this.context.model_of_dragged_strip)
-         
-         //remove from previous operator
-         setRef(_ref_vehicle_model.ref_operator.model.robots.rm , _ref_vehicle_model)
+         _dropped_strip = getRef(this.context.dragged_strip)
+
+         //remove robot from previous operator processcollector
+         _prev_operator = getRef(_dropped_strip.model.ref_operator)
+         setRef(_prev_operator.robots.rm , _dropped_strip.model)
+        
          //add the robot to the new operator and set ref to operator
-         setRef(this.model.robots.add , _ref_vehicle_model)
-         setRef(_ref_vehicle_model.ref_operator, this.model)
+         setRef(this.model.robots.add , _dropped_strip.model)
+         setRef(_dropped_strip.model.ref_operator, this.model)
 
-         //Process _prev_operator = getRef(_ref_vehicle_model.ref_operator)
-         //_prev_operator.robots.rm = _ref_vehicle_model
-         
-         
-         //J'y comprends rien pour faire un cast....
-         //Process _new_operator = this.model
-         //Process _new_operator = (Process) this.model
-         print ("je confirme que le robot " + _ref_vehicle_model.code + " soit alloué à l'opérateur " + this.model.title + "\n")
-         //TODO faire les changements...
+         //change the strip to the new parent
+         addChildrenTo this.strips{
+            _dropped_strip
+         }
 
+         print ("je confirme que le robot " + _dropped_strip.model.code + " est alloué à l'opérateur " + this.model.title + "\n")
+
+    //     for ()
+         //SEND MESSAGE WITH NEW ALLOCATION TO ROS TOPIC
    }
 }
 

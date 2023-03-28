@@ -204,7 +204,7 @@ Strip (Process _context, Process _model, int _index)
   }
   AssignmentSequence init_dragging (1) {
     1 =: _context.show_drop_zones_strip
-    model =: _context.model_of_dragged_strip
+    this =: _context.dragged_strip
   }
   drag_started -> init_dragging
 }

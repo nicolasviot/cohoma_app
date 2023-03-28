@@ -240,5 +240,5 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     
     //DRAG and DROP
     Bool show_drop_zones_strip (1)
-    Ref model_of_dragged_strip (null)
+    Ref dragged_strip (null)
 }
