@@ -90,6 +90,8 @@ Operator (Process _context, Process _model)
 
     NativeCollectionAction nca_robots (collection_action_robots, _model.robots, 1)
    _model.robots -> nca_robots
+
+   //|-> nca_robots
    
 
    Bool accept_drop (0)
@@ -98,12 +100,24 @@ Operator (Process _context, Process _model)
    FSM drop_zone{
       State hide
       State show_drop{
-         OutlineWidth _ (1)
+         OutlineWidth out_w (0.5)
          OutlineColor black (#00FF00)
-         FillOpacity _ (0.1)
+         FillOpacity fill_op (0.1)
          FillColor _ (#00FF00)
          Rectangle zone (0, 0, $_context.LEFT_PANEL_WIDTH, 0, 5, 5)
          height =:> zone.height
+         TextPrinter tp
+         AssignmentSequence hover (1){
+            0.2 =: fill_op.a
+            2 =: out_w.width
+         }
+
+         AssignmentSequence leave (1){
+            0.1 =: fill_op.a
+            0.5 =: out_w.width
+         }
+         zone.enter -> hover
+         zone.leave -> leave
       }
       hide -> show_drop (accept_drop.true)
       show_drop -> hide (accept_drop.false)
@@ -113,7 +127,7 @@ Operator (Process _context, Process _model)
    //formulaire confirmation de changement opérateur
    form_svg = load_from_XML("res/svg/allocation-robot-confirmation.svg")
    //Confirmation du changement
-   FSM show_confirmation{
+   FSM show_confirmation_form{
          State idle{}
          State show{
             form << form_svg.form
@@ -124,27 +138,35 @@ Operator (Process _context, Process _model)
          show -> idle (show.form.btn_non.press)
    }
 
-   show_confirmation.show.form.btn_oui.press -> na_transfer_robot : (this){
-       _ref_vehicle_model = getRef (this.context.model_of_dragged_strip)
-      
-        //Ca marche vraiment pas comme je crois...
-              //Process _prev_operator = _ref_vehicle_model.ref_operator
-              //Process _new_operator = this.model
-               print ("je confirme que le robot " + _ref_vehicle_model.code + " soit alloué à l'opérateur " + this.model.title + "\n")
-               //TODO : faire les changements sur les modèles..
-               //trouver infos sur ProcessCollection
-   }
-
-
+   //action lors du drop pour afficher la confirmation
    //attention obligé de stocker contexte comme un enfant... sinon marche pas.
    drop_trigger -> na_find_dropped_strip_model:(this) {
       _ref_vehicle_model = getRef (this.context.model_of_dragged_strip)
       if (&_ref_vehicle_model != null) {
-         print ("j'ai droppé le strip " + _ref_vehicle_model.code + " sur l'opérateur " + this.model.title + "\n")
-         //set form values
-         //TODO ca marche pas comme ça on dirait...
-        this.show_confirmation.show.form.robot_name.text = _ref_vehicle_model.code
+         this.show_confirmation_form.show.form.robot_name.text = toString(_ref_vehicle_model.title)
       }
+   }
+
+   //action lorsque l'utilisateur choisit oui et confirme la nouvelle affectation.
+   show_confirmation_form.show.form.btn_oui.press -> na_transfer_robot : (this){
+         _ref_vehicle_model = getRef (this.context.model_of_dragged_strip)
+         
+         //remove from previous operator
+         setRef(_ref_vehicle_model.ref_operator.model.robots.rm , _ref_vehicle_model)
+         //add the robot to the new operator and set ref to operator
+         setRef(this.model.robots.add , _ref_vehicle_model)
+         setRef(_ref_vehicle_model.ref_operator, this.model)
+
+         //Process _prev_operator = getRef(_ref_vehicle_model.ref_operator)
+         //_prev_operator.robots.rm = _ref_vehicle_model
+         
+         
+         //J'y comprends rien pour faire un cast....
+         //Process _new_operator = this.model
+         //Process _new_operator = (Process) this.model
+         print ("je confirme que le robot " + _ref_vehicle_model.code + " soit alloué à l'opérateur " + this.model.title + "\n")
+         //TODO faire les changements...
+
    }
 }
 

@@ -30,17 +30,17 @@ Strip (Process _context, Process _model, int _index)
       if ($type == 1){
         svg_icon = load_from_XML ("res/svg/vab.svg")
         icon << svg_icon.icon
-        op_color =: icon.shape.fill.value
+        op_color =:> icon.shape.fill.value
       } else if ($type == 2){
         Translation _ (4, 0) 
         Rotation _ (90, 0, 0)
         svg_icon = load_from_XML ("res/svg/drone.svg")
         icon << svg_icon.icon
-         op_color =: icon.shape.fill.value
+         op_color =:> icon.shape.fill.value
       } else {
         svg_icon = load_from_XML ("res/svg/robot.svg")
         icon << svg_icon.icon
-         op_color =: icon.shape.fill.value
+         op_color =:> icon.shape.fill.value
       }
     }
 
