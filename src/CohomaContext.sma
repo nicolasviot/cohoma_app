@@ -20,6 +20,17 @@ _native_code_
    #include <iostream>
 %}
 
+_action_
+action_unselect_trap (Process src, Process self)
+{
+    if (!self.is_null_selected_trap) {
+        previous_selected_trap = getRef (self.ref_selected_trap)
+        previous_selected_trap.is_selected = false
+
+        //setRef (self.ref_selected_trap, self.REF_NULL)
+    }
+}
+
 
 _define_
 CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_zoom)
@@ -105,7 +116,8 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
 
     Int TASK_EDGE_COLOR (#DC1414) // R = 220 - G = B = 20    
     
-    Int TASK_SELECTION_COLOR (#FFFF00) // R = G = 255 - B = 0
+    Int TASK_SELECTION_COLOR (#FFFF00)  // R = G = 255 - B = 0
+    Int SELECTION_COLOR (#FFFF00)       // Yellow (R = G = 255 - B = 0)
     
     Int UNSELECTED_ITINERARY_COL (#232323) // R = G = B = 35
     Int SELECTED_ITINERARY_COL (#1E90FF) // Blue
@@ -211,6 +223,22 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     // Djnn C++
     // is_null_node_status_edition->set_value(get_property_value (ref_node_status_edition) == get_property_value (REF_NULL) ? 1 : 0, 1);
     //"is NULL current node ? " + is_null_node_status_edition =:> tp.input
+
+
+    // Trap currently selected
+    Ref ref_selected_trap (nullptr)
+    Bool is_null_selected_trap (1)
+    //is_null_selected_trap ? "No selected trap" : "Trap is selected" =:> lp.input
+
+    // 0 = not lazy (updated on first activation)
+    AssignmentSequence set_selected_trap_to_null (0) {
+        REF_NULL =: ref_selected_trap
+    }
+
+    NativeAction na_unselect_trap (action_unselect_trap, this, 1)
+    na_unselect_trap -> set_selected_trap_to_null
+
+    ref_selected_trap == REF_NULL ? 1 : 0 =:> is_null_selected_trap
 
 
     // Trap currently being edited in the status menu (right click)

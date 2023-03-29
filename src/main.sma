@@ -200,6 +200,9 @@ Component root {
 
   context.w_clock.state_text + " - Application start\n" =: fw_console.input
 
+  //left_press_on_map_bg -> context.set_selected_trap_to_null
+  left_press_on_map_bg -> context.na_unselect_trap
+
   /*context.ctrl -> {
     "key CONTROL" =: lp.input
   }

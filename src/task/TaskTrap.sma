@@ -18,7 +18,7 @@ TaskTrap (Process _map, Process _context, Process _model)
     context aka _context
     model aka _model
 
-    print ("View of task for trap (" + _model.trap.id + ") " + _model.trap.str_id + " (" + _model.trap.description + ")\n")
+    print ("View of task for trap (" + _model.trap.id + ") " + _model.trap.str_id + " (" + _model.trap.nature + ")\n")
 
     Translation screen_translation (0, 0)
     

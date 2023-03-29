@@ -11,32 +11,32 @@ _native_code_
 
 
 _action_
-change_activation_action (Process c)
+action_deactivate_trap (Process c)
 %{
     Process *data = (Process*) get_native_user_data(c);
 
     RosNode *node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
-    IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
-    BoolProperty *active = dynamic_cast<BoolProperty*>(data->find_child("active")); 
-    #ifndef NO_ROS
-    node ->send_msg_trap_activation(id->get_value(), active->get_value()); 
-    #endif
+    int uid = static_cast<IntProperty*>(data->find_child("id"))->get_value();
+
+#ifndef NO_ROS
+    node ->send_msg_deactivate_trap (uid); 
+#endif
 %}
 
 _action_
-hide_trap_action(Process c)
+action_delete_trap (Process c)
  %{
     Process *data = (Process*) get_native_user_data(c);
 
     RosNode *node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
-    IntProperty *id = dynamic_cast<IntProperty*>(data->find_child("id"));
-    BoolProperty *deleted = dynamic_cast<BoolProperty*>(data->find_child("deleted"));
+    int uid = static_cast<IntProperty*>(data->find_child("id"))->get_value();
+
 #ifndef NO_ROS
-    node ->send_msg_trap_deleted(id->get_value(), deleted->get_value());
+    node->send_msg_delete_trap (uid);
 #endif
 %}
    
-_action_
+/*_action_
 update_trap_position_action(Process c)
 %{
     Process *data = (Process*) get_native_user_data(c);
@@ -48,7 +48,7 @@ update_trap_position_action(Process c)
 #ifndef NO_ROS
     node -> send_msg_update_trap_position(id->get_value(), new_lat->get_value(), new_lon->get_value());
 #endif
-%}
+%}*/
 
 
 _define_
@@ -56,48 +56,104 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
 {
     ros_node aka _ros_node
 
-    Int id (_id)
+    Int id (_id)                    // ID as known by the Trap Manager
     String str_id ("?")
+
+    // From operator:
+    Bool hidden (false)             // whether the system should consider this trap
 
     Double lat (_lat)
     Double lon (_lon)
     Double altitude_msl (0)
     
-    Bool active (1)
-    Bool identified (0)
-    Bool deleted (0)
-    String state ("unknown") //can be unkown, identified, deactivated
+    // Identification step info:
+    Bool identified (false)         // whether the trap has been identified (i.e. QRCode read)
 
-    active ? (identified ? "identified" : "unknown") : "deactivated" =:> state
+    // Int IDENTIFICATION_UNKNOWN (0)
+    // Int IDENTIFICATION_AERIAL (1)
+    // Int IDENTIFICATION_GROUND (2)
+    Int identification_mode (0)     // which type of vehicle can read the external QRcode
 
+    String nature ("")              // text describing the kind of trap
+    Int identifier (0)              // 4 digits
 
-    /*
-    string description                  # text describing the kind of trap
-    float32 radius                      # action radius [m]
-    bool remotely_deactivate            # whether the trap can be deactivated remotely
-    bool contact_deactivate             # whether the trap can be deactivated through contact
-    int8 contact_mode                   # which type of satellite can deactivate; see enum
-    string code                         # code to deactivate the trap
-    string hazard                       # description of an hazardous situation to take into account
-    */
-    String description ("..")
+    Double radius (50)              // action radius [m] (50 is the maximum possible radius)
+    Bool remote (false)             // whether the trap can be deactivated remotely
+    String remote_code ("")         // code to deactivate the trap
+    Bool contact (false)            // whether the trap can be deactivated through contact
     
-    Double radius (50) // Maximum possible radius
+    // Int CONTACT_UNKNOWN (10)
+    // Int CONTACT_AERIAL (11)
+    // Int CONTACT_GROUND (12)
+    // Int CONTACT_GROUND_MULTIPLE (13)
+    // Int CONTACT_AERIAL_AND_GROUND (14)
+    // Int CONTACT_AERIAL_OR_GROUND (15)
+    Int contact_mode (10)           // which type of satellite can deactivate; see enum
+    String misc ("")                // description of an hazardous situation to take into account
 
-    Bool remotely_deactivate (0)
-    Bool contact_deactivate (0)
+    // Deactivation step info:
+    Bool active (true)              // whether the trap is active
 
-    /*
-    int8 CONTACT_UNKONWN = 0
-    int8 CONTACT_AERIAL = 1
-    int8 CONTACT_GROUND = 2
-    int8 CONTACT_GROUND_MULTIPLE = 3
-    int8 CONTACT_AERIAL_AND_GROUND = 4
-    int8 CONTACT_AERIAL_OR_GROUND = 5
-    */
-    Int contact_mode (0)
+    // Int DEACTIVATION_UNKNOWN (20)
+    // Int DEACTIVATION_REMOTE (21)
+    // Int DEACTIVATION_LASER_AIR (22)
+    // Int DEACTIVATION_LASER_GROUND (23)
+    // Int DEACTIVATION_LASER_BOTH (24)
+    // Int DEACTIVATION_PHYSICAL (25)
+    Int deactivation_action (20)    //the way the trap has to be deactivated
 
-    String contact_text ("")
+    Int confirmation_mode (0)       // which type of vehicule can read the internal QRcode (cf. identification_mode)
+    Bool confirmed (false)          // whether the internal code has been read
+    String contact_code ("")        // deactivation code once confirmed
+
+    Bool deactivated (false)
+
+    Bool deleted (false)
+
+    Bool is_selected (false)
+
+
+    FSM fsm {
+        State st_detected {
+
+        }
+        State st_identified {
+
+        }
+        State st_deactivated {
+
+        }
+        State st_deleted {
+
+        }
+        State st_hidden {
+
+        }
+
+        st_detected -> st_identified (identified.true)
+        
+        st_identified -> st_deactivated (deactivated.true)
+        
+        st_detected -> st_deleted (deleted.true)
+        //st_identified -> st_deleted (deleted.true)
+        //st_deactivated -> st_deleted (deleted.true)
+
+        st_detected -> st_hidden (hidden.true)
+
+        st_hidden -> st_deleted (deleted.true)
+    }
+
+
+    // OLD (Cohoma v1)
+
+    //String state ("unknown") //can be unkown, identified, deactivated
+    //active ? (identified ? "identified" : "unknown") : "deactivated" =:> state
+
+    //Bool remotely_deactivate (0)
+    //Bool contact_deactivate (0)
+
+
+    /*String contact_text ("")
 
     SwitchList switch_contact_mode (0) {
         Component zero {
@@ -119,14 +175,11 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
             "Aerial or Ground" =: contact_text
         }
     }
-    contact_mode + 1 =:> switch_contact_mode.index
+    contact_mode + 1 =:> switch_contact_mode.index*/
 
 
-    String code ("?")
-    
-    String hazard ("?")
 
-    NativeAction na_update_trap_activation (change_activation_action, this, 1)
+    /*NativeAction na_update_trap_activation (change_activation_action, this, 1)
     
     AssignmentSequence unknown_assignement (1){
         1 =: active
@@ -144,20 +197,26 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
         0 =: active
         1 =: identified 
     }
-    deactivated_assignement -> na_update_trap_activation
+    deactivated_assignement -> na_update_trap_activation*/
 
 
-    NativeAction na_hide_trap (hide_trap_action, this, 1)
+    NativeAction na_deactivate_trap (action_deactivate_trap, this, 1)
 
-    AssignmentSequence delete_assignement (1){
-        //0 =: active
-        //0 =: identified 
+    AssignmentSequence set_deactivated (1) {
+        1 =: deactivated
+    }
+    set_deactivated -> na_deactivate_trap
+
+
+    NativeAction na_delete_trap (action_delete_trap, this, 1)
+
+    AssignmentSequence set_deleted (1) {
         1 =: deleted
     }
-    delete_assignement -> na_hide_trap
+    set_deleted -> na_delete_trap
 
 
-    NativeAction na_update_trap_position (update_trap_position_action, this, 1)
+    /*NativeAction na_update_trap_position (update_trap_position_action, this, 1)
 
     FSM fsm_update_position {
         State idle
@@ -168,5 +227,5 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
         idle -> going_to_update (lat)
         idle -> going_to_update (lon)
         going_to_update -> idle (fsm_update_position.going_to_update.t.end, na_update_trap_position)
-    }
+    }*/
 }
