@@ -171,8 +171,8 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_fw_console_input, CoreProcess, _parent, parent/fw_console/input)
   GET_CHILD_VAR2 (_console, CoreProcess, _parent, parent/right_panel/layer/console)
 
-  GET_CHILD_VAR2 (_result_layer, CoreProcess, _parent, parent/l/map/layers/visibility_map)
-  GET_CHILD_VAR2 (_image, DataImage, _parent, parent/l/map/layers/visibility_map/ui/image)
+  GET_CHILD_VAR2 (_result_layer, CoreProcess, _parent, parent/map/layers/visibility_map)
+  GET_CHILD_VAR2 (_image, DataImage, _parent, parent/map/layers/visibility_map/ui/image)
 
 
   //start the thread

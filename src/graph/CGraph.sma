@@ -104,10 +104,10 @@ CGraph (Process root, Process f, Process model_manager, Process map, Process con
     
     delete_content root.graph.fsm_add_edge.preview_on.temp_id_list
     
-    //delete_content root.l.map.layers.navgraph.edges
+    //delete_content root.map.layers.navgraph.edges
     delete_content root.model.edges
 
-    //delete_content root.l.map.layers.navgraph.nodes
+    //delete_content root.map.layers.navgraph.nodes
     delete_content root.model.nodes
   }
 

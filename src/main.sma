@@ -21,6 +21,7 @@ use files
 import CohomaContext
 import model.ModelManager
 import model.NoRosModelManager
+import model.TrapModel
 
 import panels.TopBar
 import panels.UpperLeftMenu
@@ -222,9 +223,6 @@ Component root {
   model_manager = find(root.model)
 
 
-  // Create one layer per data, from bottom to top:
-  Component l {
-
     // ----------------------------------------------------
     //  MAP
     Map map (f, 0, 0, init_frame_width - $context.RIGHT_PANEL_WIDTH, init_frame_height, init_latitude, init_longitude, init_zoom)
@@ -329,7 +327,7 @@ Component root {
 
 
     // Foreground (absolute position in frame)
-    Component foreground {
+    Component fg {
       Spike edit
       Spike create
 
@@ -365,19 +363,14 @@ Component root {
       TrapStatusSelector trap_menu (f, context)
       left_press_on_map_bg -> context.set_current_trap_to_null
 
-      PositionedItemSelector add_item_selector (l.map, context)
+      PositionedItemSelector add_item_selector (map, context)
       left_press_on_map_bg -> add_item_selector.hide
       right_press_on_map_bg -> add_item_selector.show
 
       show_reticule -> reticule.show, create
       hide_reticule -> reticule.hide, edit
     }
-  }
 
-
-  // ----------------------------------------------------
-  // ROS manager
-  RosManager ros_manager (root, l.map, context, model_manager)
   
   // Bar at the top of the window
   TopBar top_bar (context, f)
@@ -385,6 +378,18 @@ Component root {
   // Panel on the left of the window
   LeftPanel left_panel (context, model_manager, f)
 
+  // Menu to show/hide layers
+  UpperLeftMenu menu (map, context, model_manager, f)
+
+  // 
+  CGraph graph (root, f, model_manager, map, context)
+
+
+  // ----------------------------------------------------
+  // ROS manager
+  RosManager ros_manager (root, map, context, model_manager)
+
+  // FIXME: ros_manager.node passed as parameter for console (to call ros_node->save_console)
   // Panel on the right of the window
   RightPanel right_panel (context, model_manager, f, ros_manager.node)
 
@@ -401,23 +406,42 @@ Component root {
   //right_panel.layer.itinerary_panel.set_plan -> model_manager.clear_tasks
 
   // --> Clear the view first
-  right_panel.layer.itinerary_panel.set_plan -> root.l.map.layers.allocated_tasks.clean_only_views
-  right_panel.layer.itinerary_panel.set_plan -> root.l.map.layers.tasks.clean_views_then_models
+  right_panel.layer.itinerary_panel.set_plan -> root.map.layers.allocated_tasks.clean_only_views
+  right_panel.layer.itinerary_panel.set_plan -> root.map.layers.tasks.clean_views_then_models
 
   right_panel.send_selected_tasks -> ros_manager.send_selected_tasks
   
-  //right_panel.send_selected_tasks -> root.l.map.layers.allocated_tasks.clean_only_views
-  //right_panel.send_selected_tasks -> root.l.map.layers.tasks.clean_views_then_models
+  //right_panel.send_selected_tasks -> root.map.layers.allocated_tasks.clean_only_views
+  //right_panel.send_selected_tasks -> root.map.layers.tasks.clean_views_then_models
 	
 
-  // ----------------------------------------------------
-  // Strips container
-  // StripContainer strips (context, model_manager, f)
+  /*fg.add_item_selector.add_trap -> {
+    fg.add_item_selector.lat =: ros_manager.lat
+    fg.add_item_selector.lon =: ros_manager.lon
+    "Add a new trap at " + fg.add_item_selector.lat + " " + fg.add_item_selector.lon =: lp.input
+  }*/
+  fg.add_item_selector.add_trap -> na_add_trap:(root) {
+    print ("Add a new trap at " + root.fg.add_item_selector.lat + " " + root.fg.add_item_selector.lon + "\n")
 
-  // ----------------------------------------------------
-  // Menu to show/hide layers
-  UpperLeftMenu menu (l.map, context, model_manager, f)
+    addChildrenTo root.model.traps {
+      TrapModel trap (root.context, $root.model.trap_new_id, $root.fg.add_item_selector.lat, $root.fg.add_item_selector.lon, root.ros_manager.node)
+    }
 
-  CGraph graph (root, f, model_manager, l.map, context)
+    root.model.trap_new_id = root.model.trap_new_id + 1
+
+    //notify root.ros_manager.send_add_trap
+  }
+
+  fg.add_item_selector.add_message -> {
+    //fg.add_item_selector.lat =: ros_manager.lat
+    //fg.add_item_selector.lon =: ros_manager.lon
+    "Add a new message at " + fg.add_item_selector.lat + " " + fg.add_item_selector.lon =: lp.input
+  }
+
+  fg.add_item_selector.add_goto -> {
+    //fg.add_item_selector.lat =: ros_manager.lat
+    //fg.add_item_selector.lon =: ros_manager.lon
+    "Add a go to at " + fg.add_item_selector.lat + " " + fg.add_item_selector.lon =: lp.input
+  }
 
 }

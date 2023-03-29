@@ -11,7 +11,7 @@ _native_code_
 _define_
 PositionedItemSelector (Process _map, Process _context)
 {
-    TextPrinter tp
+    //TextPrinter tp
 
     Double lat (0)
     Double lon (0)
@@ -22,21 +22,6 @@ PositionedItemSelector (Process _map, Process _context)
     Spike add_trap
     Spike add_message
     Spike add_goto
-
-    add_trap -> {
-        "Add a new trap at " + lat + " " + lon =: tp.input
-    }
-    add_trap -> hide
-
-    add_message -> {
-        "Add a new message at " + lat + " " + lon =: tp.input
-    }
-    add_message -> hide
-
-    add_goto -> {
-        "Add a go to at " + lat + " " + lon =: tp.input
-    }
-    add_goto -> hide
 
     Translation tr (0, 0)
 
@@ -49,6 +34,10 @@ PositionedItemSelector (Process _map, Process _context)
     }
 
     show -> update_position
+
+    add_trap -> hide
+    add_message -> hide
+    add_goto -> hide
 
     svg = load_from_XML_once ("res/svg/positioned_selector.svg")
 
