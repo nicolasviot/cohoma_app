@@ -85,15 +85,15 @@ icare_libs := $(shell ls $(icare_interfaces_libs_install_path)/lib*.so 2>/dev/nu
 icare_libs := $(patsubst $(icare_interfaces_libs_install_path)/lib%.so, -l%, $(icare_libs))
 
 ifeq ($(os),Linux)
-boost_cflags ?= -I/usr/local/include/boost/
+boost_cflags ?= #-I/usr/local/include/boost/
 endif
 
 ifeq ($(os),Darwin)
-boost_cflags ?= -I$(shell brew --prefix)/include
-boost_ldflags ?= -L$(shell brew --prefix)/lib
+boost_cflags ?= #-I$(shell brew --prefix)/include
+boost_ldflags ?= #-L$(shell brew --prefix)/lib
 endif
 
-CXXFLAGS += -std=c++17
+CXXFLAGS += -std=c++20
 
 CXXFLAGS += -I./src -I./src/cpp -I./src/include
 CXXFLAGS += $(boost_cflags)
@@ -115,10 +115,10 @@ ld_library_path+=$(ros_lib_path):$(ros_lib_path)/x86_64-linux-gnu:$(icare_interf
 endif
 
 ifeq ($(os),Linux)
-LIBS += -lboost_thread -lpthread
+LIBS += #-lboost_thread -lpthread
 endif
 ifeq ($(os),Darwin)
-LIBS += -lboost_thread-mt
+LIBS += #-lboost_thread-mt
 endif
 
 # external libraries
