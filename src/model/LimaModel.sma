@@ -1,7 +1,6 @@
 use core
 use gui
 use base
-
 import ros_node
 
 _native_code_

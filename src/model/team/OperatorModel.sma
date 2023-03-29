@@ -21,5 +21,5 @@ OperatorModel (Process _context, int _uid, int _type, string _code, string _titl
     Int color (_color)
 
     ProcessCollector robots // = satellites / = vehicles
-    print ("New model of Operator (" + uid + ") type: " + type + " code:" + code + " title: " + title + " named " + name + "\n")
+    //print ("New model of Operator (" + uid + ") type: " + type + " code:" + code + " title: " + title + " named " + name + "\n")
 }

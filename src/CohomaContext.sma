@@ -235,7 +235,9 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     //String selected_itinerary_type ("")
 
     
-    //DRAG and DROP
+    //DRAG and DROP strip allocation
     Bool show_drop_zones_strip (1)
     Ref dragged_strip (null)
+    Spike show_confirmation_form
+    Ref dropped_operator (null)
 }

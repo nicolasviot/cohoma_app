@@ -8,10 +8,13 @@ Strip (Process _context, Process _model, int _index)
   model aka _model
   op_color aka model.operator_color.value
   type aka model.type
+  Int index (_index)
 
   Translation drag_translation (0,0)
 
-  Translation tr (0, _index * (5 + $_context.VEHICLE_STRIP_HEIGHT))
+  Translation tr (0, 0)
+  index * (5 + $_context.VEHICLE_STRIP_HEIGHT) =:> tr.ty
+
   svg = load_from_XML ("res/svg/strip.svg")
   g << svg.strip
   monitoring aka g.strip_monitor_group
@@ -34,11 +37,11 @@ Strip (Process _context, Process _model, int _index)
       } else if ($type == 2){
         Translation _ (4, 0) 
         Rotation _ (90, 0, 0)
-        svg_icon = load_from_XML ("res/svg/drone.svg")
+        svg_icon = load_from_XML ("res/svg/robot.svg")
         icon << svg_icon.icon
          op_color =:> icon.shape.fill.value
       } else {
-        svg_icon = load_from_XML ("res/svg/robot.svg")
+        svg_icon = load_from_XML ("res/svg/drone.svg")
         icon << svg_icon.icon
          op_color =:> icon.shape.fill.value
       }
@@ -173,39 +176,42 @@ Strip (Process _context, Process _model, int _index)
   g.strip_bg.release -> model.stop_locate
 
   //drag and drop to realocate -- -need to ask a manger to move ghost to another zone.
-  Spike drop_action
-  Spike drag_started
-  Int off_x (0)
-  Int off_y (0)
+  if (model.can_allocate){
+    Spike drop_action
+    Spike drag_started
+    Int off_x (0)
+    Int off_y (0)
 
-  FSM dragMachine{
-    State idle {
-      0 =: drag_translation.tx
-      0 =: drag_translation.ty
-      0=: _context.show_drop_zones_strip
+    FSM dragMachine{
+      State idle {
+        0 =: drag_translation.tx
+        0 =: drag_translation.ty
+        0=: _context.show_drop_zones_strip
+      }
+      State pressed{
+        g.strip_bg.press.x =: off_x
+        g.strip_bg.press.y =: off_y
+        Double dist (0)
+        (g.strip_bg.move.x - off_x) * (g.strip_bg.move.x - off_x) + (g.strip_bg.move.y - off_y) * (g.strip_bg.move.y - off_y) =:> dist
+        dist > 40 -> drag_started
+      }
+      State dragging{
+        |-> model.stop_locate
+        g.strip_bg.move.x - off_x =:> drag_translation.tx
+        g.strip_bg.move.y - off_y =:> drag_translation.ty
+      }
+      
+      idle -> pressed (g.strip_bg.press)
+      pressed -> idle (_context.frame_released)
+      pressed -> dragging (drag_started)
+      dragging -> idle (_context.frame_released)
     }
-    State pressed{
-      g.strip_bg.press.x =: off_x
-      g.strip_bg.press.y =: off_y
-      Double dist (0)
-      (g.strip_bg.move.x - off_x) * (g.strip_bg.move.x - off_x) + (g.strip_bg.move.y - off_y) * (g.strip_bg.move.y - off_y) =:> dist
-      dist > 40 -> drag_started
+    AssignmentSequence init_dragging (1) {
+      1 =: _context.show_drop_zones_strip
+      this =: _context.dragged_strip
     }
-    State dragging{
-      |-> model.stop_locate
-      g.strip_bg.move.x - off_x =:> drag_translation.tx
-      g.strip_bg.move.y - off_y =:> drag_translation.ty
-    }
-    
-    idle -> pressed (g.strip_bg.press)
-    pressed -> idle (_context.frame_released)
-    pressed -> dragging (drag_started)
-    dragging -> idle (_context.frame_released)
+    drag_started -> init_dragging
   }
-  AssignmentSequence init_dragging (1) {
-    1 =: _context.show_drop_zones_strip
-    this =: _context.dragged_strip
-  }
-  drag_started -> init_dragging
+  
 }
 

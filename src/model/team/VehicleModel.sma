@@ -20,39 +20,24 @@ VehicleModel (Process _context, int _uid, int _type, string _code, string _title
     String title (_title)
     //String name (_name)
 
-    // Latitude [deg] - Longitude [deg] - Altitude (geoide)
+    // Latitude [deg] - Longitude [deg]
     Double lat (_lat)
     Double lon (_lon)
-
-    // Body frame linear velocity [m/s]
+    // Robot heading with respect to north direction positive
+    Double heading_rot (180)
 
     // Model of the operator currently in charge of our robot
     Ref ref_operator (nullptr)
     DerefInt operator_color (ref_operator, "color", DJNN_GET_ON_CHANGE)
 
-    // FIXME: TODO after a D&D
-    /*ref_operator -> na_ref_operator:(this) {
-        _ref_operator = getRef (this.ref_operator)
-        if (&_ref_operator != null) {
-            print ("ref_operator\n")
-            _ref_operator.robots.add = this
-            setRef (_ref_operator.robots.add, this)
-        }
-    }*/
+    //if this vehicle can be reassigned (only ground robots)
+    Bool can_allocate (0)
+    if(_type == 2){
+      can_allocate = 1
+    }
 
-    print ("New model of Vehicle (" + uid + ") type: " + type + " code: " + code + " title: " + title  + "\n")
-
-    // Battery voltage
-    Double battery_voltage (24)
-    // Estimation of battery charge (0-100) negative if unknown
-    Int battery_percentage (75)
-
-    // Mean Sea Level altitude (m)
-    Double altitude_msl (500)
-
-    // Robot heading with respect to north direction positive
-    Double heading_rot (180)
-
+    //print ("New model of Vehicle (" + uid + ") type: " + type + " code: " + code + " title: " + title  + " can allocate " + can_allocate +"\n")
+    
     // State of the physical emergency stop
     Bool emergency_stop (0)
 
@@ -68,9 +53,6 @@ VehicleModel (Process _context, int _uid, int _type, string _code, string _title
     Bool detect_traps (1)
     TextPrinter tp
     "TODO: faire un message pour dire que " + title + " trap detection " + detect_traps => tp.input 
-
-    //possibilité de réaffecter le robot ??
-    Bool can_assign (0)
     
     // Current operating mode
     // OPERATING_MODE_UNKNOWN = 0           # Default value
@@ -106,9 +88,7 @@ VehicleModel (Process _context, int _uid, int _type, string _code, string _title
       connected -> disconnected (connected.status_timer.end) 
    }
 
-
-
-
     Spike start_locate
     Spike stop_locate
+
 }
