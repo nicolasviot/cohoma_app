@@ -25,7 +25,7 @@ Vehicle (Process map, Process _context, Process _model, Process _svg)
 
     // icon
     icon << clone (_svg.icon)
-    model.operator_color.value =: icon.shape.fill.value
+    model.operator_color.value =:> icon.shape.fill.value
 
     // Update the position via "screen_translation" in function of lat/lon and current zoom level
     NotDraggableItem not_draggable_item (map, model.lat, model.lon, screen_translation.tx, screen_translation.ty)
