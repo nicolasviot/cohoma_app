@@ -96,7 +96,7 @@ RosNode::impl_activate ()
   sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>("/map", qos_transient, std::bind(&RosNode::receive_msg_map, this, _1));
 
   // PUBLISH
-  publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>("/planning_request", qos);
+  //publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>("/planning_request", qos);
   publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>("/validation", qos);
   publisher_navgraph_update = _node->create_publisher<icare_interfaces::msg::StringStamped>("/navgraph_update", qos_transient);
   publisher_tasks = _node->create_publisher<icare_interfaces::msg::Tasks>("/tasks", qos);
@@ -881,6 +881,7 @@ RosNode::send_msg_lima(int id)
 void
 RosNode::send_msg_planning_request()
 {    
+  /*
   icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
   message.id = _current_plan_id_vab.get_string_value();
   //cout << "send_msg_planning_request " << _current_plan_id_vab.get_string_value() << endl;
@@ -904,6 +905,7 @@ RosNode::send_msg_planning_request()
   message.header.stamp = _node->get_clock()->now();
 
   publisher_planning_request->publish(message);  
+  */
 }
 
 

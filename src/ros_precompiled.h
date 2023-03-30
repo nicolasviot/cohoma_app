@@ -12,7 +12,7 @@
 //navgraph/general string  msg interface : publisher/subscriber
 #include "icare_interfaces/msg/string_stamped.hpp"
 //VAB planif request : publisher
-#include "icare_interfaces/msg/planning_request.hpp"
+//#include "icare_interfaces/msg/planning_request.hpp"
 //VAB planif output : subscriber
 #include "icare_interfaces/msg/graph_itinerary.hpp"
 #include "icare_interfaces/msg/graph_itinerary_list.hpp"

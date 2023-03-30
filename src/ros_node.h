@@ -10,7 +10,7 @@
 //navgraph/general string  msg interface : publisher/subscriber
 #include "icare_interfaces/msg/string_stamped.hpp"
 //VAB planif request : publisher
-#include "icare_interfaces/msg/planning_request.hpp"
+//#include "icare_interfaces/msg/planning_request.hpp"
 //VAB planif output : subscriber
 #include "icare_interfaces/msg/graph_itinerary.hpp"
 #include "icare_interfaces/msg/graph_itinerary_list.hpp"
@@ -153,7 +153,7 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Subscription<icare_interfaces::msg::Site>::SharedPtr sub_site;
     rclcpp::Subscription<icare_interfaces::msg::EnvironmentMap>::SharedPtr sub_map;
 
-    rclcpp::Publisher<icare_interfaces::msg::PlanningRequest>::SharedPtr publisher_planning_request;
+    //rclcpp::Publisher<icare_interfaces::msg::PlanningRequest>::SharedPtr publisher_planning_request;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_navgraph_update;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation;
     rclcpp::Publisher<icare_interfaces::msg::Tasks>::SharedPtr publisher_tasks;
