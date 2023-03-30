@@ -57,7 +57,7 @@ $(build_dir)/src/ros_node.o: pch_file=src/ros_precompiled.h
 $(build_dir)/src/ros_node.o: $(build_dir)/src/ros_precompiled.h$(pch_ext)
 
 
-ros_install_path := /opt/ros/galactic
+ros_install_path := /opt/ros/humble
 ros_include_path := $(ros_install_path)/include
 ros_lib_path := $(ros_install_path)/lib
 
@@ -77,8 +77,8 @@ ros_x86_libs := $(shell ls $(ros_lib_path)/x86_64-linux-gnu/lib*.so 2>/dev/null 
 # ros_libs := $(filter -l%,$(ros_libs))
 
 
-#PATH_TO_WORKSPACE = /home/lii/Documents/dev_ws
-PATH_TO_WORKSPACE = /home/achil/dev/COHOMA
+PATH_TO_WORKSPACE = /home/lii/Documents/cohoma2_dev_ws
+#PATH_TO_WORKSPACE = /home/achil/dev/COHOMA
 
 icare_interfaces_libs_install_path := $(PATH_TO_WORKSPACE)/install/icare_interfaces/lib
 icare_libs := $(shell ls $(icare_interfaces_libs_install_path)/lib*.so 2>/dev/null | xargs echo)
