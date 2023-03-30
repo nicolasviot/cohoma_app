@@ -62,11 +62,16 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
     // From operator:
     Bool hidden (false)             // whether the system should consider this trap
 
+    // Detection step info:
+    //Int detection_time (0)
+    String detection_time ("00:00:00")
     Double lat (_lat)
     Double lon (_lon)
     Double altitude_msl (0)
     
     // Identification step info:
+    //Int identification_time (0)
+    String identification_time ("00:00:00")
     Bool identified (false)         // whether the trap has been identified (i.e. QRCode read)
 
     // Int IDENTIFICATION_UNKNOWN (0)
@@ -92,6 +97,8 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
     String misc ("")                // description of an hazardous situation to take into account
 
     // Deactivation step info:
+    //Int deactivation_time (0)
+    String deactivation_time ("00:00:00")
     Bool active (true)              // whether the trap is active
 
     // Int DEACTIVATION_UNKNOWN (20)

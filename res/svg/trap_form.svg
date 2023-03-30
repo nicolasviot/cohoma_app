@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.2.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="root" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 600 400" enable-background="new 0 0 600 400" xml:space="preserve">
+<rect id="bg" pointer-events="all" opacity="0.2" fill="#020203" stroke="#9A9999" stroke-width="3" width="503.3" height="302"/>
+<g id="bottom">
+	<path id="bg_x5F_bottom" pointer-events="all" opacity="0.4" fill="#0A0B0B" stroke="#676767" d="M15.2,150.3h473
+		c4.8,0,8.7,3.9,8.7,8.7v127.8c0,4.8-3.9,8.7-8.7,8.7h-473c-4.8,0-8.7-3.9-8.7-8.7V159C6.5,154.2,10.4,150.3,15.2,150.3z"/>
+	<text transform="matrix(1 0 0 1 9.707 168.6165)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10.7857px">Désactivation</text>
+	<text transform="matrix(1 0 0 1 14.709 190.907)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">- à distance ?</text>
+	<text transform="matrix(1 0 0 1 81.6113 190.907)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">OUI</text>
+	<text transform="matrix(1 0 0 1 82.3311 213.1975)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">OUI</text>
+	<text transform="matrix(1 0 0 1 157.1113 190.907)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">BZUD</text>
+	<text transform="matrix(1 0 0 1 14.1885 213.1975)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">- au contact ?</text>
+	<text transform="matrix(1 0 0 1 129.6514 190.907)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">code</text>
+	<text transform="matrix(1 0 0 1 126.5391 213.1975)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">mode</text>
+	<text transform="matrix(1 0 0 1 157.1113 213.1975)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Aérien + Terrestre</text>
+	<text transform="matrix(1 0 0 1 441.1357 280.0691)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">ECXG</text>
+	<text transform="matrix(1 0 0 1 153.5166 168.6165)" fill="#474747" font-family="'Helvetica-Bold'" font-size="9.3476px">inactive</text>
+	<text transform="matrix(1 0 0 1 103.3213 280.0691)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">confirmation</text>
+	<text transform="matrix(1 0 0 1 94.5547 169.3357)" fill="#8CD0E0" font-family="'Helvetica-Bold'" font-size="9.3476px">active</text>
+	<g id="toggle">
+		<path pointer-events="all" fill="#6FC7DA" d="M131,159.1h11.5c4,0,7.2,3.2,7.2,7.2l0,0c0,4-3.2,7.2-7.2,7.2H131
+			c-4,0-7.2-3.2-7.2-7.2l0,0C123.8,162.4,127,159.1,131,159.1z"/>
+		<ellipse pointer-events="all" fill="#FFFFFF" cx="131.7" cy="166.3" rx="5" ry="5"/>
+	</g>
+	<text transform="matrix(1 0 0 1 414.3945 280.0691)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">code</text>
+	<g>
+		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M259.6,202.1h123c2,0,3.6,1.6,3.6,3.6v15.8
+			c0,2-1.6,3.6-3.6,3.6h-123c-2,0-3.6-1.6-3.6-3.6v-15.8C256,203.7,257.6,202.1,259.6,202.1z"/>
+		
+			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-673.1219" y1="775.0921" x2="-673.1219" y2="774.373" gradientTransform="matrix(30 0 0 -32 20569 25005)">
+			<stop  offset="0" style="stop-color:#6FC7DA"/>
+			<stop  offset="1" style="stop-color:#8CD0E0"/>
+		</linearGradient>
+		<path pointer-events="all" fill="url(#SVGID_1_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M364.6,202.1h18
+			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V202.1z"/>
+		<path pointer-events="all" fill="#020203" d="M370.3,210l5,7.2l5-7.2"/>
+		<text transform="matrix(1 0 0 1 259.2168 216.7928)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Ground Laser</text>
+		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M259.6,227.9h123c2,0,3.6,1.6,3.6,3.6v15.8
+			c0,2-1.6,3.6-3.6,3.6h-123c-2,0-3.6-1.6-3.6-3.6v-15.8C256,229.5,257.6,227.9,259.6,227.9z"/>
+		
+			<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="-673.1219" y1="775.4082" x2="-673.1219" y2="774.6891" gradientTransform="matrix(30 0 0 -32 20569 25041)">
+			<stop  offset="0" style="stop-color:#6FC7DA"/>
+			<stop  offset="1" style="stop-color:#8CD0E0"/>
+		</linearGradient>
+		<path pointer-events="all" fill="url(#SVGID_2_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M364.6,227.9h18
+			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V227.9z"/>
+		<path pointer-events="all" fill="#020203" d="M370.3,235.8l5,7.2l5-7.2"/>
+		<text transform="matrix(1 0 0 1 259.2168 242.6785)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Aerial Laser</text>
+		<rect x="338.7" y="202.8" pointer-events="all" fill="#020203" width="21.6" height="21.6"/>
+		
+			<image overflow="visible" enable-background="new    " width="512" height="512" xlink:href="6DF4B8A5440DEFB9.png"  transform="matrix(4.213170e-02 0 0 4.213170e-02 338.3694 202.4119)">
+		</image>
+		<rect x="338.7" y="228.7" pointer-events="all" fill="#020203" width="21.6" height="21.6"/>
+		
+			<image overflow="visible" enable-background="new    " width="512" height="512" xlink:href="6DF4B8A5440DEFBB.png"  transform="matrix(4.213170e-02 0 0 4.213170e-02 338.3694 228.2976)">
+		</image>
+		<rect x="93.1" y="159.1" pointer-events="all" fill="none" width="27.3" height="15.4"/>
+		<rect x="393.3" y="266.6" pointer-events="all" fill="none" width="43.1" height="21.6"/>
+		<rect x="98.5" y="266.8" pointer-events="all" fill="none" width="57.5" height="21.6"/>
+		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M163.6,266.8h117.7c2,0,3.6,1.6,3.6,3.6v14.4
+			c0,2-1.6,3.6-3.6,3.6H163.6c-2,0-3.6-1.6-3.6-3.6v-14.4C160,268.4,161.6,266.8,163.6,266.8z"/>
+		
+			<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-671.8029" y1="778.2078" x2="-671.8029" y2="777.4887" gradientTransform="matrix(30 0 0 -30 20428.1602 23613)">
+			<stop  offset="0" style="stop-color:#6FC7DA"/>
+			<stop  offset="1" style="stop-color:#8CD0E0"/>
+		</linearGradient>
+		<path pointer-events="all" fill="url(#SVGID_3_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M263.3,266.8h18
+			c2,0,3.6,1.6,3.6,3.6v14.4c0,2-1.6,3.6-3.6,3.6h-18V266.8z"/>
+		<path pointer-events="all" fill="#020203" d="M269,274l5,7.2l5-7.2"/>
+		<text transform="matrix(1 0 0 1 162.8643 280.7879)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Terrestre</text>
+		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M396.9,202.8h93.5c2,0,3.6,1.6,3.6,3.6v15.8
+			c0,2-1.6,3.6-3.6,3.6h-93.5c-2,0-3.6-1.6-3.6-3.6v-15.8C393.3,204.4,394.9,202.8,396.9,202.8z"/>
+		
+			<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="-674.5267" y1="775.1009" x2="-674.5267" y2="774.3818" gradientTransform="matrix(30 0 0 -32 20719 25006)">
+			<stop  offset="0" style="stop-color:#6FC7DA"/>
+			<stop  offset="1" style="stop-color:#8CD0E0"/>
+		</linearGradient>
+		<path pointer-events="all" fill="url(#SVGID_4_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M472.4,202.8h18
+			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V202.8z"/>
+		<path pointer-events="all" fill="#020203" d="M478.2,210.7l5,7.2l5-7.2"/>
+		<text transform="matrix(1 0 0 1 396.5547 217.5115)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Agilex 1</text>
+		<g id="icon_x5F_ground">
+			<rect x="450.5" y="207.8" pointer-events="all" fill="#FFFFFF" width="15.8" height="8.6"/>
+			<ellipse pointer-events="all" fill="#FFFFFF" cx="453.8" cy="217.9" rx="1.3" ry="1.4"/>
+			<ellipse pointer-events="all" fill="#FFFFFF" cx="463" cy="217.9" rx="1.3" ry="1.4"/>
+		</g>
+		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M397.6,229.4h93.5c2,0,3.6,1.6,3.6,3.6v15.8
+			c0,2-1.6,3.6-3.6,3.6h-93.5c-2,0-3.6-1.6-3.6-3.6V233C394,231,395.6,229.4,397.6,229.4z"/>
+		
+			<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="-674.536" y1="775.4257" x2="-674.536" y2="774.7067" gradientTransform="matrix(30 0 0 -32 20720 25043)">
+			<stop  offset="0" style="stop-color:#6FC7DA"/>
+			<stop  offset="1" style="stop-color:#8CD0E0"/>
+		</linearGradient>
+		<path pointer-events="all" fill="url(#SVGID_5_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M473.1,229.4h18
+			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V229.4z"/>
+		<path pointer-events="all" fill="#020203" d="M478.9,237.3l5,7.2l5-7.2"/>
+		<text transform="matrix(1 0 0 1 397.2734 244.1165)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">M600</text>
+		<path id="icon_x5F_aerial" pointer-events="all" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="
+			M467.7,237.3L467.7,237.3L467.7,237.3l-9.3,8.6l-9.3-8.6l0,0l0,0l9.3,5.8L467.7,237.3z"/>
+		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M297,266.6h93.5c2,0,3.6,1.6,3.6,3.6V286
+			c0,2-1.6,3.6-3.6,3.6H297c-2,0-3.6-1.6-3.6-3.6v-15.8C293.4,268.2,295,266.6,297,266.6z"/>
+		
+			<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="-673.2249" y1="775.8801" x2="-673.2249" y2="775.1611" gradientTransform="matrix(30 0 0 -32 20580 25094.75)">
+			<stop  offset="0" style="stop-color:#6FC7DA"/>
+			<stop  offset="1" style="stop-color:#8CD0E0"/>
+		</linearGradient>
+		<path pointer-events="all" fill="url(#SVGID_6_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M372.5,266.6h18
+			c2,0,3.6,1.6,3.6,3.6V286c0,2-1.6,3.6-3.6,3.6h-18V266.6z"/>
+		<path pointer-events="all" fill="#020203" d="M378.2,274.5l5,7.2l5-7.2"/>
+		<text transform="matrix(1 0 0 1 296.6074 280.7879)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">OG2 / Minnie</text>
+	</g>
+</g>
+<g id="top">
+	<path id="bg_x5F_top" pointer-events="all" opacity="0.4" fill="#0A0B0B" stroke="#676767" d="M10.3,30.9h476.9
+		c3.7,0,6.7,3,6.7,6.7v98.7c0,3.7-3,6.7-6.7,6.7H10.3c-3.7,0-6.7-3-6.7-6.7V37.6C3.6,33.9,6.6,30.9,10.3,30.9z"/>
+	<text transform="matrix(1 0 0 1 22.3809 74.4212)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Identifiant</text>
+	<text transform="matrix(1 0 0 1 34.8604 98.1497)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Nature</text>
+	<text transform="matrix(1 0 0 1 10.1875 48.5354)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.7857px">Identification</text>
+	<text transform="matrix(1 0 0 1 72.2637 98.1497)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Section d&apos;artillerie équipée d&apos; obusier 155 AUF1 au potentiel de combat de 50%</text>
+	<text transform="matrix(1 0 0 1 69.3877 74.4212)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">2807</text>
+	<text transform="matrix(1 0 0 1 36.4297 124.0354)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Divers</text>
+	<text transform="matrix(1 0 0 1 69.5155 121.5194)" enable-background="new    "><tspan x="0" y="0" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Mettez vos masques à gaz pendant 5 minutes et dégagez immédiatement la zone</tspan><tspan x="0" y="12.1" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">vers ...</tspan></text>
+	<text transform="matrix(1 0 0 1 442.4727 48.5354)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.5048px">16:01:49</text>
+	<text transform="matrix(1 0 0 1 111.8125 47.8167)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="9.3476px">Identifié par OG1 / BNX8</text>
+</g>
+<g id="header">
+	
+		<rect x="8.3" y="7.9" pointer-events="all" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -6.1303 15.4)" fill="#E52421" width="14.4" height="14.4"/>
+	<text transform="matrix(1 0 0 1 29.1455 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Id. Icare</text>
+	<path pointer-events="all" fill="#020203" stroke="#7F8080" stroke-width="2" stroke-miterlimit="10" d="M230.3,16.7
+		c1.6-2,4-3.2,6.5-3.2s4.9,1.2,6.5,3.2c-1.6,2-4,3.2-6.5,3.2S231.9,18.8,230.3,16.7z"/>
+	<ellipse pointer-events="all" fill="#020203" stroke="#7F8080" stroke-width="2" cx="236.7" cy="16.7" rx="2.3" ry="2.5"/>
+	<text transform="matrix(1 0 0 1 109.6543 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">détecté par OG2 / Agilex 3</text>
+	<text transform="matrix(1 0 0 1 441.7539 20.493)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.5048px">15:55:12</text>
+	<text transform="matrix(1 0 0 1 72.4951 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10.0667px">#14</text>
+</g>
+</svg>

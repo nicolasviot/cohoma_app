@@ -45,6 +45,7 @@ import movable.SubLayerSafetyPilots
 import task.SubLayerTasks
 import trap.SubLayerTraps
 import trap.TrapStatusSelector
+import trap.TrapForm
 import site.SubLayerSite
 import Reticule
 
@@ -387,6 +388,9 @@ Component root {
   // 
   CGraph graph (root, f, model_manager, map, context)
 
+  // Form to edit the selected trap
+  TrapForm trap_form (context, f)
+
 
   // ----------------------------------------------------
   // ROS manager
@@ -429,6 +433,7 @@ Component root {
     addChildrenTo root.model.traps {
       TrapModel trap (root.context, $root.model.trap_new_id, $root.fg.add_item_selector.lat, $root.fg.add_item_selector.lon, root.ros_manager.node)
     }
+    root.model.traps.[root.model.traps.size].detection_time = root.context.w_clock.state_text
 
     root.model.trap_new_id = root.model.trap_new_id + 1
 
