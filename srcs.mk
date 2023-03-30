@@ -56,9 +56,11 @@ endif
 $(build_dir)/src/ros_node.o: pch_file=src/ros_precompiled.h
 $(build_dir)/src/ros_node.o: $(build_dir)/src/ros_precompiled.h$(pch_ext)
 
+ifneq ($(no_ros),1)
+ros_install_path ?= /opt/ros/humble
 
-ros_install_path := /opt/ros/humble
 ros_include_path := $(ros_install_path)/include
+ros_include_paths := $(wildcard $(ros_include_path)/*)
 ros_lib_path := $(ros_install_path)/lib
 
 ros_libs := $(shell ls $(ros_lib_path)/lib*.so 2>/dev/null | xargs echo)
@@ -75,7 +77,7 @@ ros_x86_libs := $(shell ls $(ros_lib_path)/x86_64-linux-gnu/lib*.so 2>/dev/null 
 # rclcpp_lib_deps := $(shell ldd $(ros_lib_path)/librclcpp.so | awk '{print $1}' | sed -e 's/.so.*//' | sed -e 's:/lib.*::'| sed -e 's/lib/-l/' | xargs echo)
 # ros_libs := $(rclcpp_lib_deps)
 # ros_libs := $(filter -l%,$(ros_libs))
-
+endif
 
 PATH_TO_WORKSPACE = /home/lii/Documents/cohoma2_dev_ws
 #PATH_TO_WORKSPACE = /home/achil/dev/COHOMA
@@ -97,7 +99,7 @@ CXXFLAGS += -std=c++20
 
 CXXFLAGS += -I./src -I./src/cpp -I./src/include
 CXXFLAGS += $(boost_cflags)
-CXXFLAGS += -I$(ros_include_path)
+CXXFLAGS += $(addprefix -I,$(ros_include_paths))
 CXXFLAGS += -I$(PATH_TO_WORKSPACE)/install/icare_interfaces/include \
             -I$(PATH_TO_WORKSPACE)/install/lemon/include
 
