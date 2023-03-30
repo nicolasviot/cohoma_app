@@ -655,42 +655,68 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
     //
     // **************************************************************************************************
 
-    Spike add_trap1
-    Spike add_trap2
-    Spike set_trap1
-    Spike set_trap2
+    Spike set_trap100
+    Spike set_trap101
+    Spike set_trap102
+    Spike set_trap103
 
-    add_trap1 -> (this) {
-        addChildrenTo this.traps {
-            TrapModel debug_trap1 (this.context, 199, $this.context.init_lat, $this.context.init_lon - 0.0015, null)
-        }
-    }
-    add_trap2 -> (this) {
-        addChildrenTo this.traps {
-            TrapModel debug_trap2 (this.context, 223, $this.context.init_lat + 0.0005, $this.context.init_lon - 0.003, null)
-        }
-    }
-
-    set_trap1 -> (this) {
+    set_trap100 -> (this) {
         if (this.traps.size > 0) {
-            this.traps.[1].description = "Ceci est le trap 1"
-            this.traps.[1].contact_mode = 1
-            this.traps.[1].remotely_deactivate = 1
-
-            addChildrenTo this.task_traps {
-                TaskTrapModel debug_task_trap1 (this.traps.[1])
-            }
+            this.traps.[1].identified = 1
+            this.traps.[1].identification_time = toString(this.context.w_clock.state_text)
+            this.traps.[1].identification_robot_name = "Agilex 3"
+            this.traps.[1].nature = "Attaque chimique"
+            this.traps.[1].misc = "Mettez votre masque à gaz"
+            this.traps.[1].identifier = 1170
+            this.traps.[1].remote = 0
+            this.traps.[1].remote_code = ""
+            this.traps.[1].contact = 0
+            this.traps.[1].contact_mode = 10
         }
     }
-    set_trap2 -> (this) {
+    
+    set_trap101 -> (this) {
         if (this.traps.size > 1) {
-            this.traps.[2].description = "Ceci est le trap 2"
-            this.traps.[2].contact_mode = 2
-            this.traps.[2].contact_deactivate = 1
+            this.traps.[2].identified = 1
+            this.traps.[2].identification_time = toString(this.context.w_clock.state_text)
+            this.traps.[2].identification_robot_name = "M600"
+            this.traps.[2].nature = "Champ de mines"
+            this.traps.[2].misc = ""
+            this.traps.[2].identifier = 2318
+            this.traps.[2].remote = 1
+            this.traps.[2].remote_code = "AZDR"
+            this.traps.[2].contact = 0
+            this.traps.[2].contact_mode = 10
+        }
+    }
 
-            addChildrenTo this.task_traps {
-                TaskTrapModel debug_task_trap2 (this.traps.[2])
-            }
+    set_trap102 -> (this) {
+        if (this.traps.size > 2) {
+            this.traps.[3].identified = 1
+            this.traps.[3].identification_time = toString(this.context.w_clock.state_text)
+            this.traps.[3].identification_robot_name = "BNX8"
+            this.traps.[3].nature = "Canon anti char"
+            this.traps.[3].misc = ""
+            this.traps.[3].identifier = 2045
+            this.traps.[3].remote = 0
+            this.traps.[3].remote_code = ""
+            this.traps.[3].contact = 1
+            this.traps.[3].contact_mode = 12 // Ground
+        }
+    }
+    
+    set_trap103 -> (this) {
+        if (this.traps.size > 3) {
+            this.traps.[4].identified = 1
+            this.traps.[4].identification_time = toString(this.context.w_clock.state_text)
+            this.traps.[4].identification_robot_name = "BNX8"
+            this.traps.[4].nature = "Section d'artillerie équipée d'obusier 155 AUF1 au potentiel de combat de 50%"
+            this.traps.[4].misc = "Mettez vos masques à gaz pendant 5 minutes et dégagez immédiatement la zone vers le sud"
+            this.traps.[4].identifier = 3918
+            this.traps.[4].remote = 1
+            this.traps.[4].remote_code = "GHIJ"
+            this.traps.[4].contact = 1
+            this.traps.[4].contact_mode = 14 // Ground
         }
     }
 

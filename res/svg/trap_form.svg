@@ -4,29 +4,35 @@
 	 viewBox="0 0 600 400" enable-background="new 0 0 600 400" xml:space="preserve">
 <rect id="bg" pointer-events="all" opacity="0.2" fill="#020203" stroke="#9A9999" stroke-width="3" width="503.3" height="302"/>
 <g id="bottom">
-	<path id="bg_bottom" pointer-events="all" opacity="0.4" fill="#0A0B0B" stroke="#676767" d="M13.7,150h473
-		c4.8,0,8.7,3.9,8.7,8.7v127.8c0,4.8-3.9,8.7-8.7,8.7h-473c-4.8,0-8.7-3.9-8.7-8.7V158.7C5,153.9,8.9,150,13.7,150z"/>
-	<text transform="matrix(1 0 0 1 8.2356 168.3355)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10.7857px">Désactivation</text>
-	<text transform="matrix(1 0 0 1 13.2375 190.6261)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">- à distance ?</text>
-	<text transform="matrix(1 0 0 1 80.1399 190.6261)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">OUI</text>
-	<text transform="matrix(1 0 0 1 80.8596 212.9166)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">OUI</text>
-	<text transform="matrix(1 0 0 1 155.6399 190.6261)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">BZUD</text>
-	<text transform="matrix(1 0 0 1 12.717 212.9166)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">- au contact ?</text>
-	<text transform="matrix(1 0 0 1 128.1799 190.6261)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">code</text>
-	<text transform="matrix(1 0 0 1 125.0676 212.9166)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">mode</text>
-	<text transform="matrix(1 0 0 1 155.6399 212.9166)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Aérien + Terrestre</text>
-	<text transform="matrix(1 0 0 1 439.6643 279.7882)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">ECXG</text>
-	<text transform="matrix(1 0 0 1 152.0452 168.3355)" fill="#474747" font-family="'Helvetica-Bold'" font-size="9.3476px">inactive</text>
-	<text transform="matrix(1 0 0 1 101.8499 279.7882)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">confirmation</text>
-	<text transform="matrix(1 0 0 1 93.0833 169.0548)" fill="#8CD0E0" font-family="'Helvetica-Bold'" font-size="9.3476px">active</text>
-	<g id="toggle">
-		<path pointer-events="all" fill="#6FC7DA" d="M129.5,158.9H141c4,0,7.2,3.2,7.2,7.2l0,0c0,4-3.2,7.2-7.2,7.2h-11.5
-			c-4,0-7.2-3.2-7.2-7.2l0,0C122.3,162.1,125.5,158.9,129.5,158.9z"/>
-		<ellipse pointer-events="all" fill="#FFFFFF" cx="130.2" cy="166" rx="5" ry="5"/>
+	<g id="global">
+		<path id="bg_bottom" pointer-events="all" opacity="0.4" fill="#0A0B0B" stroke="#676767" d="M13.7,150h473
+			c4.8,0,8.7,3.9,8.7,8.7v127.8c0,4.8-3.9,8.7-8.7,8.7h-473c-4.8,0-8.7-3.9-8.7-8.7V158.7C5,153.9,8.9,150,13.7,150z"/>
+		
+			<text id="txt_deactiv_time" transform="matrix(1 0 0 1 442.1059 166.5415)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.5048px">16:01:49</text>
+		<text transform="matrix(1 0 0 1 12.717 212.9166)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">- au contact ?</text>
+		<text transform="matrix(1 0 0 1 13.2375 190.6261)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">- à distance ?</text>
+		
+			<text id="txt_bool_distance" transform="matrix(1 0 0 1 80.1399 190.6261)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="12px">OUI</text>
+		
+			<text id="txt_bool_contact" transform="matrix(1 0 0 1 80.8596 212.9166)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="12px">OUI</text>
+		<text transform="matrix(1 0 0 1 8.2356 168.3355)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10.7857px">Désactivation</text>
+		<g>
+			<text transform="matrix(1 0 0 1 152.0452 168.3355)" fill="#474747" font-family="'Helvetica-Bold'" font-size="9.3476px">inactive</text>
+			<text transform="matrix(1 0 0 1 93.0833 169.0548)" fill="#8CD0E0" font-family="'Helvetica-Bold'" font-size="9.3476px">active</text>
+			<g id="toggle">
+				<path pointer-events="all" fill="#6FC7DA" d="M129.5,158.9H141c4,0,7.2,3.2,7.2,7.2l0,0c0,4-3.2,7.2-7.2,7.2h-11.5
+					c-4,0-7.2-3.2-7.2-7.2l0,0C122.3,162.1,125.5,158.9,129.5,158.9z"/>
+				<ellipse pointer-events="all" fill="#FFFFFF" cx="130.2" cy="166" rx="5" ry="5"/>
+			</g>
+		</g>
 	</g>
-	<text transform="matrix(1 0 0 1 412.9231 279.7882)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">code</text>
-	<text transform="matrix(1 0 0 1 442.1059 166.5415)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.5048px">16:01:49</text>
-	<g>
+	<g id="remote">
+		
+			<text id="lbl_code_remote" transform="matrix(1 0 0 1 128.1799 190.6261)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">code</text>
+		
+			<text id="txt_code_remote" transform="matrix(1 0 0 1 155.6399 190.6261)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">BZUD</text>
+	</g>
+	<g id="contact">
 		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M258.1,201.8h123c2,0,3.6,1.6,3.6,3.6v15.8
 			c0,2-1.6,3.6-3.6,3.6h-123c-2,0-3.6-1.6-3.6-3.6v-15.8C254.5,203.4,256.1,201.8,258.1,201.8z"/>
 		
@@ -49,14 +55,6 @@
 			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V227.7z"/>
 		<path pointer-events="all" fill="#020203" d="M368.8,235.6l5,7.2l5-7.2"/>
 		<text transform="matrix(1 0 0 1 257.7454 242.3976)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Aerial Laser</text>
-		<rect x="337.3" y="202.5" pointer-events="all" fill="#020203" width="21.6" height="21.6"/>
-		
-			<image overflow="visible" enable-background="new    " width="512" height="512" xlink:href="6DF4B8A5440DEFBC.png"  transform="matrix(4.213170e-02 0 0 4.213170e-02 336.898 202.131)">
-		</image>
-		<rect x="337.3" y="228.4" pointer-events="all" fill="#020203" width="21.6" height="21.6"/>
-		
-			<image overflow="visible" enable-background="new    " width="512" height="512" xlink:href="6DF4B8A5440DEFBF.png"  transform="matrix(4.213170e-02 0 0 4.213170e-02 336.898 228.0167)">
-		</image>
 		<rect x="91.6" y="158.9" pointer-events="all" fill="none" width="27.3" height="15.4"/>
 		<rect x="391.8" y="266.3" pointer-events="all" fill="none" width="43.1" height="21.6"/>
 		<rect x="97" y="266.5" pointer-events="all" fill="none" width="57.5" height="21.6"/>
@@ -111,6 +109,14 @@
 			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V266.3z"/>
 		<path pointer-events="all" fill="#020203" d="M376.7,274.2l5,7.2l5-7.2"/>
 		<text transform="matrix(1 0 0 1 295.136 280.5069)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">OG2 / Minnie</text>
+		<text transform="matrix(1 0 0 1 412.9231 279.7882)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">code</text>
+		
+			<text id="txt_code_contact" transform="matrix(1 0 0 1 439.6643 279.7882)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">ECXG</text>
+		<text transform="matrix(1 0 0 1 101.8499 279.7882)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">confirmation</text>
+		
+			<text id="txt_mode_contact" transform="matrix(1 0 0 1 155.6399 212.9166)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Aérien + Terrestre</text>
+		
+			<text id="lbl_mode_contact" transform="matrix(1 0 0 1 125.0676 212.9166)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">mode</text>
 	</g>
 </g>
 <g id="top">
@@ -146,6 +152,6 @@
 	
 		<text id="txt_detection_time" transform="matrix(1 0 0 1 441.7539 20.493)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.5048px">15:55:12</text>
 	
-		<text id="txt_id_icare" transform="matrix(1 0 0 1 72.4951 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10.0667px">#14</text>
+		<text id="txt_id_icare" transform="matrix(1 0 0 1 72.4951 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="12px">#14</text>
 </g>
 </svg>

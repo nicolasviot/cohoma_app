@@ -128,17 +128,17 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 		Component debug {		
 			if (_model_manager.IS_DEBUG)
 			{
-				StandAlonePushButton btn_add_trap1 ("add trap 1", 20, 10)
-				btn_add_trap1.click -> _model_manager.add_trap1
+				StandAlonePushButton btn_set_trap100 ("set trap 100", 20, 10)
+				btn_set_trap100.click -> _model_manager.set_trap100
 
-				StandAlonePushButton btn_add_trap2 ("add trap 2", 150, 10)
-				btn_add_trap2.click -> _model_manager.add_trap2
+				StandAlonePushButton btn_set_trap101 ("set trap 101", 150, 10)
+				btn_set_trap101.click -> _model_manager.set_trap101
 
-				StandAlonePushButton btn_set_trap1 ("set trap 1", 20, 40)
-				btn_set_trap1.click -> _model_manager.set_trap1
+				StandAlonePushButton btn_set_trap102 ("set trap 102", 20, 40)
+				btn_set_trap102.click -> _model_manager.set_trap102
 
-				StandAlonePushButton btn_set_trap2 ("set trap 2", 150, 40)
-				btn_set_trap2.click -> _model_manager.set_trap2
+				StandAlonePushButton btn_set_trap103 ("set trap 103", 150, 40)
+				btn_set_trap103.click -> _model_manager.set_trap103
 
 
 				StandAlonePushButton btn_set_shortest ("set shortest", 20, 80)

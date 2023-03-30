@@ -7,6 +7,29 @@ import ros_node
 _native_code_
 %{
     #include <iostream>
+    using namespace std;
+
+    string get_contact_mode (int contact_mode)
+    {
+        //cout << "get_contact_mode: " << contact_mode << endl;
+        switch (contact_mode) {
+            case 10:
+                return "";
+            case 11:
+                return "Aérien";
+            case 12:
+                return "Terrestre";
+            case 13:
+                return "Terrestres";
+            case 14:
+                return "Aérien et Terrestre";
+            case 15:
+                return "Aérien ou Terrestre";
+            default:
+                return "";
+        }
+        return "";
+    }
 %}
 
 
@@ -71,10 +94,10 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
     Double altitude_msl (0)
     
     // Identification step info:
+    Bool identified (false)         // whether the trap has been identified (i.e. QRCode read)
     //Int identification_time (0)
     String identification_time ("..:..:..")
     String identification_robot_name ("")
-    Bool identified (false)         // whether the trap has been identified (i.e. QRCode read)
 
     // Int IDENTIFICATION_UNKNOWN (0)
     // Int IDENTIFICATION_AERIAL (1)
@@ -97,10 +120,15 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
     // Int CONTACT_AERIAL_AND_GROUND (14)
     // Int CONTACT_AERIAL_OR_GROUND (15)
     Int contact_mode (10)           // which type of satellite can deactivate; see enum
+    String str_contact_mode ("")
+
+    contact_mode -> (this) {
+        this.str_contact_mode = get_contact_mode ($this.contact_mode)
+    }
 
     // Deactivation step info:
     //Int deactivation_time (0)
-    String deactivation_time ("00:00:00")
+    String deactivation_time ("..:..:..")
     Bool active (true)              // whether the trap is active
 
     // Int DEACTIVATION_UNKNOWN (20)
@@ -153,7 +181,7 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
     }
 
 
-    // OLD (Cohoma v1)
+    // FIXME: OLD (Cohoma v1)
 
     //String state ("unknown") //can be unkown, identified, deactivated
     //active ? (identified ? "identified" : "unknown") : "deactivated" =:> state
