@@ -428,12 +428,12 @@ Component root {
     "Add a new trap at " + fg.add_item_selector.lat + " " + fg.add_item_selector.lon =: lp.input
   }*/
   fg.add_item_selector.add_trap -> na_add_trap:(root) {
-    print ("Add a new trap at " + root.fg.add_item_selector.lat + " " + root.fg.add_item_selector.lon + "\n")
+    print ("Add a new trap at " + root.fg.add_item_selector.lat + " " + root.fg.add_item_selector.lon + " (" + root.context.w_clock.state_text + ")\n")
 
     addChildrenTo root.model.traps {
       TrapModel trap (root.context, $root.model.trap_new_id, $root.fg.add_item_selector.lat, $root.fg.add_item_selector.lon, root.ros_manager.node)
     }
-    root.model.traps.[root.model.traps.size].detection_time = root.context.w_clock.state_text
+    root.model.traps.[root.model.traps.size].detection_time = toString(root.context.w_clock.state_text)
 
     root.model.trap_new_id = root.model.trap_new_id + 1
 

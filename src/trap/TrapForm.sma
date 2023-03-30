@@ -37,9 +37,35 @@ TrapForm (Process _context, Process _frame)
         State hidden
 
         State visible {
+            DerefString str_id (_context.ref_selected_trap, "str_id", DJNN_GET_ON_CHANGE)
+            DerefString detection_time (_context.ref_selected_trap, "detection_time", DJNN_GET_ON_CHANGE)
+            DerefString detection_robot_name (_context.ref_selected_trap, "detection_robot_name", DJNN_GET_ON_CHANGE)
+
+            DerefString identification_time (_context.ref_selected_trap, "identification_time", DJNN_GET_ON_CHANGE)
+            DerefString identification_robot_name (_context.ref_selected_trap, "identification_robot_name", DJNN_GET_ON_CHANGE)
+            DerefString nature (_context.ref_selected_trap, "nature", DJNN_GET_ON_CHANGE)
+            DerefString misc (_context.ref_selected_trap, "misc", DJNN_GET_ON_CHANGE)
+            DerefInt identifier (_context.ref_selected_trap, "identifier", DJNN_GET_ON_CHANGE)
+
             bg << svg.bg
+
+            // header
             header << svg.header
+
+            "#" + str_id.value =:> header.txt_id_icare.text
+            "détecté par " + detection_robot_name.value =:> header.txt_detection_robot.text
+            detection_time.value =:> header.txt_detection_time.text
+
+            // top part
             top << svg.top
+
+            identifier.value =:> top.txt_identifier.text
+            "identifié par " + identification_robot_name.value =:> top.txt_identif_robot.text
+            identification_time.value =:> top.txt_identif_time.text
+            nature.value =:> top.txt_nature.text
+            misc.value =:> top.txt_misc.text
+            
+            // bottom part
             bottom << svg.bottom
         }
         hidden -> visible (_context.is_null_selected_trap.false)

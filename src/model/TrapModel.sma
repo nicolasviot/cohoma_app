@@ -57,21 +57,23 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
     ros_node aka _ros_node
 
     Int id (_id)                    // ID as known by the Trap Manager
-    String str_id ("?")
+    String str_id (to_string(_id))
 
     // From operator:
     Bool hidden (false)             // whether the system should consider this trap
 
     // Detection step info:
     //Int detection_time (0)
-    String detection_time ("00:00:00")
+    String detection_time ("..:..:..")
+    String detection_robot_name ("VAB")
     Double lat (_lat)
     Double lon (_lon)
     Double altitude_msl (0)
     
     // Identification step info:
     //Int identification_time (0)
-    String identification_time ("00:00:00")
+    String identification_time ("..:..:..")
+    String identification_robot_name ("")
     Bool identified (false)         // whether the trap has been identified (i.e. QRCode read)
 
     // Int IDENTIFICATION_UNKNOWN (0)
@@ -80,6 +82,7 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
     Int identification_mode (0)     // which type of vehicle can read the external QRcode
 
     String nature ("")              // text describing the kind of trap
+    String misc ("")                // description of an hazardous situation to take into account
     Int identifier (0)              // 4 digits
 
     Double radius (50)              // action radius [m] (50 is the maximum possible radius)
@@ -94,7 +97,6 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
     // Int CONTACT_AERIAL_AND_GROUND (14)
     // Int CONTACT_AERIAL_OR_GROUND (15)
     Int contact_mode (10)           // which type of satellite can deactivate; see enum
-    String misc ("")                // description of an hazardous situation to take into account
 
     // Deactivation step info:
     //Int deactivation_time (0)

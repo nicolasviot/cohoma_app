@@ -4,136 +4,148 @@
 	 viewBox="0 0 600 400" enable-background="new 0 0 600 400" xml:space="preserve">
 <rect id="bg" pointer-events="all" opacity="0.2" fill="#020203" stroke="#9A9999" stroke-width="3" width="503.3" height="302"/>
 <g id="bottom">
-	<path id="bg_x5F_bottom" pointer-events="all" opacity="0.4" fill="#0A0B0B" stroke="#676767" d="M15.2,150.3h473
-		c4.8,0,8.7,3.9,8.7,8.7v127.8c0,4.8-3.9,8.7-8.7,8.7h-473c-4.8,0-8.7-3.9-8.7-8.7V159C6.5,154.2,10.4,150.3,15.2,150.3z"/>
-	<text transform="matrix(1 0 0 1 9.707 168.6165)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10.7857px">Désactivation</text>
-	<text transform="matrix(1 0 0 1 14.709 190.907)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">- à distance ?</text>
-	<text transform="matrix(1 0 0 1 81.6113 190.907)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">OUI</text>
-	<text transform="matrix(1 0 0 1 82.3311 213.1975)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">OUI</text>
-	<text transform="matrix(1 0 0 1 157.1113 190.907)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">BZUD</text>
-	<text transform="matrix(1 0 0 1 14.1885 213.1975)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">- au contact ?</text>
-	<text transform="matrix(1 0 0 1 129.6514 190.907)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">code</text>
-	<text transform="matrix(1 0 0 1 126.5391 213.1975)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">mode</text>
-	<text transform="matrix(1 0 0 1 157.1113 213.1975)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Aérien + Terrestre</text>
-	<text transform="matrix(1 0 0 1 441.1357 280.0691)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">ECXG</text>
-	<text transform="matrix(1 0 0 1 153.5166 168.6165)" fill="#474747" font-family="'Helvetica-Bold'" font-size="9.3476px">inactive</text>
-	<text transform="matrix(1 0 0 1 103.3213 280.0691)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">confirmation</text>
-	<text transform="matrix(1 0 0 1 94.5547 169.3357)" fill="#8CD0E0" font-family="'Helvetica-Bold'" font-size="9.3476px">active</text>
+	<path id="bg_bottom" pointer-events="all" opacity="0.4" fill="#0A0B0B" stroke="#676767" d="M13.7,150h473
+		c4.8,0,8.7,3.9,8.7,8.7v127.8c0,4.8-3.9,8.7-8.7,8.7h-473c-4.8,0-8.7-3.9-8.7-8.7V158.7C5,153.9,8.9,150,13.7,150z"/>
+	<text transform="matrix(1 0 0 1 8.2356 168.3355)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10.7857px">Désactivation</text>
+	<text transform="matrix(1 0 0 1 13.2375 190.6261)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">- à distance ?</text>
+	<text transform="matrix(1 0 0 1 80.1399 190.6261)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">OUI</text>
+	<text transform="matrix(1 0 0 1 80.8596 212.9166)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">OUI</text>
+	<text transform="matrix(1 0 0 1 155.6399 190.6261)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">BZUD</text>
+	<text transform="matrix(1 0 0 1 12.717 212.9166)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">- au contact ?</text>
+	<text transform="matrix(1 0 0 1 128.1799 190.6261)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">code</text>
+	<text transform="matrix(1 0 0 1 125.0676 212.9166)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">mode</text>
+	<text transform="matrix(1 0 0 1 155.6399 212.9166)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Aérien + Terrestre</text>
+	<text transform="matrix(1 0 0 1 439.6643 279.7882)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">ECXG</text>
+	<text transform="matrix(1 0 0 1 152.0452 168.3355)" fill="#474747" font-family="'Helvetica-Bold'" font-size="9.3476px">inactive</text>
+	<text transform="matrix(1 0 0 1 101.8499 279.7882)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">confirmation</text>
+	<text transform="matrix(1 0 0 1 93.0833 169.0548)" fill="#8CD0E0" font-family="'Helvetica-Bold'" font-size="9.3476px">active</text>
 	<g id="toggle">
-		<path pointer-events="all" fill="#6FC7DA" d="M131,159.1h11.5c4,0,7.2,3.2,7.2,7.2l0,0c0,4-3.2,7.2-7.2,7.2H131
-			c-4,0-7.2-3.2-7.2-7.2l0,0C123.8,162.4,127,159.1,131,159.1z"/>
-		<ellipse pointer-events="all" fill="#FFFFFF" cx="131.7" cy="166.3" rx="5" ry="5"/>
+		<path pointer-events="all" fill="#6FC7DA" d="M129.5,158.9H141c4,0,7.2,3.2,7.2,7.2l0,0c0,4-3.2,7.2-7.2,7.2h-11.5
+			c-4,0-7.2-3.2-7.2-7.2l0,0C122.3,162.1,125.5,158.9,129.5,158.9z"/>
+		<ellipse pointer-events="all" fill="#FFFFFF" cx="130.2" cy="166" rx="5" ry="5"/>
 	</g>
-	<text transform="matrix(1 0 0 1 414.3945 280.0691)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">code</text>
+	<text transform="matrix(1 0 0 1 412.9231 279.7882)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">code</text>
+	<text transform="matrix(1 0 0 1 442.1059 166.5415)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.5048px">16:01:49</text>
 	<g>
-		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M259.6,202.1h123c2,0,3.6,1.6,3.6,3.6v15.8
-			c0,2-1.6,3.6-3.6,3.6h-123c-2,0-3.6-1.6-3.6-3.6v-15.8C256,203.7,257.6,202.1,259.6,202.1z"/>
+		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M258.1,201.8h123c2,0,3.6,1.6,3.6,3.6v15.8
+			c0,2-1.6,3.6-3.6,3.6h-123c-2,0-3.6-1.6-3.6-3.6v-15.8C254.5,203.4,256.1,201.8,258.1,201.8z"/>
 		
-			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-673.1219" y1="775.0921" x2="-673.1219" y2="774.373" gradientTransform="matrix(30 0 0 -32 20569 25005)">
+			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-673.171" y1="775.1009" x2="-673.171" y2="774.3818" gradientTransform="matrix(30 0 0 -32 20569 25005)">
 			<stop  offset="0" style="stop-color:#6FC7DA"/>
 			<stop  offset="1" style="stop-color:#8CD0E0"/>
 		</linearGradient>
-		<path pointer-events="all" fill="url(#SVGID_1_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M364.6,202.1h18
-			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V202.1z"/>
-		<path pointer-events="all" fill="#020203" d="M370.3,210l5,7.2l5-7.2"/>
-		<text transform="matrix(1 0 0 1 259.2168 216.7928)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Ground Laser</text>
-		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M259.6,227.9h123c2,0,3.6,1.6,3.6,3.6v15.8
-			c0,2-1.6,3.6-3.6,3.6h-123c-2,0-3.6-1.6-3.6-3.6v-15.8C256,229.5,257.6,227.9,259.6,227.9z"/>
+		<path pointer-events="all" fill="url(#SVGID_1_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M363.1,201.8h18
+			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V201.8z"/>
+		<path pointer-events="all" fill="#020203" d="M368.8,209.7l5,7.2l5-7.2"/>
+		<text transform="matrix(1 0 0 1 257.7454 216.5118)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Ground Laser</text>
+		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M258.1,227.7h123c2,0,3.6,1.6,3.6,3.6v15.8
+			c0,2-1.6,3.6-3.6,3.6h-123c-2,0-3.6-1.6-3.6-3.6v-15.8C254.5,229.3,256.1,227.7,258.1,227.7z"/>
 		
-			<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="-673.1219" y1="775.4082" x2="-673.1219" y2="774.6891" gradientTransform="matrix(30 0 0 -32 20569 25041)">
+			<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="-673.171" y1="775.417" x2="-673.171" y2="774.6979" gradientTransform="matrix(30 0 0 -32 20569 25041)">
 			<stop  offset="0" style="stop-color:#6FC7DA"/>
 			<stop  offset="1" style="stop-color:#8CD0E0"/>
 		</linearGradient>
-		<path pointer-events="all" fill="url(#SVGID_2_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M364.6,227.9h18
-			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V227.9z"/>
-		<path pointer-events="all" fill="#020203" d="M370.3,235.8l5,7.2l5-7.2"/>
-		<text transform="matrix(1 0 0 1 259.2168 242.6785)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Aerial Laser</text>
-		<rect x="338.7" y="202.8" pointer-events="all" fill="#020203" width="21.6" height="21.6"/>
+		<path pointer-events="all" fill="url(#SVGID_2_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M363.1,227.7h18
+			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V227.7z"/>
+		<path pointer-events="all" fill="#020203" d="M368.8,235.6l5,7.2l5-7.2"/>
+		<text transform="matrix(1 0 0 1 257.7454 242.3976)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Aerial Laser</text>
+		<rect x="337.3" y="202.5" pointer-events="all" fill="#020203" width="21.6" height="21.6"/>
 		
-			<image overflow="visible" enable-background="new    " width="512" height="512" xlink:href="6DF4B8A5440DEFB9.png"  transform="matrix(4.213170e-02 0 0 4.213170e-02 338.3694 202.4119)">
+			<image overflow="visible" enable-background="new    " width="512" height="512" xlink:href="6DF4B8A5440DEFBC.png"  transform="matrix(4.213170e-02 0 0 4.213170e-02 336.898 202.131)">
 		</image>
-		<rect x="338.7" y="228.7" pointer-events="all" fill="#020203" width="21.6" height="21.6"/>
+		<rect x="337.3" y="228.4" pointer-events="all" fill="#020203" width="21.6" height="21.6"/>
 		
-			<image overflow="visible" enable-background="new    " width="512" height="512" xlink:href="6DF4B8A5440DEFBB.png"  transform="matrix(4.213170e-02 0 0 4.213170e-02 338.3694 228.2976)">
+			<image overflow="visible" enable-background="new    " width="512" height="512" xlink:href="6DF4B8A5440DEFBF.png"  transform="matrix(4.213170e-02 0 0 4.213170e-02 336.898 228.0167)">
 		</image>
-		<rect x="93.1" y="159.1" pointer-events="all" fill="none" width="27.3" height="15.4"/>
-		<rect x="393.3" y="266.6" pointer-events="all" fill="none" width="43.1" height="21.6"/>
-		<rect x="98.5" y="266.8" pointer-events="all" fill="none" width="57.5" height="21.6"/>
-		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M163.6,266.8h117.7c2,0,3.6,1.6,3.6,3.6v14.4
-			c0,2-1.6,3.6-3.6,3.6H163.6c-2,0-3.6-1.6-3.6-3.6v-14.4C160,268.4,161.6,266.8,163.6,266.8z"/>
+		<rect x="91.6" y="158.9" pointer-events="all" fill="none" width="27.3" height="15.4"/>
+		<rect x="391.8" y="266.3" pointer-events="all" fill="none" width="43.1" height="21.6"/>
+		<rect x="97" y="266.5" pointer-events="all" fill="none" width="57.5" height="21.6"/>
+		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M162.1,266.5h117.7c2,0,3.6,1.6,3.6,3.6v14.4
+			c0,2-1.6,3.6-3.6,3.6H162.1c-2,0-3.6-1.6-3.6-3.6v-14.4C158.5,268.1,160.1,266.5,162.1,266.5z"/>
 		
-			<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-671.8029" y1="778.2078" x2="-671.8029" y2="777.4887" gradientTransform="matrix(30 0 0 -30 20428.1602 23613)">
+			<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-671.852" y1="778.2172" x2="-671.852" y2="777.4981" gradientTransform="matrix(30 0 0 -30 20428.1602 23613)">
 			<stop  offset="0" style="stop-color:#6FC7DA"/>
 			<stop  offset="1" style="stop-color:#8CD0E0"/>
 		</linearGradient>
-		<path pointer-events="all" fill="url(#SVGID_3_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M263.3,266.8h18
-			c2,0,3.6,1.6,3.6,3.6v14.4c0,2-1.6,3.6-3.6,3.6h-18V266.8z"/>
-		<path pointer-events="all" fill="#020203" d="M269,274l5,7.2l5-7.2"/>
-		<text transform="matrix(1 0 0 1 162.8643 280.7879)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Terrestre</text>
-		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M396.9,202.8h93.5c2,0,3.6,1.6,3.6,3.6v15.8
-			c0,2-1.6,3.6-3.6,3.6h-93.5c-2,0-3.6-1.6-3.6-3.6v-15.8C393.3,204.4,394.9,202.8,396.9,202.8z"/>
+		<path pointer-events="all" fill="url(#SVGID_3_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M261.8,266.5h18
+			c2,0,3.6,1.6,3.6,3.6v14.4c0,2-1.6,3.6-3.6,3.6h-18V266.5z"/>
+		<path pointer-events="all" fill="#020203" d="M267.6,273.7l5,7.2l5-7.2"/>
+		<text transform="matrix(1 0 0 1 161.3928 280.5069)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Terrestre</text>
+		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M395.4,202.5h93.5c2,0,3.6,1.6,3.6,3.6v15.8
+			c0,2-1.6,3.6-3.6,3.6h-93.5c-2,0-3.6-1.6-3.6-3.6v-15.8C391.8,204.1,393.5,202.5,395.4,202.5z"/>
 		
-			<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="-674.5267" y1="775.1009" x2="-674.5267" y2="774.3818" gradientTransform="matrix(30 0 0 -32 20719 25006)">
+			<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="-674.5757" y1="775.1097" x2="-674.5757" y2="774.3906" gradientTransform="matrix(30 0 0 -32 20719 25006)">
 			<stop  offset="0" style="stop-color:#6FC7DA"/>
 			<stop  offset="1" style="stop-color:#8CD0E0"/>
 		</linearGradient>
-		<path pointer-events="all" fill="url(#SVGID_4_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M472.4,202.8h18
-			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V202.8z"/>
-		<path pointer-events="all" fill="#020203" d="M478.2,210.7l5,7.2l5-7.2"/>
-		<text transform="matrix(1 0 0 1 396.5547 217.5115)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Agilex 1</text>
-		<g id="icon_x5F_ground">
-			<rect x="450.5" y="207.8" pointer-events="all" fill="#FFFFFF" width="15.8" height="8.6"/>
-			<ellipse pointer-events="all" fill="#FFFFFF" cx="453.8" cy="217.9" rx="1.3" ry="1.4"/>
-			<ellipse pointer-events="all" fill="#FFFFFF" cx="463" cy="217.9" rx="1.3" ry="1.4"/>
+		<path pointer-events="all" fill="url(#SVGID_4_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M470.9,202.5h18
+			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V202.5z"/>
+		<path pointer-events="all" fill="#020203" d="M476.7,210.4l5,7.2l5-7.2"/>
+		<text transform="matrix(1 0 0 1 395.0833 217.2306)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Agilex 1</text>
+		<g id="icon_ground">
+			<rect x="449" y="207.5" pointer-events="all" fill="#FFFFFF" width="15.8" height="8.6"/>
+			<ellipse pointer-events="all" fill="#FFFFFF" cx="452.3" cy="217.6" rx="1.3" ry="1.4"/>
+			<ellipse pointer-events="all" fill="#FFFFFF" cx="461.5" cy="217.6" rx="1.3" ry="1.4"/>
 		</g>
-		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M397.6,229.4h93.5c2,0,3.6,1.6,3.6,3.6v15.8
-			c0,2-1.6,3.6-3.6,3.6h-93.5c-2,0-3.6-1.6-3.6-3.6V233C394,231,395.6,229.4,397.6,229.4z"/>
+		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M396.2,229.1h93.5c2,0,3.6,1.6,3.6,3.6v15.8
+			c0,2-1.6,3.6-3.6,3.6h-93.5c-2,0-3.6-1.6-3.6-3.6v-15.8C392.6,230.7,394.2,229.1,396.2,229.1z"/>
 		
-			<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="-674.536" y1="775.4257" x2="-674.536" y2="774.7067" gradientTransform="matrix(30 0 0 -32 20720 25043)">
+			<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="-674.5851" y1="775.4345" x2="-674.5851" y2="774.7155" gradientTransform="matrix(30 0 0 -32 20720 25043)">
 			<stop  offset="0" style="stop-color:#6FC7DA"/>
 			<stop  offset="1" style="stop-color:#8CD0E0"/>
 		</linearGradient>
-		<path pointer-events="all" fill="url(#SVGID_5_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M473.1,229.4h18
-			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V229.4z"/>
-		<path pointer-events="all" fill="#020203" d="M478.9,237.3l5,7.2l5-7.2"/>
-		<text transform="matrix(1 0 0 1 397.2734 244.1165)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">M600</text>
-		<path id="icon_x5F_aerial" pointer-events="all" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="
-			M467.7,237.3L467.7,237.3L467.7,237.3l-9.3,8.6l-9.3-8.6l0,0l0,0l9.3,5.8L467.7,237.3z"/>
-		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M297,266.6h93.5c2,0,3.6,1.6,3.6,3.6V286
-			c0,2-1.6,3.6-3.6,3.6H297c-2,0-3.6-1.6-3.6-3.6v-15.8C293.4,268.2,295,266.6,297,266.6z"/>
+		<path pointer-events="all" fill="url(#SVGID_5_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M471.7,229.1h18
+			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V229.1z"/>
+		<path pointer-events="all" fill="#020203" d="M477.4,237l5,7.2l5-7.2"/>
+		<text transform="matrix(1 0 0 1 395.802 243.8355)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">M600</text>
+		<path id="icon_aerial" pointer-events="all" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="
+			M466.3,237L466.3,237L466.3,237l-9.3,8.6l-9.3-8.6l0,0l0,0l9.3,5.8L466.3,237z"/>
+		<path pointer-events="all" fill="#020203" stroke="#6FC7DA" stroke-width="2" d="M295.5,266.3H389c2,0,3.6,1.6,3.6,3.6v15.8
+			c0,2-1.6,3.6-3.6,3.6h-93.5c-2,0-3.6-1.6-3.6-3.6v-15.8C291.9,267.9,293.5,266.3,295.5,266.3z"/>
 		
-			<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="-673.2249" y1="775.8801" x2="-673.2249" y2="775.1611" gradientTransform="matrix(30 0 0 -32 20580 25094.75)">
+			<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="-673.274" y1="775.8889" x2="-673.274" y2="775.1698" gradientTransform="matrix(30 0 0 -32 20580 25094.75)">
 			<stop  offset="0" style="stop-color:#6FC7DA"/>
 			<stop  offset="1" style="stop-color:#8CD0E0"/>
 		</linearGradient>
-		<path pointer-events="all" fill="url(#SVGID_6_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M372.5,266.6h18
-			c2,0,3.6,1.6,3.6,3.6V286c0,2-1.6,3.6-3.6,3.6h-18V266.6z"/>
-		<path pointer-events="all" fill="#020203" d="M378.2,274.5l5,7.2l5-7.2"/>
-		<text transform="matrix(1 0 0 1 296.6074 280.7879)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">OG2 / Minnie</text>
+		<path pointer-events="all" fill="url(#SVGID_6_)" stroke="#6FC7DA" stroke-width="2" stroke-miterlimit="10" d="M371,266.3h18
+			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V266.3z"/>
+		<path pointer-events="all" fill="#020203" d="M376.7,274.2l5,7.2l5-7.2"/>
+		<text transform="matrix(1 0 0 1 295.136 280.5069)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">OG2 / Minnie</text>
 	</g>
 </g>
 <g id="top">
-	<path id="bg_x5F_top" pointer-events="all" opacity="0.4" fill="#0A0B0B" stroke="#676767" d="M10.3,30.9h476.9
-		c3.7,0,6.7,3,6.7,6.7v98.7c0,3.7-3,6.7-6.7,6.7H10.3c-3.7,0-6.7-3-6.7-6.7V37.6C3.6,33.9,6.6,30.9,10.3,30.9z"/>
-	<text transform="matrix(1 0 0 1 22.3809 74.4212)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Identifiant</text>
-	<text transform="matrix(1 0 0 1 34.8604 98.1497)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Nature</text>
-	<text transform="matrix(1 0 0 1 10.1875 48.5354)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.7857px">Identification</text>
-	<text transform="matrix(1 0 0 1 72.2637 98.1497)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Section d&apos;artillerie équipée d&apos; obusier 155 AUF1 au potentiel de combat de 50%</text>
-	<text transform="matrix(1 0 0 1 69.3877 74.4212)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">2807</text>
-	<text transform="matrix(1 0 0 1 36.4297 124.0354)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Divers</text>
-	<text transform="matrix(1 0 0 1 69.5155 121.5194)" enable-background="new    "><tspan x="0" y="0" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Mettez vos masques à gaz pendant 5 minutes et dégagez immédiatement la zone</tspan><tspan x="0" y="12.1" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">vers ...</tspan></text>
-	<text transform="matrix(1 0 0 1 442.4727 48.5354)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.5048px">16:01:49</text>
-	<text transform="matrix(1 0 0 1 111.8125 47.8167)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="9.3476px">Identifié par OG1 / BNX8</text>
+	<path id="bg_top" pointer-events="all" opacity="0.4" fill="#0A0B0B" stroke="#676767" d="M11.7,32h476.9c3.7,0,6.7,3,6.7,6.7
+		v98.7c0,3.7-3,6.7-6.7,6.7H11.7c-3.7,0-6.7-3-6.7-6.7V38.7C5,35,8,32,11.7,32z"/>
+	<text transform="matrix(1 0 0 1 23.7856 75.5021)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Identifiant</text>
+	<text transform="matrix(1 0 0 1 36.2651 99.2307)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Nature</text>
+	<text transform="matrix(1 0 0 1 11.5923 49.6164)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.7857px">Identification</text>
+	
+		<text id="txt_nature" transform="matrix(1 0 0 1 72.6684 99.2307)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Section d&apos;artillerie équipée d&apos; obusier 155 AUF1 au potentiel de combat de 50%</text>
+	
+		<text id="txt_identifier" transform="matrix(1 0 0 1 71.7924 75.5021)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">2807</text>
+	<text transform="matrix(1 0 0 1 37.8344 122.1164)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Divers</text>
+	
+		<text id="txt_misc" transform="matrix(1 0 0 1 71.9203 122.6003)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Mettez vos masques à gaz pendant 5 minutes et dégagez immédiatement la zone...</text>
+	
+		<text id="txt_identif_time" transform="matrix(1 0 0 1 443.8774 49.6164)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.5048px">16:01:49</text>
+	
+		<text id="txt_identif_robot" transform="matrix(1 0 0 1 111.2173 50.8976)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="9.3476px">Identifié par OG1 / BNX8</text>
 </g>
 <g id="header">
 	
 		<rect x="8.3" y="7.9" pointer-events="all" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -6.1303 15.4)" fill="#E52421" width="14.4" height="14.4"/>
-	<text transform="matrix(1 0 0 1 29.1455 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Id. Icare</text>
-	<path pointer-events="all" fill="#020203" stroke="#7F8080" stroke-width="2" stroke-miterlimit="10" d="M230.3,16.7
-		c1.6-2,4-3.2,6.5-3.2s4.9,1.2,6.5,3.2c-1.6,2-4,3.2-6.5,3.2S231.9,18.8,230.3,16.7z"/>
-	<ellipse pointer-events="all" fill="#020203" stroke="#7F8080" stroke-width="2" cx="236.7" cy="16.7" rx="2.3" ry="2.5"/>
-	<text transform="matrix(1 0 0 1 109.6543 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">détecté par OG2 / Agilex 3</text>
-	<text transform="matrix(1 0 0 1 441.7539 20.493)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.5048px">15:55:12</text>
-	<text transform="matrix(1 0 0 1 72.4951 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10.0667px">#14</text>
+	
+		<text id="lbl_id_icare" transform="matrix(1 0 0 1 29.1455 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Id. Icare</text>
+	<g id="eye">
+		<path pointer-events="all" fill="#020203" stroke="#7F8080" stroke-width="2" stroke-miterlimit="10" d="M232.3,15.7
+			c1.6-2,4-3.2,6.5-3.2s4.9,1.2,6.5,3.2c-1.6,2-4,3.2-6.5,3.2S233.9,17.8,232.3,15.7z"/>
+		<ellipse pointer-events="all" fill="#020203" stroke="#7F8080" stroke-width="2" cx="238.7" cy="15.7" rx="2.3" ry="2.5"/>
+	</g>
+	
+		<text id="txt_detection_robot" transform="matrix(1 0 0 1 109.6543 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">détecté par OG2 / Agilex 3</text>
+	
+		<text id="txt_detection_time" transform="matrix(1 0 0 1 441.7539 20.493)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.5048px">15:55:12</text>
+	
+		<text id="txt_id_icare" transform="matrix(1 0 0 1 72.4951 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10.0667px">#14</text>
 </g>
 </svg>
