@@ -6,6 +6,9 @@ using std::placeholders::_1;
 
 struct ros_node_instantiate {
 #ifndef NO_ROS
+
+//void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
+/*
     void receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg);
     void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
     void receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg);
@@ -23,6 +26,7 @@ struct ros_node_instantiate {
     void send_selected_tasks();
     void send_validation_tasks();
     void send_msg_lima(int);
+    */
   #endif
 
   #ifndef NO_ROS
@@ -32,9 +36,11 @@ struct ros_node_instantiate {
     rclcpp::QoS qos;
     rclcpp::QoS qos_transient;
 
+    //rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
 
+    /*
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
-	rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
+	  rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
     rclcpp::Subscription<icare_interfaces::msg::GraphItineraryList>::SharedPtr sub_graph_itinerary_loop;
     rclcpp::Subscription<icare_interfaces::msg::GraphItinerary>::SharedPtr sub_graph_itinerary_final;
     rclcpp::Subscription<icare_interfaces::msg::Tasks>::SharedPtr sub_candidate_tasks;
@@ -49,10 +55,14 @@ struct ros_node_instantiate {
     rclcpp::Publisher<icare_interfaces::msg::Tasks>::SharedPtr publisher_tasks;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation_tasks;
     rclcpp::Publisher<icare_interfaces::msg::LimaCrossed>::SharedPtr publisher_lima;
+    */
 #endif
 
     void activate(RosNode* rosnode) {
     	#ifndef NO_ROS
+      //sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>("/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, rosnode, _1));
+		
+      /*
 		// SUBSCRIBE
 		sub_navgraph = _node->create_subscription<icare_interfaces::msg::StringStamped>("/navgraph", qos_transient, std::bind(&RosNode::receive_msg_navgraph, rosnode, _1));		  
 		sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>("/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, rosnode, _1));
@@ -72,8 +82,10 @@ struct ros_node_instantiate {
 		publisher_validation_tasks = _node->create_publisher<icare_interfaces::msg::StringStamped>("/validate", qos);
 		publisher_lima = _node->create_publisher<icare_interfaces::msg::LimaCrossed>("/lima", qos);
 		//publisher_trap_activation = _node->create_publisher<icare_interfaces::msg::TrapActivation>("/activation", qos);
-		#endif
-
+		
+    */
+    #endif
+    
     }
 
 
@@ -84,12 +96,16 @@ struct ros_node_instantiate {
 	  // https://answers.ros.org/question/354792/rclcpp-how-to-unsubscribe-from-a-topic/
 
 	#ifndef NO_ROS
+
+   //sub_robot_state.reset ();
+  /*
 	  sub_navgraph.reset ();
 	  sub_robot_state.reset ();
 	  sub_graph_itinerary_loop.reset ();
 	  sub_graph_itinerary_final.reset ();
 	  sub_candidate_tasks.reset ();
 	  sub_allocation.reset ();
+    */
 
 	#endif
 	}

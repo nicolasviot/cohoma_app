@@ -85,23 +85,8 @@ class RosNode : public FatProcess, public ExternalSource
 
   #ifndef NO_ROS
 
-  //robots
-  void receive_msg_robot_state (const icare_interfaces::msg::RobotState& msg);
-  void receive_msg_robot_config (const icare_interfaces::msg::RobotConfig& msg);
-
-  //chat
-  void receive_msg_chat(const icare_interfaces::msg::ChatMessage& msg);
-  void send_msg_chat();
-
-  //itineraryqos_best_effort
-  void send_itinerary_request();
-  void receive_msg_itinerary (const icare_interfaces::msg::Itinerary& msg);
-
-  //groupe
-  void send_group_config();
-
-
-   /*
+  void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
+  /*
     void receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg);
     void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
     void receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg);
@@ -184,15 +169,6 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::QoS qos_transient;
 
     rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
-    rclcpp::Subscription<icare_interfaces::msg::RobotConfig>::SharedPtr sub_robot_config;
-
-    rclcpp::Subscription<icare_interfaces::msg::ChatMessage>::SharedPtr sub_chat;
-    rclcpp::Publisher<icare_interfaces::msg::ChatMessage>::SharedPtr publisher_chat;
-
-    rclcpp::Subscription<icare_interfaces::msg::Itinerary>::SharedPtr sub_itinerary;
-    rclcpp::Publisher<icare_interfaces::msg::ItineraryRequest>::SharedPtr publisher_itinerary_request;
-    
-    rclcpp::Publisher<icare_interfaces::msg::GroupConfig>::SharedPtr publisher_group_config;
 
     /*
 

@@ -13,7 +13,7 @@ save_console (Process c)
     Process *data = (Process*) get_native_user_data(c);
     RosNode *node = dynamic_cast<RosNode*>(data->find_child("node"));
     #ifndef NO_ROS
-    node ->save_console(); 
+    //node ->save_console(); 
     #endif
     
 %}

@@ -42,7 +42,7 @@ action_deactivate_trap (Process c)
     int uid = static_cast<IntProperty*>(data->find_child("id"))->get_value();
 
 #ifndef NO_ROS
-    node ->send_msg_deactivate_trap (uid); 
+   // node ->send_msg_deactivate_trap (uid); 
 #endif
 %}
 
@@ -55,7 +55,7 @@ action_delete_trap (Process c)
     int uid = static_cast<IntProperty*>(data->find_child("id"))->get_value();
 
 #ifndef NO_ROS
-    node->send_msg_delete_trap (uid);
+    //node->send_msg_delete_trap (uid);
 #endif
 %}
    
