@@ -25,7 +25,7 @@ action_validate_lima (Process c)
 	//cout << "action_validate_lima " << id->get_value() << endl;
 
     #ifndef NO_ROS
-    node->send_msg_lima(id->get_value()); 
+    //node->send_msg_lima(id->get_value()); 
     #endif
 %}
 

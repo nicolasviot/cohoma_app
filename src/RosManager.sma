@@ -11,7 +11,8 @@ validate_plan_fun (Process c)
  	RosNode *node = dynamic_cast<RosNode*>(data);
   	#ifndef NO_ROS
   	if (node)
- 		node->send_validation_plan(); 
+		std::cout << "TODO" << std::endl;
+ 		//node->send_validation_plan(); 
  	#endif
 %}
 
@@ -22,7 +23,8 @@ update_graph_fun (Process c)
  	RosNode *node = dynamic_cast<RosNode*>(data);
   	#ifndef NO_ROS
   	if (node)
- 		node->send_msg_navgraph_update();  
+		std::cout << "TODO" << std::endl;
+ 		//node->send_msg_navgraph_update();  
  	#endif
 %}
 
@@ -33,7 +35,8 @@ plan_request_fun (Process c)
  	RosNode *node = dynamic_cast<RosNode*>(data);
   	#ifndef NO_ROS
   	if (node)
- 		node->send_msg_planning_request(); 
+		std::cout << "TODO" << std::endl;
+ 		//node->send_msg_planning_request(); 
  	#endif
 %}
 
@@ -45,7 +48,8 @@ send_selected_tasks_fun (Process c)
  	RosNode *node = dynamic_cast<RosNode*>(data);
   	#ifndef NO_ROS
   	if (node)
- 		node->send_selected_tasks();
+ 		std::cout << "TODO" << std::endl;
+		//node->send_selected_tasks();
  	#endif
 %}
 
