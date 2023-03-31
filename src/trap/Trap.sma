@@ -2,7 +2,8 @@ use core
 use gui
 use base
 
-import behavior.DraggableItemWithRadius
+//import behavior.DraggableItemWithRadius
+import behavior.NotDraggableItemWithRadius
 
 _native_code_
 %{
@@ -11,7 +12,8 @@ _native_code_
 
 
 _define_
-Trap (Process _map, Process _context, Process _model, Process _svg_info, Process _svg_remotely_icon, Process _svg_contact_icon)
+//Trap (Process _map, Process _context, Process _model, Process _svg_info, Process _svg_remotely_icon, Process _svg_contact_icon)
+Trap (Process _map, Process _context, Process _model)
 {
     //map aka _map
     context aka _context
@@ -19,7 +21,8 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
 
     TextPrinter tp
 
-    "Trap (" + _model.id + ") " + _model.str_id + " (" + _model.nature + ")" =:> tp.input
+    Spike to_delete
+    _model.deleted.true -> to_delete
 
     Translation screen_translation (0, 0)
 
@@ -34,7 +37,7 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
                 OutlineOpacity o_op (1.0)
                 OutlineColor o_col ($_context.TRAP_COLOR)
                 OutlineWidth o_w (2)
-                _model.is_selected ? _context.SELECTION_COLOR : _context.TRAP_COLOR =:> o_col.value
+                //_model.is_selected ? _context.SELECTION_COLOR : _context.TRAP_COLOR =:> o_col.value
 
                 // Circle (linked with radius)
                 FillColor f_col ($_context.TRAP_COLOR)
@@ -49,15 +52,27 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
         Component losange {
             Rotation rot (45, 0, 0)
 
-            OutlineOpacity o_op (0.0)
-            OutlineColor o_col (#000000)
-            OutlineWidth o_w (1)
+            Component bg {
+                OutlineOpacity o_op (0.0)
+                OutlineColor o_col (#000000)
+                OutlineWidth o_w (1)
 
-            FillColor f_col ($_context.TRAP_COLOR)
-            Rectangle rect (-15, -15, 30, 30)
+                FillColor f_col ($_context.TRAP_COLOR)
+                Rectangle rect (-15, -15, 30, 30)
+            }
+
+            //Component fg {
+                OutlineOpacity o_op (0.0)
+                _model.is_selected ? 1.0 : 0.0 =:> o_op.a
+
+                OutlineColor o_col ($_context.SELECTION_COLOR)
+                OutlineWidth o_w (4)
+                NoFill _
+                Rectangle feedback (-15, -15, 30, 30)
+            //}
         }
         // for interactions
-        picking aka losange.rect
+        picking aka losange.bg.rect
         
         // Label
         FillColor _ (#000000)
@@ -147,25 +162,23 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
             Component st_deactivated {
                 0.4 =: global_opacity.a
                 "hidden" =: sw_bg_circle.state
-            }
-
-            Component st_deleted { // FIXME: use a switch to really deactivate it. Or remove from djnn tree
-                0.01 =: global_opacity.a
-                "hidden" =: sw_bg_circle.state
+                //#FF6200 =: losange.bg.f_col.value
             }
 
             Component st_hidden { // FIXME: use a switch to really deactivate it. Or remove from djnn tree
                 0.01 =: global_opacity.a
                 "hidden" =: sw_bg_circle.state
             }
+
+            Component st_deleted
         }
         _model.fsm.state =:> switch.state
         
 
         // Update the position via "screen_translation" in function of lat/lon and current zoom level
         // Allow to drag via "picking"
-        DraggableItemWithRadius draggable_item (_map, _context, _model.lat, _model.lon, _model.radius, screen_translation.tx, screen_translation.ty, picking, _context.frame_released, sw_bg_circle.visible.c.r)
-
+        //DraggableItemWithRadius draggable_item (_map, _context, _model.lat, _model.lon, _model.radius, screen_translation.tx, screen_translation.ty, picking, _context.frame_released, sw_bg_circle.visible.c.r)
+        NotDraggableItemWithRadius not_draggable_item (_map, _model.lat, _model.lon, _model.radius, screen_translation.tx, screen_translation.ty, sw_bg_circle.visible.c.r)
     }
 
 
@@ -190,20 +203,26 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
         visible -> idle (content.picking.leave)
     }*/
 
-
-    content.picking.left.press -> na_select:(this) {
-        if (!this.context.is_null_selected_trap) {
-            previous_selected_trap = getRef (this.context.ref_selected_trap)
-            previous_selected_trap.is_selected = false
+    content.picking.left.release -> na_click:(this) {
+        if (this.model.is_selected)
+        {
+            // FIXME 1: we can't activate the AssignmentSequence set_selected_trap_to_null
+            //notify this.context.set_selected_trap_to_null
+            // FIXME 2: so we had to create a Spike "spike_to_set_selected_trap_to_null"
+            notify this.context.spike_to_set_selected_trap_to_null
+            this.model.is_selected = false
         }
+        else
+        {
+            if (!this.context.is_null_selected_trap) {
+                previous_selected_trap = getRef (this.context.ref_selected_trap)
+                previous_selected_trap.is_selected = false
+            }
 
-        setRef (this.context.ref_selected_trap, this.model)
-        this.model.is_selected = true
+            setRef (this.context.ref_selected_trap, this.model)
+            this.model.is_selected = true
+        }
     }
-
-    /*content.picking.left.press -> {
-        this =: _context.ref_selected_trap
-    }*/
 
     /*content.picking.right.press -> {
         this =: _context.ref_current_trap

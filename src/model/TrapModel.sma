@@ -43,7 +43,7 @@ action_update_active_trap (Process c)
     bool active = static_cast<BoolProperty*>(data->find_child("active"))->get_value();
 
 #ifndef NO_ROS
-    //node ->send_msg_update_active_trap (uid, active); 
+    node->send_msg_trap_activation (uid, active); 
 #endif
 %}
 
@@ -56,7 +56,7 @@ action_delete_trap (Process c)
     int uid = static_cast<IntProperty*>(data->find_child("id"))->get_value();
 
 #ifndef NO_ROS
-    //node->send_msg_delete_trap (uid);
+    node->send_msg_trap_deleted (uid);
 #endif
 %}
    
@@ -152,43 +152,27 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
 
 
     FSM fsm {
-        State st_detected {
-
-        }
-        State st_identified {
-
-        }
-        State st_deactivated {
-
-        }
-        State st_deleted {
-
-        }
-        State st_hidden {
-
-        }
+        State st_detected
+        State st_identified
+        State st_deactivated
+        State st_hidden
+        State st_deleted
 
         st_detected -> st_identified (identified.true)
         
         st_identified -> st_deactivated (active.false)
         st_deactivated -> st_identified (active.true)
-        
-        st_detected -> st_deleted (deleted.true)
-        //st_identified -> st_deleted (deleted.true)
-        //st_deactivated -> st_deleted (deleted.true)
 
         st_detected -> st_hidden (hidden.true)
 
+        st_detected -> st_deleted (deleted.true)
         st_hidden -> st_deleted (deleted.true)
     }
 
-    "Trap " + str_id + ": " + fsm.state => tp.input
+    "Trap " + str_id + " (" + nature + "): " + fsm.state => tp.input
 
 
     // FIXME: OLD (Cohoma v1)
-
-    //String state ("unknown") //can be unkown, identified, deactivated
-    //active ? (identified ? "identified" : "unknown") : "deactivated" =:> state
 
     //Bool remotely_deactivate (0)
     //Bool contact_deactivate (0)
@@ -258,10 +242,13 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
 
     NativeAction na_delete_trap (action_delete_trap, this, 1)
 
-    AssignmentSequence set_deleted (1) {
+    // "delete" is a key word
+    AssignmentSequence delete_ (1) {
+        0 =: is_selected
         1 =: deleted
     }
-    set_deleted -> na_delete_trap
+    delete_ -> _context.set_selected_trap_to_null
+    delete_ -> na_delete_trap
 
 
     /*NativeAction na_update_trap_position (update_trap_position_action, this, 1)

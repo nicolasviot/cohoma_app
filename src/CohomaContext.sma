@@ -228,12 +228,14 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     // Trap currently selected
     Ref ref_selected_trap (nullptr)
     Bool is_null_selected_trap (1)
+    Spike spike_to_set_selected_trap_to_null
     //is_null_selected_trap ? "No selected trap" : "Trap is selected" =:> lp.input
 
     // 0 = not lazy (updated on first activation)
     AssignmentSequence set_selected_trap_to_null (0) {
         REF_NULL =: ref_selected_trap
     }
+    spike_to_set_selected_trap_to_null -> set_selected_trap_to_null
 
     NativeAction na_unselect_trap (action_unselect_trap, this, 1)
     na_unselect_trap -> set_selected_trap_to_null

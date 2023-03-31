@@ -25,6 +25,16 @@ _native_code_
 %}
 
 
+_action_
+action_delete_trap (Process src, Process self)
+{
+	trap = find (src, "..")
+
+	print ("delete view of trap " + trap.model.str_id + "\n")
+	delete trap
+}
+
+
 _define_
 SubLayerTraps (Process _layer_model, Process _map, Process _context, Process _model_manager) inherits SubLayer (_layer_model)
 {
@@ -33,14 +43,14 @@ SubLayerTraps (Process _layer_model, Process _map, Process _context, Process _mo
 	model_manager aka _model_manager
 
 	// Load only once SVG file
-	svg_trap_info = load_from_XML ("res/svg/trap_info.svg")
-	svg_info aka svg_trap_info // To be accessible with a "find_child"
+	//svg_trap_info = load_from_XML ("res/svg/trap_info.svg")
+	//svg_info aka svg_trap_info // To be accessible with a "find_child"
 
-	svg_trap_remotely_icon = load_from_XML ("res/svg/trap_remote_icon.svg")
-	svg_remotely_icon aka svg_trap_remotely_icon // To be accessible with a "find_child"
+	//svg_trap_remotely_icon = load_from_XML ("res/svg/trap_remote_icon.svg")
+	//svg_remotely_icon aka svg_trap_remotely_icon // To be accessible with a "find_child"
 
-    svg_trap_contact_icon = load_from_XML ("res/svg/trap_contact_icon.svg")
-	svg_contact_icon aka svg_trap_contact_icon // To be accessible with a "find_child"
+    //svg_trap_contact_icon = load_from_XML ("res/svg/trap_contact_icon.svg")
+	//svg_contact_icon aka svg_trap_contact_icon // To be accessible with a "find_child"
 
 	addChildrenTo this.switch.true {
 
@@ -53,13 +63,21 @@ SubLayerTraps (Process _layer_model, Process _map, Process _context, Process _mo
 
 	ui aka this.switch.true
 
+	Component bindings
+
+	NativeAction na_delete_trap (action_delete_trap, this, 1)
 
 	_model_manager.traps.$added -> na_trap_added:(this) {
-		print ("New model of trap added to list " + this.model_manager.traps.size + "\n")
+		print ("New model of trap added to list " + this.model_manager.traps.size + " (" + this.ui.traps.size + " views)\n")
 
 		model = getRef (&this.model_manager.traps.$added)
     	addChildrenTo this.ui.traps {
-			Trap trap (this.map, this.context, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon)
+			//Trap trap (this.map, this.context, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon)
+			Trap trap (this.map, this.context, model)
+		}
+
+		addChildrenTo this.bindings {
+			this.ui.traps.[this.ui.traps.size].to_delete -> this.na_delete_trap
 		}
 	}
 

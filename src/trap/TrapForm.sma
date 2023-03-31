@@ -57,6 +57,8 @@ TrapForm (Process _context, Process _frame)
 
     DerefBool is_active (_context.ref_selected_trap, "active", DJNN_GET_ON_CHANGE)
 
+    DerefBool is_deleted (_context.ref_selected_trap, "deleted", DJNN_GET_ON_CHANGE)
+
 
     FSM fsm {
         State hidden
@@ -74,7 +76,26 @@ TrapForm (Process _context, Process _frame)
 
             Switch switch_identified (false) {
                 Component false {
+
                     35 =: bg.height
+
+                    btn_delete << svg.btn_del
+
+                    Deref delete_ (_context.ref_selected_trap, "delete_")
+
+                    FSM fsm_delete {
+                        State st_hidden
+
+                        State st_visible {
+                            popup_delete << svg.popup_del
+
+                            popup_delete.btn_del_ok.btn_del_ok_bg.left.release -> delete_.activation
+                        }
+
+                        st_hidden -> st_visible (btn_delete.btn_del_bg.left.release)
+                        st_visible -> st_hidden (st_visible.popup_delete.btn_del_cancel.btn_del_cancel_bg.left.release)
+                    }
+
                 }
 
                 Component true {
@@ -100,13 +121,13 @@ TrapForm (Process _context, Process _frame)
                     // Active
                     Switch switch_active (true) {
                         Component true {
-                            130.2 =: bottom.toggle.toggle_handle.cx
+                            134.1 =: bottom.toggle.toggle_handle.cx
 
                             bottom.toggle.toggle_bg.press -> deactivate.activation
                         }
 
                         Component false {
-                            140.2 =: bottom.toggle.toggle_handle.cx
+                            144.1 =: bottom.toggle.toggle_handle.cx
 
                             bottom.toggle.toggle_bg.press -> activate.activation
                         }

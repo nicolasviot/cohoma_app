@@ -15,13 +15,13 @@
 			<text id="txt_bool_distance" transform="matrix(1 0 0 1 80.1399 190.6261)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="12px">OUI</text>
 		
 			<text id="txt_bool_contact" transform="matrix(1 0 0 1 80.8596 212.9166)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="12px">OUI</text>
-		<text transform="matrix(1 0 0 1 8.2356 168.3355)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10.7857px">Désactivation</text>
+		<text transform="matrix(1 0 0 1 12.0002 168.3355)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.7857px">Désactivation</text>
 		<g id="toggle">
-			<path id="toggle_bg" pointer-events="all" fill="#6FC7DA" d="M129.5,158.9H141c4,0,7.2,3.2,7.2,7.2l0,0c0,4-3.2,7.2-7.2,7.2
-				h-11.5c-4,0-7.2-3.2-7.2-7.2l0,0C122.3,162.1,125.5,158.9,129.5,158.9z"/>
-			<ellipse id="toggle_handle" pointer-events="all" fill="#FFFFFF" cx="130.2" cy="166" rx="5" ry="5"/>
-			<text transform="matrix(1 0 0 1 151.0452 168.3355)" fill="#474747" font-family="'Helvetica-Bold'" font-size="10px">inactive</text>
-			<text transform="matrix(1 0 0 1 91.0833 169.0548)" fill="#8CD0E0" font-family="'Helvetica-Bold'" font-size="10px">active</text>
+			<path id="toggle_bg" pointer-events="all" fill="#6FC7DA" d="M133.4,158.9h11.5c4,0,7.2,3.2,7.2,7.2l0,0c0,4-3.2,7.2-7.2,7.2
+				h-11.5c-4,0-7.2-3.2-7.2-7.2l0,0C126.2,162.1,129.5,158.9,133.4,158.9z"/>
+			<ellipse id="toggle_handle" pointer-events="all" fill="#FFFFFF" cx="134.1" cy="166" rx="5" ry="5"/>
+			<text transform="matrix(1 0 0 1 154.9622 168.3355)" fill="#474747" font-family="'Helvetica-Bold'" font-size="10px">inactive</text>
+			<text transform="matrix(1 0 0 1 95.0002 169.0548)" fill="#8CD0E0" font-family="'Helvetica-Bold'" font-size="10px">active</text>
 		</g>
 	</g>
 	<g id="remote">
@@ -123,18 +123,18 @@
 		v98.7c0,3.7-3,6.7-6.7,6.7H11.7c-3.7,0-6.7-3-6.7-6.7V38.7C5,35,8,32,11.7,32z"/>
 	<text transform="matrix(1 0 0 1 23.7856 75.5021)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Identifiant</text>
 	<text transform="matrix(1 0 0 1 36.2651 99.2307)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Nature</text>
-	<text transform="matrix(1 0 0 1 11.5923 49.6164)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.7857px">Identification</text>
+	<text transform="matrix(1 0 0 1 12 49.6164)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.7857px">Identification</text>
 	
-		<text id="txt_nature" transform="matrix(1 0 0 1 72.6684 99.2307)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Section d&apos;artillerie équipée d&apos; obusier 155 AUF1 au potentiel de combat de 50%</text>
+		<text id="txt_nature" transform="matrix(1 0 0 1 72.6684 99.2307)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="11px">Section d&apos;artillerie équipée d&apos; obusier 155 AUF1 au potentiel de combat de 50%</text>
 	
-		<text id="txt_identifier" transform="matrix(1 0 0 1 71.7924 75.5021)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">2807</text>
+		<text id="txt_identifier" transform="matrix(1 0 0 1 71.7924 75.5021)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="12px">2807</text>
 	<text transform="matrix(1 0 0 1 37.8344 122.1164)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Divers</text>
 	
-		<text id="txt_misc" transform="matrix(1 0 0 1 71.9203 122.6003)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">Mettez vos masques à gaz pendant 5 minutes et dégagez immédiatement la zone...</text>
+		<text id="txt_misc" transform="matrix(1 0 0 1 71.9203 122.6003)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10px">Mettez vos masques à gaz pendant 5 minutes et dégagez immédiatement la zone...</text>
 	
 		<text id="txt_identif_time" transform="matrix(1 0 0 1 443.8774 49.6164)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.5048px">16:01:49</text>
 	
-		<text id="txt_identif_robot" transform="matrix(1 0 0 1 111.2173 50.8976)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="9.3476px">Identifié par OG1 / BNX8</text>
+		<text id="txt_identif_robot" transform="matrix(1 0 0 1 115 50.8976)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10px">Identifié par OG1 / BNX8</text>
 </g>
 <g id="header">
 	
@@ -142,15 +142,39 @@
 	
 		<text id="lbl_id_icare" transform="matrix(1 0 0 1 29.1455 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">Id. Icare</text>
 	<g id="eye">
-		<path pointer-events="all" fill="#020203" stroke="#7F8080" stroke-width="2" stroke-miterlimit="10" d="M232.3,15.7
-			c1.6-2,4-3.2,6.5-3.2s4.9,1.2,6.5,3.2c-1.6,2-4,3.2-6.5,3.2S233.9,17.8,232.3,15.7z"/>
-		<ellipse pointer-events="all" fill="#020203" stroke="#7F8080" stroke-width="2" cx="238.7" cy="15.7" rx="2.3" ry="2.5"/>
+		<path pointer-events="all" fill="#020203" stroke="#7F8080" stroke-width="2" stroke-miterlimit="10" d="M238,15.2
+			c1.6-2,4-3.2,6.5-3.2c2.5,0,4.9,1.2,6.5,3.2c-1.6,2-4,3.2-6.5,3.2C242,18.5,239.6,17.3,238,15.2z"/>
+		<ellipse pointer-events="all" fill="#020203" stroke="#7F8080" stroke-width="2" cx="244.5" cy="15.2" rx="2.3" ry="2.5"/>
 	</g>
 	
-		<text id="txt_detection_robot" transform="matrix(1 0 0 1 109.6543 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">détecté par OG2 / Agilex 3</text>
+		<text id="txt_detection_robot" transform="matrix(1 0 0 1 115 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10px">détecté par OG2 / Agilex 3</text>
 	
 		<text id="txt_detection_time" transform="matrix(1 0 0 1 441.7539 20.493)" fill="#FFFFFF" font-family="'Helvetica'" font-size="11.5048px">15:55:12</text>
 	
 		<text id="txt_id_icare" transform="matrix(1 0 0 1 72.4951 18.3357)" fill="#FFFFFF" font-family="'Helvetica'" font-size="12px">#14</text>
+</g>
+<g id="btn_del">
+	
+		<rect id="btn_del_bg" x="319.6" y="6" fill="#010202" stroke="#8ED0E0" stroke-width="2" stroke-miterlimit="10.0015" width="70" height="20"/>
+	
+		<text id="btn_del_label" transform="matrix(1 0 0 1 330.0545 19.2145)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Supprimer</text>
+</g>
+<g id="popup_del">
+	<path id="popup_del_bg" pointer-events="all" opacity="0.6" fill="#0A0B0B" stroke="#676767" d="M247.2,26h223.7
+		c1.7,0,3.2,2,3.2,4.4v64.4c0,2.4-1.4,4.4-3.2,4.4H247.2c-1.7,0-3.2-2-3.2-4.4V30.4C244,28,245.4,26,247.2,26z"/>
+	
+		<text id="popup_del_label" transform="matrix(1 0 0 1 258.0668 47.2)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10px">Êtes vous sur de vouloir supprimer ce piège ?</text>
+	<g id="btn_del_ok">
+		
+			<rect id="btn_del_ok_bg" x="265" y="65.7" fill="#010202" stroke="#8ED0E0" stroke-width="2" stroke-miterlimit="10.0015" width="70" height="20"/>
+		
+			<text id="btn_del_ok_label" transform="matrix(1 0 0 1 291.4712 78.9018)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">OK</text>
+	</g>
+	<g id="btn_del_cancel">
+		
+			<rect id="btn_del_cancel_bg" x="381.8" y="65.7" fill="#010202" stroke="#8ED0E0" stroke-width="2" stroke-miterlimit="10.0015" width="70" height="20"/>
+		
+			<text id="btn_del_cancel_label" transform="matrix(1 0 0 1 397.2521 78.8515)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">Annuler</text>
+	</g>
 </g>
 </svg>
