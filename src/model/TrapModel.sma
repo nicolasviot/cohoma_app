@@ -182,7 +182,7 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
         st_hidden -> st_deleted (deleted.true)
     }
 
-    "Trap " + str_id + ": " + fsm.state => tp.input
+    "Trap " + str_id + " (" + nature + "): " + fsm.state => tp.input
 
 
     // FIXME: OLD (Cohoma v1)

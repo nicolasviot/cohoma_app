@@ -33,14 +33,14 @@ SubLayerTraps (Process _layer_model, Process _map, Process _context, Process _mo
 	model_manager aka _model_manager
 
 	// Load only once SVG file
-	svg_trap_info = load_from_XML ("res/svg/trap_info.svg")
-	svg_info aka svg_trap_info // To be accessible with a "find_child"
+	//svg_trap_info = load_from_XML ("res/svg/trap_info.svg")
+	//svg_info aka svg_trap_info // To be accessible with a "find_child"
 
-	svg_trap_remotely_icon = load_from_XML ("res/svg/trap_remote_icon.svg")
-	svg_remotely_icon aka svg_trap_remotely_icon // To be accessible with a "find_child"
+	//svg_trap_remotely_icon = load_from_XML ("res/svg/trap_remote_icon.svg")
+	//svg_remotely_icon aka svg_trap_remotely_icon // To be accessible with a "find_child"
 
-    svg_trap_contact_icon = load_from_XML ("res/svg/trap_contact_icon.svg")
-	svg_contact_icon aka svg_trap_contact_icon // To be accessible with a "find_child"
+    //svg_trap_contact_icon = load_from_XML ("res/svg/trap_contact_icon.svg")
+	//svg_contact_icon aka svg_trap_contact_icon // To be accessible with a "find_child"
 
 	addChildrenTo this.switch.true {
 
@@ -59,7 +59,8 @@ SubLayerTraps (Process _layer_model, Process _map, Process _context, Process _mo
 
 		model = getRef (&this.model_manager.traps.$added)
     	addChildrenTo this.ui.traps {
-			Trap trap (this.map, this.context, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon)
+			//Trap trap (this.map, this.context, model, this.svg_info, this.svg_remotely_icon, this.svg_contact_icon)
+			Trap trap (this.map, this.context, model)
 		}
 	}
 

@@ -17,7 +17,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/model/task/TaskEdgeModel.sma src/model/task/TaskAreaModel.sma src/model/task/TaskTrapModel.sma \
             src/model/team/OperatorModel.sma src/model/team/SafetyPilotModel.sma src/model/team/VehicleModel.sma \
             src/model/SubLayerModel.sma src/model/ModelManager.sma src/model/NoRosModelManager.sma \
-            src/behavior/NotDraggableItem.sma src/behavior/DraggableItem.sma src/behavior/DraggableItemWithRadius.sma \
+            src/behavior/NotDraggableItem.sma src/behavior/DraggableItem.sma src/behavior/DraggableItemWithRadius.sma src/behavior/NotDraggableItemWithRadius.sma \
             src/SubLayer.sma src/SubLayerVisibilityMap.sma \
             src/Console.sma src/Reticule.sma \
             src/graph/NodeStatusSelector.sma src/graph/Edge.sma src/graph/Node.sma src/graph/SubLayerNavigGraph.sma src/graph/CGraph.sma \
