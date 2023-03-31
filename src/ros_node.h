@@ -91,7 +91,7 @@ class RosNode : public FatProcess, public ExternalSource
 
   //chat
   void receive_msg_chat(const icare_interfaces::msg::ChatMessage& msg);
-  void send_msg_chat();
+  void send_msg_chat(string _text, int _type, double _lat, double _lng, double _alt);
 
   //itineraryqos_best_effort
   void send_itinerary_request();
@@ -99,6 +99,9 @@ class RosNode : public FatProcess, public ExternalSource
 
   //groupe
   void send_group_config();
+
+  //traps
+
 
 
    /*
@@ -154,7 +157,8 @@ class RosNode : public FatProcess, public ExternalSource
     std::vector<CoreProcess*> _itineraries;
 
     // Models of vehicles, safety pilots
-    CoreProcess *_vab, *_agilex1, *_agilex2, *_lynx, *_spot, *_drone;
+    CoreProcess *_vab, *_bnx8, *_agilex1, *_agilex2, *_lynx, *_agilex3, *_minnie, *_m600, *_spot, *_long_eye, *_pprz;
+
     CoreProcess *_drone_safety_pilot, *_ground_safety_pilot;
 
     // fw = file writer

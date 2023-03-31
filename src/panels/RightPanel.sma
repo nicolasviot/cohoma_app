@@ -156,6 +156,9 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 
 				StandAlonePushButton btn_add_task_edge2 ("add task edge 2", 150, 120)
 				btn_add_task_edge2.click -> _model_manager.add_task_edge2
+				
+				StandAlonePushButton btn_add_chatmessage ("send chat message", 150, 140)
+				btn_add_chatmessage.click -> _context.ros_test
 			}
 		}
 	}

@@ -150,13 +150,27 @@ RosNode::impl_activate ()
   _itineraries.push_back(safest);
   _itineraries.push_back(tradeoff);
   
-  // Vehicles
+  // Vehicles 
+
+  //OT
   GET_CHILD_VAR2 (_vab, CoreProcess, _model_manager, vehicles/vab)
-  GET_CHILD_VAR2 (_agilex1, CoreProcess, _model_manager, vehicles/agilex1)
+
+  //OG1
+  GET_CHILD_VAR2 (_bnx8, CoreProcess, _model_manager, vehicles/bnx8)
   GET_CHILD_VAR2 (_agilex2, CoreProcess, _model_manager, vehicles/agilex2)
+  GET_CHILD_VAR2 (_agilex1, CoreProcess, _model_manager, vehicles/agilex1)
   GET_CHILD_VAR2 (_lynx, CoreProcess, _model_manager, vehicles/lynx)
+  //OG2
+
+ 
+  GET_CHILD_VAR2 (_agilex3, CoreProcess, _model_manager, vehicles/agilex3)
+  GET_CHILD_VAR2 (_minnie, CoreProcess, _model_manager, vehicles/minnie)
+  GET_CHILD_VAR2 (_m600, CoreProcess, _model_manager, vehicles/m600)
+
+  //OG3
+  GET_CHILD_VAR2 (_long_eye, CoreProcess, _model_manager, vehicles/long_eye)
+  GET_CHILD_VAR2 (_pprz, CoreProcess, _model_manager, vehicles/pprz)
   GET_CHILD_VAR2 (_spot, CoreProcess, _model_manager, vehicles/spot)
-  GET_CHILD_VAR2 (_drone, CoreProcess, _model_manager, vehicles/m600)
 
   // Safety pilots
   GET_CHILD_VAR2 (_drone_safety_pilot, CoreProcess, _model_manager, safety_pilots/drone_safety_pilot)
@@ -253,29 +267,30 @@ void
 RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState& msg_)
 {  
   auto msg = &msg_;
-  RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
+  RCLCPP_INFO(_node->get_logger(), "I heard: '%i'  '%f'  '%f'",msg->robot_id.latitude, msg->position.latitude, msg->position.longitude);
 
-  djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _drone_safety_pilot, _ground_safety_pilot};
-  static const string robots_name[] = {"", "drone", "agilex1", "agilex2", "lynx", "spot", "vab", "drone_safety_pilot", "ground_safety_pilot"};
+  djnn::Process * robots[] = {nullptr, _m600, _bnx8, _agilex1, _agilex2, _agilex3, _lynx, _minnie ,_spot, _long_eye, _pprz, _vab};
+  static const string robots_name[] = {"", "M600", "BNX8","agilex1", "agilex2", "agilex3", "lynx", "minnie", "spot", "longeye", "pprz", "vab"};
   if ((msg->robot_id < 1) || (msg->robot_id >= sizeof(robots))) {
     RCLCPP_INFO(_node->get_logger(), "incorrect robot_id: '%d'", msg->robot_id);
     return;
   }
-    
+
+
   djnn::Process * robot = robots[msg->robot_id];
   const string& robot_name = robots_name[msg->robot_id];
+
 
   get_exclusive_access(DBG_GET);
 
   GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
-
   SET_CHILD_VALUE (Double, robot, lat, msg->position.latitude, true);
   SET_CHILD_VALUE (Double, robot, lon, msg->position.longitude, true);
   SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Received robot_state for " + robot_name + "\n", true);
-  
+  SET_CHILD_VALUE (Double, robot, heading_rot, msg->compass_heading, true);
+
   if ((robot != _drone_safety_pilot) && (robot != _ground_safety_pilot)) {
     //SET_CHILD_VALUE (Double, robot, altitude_msl, msg->position.altitude, true);
-    SET_CHILD_VALUE (Double, robot, heading_rot, msg->compass_heading, true);
     //SET_CHILD_VALUE (Int, robot, battery_percentage, msg->battery_percentage, true);
     //SET_CHILD_VALUE (Int, robot, operation_mode, msg->operating_mode, true); // FIXME: operation_mode vs operating_mode
     //SET_CHILD_VALUE (Bool, robot, emergency_stop, msg->emergency_stop, true);
@@ -300,16 +315,31 @@ void RosNode::receive_msg_chat(const icare_interfaces::msg::ChatMessage& msg)
   release_exclusive_access(DBG_REL);
 }
 
-void RosNode::send_msg_chat() {
-  std::cout << "send msg 'chat'"  << std::endl;
-  // TODO
+void RosNode::send_msg_chat(string _text, int _type, double _lat, double _lng, double _alt) {
+  //std::cout << "send msg 'chat'"  << std::endl;
+  icare_interfaces::msg::ChatMessage message = icare_interfaces::msg::ChatMessage();
+  message.sender = message.SENDER_OT;
+  message.text = _text;
+  message.type = _type;
+
+  geographic_msgs::msg::GeoPoint point = geographic_msgs::msg::GeoPoint();
+  point.latitude = _lat;
+  point.longitude = _lng;
+  point.altitude = _alt;
+   
+  message.localisation = point;
+
+  message.stamp = _node->get_clock()->now();
+
+  publisher_chat->publish(message);  
+
 }
 
 void RosNode::send_itinerary_request() {
   std::cout << "send itinerary request"  << std::endl;
   // TODO
   /*
-  icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
+  icare_interfaces::msg::ItineraryRequest message = icare_interfaces::msg::ItineraryRequest();
   message.id = _current_plan_id_vab.get_string_value();
   //cout << "send_msg_planning_request " << _current_plan_id_vab.get_string_value() << endl;
 
@@ -347,6 +377,4 @@ void RosNode::send_group_config() {
   // TODO
 }
 
-
 #endif
-

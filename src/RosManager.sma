@@ -53,6 +53,23 @@ send_selected_tasks_fun (Process c)
  	#endif
 %}
 
+_action_ 
+send_chat_message_fun (Process c)
+%{
+
+	std::string text = "test de chat";
+	int type = 1;
+	double lat = 4;
+	double lng = 1.5;
+	double alt = 0;
+	Process *data = (Process*) get_native_user_data(c);
+ 	RosNode *node = dynamic_cast<RosNode*>(data);
+  	#ifndef NO_ROS
+  	if (node)
+		node->send_msg_chat(text, type, lat, lng, alt);
+ 	#endif
+%}
+
 
 
 _define_
@@ -83,4 +100,6 @@ RosManager (Process _parent, Process _map, Process _context, Process _model_mana
   	NativeAction send_selected_tasks_action(send_selected_tasks_fun, node, 1)
   	send_selected_tasks -> send_selected_tasks_action
 
+	NativeAction send_chat_message_action(send_chat_message_fun, node, 1)
+  	context.ros_test -> send_chat_message_action
 }
