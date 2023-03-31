@@ -1,124 +1,172 @@
 use core
 use base
 use gui
+use animation
 
 import gui.widgets.HBox
 import gui.widgets.VBox
 import gui.widgets.PushButton
 import gui.widgets.Label
+import gui.animation.Animator
 //import gui.widgets.StandAlonePushButton
 import gui.widgets.UITextField
-import widgets.Scrollbar
+import scrollbar.Scrollbar
 
-import widgets.chat.Bubble
-import widgets.chat.VBoxTranslation
+import Bubble
+import MyTextField
+import Button
+
+_native_code_
+%{
+#include "cmath"
+using std::max;
+
+#include "core/utils/to_string.h"
+%}
 
 _define_
-Chat (Process frame) {
-    // FIXME cannot create an empty Composite
-    
-    mouseTracking = 1
+Chat (double _x, double _y, double _width, double _height, Process frame) {
+    Double x(_x)
+    Double y(_y)
+    Double width(_width)
+    Double height(_height)
 
-    //RectangleClip cpr_(0,0,800,800) // does not really work in a responsive interface...
-
+    //Translation pos (_x, _y)
     FillColor _(White)
+    Rectangle bg_dial (0, 0, 390, 486)
+    //FillColor _(Green)
+    //Rectangle _ (390, 0, 10, 486)
+    Component sub {
+        RectangleClip clip (0, 0, 300, 350)
+        Translation oppy (0,0)
+        Translation conversation_tr (0, 0)
+        List conversation
+    }
+    conversation aka sub.conversation
+    conversation_tr aka sub.conversation_tr
 
-    VBox main_box (frame)
-        HBox conversation_box (main_box)
-            VBoxTranslation conversation_ (conversation_box)
-                // here: this is where messages are stored
-            Scrollbar sb_ (frame)
-            addChildrenTo conversation_box.items {
-                conversation_, sb_
-            }
+    Scrollbar sb (400, 0, bg_dial, frame)
+    MyTextField edit (0, 520, 400)
 
-        HBox new_msg_ (main_box)
-            UITextField edit_
-            edit_.preferred_width = 200
-            PushButton send_ ("send")
-            addChildrenTo new_msg_.items {
-                edit_, send_
-            }
-        addChildrenTo main_box.items {
-            conversation_box,
-            new_msg_
-        }
+    Button send ("send", 420, 519)
+    send.initial_state = "disabled"
     
-    // the above addChildrenTo change the parenting, rename the components to make the code more usable
-    conversation aka this.main_box.items.[1].items.[1]
-    conversation_tr aka this.main_box.items.[1].items.[1].g.tr
-    sb aka this.main_box.items.[1].items.[2]
-    //Scrollbar sb(frame)
-    edit  aka this.main_box.items.[2].items.[1]
-    send aka this.main_box.items.[2].items.[2]
-    new_msg aka this.main_box.items.[2]
+    // layout
+    x =:> bg_dial.x, edit.x
+    y =:> bg_dial.y
 
-    //main_box.min_width  = 300
-    //main_box.min_height = 100
+    width - 10 =:> bg_dial.width
+    height - 14 =:> bg_dial.height
 
-    //conversation.preferred_width  = 300
-    300 =: conversation.min_width  //= 300
-    100 =: conversation.min_height  //= 100
+    bg_dial.{x,y,width} =:> sub.clip.{x,y,width}
+    bg_dial.height - 26 =:> sub.clip.height
+    y =:> sub.oppy.ty
 
-    0 =: sb.model.low
-    1 =: sb.model.high
+    x + bg_dial.width /*+ width/2*/ =:> sb.x
+    y + bg_dial.height - 36 + 10 =:> sb.y
+    //10/2 =:> sb.y
+    bg_dial.height - 36 =:> sb.height
+    
+    bg_dial.width + 10 =:> edit.width
+    y + bg_dial.height - 13 =:> edit.y
 
-    10  =: sb.preferred_width
-    100 =: sb.preferred_height
-    sb.h_alignment = 2
-    2 =: new_msg.v_alignment
-
-
-    //sb.preferred_width =: sb.width
-    //sb.preferred_height =: sb.height
-
-    // Trick to trigger an activation after initialization
-    Timer t(0)
-    t.end -> send.disable
-
+    x + edit.width - 24 =:> send.x
+    edit.y + 2 =:> send.y
+    
     toString(edit.field.content.text) != "" -> send.enable
     toString(edit.field.content.text) == "" -> send.disable
-        
-    //vbox.{x,y,width,height} =:> cpr_.{x,y,width,height}
 
-    // add message to conversation
-    send.click -> add_msg: (this) {
-        addChildrenTo this.conversation.items {
-            Bubble b ("toto")
-            b.ui.text = toString(this.edit.field.content.text)
-            b.v_alignment = 2 // FIXME does not seem to be working
+
+    int msg_height = 20
+    int msg_sep = 5
+
+    180 =: sb.transform.rot
+    //y + sb.height + 10 =: sb.y
+    //y + 10 =: sb.y
+    0 =: sb.pick_xoffset
+
+    // sb model 0: first message 1:last message
+
+    addChildrenTo this.conversation {
+        for (int i = 0; i < 25; i++) {
+            string msg = "msg" // + to_string(i+1)
+            Bubble b ($msg, i*(msg_height+msg_sep), 1, this.bg_dial)
         }
     }
+
+    Double num_visible_msgs(0)
+    sb.height / (msg_height + msg_sep) =:> num_visible_msgs
+
+    // initial positionning
+    Double initial_low(0)
+    max(0., 1 - $num_visible_msgs / $conversation.size) =: initial_low
+
+    initial_low =: sb.model.low
+    1 =: sb.model.high
+
+    // permanent positioning relationship
+    Double offset (0)
+    (num_visible_msgs > $conversation.size
+        ? ((msg_height+msg_sep) * ($num_visible_msgs - $conversation.size))
+        : 0)
+    =:> offset
+
+    offset
+    - sb.model.low * (msg_height+msg_sep) * ($conversation.size) - msg_sep =:> conversation_tr.ty
+
+    TextPrinter tp
+    //sb.model.low =:> tp.input
+    //num_visible_msgs =:> tp.input
+    //offset =:> tp.input
+
+    
+    send.click -> add_msg: (this) {
+        int sz = $this.conversation.size
+        int y = 0
+        int msg_height = 20
+        int msg_sep = 5
+        if (sz != 0) {
+            y = this.conversation.[sz].y + msg_sep + msg_height // this.conversation.[sz].height + msg_sep
+        }
+
+        addChildrenTo this.conversation {
+            //int sz = $this.conversation.size
+            string txt = toString(this.edit.field.content.text) // + to_string(sz+1)
+            Bubble b (txt, y, 0, this.bg_dial)
+            //b.ui.text = 
+            //b.v_alignment = 2 // FIXME does not seem to be working
+        }
+    }
+    edit.validate -> add_msg
     add_msg -> edit.clear
 
-    ((conversation.items.size > 2) && sb.model.low == 0) -> {
-        2.0 / conversation.items.size =: sb.model.high
-    }
-    ((conversation.items.size > 2) && sb.model.low > 1) -> {
-        sb.model.low + 2.0 / conversation.items.size =: sb.model.high
-    }
 
-    //_DEBUG_GRAPH_CYCLE_DETECT = 1
+    Animator anim (100, 0, 1, DJN_IN_OUT_QUAD, 0, 0)
+    anim.output => sb.model.low
+    add_msg -> start_anim: {
+        sb.model.low =: anim.min
+        max(0., 1 - $num_visible_msgs / $conversation.size) =: anim.max
+    }
+    start_anim -> anim.reset, anim.start
+    //sb.model.low =:> tp.input
 
     // clip messages by disabling them
     sb.model.low -> (this) {
-        int nb_items = this.conversation.items.size
+        int nb_items = this.conversation.size
         double v = 0
         double acc = 1. 
         acc = acc/nb_items
-        for item : this.conversation.items {
+        for item : this.conversation {
             //printf("%f %f\n", acc, v)
-            if ( v>= $this.sb.model.low && v <= $this.sb.model.high) {
-                item.bg_color.b = 255
-                //activate(item)
+            if ( v>= ($this.sb.model.low-1) && v <= ($this.sb.model.high+1) ) { // +1 and -1: display partially appearing bubble
+                //item.bg_color.b = 255
+                activate(item)
             } else {
-                item.bg_color.b = 100
-                //deactivate(item)
+                //item.bg_color.b = 100
+                deactivate(item)
             }
             v += acc
         }
     }
-
-    sb.model.low * 100 =:> conversation_tr.ty
 
 }
