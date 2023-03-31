@@ -16,14 +16,12 @@
 		
 			<text id="txt_bool_contact" transform="matrix(1 0 0 1 80.8596 212.9166)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="12px">OUI</text>
 		<text transform="matrix(1 0 0 1 8.2356 168.3355)" fill="#FFFFFF" font-family="'Helvetica'" font-size="10.7857px">Désactivation</text>
-		<g>
-			<text transform="matrix(1 0 0 1 152.0452 168.3355)" fill="#474747" font-family="'Helvetica-Bold'" font-size="9.3476px">inactive</text>
-			<text transform="matrix(1 0 0 1 93.0833 169.0548)" fill="#8CD0E0" font-family="'Helvetica-Bold'" font-size="9.3476px">active</text>
-			<g id="toggle">
-				<path pointer-events="all" fill="#6FC7DA" d="M129.5,158.9H141c4,0,7.2,3.2,7.2,7.2l0,0c0,4-3.2,7.2-7.2,7.2h-11.5
-					c-4,0-7.2-3.2-7.2-7.2l0,0C122.3,162.1,125.5,158.9,129.5,158.9z"/>
-				<ellipse pointer-events="all" fill="#FFFFFF" cx="130.2" cy="166" rx="5" ry="5"/>
-			</g>
+		<g id="toggle">
+			<path id="toggle_bg" pointer-events="all" fill="#6FC7DA" d="M129.5,158.9H141c4,0,7.2,3.2,7.2,7.2l0,0c0,4-3.2,7.2-7.2,7.2
+				h-11.5c-4,0-7.2-3.2-7.2-7.2l0,0C122.3,162.1,125.5,158.9,129.5,158.9z"/>
+			<ellipse id="toggle_handle" pointer-events="all" fill="#FFFFFF" cx="130.2" cy="166" rx="5" ry="5"/>
+			<text transform="matrix(1 0 0 1 151.0452 168.3355)" fill="#474747" font-family="'Helvetica-Bold'" font-size="10px">inactive</text>
+			<text transform="matrix(1 0 0 1 91.0833 169.0548)" fill="#8CD0E0" font-family="'Helvetica-Bold'" font-size="10px">active</text>
 		</g>
 	</g>
 	<g id="remote">
@@ -109,7 +107,8 @@
 			c2,0,3.6,1.6,3.6,3.6v15.8c0,2-1.6,3.6-3.6,3.6h-18V266.3z"/>
 		<path pointer-events="all" fill="#020203" d="M376.7,274.2l5,7.2l5-7.2"/>
 		<text transform="matrix(1 0 0 1 295.136 280.5069)" fill="#9A9999" font-family="'Helvetica'" font-size="10.7857px">OG2 / Minnie</text>
-		<text transform="matrix(1 0 0 1 412.9231 279.7882)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">code</text>
+		
+			<text id="lbl_code_contact" transform="matrix(1 0 0 1 412.9231 279.7882)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">code</text>
 		
 			<text id="txt_code_contact" transform="matrix(1 0 0 1 439.6643 279.7882)" fill="#FFFFFF" font-family="'Helvetica-Bold'" font-size="10.0667px">ECXG</text>
 		<text transform="matrix(1 0 0 1 101.8499 279.7882)" fill="#FFFFFF" font-family="'Helvetica'" font-size="9.3476px">confirmation</text>

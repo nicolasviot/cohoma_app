@@ -34,15 +34,16 @@ _native_code_
 
 
 _action_
-action_deactivate_trap (Process c)
+action_update_active_trap (Process c)
 %{
     Process *data = (Process*) get_native_user_data(c);
 
     RosNode *node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
     int uid = static_cast<IntProperty*>(data->find_child("id"))->get_value();
+    bool active = static_cast<BoolProperty*>(data->find_child("active"))->get_value();
 
 #ifndef NO_ROS
-    node ->send_msg_deactivate_trap (uid); 
+    node ->send_msg_update_active_trap (uid, active); 
 #endif
 %}
 
@@ -78,6 +79,8 @@ _define_
 TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_node)
 {
     ros_node aka _ros_node
+
+    TextPrinter tp
 
     Int id (_id)                    // ID as known by the Trap Manager
     String str_id (to_string(_id))
@@ -143,8 +146,6 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
     Bool confirmed (false)          // whether the internal code has been read
     String contact_code ("")        // deactivation code once confirmed
 
-    Bool deactivated (false)
-
     Bool deleted (false)
 
     Bool is_selected (false)
@@ -169,7 +170,8 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
 
         st_detected -> st_identified (identified.true)
         
-        st_identified -> st_deactivated (deactivated.true)
+        st_identified -> st_deactivated (active.false)
+        st_deactivated -> st_identified (active.true)
         
         st_detected -> st_deleted (deleted.true)
         //st_identified -> st_deleted (deleted.true)
@@ -179,6 +181,8 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
 
         st_hidden -> st_deleted (deleted.true)
     }
+
+    "Trap " + str_id + ": " + fsm.state => tp.input
 
 
     // FIXME: OLD (Cohoma v1)
@@ -237,12 +241,19 @@ TrapModel (Process _context, int _id, double _lat, double _lon, Process _ros_nod
     deactivated_assignement -> na_update_trap_activation*/
 
 
-    NativeAction na_deactivate_trap (action_deactivate_trap, this, 1)
+    NativeAction na_update_active_trap (action_update_active_trap, this, 1)
 
-    AssignmentSequence set_deactivated (1) {
-        1 =: deactivated
+    AssignmentSequence deactivate (1) {
+        _context.w_clock.state_text =: deactivation_time
+        0 =: active
     }
-    set_deactivated -> na_deactivate_trap
+    deactivate -> na_update_active_trap
+
+    AssignmentSequence activate (1) {
+        "..:..:.." =: deactivation_time
+        1 =: active
+    }
+    activate -> na_update_active_trap
 
 
     NativeAction na_delete_trap (action_delete_trap, this, 1)
