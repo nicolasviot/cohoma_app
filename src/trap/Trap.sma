@@ -64,7 +64,10 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
 
         FontSize _ (0, 10)
         TextAnchor _ (DJN_MIDDLE_ANCHOR)
-        Text label_trap_id (0, 5, "?")
+        //FontWeight fwg (DJN_BOLD) (DJN_NORMAL)
+        //FontStyle fst (DJN_ITALIC_FONT) (DJN_NORMAL_FONT)
+        Text label_trap_id (0, 5, "")
+        "#" + toString(_model.str_id) =: label_trap_id.text
 
 
         // state switch
@@ -129,13 +132,16 @@ Trap (Process _map, Process _context, Process _model, Process _svg_info, Process
 
         Switch switch (st_detected) {
             Component st_detected {
+                1.0 =: global_opacity.a
                 0.0 =: losange.o_op.a
-                //"visible" =: sw_bg_circle.state
+                "visible" =: sw_bg_circle.state
             }
 
             Component st_identified {
+                1.0 =: global_opacity.a
                 1.0 =: losange.o_op.a
-                //"visible" =: sw_bg_circle.state
+                "visible" =: sw_bg_circle.state
+                _model.identifier =: label_trap_id.text
             }
 
             Component st_deactivated {

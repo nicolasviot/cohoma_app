@@ -55,6 +55,9 @@ TrapForm (Process _context, Process _frame)
     DerefString str_contact_mode (_context.ref_selected_trap, "str_contact_mode", DJNN_GET_ON_CHANGE)
     DerefString contact_code (_context.ref_selected_trap, "contact_code", DJNN_GET_ON_CHANGE)
 
+    DerefBool is_active (_context.ref_selected_trap, "active", DJNN_GET_ON_CHANGE)
+
+
     FSM fsm {
         State hidden
 
@@ -90,6 +93,25 @@ TrapForm (Process _context, Process _frame)
                     bottom << svg.bottom.global
 
                     deactivation_time.value =:> bottom.txt_deactiv_time.text
+
+                    Deref deactivate (_context.ref_selected_trap, "deactivate")
+                    Deref activate (_context.ref_selected_trap, "activate")
+
+                    // Active
+                    Switch switch_active (true) {
+                        Component true {
+                            130.2 =: bottom.toggle.toggle_handle.cx
+
+                            bottom.toggle.toggle_bg.press -> deactivate.activation
+                        }
+
+                        Component false {
+                            140.2 =: bottom.toggle.toggle_handle.cx
+
+                            bottom.toggle.toggle_bg.press -> activate.activation
+                        }
+                    }
+                    is_active.value =:> switch_active.state
 
                     is_remote.value ? "OUI" : "NON" =:> bottom.txt_bool_distance.text
                     is_contact.value ? "OUI" : "NON" =:> bottom.txt_bool_contact.text

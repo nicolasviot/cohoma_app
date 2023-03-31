@@ -698,6 +698,7 @@ NoRosModelManager (Process _context, int _is_debug) inherits ModelManager (_cont
             this.traps.[3].nature = "Canon anti char"
             this.traps.[3].misc = ""
             this.traps.[3].identifier = 2045
+            this.traps.[3].radius = 30
             this.traps.[3].remote = 0
             this.traps.[3].remote_code = ""
             this.traps.[3].contact = 1
