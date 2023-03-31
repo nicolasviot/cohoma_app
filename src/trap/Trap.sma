@@ -21,6 +21,9 @@ Trap (Process _map, Process _context, Process _model)
 
     TextPrinter tp
 
+    Spike to_delete
+    _model.deleted.true -> to_delete
+
     Translation screen_translation (0, 0)
 
     // Encapsulates content to prevent opacities interferences with menu and localization
@@ -162,15 +165,12 @@ Trap (Process _map, Process _context, Process _model)
                 //#FF6200 =: losange.bg.f_col.value
             }
 
-            Component st_deleted { // FIXME: use a switch to really deactivate it. Or remove from djnn tree
-                0.01 =: global_opacity.a
-                "hidden" =: sw_bg_circle.state
-            }
-
             Component st_hidden { // FIXME: use a switch to really deactivate it. Or remove from djnn tree
                 0.01 =: global_opacity.a
                 "hidden" =: sw_bg_circle.state
             }
+
+            Component st_deleted
         }
         _model.fsm.state =:> switch.state
         
