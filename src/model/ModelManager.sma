@@ -218,6 +218,8 @@ ModelManager (Process _context, int _is_debug)
 
     Spike itineraries_updated
 
+    Spike group_config_updated
+
 
     // sub Layers
     List layers {

@@ -26,6 +26,7 @@ LeftPanel (Process _context, Process _model_manager, Process _frame)
 
 		// Chat to send (and receive) messages to others operators
 		Chat chat (0, 550, 250, 300, _frame)
+		
 		//operators_list.height =:> chat.y
 	}
 

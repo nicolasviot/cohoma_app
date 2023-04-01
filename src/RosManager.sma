@@ -70,6 +70,17 @@ send_chat_message_fun (Process c)
  	#endif
 %}
 
+_action_ 
+send_group_config_fun (Process c)
+%{
+	Process *data = (Process*) get_native_user_data(c);
+ 	RosNode *node = dynamic_cast<RosNode*>(data);
+  	#ifndef NO_ROS
+  	if (node)
+		node->send_group_config();
+ 	#endif
+%}
+
 
 
 _define_
@@ -102,4 +113,9 @@ RosManager (Process _parent, Process _map, Process _context, Process _model_mana
 
 	NativeAction send_chat_message_action(send_chat_message_fun, node, 1)
   	context.ros_test -> send_chat_message_action
+
+	NativeAction send_group_config_action(send_group_config_fun, node, 1)
+  	model_manager.group_config_updated-> send_group_config_action
+
+
 }
