@@ -90,9 +90,6 @@ OperatorsList (Process _context, Process _model_manager)
 
       //print ("je confirme que le robot " + _dropped_strip.model.code + " est alloué à l'opérateur " + _target_operator.model.title + "\n")
 
-      //SEND MESSAGE WITgroup_config_updatedH NEW ALLOCATION TO ROS TOPIC
-      print("TODO: envoyer nouvelle affectation des robots par messages ROS \n" ) 
-
       notify this.model_manager.group_config_updated
     }
   }

@@ -395,9 +395,10 @@ void RosNode::send_group_config() {
   vector<CoreProcess*> robots_2 = dynamic_cast<ProcessCollector*>(_og2->find_child("robots"))->get_list();
   vector<CoreProcess*> robots_3 = dynamic_cast<ProcessCollector*>(_og3->find_child("robots"))->get_list();
 
-  vector<int> group_1 ; 
-  vector<int> group_2 ; 
-  vector<int> group_3 ; 
+  vector<unsigned char> group_1 ; 
+  vector<unsigned char> group_2 ; 
+  vector<unsigned char> group_3 ; 
+
 
   for( int i = 0; i < robots_1.size(); i++){
       group_1.push_back(static_cast<IntProperty*>(robots_1[i]->find_child("uid"))->get_value());
@@ -411,10 +412,10 @@ void RosNode::send_group_config() {
       group_3.push_back(static_cast<IntProperty*>(robots_3[i]->find_child("uid"))->get_value());
   }
 
-    //TODO je ne comprends pas comment faire....
-  // message.group_1 = group_1.data();
-  //message.group_2 = group_2.data();
-  //message.group_3 = group_3.data();
+  std::cout << "doing it" << std::endl;
+  message.group_1 = group_1;
+  message.group_2 = group_2;
+  message.group_3 = group_3;
 
   message.stamp = _node->get_clock()->now();
   publisher_group_config->publish(message);
