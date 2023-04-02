@@ -274,8 +274,6 @@ RosNode::run () {
 
 // Receive msg "Navigation Graph"
 
-
-
 // **************************************************************************************************
 //
 //  SATELLITE
@@ -284,7 +282,7 @@ RosNode::run () {
 void 
 RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState& msg)
 {  
-  //TODO make it static...
+  //TODO make it static maybe
   //list in an array ordered by vehicles ID
   djnn::Process * robots[] = {nullptr, _m600, _bnx8, _agilex1, _agilex2, _agilex3, _lynx, _minnie ,_spot, _long_eye, _pprz, _vab};
 
@@ -352,13 +350,12 @@ void RosNode::send_msg_chat(string _text, int _type, double _lat, double _lng, d
   publisher_chat->publish(message);  
 }
 
-void RosNode::send_itinerary_request() {
-  std::cout << "send itinerary request"  << std::endl;
-  // TODO
-  /*
+void RosNode::send_msg_itinerary_request() {
+  //std::cout << "send itinerary request"  << std::endl;
+
   icare_interfaces::msg::ItineraryRequest message = icare_interfaces::msg::ItineraryRequest();
   message.id = _current_plan_id_vab.get_string_value();
-  //cout << "send_msg_planning_request " << _current_plan_id_vab.get_string_value() << endl;
+  cout << "send_msg_planning_request " << _current_plan_id_vab.get_string_value() << endl;
 
   for (auto item : ((djnn::List*)_node_models)->children())
   {
@@ -369,17 +366,13 @@ void RosNode::send_itinerary_request() {
       message.start_node = str_id;
     else if ( str_status == "end")
       message.end_node = str_id;
-    else if (str_status == "forced")
-        message.node_contraints.push_back(str_id);
   }
 
-  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
-  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Asked planification between nodes "+ message.start_node + " and " + message.end_node + " \n", true);
+  //GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
+  //SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Asked planification between nodes "+ message.start_node + " and " + message.end_node + " \n", true);
 
   message.header.stamp = _node->get_clock()->now();
-
-  publisher_planning_request->publish(message);  
-  */
+  publisher_itinerary_request->publish(message);  
 }
 
 void RosNode::receive_msg_itinerary(const icare_interfaces::msg::Itinerary& msg){  
@@ -388,7 +381,7 @@ void RosNode::receive_msg_itinerary(const icare_interfaces::msg::Itinerary& msg)
 }
 
 ///GROUP CONFIG
-void RosNode::send_group_config() {
+void RosNode::send_msg_group_config() {
   icare_interfaces::msg::GroupConfig message = icare_interfaces::msg::GroupConfig();
   
   vector<CoreProcess*> robots_1 = dynamic_cast<ProcessCollector*>(_og1->find_child("robots"))->get_list();

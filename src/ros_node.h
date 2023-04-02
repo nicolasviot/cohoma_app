@@ -148,11 +148,11 @@ class RosNode : public FatProcess, public ExternalSource
   void send_msg_chat(string _text, int _type, double _lat, double _lng, double _alt);
 
   //itineraryqos_best_effort
-  void send_itinerary_request();
+  void send_msg_itinerary_request();
   void receive_msg_itinerary (const icare_interfaces::msg::Itinerary& msg);
 
   //groupe
-  void send_group_config();
+  void send_msg_group_config();
 
   //traps
   void receive_msg_trap_detection(const icare_interfaces::msg::TrapDetection& msg);

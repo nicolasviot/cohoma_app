@@ -29,14 +29,13 @@ update_graph_fun (Process c)
 %}
 
 _action_
-plan_request_fun (Process c)
+ask_itinerary_fun (Process c)
 %{
 	Process *data = (Process*) get_native_user_data(c);
  	RosNode *node = dynamic_cast<RosNode*>(data);
   	#ifndef NO_ROS
   	if (node)
-		std::cout << "TODO" << std::endl;
- 		//node->send_msg_planning_request(); 
+		node->send_msg_itinerary_request(); 
  	#endif
 %}
 
@@ -77,7 +76,7 @@ send_group_config_fun (Process c)
  	RosNode *node = dynamic_cast<RosNode*>(data);
   	#ifndef NO_ROS
   	if (node)
-		node->send_group_config();
+		node->send_msg_group_config();
  	#endif
 %}
 
@@ -92,7 +91,7 @@ RosManager (Process _parent, Process _map, Process _context, Process _model_mana
 	model_manager aka _model_manager
 
 	Spike update_graph
-	Spike plan_request
+	Spike ask_itinerary
 	Spike validate_plan
 	Spike send_selected_tasks
 
@@ -105,8 +104,8 @@ RosManager (Process _parent, Process _map, Process _context, Process _model_mana
   	NativeAction update_graph_action(update_graph_fun, node, 1)
   	update_graph -> update_graph_action
 
-  	NativeAction plan_request_action (plan_request_fun, node, 1)
-  	plan_request -> plan_request_action
+  	NativeAction ask_itinerary_action (ask_itinerary_fun, node, 1)
+  	ask_itinerary -> ask_itinerary_action
 
   	NativeAction send_selected_tasks_action(send_selected_tasks_fun, node, 1)
   	send_selected_tasks -> send_selected_tasks_action
