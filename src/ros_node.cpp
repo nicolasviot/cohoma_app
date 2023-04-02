@@ -235,16 +235,14 @@ RosNode::impl_deactivate ()
 
 #ifndef NO_ROS
 
- //sub_robot_state.reset ();
-  /*
-  sub_navgraph.reset ();
+  sub_robot_state.reset();
+  sub_robot_config.reset();
+  sub_chat.reset();
+  sub_itinerary.reset();
+  //Traps
+  sub_trap_detection.reset();
+  sub_trap_update.reset();
  
-  sub_graph_itinerary_loop.reset ();
-  sub_graph_itinerary_final.reset ();
-  sub_candidate_tasks.reset ();
-  sub_allocation.reset ();
-  */
-
 #endif  
   // De-activate
   _current_plan_id_vab.deactivate();
