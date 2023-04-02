@@ -92,6 +92,8 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::QoS qos;
     rclcpp::QoS qos_transient;
 
+    rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
+
     rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
     rclcpp::Subscription<icare_interfaces::msg::RobotConfig>::SharedPtr sub_robot_config;
 
@@ -107,7 +109,6 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Subscription<icare_interfaces::msg::TrapDetection>::SharedPtr sub_trap_detection;
     rclcpp::Subscription<icare_interfaces::msg::Trap>::SharedPtr sub_trap_update;
     
-    
     rclcpp::Publisher<icare_interfaces::msg::TrapActivation>::SharedPtr publisher_trap_activation;
     rclcpp::Publisher<icare_interfaces::msg::Trap>::SharedPtr publisher_trap_delete;
     rclcpp::Publisher<icare_interfaces::msg::Trap>::SharedPtr publisher_trap_add;
@@ -120,7 +121,7 @@ class RosNode : public FatProcess, public ExternalSource
     
     /*
 
-    rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
+    
 	  rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
     rclcpp::Subscription<icare_interfaces::msg::GraphItineraryList>::SharedPtr sub_graph_itinerary_loop;
     rclcpp::Subscription<icare_interfaces::msg::GraphItinerary>::SharedPtr sub_graph_itinerary_final;
@@ -139,6 +140,10 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Publisher<icare_interfaces::msg::TrapActivation>::SharedPtr publisher_trap_activation;
     rclcpp::Publisher<icare_interfaces::msg::Trap>::SharedPtr publisher_trap_edit;
     */
+
+  //navgraph
+  void receive_msg_navgraph (const icare_interfaces::msg::StringStamped& msg);
+    
   //robots
   void receive_msg_robot_state (const icare_interfaces::msg::RobotState& msg);
   void receive_msg_robot_config (const icare_interfaces::msg::RobotConfig& msg);
@@ -167,8 +172,7 @@ class RosNode : public FatProcess, public ExternalSource
   
 
    /*
-    void receive_msg_navgraph (const icare_interfaces::msg::StringStamped::SharedPtr msg);
-    void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
+   void receive_msg_robot_state (const icare_interfaces::msg::RobotState::SharedPtr msg);
     void receive_msg_graph_itinerary_loop (const icare_interfaces::msg::GraphItineraryList::SharedPtr msg);
     void receive_msg_graph_itinerary_final (const icare_interfaces::msg::GraphItinerary::SharedPtr msg);
     void receive_msg_trap (const icare_interfaces::msg::TrapList msg);

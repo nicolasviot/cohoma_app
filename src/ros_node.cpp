@@ -80,6 +80,9 @@ RosNode::impl_activate ()
 { 
   #ifndef NO_ROS
 
+  //nav Graph (TO TEST)
+  sub_navgraph = _node->create_subscription<icare_interfaces::msg::StringStamped>("/navgraph_manager/navgraph", qos, std::bind(&RosNode::receive_msg_navgraph, this, _1));
+
   // Robots
   sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>("/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
   sub_robot_config = _node->create_subscription<icare_interfaces::msg::RobotConfig>("/robot_config", qos_best_effort, std::bind(&RosNode::receive_msg_robot_config, this, _1));
@@ -109,7 +112,6 @@ RosNode::impl_activate ()
   
   //PUBLISH
   /*
-  sub_navgraph = _node->create_subscription<icare_interfaces::msg::StringStamped>("/navgraph", qos_transient, std::bind(&RosNode::receive_msg_navgraph, this, _1));
   sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>("/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
   sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItineraryList>("/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary_loop, this, _1));
   sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItinerary>("/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, this, _1));
@@ -248,7 +250,6 @@ RosNode::impl_deactivate ()
   _current_plan_id_vab.deactivate();
   _start_plan_vab_id.deactivate();
   _end_plan_vab_id.deactivate();
-
   ExternalSource::please_stop ();
 }
 
@@ -271,6 +272,101 @@ RosNode::run () {
 // **************************************************************************************************
 
 // Receive msg "Navigation Graph"
+// Receive msg "Navigation Graph"
+void 
+RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped& _msg)
+{
+  auto msg = &_msg;
+  get_exclusive_access(DBG_GET);
+
+  cout << "Receive msg Navigation Graph" << endl;
+
+  //GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text)
+  //SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received new navgraph\n", true)
+  
+  // Reset "nodes" in case it contains a pointer on a node that will be removed
+  _ref_node_graph_edition->set_value (_ref_NULL, true);
+  _ref_node_status_edition->set_value (_ref_NULL, true);
+
+  // FIXME TODO: schedule_deletion old tasks about edges, about traps and about zones
+  // schedule delete old itineraries
+  // schedule delete old edges
+  // schedule delete old nodes
+
+  nlohmann::json j = nlohmann::json::parse(msg->data);
+  nlohmann::json j_graph;
+  if (j.contains("graph")) {
+    j_graph = j["graph"];
+  }
+  else if (j.contains("graphs"))
+  {
+    if (j.size() > 1)
+      j_graph = j["graphs"][0];
+    else if (j.size() == 0)
+      return;
+  }
+
+  // NODES
+  for (auto& j_node : j_graph["nodes"])
+  {
+    const string& node_id = j_node["id"];
+    const string& label = j_node["label"];
+    
+    auto& m = j_node["metadata"];
+    int phase = m["phase"].get<int>();
+    double latitude = m["latitude"].get<double>();
+    double longitude = m["longitude"].get<double>();
+    double altitude = m["altitude"].get<double>();
+    bool mandatory = m["compulsory"].get<bool>();
+
+
+    Process* node = _node_models->find_child_impl(node_id);
+    if (node == nullptr)
+    {
+      // We need a pointer on the TextProperty (else memory pb)
+      TextProperty* tmp = new TextProperty (_node_ids, "", node_id);
+      //cout << "String _ (\"_" << node_id << "\")" << endl;
+
+      NodeModel (_node_models, node_id, node_id, phase, label, latitude, longitude, altitude, mandatory);
+      //cout << "NodeModel _" << node_id << " (\"" + node_id << "\", " << to_string(phase) << ", \"" << label << "\", " << latitude << ", " << longitude << ", " << altitude << ", " << mandatory << ")" << endl;
+    }
+    //else
+    //  cout << "Model of node " << node_id << " already exist. Need to update it ?" << endl;
+  }
+
+  // EDGES
+  for (auto& j_edge : j_graph["edges"])
+  {
+    //const string& str_source = j_edge["source"].get<string>();
+    //const string& str_target = j_edge["target"].get<string>();
+    const string& str_source = j_edge["source"];
+    const string& str_target = j_edge["target"];
+
+    string edge_id = str_source + '_' + str_target;
+
+    auto& m = j_edge["metadata"];
+    double length = m["length"].get<double>();
+
+    Process* edge = _edge_models->find_child_impl(edge_id);
+    if (edge == nullptr)
+    {
+      // We need a pointer on the TextProperty (else memory pb)
+      TextProperty* tmp = new TextProperty (_edge_ids, "", edge_id);
+      //cout << "String _ (\"_" << str_source << "__" << str_target << "\")" << endl;
+
+     Process* source = _node_models->find_child (str_source);
+      Process* target = _node_models->find_child (str_target);
+
+      EdgeModel (_edge_models, edge_id, source, target, length);
+      //cout << "EdgeModel _" << str_source << "__" << str_target << " (find(this.nodes, \"_" << str_source << "\"), find(this.nodes, \"_" << str_target << "\"), " << length << ")" << endl;
+    }  
+    //else
+    //  cout << "Model of edge " << edge_id << " already exist. Need to update it ?" << endl;
+  }
+
+  GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
+}
 
 // **************************************************************************************************
 //
