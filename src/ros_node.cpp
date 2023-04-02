@@ -651,8 +651,10 @@ void RosNode::send_msg_group_config() {
 //////////////////////////:
 // TRAPS///////////////////
 void RosNode::send_msg_trap_activation(int uid , bool is_active) {
-  std::cout << "TODO send msg trap activation"  << std::endl;
-  // TODO
+  icare_interfaces::msg::TrapActivation message = icare_interfaces::msg::TrapActivation();
+  message.id = uid;
+  message.active = is_active;
+  publisher_trap_activation->publish(message);  
 }
 
 void RosNode::send_msg_trap_delete(int uid) {
@@ -672,29 +674,42 @@ void RosNode::receive_msg_trap_update(const icare_interfaces::msg::Trap& msg) {
   // TODO
 }
 
-void RosNode::send_msg_trap_add(int uit, double _lat, double _lng) {
-  std::cout << "TODO send trap add"  << std::endl;
-  // TODO
+void RosNode::send_msg_trap_add(int uid, double _lat, double _lng) {
+ icare_interfaces::msg::Trap message = icare_interfaces::msg::Trap();
+ message.id = uid;
+ message.location.latitude = _lat;
+ message.location.longitude = _lng;
+ publisher_trap_add->publish(message);
 }
 
 void RosNode::send_msg_trap_set_identification_mode(int uid, int ident_mode) {
-  std::cout << "TODO send trap identification mode"  << std::endl;
-  // TODO
+  icare_interfaces::msg::TrapSetIdentificationMode message = icare_interfaces::msg::TrapSetIdentificationMode();
+  message.id = uid;
+  message.mode = ident_mode;
+  message.header.stamp = _node->get_clock()->now();
+  publisher_trap_set_identification_mode->publish(message);  
 }
 
 void RosNode::send_msg_trap_set_confirmation_mode(int uid, int confirmation_mode){
-  std::cout << "TODO send trap confirmation mode"  << std::endl;
-  // TODO
+  icare_interfaces::msg::TrapSetIdentificationMode message = icare_interfaces::msg::TrapSetIdentificationMode();
+  message.id = uid;
+  message.mode = confirmation_mode;
+  message.header.stamp = _node->get_clock()->now();
+  publisher_trap_set_confirmation_mode->publish(message);  
 }
 
 void RosNode::send_msg_trap_set_deactivation_action(int uid, int action) {
-  std::cout << "TODO send trap deactivation action"  << std::endl;
-  // TODO
+  icare_interfaces::msg::TrapSetDeactivationAction message = icare_interfaces::msg::TrapSetDeactivationAction();
+  message.id = uid;
+  message.action = action;
+  message.header.stamp = _node->get_clock()->now();
+  publisher_trap_set_deactivation_action->publish(message);  
 }
 
 void RosNode::send_msg_trap_set_clustering_distance(double clustering_distance) {
-  std::cout << "TODO send trap clustering distance"  << std::endl;
-  // TODO
+  std_msgs::msg::Float32 message = std_msgs::msg::Float32();
+  message.data = clustering_distance;
+  publisher_trap_set_clustering_distance->publish(message);  
 }
 
 #endif
