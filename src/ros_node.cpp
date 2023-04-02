@@ -80,8 +80,10 @@ RosNode::impl_activate ()
 { 
   #ifndef NO_ROS
 
-  //nav Graph (TO TEST)
+  //NAVGRAPH SITE AND MAP  (TO TEST)
   sub_navgraph = _node->create_subscription<icare_interfaces::msg::StringStamped>("/navgraph_manager/navgraph", qos, std::bind(&RosNode::receive_msg_navgraph, this, _1));
+  sub_site = _node->create_subscription<icare_interfaces::msg::Site>("/site_manager/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
+  sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>("/map_manager/map", qos_transient, std::bind(&RosNode::receive_msg_map, this, _1));
 
   // Robots
   sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>("/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
@@ -112,15 +114,11 @@ RosNode::impl_activate ()
   
   //PUBLISH
   /*
-  sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>("/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
-  sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItineraryList>("/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary_loop, this, _1));
   sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItinerary>("/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, this, _1));
   sub_candidate_tasks = _node->create_subscription<icare_interfaces::msg::Tasks>("/candidate_tasks", qos, std::bind(&RosNode::receive_msg_candidate_tasks, this, _1));
   sub_allocation = _node->create_subscription<icare_interfaces::msg::Allocation>("/allocation", qos, std::bind(&RosNode::receive_msg_allocation, this, _1));
   sub_traps = _node->create_subscription<icare_interfaces::msg::TrapList>("/traps", qos_transient, std::bind(&RosNode::receive_msg_trap, this, _1));
-  sub_site = _node->create_subscription<icare_interfaces::msg::Site>("/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
-  sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>("/map", qos_transient, std::bind(&RosNode::receive_msg_map, this, _1));
-
+  
   // PUBLISH
   //publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>("/planning_request", qos);
   publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>("/validation", qos);
@@ -267,11 +265,10 @@ RosNode::run () {
 
 // **************************************************************************************************
 //
-//  Navigation Graph
+//  Navigation Graph SITE and MAP
 //
 // **************************************************************************************************
 
-// Receive msg "Navigation Graph"
 // Receive msg "Navigation Graph"
 void 
 RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped& _msg)
@@ -364,6 +361,138 @@ RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped& _msg)
     //  cout << "Model of edge " << edge_id << " already exist. Need to update it ?" << endl;
   }
 
+  GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
+}
+
+// Receive msg SITE with limits, exclusion zones, and Limas
+void RosNode::receive_msg_site(const icare_interfaces::msg::Site& msg){
+  //auto msg = &_msg;
+  get_exclusive_access(DBG_GET);
+
+  cout << "Receive msg SITE" << endl;
+
+  //GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
+  //SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received site data\n", true);
+
+  // LIMITS
+  for (int i = 0; i < msg.limits.points.size(); i++)
+  {
+    PointModel (_limit_models, "", msg.limits.points[i].latitude, msg.limits.points[i].longitude, msg.limits.points[i].altitude);
+  }
+
+  // EXCLUSION ZONES
+  for (int i = 0; i < msg.zones.size(); i++)
+  {
+    CoreProcess* zone = ExclusionZoneModel (_zone_models, "", msg.zones[i].type, msg.zones[i].name);
+    CoreProcess* points = zone->find_child ("points");
+    for (int j = 0; j < msg.zones[i].polygon.points.size(); j++)
+    {
+      PointModel (points, "", msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude, msg.zones[i].polygon.points[j].altitude);
+    }
+  }
+
+
+  // LIMAS
+  for (int i = 0; i < msg.limas.size(); i++)
+  {
+    int index = i;
+    CoreProcess* lima = LimaModel (_lima_models, std::to_string(index), index, msg.limas[i].name, this);
+      
+    CoreProcess* points_list = lima->find_child("points");
+
+    for (int j = 0; j < msg.limas[i].polygon.points.size(); j++)
+    {
+      PointModel (points_list, "", msg.limas[i].polygon.points[j].latitude, msg.limas[i].polygon.points[j].longitude, msg.limas[i].polygon.points[j].altitude);
+    }
+  }
+  
+  GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
+}
+
+static string frame_data;
+void RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap& msg){
+  get_exclusive_access(DBG_GET);
+
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text)
+  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received exploration map update\n", true)
+
+  //float lat_center_map = msg.origin.latitude;
+  //float lon_center_map = msg.origin.longitude;
+  
+  int w = msg.width;
+  int h = msg.height;
+
+  SET_CHILD_VALUE (Double, _result_layer, visibility_map_resolution, msg.resolution, true)
+  SET_CHILD_VALUE (Double, _result_layer, visibility_map_lat, msg.origin.latitude, true)
+  SET_CHILD_VALUE (Double, _result_layer, visibility_map_lon, msg.origin.longitude, true)
+
+  _image->width()->set_value (w, true);
+  _image->height()->set_value (h, true);
+  _image->format()->set_value(5 , true);  // DO NOT Change frame is ARGB_32 , QImage::Format_ARGB32 = 5 
+
+  int octect = 4;
+  int size_map = w*h*octect;
+      
+  frame_data.reserve(size_map);
+
+  // link frame_data to the data_image
+  string*& data = _image->get_data_ref();
+  data = &frame_data;
+
+  //color:
+  //ugv_camera => yellow ( #f4d03f ) // Vince #FFFF00
+  //uav_camera => purple ( #9b59b6 ) // Vince #800080
+  //uav_camera && ugv_camera => cyan #7fb3d5 // Vince #00FFFF
+
+  for (int i = 0;  i < w*h; i++)
+  {
+    int j0 = i*octect;
+    int j1 = j0 + 1;
+    int j2 = j0 + 2;
+    int j3 = j0 + 3;
+    if (msg.outside_area_layer[i] == 0)
+    {
+      if (msg.ugv_layer[i] != 0)
+      {
+        //yellow
+        frame_data[j0] = static_cast<char>(0x3F); //B
+        frame_data[j1] = static_cast<char>(0xD0); //G
+        frame_data[j2] = static_cast<char>(0xF4); //R
+        frame_data[j3] = static_cast<char>(0x6A); //A = 106
+      }
+      if (msg.uav_layer[i] != 0)
+      {
+        //purple
+        frame_data[j0] = static_cast<char>(0xB6); //B
+        frame_data[j1] = static_cast<char>(0x59); //G
+        frame_data[j2] = static_cast<char>(0x9B); //R
+        frame_data[j3] = static_cast<char>(0x6A); //A = 106
+      }
+      if ((msg.ugv_layer[i] != 0) && (msg.uav_layer[i] != 0))
+      {
+        //cyan
+        frame_data[j0] = static_cast<char>(0xD5); //B
+        frame_data[j1] = static_cast<char>(0xB3); //G
+        frame_data[j2] = static_cast<char>(0x7F); //R
+        frame_data[j3] = static_cast<char>(0x6A); //A = 106
+      }
+      if ((msg.uav_layer[i] == 0) && (msg.ugv_layer[i] == 0))
+      {
+        //blank
+        frame_data[j0] = static_cast<char>(0xFF); //B
+        frame_data[j1] = static_cast<char>(0xFF); //G
+        frame_data[j2] = static_cast<char>(0xFF); //R
+        frame_data[j3] = static_cast<char>(0x00); //A = 0
+      }
+    }
+  }
+
+  //ask for draw
+  _image->set_invalid_cache (true);
+  _image->get_frame ()->damaged ()->activate (); // ?
+      
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }
@@ -486,20 +615,16 @@ void RosNode::send_msg_group_config() {
   vector<unsigned char> group_2 ; 
   vector<unsigned char> group_3 ; 
 
-
   for( int i = 0; i < robots_1.size(); i++){
       group_1.push_back(static_cast<IntProperty*>(robots_1[i]->find_child("uid"))->get_value());
   }
-
   for( int i = 0; i < robots_2.size(); i++){
       group_2.push_back(static_cast<IntProperty*>(robots_2[i]->find_child("uid"))->get_value());
   }
-
   for( int i = 0; i < robots_3.size(); i++){
       group_3.push_back(static_cast<IntProperty*>(robots_3[i]->find_child("uid"))->get_value());
   }
 
-  std::cout << "doing it" << std::endl;
   message.group_1 = group_1;
   message.group_2 = group_2;
   message.group_3 = group_3;

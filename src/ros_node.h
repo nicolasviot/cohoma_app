@@ -93,6 +93,8 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::QoS qos_transient;
 
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
+    rclcpp::Subscription<icare_interfaces::msg::Site>::SharedPtr sub_site;
+    rclcpp::Subscription<icare_interfaces::msg::EnvironmentMap>::SharedPtr sub_map;
 
     rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
     rclcpp::Subscription<icare_interfaces::msg::RobotConfig>::SharedPtr sub_robot_config;
@@ -105,7 +107,6 @@ class RosNode : public FatProcess, public ExternalSource
     
     rclcpp::Publisher<icare_interfaces::msg::GroupConfig>::SharedPtr publisher_group_config;
 
-    
     rclcpp::Subscription<icare_interfaces::msg::TrapDetection>::SharedPtr sub_trap_detection;
     rclcpp::Subscription<icare_interfaces::msg::Trap>::SharedPtr sub_trap_update;
     
@@ -122,15 +123,12 @@ class RosNode : public FatProcess, public ExternalSource
     /*
 
     
-	  rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
-    rclcpp::Subscription<icare_interfaces::msg::GraphItineraryList>::SharedPtr sub_graph_itinerary_loop;
+	  clcpp::Subscription<icare_interfaces::msg::GraphItineraryList>::SharedPtr sub_graph_itinerary_loop;
     rclcpp::Subscription<icare_interfaces::msg::GraphItinerary>::SharedPtr sub_graph_itinerary_final;
     rclcpp::Subscription<icare_interfaces::msg::Tasks>::SharedPtr sub_candidate_tasks;
     rclcpp::Subscription<icare_interfaces::msg::Allocation>::SharedPtr sub_allocation;
     rclcpp::Subscription<icare_interfaces::msg::TrapList>::SharedPtr sub_traps;
-    rclcpp::Subscription<icare_interfaces::msg::Site>::SharedPtr sub_site;
-    rclcpp::Subscription<icare_interfaces::msg::EnvironmentMap>::SharedPtr sub_map;
-
+    
     rclcpp::Publisher<icare_interfaces::msg::PlanningRequest>::SharedPtr publisher_planning_request;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_navgraph_update;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation;
@@ -141,8 +139,10 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Publisher<icare_interfaces::msg::Trap>::SharedPtr publisher_trap_edit;
     */
 
-  //navgraph
+  //navgraph map and Site
   void receive_msg_navgraph (const icare_interfaces::msg::StringStamped& msg);
+  void receive_msg_site(const icare_interfaces::msg::Site& msg);
+  void receive_msg_map(const icare_interfaces::msg::EnvironmentMap& msg);
     
   //robots
   void receive_msg_robot_state (const icare_interfaces::msg::RobotState& msg);
@@ -181,8 +181,6 @@ class RosNode : public FatProcess, public ExternalSource
     void receive_msg_site(const icare_interfaces::msg::Site);
     void receive_msg_map(const icare_interfaces::msg::EnvironmentMap);
 
-
-    void send_msg_planning_request();
     void send_msg_navgraph_update();
     void send_validation_plan();
     void send_selected_tasks();
