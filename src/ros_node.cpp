@@ -84,6 +84,9 @@ RosNode::impl_activate ()
   sub_navgraph = _node->create_subscription<icare_interfaces::msg::StringStamped>("/navgraph_manager/navgraph", qos, std::bind(&RosNode::receive_msg_navgraph, this, _1));
   sub_site = _node->create_subscription<icare_interfaces::msg::Site>("/site_manager/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
   sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>("/map_manager/map", qos_transient, std::bind(&RosNode::receive_msg_map, this, _1));
+  publisher_lima = _node->create_publisher<icare_interfaces::msg::Lima>("/site_manager/lima_clearance", qos);
+  publisher_restricted_zone = _node->create_publisher<icare_interfaces::msg::RestrictedZone>("/site_manager/zone_activation", qos);
+  
 
   // Robots
   sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>("/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
@@ -270,9 +273,7 @@ RosNode::run () {
 // **************************************************************************************************
 
 // Receive msg "Navigation Graph"
-void 
-RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped& _msg)
-{
+void RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped& _msg){
   auto msg = &_msg;
   get_exclusive_access(DBG_GET);
 
@@ -495,6 +496,20 @@ void RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap& msg){
       
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
+}
+
+void RosNode::send_msg_lima_clearance(string name, bool crossing_allowed){
+  icare_interfaces::msg::Lima message = icare_interfaces::msg::Lima();
+  message.name = name;
+  message.crossing_allowed = crossing_allowed;
+  publisher_lima->publish(message);
+}
+
+void RosNode::send_msg_zone_activation(string name, bool is_active){
+  icare_interfaces::msg::RestrictedZone message = icare_interfaces::msg::RestrictedZone();
+  message.name = name;
+  message.active = is_active;
+  publisher_restricted_zone->publish(message);
 }
 
 // **************************************************************************************************

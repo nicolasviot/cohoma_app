@@ -95,6 +95,8 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Subscription<icare_interfaces::msg::StringStamped>::SharedPtr sub_navgraph;
     rclcpp::Subscription<icare_interfaces::msg::Site>::SharedPtr sub_site;
     rclcpp::Subscription<icare_interfaces::msg::EnvironmentMap>::SharedPtr sub_map;
+    rclcpp::Publisher<icare_interfaces::msg::Lima>::SharedPtr publisher_lima;
+    rclcpp::Publisher<icare_interfaces::msg::RestrictedZone>::SharedPtr publisher_restricted_zone;
 
     rclcpp::Subscription<icare_interfaces::msg::RobotState>::SharedPtr sub_robot_state;
     rclcpp::Subscription<icare_interfaces::msg::RobotConfig>::SharedPtr sub_robot_config;
@@ -134,7 +136,6 @@ class RosNode : public FatProcess, public ExternalSource
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation;
     rclcpp::Publisher<icare_interfaces::msg::Tasks>::SharedPtr publisher_tasks;
     rclcpp::Publisher<icare_interfaces::msg::StringStamped>::SharedPtr publisher_validation_tasks;
-    rclcpp::Publisher<icare_interfaces::msg::LimaCrossed>::SharedPtr publisher_lima;
     rclcpp::Publisher<icare_interfaces::msg::TrapActivation>::SharedPtr publisher_trap_activation;
     rclcpp::Publisher<icare_interfaces::msg::Trap>::SharedPtr publisher_trap_edit;
     */
@@ -143,6 +144,8 @@ class RosNode : public FatProcess, public ExternalSource
   void receive_msg_navgraph (const icare_interfaces::msg::StringStamped& msg);
   void receive_msg_site(const icare_interfaces::msg::Site& msg);
   void receive_msg_map(const icare_interfaces::msg::EnvironmentMap& msg);
+  void send_msg_lima_clearance(string name, bool crossing_allowed);
+  void send_msg_zone_activation(string name, bool is_active);
     
   //robots
   void receive_msg_robot_state (const icare_interfaces::msg::RobotState& msg);
