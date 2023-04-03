@@ -46,22 +46,17 @@ VehicleModel (Process _context, int _uid, int _type, string _code, string _title
 
 
     //Capacité robots
-    Bool camera (0)
     Bool laser (0)
+    Bool available (0)
+    Bool teleoperated (0)
+    Bool contact (0)
+    Bool detection (0)
+    Bool identification (0)
 
     //Ignorrer les pieges dans le manager
-    Bool detect_traps (1)
+    Bool trap_detection (1)
     TextPrinter tp
-    "TODO: faire un message pour dire que " + title + " trap detection " + detect_traps => tp.input 
-    
-    // Current operating mode
-    // OPERATING_MODE_UNKNOWN = 0           # Default value
-    // OPERATING_MODE_MANUAL = 1            # Operated by security pilot
-    // OPERATING_MODE_TELEOPERATION = 2     # Operated by remote operator
-    // OPERATING_MODE_AUTONOMOUS = 3        # Operated by on-board computer
-    Int operation_mode (0)
-    String operation_mode_status ("Unknown")
-    (operation_mode == 1) ? "Manual" : ((operation_mode == 2 ) ? "TeleOP" : ((operation_mode == 3 ) ? "Auto" : "Unknown")) =:> operation_mode_status
+    "TODO: faire un message pour dire que " + title + " trap detection " + trap_detection => tp.input 
 
 
     //TODO bind to messages for life of the robot =:> if no data --> warning

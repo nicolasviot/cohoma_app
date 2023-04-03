@@ -274,4 +274,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Ref dragged_strip (null)
     Spike show_confirmation_form
     Ref dropped_operator (null)
+
+    //ROS TESTS
+    Spike ros_test
 }

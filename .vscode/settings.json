@@ -1,8 +1,0 @@
-{
-    "cmake.configureOnOpen": false,
-    "files.associations": {
-        "map": "cpp",
-        "functional": "cpp"
-    },
-    "C_Cpp.dimInactiveRegions": false
-}

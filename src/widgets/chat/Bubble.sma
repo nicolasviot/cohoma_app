@@ -3,51 +3,42 @@ use base
 use display
 use gui
 
-import gui.widgets.IWidget
-
 _define_
-Bubble (string _label) inherits IWidget () {
-  Translation offset (0, 0)
+Bubble (string _label, double _y, int sent, Process container) {
+  Translation global_position (0, _y)
+  x aka global_position.tx
+  y aka global_position.ty
 
-  FillColor bg_color (0,0,255)
-  Rectangle bg (0,0,100,10,5,5)
-  
-  //TextAnchor ta(DJN_END_ANCHOR)
-  FillColor fc (#ffffff)
-  Text ui (0, 0, _label)
-  text aka ui.text
-  this.height/2 + ui.ascent/2 - 1 =:> offset.ty
+  String msg (_label)
 
-  
-  // bubble bg geometry according to text
-  ui.x - 5 =:> bg.x
-  ui.y - ui.height + 2 =:> bg.y
-  ui.width + 10 =:> bg.width
-  ui.height + 2 =:> bg.height
-
-
-  Component date {
-    Translation tr (100, 0)
-    FillColor fc (#333333)
-    //TextAnchor ta(DJN_END_ANCHOR)
-    FontFamily _ ("B612")
-    FontSize _(DJN_PX, 10)
-    Text t (0, 0, "")
-    WallClock wc
-    //"%Hh%Mm%Ss" =: wc.format
+  svg = load_from_XML ("res/svg/bubble.svg")
+  bg << svg.layer1.bubble.main_rect
+  content << svg.layer1.bubble.content
+  msg =: content.text
+  Component timestamp {
+    FillColor _ (#595959)
+    time << svg.layer1.time
+    bg.x + bg.width - 25 =:> time.x
+    bg.y + bg.height - 4 =:> time.y
+    WallClock wc // Probably to much here a simple function call should be enough
     "%H:%M" =: wc.format
-    wc.state_text =: t.text
-    //this.width - t.width =:> tr.tx 
+    wc.state_text =: time.text
   }
-
-  // whole geometry
-  ui.width =: this.min_width
-  ui.height =: this.min_height
-  bg.width + 100 + date.t.width =: this.preferred_width
-  bg.height =: this.preferred_height
-  // ui.width =: this.min_width
-  // this.preferred_width == -1 ? ui.width : this.preferred_width =: this.preferred_width
-  // ui.height =: this.min_height
-  // this.preferred_height == -1 ? ui.height : this.preferred_height =: this.preferred_height
-
+  Component corner {
+    if (sent == 1) {
+      14 =: content.x
+      //left << svg.layer1.bubble.left_arrow
+    } else {
+      Translation pos_right (0, 0)
+      bg.width + 2 =:> pos_right.tx
+      // right << svg.layer1.bubble.right_arrow
+      #AD8089 =: bg.fill.value //, right.fill.value
+      container.width - bg.width - 14 =:> global_position.tx
+    }
+  }
+  Double width (0)
+  Double height (0)
+  bg.height =:> height
+  bg.width + 14 =:> width
+  content.width + timestamp.time.width + 25 =:> bg.width
 }

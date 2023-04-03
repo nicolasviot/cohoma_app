@@ -219,6 +219,8 @@ ModelManager (Process _context, int _is_debug)
 
     Spike itineraries_updated
 
+    Spike group_config_updated
+
 
     // sub Layers
     List layers {
@@ -279,7 +281,7 @@ ModelManager (Process _context, int _is_debug)
     // Add vehicles to operators (C++ function)
     add_vehicules_to_operators (vehicles, operators)
 
-
+    
     // **************************************************************************************************
     //
     //  SAFETY PILOTS
@@ -293,6 +295,13 @@ ModelManager (Process _context, int _is_debug)
         SafetyPilotModel ground_safety_pilot (_context, "ugv", "UGV", $_context.init_lat, $_context.init_lon + 0.005, $_context.SAFETY_PILOT_COL)
     }
 
+     // **************************************************************************************************
+    //
+    //  CHAT
+    //
+    // **************************************************************************************************
+    // messages (list of ChatMessageModel)
+    List chat_messages
 
     // **************************************************************************************************
     //

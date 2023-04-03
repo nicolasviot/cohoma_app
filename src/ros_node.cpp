@@ -4,6 +4,7 @@
 #include "core/control/binding.h"
 #include "core/ontology/coupling.h"
 #include "base/connector.h"
+#include "base/process_handler.h"
 #include "core/core-dev.h"
 #include "core/tree/list.h"
 #include "gui/shape/poly.h"
@@ -16,6 +17,7 @@
 #include <algorithm>
 #include <iterator>
 #include "math.h"
+#include <vector>
 
 #include "model/LimaModel.h"
 #include "model/PointModel.h"
@@ -24,6 +26,7 @@
 #include "model/EdgeModel.h"
 #include "model/trap/TrapModel.h"
 #include "model/trap/TrapDetectionModel.h"
+#include "model/ChatMessageModel.h"
 
 #include "model/task/TaskEdgeModel.h"
 #include "model/task/TaskAreaModel.h"
@@ -79,6 +82,14 @@ RosNode::impl_activate ()
 { 
   #ifndef NO_ROS
 
+  //NAVGRAPH SITE AND MAP  (TO TEST)
+  sub_navgraph = _node->create_subscription<icare_interfaces::msg::StringStamped>("/navgraph_manager/navgraph", qos_transient, std::bind(&RosNode::receive_msg_navgraph, this, _1));
+  sub_site = _node->create_subscription<icare_interfaces::msg::Site>("/site_manager/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
+  sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>("/map_manager/map", qos_transient, std::bind(&RosNode::receive_msg_map, this, _1));
+  publisher_lima = _node->create_publisher<icare_interfaces::msg::Lima>("/site_manager/lima_clearance", qos);
+  publisher_restricted_zone = _node->create_publisher<icare_interfaces::msg::RestrictedZone>("/site_manager/zone_activation", qos);
+  
+
   // Robots
   sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>("/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
   sub_robot_config = _node->create_subscription<icare_interfaces::msg::RobotConfig>("/robot_config", qos_best_effort, std::bind(&RosNode::receive_msg_robot_config, this, _1));
@@ -94,19 +105,25 @@ RosNode::impl_activate ()
   //group config
   publisher_group_config =_node->create_publisher<icare_interfaces::msg::GroupConfig>("/group_config", qos);
   
+  //Traps
+  sub_trap_detection = _node->create_subscription<icare_interfaces::msg::TrapDetection>("/trap_manager/detection", qos, std::bind(&RosNode::receive_msg_trap_detection, this, _1));
+  sub_trap_update = _node->create_subscription<icare_interfaces::msg::Trap>("/trap_manager/trap_update", qos, std::bind(&RosNode::receive_msg_trap_update, this, _1));;
+  
+  publisher_trap_activation =_node->create_publisher<icare_interfaces::msg::TrapActivation>("/trap_manager/activate_trap", qos);
+  publisher_trap_delete =_node->create_publisher<icare_interfaces::msg::Trap>("/trap_manager/del_trap", qos);
+  publisher_trap_add =_node->create_publisher<icare_interfaces::msg::Trap>("/trap_manager/add_trap", qos);
+  publisher_trap_set_identification_mode = _node->create_publisher<icare_interfaces::msg::TrapSetIdentificationMode>("/trap_manager/set_identification_mode", qos);
+  publisher_trap_set_confirmation_mode =_node->create_publisher<icare_interfaces::msg::TrapSetIdentificationMode>("/trap_manager/set_confirmation_mode", qos);
+  publisher_trap_set_deactivation_action =_node->create_publisher<icare_interfaces::msg::TrapSetDeactivationAction>("/trap_manager/set_deactivation_action", qos);
+  publisher_trap_set_clustering_distance =_node->create_publisher<std_msgs::msg::Float32>("/trap_manager/set_clustering_distance", qos);
   
   //PUBLISH
   /*
-  sub_navgraph = _node->create_subscription<icare_interfaces::msg::StringStamped>("/navgraph", qos_transient, std::bind(&RosNode::receive_msg_navgraph, this, _1));
-  sub_robot_state = _node->create_subscription<icare_interfaces::msg::RobotState>("/robot_state", qos_best_effort, std::bind(&RosNode::receive_msg_robot_state, this, _1));
-  sub_graph_itinerary_loop = _node->create_subscription<icare_interfaces::msg::GraphItineraryList>("/itinerary", qos, std::bind(&RosNode::receive_msg_graph_itinerary_loop, this, _1));
   sub_graph_itinerary_final = _node->create_subscription<icare_interfaces::msg::GraphItinerary>("/plan", qos, std::bind(&RosNode::receive_msg_graph_itinerary_final, this, _1));
   sub_candidate_tasks = _node->create_subscription<icare_interfaces::msg::Tasks>("/candidate_tasks", qos, std::bind(&RosNode::receive_msg_candidate_tasks, this, _1));
   sub_allocation = _node->create_subscription<icare_interfaces::msg::Allocation>("/allocation", qos, std::bind(&RosNode::receive_msg_allocation, this, _1));
   sub_traps = _node->create_subscription<icare_interfaces::msg::TrapList>("/traps", qos_transient, std::bind(&RosNode::receive_msg_trap, this, _1));
-  sub_site = _node->create_subscription<icare_interfaces::msg::Site>("/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
-  sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>("/map", qos_transient, std::bind(&RosNode::receive_msg_map, this, _1));
-
+  
   // PUBLISH
   //publisher_planning_request =_node->create_publisher<icare_interfaces::msg::PlanningRequest>("/planning_request", qos);
   publisher_validation = _node->create_publisher<icare_interfaces::msg::StringStamped>("/validation", qos);
@@ -129,7 +146,6 @@ RosNode::impl_activate ()
 
   // ---------------------------
   // MODEL
-
   GET_CHILD_VAR2 (_layer_models, CoreProcess, _model_manager, layers)
 
   // SITE
@@ -142,6 +158,16 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_edge_ids, CoreProcess, _model_manager, edge_ids)
   GET_CHILD_VAR2 (_edge_models, CoreProcess, _model_manager, edges)
 
+  //OPERATOR
+  GET_CHILD_VAR2 (_ot, CoreProcess, _model_manager, operators/ot)
+  GET_CHILD_VAR2 (_og1, CoreProcess, _model_manager, operators/og1)
+  GET_CHILD_VAR2 (_og2, CoreProcess, _model_manager, operators/og2)
+  GET_CHILD_VAR2 (_og3, CoreProcess, _model_manager, operators/og3)
+
+  //CHAT
+  GET_CHILD_VAR2 (_chat_models, CoreProcess, _model_manager, chat_messages)
+  
+  
   // Itineraries
   CoreProcess *shortest, *safest, *tradeoff;
   GET_CHILD_VAR2 (shortest, CoreProcess, _model_manager, shortest_itinerary)
@@ -151,13 +177,26 @@ RosNode::impl_activate ()
   _itineraries.push_back(safest);
   _itineraries.push_back(tradeoff);
   
-  // Vehicles
+  // Vehicles 
+
+  //OT
   GET_CHILD_VAR2 (_vab, CoreProcess, _model_manager, vehicles/vab)
-  GET_CHILD_VAR2 (_agilex1, CoreProcess, _model_manager, vehicles/agilex1)
+
+  //OG1
+  GET_CHILD_VAR2 (_bnx8, CoreProcess, _model_manager, vehicles/bnx8)
   GET_CHILD_VAR2 (_agilex2, CoreProcess, _model_manager, vehicles/agilex2)
+  GET_CHILD_VAR2 (_agilex1, CoreProcess, _model_manager, vehicles/agilex1)
   GET_CHILD_VAR2 (_lynx, CoreProcess, _model_manager, vehicles/lynx)
+  
+  //OG2
+  GET_CHILD_VAR2 (_agilex3, CoreProcess, _model_manager, vehicles/agilex3)
+  GET_CHILD_VAR2 (_minnie, CoreProcess, _model_manager, vehicles/minnie)
+  GET_CHILD_VAR2 (_m600, CoreProcess, _model_manager, vehicles/m600)
+
+  //OG3
+  GET_CHILD_VAR2 (_long_eye, CoreProcess, _model_manager, vehicles/long_eye)
+  GET_CHILD_VAR2 (_pprz, CoreProcess, _model_manager, vehicles/pprz)
   GET_CHILD_VAR2 (_spot, CoreProcess, _model_manager, vehicles/spot)
-  GET_CHILD_VAR2 (_drone, CoreProcess, _model_manager, vehicles/m600)
 
   // Safety pilots
   GET_CHILD_VAR2 (_drone_safety_pilot, CoreProcess, _model_manager, safety_pilots/drone_safety_pilot)
@@ -204,22 +243,19 @@ RosNode::impl_deactivate ()
 
 #ifndef NO_ROS
 
- //sub_robot_state.reset ();
-  /*
-  sub_navgraph.reset ();
+  sub_robot_state.reset();
+  sub_robot_config.reset();
+  sub_chat.reset();
+  sub_itinerary.reset();
+  //Traps
+  sub_trap_detection.reset();
+  sub_trap_update.reset();
  
-  sub_graph_itinerary_loop.reset ();
-  sub_graph_itinerary_final.reset ();
-  sub_candidate_tasks.reset ();
-  sub_allocation.reset ();
-  */
-
 #endif  
   // De-activate
   _current_plan_id_vab.deactivate();
   _start_plan_vab_id.deactivate();
   _end_plan_vab_id.deactivate();
-
   ExternalSource::please_stop ();
 }
 
@@ -237,13 +273,249 @@ RosNode::run () {
 
 // **************************************************************************************************
 //
-//  Navigation Graph
+//  Navigation Graph SITE and MAP
 //
 // **************************************************************************************************
 
 // Receive msg "Navigation Graph"
+void RosNode::receive_msg_navgraph (const icare_interfaces::msg::StringStamped& _msg){
+  auto msg = &_msg;
+  get_exclusive_access(DBG_GET);
+
+  cout << "Receive msg Navigation Graph" << endl;
+
+  //GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text)
+  //SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received new navgraph\n", true)
+  
+  // Reset "nodes" in case it contains a pointer on a node that will be removed
+  _ref_node_graph_edition->set_value (_ref_NULL, true);
+  _ref_node_status_edition->set_value (_ref_NULL, true);
+
+  // FIXME TODO: schedule_deletion old tasks about edges, about traps and about zones
+  // schedule delete old itineraries
+  // schedule delete old edges
+  // schedule delete old nodes
+
+  nlohmann::json j = nlohmann::json::parse(msg->data);
+  nlohmann::json j_graph;
+  if (j.contains("graph")) {
+    j_graph = j["graph"];
+  }
+  else if (j.contains("graphs"))
+  {
+    if (j.size() > 1)
+      j_graph = j["graphs"][0];
+    else if (j.size() == 0)
+      return;
+  }
+
+  // NODES
+  for (auto& j_node : j_graph["nodes"])
+  {
+    const string& node_id = j_node["id"];
+    const string& label = j_node["label"];
+    
+    auto& m = j_node["metadata"];
+    int phase = m["phase"].get<int>();
+    double latitude = m["latitude"].get<double>();
+    double longitude = m["longitude"].get<double>();
+    double altitude = m["altitude"].get<double>();
+    bool mandatory = m["compulsory"].get<bool>();
 
 
+    Process* node = _node_models->find_child_impl(node_id);
+    if (node == nullptr)
+    {
+      // We need a pointer on the TextProperty (else memory pb)
+      TextProperty* tmp = new TextProperty (_node_ids, "", node_id);
+      //cout << "String _ (\"_" << node_id << "\")" << endl;
+
+      NodeModel (_node_models, node_id, node_id, phase, label, latitude, longitude, altitude, mandatory);
+      //cout << "NodeModel _" << node_id << " (\"" + node_id << "\", " << to_string(phase) << ", \"" << label << "\", " << latitude << ", " << longitude << ", " << altitude << ", " << mandatory << ")" << endl;
+    }
+    //else
+    //  cout << "Model of node " << node_id << " already exist. Need to update it ?" << endl;
+  }
+
+  // EDGES
+  for (auto& j_edge : j_graph["edges"])
+  {
+    //const string& str_source = j_edge["source"].get<string>();
+    //const string& str_target = j_edge["target"].get<string>();
+    const string& str_source = j_edge["source"];
+    const string& str_target = j_edge["target"];
+
+    string edge_id = str_source + '_' + str_target;
+
+    auto& m = j_edge["metadata"];
+    double length = m["length"].get<double>();
+
+    Process* edge = _edge_models->find_child_impl(edge_id);
+    if (edge == nullptr)
+    {
+      // We need a pointer on the TextProperty (else memory pb)
+      TextProperty* tmp = new TextProperty (_edge_ids, "", edge_id);
+      //cout << "String _ (\"_" << str_source << "__" << str_target << "\")" << endl;
+
+     Process* source = _node_models->find_child (str_source);
+      Process* target = _node_models->find_child (str_target);
+
+      EdgeModel (_edge_models, edge_id, source, target, length);
+      //cout << "EdgeModel _" << str_source << "__" << str_target << " (find(this.nodes, \"_" << str_source << "\"), find(this.nodes, \"_" << str_target << "\"), " << length << ")" << endl;
+    }  
+    //else
+    //  cout << "Model of edge " << edge_id << " already exist. Need to update it ?" << endl;
+  }
+
+  GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
+}
+
+// Receive msg SITE with limits, exclusion zones, and Limas
+void RosNode::receive_msg_site(const icare_interfaces::msg::Site& msg){
+  //auto msg = &_msg;
+  get_exclusive_access(DBG_GET);
+
+  cout << "Receive msg SITE" << endl;
+
+  //GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
+  //SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received site data\n", true);
+
+  // LIMITS
+  for (int i = 0; i < msg.limits.points.size(); i++)
+  {
+    PointModel (_limit_models, "", msg.limits.points[i].latitude, msg.limits.points[i].longitude, msg.limits.points[i].altitude);
+  }
+
+  // EXCLUSION ZONES
+  for (int i = 0; i < msg.zones.size(); i++)
+  {
+    CoreProcess* zone = ExclusionZoneModel (_zone_models, "", msg.zones[i].type, msg.zones[i].name);
+    CoreProcess* points = zone->find_child ("points");
+    for (int j = 0; j < msg.zones[i].polygon.points.size(); j++)
+    {
+      PointModel (points, "", msg.zones[i].polygon.points[j].latitude, msg.zones[i].polygon.points[j].longitude, msg.zones[i].polygon.points[j].altitude);
+    }
+  }
+
+
+  // LIMAS
+  for (int i = 0; i < msg.limas.size(); i++)
+  {
+    int index = i;
+    CoreProcess* lima = LimaModel (_lima_models, std::to_string(index), index, msg.limas[i].name, this);
+      
+    CoreProcess* points_list = lima->find_child("points");
+
+    for (int j = 0; j < msg.limas[i].polygon.points.size(); j++)
+    {
+      PointModel (points_list, "", msg.limas[i].polygon.points[j].latitude, msg.limas[i].polygon.points[j].longitude, msg.limas[i].polygon.points[j].altitude);
+    }
+  }
+  
+  GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
+}
+
+static string frame_data;
+void RosNode::receive_msg_map(const icare_interfaces::msg::EnvironmentMap& msg){
+  get_exclusive_access(DBG_GET);
+
+  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text)
+  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Received exploration map update\n", true)
+
+  //float lat_center_map = msg.origin.latitude;
+  //float lon_center_map = msg.origin.longitude;
+  
+  int w = msg.width;
+  int h = msg.height;
+
+  SET_CHILD_VALUE (Double, _result_layer, visibility_map_resolution, msg.resolution, true)
+  SET_CHILD_VALUE (Double, _result_layer, visibility_map_lat, msg.origin.latitude, true)
+  SET_CHILD_VALUE (Double, _result_layer, visibility_map_lon, msg.origin.longitude, true)
+
+  _image->width()->set_value (w, true);
+  _image->height()->set_value (h, true);
+  _image->format()->set_value(5 , true);  // DO NOT Change frame is ARGB_32 , QImage::Format_ARGB32 = 5 
+
+  int octect = 4;
+  int size_map = w*h*octect;
+      
+  frame_data.reserve(size_map);
+
+  // link frame_data to the data_image
+  string*& data = _image->get_data_ref();
+  data = &frame_data;
+
+  //color:
+  //ugv_camera => yellow ( #f4d03f ) // Vince #FFFF00
+  //uav_camera => purple ( #9b59b6 ) // Vince #800080
+  //uav_camera && ugv_camera => cyan #7fb3d5 // Vince #00FFFF
+
+  for (int i = 0;  i < w*h; i++)
+  {
+    int j0 = i*octect;
+    int j1 = j0 + 1;
+    int j2 = j0 + 2;
+    int j3 = j0 + 3;
+    if (msg.outside_area_layer[i] == 0)
+    {
+      if (msg.ugv_layer[i] != 0)
+      {
+        //yellow
+        frame_data[j0] = static_cast<char>(0x3F); //B
+        frame_data[j1] = static_cast<char>(0xD0); //G
+        frame_data[j2] = static_cast<char>(0xF4); //R
+        frame_data[j3] = static_cast<char>(0x6A); //A = 106
+      }
+      if (msg.uav_layer[i] != 0)
+      {
+        //purple
+        frame_data[j0] = static_cast<char>(0xB6); //B
+        frame_data[j1] = static_cast<char>(0x59); //G
+        frame_data[j2] = static_cast<char>(0x9B); //R
+        frame_data[j3] = static_cast<char>(0x6A); //A = 106
+      }
+      if ((msg.ugv_layer[i] != 0) && (msg.uav_layer[i] != 0))
+      {
+        //cyan
+        frame_data[j0] = static_cast<char>(0xD5); //B
+        frame_data[j1] = static_cast<char>(0xB3); //G
+        frame_data[j2] = static_cast<char>(0x7F); //R
+        frame_data[j3] = static_cast<char>(0x6A); //A = 106
+      }
+      if ((msg.uav_layer[i] == 0) && (msg.ugv_layer[i] == 0))
+      {
+        //blank
+        frame_data[j0] = static_cast<char>(0xFF); //B
+        frame_data[j1] = static_cast<char>(0xFF); //G
+        frame_data[j2] = static_cast<char>(0xFF); //R
+        frame_data[j3] = static_cast<char>(0x00); //A = 0
+      }
+    }
+  }
+
+  //ask for draw
+  _image->set_invalid_cache (true);
+  _image->get_frame ()->damaged ()->activate (); // ?
+      
+  GRAPH_EXEC;
+  release_exclusive_access(DBG_REL);
+}
+
+void RosNode::send_msg_lima_clearance(string name, bool crossing_allowed){
+  icare_interfaces::msg::Lima message = icare_interfaces::msg::Lima();
+  message.name = name;
+  message.crossing_allowed = crossing_allowed;
+  publisher_lima->publish(message);
+}
+
+void RosNode::send_msg_zone_activation(string name, bool is_active){
+  icare_interfaces::msg::RestrictedZone message = icare_interfaces::msg::RestrictedZone();
+  message.name = name;
+  message.active = is_active;
+  publisher_restricted_zone->publish(message);
+}
 
 // **************************************************************************************************
 //
@@ -251,37 +523,26 @@ RosNode::run () {
 //
 // **************************************************************************************************
 void 
-RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState& msg_)
+RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState& msg)
 {  
-  auto msg = &msg_;
-  RCLCPP_INFO(_node->get_logger(), "I heard: '%f'  '%f'", msg->position.latitude, msg->position.longitude);
+  //TODO make it static maybe
+  //list in an array ordered by vehicles ID
+  djnn::Process * robots[] = {nullptr, _m600, _bnx8, _agilex1, _agilex2, _agilex3, _lynx, _minnie ,_spot, _long_eye, _pprz, _vab};
 
-  djnn::Process * robots[] = {nullptr, _drone, _agilex1, _agilex2, _lynx, _spot, _vab, _drone_safety_pilot, _ground_safety_pilot};
-  static const string robots_name[] = {"", "drone", "agilex1", "agilex2", "lynx", "spot", "vab", "drone_safety_pilot", "ground_safety_pilot"};
-  if ((msg->robot_id < 1) || (msg->robot_id >= sizeof(robots))) {
-    RCLCPP_INFO(_node->get_logger(), "incorrect robot_id: '%d'", msg->robot_id);
+  if ((msg.robot_id < 1) || (msg.robot_id >= sizeof(robots))) {
+    RCLCPP_INFO(_node->get_logger(), "incorrect robot_id: '%d'", msg.robot_id);
     return;
   }
-    
-  djnn::Process * robot = robots[msg->robot_id];
-  const string& robot_name = robots_name[msg->robot_id];
+ 
+  djnn::Process * robot = robots[msg.robot_id];
 
   get_exclusive_access(DBG_GET);
-
+  GET_CHILD_VALUE (robot_name, Text, robot, title);
   GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
-
-  SET_CHILD_VALUE (Double, robot, lat, msg->position.latitude, true);
-  SET_CHILD_VALUE (Double, robot, lon, msg->position.longitude, true);
-  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Received robot_state for " + robot_name + "\n", true);
-  
-  if ((robot != _drone_safety_pilot) && (robot != _ground_safety_pilot)) {
-    //SET_CHILD_VALUE (Double, robot, altitude_msl, msg->position.altitude, true);
-    SET_CHILD_VALUE (Double, robot, heading_rot, msg->compass_heading, true);
-    //SET_CHILD_VALUE (Int, robot, battery_percentage, msg->battery_percentage, true);
-    //SET_CHILD_VALUE (Int, robot, operation_mode, msg->operating_mode, true); // FIXME: operation_mode vs operating_mode
-    //SET_CHILD_VALUE (Bool, robot, emergency_stop, msg->emergency_stop, true);
-    //SET_CHILD_VALUE (Bool, robot, failsafe, msg->failsafe, true);
-  }
+  SET_CHILD_VALUE (Double, robot, lat, msg.position.latitude, true);
+  SET_CHILD_VALUE (Double, robot, lon, msg.position.longitude, true);
+  //SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - Received robot_state for " + robot_name + "\n", true);
+  SET_CHILD_VALUE (Double, robot, heading_rot, msg.compass_heading, true);
 
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
@@ -289,7 +550,22 @@ RosNode::receive_msg_robot_state(const icare_interfaces::msg::RobotState& msg_)
 
 void RosNode::receive_msg_robot_config(const icare_interfaces::msg::RobotConfig& msg)
 {  
-  std::cout << "robot config"<< std::endl; 
+  djnn::Process * robots[] = {nullptr, _m600, _bnx8, _agilex1, _agilex2, _agilex3, _lynx, _minnie ,_spot, _long_eye, _pprz, _vab};
+
+  if ((msg.robot_id < 1) || (msg.robot_id >= sizeof(robots))) {
+    RCLCPP_INFO(_node->get_logger(), "incorrect robot_id: '%d'", msg.robot_id);
+    return;
+  }
+ 
+  djnn::Process * robot = robots[msg.robot_id];
+  get_exclusive_access(DBG_GET);
+  SET_CHILD_VALUE (Bool, robot, available, msg.available, true);
+  SET_CHILD_VALUE (Bool, robot, teleoperated, msg.teleoperated, true);
+  SET_CHILD_VALUE (Bool, robot, contact, msg.contact, true);
+  SET_CHILD_VALUE (Bool, robot, detection, msg.detection, true);
+  SET_CHILD_VALUE (Bool, robot, laser, msg.laser, true);
+  SET_CHILD_VALUE (Bool, robot, identification, msg.identification, true);
+  
   GRAPH_EXEC;
   release_exclusive_access(DBG_REL);
 }
@@ -297,22 +573,44 @@ void RosNode::receive_msg_robot_config(const icare_interfaces::msg::RobotConfig&
 void RosNode::receive_msg_chat(const icare_interfaces::msg::ChatMessage& msg)
 {  
   std::cout << "CHAT from:"<< msg.sender << " type:" << msg.type << " Text: " << msg.text << std::endl; 
+
+  //create a _chat_models in model manager comme parents (List)
+  ChatMessageModel (
+      _chat_models,
+      "", 
+      msg.sender,
+      msg.text,
+      msg.type,
+      msg.localisation.latitude,
+      msg.localisation.longitude,
+      msg.localisation.altitude);
+     
   GRAPH_EXEC;
-  release_exclusive_access(DBG_REL);
 }
 
-void RosNode::send_msg_chat() {
-  std::cout << "send msg 'chat'"  << std::endl;
-  // TODO
+void RosNode::send_msg_chat(string _text, int _type, double _lat, double _lng, double _alt) {
+  //std::cout << "send msg 'chat'"  << std::endl;
+  icare_interfaces::msg::ChatMessage message = icare_interfaces::msg::ChatMessage();
+  message.sender = message.SENDER_OT;
+  message.text = _text;
+  message.type = _type;
+
+  geographic_msgs::msg::GeoPoint point = geographic_msgs::msg::GeoPoint();
+  point.latitude = _lat;
+  point.longitude = _lng;
+  point.altitude = _alt;
+  message.localisation = point;
+
+  message.stamp = _node->get_clock()->now();
+  publisher_chat->publish(message);  
 }
 
-void RosNode::send_itinerary_request() {
-  std::cout << "send itinerary request"  << std::endl;
-  // TODO
-  /*
-  icare_interfaces::msg::PlanningRequest message = icare_interfaces::msg::PlanningRequest();
+void RosNode::send_msg_itinerary_request() {
+  //std::cout << "send itinerary request"  << std::endl;
+
+  icare_interfaces::msg::ItineraryRequest message = icare_interfaces::msg::ItineraryRequest();
   message.id = _current_plan_id_vab.get_string_value();
-  //cout << "send_msg_planning_request " << _current_plan_id_vab.get_string_value() << endl;
+  cout << "send_msg_planning_request " << _current_plan_id_vab.get_string_value() << endl;
 
   for (auto item : ((djnn::List*)_node_models)->children())
   {
@@ -323,31 +621,112 @@ void RosNode::send_itinerary_request() {
       message.start_node = str_id;
     else if ( str_status == "end")
       message.end_node = str_id;
-    else if (str_status == "forced")
-        message.node_contraints.push_back(str_id);
   }
 
-  GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
-  SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Asked planification between nodes "+ message.start_node + " and " + message.end_node + " \n", true);
+  //GET_CHILD_VALUE (timestamp, Text, _context, w_clock/state_text);
+  //SET_CHILD_VALUE (Text, _fw_input, , timestamp + " - " + "Asked planification between nodes "+ message.start_node + " and " + message.end_node + " \n", true);
 
   message.header.stamp = _node->get_clock()->now();
-
-  publisher_planning_request->publish(message);  
-  */
+  publisher_itinerary_request->publish(message);  
 }
 
 void RosNode::receive_msg_itinerary(const icare_interfaces::msg::Itinerary& msg){  
-  std::cout << "itinerary"<< std::endl; 
+  std::cout << "TODO received itinerary"<< std::endl; 
   GRAPH_EXEC;
-  release_exclusive_access(DBG_REL);
 }
 
+///GROUP CONFIG
+void RosNode::send_msg_group_config() {
+  icare_interfaces::msg::GroupConfig message = icare_interfaces::msg::GroupConfig();
+  
+  vector<CoreProcess*> robots_1 = dynamic_cast<ProcessCollector*>(_og1->find_child("robots"))->get_list();
+  vector<CoreProcess*> robots_2 = dynamic_cast<ProcessCollector*>(_og2->find_child("robots"))->get_list();
+  vector<CoreProcess*> robots_3 = dynamic_cast<ProcessCollector*>(_og3->find_child("robots"))->get_list();
 
-void RosNode::send_group_config() {
-  std::cout << "send group config"  << std::endl;
+  vector<unsigned char> group_1 ; 
+  vector<unsigned char> group_2 ; 
+  vector<unsigned char> group_3 ; 
+
+  for( int i = 0; i < robots_1.size(); i++){
+      group_1.push_back(static_cast<IntProperty*>(robots_1[i]->find_child("uid"))->get_value());
+  }
+  for( int i = 0; i < robots_2.size(); i++){
+      group_2.push_back(static_cast<IntProperty*>(robots_2[i]->find_child("uid"))->get_value());
+  }
+  for( int i = 0; i < robots_3.size(); i++){
+      group_3.push_back(static_cast<IntProperty*>(robots_3[i]->find_child("uid"))->get_value());
+  }
+
+  message.group_1 = group_1;
+  message.group_2 = group_2;
+  message.group_3 = group_3;
+
+  message.stamp = _node->get_clock()->now();
+  publisher_group_config->publish(message);
+}
+
+//////////////////////////:
+// TRAPS///////////////////
+void RosNode::send_msg_trap_activation(int uid , bool is_active) {
+  icare_interfaces::msg::TrapActivation message = icare_interfaces::msg::TrapActivation();
+  message.id = uid;
+  message.active = is_active;
+  publisher_trap_activation->publish(message);  
+}
+
+void RosNode::send_msg_trap_delete(int uid) {
+  //std::cout << "send trap deleted"  << uid <<std::endl;
+  icare_interfaces::msg::Trap message = icare_interfaces::msg::Trap();
+  message.id = uid;
+  publisher_trap_delete->publish(message);  
+}
+
+void RosNode::receive_msg_trap_detection(const icare_interfaces::msg::TrapDetection& msg) {
+  std::cout << "TODO received trap detection"  << std::endl;
   // TODO
 }
 
+void RosNode::receive_msg_trap_update(const icare_interfaces::msg::Trap& msg) {
+  std::cout << "TODO received trap update"  << std::endl;
+  // TODO
+}
+
+void RosNode::send_msg_trap_add(int uid, double _lat, double _lng) {
+ icare_interfaces::msg::Trap message = icare_interfaces::msg::Trap();
+ message.id = uid;
+ message.location.latitude = _lat;
+ message.location.longitude = _lng;
+ publisher_trap_add->publish(message);
+}
+
+void RosNode::send_msg_trap_set_identification_mode(int uid, int ident_mode) {
+  icare_interfaces::msg::TrapSetIdentificationMode message = icare_interfaces::msg::TrapSetIdentificationMode();
+  message.id = uid;
+  message.mode = ident_mode;
+  message.header.stamp = _node->get_clock()->now();
+  publisher_trap_set_identification_mode->publish(message);  
+}
+
+void RosNode::send_msg_trap_set_confirmation_mode(int uid, int confirmation_mode){
+  icare_interfaces::msg::TrapSetIdentificationMode message = icare_interfaces::msg::TrapSetIdentificationMode();
+  message.id = uid;
+  message.mode = confirmation_mode;
+  message.header.stamp = _node->get_clock()->now();
+  publisher_trap_set_confirmation_mode->publish(message);  
+}
+
+void RosNode::send_msg_trap_set_deactivation_action(int uid, int action) {
+  icare_interfaces::msg::TrapSetDeactivationAction message = icare_interfaces::msg::TrapSetDeactivationAction();
+  message.id = uid;
+  message.action = action;
+  message.header.stamp = _node->get_clock()->now();
+  publisher_trap_set_deactivation_action->publish(message);  
+}
+
+void RosNode::send_msg_trap_set_clustering_distance(double clustering_distance) {
+  std_msgs::msg::Float32 message = std_msgs::msg::Float32();
+  message.data = clustering_distance;
+  publisher_trap_set_clustering_distance->publish(message);  
+}
 
 #endif
-

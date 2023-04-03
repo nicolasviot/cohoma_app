@@ -86,22 +86,8 @@ Strip (Process _context, Process _model, int _index)
       
       camera_icon aka monitoring.camera_icon
       laser_icon aka monitoring.laser_icon
-      model.camera ? _context.OK_COLOR : _context.NOK_COLOR =:> camera_icon.fill.value
+      model.detection ? _context.OK_COLOR : _context.NOK_COLOR =:> camera_icon.fill.value
       model.laser ? _context.OK_COLOR : _context.NOK_COLOR =:> laser_icon.fill.value
-
-      //DEBUG
-      /*AssignmentSequence test_camera_on (1){
-        1 =: model.camera
-        1 =: model.laser
-      }
-      AssignmentSequence test_camera_off (1){
-        0 =: model.camera
-        0 =: model.laser
-      }
-      g.strip_bg.press -> test_camera_on
-      g.strip_bg.release -> test_camera_off
-      */
-      //FIN debug
         
     }
 
@@ -111,21 +97,14 @@ Strip (Process _context, Process _model, int _index)
       Translation _ (95, 12)
 
       Switch mode_switch (Unknown){
-          Component Unknown{
-            mode_icon << clone(svg_mode.wait) //used twice...
-          }
-          Component Manual{
-            mode_icon << clone(svg_mode.wait)
-          }
-          Component TeleOP{
+          Component true{
             mode_icon << svg_mode.manual
           } 
-          Component Auto{
+          Component false{
             mode_icon << svg_mode.auto
           }
         }
-     
-      model.operation_mode_status =:> mode_switch.state
+      model.teleoperated =:> mode_switch.state
     }
   
   }
@@ -138,11 +117,11 @@ Strip (Process _context, Process _model, int _index)
     FSM trap_detection {
       State detect_traps{
         show << trap_detection_svg.show
-        1 =: model.detect_traps 
+        1 =: model.trap_detection 
       }
       State ignore_traps{
         hide << trap_detection_svg.hide
-        0 =: model.detect_traps
+        0 =: model.trap_detection
       }
       detect_traps -> ignore_traps (detect_traps.show.iris.press)
       detect_traps -> ignore_traps (detect_traps.show.eye.press)

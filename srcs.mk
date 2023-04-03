@@ -8,12 +8,14 @@ exe ?= cohoma
 # find src -name "*.sma" -path "src/widgets/impl" | xargs echo
 
 srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.sma src/widgets/CLabel.sma \
-            src/widgets/impl/scrollbar/clamp.sma src/widgets/impl/scrollbar/inverse_transform.sma src/widgets/impl/scrollbar/paging.sma src/widgets/Scrollbar.sma \
-            src/widgets/chat/Bubble.sma src/widgets/chat/VBoxTranslation.sma src/widgets/chat/Chat.sma \
+            src/widgets/chat/scrollbar/inverse_transform.sma src/widgets/chat/scrollbar/paging.sma src/widgets/chat/scrollbar/Scrollbar.sma \
+            src/widgets/chat/Button.sma src/widgets/chat/MyTextField.sma \
+            src/widgets/chat/Bubble.sma src/widgets/chat/Chat.sma \
             src/CohomaContext.sma \
             src/model/PointModel.sma src/model/ExclusionZoneModel.sma src/model/LimaModel.sma \
             src/model/NodeModel.sma src/model/EdgeModel.sma src/model/ItineraryModel.sma \
             src/model/trap/TrapDetectionModel.sma src/model/trap/TrapModel.sma \
+            src/model/ChatMessageModel.sma \
             src/model/task/TaskEdgeModel.sma src/model/task/TaskAreaModel.sma src/model/task/TaskTrapModel.sma \
             src/model/team/OperatorModel.sma src/model/team/SafetyPilotModel.sma src/model/team/VehicleModel.sma \
             src/model/SubLayerModel.sma src/model/ModelManager.sma src/model/NoRosModelManager.sma \

@@ -12,7 +12,7 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 {
 	//context aka _context
 
-	Spike plan_request
+	Spike itinerary_request
 	Spike update_graph
 	Spike send_selected_tasks
 
@@ -50,7 +50,7 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 				idle -> hover (button.enter)
 				hover -> idle (button.leave)
 				idle -> pressed (button.press)
-				pressed -> hover (button.release, plan_request)
+				pressed -> hover (button.release, itinerary_request)
 				hover -> pressed (button.press)
 				pressed -> idle (button.leave)
 			}
@@ -83,7 +83,7 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 		ItineraryPanel itinerary_panel (_context, _model_manager)
 
 		// Start / Stop waiting animation
-		plan_request -> itinerary_panel.start_waiting_anim		
+		itinerary_request -> itinerary_panel.start_waiting_anim		
 		_model_manager.itineraries_updated -> itinerary_panel.stop_waiting_anim
 
 		Translation _ (0, 200)
@@ -156,6 +156,9 @@ RightPanel (Process _context, Process _model_manager, Process _frame, Process _r
 
 				StandAlonePushButton btn_add_task_edge2 ("add task edge 2", 150, 120)
 				btn_add_task_edge2.click -> _model_manager.add_task_edge2
+				
+				StandAlonePushButton btn_add_chatmessage ("send chat message", 150, 140)
+				btn_add_chatmessage.click -> _context.ros_test
 			}
 		}
 	}

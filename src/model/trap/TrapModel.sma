@@ -42,9 +42,9 @@ action_update_active_trap (Process c)
     int uid = static_cast<IntProperty*>(data->find_child("id"))->get_value();
     bool active = static_cast<BoolProperty*>(data->find_child("active"))->get_value();
 
-#ifndef NO_ROS
+    #ifndef NO_ROS
     node->send_msg_trap_activation (uid, active); 
-#endif
+    #endif
 %}
 
 _action_
@@ -55,9 +55,9 @@ action_delete_trap (Process c)
     RosNode *node = dynamic_cast<RosNode*>(data->find_child("ros_node"));
     int uid = static_cast<IntProperty*>(data->find_child("id"))->get_value();
 
-#ifndef NO_ROS
-    node->send_msg_trap_deleted (uid);
-#endif
+    #ifndef NO_ROS
+    node->send_msg_trap_delete (uid);
+    #endif
 %}
    
 /*_action_

@@ -409,8 +409,8 @@ Component root {
 
   // ----------------------------------------------------
   // Ros node w/ all sub and pub fonctions
-	right_panel.plan_request -> model_manager.clear_itineraries
-  right_panel.plan_request -> ros_manager.plan_request
+	right_panel.itinerary_request -> model_manager.clear_itineraries
+  right_panel.itinerary_request -> ros_manager.ask_itinerary
 
   right_panel.update_graph -> ros_manager.update_graph
   
