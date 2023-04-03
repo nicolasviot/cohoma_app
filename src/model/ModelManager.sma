@@ -24,7 +24,8 @@ import ExclusionZoneModel
 import LimaModel
 import NodeModel
 import EdgeModel
-import TrapModel
+import trap.TrapModel
+import trap.TrapDetectionModel
 import ItineraryModel
 
 _native_code_
@@ -226,6 +227,7 @@ ModelManager (Process _context, int _is_debug)
         SubLayerModel _ ("Site")
         SubLayerModel _ ("Navig. Graph")
         SubLayerModel _ ("Itineraries")
+        SubLayerModel _ ("Trap Detections")
         SubLayerModel _ ("Traps")
         SubLayerModel _ ("Tasks")
         SubLayerModel _ ("Allocations")
@@ -377,6 +379,11 @@ ModelManager (Process _context, int _is_debug)
     //  TRAPS
     //
     // **************************************************************************************************
+    
+    // Trap RAW detections
+    List trap_detections
+
+    // Real traps
     List traps
 
     Int trap_new_id (100)

@@ -22,7 +22,8 @@
 #include "model/ExclusionZoneModel.h"
 #include "model/NodeModel.h"
 #include "model/EdgeModel.h"
-#include "model/TrapModel.h"
+#include "model/trap/TrapModel.h"
+#include "model/trap/TrapDetectionModel.h"
 
 #include "model/task/TaskEdgeModel.h"
 #include "model/task/TaskAreaModel.h"

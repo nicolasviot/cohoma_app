@@ -58,7 +58,7 @@ Trap (Process _map, Process _context, Process _model)
                 OutlineWidth o_w (1)
 
                 FillColor f_col ($_context.TRAP_COLOR)
-                Rectangle rect (-15, -15, 30, 30)
+                Rectangle rect (-$_context.TRAP_SIZE / 2, -$_context.TRAP_SIZE / 2, $_context.TRAP_SIZE, $_context.TRAP_SIZE)
             }
 
             //Component fg {
@@ -68,7 +68,7 @@ Trap (Process _map, Process _context, Process _model)
                 OutlineColor o_col ($_context.SELECTION_COLOR)
                 OutlineWidth o_w (4)
                 NoFill _
-                Rectangle feedback (-15, -15, 30, 30)
+                Rectangle feedback (-$_context.TRAP_SIZE / 2, -$_context.TRAP_SIZE / 2, $_context.TRAP_SIZE, $_context.TRAP_SIZE)
             //}
         }
         // for interactions

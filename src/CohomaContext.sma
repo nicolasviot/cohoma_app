@@ -85,6 +85,9 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int ITINERARY_WIDTH (8)
     Int TASK_EDGE_WIDTH (12)
 
+    Int TRAP_SIZE (30) // 25
+    Int TRAP_DETECTION_SIZE (14)
+
 
     // **************************************************************************************************
     //
@@ -113,6 +116,7 @@ CohomaContext (Process _frame, double _init_lat, double _init_lon, double _init_
     Int EDGE_COLOR (#EAEAEA) // R = G = B = 234
 
     Int TRAP_COLOR (#F00000) // R = 240 - G = B = 0
+    Int TRAP_DETECTION_COLOR (#FF5200) // R = 255 - G = 82 - B = 0
 
     Int TASK_EDGE_COLOR (#DC1414) // R = 220 - G = B = 20    
     

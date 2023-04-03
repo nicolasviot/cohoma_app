@@ -2,7 +2,7 @@ use core
 use gui
 use base
 
-import model.TrapModel
+import model.trap.TrapModel
 
 _native_code_
 %{

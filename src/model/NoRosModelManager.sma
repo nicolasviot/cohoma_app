@@ -22,7 +22,8 @@ import LimaModel
 import NodeModel
 import EdgeModel
 import ItineraryModel
-import TrapModel
+import trap.TrapDetectionModel
+import trap.TrapModel
 import task.TaskTrapModel
 import task.TaskEdgeModel
 

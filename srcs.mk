@@ -13,7 +13,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/CohomaContext.sma \
             src/model/PointModel.sma src/model/ExclusionZoneModel.sma src/model/LimaModel.sma \
             src/model/NodeModel.sma src/model/EdgeModel.sma src/model/ItineraryModel.sma \
-            src/model/TrapModel.sma \
+            src/model/trap/TrapDetectionModel.sma src/model/trap/TrapModel.sma \
             src/model/task/TaskEdgeModel.sma src/model/task/TaskAreaModel.sma src/model/task/TaskTrapModel.sma \
             src/model/team/OperatorModel.sma src/model/team/SafetyPilotModel.sma src/model/team/VehicleModel.sma \
             src/model/SubLayerModel.sma src/model/ModelManager.sma src/model/NoRosModelManager.sma \
@@ -21,7 +21,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/SubLayer.sma src/SubLayerVisibilityMap.sma \
             src/Console.sma src/Reticule.sma \
             src/graph/NodeStatusSelector.sma src/graph/Edge.sma src/graph/Node.sma src/graph/SubLayerNavigGraph.sma src/graph/CGraph.sma \
-            src/trap/TrapForm.sma src/trap/TrapStatusSelector.sma src/trap/Trap.sma src/trap/SubLayerTraps.sma \
+            src/trap/TrapForm.sma src/trap/TrapStatusSelector.sma src/trap/Trap.sma src/trap/SubLayerTraps.sma src/trap/TrapDetection.sma src/trap/SubLayerTrapDetections.sma \
             src/task/TaskArea.sma src/task/TaskEdge.sma src/task/TaskTrap.sma src/task/SubLayerTasks.sma \
             src/site/ExclusionArea.sma src/site/Lima.sma src/site/SubLayerSite.sma \
             src/itinerary/ItineraryEdge.sma src/itinerary/ItineraryOnMap.sma src/itinerary/SubLayerItineraries.sma \

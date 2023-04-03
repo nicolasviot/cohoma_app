@@ -21,7 +21,8 @@ use files
 import CohomaContext
 import model.ModelManager
 import model.NoRosModelManager
-import model.TrapModel
+import model.trap.TrapDetectionModel
+import model.trap.TrapModel
 
 import panels.TopBar
 import panels.UpperLeftMenu
@@ -43,6 +44,7 @@ import RosManager
 import movable.SubLayerVehicles
 import movable.SubLayerSafetyPilots
 import task.SubLayerTasks
+import trap.SubLayerTrapDetections
 import trap.SubLayerTraps
 import trap.TrapStatusSelector
 import trap.TrapForm
@@ -290,28 +292,32 @@ Component root {
 
 
     // ----------------------------------------------------
+    //  TRAP (RAW) DETECTIONS
+    SubLayerTrapDetections trap_detections (model_manager.layers.[6], map, context, model_manager)
+
+    // ----------------------------------------------------
     //  TRAP
-    SubLayerTraps traps (model_manager.layers.[6], map, context, model_manager)
+    SubLayerTraps traps (model_manager.layers.[7], map, context, model_manager)
 
 
     // ----------------------------------------------------
     //  TASK
-    SubLayerTasks tasks (model_manager.layers.[7], map, context, model_manager)
+    SubLayerTasks tasks (model_manager.layers.[8], map, context, model_manager)
 
 
     // ----------------------------------------------------
     //  Allocated Tasks
-    SubLayerTasks allocated_tasks (model_manager.layers.[8], map, context, model_manager)
+    SubLayerTasks allocated_tasks (model_manager.layers.[9], map, context, model_manager)
 
 
     // ----------------------------------------------------
     //  Safety Pilots
-    SubLayerSafetyPilots safety_pilots (model_manager.layers.[9], map, context, model_manager)
+    SubLayerSafetyPilots safety_pilots (model_manager.layers.[10], map, context, model_manager)
 
 
     // ----------------------------------------------------
     //  VEHICLE = VAB + SATELLITEs (UGV + UAV)
-    SubLayerVehicles vehicles (model_manager.layers.[10], map, context, model_manager)
+    SubLayerVehicles vehicles (model_manager.layers.[11], map, context, model_manager)
 
     // Add layers, from bottom to top:
     addChildrenTo map.layers {
@@ -322,6 +328,7 @@ Component root {
       site,
       navigation_graph,
       itineraries,
+      trap_detections,
       traps, 
       tasks,
       allocated_tasks,
@@ -435,6 +442,13 @@ Component root {
     }
     root.model.traps.[root.model.traps.size].detection_time = toString(root.context.w_clock.state_text)
 
+    // FIXME: DEBUG
+    addChildrenTo root.model.trap_detections {
+      TrapDetectionModel trap_detection_1 ("1_1", $root.fg.add_item_selector.lat + 0.0001, $root.fg.add_item_selector.lon)
+      TrapDetectionModel trap_detection_2 ("1_2", $root.fg.add_item_selector.lat, $root.fg.add_item_selector.lon + 0.0001)
+      TrapDetectionModel trap_detection_3 ("1_3", $root.fg.add_item_selector.lat + 0.0001, $root.fg.add_item_selector.lon + 0.0001)
+    }
+    
     root.model.trap_new_id = root.model.trap_new_id + 1
 
     //notify root.ros_manager.send_add_trap
