@@ -25,6 +25,7 @@
 #include "model/NodeModel.h"
 #include "model/EdgeModel.h"
 #include "model/TrapModel.h"
+#include "model/ChatMessageModel.h"
 
 #include "model/task/TaskEdgeModel.h"
 #include "model/task/TaskAreaModel.h"
@@ -81,7 +82,7 @@ RosNode::impl_activate ()
   #ifndef NO_ROS
 
   //NAVGRAPH SITE AND MAP  (TO TEST)
-  sub_navgraph = _node->create_subscription<icare_interfaces::msg::StringStamped>("/navgraph_manager/navgraph", qos, std::bind(&RosNode::receive_msg_navgraph, this, _1));
+  sub_navgraph = _node->create_subscription<icare_interfaces::msg::StringStamped>("/navgraph_manager/navgraph", qos_transient, std::bind(&RosNode::receive_msg_navgraph, this, _1));
   sub_site = _node->create_subscription<icare_interfaces::msg::Site>("/site_manager/site", qos_transient, std::bind(&RosNode::receive_msg_site, this, _1));
   sub_map = _node->create_subscription<icare_interfaces::msg::EnvironmentMap>("/map_manager/map", qos_transient, std::bind(&RosNode::receive_msg_map, this, _1));
   publisher_lima = _node->create_publisher<icare_interfaces::msg::Lima>("/site_manager/lima_clearance", qos);
@@ -104,7 +105,7 @@ RosNode::impl_activate ()
   publisher_group_config =_node->create_publisher<icare_interfaces::msg::GroupConfig>("/group_config", qos);
   
   //Traps
-  sub_trap_detection = _node->create_subscription<icare_interfaces::msg::TrapDetection>("/trap__manager/detection", qos, std::bind(&RosNode::receive_msg_trap_detection, this, _1));
+  sub_trap_detection = _node->create_subscription<icare_interfaces::msg::TrapDetection>("/trap_manager/detection", qos, std::bind(&RosNode::receive_msg_trap_detection, this, _1));
   sub_trap_update = _node->create_subscription<icare_interfaces::msg::Trap>("/trap_manager/trap_update", qos, std::bind(&RosNode::receive_msg_trap_update, this, _1));;
   
   publisher_trap_activation =_node->create_publisher<icare_interfaces::msg::TrapActivation>("/trap_manager/activate_trap", qos);
@@ -144,7 +145,6 @@ RosNode::impl_activate ()
 
   // ---------------------------
   // MODEL
-
   GET_CHILD_VAR2 (_layer_models, CoreProcess, _model_manager, layers)
 
   // SITE
@@ -162,6 +162,10 @@ RosNode::impl_activate ()
   GET_CHILD_VAR2 (_og1, CoreProcess, _model_manager, operators/og1)
   GET_CHILD_VAR2 (_og2, CoreProcess, _model_manager, operators/og2)
   GET_CHILD_VAR2 (_og3, CoreProcess, _model_manager, operators/og3)
+
+  //CHAT
+  GET_CHILD_VAR2 (_chat_models, CoreProcess, _model_manager, chat_messages)
+  
   
   // Itineraries
   CoreProcess *shortest, *safest, *tradeoff;
@@ -568,6 +572,18 @@ void RosNode::receive_msg_robot_config(const icare_interfaces::msg::RobotConfig&
 void RosNode::receive_msg_chat(const icare_interfaces::msg::ChatMessage& msg)
 {  
   std::cout << "CHAT from:"<< msg.sender << " type:" << msg.type << " Text: " << msg.text << std::endl; 
+
+  //create a _chat_models in model manager comme parents (List)
+  ChatMessageModel (
+      _chat_models,
+      "", 
+      msg.sender,
+      msg.text,
+      msg.type,
+      msg.localisation.latitude,
+      msg.localisation.longitude,
+      msg.localisation.altitude);
+     
   GRAPH_EXEC;
 }
 
@@ -665,12 +681,12 @@ void RosNode::send_msg_trap_delete(int uid) {
 }
 
 void RosNode::receive_msg_trap_detection(const icare_interfaces::msg::TrapDetection& msg) {
-  std::cout << "TODO send trap detection"  << std::endl;
+  std::cout << "TODO received trap detection"  << std::endl;
   // TODO
 }
 
 void RosNode::receive_msg_trap_update(const icare_interfaces::msg::Trap& msg) {
-  std::cout << "TODO send trap update"  << std::endl;
+  std::cout << "TODO received trap update"  << std::endl;
   // TODO
 }
 

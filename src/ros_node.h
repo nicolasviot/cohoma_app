@@ -213,6 +213,9 @@ class RosNode : public FatProcess, public ExternalSource
     CoreProcess *_node_ids, *_edge_ids;
     CoreProcess *_node_models, *_edge_models;
 
+    //Chat
+    CoreProcess *_chat_models;
+
     // TASKS
     CoreProcess *_task_edge_models, *_task_area_models, *_task_trap_models;
 

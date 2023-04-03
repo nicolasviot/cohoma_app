@@ -15,6 +15,7 @@ srcs_sma ?= src/widgets/CheckBox.sma src/widgets/Slider.sma src/widgets/Button.s
             src/model/PointModel.sma src/model/ExclusionZoneModel.sma src/model/LimaModel.sma \
             src/model/NodeModel.sma src/model/EdgeModel.sma src/model/ItineraryModel.sma \
             src/model/TrapModel.sma \
+            src/model/ChatMessageModel.sma \
             src/model/task/TaskEdgeModel.sma src/model/task/TaskAreaModel.sma src/model/task/TaskTrapModel.sma \
             src/model/team/OperatorModel.sma src/model/team/SafetyPilotModel.sma src/model/team/VehicleModel.sma \
             src/model/SubLayerModel.sma src/model/ModelManager.sma src/model/NoRosModelManager.sma \

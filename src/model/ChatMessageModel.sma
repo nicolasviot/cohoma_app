@@ -5,13 +5,14 @@ use base
 _native_code_
 %{
     #include <iostream>
+	using namespace std;
 %}
 
-
 _define_
-ChatMessageModel (string _sender, int _text, string _type, double _lat, double _lon, double _alt)
+ChatMessageModel (int _sender, string _text, int _type, double _lat, double _lon, double _alt)
 {
 	Int sender (_sender)
+
 	/*
 	uint8 SENDER_UNKNOWN = 0
 	uint8 SENDER_OT = 1
@@ -21,7 +22,7 @@ ChatMessageModel (string _sender, int _text, string _type, double _lat, double _
 	*/
 	String text (_text)
 	
-	String type (_type)
+	Int type (_type)
 	/*
 	uint8 TYPE_UNKNOWN = 0
 	uint8 TYPE_MESSAGE = 1
@@ -33,7 +34,7 @@ ChatMessageModel (string _sender, int _text, string _type, double _lat, double _
 	Double lon (_lon)
 	Double alt (_alt)
 
-	print ("Model of chat message sender (" + _sender + ") '" + _text + "\n")
+	//print ("Model of chat message sender (" + sender + ") '" + _text + "\n")
 
 	Double dx_in_map (0)
 	Double dy_in_map (0)
